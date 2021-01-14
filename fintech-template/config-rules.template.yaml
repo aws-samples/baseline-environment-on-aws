@@ -1,0 +1,70 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: 'Sets up AWS Config Rules'
+Metadata:
+    Stack:
+        Value: 0
+    VersionDate:
+        Value: 20180420
+    Identifier:
+        Value: template-config-rules
+    Input:
+        Description: optional tag key
+    Output:
+        Description: Outputs ID of all deployed resources
+    RegionSupport:
+        Value: ap-northeast-1
+Parameters:
+    pRequiredTagKey:
+        Description: Tag key to check for with EC2/EBS REQUIRED_TAGS rule (optional, leave blank to ignore)
+        Type: String
+Conditions:
+    cRequiredTagsRule: !Not [ !Equals [ '', !Ref pRequiredTagKey ] ]
+Resources:
+    rConfigRuleForSSH:
+        Type: AWS::Config::ConfigRule
+        Properties:
+            ConfigRuleName: check-for-unrestricted-ssh-access
+            Description: Checks whether security groups that are in use disallow unrestricted incoming SSH traffic.
+            Scope:
+                ComplianceResourceTypes:
+                  - AWS::EC2::SecurityGroup
+            Source:
+                Owner: AWS
+                SourceIdentifier: INCOMING_SSH_DISABLED
+    rConfigRuleForRequiredTags:
+        Type: AWS::Config::ConfigRule
+        Condition: cRequiredTagsRule
+        Properties:
+            ConfigRuleName: check-ec2-for-required-tag
+            Description: Checks whether EC2 instances and volumes use the required tag.
+            InputParameters:
+                tag1Key: !Ref pRequiredTagKey
+            Scope:
+                ComplianceResourceTypes:
+                  - AWS::EC2::Volume
+                  - AWS::EC2::Instance
+            Source:
+                Owner: AWS
+                SourceIdentifier: REQUIRED_TAGS
+    rConfigRuleForUnrestrictedPorts:
+        Type: AWS::Config::ConfigRule
+        Condition: cRequiredTagsRule
+        Properties:
+            ConfigRuleName: check-for-unrestricted-ports
+            Description: Checks whether security groups that are in use disallow unrestricted incoming TCP traffic to the specified ports.
+            InputParameters:
+                blockedPort1: 3389
+            Scope:
+                ComplianceResourceTypes:
+                  - AWS::EC2::SecurityGroup
+            Source:
+                Owner: AWS
+                SourceIdentifier: RESTRICTED_INCOMING_TRAFFIC
+    rConfigRuleForCloudTrail:
+        Type: AWS::Config::ConfigRule
+        Properties:
+            ConfigRuleName: check-whether-cloudtrail-is-enabled
+            Description: Checks whether CloudTrail is enabled in this region.
+            Source:
+                Owner: AWS
+                SourceIdentifier: CLOUDTRAIL_SECURITY_TRAIL_ENABLED

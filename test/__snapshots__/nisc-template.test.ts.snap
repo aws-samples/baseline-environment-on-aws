@@ -1,0 +1,776 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Empty Stack 1`] = `
+Object {
+  "Resources": Object {
+    "NACLPrivateDefaultAssociationMyTestStackprodVpcProductionAppSubnetSubnet1C02F94DD8D60DBC2": Object {
+      "Properties": Object {
+        "NetworkAclId": Object {
+          "Ref": "NACLPrivateFF29B19B",
+        },
+        "SubnetId": Object {
+          "Ref": "prodVpcProductionAppSubnetSubnet1Subnet2529963E",
+        },
+      },
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+    },
+    "NACLPrivateDefaultAssociationMyTestStackprodVpcProductionAppSubnetSubnet225403A112DE1BDD5": Object {
+      "Properties": Object {
+        "NetworkAclId": Object {
+          "Ref": "NACLPrivateFF29B19B",
+        },
+        "SubnetId": Object {
+          "Ref": "prodVpcProductionAppSubnetSubnet2SubnetD83DED8B",
+        },
+      },
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+    },
+    "NACLPrivateDefaultAssociationMyTestStackprodVpcProductionDBSubnetSubnet1B12B9B43419A92DF": Object {
+      "Properties": Object {
+        "NetworkAclId": Object {
+          "Ref": "NACLPrivateFF29B19B",
+        },
+        "SubnetId": Object {
+          "Ref": "prodVpcProductionDBSubnetSubnet1Subnet6C978389",
+        },
+      },
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+    },
+    "NACLPrivateDefaultAssociationMyTestStackprodVpcProductionDBSubnetSubnet2DE97978F2BBDA4D7": Object {
+      "Properties": Object {
+        "NetworkAclId": Object {
+          "Ref": "NACLPrivateFF29B19B",
+        },
+        "SubnetId": Object {
+          "Ref": "prodVpcProductionDBSubnetSubnet2SubnetFAFB8C74",
+        },
+      },
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+    },
+    "NACLPrivateFF29B19B": Object {
+      "Properties": Object {
+        "VpcId": Object {
+          "Ref": "prodVpc03D1A808",
+        },
+      },
+      "Type": "AWS::EC2::NetworkAcl",
+    },
+    "NACLPrivaterNACLRuleAllowALLfromPrivEgress367EDC53": Object {
+      "Properties": Object {
+        "CidrBlock": "0.0.0.0/0",
+        "Egress": true,
+        "NetworkAclId": Object {
+          "Ref": "NACLPrivateFF29B19B",
+        },
+        "PortRange": Object {
+          "From": 1,
+          "To": 65535,
+        },
+        "Protocol": 6,
+        "RuleAction": "allow",
+        "RuleNumber": 100,
+      },
+      "Type": "AWS::EC2::NetworkAclEntry",
+    },
+    "NACLPrivaterNACLRuleAllowAllReturnTCP8C629B4F": Object {
+      "Properties": Object {
+        "CidrBlock": "0.0.0.0/0",
+        "Egress": false,
+        "NetworkAclId": Object {
+          "Ref": "NACLPrivateFF29B19B",
+        },
+        "PortRange": Object {
+          "From": 1024,
+          "To": 65535,
+        },
+        "Protocol": 6,
+        "RuleAction": "allow",
+        "RuleNumber": 140,
+      },
+      "Type": "AWS::EC2::NetworkAclEntry",
+    },
+    "NACLPrivaterNACLRuleAllowAllTCPInternalD714E345": Object {
+      "Properties": Object {
+        "CidrBlock": Object {
+          "Fn::GetAtt": Array [
+            "prodVpc03D1A808",
+            "CidrBlock",
+          ],
+        },
+        "Egress": false,
+        "NetworkAclId": Object {
+          "Ref": "NACLPrivateFF29B19B",
+        },
+        "PortRange": Object {
+          "From": 1,
+          "To": 65535,
+        },
+        "Protocol": 6,
+        "RuleAction": "allow",
+        "RuleNumber": 120,
+      },
+      "Type": "AWS::EC2::NetworkAclEntry",
+    },
+    "NACLPrivaterNACLRuleAllowBastionSSHAccessPrivate08D20598": Object {
+      "Properties": Object {
+        "CidrBlock": "0.0.0.0/0",
+        "Egress": false,
+        "NetworkAclId": Object {
+          "Ref": "NACLPrivateFF29B19B",
+        },
+        "PortRange": Object {
+          "From": 22,
+          "To": 22,
+        },
+        "Protocol": 6,
+        "RuleAction": "allow",
+        "RuleNumber": 130,
+      },
+      "Type": "AWS::EC2::NetworkAclEntry",
+    },
+    "NACLPrivaterNACLRuleAllowMgmtAccessSSHtoPrivate7DE8604E": Object {
+      "Properties": Object {
+        "CidrBlock": "10.10.0.0/16",
+        "Egress": false,
+        "NetworkAclId": Object {
+          "Ref": "NACLPrivateFF29B19B",
+        },
+        "PortRange": Object {
+          "From": 22,
+          "To": 22,
+        },
+        "Protocol": 6,
+        "RuleAction": "allow",
+        "RuleNumber": 125,
+      },
+      "Type": "AWS::EC2::NetworkAclEntry",
+    },
+    "NACLPrivaterNACLRuleAllowReturnTCPPrivB6BFD756": Object {
+      "Properties": Object {
+        "CidrBlock": "0.0.0.0/0",
+        "Egress": false,
+        "NetworkAclId": Object {
+          "Ref": "NACLPrivateFF29B19B",
+        },
+        "PortRange": Object {
+          "From": 1024,
+          "To": 65535,
+        },
+        "Protocol": 6,
+        "RuleAction": "allow",
+        "RuleNumber": 140,
+      },
+      "Type": "AWS::EC2::NetworkAclEntry",
+    },
+    "NACLPublic115995A9": Object {
+      "Properties": Object {
+        "VpcId": Object {
+          "Ref": "prodVpc03D1A808",
+        },
+      },
+      "Type": "AWS::EC2::NetworkAcl",
+    },
+    "NACLPublicDefaultAssociationMyTestStackprodVpcProductionDMZSubnetSubnet1DF06FE7404F75A91": Object {
+      "Properties": Object {
+        "NetworkAclId": Object {
+          "Ref": "NACLPublic115995A9",
+        },
+        "SubnetId": Object {
+          "Ref": "prodVpcProductionDMZSubnetSubnet1SubnetC5E5776F",
+        },
+      },
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+    },
+    "NACLPublicDefaultAssociationMyTestStackprodVpcProductionDMZSubnetSubnet22EE76B33B27BA2A8": Object {
+      "Properties": Object {
+        "NetworkAclId": Object {
+          "Ref": "NACLPublic115995A9",
+        },
+        "SubnetId": Object {
+          "Ref": "prodVpcProductionDMZSubnetSubnet2SubnetF6DE5D76",
+        },
+      },
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+    },
+    "NACLPublicrNACLRuleAllowALLEgressPublicEB2BBB9F": Object {
+      "Properties": Object {
+        "CidrBlock": "0.0.0.0/0",
+        "Egress": true,
+        "NetworkAclId": Object {
+          "Ref": "NACLPublic115995A9",
+        },
+        "PortRange": Object {
+          "From": 1,
+          "To": 65535,
+        },
+        "Protocol": 6,
+        "RuleAction": "allow",
+        "RuleNumber": 100,
+      },
+      "Type": "AWS::EC2::NetworkAclEntry",
+    },
+    "NACLPublicrNACLRuleAllowAllReturnTCPFA8BF80E": Object {
+      "Properties": Object {
+        "CidrBlock": "0.0.0.0/0",
+        "Egress": false,
+        "NetworkAclId": Object {
+          "Ref": "NACLPublic115995A9",
+        },
+        "PortRange": Object {
+          "From": 1024,
+          "To": 65535,
+        },
+        "Protocol": 6,
+        "RuleAction": "allow",
+        "RuleNumber": 140,
+      },
+      "Type": "AWS::EC2::NetworkAclEntry",
+    },
+    "NACLPublicrNACLRuleAllowBastionSSHAccessPublicD6C30A32": Object {
+      "Properties": Object {
+        "CidrBlock": "0.0.0.0/0",
+        "Egress": false,
+        "NetworkAclId": Object {
+          "Ref": "NACLPublic115995A9",
+        },
+        "PortRange": Object {
+          "From": 22,
+          "To": 22,
+        },
+        "Protocol": 6,
+        "RuleAction": "allow",
+        "RuleNumber": 210,
+      },
+      "Type": "AWS::EC2::NetworkAclEntry",
+    },
+    "NACLPublicrNACLRuleAllowHTTPSPublic2D01C17C": Object {
+      "Properties": Object {
+        "CidrBlock": "0.0.0.0/0",
+        "Egress": false,
+        "NetworkAclId": Object {
+          "Ref": "NACLPublic115995A9",
+        },
+        "PortRange": Object {
+          "From": 443,
+          "To": 443,
+        },
+        "Protocol": 6,
+        "RuleAction": "allow",
+        "RuleNumber": 100,
+      },
+      "Type": "AWS::EC2::NetworkAclEntry",
+    },
+    "NACLPublicrNACLRuleAllowHTTPfromProd4C35C7FF": Object {
+      "Properties": Object {
+        "CidrBlock": Object {
+          "Fn::GetAtt": Array [
+            "prodVpc03D1A808",
+            "CidrBlock",
+          ],
+        },
+        "Egress": false,
+        "NetworkAclId": Object {
+          "Ref": "NACLPublic115995A9",
+        },
+        "PortRange": Object {
+          "From": 22,
+          "To": 22,
+        },
+        "Protocol": 6,
+        "RuleAction": "allow",
+        "RuleNumber": 200,
+      },
+      "Type": "AWS::EC2::NetworkAclEntry",
+    },
+    "prodVpc03D1A808": Object {
+      "Properties": Object {
+        "CidrBlock": "10.100.0.0/16",
+        "EnableDnsHostnames": true,
+        "EnableDnsSupport": true,
+        "InstanceTenancy": "default",
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "MyTestStack/prodVpc",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::VPC",
+    },
+    "prodVpcIGWC952A405": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "MyTestStack/prodVpc",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::InternetGateway",
+    },
+    "prodVpcProductionAppSubnetSubnet1DefaultRoute94DE9B90": Object {
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": Object {
+          "Ref": "prodVpcProductionDMZSubnetSubnet1NATGateway63C4A951",
+        },
+        "RouteTableId": Object {
+          "Ref": "prodVpcProductionAppSubnetSubnet1RouteTable5B4D9B22",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "prodVpcProductionAppSubnetSubnet1RouteTable5B4D9B22": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "MyTestStack/prodVpc/Production App SubnetSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "prodVpc03D1A808",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "prodVpcProductionAppSubnetSubnet1RouteTableAssociation9B121353": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "prodVpcProductionAppSubnetSubnet1RouteTable5B4D9B22",
+        },
+        "SubnetId": Object {
+          "Ref": "prodVpcProductionAppSubnetSubnet1Subnet2529963E",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "prodVpcProductionAppSubnetSubnet1Subnet2529963E": Object {
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            0,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "CidrBlock": "10.100.8.0/21",
+        "MapPublicIpOnLaunch": false,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Production App Subnet",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "MyTestStack/prodVpc/Production App SubnetSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "prodVpc03D1A808",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "prodVpcProductionAppSubnetSubnet2DefaultRoute8209B60D": Object {
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": Object {
+          "Ref": "prodVpcProductionDMZSubnetSubnet1NATGateway63C4A951",
+        },
+        "RouteTableId": Object {
+          "Ref": "prodVpcProductionAppSubnetSubnet2RouteTableF6CCE2C3",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "prodVpcProductionAppSubnetSubnet2RouteTableAssociation3B3F7B49": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "prodVpcProductionAppSubnetSubnet2RouteTableF6CCE2C3",
+        },
+        "SubnetId": Object {
+          "Ref": "prodVpcProductionAppSubnetSubnet2SubnetD83DED8B",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "prodVpcProductionAppSubnetSubnet2RouteTableF6CCE2C3": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "MyTestStack/prodVpc/Production App SubnetSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "prodVpc03D1A808",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "prodVpcProductionAppSubnetSubnet2SubnetD83DED8B": Object {
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            1,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "CidrBlock": "10.100.16.0/21",
+        "MapPublicIpOnLaunch": false,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Production App Subnet",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "MyTestStack/prodVpc/Production App SubnetSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "prodVpc03D1A808",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "prodVpcProductionDBSubnetSubnet1DefaultRouteFF1DB64A": Object {
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": Object {
+          "Ref": "prodVpcProductionDMZSubnetSubnet1NATGateway63C4A951",
+        },
+        "RouteTableId": Object {
+          "Ref": "prodVpcProductionDBSubnetSubnet1RouteTableD284107E",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "prodVpcProductionDBSubnetSubnet1RouteTableAssociationB6808B3E": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "prodVpcProductionDBSubnetSubnet1RouteTableD284107E",
+        },
+        "SubnetId": Object {
+          "Ref": "prodVpcProductionDBSubnetSubnet1Subnet6C978389",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "prodVpcProductionDBSubnetSubnet1RouteTableD284107E": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "MyTestStack/prodVpc/Production DB SubnetSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "prodVpc03D1A808",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "prodVpcProductionDBSubnetSubnet1Subnet6C978389": Object {
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            0,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "CidrBlock": "10.100.24.0/21",
+        "MapPublicIpOnLaunch": false,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Production DB Subnet",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "MyTestStack/prodVpc/Production DB SubnetSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "prodVpc03D1A808",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "prodVpcProductionDBSubnetSubnet2DefaultRoute0F031E36": Object {
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": Object {
+          "Ref": "prodVpcProductionDMZSubnetSubnet1NATGateway63C4A951",
+        },
+        "RouteTableId": Object {
+          "Ref": "prodVpcProductionDBSubnetSubnet2RouteTable23B773C3",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "prodVpcProductionDBSubnetSubnet2RouteTable23B773C3": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "MyTestStack/prodVpc/Production DB SubnetSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "prodVpc03D1A808",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "prodVpcProductionDBSubnetSubnet2RouteTableAssociationA8ECBC9D": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "prodVpcProductionDBSubnetSubnet2RouteTable23B773C3",
+        },
+        "SubnetId": Object {
+          "Ref": "prodVpcProductionDBSubnetSubnet2SubnetFAFB8C74",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "prodVpcProductionDBSubnetSubnet2SubnetFAFB8C74": Object {
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            1,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "CidrBlock": "10.100.32.0/21",
+        "MapPublicIpOnLaunch": false,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Production DB Subnet",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "MyTestStack/prodVpc/Production DB SubnetSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "prodVpc03D1A808",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "prodVpcProductionDMZSubnetSubnet1DefaultRoute5566FA0F": Object {
+      "DependsOn": Array [
+        "prodVpcVPCGW9A8B2852",
+      ],
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": Object {
+          "Ref": "prodVpcIGWC952A405",
+        },
+        "RouteTableId": Object {
+          "Ref": "prodVpcProductionDMZSubnetSubnet1RouteTable2916EB7C",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "prodVpcProductionDMZSubnetSubnet1EIPB406B8B5": Object {
+      "Properties": Object {
+        "Domain": "vpc",
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "MyTestStack/prodVpc/Production DMZ SubnetSubnet1",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::EIP",
+    },
+    "prodVpcProductionDMZSubnetSubnet1NATGateway63C4A951": Object {
+      "Properties": Object {
+        "AllocationId": Object {
+          "Fn::GetAtt": Array [
+            "prodVpcProductionDMZSubnetSubnet1EIPB406B8B5",
+            "AllocationId",
+          ],
+        },
+        "SubnetId": Object {
+          "Ref": "prodVpcProductionDMZSubnetSubnet1SubnetC5E5776F",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "MyTestStack/prodVpc/Production DMZ SubnetSubnet1",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::NatGateway",
+    },
+    "prodVpcProductionDMZSubnetSubnet1RouteTable2916EB7C": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "MyTestStack/prodVpc/Production DMZ SubnetSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "prodVpc03D1A808",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "prodVpcProductionDMZSubnetSubnet1RouteTableAssociation1EB54FAA": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "prodVpcProductionDMZSubnetSubnet1RouteTable2916EB7C",
+        },
+        "SubnetId": Object {
+          "Ref": "prodVpcProductionDMZSubnetSubnet1SubnetC5E5776F",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "prodVpcProductionDMZSubnetSubnet1SubnetC5E5776F": Object {
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            0,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "CidrBlock": "10.100.0.0/24",
+        "MapPublicIpOnLaunch": true,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Production DMZ Subnet",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "MyTestStack/prodVpc/Production DMZ SubnetSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "prodVpc03D1A808",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "prodVpcProductionDMZSubnetSubnet2DefaultRoute2264D9B9": Object {
+      "DependsOn": Array [
+        "prodVpcVPCGW9A8B2852",
+      ],
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": Object {
+          "Ref": "prodVpcIGWC952A405",
+        },
+        "RouteTableId": Object {
+          "Ref": "prodVpcProductionDMZSubnetSubnet2RouteTable55E8FAB7",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "prodVpcProductionDMZSubnetSubnet2RouteTable55E8FAB7": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "MyTestStack/prodVpc/Production DMZ SubnetSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "prodVpc03D1A808",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "prodVpcProductionDMZSubnetSubnet2RouteTableAssociation5F88EFB7": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "prodVpcProductionDMZSubnetSubnet2RouteTable55E8FAB7",
+        },
+        "SubnetId": Object {
+          "Ref": "prodVpcProductionDMZSubnetSubnet2SubnetF6DE5D76",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "prodVpcProductionDMZSubnetSubnet2SubnetF6DE5D76": Object {
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            1,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "CidrBlock": "10.100.1.0/24",
+        "MapPublicIpOnLaunch": true,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Production DMZ Subnet",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "MyTestStack/prodVpc/Production DMZ SubnetSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "prodVpc03D1A808",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "prodVpcVPCGW9A8B2852": Object {
+      "Properties": Object {
+        "InternetGatewayId": Object {
+          "Ref": "prodVpcIGWC952A405",
+        },
+        "VpcId": Object {
+          "Ref": "prodVpc03D1A808",
+        },
+      },
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+    },
+  },
+}
+`;
