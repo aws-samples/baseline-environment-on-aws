@@ -10,25 +10,34 @@ import { NiscLoggingStack } from '../lib/nisc-logging-stack';
 import { NiscVpcProductionStack } from '../lib/nisc-vpc-production-stack';
 import { NiscVpcManagementStack } from '../lib/nisc-vpc-management-stack';
 import { NiscVpcPeeringStack } from '../lib/nisc-vpc-peering-stack';
+import { prependListener } from 'process';
+
+
+const envUSA = { 
+  account: process.env.CDK_DEFAULT_ACCOUNT, 
+  region: process.env.CDK_DEFAULT_REGION 
+};
 
 
 const app = new cdk.App();
 
-new NiscConfigRulesStack(app, 'nisc-config-rules');
-new NiscIamStack(app, 'nisc-iam');
-//new NiscGuarddutyStack(app, 'nisc-guardduty');
+// new NiscConfigRulesStack(app, 'nisc-config-rules');
+// new NiscIamStack(app, 'nisc-iam');
+// new NiscGuarddutyStack(app, 'nisc-guardduty');
 
-const notifyEmail = 'notify@example.com';
-new NiscLoggingStack(app, 'nisc-logging', { notifyEmail: notifyEmail });
+// const notifyEmail = 'notify@example.com';
+// new NiscLoggingStack(app, 'nisc-logging', { notifyEmail: notifyEmail });
 
 const prodVpcCidr = '10.100.0.0/16';
 const vpcProdStack = new NiscVpcProductionStack(app, 'nisc-vpc-prod', {
-  prodVpcCidr: prodVpcCidr
+  prodVpcCidr: prodVpcCidr,
+  env: envUSA
 });
 
 const mgmtVpcCidr = '10.10.0.0/16';
 const vpcMgmtStack = new NiscVpcManagementStack(app, 'nisc-vpc-mgmt', {
-  mgmtVpcCidr: mgmtVpcCidr
+  mgmtVpcCidr: mgmtVpcCidr,
+  env: envUSA
 });
 
 const peeringStack = new NiscVpcPeeringStack(app, 'nisc-peering-stack', {
@@ -38,6 +47,7 @@ const peeringStack = new NiscVpcPeeringStack(app, 'nisc-peering-stack', {
   dstVpcId: vpcMgmtStack.mgmtVpcId,
   dstVpcCidr: mgmtVpcCidr,
   dstRouteTableIds: vpcMgmtStack.mgmtRouteTableIds,
+  env: envUSA
 });
 
 peeringStack.addDependency(vpcMgmtStack);
@@ -52,7 +62,6 @@ const applicatonStack = new NiscApplicationStack(app, 'nisc-application-stack', 
   pDBName: 'example',
   pDBUser: 'example',
   pDBPassword: 'pAssw0rd',
-  pEC2KeyPair: 'devKey',
   pEnvironment: 'dev',
   pAppInstanceType: ec2.InstanceType.of(
     ec2.InstanceClass.T3,
@@ -68,5 +77,8 @@ const applicatonStack = new NiscApplicationStack(app, 'nisc-application-stack', 
     ec2.InstanceClass.T3,
     ec2.InstanceSize.MICRO
   ),
-  pWebServerAMI: '',
+  pWebServerAMI: '',  
+  env: envUSA
 });
+applicatonStack.addDependency(peeringStack);
+

@@ -18,7 +18,6 @@ export interface NiscApplicationStackProps extends cdk.StackProps {
   pDBName: string,
   pDBUser: string,
   pDBPassword: string,
-  pEC2KeyPair: string,
   pEnvironment: string,
   pAppInstanceType: ec2.InstanceType,
   pAppAmi: string,
@@ -77,7 +76,7 @@ export class NiscApplicationStack extends cdk.Stack {
       //Security Group for Instance of Web
       const securityGroupFroWebInstance = new ec2.SecurityGroup(this, 'rSecurityGroupWebInstance', {
         vpc: props.prodVpc,
-        securityGroupName: 'reverse-proxy-dmz-instances',
+//        securityGroupName: 'reverse-proxy-dmz-instances',
         description: 'Security group for Reverse Proxy Instances in DMZ',
         allowAllOutbound: false,
       });
@@ -93,7 +92,7 @@ export class NiscApplicationStack extends cdk.Stack {
       //Security Group for RDS
       const securityGroupFroRDS = new ec2.SecurityGroup(this, 'rSecurityGroupRDS', {
         vpc: props.prodVpc,
-        securityGroupName: 'database-access',
+//        securityGroupName: 'database-access',
         description: 'Port 3306 database for access',
         allowAllOutbound: false,
       });
@@ -105,7 +104,7 @@ export class NiscApplicationStack extends cdk.Stack {
         description: 'MySQL RDS Subnet Group',
         vpc: props.prodVpc,
         vpcSubnets: props.prodVpc.selectSubnets({
-          subnetGroupName: 'Production DB Subnet'
+        subnetGroupName: 'Production DB Subnet'
        })
       });
 
@@ -123,18 +122,6 @@ export class NiscApplicationStack extends cdk.Stack {
       const loggingBucket = new s3.Bucket(this, 'rS3ELBAccessLogs', {
         accessControl: s3.BucketAccessControl.PRIVATE,
       });
-
-      //add Policy for rS3ELBAccessLogs
-      const policyForLoggingBucket = new iam.PolicyStatement({
-        effect: iam.Effect.ALLOW,
-        sid: 'ELBAccessLogs20130930',
-      });
-
-      policyForLoggingBucket.addResources(`arn:aws:s3:::${loggingBucket.bucketName}/Logs/AWSLogs/${this.account}/*`);
-      policyForLoggingBucket.addAwsAccountPrincipal('582318560864'); //元YAMLで!FindInMap [ Variables, vELB, Principal ]べた書きだったが？
-      policyForLoggingBucket.addActions('s3:PutObject');
-      loggingBucket.addToResourcePolicy(policyForLoggingBucket);
-      
    
       //Create S3 bucket for Web Content 
       const webContentBucket = new s3.Bucket(this, 'rWebContentBucket', {
@@ -185,33 +172,6 @@ export class NiscApplicationStack extends cdk.Stack {
         bucket: webContentBucket.bucketName,
         policyDocument: webContentBucketPolicyJSON,
       });
-      /*
-      webContentBucket.addToResourcePolicy(new iam.PolicyStatement({
-        effect: iam.Effect.DENY,
-        actions: ["s3:*"],
-        conditions:	{
-          "Bool": {
-              "aws:SecureTransport": "false"
-          },
-        },	
-        principals:	[new iam.AnyPrincipal()],
-        resources: [webContentBucket.bucketArn],
-        sid: 'EnforceSecureTransport',
-      }));
-
-      webContentBucket.addToResourcePolicy(new iam.PolicyStatement({
-        effect: iam.Effect.DENY,
-        actions: ["s3:PutObject"],
-        conditions:	{
-          "StringNotEquals": {
-              "s3:x-amz-server-side-encryption": "AES256"
-          },
-        },
-        principals:	[new iam.AnyPrincipal()],
-        resources: [webContentBucket.arnForObjects('*')],
-        sid: 'EnforceSecureTransport',
-      }));
-      */
 
       /* ************* DBServer ************* */
 
@@ -247,11 +207,7 @@ export class NiscApplicationStack extends cdk.Stack {
           subnetGroupName: 'Production App Subnet'
        }),
       });
-
-      lbForApp.setAttribute('access_logs.s3.enabled', 'true');
-      lbForApp.setAttribute('access_logs.s3.bucket', loggingBucket.bucketName);
-      lbForApp.setAttribute('access_logs.s3.prefix', 'Logs');
-      //TODO どっち？ lbForApp.logAccessLogs(loggingBucket,'Logs');
+      lbForApp.logAccessLogs(loggingBucket);
 
       Tags.of(lbForApp).add('Environment', props.pEnvironment);
 
@@ -296,7 +252,6 @@ export class NiscApplicationStack extends cdk.Stack {
         instanceType: props.pAppInstanceType,
         machineImage: new ec2.AmazonLinuxImage(),//TODO pAppAmi
         securityGroup: securityGroupFroAppInstance,
-        keyName: props.pEC2KeyPair,
         role: ssmInstanceRole, 
         //TODO init: ,
       })
@@ -441,10 +396,7 @@ export class NiscApplicationStack extends cdk.Stack {
        }),
       });
 
-      lbForWeb.setAttribute('access_logs.s3.enabled', 'true');
-      lbForWeb.setAttribute('access_logs.s3.bucket', loggingBucket.bucketName);
-      lbForWeb.setAttribute('access_logs.s3.prefix', 'Logs');
-      //TODO どっち？ lbForApp.logAccessLogs(loggingBucket,'Logs');
+      lbForApp.logAccessLogs(loggingBucket,'Logs');
 
       Tags.of(lbForWeb).add('Environment', props.pEnvironment);
       Tags.of(lbForWeb).add('Name', 'ProxyWebALB');
@@ -493,7 +445,6 @@ export class NiscApplicationStack extends cdk.Stack {
         instanceType: props.pWebInstanceType,
         machineImage: new ec2.AmazonLinuxImage(),//TODO pWebServerAMI
         securityGroup: securityGroupFroWebInstance,
-        keyName: props.pEC2KeyPair,
         role: ssmInstanceRole, 
         //TODO init
         associatePublicIpAddress: true,
