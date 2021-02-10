@@ -25,11 +25,9 @@ See: https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/getting_started.html
 * cdk deploy bs-iam --require-approval never
 
 4. How to deploy sample apps
-* Deploy baseline and EC2 Web Apps (Autoscaling)
+* Deploy baseline(CMK, LogBucket, VPC) and EC2 Web Apps (Autoscaling)
   * cdk deploy bs-ec2app-stack --require-approval never
-
 * Deploy Aurora (it takes 15mins)
   * cdk deploy BsDbStack -stack --require-approval never
-
-* Deploy baseline and EC2 Web Apps (Individual instances)
+* (Option) Deploy EC2 Web Apps (Individual instances) on baseline
   * cdk deploy bs-ec2app-simple-stack --require-approval never
