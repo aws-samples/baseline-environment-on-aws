@@ -6,18 +6,19 @@ import * as s3 from '@aws-cdk/aws-s3';
 import * as iam from '@aws-cdk/aws-iam';
 import { Duration, Tags, RemovalPolicy, SecretValue } from '@aws-cdk/core';
 import * as kms from '@aws-cdk/aws-kms';
+import { countResources } from '@aws-cdk/assert';
 
-export interface BsEc2appStackProps extends cdk.StackProps {
+export interface BsEc2appSimpleStackProps extends cdk.StackProps {
   prodVpc: ec2.Vpc,
   environment: string,
   logBucket: s3.Bucket,
   appKey: kms.IKey,
 }
 
-export class BsEc2appStack extends cdk.Stack {
+export class BsEc2appSimpleStack extends cdk.Stack {
   public readonly appServerSecurityGroup: ec2.SecurityGroup;
 
-  constructor(scope: cdk.Construct, id: string, props: BsEc2appStackProps) {
+  constructor(scope: cdk.Construct, id: string, props: BsEc2appSimpleStackProps) {
     super(scope, id, props);
 
 
@@ -91,62 +92,7 @@ export class BsEc2appStack extends cdk.Stack {
         }}
     }));
 
-
-    // ------------ AppServers (AutoScaling) ---------------
-
-    // InstanceProfile for AppServers
-    const ssmInstanceRole = new iam.Role(this, 'ssm-instance-role', {
-      assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
-      path: '/',
-      managedPolicies: [
-        { managedPolicyArn: 'arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore' },
-        { managedPolicyArn: 'arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy' },
-      ],
-    });
-
-    // UserData for AppServer (setup httpd)
-    const userDataForApp = ec2.UserData.forLinux({shebang: '#!/bin/bash'});
-    userDataForApp.addCommands(
-      "sudo yum -y install httpd",
-      "sudo systemctl enable httpd",
-      "sudo systemctl start httpd",
-      "touch /var/www/html/index.html",
-      "chown apache.apache /var/www/html/index.html",
-    );
-
-    // Auto Scaling Group for AppServers
-    const fleetForApp = new autoscaling.AutoScalingGroup(this, 'auto-scaling-group-app', {
-      minCapacity: 2,
-      maxCapacity: 4,
-      vpc: props.prodVpc,
-      vpcSubnets: props.prodVpc.selectSubnets({
-        subnetGroupName: 'ProdPrivateSubnet'
-      }),
-      instanceType: ec2.InstanceType.of(
-        ec2.InstanceClass.T3,
-        ec2.InstanceSize.MICRO
-      ),
-      machineImage: new ec2.AmazonLinuxImage({
-        generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2
-      }),
-      securityGroup: securityGroupForApp,
-      role: ssmInstanceRole, 
-      userData: userDataForApp,
-      healthCheck: autoscaling.HealthCheck.elb({
-        grace: Duration.seconds(60)
-      }),
-    })
-
-    // AutoScaling Policy
-    fleetForApp.scaleOnCpuUtilization('keepSpareCPU', {
-      targetUtilizationPercent: 50
-    })
-
-    // Tags for AppServers
-    Tags.of(fleetForApp).add('Environment', props.environment, {applyToLaunchedInstances: true,});
-    Tags.of(fleetForApp).add('Name', 'AppServer', {applyToLaunchedInstances: true,});
-    Tags.of(fleetForApp).add('Role', 'FRA_AppServer', {applyToLaunchedInstances: true,});
-
+  
 
     // ------------ Application LoadBalancer ---------------
 
@@ -192,8 +138,57 @@ export class BsEc2appStack extends cdk.Stack {
       defaultTargetGroups: [tgForApp], 
     });
 
-    // TargetGroup - AutoScalingGroup
-    fleetForApp.attachToApplicationTargetGroup(tgForApp);
 
+    // ------------ AppServers (AutoScaling) ---------------
+
+    // InstanceProfile for AppServers
+    const ssmInstanceRole = new iam.Role(this, 'ssm-instance-role', {
+      assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
+      path: '/',
+      managedPolicies: [
+        { managedPolicyArn: 'arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore' },
+        { managedPolicyArn: 'arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy' },
+      ],
+    });
+
+    // UserData for AppServer (setup httpd)
+    const userDataForApp = ec2.UserData.forLinux({shebang: '#!/bin/bash'});
+    userDataForApp.addCommands(
+      "sudo yum -y install httpd",
+      "sudo systemctl enable httpd",
+      "sudo systemctl start httpd",
+      "touch /var/www/html/index.html",
+      "chown apache.apache /var/www/html/index.html",
+    );
+
+    const subnetAzs = props.prodVpc.selectSubnets({
+      subnetGroupName: 'ProdPrivateSubnet'
+    }).availabilityZones;
+    const numAzs = subnetAzs.length;
+    
+    for (let i=0; i<2; i++) {
+      const instance = new ec2.Instance(this, 'app-server'+i, {
+        vpc: props.prodVpc,
+        availabilityZone:  subnetAzs[i%numAzs],
+        vpcSubnets: props.prodVpc.selectSubnets({
+          subnetGroupName: 'ProdPrivateSubnet'
+        }),
+        instanceType: ec2.InstanceType.of(
+          ec2.InstanceClass.T3,
+          ec2.InstanceSize.MICRO
+        ),
+        machineImage: new ec2.AmazonLinuxImage({
+          generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2
+        }),
+        securityGroup: securityGroupForApp,
+        role: ssmInstanceRole, 
+        userData: userDataForApp,
+      });
+      // Tags for AppServers
+      Tags.of(instance).add('Environment', props.environment, {applyToLaunchedInstances: true,});
+      Tags.of(instance).add('Name', 'AppServer'+i, {applyToLaunchedInstances: true,});
+      Tags.of(instance).add('Role', 'FRA_AppServer', {applyToLaunchedInstances: true,});
+      tgForApp.addTarget(new elbv2.InstanceTarget(instance.instanceId));
+    } 
   }
 }

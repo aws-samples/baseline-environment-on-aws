@@ -10,8 +10,6 @@ export interface BsVpcProdStackProps extends cdk.StackProps {
 
 export class BsVpcProdStack extends cdk.Stack {
   public readonly prodVpc: ec2.Vpc;
-  public readonly prodVpcId: string;
-  public readonly prodRouteTableIds: string[];
 
   constructor(scope: cdk.Construct, id: string, props: BsVpcProdStackProps) {
     super(scope, id, props);
@@ -49,14 +47,14 @@ export class BsVpcProdStack extends cdk.Stack {
 
     // Property for Peering
     this.prodVpc = prodVpc;
-    this.prodVpcId = prodVpc.vpcId;
-    this.prodRouteTableIds = new Array();
-    prodVpc.publicSubnets.forEach(subnet => {
-      this.prodRouteTableIds.push((subnet as ec2.Subnet).routeTable.routeTableId);
-    });
-    prodVpc.privateSubnets.forEach(subnet => {
-      this.prodRouteTableIds.push((subnet as ec2.Subnet).routeTable.routeTableId);
-    });
+    // this.prodVpcId = prodVpc.vpcId;
+    // this.prodRouteTableIds = new Array();
+    // prodVpc.publicSubnets.forEach(subnet => {
+    //   this.prodRouteTableIds.push((subnet as ec2.Subnet).routeTable.routeTableId);
+    // });
+    // prodVpc.privateSubnets.forEach(subnet => {
+    //   this.prodRouteTableIds.push((subnet as ec2.Subnet).routeTable.routeTableId);
+    // });
 
 
     // NACL for Public Subnets
