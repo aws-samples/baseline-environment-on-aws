@@ -11,23 +11,38 @@ See: https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/getting_started.html
 * ncu
   * npm install -g npm-check-updates
 
+
 2. Build
 * cd path-to-source
 * ncu -u
 * npm install
 * npm run build
-* cdk synth
 
-3. How to Deploy Guardrail (For test. It's usually deployed by ControlTower on production)
-* cdk deploy bs-guardduty --require-approval never
-* cdk deploy bs-trail --require-approval never
-* cdk deploy bs-config-rules --require-approval never
-* cdk deploy bs-iam --require-approval never
+3. BootStrap Account & Region
+* Setup AWS Credentials and Region
+  * ~/.aws/credentials
+    * [your_profile_dev] 
+    * [your_profile_prod]
+  * ~/.aws/config
+    * region = ap-northeast-1
+* cdk bootstrap --profile your_profile_dev
+  * For prod, use "cdk bootstrap --profile your_profile_prod"
 
-4. How to deploy sample apps
+4. How to Deploy Guardrail (For test. It's usually deployed by ControlTower on production)
+If you don't want to respond to approval, add an option "--require-approval never" (but be careful).
+You need to specify "--profile your_profile_name" on all of steps below.
+* cdk deploy BsTrail 
+* cdk deploy BsConfigCtGuardrail
+* cdk deploy BsGuardduty
+* cdk deploy BsSecurityHub
+* cdk deploy BsIam 
+
+5. How to deploy sample apps
 * Deploy baseline(CMK, LogBucket, VPC) and EC2 Web Apps (Autoscaling)
-  * cdk deploy bs-ec2app-stack --require-approval never
-* Deploy Aurora (it takes 15mins)
-  * cdk deploy BsDbStack -stack --require-approval never
+  * cdk deploy BsEc2app --require-approval never
+* Deploy Aurora (this step takes 15mins)
+  * cdk deploy BsDb --require-approval never
 * (Option) Deploy EC2 Web Apps (Individual instances) on baseline
-  * cdk deploy bs-ec2app-simple-stack --require-approval never
+  * cdk deploy BsEc2appSimple --require-approval never
+* (Option) Deploy Fargate Apps on baseline
+  * cdk deploy BsAlbFargate --require-approval never
