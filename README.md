@@ -22,11 +22,16 @@ See: https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/getting_started.html
 * Setup AWS Credentials and Region
   * ~/.aws/credentials
     * [your_profile_dev] 
+      aws_access_key_id = XXXXXXXXXXXXXXX
+      aws_secret_access_key = YYYYYYYYYYYYYYY
+      region = ap-northeast-1
     * [your_profile_prod]
-  * ~/.aws/config
-    * region = ap-northeast-1
-* cdk bootstrap --profile your_profile_dev
-  * For prod, use "cdk bootstrap --profile your_profile_prod"
+      aws_access_key_id = ZZZZZZZZZZZZZZZZ
+      aws_secret_access_key = PPPPPPPPPPPPPPPP
+      region = ap-northeast-1
+* Use cdk with --profile option
+  * For dev,  "cdk bootstrap --profile your_profile_dev"
+  * For prod, "cdk bootstrap --profile your_profile_prod"
 
 4. How to Deploy Guardrail (For test. It's usually deployed by ControlTower on production)
 If you don't want to respond to approval, add an option "--require-approval never" (but be careful).
@@ -39,10 +44,10 @@ You need to specify "--profile your_profile_name" on all of steps below.
 
 5. How to deploy sample apps
 * Deploy baseline(CMK, LogBucket, VPC) and EC2 Web Apps (Autoscaling)
-  * cdk deploy BsEc2app --require-approval never
+  * cdk deploy BsEc2app
 * Deploy Aurora (this step takes 15mins)
-  * cdk deploy BsDb --require-approval never
+  * cdk deploy BsDb
 * (Option) Deploy EC2 Web Apps (Individual instances) on baseline
-  * cdk deploy BsEc2appSimple --require-approval never
+  * cdk deploy BsEc2appSimple
 * (Option) Deploy Fargate Apps on baseline
-  * cdk deploy BsAlbFargate --require-approval never
+  * cdk deploy BsAlbFargate

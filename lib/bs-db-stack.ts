@@ -22,9 +22,14 @@ export class BsDbStack extends cdk.Stack {
 
     // Create RDS MySQL Instance
     const cluster = new rds.DatabaseCluster(this, 'AuroraMySQL', {
-      engine: rds.DatabaseClusterEngine.auroraMysql({ 
-        version: rds.AuroraMysqlEngineVersion.VER_2_09_1
+      // for Aurora PostgreSQL
+      engine: rds.DatabaseClusterEngine.auroraPostgres({ 
+        version: rds.AuroraPostgresEngineVersion.VER_11_9
       }),
+      // for Aurora MySQL
+      // engine: rds.DatabaseClusterEngine.auroraMysql({ 
+      //   version: rds.AuroraMysqlEngineVersion.VER_2_09_1
+      // }),
       credentials: rds.Credentials.fromGeneratedSecret(props.dbUser),
       instanceProps: {
         instanceType: ec2.InstanceType.of(
@@ -37,7 +42,8 @@ export class BsDbStack extends cdk.Stack {
       defaultDatabaseName: props.dbName,
       storageEncrypted: true,
       storageEncryptionKey: props.appKey,
-      cloudwatchLogsExports: ['error', 'general', 'slowquery', 'audit'],
+//      cloudwatchLogsExports: ['error', 'general', 'slowquery', 'audit'],  // For Aurora MySQL
+      cloudwatchLogsExports: ['postgresql'],  // For Aurora PostgreSQL
       cloudwatchLogsRetention: logs.RetentionDays.THREE_MONTHS,
     });
     cluster.connections.allowDefaultPortFrom(props.appServerSecurityGroup)
