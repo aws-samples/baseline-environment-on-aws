@@ -8,6 +8,7 @@ import { Duration, Tags, RemovalPolicy, SecretValue } from '@aws-cdk/core';
 import * as kms from '@aws-cdk/aws-kms';
 import * as ecs_patterns from '@aws-cdk/aws-ecs-patterns';
 import * as ecs from '@aws-cdk/aws-ecs';
+import * as wafv2 from "@aws-cdk/aws-wafv2";
 
 export interface BsAlbFargateStackProps extends cdk.StackProps {
   prodVpc: ec2.Vpc,
@@ -57,32 +58,8 @@ export class BsAlbFargateStack extends cdk.Stack {
     lbForApp.logAccessLogs(albLogBucket);
     Tags.of(lbForApp).add('Environment', props.environment);
 
-    // TargetGroup for App Server
-    // const tgForApp = new elbv2.ApplicationTargetGroup(this, 'tg-for-app', {
-    //   vpc: props.prodVpc,
-    //   port: 80,
-    //   protocol: elbv2.ApplicationProtocol.HTTP,
-    //   targetType: elbv2.TargetType.INSTANCE,
-    //   healthCheck: {
-    //     enabled: true,
-    //     path: "/index.html"
-    //   },
-    //   deregistrationDelay: Duration.seconds(60),
-    // }); 
-    // Tags.of(tgForApp).add('Environment', props.environment);    
-
-
-    // ALB Listener - TargetGroup 
-    // lbForApp.addListener('alb-listener-for-app', {
-    //   port: 80, 
-    //   open: true,
-    //   defaultTargetGroups: [tgForApp], 
-    // });
-
-    // TargetGroup - AutoScalingGroup
-//    fleetForApp.attachToApplicationTargetGroup(tgForApp);
-
     
+
     const cluster = new ecs.Cluster(this, 'BsCluster', { vpc: props.prodVpc });
 
     // Instantiate Fargate Service with just cluster and image
@@ -95,6 +72,105 @@ export class BsAlbFargateStack extends cdk.Stack {
         subnetGroupName: 'ProdPrivateSubnet'
       })
     });      
+
+    // WAFv2 for ALB
+    const webAcl = new wafv2.CfnWebACL(this, 'BsWebAcl', {
+      defaultAction: { allow: {}},
+      name: "BsWebAcl",
+      scope: "REGIONAL",
+      rules: [
+        {
+          priority: 1,
+          overrideAction: { count: {} },
+          visibilityConfig: {
+            sampledRequestsEnabled: true,
+            cloudWatchMetricsEnabled: true,
+            metricName: "AWS-AWSManagedRulesCommonRuleSet"
+          },
+          name: "AWSManagedRulesCommonRuleSet",
+          statement: {
+            managedRuleGroupStatement: {
+              vendorName: "AWS",
+              name: "AWSManagedRulesCommonRuleSet"
+            }
+          }
+        },
+        {
+          priority: 2,
+          overrideAction: { count: {} },
+          visibilityConfig: {
+            sampledRequestsEnabled: true,
+            cloudWatchMetricsEnabled: true,
+            metricName: "AWS-AWSManagedRulesKnownBadInputsRuleSet"
+          },
+          name: "AWSManagedRulesKnownBadInputsRuleSet",
+          statement: {
+            managedRuleGroupStatement: {
+              vendorName: "AWS",
+              name: "AWSManagedRulesKnownBadInputsRuleSet"
+            }
+          }
+        },
+        {
+          priority: 3,
+          overrideAction: { count: {} },
+          visibilityConfig: {
+            sampledRequestsEnabled: true,
+            cloudWatchMetricsEnabled: true,
+            metricName: "AWS-AWSManagedRulesAmazonIpReputationList"
+          },
+          name: "AWSManagedRulesAmazonIpReputationList",
+          statement: {
+            managedRuleGroupStatement: {
+              vendorName: "AWS",
+              name: "AWSManagedRulesAmazonIpReputationList"
+            }
+          }
+        },
+        {
+          priority: 4,
+          overrideAction: { count: {} },
+          visibilityConfig: {
+            sampledRequestsEnabled: true,
+            cloudWatchMetricsEnabled: true,
+            metricName: "AWS-AWSManagedRulesLinuxRuleSet"
+          },
+          name: "AWSManagedRulesLinuxRuleSet",
+          statement: {
+            managedRuleGroupStatement: {
+              vendorName: "AWS",
+              name: "AWSManagedRulesLinuxRuleSet"
+            }
+          }
+        },
+        {
+          priority: 5,
+          overrideAction: { count: {} },
+          visibilityConfig: {
+            sampledRequestsEnabled: true,
+            cloudWatchMetricsEnabled: true,
+            metricName: "AWS-AWSManagedRulesSQLiRuleSet"
+          },
+          name: "AWSManagedRulesSQLiRuleSet",
+          statement: {
+            managedRuleGroupStatement: {
+              vendorName: "AWS",
+              name: "AWSManagedRulesSQLiRuleSet"
+            }
+          }
+        },        
+      ],
+      visibilityConfig: {
+        cloudWatchMetricsEnabled: true,
+        metricName: "BsWebAcl",
+        sampledRequestsEnabled: true
+      }
+    });
+
+    new wafv2.CfnWebACLAssociation(this, 'BsWebAclAssociation', {
+      resourceArn: lbForApp.loadBalancerArn,
+      webAclArn: webAcl.attrArn
+    })
 
 
   }

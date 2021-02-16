@@ -47,5 +47,21 @@ export class BsDbStack extends cdk.Stack {
       cloudwatchLogsRetention: logs.RetentionDays.THREE_MONTHS,
     });
     cluster.connections.allowDefaultPortFrom(props.appServerSecurityGroup)
+
+    const serverlessCluster = new rds.ServerlessCluster(this, 'BsServerlessCluster', {
+      engine: rds.DatabaseClusterEngine.AURORA_POSTGRESQL,
+      parameterGroup: rds.ParameterGroup.fromParameterGroupName(this, 'ParameterGroup', 'default.aurora-postgresql10'),
+      vpc: props.prodVpc,
+      vpcSubnets: props.vpcSubnets,
+      scaling: {
+        autoPause: cdk.Duration.minutes(10), // default is to pause after 5 minutes of idle time
+        minCapacity: rds.AuroraCapacityUnit.ACU_8, // default is 2 Aurora capacity units (ACUs)
+        maxCapacity: rds.AuroraCapacityUnit.ACU_32, // default is 16 Aurora capacity units (ACUs)
+      }
+    });
+
+
+
+
   }
 }
