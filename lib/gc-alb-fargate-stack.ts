@@ -1,6 +1,5 @@
 import * as cdk from '@aws-cdk/core';
 import * as ec2 from '@aws-cdk/aws-ec2';
-import * as autoscaling from '@aws-cdk/aws-autoscaling';
 import * as elbv2 from '@aws-cdk/aws-elasticloadbalancingv2';
 import * as s3 from '@aws-cdk/aws-s3';
 import * as iam from '@aws-cdk/aws-iam';
@@ -10,24 +9,24 @@ import * as ecs_patterns from '@aws-cdk/aws-ecs-patterns';
 import * as ecs from '@aws-cdk/aws-ecs';
 import * as wafv2 from "@aws-cdk/aws-wafv2";
 
-export interface BsAlbFargateStackProps extends cdk.StackProps {
+export interface GcAlbFargateStackProps extends cdk.StackProps {
   prodVpc: ec2.Vpc,
   environment: string,
   logBucket: s3.Bucket,
   appKey: kms.IKey,
 }
 
-export class BsAlbFargateStack extends cdk.Stack {
+export class GcAlbFargateStack extends cdk.Stack {
   public readonly appServerSecurityGroup: ec2.SecurityGroup;
 
-  constructor(scope: cdk.Construct, id: string, props: BsAlbFargateStackProps) {
+  constructor(scope: cdk.Construct, id: string, props: GcAlbFargateStackProps) {
     super(scope, id, props);
 
 
     // --- Security Groups ---
 
     //Security Group of ALB for App
-    const securityGroupForAlb = new ec2.SecurityGroup(this, 'security-group-for-alb', {
+    const securityGroupForAlb = new ec2.SecurityGroup(this, 'SgAlb', {
       vpc: props.prodVpc,
       allowAllOutbound: false,
     });
@@ -35,6 +34,48 @@ export class BsAlbFargateStack extends cdk.Stack {
     securityGroupForAlb.addEgressRule(ec2.Peer.anyIpv4(), ec2.Port.allTcp());
 
  
+   // ------------ S3 Bucket for Web Contents ---------------
+
+   const webContentBucket = new s3.Bucket(this, 'WebBucket', {
+    accessControl: s3.BucketAccessControl.PRIVATE,
+    lifecycleRules: [{
+      enabled: true,
+      expiration: Duration.days(2555),
+      transitions: [{
+        storageClass: s3.StorageClass.GLACIER,
+        transitionAfter: Duration.days(90),
+      }],
+    }],
+    removalPolicy: RemovalPolicy.DESTROY,
+    versioned: false,
+    encryptionKey: props.appKey,
+    encryption: s3.BucketEncryption.KMS
+  });
+
+  // Prevent access without SSL
+  webContentBucket.addToResourcePolicy(new iam.PolicyStatement({
+    effect:     iam.Effect.DENY,
+    principals: [ new iam.AnyPrincipal() ],
+    actions:    [ 's3:*' ],
+    resources:  [ webContentBucket.bucketArn ],
+    conditions: {
+      'Bool' : {
+        'aws:SecureTransport': 'false'
+      }}
+  }));
+
+  // Prevent putting data without encryption
+  webContentBucket.addToResourcePolicy(new iam.PolicyStatement({
+    effect:     iam.Effect.DENY,
+    principals: [ new iam.AnyPrincipal() ],
+    actions:    [ 's3:PutObject' ],
+    resources:  [ webContentBucket.arnForObjects('*') ],
+    conditions: {
+      "StringNotEquals": {
+        "s3:x-amz-server-side-encryption": "AES256"
+      }}
+  }));
+
 
     // ------------ Application LoadBalancer ---------------
 
@@ -47,12 +88,12 @@ export class BsAlbFargateStack extends cdk.Stack {
     });
 
     // ALB for App Server
-    const lbForApp = new elbv2.ApplicationLoadBalancer(this, 'alb-for-app', {
+    const lbForApp = new elbv2.ApplicationLoadBalancer(this, 'Alb', {
       vpc: props.prodVpc,
       internetFacing: true,
       securityGroup: securityGroupForAlb,
       vpcSubnets: props.prodVpc.selectSubnets({
-        subnetGroupName: 'ProdPublicSubnet'
+        subnetGroupName: 'Public'
       }),
     });
     lbForApp.logAccessLogs(albLogBucket);
@@ -63,21 +104,26 @@ export class BsAlbFargateStack extends cdk.Stack {
     const cluster = new ecs.Cluster(this, 'BsCluster', { vpc: props.prodVpc });
 
     // Instantiate Fargate Service with just cluster and image
-    new ecs_patterns.ApplicationLoadBalancedFargateService(this, "BsFargateService", {
+    new ecs_patterns.ApplicationLoadBalancedFargateService(this, "AlbFargate", {
       cluster,
       taskImageOptions: {
         image: ecs.ContainerImage.fromRegistry("amazon/amazon-ecs-sample"),
       },
       taskSubnets: props.prodVpc.selectSubnets({
-        subnetGroupName: 'ProdPrivateSubnet'
+        subnetGroupName: 'Private'
       })
     });      
 
     // WAFv2 for ALB
-    const webAcl = new wafv2.CfnWebACL(this, 'BsWebAcl', {
+    const webAcl = new wafv2.CfnWebACL(this, 'WebAcl', {
       defaultAction: { allow: {}},
-      name: "BsWebAcl",
+      name: "GcWebAcl",
       scope: "REGIONAL",
+      visibilityConfig: {
+        cloudWatchMetricsEnabled: true,
+        metricName: "GcWebAcl",
+        sampledRequestsEnabled: true
+      },
       rules: [
         {
           priority: 1,
@@ -160,11 +206,6 @@ export class BsAlbFargateStack extends cdk.Stack {
           }
         },        
       ],
-      visibilityConfig: {
-        cloudWatchMetricsEnabled: true,
-        metricName: "BsWebAcl",
-        sampledRequestsEnabled: true
-      }
     });
 
     new wafv2.CfnWebACLAssociation(this, 'BsWebAclAssociation', {

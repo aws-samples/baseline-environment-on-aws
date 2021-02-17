@@ -2,7 +2,7 @@ import * as cdk from '@aws-cdk/core';
 import * as config from '@aws-cdk/aws-config';
 
 
-export class BsConfigRulesStack extends cdk.Stack {
+export class GcConfigRulesStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 

@@ -1,7 +1,7 @@
 import * as cdk from '@aws-cdk/core';
 import * as guardduty from '@aws-cdk/aws-guardduty';
 
-export class BsGuarddutyStack extends cdk.Stack {
+export class GcGuarddutyStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 

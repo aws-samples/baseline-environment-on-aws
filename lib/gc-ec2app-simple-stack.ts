@@ -1,31 +1,30 @@
 import * as cdk from '@aws-cdk/core';
 import * as ec2 from '@aws-cdk/aws-ec2';
-import * as autoscaling from '@aws-cdk/aws-autoscaling';
 import * as elbv2 from '@aws-cdk/aws-elasticloadbalancingv2';
 import * as s3 from '@aws-cdk/aws-s3';
 import * as iam from '@aws-cdk/aws-iam';
 import { Duration, Tags, RemovalPolicy, SecretValue } from '@aws-cdk/core';
 import * as kms from '@aws-cdk/aws-kms';
-import { countResources } from '@aws-cdk/assert';
 
-export interface BsEc2appSimpleStackProps extends cdk.StackProps {
+
+export interface GcEc2appSimpleStackProps extends cdk.StackProps {
   prodVpc: ec2.Vpc,
   environment: string,
   logBucket: s3.Bucket,
   appKey: kms.IKey,
 }
 
-export class BsEc2appSimpleStack extends cdk.Stack {
+export class GcEc2appSimpleStack extends cdk.Stack {
   public readonly appServerSecurityGroup: ec2.SecurityGroup;
 
-  constructor(scope: cdk.Construct, id: string, props: BsEc2appSimpleStackProps) {
+  constructor(scope: cdk.Construct, id: string, props: GcEc2appSimpleStackProps) {
     super(scope, id, props);
 
 
     // --- Security Groups ---
 
     //Security Group of ALB for App
-    const securityGroupForAlb = new ec2.SecurityGroup(this, 'security-group-for-alb', {
+    const securityGroupForAlb = new ec2.SecurityGroup(this, 'SgAlb', {
       vpc: props.prodVpc,
       allowAllOutbound: false,
     });
@@ -33,7 +32,7 @@ export class BsEc2appSimpleStack extends cdk.Stack {
     securityGroupForAlb.addEgressRule(ec2.Peer.anyIpv4(), ec2.Port.allTcp());
 
     //Security Group for Instance of App
-    const securityGroupForApp = new ec2.SecurityGroup(this, 'security-group-for-app', {
+    const securityGroupForApp = new ec2.SecurityGroup(this, 'SgApp', {
       vpc: props.prodVpc,
       allowAllOutbound: false,
     });
@@ -42,7 +41,7 @@ export class BsEc2appSimpleStack extends cdk.Stack {
     this.appServerSecurityGroup = securityGroupForApp;
 
     //Security Group for RDS
-    // const securityGroupForRDS = new ec2.SecurityGroup(this, 'security-group-for-rds', {
+    // const securityGroupForRDS = new ec2.SecurityGroup(this, 'SgRds', {
     //   vpc: props.prodVpc,
     //   allowAllOutbound: false,
     // });
@@ -52,7 +51,7 @@ export class BsEc2appSimpleStack extends cdk.Stack {
 
     // ------------ S3 Bucket for Web Contents ---------------
 
-    const webContentBucket = new s3.Bucket(this, 'web-content-bucket', {
+    const webContentBucket = new s3.Bucket(this, 'WebBucket', {
       accessControl: s3.BucketAccessControl.PRIVATE,
       lifecycleRules: [{
         enabled: true,
@@ -98,26 +97,26 @@ export class BsEc2appSimpleStack extends cdk.Stack {
 
     // S3 Bucket for ALB Logging (Needs SSE-S3)
     // https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-access-logs.html#access-logging-bucket-permissions
-    const albLogBucket = new s3.Bucket(this, 'alb-log-bucket', {
+    const albLogBucket = new s3.Bucket(this, 'AlbLogBucket', {
       accessControl: s3.BucketAccessControl.PRIVATE,
       encryption: s3.BucketEncryption.S3_MANAGED,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL        
     });
 
     // ALB for App Server
-    const lbForApp = new elbv2.ApplicationLoadBalancer(this, 'alb-for-app', {
+    const lbForApp = new elbv2.ApplicationLoadBalancer(this, 'AlbApp', {
       vpc: props.prodVpc,
       internetFacing: true,
       securityGroup: securityGroupForAlb,
       vpcSubnets: props.prodVpc.selectSubnets({
-        subnetGroupName: 'ProdPublicSubnet'
+        subnetGroupName: 'Public'
       }),
     });
     lbForApp.logAccessLogs(albLogBucket);
     Tags.of(lbForApp).add('Environment', props.environment);
 
     // TargetGroup for App Server
-    const tgForApp = new elbv2.ApplicationTargetGroup(this, 'tg-for-app', {
+    const tgForApp = new elbv2.ApplicationTargetGroup(this, 'TgApp', {
       vpc: props.prodVpc,
       port: 80,
       protocol: elbv2.ApplicationProtocol.HTTP,
@@ -132,7 +131,7 @@ export class BsEc2appSimpleStack extends cdk.Stack {
 
 
     // ALB Listener - TargetGroup 
-    lbForApp.addListener('alb-listener-for-app', {
+    lbForApp.addListener('ListnerApp', {
       port: 80, 
       open: true,
       defaultTargetGroups: [tgForApp], 
@@ -162,16 +161,16 @@ export class BsEc2appSimpleStack extends cdk.Stack {
     );
 
     const subnetAzs = props.prodVpc.selectSubnets({
-      subnetGroupName: 'ProdPrivateSubnet'
+      subnetGroupName: 'Private'
     }).availabilityZones;
     const numAzs = subnetAzs.length;
     
     for (let i=0; i<2; i++) {
-      const instance = new ec2.Instance(this, 'app-server'+i, {
+      const instance = new ec2.Instance(this, 'AppEc2'+i, {
         vpc: props.prodVpc,
         availabilityZone:  subnetAzs[i%numAzs],
         vpcSubnets: props.prodVpc.selectSubnets({
-          subnetGroupName: 'ProdPrivateSubnet'
+          subnetGroupName: 'Private'
         }),
         instanceType: ec2.InstanceType.of(
           ec2.InstanceClass.T3,

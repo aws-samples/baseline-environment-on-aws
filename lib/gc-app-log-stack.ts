@@ -3,23 +3,22 @@ import * as s3 from '@aws-cdk/aws-s3';
 import * as logs from '@aws-cdk/aws-logs';
 import * as kms from '@aws-cdk/aws-kms';
 import * as iam from '@aws-cdk/aws-iam';
-import { RegionInfo } from '@aws-cdk/region-info';
 
 
-interface BsAppLogStackProps extends cdk.StackProps {
+interface GcAppLogStackProps extends cdk.StackProps {
   appKey: kms.IKey
 }
 
-export class BsAppLogStack extends cdk.Stack {
+export class GcAppLogStack extends cdk.Stack {
   public readonly logBucket: s3.Bucket;
   public readonly logGroup: logs.LogGroup;
 
   
-  constructor(scope: cdk.Construct, id: string, props: BsAppLogStackProps) {
+  constructor(scope: cdk.Construct, id: string, props: GcAppLogStackProps) {
     super(scope, id, props);
 
     //S3 bucket for Application Logging
-    const appLogBucket = new s3.Bucket(this, 'app-log-bucket', {
+    const appLogBucket = new s3.Bucket(this, 'AppLogBucket', {
       accessControl: s3.BucketAccessControl.PRIVATE,
       encryptionKey: props.appKey,
       encryption: s3.BucketEncryption.KMS,
@@ -28,7 +27,7 @@ export class BsAppLogStack extends cdk.Stack {
     this.logBucket = appLogBucket;
 
     //CW LogGroup for Application Logging
-    const appLogGroup = new logs.LogGroup(this, 'app-log-group', {
+    const appLogGroup = new logs.LogGroup(this, 'AppLogGroup', {
       retention: logs.RetentionDays.INFINITE,
       encryptionKey: props.appKey
     }); 

@@ -57,28 +57,32 @@ cdk bootstrap
 # 4. How to Deploy Guardrail (For test. It's usually deployed by ControlTower on production)
 You need to specify `--profile your_profile_name` on all of steps below. Each stacks are independent each other.
 ```
-cdk deploy BsTrail 
-cdk deploy BsConfigCtGuardrail
-cdk deploy BsGuardduty
-cdk deploy BsSecurityHub
+$ cdk deploy GcTrail 
+$ cdk deploy GcConfigCtGuardrail
+$ cdk deploy GcGuardduty
+$ cdk deploy GcSecurityHub
 ```
 
 # 5. How to deploy sample apps
 You need to specify `--profile your_profile_name` on all of steps below.
 ## 1. Deploy roles to operate the apps.
 ```
-cdk deploy BsIam 
+$ cdk deploy GcIam 
 ```
 
 ## 2. Deploy baseline(CMK, LogBucket, VPC) and EC2 Web Apps (Autoscaling)
 ```
-cdk deploy BsEc2app
+$ cdk deploy GcEc2app
 ```
-  * (Option) To eploy EC2 Web Apps (No AutoScaling) on baseline (baseline will deploy as dependency). Use `cdk deploy BsEc2appSimple`
-  * (Option) Deploy Fargate Apps on baseline (baseline will deploy as dependency). Use `cdk deploy BsAlbFargate`
+  * (Option) To deploy baseline individually
+    * `$ cdk deploy GcAppKey`
+    * `$ cdk deploy GcAppLog`
+    * `$ cdk deploy GcVpc`
+  * (Option) To deploy EC2 Web Apps (No AutoScaling) on baseline (baseline will be deployed as dependency). Use `cdk deploy GcEc2AppSimple`
+  * (Option) To eploy Fargate Apps on baseline (baseline will be deployed as dependency). Use `cdk deploy GcFargate`
 
 ## 3. Deploy Aurora (this step takes 15mins)
 ```
-cdk deploy BsDb
+$ cdk deploy GcDb
 ```
-
+  * (Option) To deploy Aurora Serverless on baseline (baseline will be deployed as dependency). Use `cdk deploy GcAuroraServerless`

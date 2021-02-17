@@ -1,7 +1,7 @@
 import * as cdk from '@aws-cdk/core';
 import * as iam from '@aws-cdk/aws-iam';
 
-export class BsIamStack extends cdk.Stack {
+export class GcIamStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
@@ -50,15 +50,15 @@ export class BsIamStack extends cdk.Stack {
       ]
     };
 
-    const SysAdminManagedPolicy = new iam.ManagedPolicy(this, 'sysAdminPolicy',{
+    const SysAdminManagedPolicy = new iam.ManagedPolicy(this, 'SysAdminPolicy',{
       document: iam.PolicyDocument.fromJson(sysAdminPolicyJSON)
     })
 
-    const sysAdminRole = new iam.Role(this, 'sysAdminRole', {
+    const sysAdminRole = new iam.Role(this, 'SysAdminRole', {
       assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
     }).addManagedPolicy(SysAdminManagedPolicy);
 
-    const sysAdminGroup = new iam.Group(this, 'sysAdminGroup')
+    const sysAdminGroup = new iam.Group(this, 'SysAdminGroup')
       .addManagedPolicy(SysAdminManagedPolicy);
 
 
@@ -83,15 +83,15 @@ export class BsIamStack extends cdk.Stack {
           }
       ]
     };
-    const iamAdminManagedPolicy = new iam.ManagedPolicy(this, 'iamAdminPolicy', {
+    const iamAdminManagedPolicy = new iam.ManagedPolicy(this, 'IamAdminPolicy', {
       document: iam.PolicyDocument.fromJson(iamAdminPolicyJSON)
     });
     
-    const iamAdminRole = new iam.Role(this, 'iamAdminRole', {
+    const iamAdminRole = new iam.Role(this, 'IamAdminRole', {
       assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
     }).addManagedPolicy(iamAdminManagedPolicy);
 
-    const iamAdminGroup = new iam.Group(this, 'iamAdminGroup')
+    const iamAdminGroup = new iam.Group(this, 'IamAdminGroup')
       .addManagedPolicy(iamAdminManagedPolicy);
 
 
@@ -166,15 +166,15 @@ export class BsIamStack extends cdk.Stack {
       ]
   };
 
-  const instanceOpsManagedPolicy = new iam.ManagedPolicy(this, 'instanceOpsPolicy', {
+  const instanceOpsManagedPolicy = new iam.ManagedPolicy(this, 'InstanceOpsPolicy', {
     document: iam.PolicyDocument.fromJson(instanceOpsPolicyJSON)
   });
 
-  const instanceOpsRole = new iam.Role(this, 'instanceOpsRole', {
+  const instanceOpsRole = new iam.Role(this, 'InstanceOpsRole', {
     assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
   }).addManagedPolicy(instanceOpsManagedPolicy);
 
-  const instanceOpsGroup = new iam.Group(this, 'instanceOpsGroup')
+  const instanceOpsGroup = new iam.Group(this, 'InstanceOpsGroup')
     .addManagedPolicy(instanceOpsManagedPolicy);
 
 
@@ -256,15 +256,15 @@ export class BsIamStack extends cdk.Stack {
        ]
       };
 
-      const readOnlyAdminManagedPolicy = new iam.ManagedPolicy(this, 'readOnlyAdminPolicy', {
+      const readOnlyAdminManagedPolicy = new iam.ManagedPolicy(this, 'ReadOnlyAdminPolicy', {
         document: iam.PolicyDocument.fromJson(readOnlyAdminPolicyJSON)
       });
 
-      const readOnlyAdminRole = new iam.Role(this, 'readOnlyAdminRole', {
+      const readOnlyAdminRole = new iam.Role(this, 'ReadOnlyAdminRole', {
         assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
       }).addManagedPolicy(readOnlyAdminManagedPolicy);
   
-      const readOnlyAdminGroup = new iam.Group(this, 'readOnlyAdminGroup')
+      const readOnlyAdminGroup = new iam.Group(this, 'ReadOnlyAdminGroup')
         .addManagedPolicy(readOnlyAdminManagedPolicy);
 
   }

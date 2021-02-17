@@ -1,21 +1,20 @@
 #!/usr/bin/env node
-import 'source-map-support/register';
 import * as cdk from '@aws-cdk/core';
-import * as ec2 from '@aws-cdk/aws-ec2';
-import { BsIamStack } from '../lib/bs-iam-stack';
-import { BsEc2appStack } from '../lib/bs-ec2app-stack';
-import { BsEc2appSimpleStack } from '../lib/bs-ec2app-simple-stack';
-import { BsConfigRulesStack } from '../lib/bs-config-rules-stack';
-import { BsConfigCtGuardrailStack } from '../lib/bs-config-ct-guardrail-stack';
-import { BsGuarddutyStack } from '../lib/bs-guardduty-stack';
-import { BsTrailStack } from '../lib/bs-trail-stack';
-import { BsVpcProdStack } from '../lib/bs-vpc-production-stack';
-import { bsAppKeyStack } from '../lib/bs-app-key-stack';
-import { BsAppLogStack } from '../lib/bs-app-log-stack';
-import { BsDbStack } from '../lib/bs-db-stack';
-import { BsSecurityHubStack } from '../lib/bs-securiy-hub-stack';
-import { BsConfigStack } from '../lib/bs-config-stack';
-import { BsAlbFargateStack } from '../lib/bs-alb-fargate-stack';
+import { GcIamStack } from '../lib/gc-iam-stack';
+import { GcEc2appStack } from '../lib/gc-ec2app-stack';
+import { GcEc2appSimpleStack } from '../lib/gc-ec2app-simple-stack';
+import { GcConfigRulesStack } from '../lib/gc-config-rules-stack';
+import { GcConfigCtGuardrailStack } from '../lib/gc-config-ct-guardrail-stack';
+import { GcGuarddutyStack } from '../lib/gc-guardduty-stack';
+import { GcTrailStack } from '../lib/gc-trail-stack';
+import { GcVpcProdStack } from '../lib/gc-vpc-production-stack';
+import { GcAppKeyStack } from '../lib/gc-app-key-stack';
+import { GcAppLogStack } from '../lib/gc-app-log-stack';
+import { GcDbStack } from '../lib/gc-db-stack';
+import { GcSecurityHubStack } from '../lib/gc-securiy-hub-stack';
+import { GcConfigStack } from '../lib/gc-config-stack';
+import { GcAlbFargateStack } from '../lib/gc-alb-fargate-stack';
+import { GcAuroraServerlessStack } from '../lib/gc-aurora-serverless-stack';
 
 
 const env = { 
@@ -28,38 +27,38 @@ const notifyEmail = 'notify@example.com';
 const app = new cdk.App();
 
 // --- LandingZone ---
-new BsGuarddutyStack(app, 'BsGuardduty');
-new BsSecurityHubStack(app, 'BsSecurityHub')
-new BsTrailStack(app, 'BsTrail', { notifyEmail: notifyEmail });
-new BsIamStack(app, 'BsIam');
+new GcGuarddutyStack(app, 'GcGuardduty');
+new GcSecurityHubStack(app, 'GcSecurityHub')
+new GcTrailStack(app, 'GcTrail', { notifyEmail: notifyEmail });
+new GcIamStack(app, 'GcIam');
 
-const config = new BsConfigStack(app, 'BsConfig');
-const configRule = new BsConfigCtGuardrailStack(app, 'BsConfigCtGuardrail');
+const config = new GcConfigStack(app, 'GcConfig');
+const configRule = new GcConfigCtGuardrailStack(app, 'GcConfigCtGuardrail');
 configRule.addDependency(config);
-// new BsConfigRulesStack(app, 'BsConfigRules');  // This is sample rule
+// new GcConfigRulesStack(app, 'GcConfigRules');  // This is sample rule
 
 
 
 // --- Application Stack ---
 // CMK for Encryption
-const appKey = new bsAppKeyStack(app, 'BsAppKey', {env: env});
+const appKey = new GcAppKeyStack(app, 'GcAppKey', {env: env});
 
 // Logging Bucket and LogGroup for Apps
-const appLogStack = new BsAppLogStack(app, 'BsAppLog', {
+const appLogStack = new GcAppLogStack(app, 'GcAppLog', {
   appKey: appKey.appKey,
   env: env
 });
 
 // Networking
 const prodVpcCidr = '10.100.0.0/16';
-const vpcProdStack = new BsVpcProdStack(app, 'BsVpcProd', {
+const vpcProdStack = new GcVpcProdStack(app, 'GcVpc', {
   prodVpcCidr: prodVpcCidr,
   vpcFlowLogsBucket: appLogStack.logBucket,
   env: env
 });
 
 // Application Stack (LoadBalancer + AutoScaling AP Servers)
-const ec2AppStack = new BsEc2appStack(app, 'BsEc2app', {
+const ec2AppStack = new GcEc2appStack(app, 'GcEc2app', {
   prodVpc: vpcProdStack.prodVpc,
   environment: 'dev',
   logBucket: appLogStack.logBucket,
@@ -67,22 +66,8 @@ const ec2AppStack = new BsEc2appStack(app, 'BsEc2app', {
   env: env
 });
 
-// DB Servers
-const dbStack = new BsDbStack(app, 'BsDb', {
-  prodVpc: vpcProdStack.prodVpc,
-  dbName: 'mydbname',
-  dbUser: 'dbadmin',
-  environment: 'dev',
-  dbAllocatedStorage: 25, 
-  vpcSubnets: vpcProdStack.prodVpc.selectSubnets({
-    subnetGroupName: 'ProdProtectedSubnet'
-  }),
-  appServerSecurityGroup: ec2AppStack.appServerSecurityGroup,
-  appKey: appKey.appKey,
-  env: env
-});
-
-const albFargateStack = new BsAlbFargateStack(app, 'BsAlbFargate', {
+// Application Stack (LoadBalancer + Fargate)
+const albFargateStack = new GcAlbFargateStack(app, 'GcFargate', {
   prodVpc: vpcProdStack.prodVpc,
   environment: 'dev',
   logBucket: appLogStack.logBucket,
@@ -91,10 +76,43 @@ const albFargateStack = new BsAlbFargateStack(app, 'BsAlbFargate', {
 })
 
 // Application Stack (LoadBalancer + EC2 AP Servers)
-const ec2AppSimpleStack = new BsEc2appSimpleStack(app, 'BsEc2AppSimple', {
+const ec2AppSimpleStack = new GcEc2appSimpleStack(app, 'GcEc2AppSimple', {
   prodVpc: vpcProdStack.prodVpc,
   environment: 'dev',
   logBucket: appLogStack.logBucket,
   appKey: appKey.appKey,
   env: env
 });
+
+
+
+// Aurora
+const dbStack = new GcDbStack(app, 'GcDb', {
+  prodVpc: vpcProdStack.prodVpc,
+  dbName: 'mydbname',
+  dbUser: 'dbadmin',
+  environment: 'dev',
+  dbAllocatedStorage: 25, 
+  vpcSubnets: vpcProdStack.prodVpc.selectSubnets({
+    subnetGroupName: 'Protected'
+  }),
+  appServerSecurityGroup: ec2AppStack.appServerSecurityGroup,
+  appKey: appKey.appKey,
+  env: env
+});
+
+// Aurora Serverless
+const dbAuroraServerless = new GcAuroraServerlessStack(app, 'GcAuroraServerless', {
+  prodVpc: vpcProdStack.prodVpc,
+  dbName: 'mydbname',
+  dbUser: 'dbadmin',
+  environment: 'dev',
+  dbAllocatedStorage: 25, 
+  vpcSubnets: vpcProdStack.prodVpc.selectSubnets({
+    subnetGroupName: 'Protected'
+  }),
+  appServerSecurityGroup: ec2AppStack.appServerSecurityGroup,
+  appKey: appKey.appKey,
+  env: env
+});
+

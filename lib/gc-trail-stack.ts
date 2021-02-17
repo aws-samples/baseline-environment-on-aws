@@ -22,29 +22,29 @@ interface metricFilterRule {
   }
 }
 
-interface BsTrailStackProps extends cdk.StackProps {
+interface GcTrailStackProps extends cdk.StackProps {
   notifyEmail: string
 }
 
 
-export class BsTrailStack extends cdk.Stack {
+export class GcTrailStack extends cdk.Stack {
 
-  constructor(scope: cdk.Construct, id: string, props: BsTrailStackProps) {
+  constructor(scope: cdk.Construct, id: string, props: GcTrailStackProps) {
     super(scope, id, props);
 
 
     // CloudWatch Logs Group for CloudTrail
-    const cloudTrailLogGroup = new cwl.LogGroup(this, 'cloudTrailLogGroup', {
+    const cloudTrailLogGroup = new cwl.LogGroup(this, 'CloudTrailLogGroup', {
       retention: cwl.RetentionDays.THREE_MONTHS
     });
 
-      //Create S3 bucket for ALB access Logs
-      const loggingBucket = new s3.Bucket(this, 'rS3ELBAccessLogs', {
-        accessControl: s3.BucketAccessControl.PRIVATE,
-      });
+    //Create S3 bucket for ALB access Logs
+    // const loggingBucket = new s3.Bucket(this, 'AlbLogsBucket', {
+    //   accessControl: s3.BucketAccessControl.PRIVATE,
+    // });
 
     // Archive Bucket for CloudTrail
-    const archiveLogsBucket = new s3.Bucket(this, 'archiveLogsBucket', {
+    const archiveLogsBucket = new s3.Bucket(this, 'ArchiveLogsBucket', {
       accessControl: s3.BucketAccessControl.LOG_DELIVERY_WRITE,
       versioned: true,
       removalPolicy: cdk.RemovalPolicy.RETAIN,
@@ -64,7 +64,7 @@ export class BsTrailStack extends cdk.Stack {
     this.addBaseBucketPolicy(archiveLogsBucket);
 
     // Bucket for CloudTrail
-    const cloudTrailBucket = new s3.Bucket(this, 'cloudTrailBucket', {
+    const cloudTrailBucket = new s3.Bucket(this, 'CloudTrailBucket', {
       accessControl: s3.BucketAccessControl.PRIVATE,
       versioned: true,
       serverAccessLogsBucket: archiveLogsBucket,
@@ -74,7 +74,7 @@ export class BsTrailStack extends cdk.Stack {
     this.addBaseBucketPolicy(cloudTrailBucket);
 
     // CloudTrail
-    const cloudTrailLoggingLocal = new trail.Trail(this, 'cloudTrailLoggingLocal', {
+    const cloudTrailLoggingLocal = new trail.Trail(this, 'CloudTrail', {
       bucket: cloudTrailBucket,
       enableFileValidation: true,
       includeGlobalServiceEvents: true,
@@ -85,14 +85,14 @@ export class BsTrailStack extends cdk.Stack {
     // -----------
 
     // EC2 Role for Manage CloudTrail Logs
-    const cloudTrailRole = new iam.Role(this, 'cloudTrailRole', {
+    const cloudTrailRole = new iam.Role(this, 'CloudTrailRole', {
       assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
     });
     cloudTrailBucket.grantPut(cloudTrailRole);
     cloudTrailBucket.grantRead(cloudTrailRole);
 
     // SNS Topic
-    const securityAlarmTopic = new sns.Topic(this, 'securityAlarmTopic');
+    const securityAlarmTopic = new sns.Topic(this, 'SecurityAlarmTopic');
     new sns.Subscription(this, 'securityAlarmEmail', {
       endpoint: props.notifyEmail,
       protocol: sns.SubscriptionProtocol.EMAIL,
