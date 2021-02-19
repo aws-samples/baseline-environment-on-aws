@@ -33,7 +33,7 @@ export class GcVpcProdStack extends cdk.Stack {
         {
           cidrMask: 22,
           name: 'Protected',
-          subnetType: ec2.SubnetType.PRIVATE,
+          subnetType: ec2.SubnetType.ISOLATED,
         }
      ]
     });
