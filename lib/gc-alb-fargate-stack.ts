@@ -111,7 +111,8 @@ export class GcAlbFargateStack extends cdk.Stack {
       },
       taskSubnets: props.prodVpc.selectSubnets({
         subnetGroupName: 'Private'
-      })
+      }),
+      loadBalancer: lbForApp
     });      
 
     // WAFv2 for ALB
