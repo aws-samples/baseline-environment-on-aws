@@ -96,9 +96,9 @@ export class GcVpcProdStack extends cdk.Stack {
     });
 
     // VPC Endpoint for S3
-    prodVpc.addGatewayEndpoint("S3EndpointForIsolated", {
+    prodVpc.addGatewayEndpoint("S3EndpointForPrivate", {
       service: ec2.GatewayVpcEndpointAwsService.S3,
-      subnets: [{ subnetType: ec2.SubnetType.ISOLATED }]
+      subnets: [{ subnetType: ec2.SubnetType.PRIVATE }]
     });
   }
 }
