@@ -10,7 +10,7 @@ See: https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/getting_started.html
 ```
 npm -g install typescript
 ```
-* CDK 1.89.0 or later
+* CDK 1.90.1 or later
 ```
 npm install -g aws-cdk
 ``` 
