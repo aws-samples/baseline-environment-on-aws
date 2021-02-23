@@ -8,6 +8,10 @@ import * as kms from '@aws-cdk/aws-kms';
 import * as ecs_patterns from '@aws-cdk/aws-ecs-patterns';
 import * as ecs from '@aws-cdk/aws-ecs';
 import * as wafv2 from "@aws-cdk/aws-wafv2";
+import * as cloudfront from "@aws-cdk/aws-cloudfront";
+import * as origins from "@aws-cdk/aws-cloudfront-origins";
+
+
 
 export interface GcAlbFargateStackProps extends cdk.StackProps {
   prodVpc: ec2.Vpc,
@@ -22,6 +26,11 @@ export class GcAlbFargateStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props: GcAlbFargateStackProps) {
     super(scope, id, props);
 
+    // CORS Allowed Domain
+    const allowdOrigins = [
+      'https://example.com',
+      'https://www.example.com'
+    ];
 
     // --- Security Groups ---
 
@@ -34,47 +43,52 @@ export class GcAlbFargateStack extends cdk.Stack {
     securityGroupForAlb.addEgressRule(ec2.Peer.anyIpv4(), ec2.Port.allTcp());
 
  
-   // ------------ S3 Bucket for Web Contents ---------------
+    // ------------ S3 Bucket for Web Contents ---------------
 
-   const webContentBucket = new s3.Bucket(this, 'WebBucket', {
-    accessControl: s3.BucketAccessControl.PRIVATE,
-    lifecycleRules: [{
-      enabled: true,
-      expiration: Duration.days(2555),
-      transitions: [{
-        storageClass: s3.StorageClass.GLACIER,
-        transitionAfter: Duration.days(90),
+    // See Also: Encryption on CloudFront + S3
+    //   https://aws.amazon.com/jp/premiumsupport/knowledge-center/s3-rest-api-cloudfront-error-403/
+
+    const webContentBucket = new s3.Bucket(this, 'WebBucket', {
+      accessControl: s3.BucketAccessControl.PRIVATE,
+      lifecycleRules: [{
+        enabled: true,
+        expiration: Duration.days(2555),
+        transitions: [{
+          storageClass: s3.StorageClass.GLACIER,
+          transitionAfter: Duration.days(90),
+        }],
       }],
-    }],
-    removalPolicy: RemovalPolicy.DESTROY,
-    versioned: false,
-    encryptionKey: props.appKey,
-    encryption: s3.BucketEncryption.KMS
-  });
+      removalPolicy: RemovalPolicy.DESTROY,
+      versioned: false,
+      encryption: s3.BucketEncryption.S3_MANAGED,
+      cors: [{
+          allowedOrigins: allowdOrigins,
+          allowedMethods: [s3.HttpMethods.GET, s3.HttpMethods.HEAD]
+      }],
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL
+    });
 
-  // Prevent access without SSL
-  webContentBucket.addToResourcePolicy(new iam.PolicyStatement({
-    effect:     iam.Effect.DENY,
-    principals: [ new iam.AnyPrincipal() ],
-    actions:    [ 's3:*' ],
-    resources:  [ webContentBucket.bucketArn ],
-    conditions: {
-      'Bool' : {
-        'aws:SecureTransport': 'false'
-      }}
-  }));
+    // Prevent access without SSL
+    webContentBucket.addToResourcePolicy(new iam.PolicyStatement({
+      effect:     iam.Effect.DENY,
+      principals: [ new iam.AnyPrincipal() ],
+      actions:    [ 's3:*' ],
+      resources:  [ webContentBucket.bucketArn+'/*' ],
+      conditions: {
+        'Bool' : {
+          'aws:SecureTransport': 'false'
+        }}
+    }));
 
-  // Prevent putting data without encryption
-  webContentBucket.addToResourcePolicy(new iam.PolicyStatement({
-    effect:     iam.Effect.DENY,
-    principals: [ new iam.AnyPrincipal() ],
-    actions:    [ 's3:PutObject' ],
-    resources:  [ webContentBucket.arnForObjects('*') ],
-    conditions: {
-      "StringNotEquals": {
-        "s3:x-amz-server-side-encryption": "AES256"
-      }}
-  }));
+    // CloudFront Distrubution
+    //  with CORS
+    const distribution = new cloudfront.Distribution(this, 'Distribution', {
+      defaultBehavior: {
+        origin: new origins.S3Origin(webContentBucket),
+        originRequestPolicy: cloudfront.OriginRequestPolicy.CORS_S3_ORIGIN
+      }
+    });
+
 
 
     // ------------ Application LoadBalancer ---------------
