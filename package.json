@@ -21,6 +21,7 @@
     "typescript": "~4.1.5"
   },
   "dependencies": {
+    "@aws-cdk/aws-cloudfront-origins": "^1.90.1",
     "@aws-cdk/aws-ecs-patterns": "^1.90.1",
     "@aws-cdk/cloudformation-include": "^1.90.1",
     "@aws-cdk/core": "1.90.1",
