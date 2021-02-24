@@ -10,12 +10,16 @@ import * as ecs from '@aws-cdk/aws-ecs';
 import * as wafv2 from "@aws-cdk/aws-wafv2";
 import * as cloudfront from "@aws-cdk/aws-cloudfront";
 import * as origins from "@aws-cdk/aws-cloudfront-origins";
+import * as sns from '@aws-cdk/aws-sns';
+import * as cw from '@aws-cdk/aws-cloudwatch';
+import * as cw_actions from '@aws-cdk/aws-cloudwatch-actions';
 
 export interface GcAlbFargateStackProps extends cdk.StackProps {
   prodVpc: ec2.Vpc,
   environment: string,
   logBucket: s3.Bucket,
   appKey: kms.IKey,
+  systemTopic: sns.Topic,
 }
 
 export class GcAlbFargateStack extends cdk.Stack {
@@ -109,21 +113,111 @@ export class GcAlbFargateStack extends cdk.Stack {
     lbForApp.logAccessLogs(albLogBucket);
     Tags.of(lbForApp).add('Environment', props.environment);
 
-    
 
-    const cluster = new ecs.Cluster(this, 'BsCluster', { vpc: props.prodVpc });
+    // --------------------- Fargate Cluster ----------------------------
 
-    // Instantiate Fargate Service with just cluster and image
-    new ecs_patterns.ApplicationLoadBalancedFargateService(this, "AlbFargate", {
-      cluster,
-      taskImageOptions: {
-        image: ecs.ContainerImage.fromRegistry("amazon/amazon-ecs-sample"),
-      },
+    const cluster = new ecs.Cluster(this, 'Cluster', { 
+      vpc: props.prodVpc,
+      containerInsights: true
+    });
+
+    const albFargate = new ecs_patterns.ApplicationLoadBalancedFargateService(this, "AlbFargate", {
+      cluster: cluster,
+      loadBalancer: lbForApp,
       taskSubnets: props.prodVpc.selectSubnets({
         subnetGroupName: 'Private'
       }),
-      loadBalancer: lbForApp
-    });      
+      taskImageOptions: {
+        image: ecs.ContainerImage.fromRegistry("amazon/amazon-ecs-sample"),
+      },
+    });
+
+    // How to set attibute to TargetGroup - example) Modify deregistration delay
+    albFargate.targetGroup.setAttribute("deregistration_delay.timeout_seconds", "30");
+
+
+    // ----------------------- Alarms for ECS -----------------------------
+    albFargate.service.metricCpuUtilization({
+      period: cdk.Duration.minutes(1),
+      statistic: cw.Statistic.AVERAGE,
+    }).createAlarm(this, 'FargateCpuUtil', {
+      evaluationPeriods: 3,
+      datapointsToAlarm: 3,
+      threshold: 80,
+      comparisonOperator: cw.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+      actionsEnabled: true
+    }).addAlarmAction(new cw_actions.SnsAction(props.systemTopic));
+
+    // RunningTaskCount - CloudWatch Container Insights metric (Custom metric)
+    // This is a sample of full set configuration for Metric and Alarm
+    // See: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#alarm-evaluation
+    new cw.Metric({
+      metricName: 'RunningTaskCount',
+      namespace: 'ECS/ContainerInsights',
+      dimensions: {
+        ClusterName: cluster.clusterName,
+        ServiceName: albFargate.service.serviceName,
+      },
+      period: cdk.Duration.minutes(1),
+      statistic: cw.Statistic.AVERAGE,
+    }).createAlarm(this, 'RunningTaskCount', {
+      evaluationPeriods: 3,
+      datapointsToAlarm: 2,
+      threshold: 1,
+      comparisonOperator: cw.ComparisonOperator.LESS_THAN_THRESHOLD,
+      actionsEnabled: true
+    }).addAlarmAction(new cw_actions.SnsAction(props.systemTopic));
+
+
+
+    // ----------------------- Alarms for ALB -----------------------------
+
+    // Alarm for ALB - ResponseTime 
+    lbForApp.metricTargetResponseTime({
+      period: cdk.Duration.minutes(1),
+      statistic: cw.Statistic.AVERAGE,
+    }).createAlarm(this, 'AlbResponseTime', {      
+      evaluationPeriods: 3,
+      threshold: 100,
+      comparisonOperator: cw.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+      actionsEnabled: true
+    }).addAlarmAction(new cw_actions.SnsAction(props.systemTopic));
+
+    // Alarm for ALB - HTTP 4XX Count
+    lbForApp.metricHttpCodeElb(elbv2.HttpCodeElb.ELB_4XX_COUNT, {
+      period: cdk.Duration.minutes(1),
+      statistic: cw.Statistic.SUM,
+    }).createAlarm(this, 'AlbHttp4xx', {
+      evaluationPeriods: 3,
+      threshold: 10,
+      comparisonOperator: cw.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+      actionsEnabled: true
+    }).addAlarmAction(new cw_actions.SnsAction(props.systemTopic));
+
+    // Alarm for ALB - HTTP 5XX Count
+    lbForApp.metricHttpCodeElb(elbv2.HttpCodeElb.ELB_5XX_COUNT, {
+      period: cdk.Duration.minutes(1),
+      statistic: cw.Statistic.SUM,
+    }).createAlarm(this, 'AlbHttp5xx', {
+      evaluationPeriods: 3,
+      threshold: 10,
+      comparisonOperator: cw.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+      actionsEnabled: true
+    }).addAlarmAction(new cw_actions.SnsAction(props.systemTopic));
+
+    // Alarm for ALB TargetGroup - HealthyHostCount
+    albFargate.targetGroup.metricHealthyHostCount({
+      period: cdk.Duration.minutes(1),
+      statistic: cw.Statistic.AVERAGE,
+    }).createAlarm(this, 'AlbTgHealthyHostCount', {
+      evaluationPeriods: 3,
+      threshold: 2,
+      comparisonOperator: cw.ComparisonOperator.LESS_THAN_THRESHOLD,
+      actionsEnabled: true
+    }).addAlarmAction(new cw_actions.SnsAction(props.systemTopic));
+  
+
+
 
     // WAFv2 for ALB
     const webAcl = new wafv2.CfnWebACL(this, 'WebAcl', {

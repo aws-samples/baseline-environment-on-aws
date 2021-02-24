@@ -15,6 +15,8 @@ import { GcSecurityHubStack } from '../lib/gc-securiy-hub-stack';
 import { GcConfigStack } from '../lib/gc-config-stack';
 import { GcAlbFargateStack } from '../lib/gc-alb-fargate-stack';
 import { GcAuroraServerlessStack } from '../lib/gc-aurora-serverless-stack';
+import { GcMemberAlertStack } from '../lib/gc-member-alert-stack';
+import { GcMonitorAlarmStack } from '../lib/gc-monitor-alarm-stack';
 
 
 const env = { 
@@ -49,6 +51,12 @@ const appLogStack = new GcAppLogStack(app, 'GcAppLog', {
   env: env
 });
 
+const monitorAlarm = new GcMonitorAlarmStack(app, 'GcMonitorAlarm', {
+  env: env,
+  notifyEmail: notifyEmail
+});
+
+
 // Networking
 const prodVpcCidr = '10.100.0.0/16';
 const vpcProdStack = new GcVpcProdStack(app, 'GcVpc', {
@@ -72,7 +80,8 @@ const albFargateStack = new GcAlbFargateStack(app, 'GcFargate', {
   environment: 'dev',
   logBucket: appLogStack.logBucket,
   appKey: appKey.appKey,
-  env: env
+  env: env,
+  systemTopic: monitorAlarm.alarmTopic
 })
 
 // Application Stack (LoadBalancer + EC2 AP Servers)
