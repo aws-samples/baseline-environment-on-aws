@@ -82,7 +82,7 @@ const albFargateStack = new GcAlbFargateStack(app, 'GcFargate', {
   logBucket: appLogStack.logBucket,
   appKey: appKey.appKey,
   env: env,
-  systemTopic: monitorAlarm.alarmTopic
+  alarmTopic: monitorAlarm.alarmTopic
 })
 
 // Application Stack (LoadBalancer + EC2 AP Servers)

@@ -19,7 +19,7 @@ export interface GcAlbFargateStackProps extends cdk.StackProps {
   environment: string,
   logBucket: s3.Bucket,
   appKey: kms.IKey,
-  systemTopic: sns.Topic,
+  alarmTopic: sns.Topic,
 }
 
 export class GcAlbFargateStack extends cdk.Stack {
@@ -146,7 +146,7 @@ export class GcAlbFargateStack extends cdk.Stack {
       threshold: 80,
       comparisonOperator: cw.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
       actionsEnabled: true
-    }).addAlarmAction(new cw_actions.SnsAction(props.systemTopic));
+    }).addAlarmAction(new cw_actions.SnsAction(props.alarmTopic));
 
     // RunningTaskCount - CloudWatch Container Insights metric (Custom metric)
     // This is a sample of full set configuration for Metric and Alarm
@@ -166,7 +166,7 @@ export class GcAlbFargateStack extends cdk.Stack {
       threshold: 1,
       comparisonOperator: cw.ComparisonOperator.LESS_THAN_THRESHOLD,
       actionsEnabled: true
-    }).addAlarmAction(new cw_actions.SnsAction(props.systemTopic));
+    }).addAlarmAction(new cw_actions.SnsAction(props.alarmTopic));
 
 
 
@@ -181,7 +181,7 @@ export class GcAlbFargateStack extends cdk.Stack {
       threshold: 100,
       comparisonOperator: cw.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
       actionsEnabled: true
-    }).addAlarmAction(new cw_actions.SnsAction(props.systemTopic));
+    }).addAlarmAction(new cw_actions.SnsAction(props.alarmTopic));
 
     // Alarm for ALB - HTTP 4XX Count
     lbForApp.metricHttpCodeElb(elbv2.HttpCodeElb.ELB_4XX_COUNT, {
@@ -192,7 +192,7 @@ export class GcAlbFargateStack extends cdk.Stack {
       threshold: 10,
       comparisonOperator: cw.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
       actionsEnabled: true
-    }).addAlarmAction(new cw_actions.SnsAction(props.systemTopic));
+    }).addAlarmAction(new cw_actions.SnsAction(props.alarmTopic));
 
     // Alarm for ALB - HTTP 5XX Count
     lbForApp.metricHttpCodeElb(elbv2.HttpCodeElb.ELB_5XX_COUNT, {
@@ -203,7 +203,7 @@ export class GcAlbFargateStack extends cdk.Stack {
       threshold: 10,
       comparisonOperator: cw.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
       actionsEnabled: true
-    }).addAlarmAction(new cw_actions.SnsAction(props.systemTopic));
+    }).addAlarmAction(new cw_actions.SnsAction(props.alarmTopic));
 
     // Alarm for ALB TargetGroup - HealthyHostCount
     albFargate.targetGroup.metricHealthyHostCount({
@@ -214,7 +214,7 @@ export class GcAlbFargateStack extends cdk.Stack {
       threshold: 2,
       comparisonOperator: cw.ComparisonOperator.LESS_THAN_THRESHOLD,
       actionsEnabled: true
-    }).addAlarmAction(new cw_actions.SnsAction(props.systemTopic));
+    }).addAlarmAction(new cw_actions.SnsAction(props.alarmTopic));
   
 
 
