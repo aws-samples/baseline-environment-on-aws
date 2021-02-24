@@ -5,6 +5,7 @@ import * as cw from '@aws-cdk/aws-cloudwatch';
 import * as cwl from '@aws-cdk/aws-logs';
 import * as iam from '@aws-cdk/aws-iam';
 import * as sns from '@aws-cdk/aws-sns';
+import * as kms from '@aws-cdk/aws-kms';
 
 
 interface metricFilterRule {
@@ -41,6 +42,7 @@ export class GcTrailStack extends cdk.Stack {
     // Archive Bucket for CloudTrail
     const archiveLogsBucket = new s3.Bucket(this, 'ArchiveLogsBucket', {
       accessControl: s3.BucketAccessControl.LOG_DELIVERY_WRITE,
+      blockPublicAccess:s3.BlockPublicAccess.BLOCK_ALL,
       versioned: true,
       removalPolicy: cdk.RemovalPolicy.RETAIN,
       lifecycleRules: [ 
@@ -61,6 +63,7 @@ export class GcTrailStack extends cdk.Stack {
     // Bucket for CloudTrail
     const cloudTrailBucket = new s3.Bucket(this, 'CloudTrailBucket', {
       accessControl: s3.BucketAccessControl.PRIVATE,
+      blockPublicAccess:s3.BlockPublicAccess.BLOCK_ALL,
       versioned: true,
       serverAccessLogsBucket: archiveLogsBucket,
       serverAccessLogsPrefix: "cloudtraillogs",
@@ -68,12 +71,26 @@ export class GcTrailStack extends cdk.Stack {
     });
     this.addBaseBucketPolicy(cloudTrailBucket);
 
+
+    // CMK for CloudTrail
+    const cloudTrailKey = new kms.Key(this, 'CloudTrailKey', {
+      enableKeyRotation: true,
+      description: "for CloudTrail",
+      alias: "for-cloudtrail",
+    })
+    cloudTrailKey.grantEncryptDecrypt(new iam.ServicePrincipal('cloudtrail.amazonaws.com'));
+    cloudTrailKey.grant(
+      new iam.ServicePrincipal('cloudtrail.amazonaws.com'),
+      "kms:DescribeKey"
+    );
+
     // CloudTrail
     const cloudTrailLoggingLocal = new trail.Trail(this, 'CloudTrail', {
       bucket: cloudTrailBucket,
       enableFileValidation: true,
       includeGlobalServiceEvents: true,
       cloudWatchLogGroup: cloudTrailLogGroup,
+      encryptionKey: cloudTrailKey,
       sendToCloudWatchLogs: true
     });
 
@@ -250,19 +267,6 @@ export class GcTrailStack extends cdk.Stack {
       resources: [ bucket.arnForObjects('*') ]      
     }));
 
-    bucket.addToResourcePolicy(new iam.PolicyStatement({
-      sid: 'DenyUnEncryptedObjectUploads',
-      effect: iam.Effect.DENY,
-      actions: ['s3:PutObject'],
-      principals: [ new iam.AnyPrincipal() ],
-      resources: [ bucket.arnForObjects('*') ],
-      conditions:  {
-        'StringNotEquals': {
-          's3:x-amz-server-side-encryption': 'AES256'
-        }
-      }
-    }));
-   
   }
 
 }
