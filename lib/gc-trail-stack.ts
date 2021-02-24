@@ -38,11 +38,6 @@ export class GcTrailStack extends cdk.Stack {
       retention: cwl.RetentionDays.THREE_MONTHS
     });
 
-    //Create S3 bucket for ALB access Logs
-    // const loggingBucket = new s3.Bucket(this, 'AlbLogsBucket', {
-    //   accessControl: s3.BucketAccessControl.PRIVATE,
-    // });
-
     // Archive Bucket for CloudTrail
     const archiveLogsBucket = new s3.Bucket(this, 'ArchiveLogsBucket', {
       accessControl: s3.BucketAccessControl.LOG_DELIVERY_WRITE,
