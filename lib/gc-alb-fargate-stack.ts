@@ -45,41 +45,41 @@ export class GcAlbFargateStack extends cdk.Stack {
     securityGroupForAlb.addEgressRule(ec2.Peer.anyIpv4(), ec2.Port.allTcp());
 
  
-   // ------------ S3 Bucket for Web Contents ---------------
+    // ------------ S3 Bucket for Web Contents ---------------
 
-   const webContentBucket = new s3.Bucket(this, 'WebBucket', {
-    accessControl: s3.BucketAccessControl.PRIVATE,
-    lifecycleRules: [{
-      enabled: true,
-      expiration: Duration.days(2555),
-      transitions: [{
-        storageClass: s3.StorageClass.GLACIER,
-        transitionAfter: Duration.days(90),
+    const webContentBucket = new s3.Bucket(this, 'WebBucket', {
+      accessControl: s3.BucketAccessControl.PRIVATE,
+      lifecycleRules: [{
+        enabled: true,
+        expiration: Duration.days(2555),
+        transitions: [{
+          storageClass: s3.StorageClass.GLACIER,
+          transitionAfter: Duration.days(90),
+        }],
       }],
-    }],
-    removalPolicy: RemovalPolicy.DESTROY,
-    versioned: false,
-    // See Also: Encryption on CloudFront + S3
-    //   https://aws.amazon.com/jp/premiumsupport/knowledge-center/s3-rest-api-cloudfront-error-403/
-    encryption: s3.BucketEncryption.S3_MANAGED,
-    cors: [{
-        allowedOrigins: allowdOrigins,
-        allowedMethods: [s3.HttpMethods.GET, s3.HttpMethods.HEAD]
-    }],
-    blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL
-});
+      removalPolicy: RemovalPolicy.DESTROY,
+      versioned: false,
+      // See Also: Encryption on CloudFront + S3
+      //   https://aws.amazon.com/jp/premiumsupport/knowledge-center/s3-rest-api-cloudfront-error-403/
+      encryption: s3.BucketEncryption.S3_MANAGED,
+      cors: [{
+          allowedOrigins: allowdOrigins,
+          allowedMethods: [s3.HttpMethods.GET, s3.HttpMethods.HEAD]
+      }],
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL
+    });
 
-  // Prevent access without SSL
-  webContentBucket.addToResourcePolicy(new iam.PolicyStatement({
-    effect:     iam.Effect.DENY,
-    principals: [ new iam.AnyPrincipal() ],
-    actions:    [ 's3:*' ],
-    resources:  [ webContentBucket.bucketArn+'/*' ],
-    conditions: {
-      'Bool' : {
-        'aws:SecureTransport': 'false'
-      }}
-  }));
+    // Prevent access without SSL
+    webContentBucket.addToResourcePolicy(new iam.PolicyStatement({
+      effect:     iam.Effect.DENY,
+      principals: [ new iam.AnyPrincipal() ],
+      actions:    [ 's3:*' ],
+      resources:  [ webContentBucket.bucketArn+'/*' ],
+      conditions: {
+        'Bool' : {
+          'aws:SecureTransport': 'false'
+        }}
+    }));
 
     // CloudFront Distrubution
     //  with CORS
