@@ -49,49 +49,6 @@ export class GcEc2appStack extends cdk.Stack {
     // securityGroupForRDS.addEgressRule(securityGroupForApp, ec2.Port.allTcp());
 
 
-    // ------------ S3 Bucket for Web Contents ---------------
-
-    const webContentBucket = new s3.Bucket(this, 'WebBucket', {
-      accessControl: s3.BucketAccessControl.PRIVATE,
-      lifecycleRules: [{
-        enabled: true,
-        expiration: Duration.days(2555),
-        transitions: [{
-          storageClass: s3.StorageClass.GLACIER,
-          transitionAfter: Duration.days(90),
-        }],
-      }],
-      removalPolicy: RemovalPolicy.DESTROY,
-      versioned: false,
-      encryptionKey: props.appKey,
-      encryption: s3.BucketEncryption.KMS
-    });
-
-    // Prevent access without SSL
-    webContentBucket.addToResourcePolicy(new iam.PolicyStatement({
-      effect:     iam.Effect.DENY,
-      principals: [ new iam.AnyPrincipal() ],
-      actions:    [ 's3:*' ],
-      resources:  [ webContentBucket.bucketArn ],
-      conditions: {
-        'Bool' : {
-          'aws:SecureTransport': 'false'
-        }}
-    }));
-
-    // Prevent putting data without encryption
-    webContentBucket.addToResourcePolicy(new iam.PolicyStatement({
-      effect:     iam.Effect.DENY,
-      principals: [ new iam.AnyPrincipal() ],
-      actions:    [ 's3:PutObject' ],
-      resources:  [ webContentBucket.arnForObjects('*') ],
-      conditions: {
-        "StringNotEquals": {
-          "s3:x-amz-server-side-encryption": "AES256"
-        }}
-    }));
-
-
     // ------------ AppServers (AutoScaling) ---------------
 
     // InstanceProfile for AppServers
