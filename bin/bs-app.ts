@@ -15,6 +15,7 @@ import { GcSecurityHubStack } from '../lib/gc-securiy-hub-stack';
 import { GcConfigStack } from '../lib/gc-config-stack';
 import { GcAlbFargateStack } from '../lib/gc-alb-fargate-stack';
 import { GcAuroraServerlessStack } from '../lib/gc-aurora-serverless-stack';
+import { GcInvestigationInstanceStack } from '../lib/gc-investigation-instance-stack';
 
 
 const env = { 
@@ -113,6 +114,15 @@ const dbAuroraServerless = new GcAuroraServerlessStack(app, 'GcAuroraServerless'
   }),
   appServerSecurityGroup: ec2AppStack.appServerSecurityGroup,
   appKey: appKey.appKey,
+  env: env
+});
+
+
+
+// Investigation Instance Stack (EC2)
+const investigationInstanceStack = new GcInvestigationInstanceStack(app, 'GcInvestigationInstance', {
+  prodVpc: vpcProdStack.prodVpc,
+  environment: 'dev',
   env: env
 });
 

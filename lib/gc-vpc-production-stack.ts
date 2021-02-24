@@ -103,5 +103,24 @@ export class GcVpcProdStack extends cdk.Stack {
         { subnetType: ec2.SubnetType.ISOLATED }
       ]
     });
+
+    // VPC Endpoint for SSM
+    prodVpc.addInterfaceEndpoint("SsmEndpointForPrivate", {
+      service: ec2.InterfaceVpcEndpointAwsService.SSM,
+      subnets: { subnetType: ec2.SubnetType.ISOLATED }
+    });
+    prodVpc.addInterfaceEndpoint("SsmMessagesEndpointForPrivate", {
+      service: ec2.InterfaceVpcEndpointAwsService.SSM_MESSAGES,
+      subnets: { subnetType: ec2.SubnetType.ISOLATED }
+    });
+    prodVpc.addInterfaceEndpoint("Ec2EndpointForPrivate", {
+      service: ec2.InterfaceVpcEndpointAwsService.EC2,
+      subnets: { subnetType: ec2.SubnetType.ISOLATED }
+    });
+    prodVpc.addInterfaceEndpoint("Ec2MessagesEndpointForPrivate", {
+      service: ec2.InterfaceVpcEndpointAwsService.EC2_MESSAGES,
+      subnets: { subnetType: ec2.SubnetType.ISOLATED }
+    });
+
   }
 }
