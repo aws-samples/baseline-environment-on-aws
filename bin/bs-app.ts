@@ -15,7 +15,6 @@ import { GcSecurityHubStack } from '../lib/gc-securiy-hub-stack';
 import { GcConfigStack } from '../lib/gc-config-stack';
 import { GcAlbFargateStack } from '../lib/gc-alb-fargate-stack';
 import { GcAuroraServerlessStack } from '../lib/gc-aurora-serverless-stack';
-import { GcMemberAlertStack } from '../lib/gc-member-alert-stack';
 import { GcMonitorAlarmStack } from '../lib/gc-monitor-alarm-stack';
 import { GcInvestigationInstanceStack } from '../lib/gc-investigation-instance-stack';
 
