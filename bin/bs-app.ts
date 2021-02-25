@@ -17,6 +17,7 @@ import { GcAlbFargateStack } from '../lib/gc-alb-fargate-stack';
 import { GcAuroraServerlessStack } from '../lib/gc-aurora-serverless-stack';
 import { GcMonitorAlarmStack } from '../lib/gc-monitor-alarm-stack';
 import { GcInvestigationInstanceStack } from '../lib/gc-investigation-instance-stack';
+import { GcSecurityAlarmStack } from '../lib/gc-security-alarm-stack';
 
 
 const env = { 
@@ -24,14 +25,16 @@ const env = {
   region: process.env.CDK_DEFAULT_REGION 
 };
 
-const notifyEmail = 'notify@example.com';
+const securityNotifyEmail = 'notify-security@example.com';
+const monitoringNotifyEmail = 'notify-monitoring@example.com';
 
 const app = new cdk.App();
 
 // --- LandingZone ---
+const secAlarm = new GcSecurityAlarmStack(app, 'GcSecurityAlarm', { notifyEmail: securityNotifyEmail });
 new GcGuarddutyStack(app, 'GcGuardduty');
 new GcSecurityHubStack(app, 'GcSecurityHub')
-new GcTrailStack(app, 'GcTrail', { notifyEmail: notifyEmail });
+new GcTrailStack(app, 'GcTrail');
 new GcIamStack(app, 'GcIam');
 
 const config = new GcConfigStack(app, 'GcConfig');
@@ -53,7 +56,7 @@ const appLogStack = new GcAppLogStack(app, 'GcAppLog', {
 
 const monitorAlarm = new GcMonitorAlarmStack(app, 'GcMonitorAlarm', {
   env: env,
-  notifyEmail: notifyEmail
+  notifyEmail: monitoringNotifyEmail,
 });
 
 
