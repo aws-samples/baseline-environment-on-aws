@@ -1,17 +1,19 @@
 import * as cdk from '@aws-cdk/core';
 import * as kms from '@aws-cdk/aws-kms';
 
-export class GcAppKeyStack extends cdk.Stack {
-  public readonly appKey: kms.Key;
+export class GcGeneralLogKeyStack extends cdk.Stack {
+  public readonly kmsKey: kms.Key;
   
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
     // CMK
-    const appKey = new kms.Key(this, 'AppKey', {
-      enableKeyRotation: true
+    const kmsKey = new kms.Key(this, 'Key', {
+      enableKeyRotation: true,
+      description: "for General Logs",
+      alias: "for-generallog"
     })
-    this.appKey = appKey;
+    this.kmsKey = kmsKey;
 
   }
   

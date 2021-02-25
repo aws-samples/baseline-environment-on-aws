@@ -10,8 +10,8 @@ import { GcTrailStack } from '../lib/gc-trail-stack';
 import { GcVpcProdStack } from '../lib/gc-vpc-production-stack';
 import { GcFlowLogKeyStack } from '../lib/gc-flowlog-key-stack';
 import { GcFlowLogStack } from '../lib/gc-flowlog-stack';
-import { GcAppKeyStack } from '../lib/gc-app-key-stack';
-import { GcAppLogStack } from '../lib/gc-app-log-stack';
+import { GcGeneralLogKeyStack } from '../lib/gc-generallog-key-stack';
+import { GcGeneralLogStack } from '../lib/gc-generallog-stack';
 import { GcDbStack } from '../lib/gc-db-stack';
 import { GcSecurityHubStack } from '../lib/gc-securiy-hub-stack';
 import { GcConfigStack } from '../lib/gc-config-stack';
@@ -44,30 +44,27 @@ const configRule = new GcConfigCtGuardrailStack(app, 'GcConfigCtGuardrail');
 configRule.addDependency(config);
 // new GcConfigRulesStack(app, 'GcConfigRules');  // This is sample rule
 
-
-
-// --- Application Stack ---
-// CMK for Encryption
-const appKey = new GcAppKeyStack(app, 'GcAppKey', {env: env});
-
-// Logging Bucket and LogGroup for Apps
-const appLogStack = new GcAppLogStack(app, 'GcAppLog', {
-  appKey: appKey.appKey,
-  env: env
-});
-
 const monitorAlarm = new GcMonitorAlarmStack(app, 'GcMonitorAlarm', {
   env: env,
   notifyEmail: monitoringNotifyEmail,
 });
 
 
+// CMK for General logs
+const generalLogKey = new GcGeneralLogKeyStack(app, 'GcGeneralLogKey', {env: env});
+
+// Logging Bucket for General logs
+const generalLogStack = new GcGeneralLogStack(app, 'GcGeneralLog', {
+  kmsKey: generalLogKey.kmsKey,
+  env: env
+});
+
 // CMK for VPC Flow logs
 const flowlogKey = new GcFlowLogKeyStack(app, 'GcFlowlogKey', {env: env});
 
 // Logging Bucket for VPC Flow log
 const flowLogStack = new GcFlowLogStack(app, 'GcFlowLog', {
-  flowlogKey: flowlogKey.flowlogKey,
+  flowlogKey: flowlogKey.flowlogKey
   env: env
 });
 
@@ -85,8 +82,8 @@ const vpcProdStack = new GcVpcProdStack(app, 'GcVpc', {
 const ec2AppStack = new GcEc2appStack(app, 'GcEc2app', {
   prodVpc: vpcProdStack.prodVpc,
   environment: 'dev',
-  logBucket: appLogStack.logBucket,
-  appKey: appKey.appKey,
+  logBucket: generalLogStack.logBucket,
+  appKey: generalLogKey.kmsKey,
   env: env
 });
 
@@ -94,8 +91,8 @@ const ec2AppStack = new GcEc2appStack(app, 'GcEc2app', {
 const albFargateStack = new GcAlbFargateStack(app, 'GcFargate', {
   prodVpc: vpcProdStack.prodVpc,
   environment: 'dev',
-  logBucket: appLogStack.logBucket,
-  appKey: appKey.appKey,
+  logBucket: generalLogStack.logBucket,
+  appKey: generalLogKey.kmsKey,
   env: env,
   alarmTopic: monitorAlarm.alarmTopic
 })
@@ -104,8 +101,8 @@ const albFargateStack = new GcAlbFargateStack(app, 'GcFargate', {
 const ec2AppSimpleStack = new GcEc2appSimpleStack(app, 'GcEc2AppSimple', {
   prodVpc: vpcProdStack.prodVpc,
   environment: 'dev',
-  logBucket: appLogStack.logBucket,
-  appKey: appKey.appKey,
+  logBucket: generalLogStack.logBucket,
+  appKey: generalLogKey.kmsKey,
   env: env
 });
 
@@ -122,7 +119,7 @@ const dbStack = new GcDbStack(app, 'GcDb', {
     subnetGroupName: 'Protected'
   }),
   appServerSecurityGroup: ec2AppStack.appServerSecurityGroup,
-  appKey: appKey.appKey,
+  appKey: generalLogKey.kmsKey,
   env: env,
   alarmTopic: monitorAlarm.alarmTopic,  
 });
@@ -138,7 +135,7 @@ const dbAuroraServerless = new GcAuroraServerlessStack(app, 'GcAuroraServerless'
     subnetGroupName: 'Protected'
   }),
   appServerSecurityGroup: ec2AppStack.appServerSecurityGroup,
-  appKey: appKey.appKey,
+  appKey: generalLogKey.kmsKey,
   env: env,
   alarmTopic: monitorAlarm.alarmTopic,  
 });
