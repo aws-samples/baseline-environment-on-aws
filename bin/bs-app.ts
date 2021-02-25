@@ -8,6 +8,8 @@ import { GcConfigCtGuardrailStack } from '../lib/gc-config-ct-guardrail-stack';
 import { GcGuarddutyStack } from '../lib/gc-guardduty-stack';
 import { GcTrailStack } from '../lib/gc-trail-stack';
 import { GcVpcProdStack } from '../lib/gc-vpc-production-stack';
+import { GcFlowLogKeyStack } from '../lib/gc-flowlog-key-stack';
+import { GcFlowLogStack } from '../lib/gc-flowlog-stack';
 import { GcAppKeyStack } from '../lib/gc-app-key-stack';
 import { GcAppLogStack } from '../lib/gc-app-log-stack';
 import { GcDbStack } from '../lib/gc-db-stack';
@@ -60,13 +62,24 @@ const monitorAlarm = new GcMonitorAlarmStack(app, 'GcMonitorAlarm', {
 });
 
 
+// CMK for VPC Flow logs
+const flowlogKey = new GcFlowLogKeyStack(app, 'GcFlowlogKey', {env: env});
+
+// Logging Bucket for VPC Flow log
+const flowLogStack = new GcFlowLogStack(app, 'GcFlowLog', {
+  flowlogKey: flowlogKey.flowlogKey,
+  env: env
+});
+
+
 // Networking
 const prodVpcCidr = '10.100.0.0/16';
 const vpcProdStack = new GcVpcProdStack(app, 'GcVpc', {
   prodVpcCidr: prodVpcCidr,
-  vpcFlowLogsBucket: appLogStack.logBucket,
+  vpcFlowLogsBucket: flowLogStack.logBucket,
   env: env
 });
+
 
 // Application Stack (LoadBalancer + AutoScaling AP Servers)
 const ec2AppStack = new GcEc2appStack(app, 'GcEc2app', {
