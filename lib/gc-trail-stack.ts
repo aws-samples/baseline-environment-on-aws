@@ -10,7 +10,6 @@ export class GcTrailStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-
     // CloudWatch Logs Group for CloudTrail
     const cloudTrailLogGroup = new cwl.LogGroup(this, 'CloudTrailLogGroup', {
       retention: cwl.RetentionDays.THREE_MONTHS,
@@ -55,11 +54,31 @@ export class GcTrailStack extends cdk.Stack {
       description: "for CloudTrail",
       alias: "for-cloudtrail",
     })
-    cloudTrailKey.grantEncryptDecrypt(new iam.ServicePrincipal('cloudtrail.amazonaws.com'));
-    cloudTrailKey.grant(
-      new iam.ServicePrincipal('cloudtrail.amazonaws.com'),
-      "kms:DescribeKey"
-    );
+    cloudTrailKey.addToResourcePolicy(new iam.PolicyStatement({
+      actions: [ "kms:GenerateDataKey*" ],
+      principals: [ new iam.ServicePrincipal('cloudtrail.amazonaws.com') ],
+      resources: [ '*' ],
+      conditions: {
+        StringLike: { 'kms:EncryptionContext:aws:cloudtrail:arn': [`arn:aws:cloudtrail:*:${cdk.Stack.of(this).account}:trail/*`] }
+      }
+    }));
+    cloudTrailKey.addToResourcePolicy(new iam.PolicyStatement({
+      actions: [ "kms:DescribeKey" ],
+      principals: [ new iam.ServicePrincipal('cloudtrail.amazonaws.com') ],
+      resources: ['*']
+    }));
+    cloudTrailKey.addToResourcePolicy(new iam.PolicyStatement({
+      actions: [
+        "kms:Decrypt",
+        "kms:ReEncryptFrom"
+       ],
+      principals: [ new iam.Anyone ],
+      resources: [ '*' ],
+      conditions: {
+        StringEquals: {'kms:CallerAccount': `${cdk.Stack.of(this).account}` },
+        StringLike: { 'kms:EncryptionContext:aws:cloudtrail:arn': [`arn:aws:cloudtrail:*:${cdk.Stack.of(this).account}:trail/*`] }
+      }
+    }));
 
     // CloudTrail
     const cloudTrailLoggingLocal = new trail.Trail(this, 'CloudTrail', {
