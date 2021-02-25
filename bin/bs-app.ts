@@ -60,11 +60,11 @@ const generalLogStack = new GcGeneralLogStack(app, 'GcGeneralLog', {
 });
 
 // CMK for VPC Flow logs
-const flowlogKey = new GcFlowLogKeyStack(app, 'GcFlowlogKey', {env: env});
+const flowLogKey = new GcFlowLogKeyStack(app, 'GcFlowlogKey', {env: env});
 
 // Logging Bucket for VPC Flow log
 const flowLogStack = new GcFlowLogStack(app, 'GcFlowLog', {
-  flowlogKey: flowlogKey.flowlogKey
+  kmsKey: flowLogKey.kmsKey,
   env: env
 });
 

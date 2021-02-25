@@ -5,7 +5,7 @@ import * as iam from '@aws-cdk/aws-iam';
 
 
 interface GcFlowLogStackProps extends cdk.StackProps {
-  flowlogKey: kms.IKey
+  kmsKey: kms.IKey
 }
 
 export class GcFlowLogStack extends cdk.Stack {
@@ -17,13 +17,13 @@ export class GcFlowLogStack extends cdk.Stack {
     //S3 bucket for VPC Flow log
     const flowLogBucket = new s3.Bucket(this, 'FlowLogBucket', {
       accessControl: s3.BucketAccessControl.PRIVATE,
-      encryptionKey: props.flowlogKey,
+      encryptionKey: props.kmsKey,
       encryption: s3.BucketEncryption.KMS,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL
     });
     this.logBucket = flowLogBucket;
 
-    props.flowlogKey.addToResourcePolicy(new iam.PolicyStatement({
+    props.kmsKey.addToResourcePolicy(new iam.PolicyStatement({
       actions: [
         "kms:Encrypt*",
         "kms:Decrypt*",
