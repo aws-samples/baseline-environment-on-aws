@@ -107,7 +107,8 @@ const dbStack = new GcDbStack(app, 'GcDb', {
   }),
   appServerSecurityGroup: ec2AppStack.appServerSecurityGroup,
   appKey: appKey.appKey,
-  env: env
+  env: env,
+  alarmTopic: monitorAlarm.alarmTopic,  
 });
 
 // Aurora Serverless
@@ -122,7 +123,8 @@ const dbAuroraServerless = new GcAuroraServerlessStack(app, 'GcAuroraServerless'
   }),
   appServerSecurityGroup: ec2AppStack.appServerSecurityGroup,
   appKey: appKey.appKey,
-  env: env
+  env: env,
+  alarmTopic: monitorAlarm.alarmTopic,  
 });
 
 
