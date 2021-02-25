@@ -24,6 +24,7 @@
     "@aws-cdk/aws-cloudfront-origins": "^1.91.0",
     "@aws-cdk/aws-cloudwatch-actions": "^1.91.0",
     "@aws-cdk/aws-ecs-patterns": "^1.91.0",
+    "@aws-cdk/aws-events": "^1.91.0",
     "@aws-cdk/cloudformation-include": "^1.91.0",
     "@aws-cdk/core": "1.91.0",
     "source-map-support": "^0.5.19"
