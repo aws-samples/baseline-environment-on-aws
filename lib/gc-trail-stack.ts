@@ -20,6 +20,7 @@ export class GcTrailStack extends cdk.Stack {
       accessControl: s3.BucketAccessControl.LOG_DELIVERY_WRITE,
       blockPublicAccess:s3.BlockPublicAccess.BLOCK_ALL,
       versioned: true,
+      encryption: s3.BucketEncryption.S3_MANAGED,
       removalPolicy: cdk.RemovalPolicy.RETAIN,
       lifecycleRules: [ 
         {
@@ -35,6 +36,7 @@ export class GcTrailStack extends cdk.Stack {
       ]
     });
     this.addBaseBucketPolicy(archiveLogsBucket);
+    this.addOnlyAES256BucketPolicy(archiveLogsBucket);
 
     // Bucket for CloudTrail
     const cloudTrailBucket = new s3.Bucket(this, 'CloudTrailBucket', {
@@ -124,7 +126,21 @@ export class GcTrailStack extends cdk.Stack {
       principals: [ new iam.AnyPrincipal() ],
       resources: [ bucket.arnForObjects('*') ]      
     }));
+  }
 
+  addOnlyAES256BucketPolicy(bucket: s3.Bucket) :void {
+    bucket.addToResourcePolicy(new iam.PolicyStatement({
+      sid: 'DenyUnEncryptedObjectUploads',
+      effect: iam.Effect.DENY,
+      actions: ['s3:PutObject'],
+      principals: [ new iam.AnyPrincipal() ],
+      resources: [ bucket.arnForObjects('*') ],
+      conditions:  {
+        'StringNotEquals': {
+          's3:x-amz-server-side-encryption': 'AES256'
+        }
+      }
+    }));
   }
 
 }
