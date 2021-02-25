@@ -141,6 +141,18 @@ export class GcTrailStack extends cdk.Stack {
         }
       }
     }));
+    bucket.addToResourcePolicy(new iam.PolicyStatement({
+      sid: 'DenyUnencryptedObjectUploads',
+      effect: iam.Effect.DENY,
+      actions: ['s3:PutObject'],
+      principals: [ new iam.AnyPrincipal() ],
+      resources: [ bucket.arnForObjects('*') ],
+      conditions:  {
+        'Null': {
+          's3:x-amz-server-side-encryption': 'true'
+        }
+      }
+    }));
   }
 
 }
