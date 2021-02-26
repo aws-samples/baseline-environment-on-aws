@@ -32,7 +32,7 @@ const monitoringNotifyEmail = 'notify-monitoring@example.com';
 
 const app = new cdk.App();
 
-// --- LandingZone ---
+// ----------------------- LandingZone Stacks ------------------------------
 const secAlarm = new GcSecurityAlarmStack(app, 'GcSecurityAlarm', { notifyEmail: securityNotifyEmail });
 new GcGuarddutyStack(app, 'GcGuardduty');
 new GcSecurityHubStack(app, 'GcSecurityHub')
@@ -44,6 +44,9 @@ const configRule = new GcConfigCtGuardrailStack(app, 'GcConfigCtGuardrail');
 configRule.addDependency(config);
 // new GcConfigRulesStack(app, 'GcConfigRules');  // This is sample rule
 
+
+// ----------------------- Guest System Stacks ------------------------------
+// Topic for monitoring guest system
 const monitorAlarm = new GcMonitorAlarmStack(app, 'GcMonitorAlarm', {
   env: env,
   notifyEmail: monitoringNotifyEmail,

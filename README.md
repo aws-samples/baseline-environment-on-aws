@@ -61,6 +61,7 @@ $ cdk deploy GcTrail
 $ cdk deploy GcConfigCtGuardrail
 $ cdk deploy GcGuardduty
 $ cdk deploy GcSecurityHub
+$ cdk deploy GcSecurityAlarm
 ```
 
 # 5. How to deploy sample apps
@@ -70,19 +71,25 @@ You need to specify `--profile your_profile_name` on all of steps below.
 $ cdk deploy GcIam 
 ```
 
-## 2. Deploy baseline(CMK, LogBucket, VPC) and EC2 Web Apps (Autoscaling)
+## 2. Deploy Application Stack (baseline will be deployed as dependency)
 ```
 $ cdk deploy GcEc2app
+or 
+$ cdk deploy GcEc2AppSimple
+or 
+$ cdk deploy GcFargate
 ```
-  * (Option) To deploy baseline individually
-    * `$ cdk deploy GcAppKey`
-    * `$ cdk deploy GcAppLog`
-    * `$ cdk deploy GcVpc`
-  * (Option) To deploy EC2 Web Apps (No AutoScaling) on baseline (baseline will be deployed as dependency). Use `cdk deploy GcEc2AppSimple`
-  * (Option) To eploy Fargate Apps on baseline (baseline will be deployed as dependency). Use `cdk deploy GcFargate`
+* `GcEc2app` Stack - Deploy EC2 Web Apps (with AutoScaling) on baseline.
+* `GcEc2AppSimple` Stack - Deploy EC2 Web Apps (No AutoScaling) on baseline. 
+* `GcFargate`  Stack  - To eploy Fargate Apps on baseline.
+* Baseline stacks to be deployed as dependency
+  * `GcMonitorAlarm GcGeneralLogKey GcGeneralLog GcFlowlogKey GcFlowLog GcVpc`
 
-## 3. Deploy Aurora (this step takes 15mins)
+## 3. Deploy Database (this step takes 15mins)
 ```
 $ cdk deploy GcDb
+or 
+$ cdk deploy GcAuroraServerless
 ```
-  * (Option) To deploy Aurora Serverless on baseline (baseline will be deployed as dependency). Use `cdk deploy GcAuroraServerless`
+* `GcDb` - Deploy Aurora PostgreSQL on baseline
+* `GcAuroraServerless` - Deploy Aurora Serverless on baseline
