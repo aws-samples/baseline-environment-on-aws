@@ -3,12 +3,12 @@ import * as s3 from '@aws-cdk/aws-s3';
 import * as trail from '@aws-cdk/aws-cloudtrail';
 import * as cwl from '@aws-cdk/aws-logs';
 import * as iam from '@aws-cdk/aws-iam';
+import * as kms from '@aws-cdk/aws-kms';
 
 export class GcTrailStack extends cdk.Stack {
 
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
-
 
     // CloudWatch Logs Group for CloudTrail
     const cloudTrailLogGroup = new cwl.LogGroup(this, 'CloudTrailLogGroup', {
@@ -18,7 +18,9 @@ export class GcTrailStack extends cdk.Stack {
     // Archive Bucket for CloudTrail
     const archiveLogsBucket = new s3.Bucket(this, 'ArchiveLogsBucket', {
       accessControl: s3.BucketAccessControl.LOG_DELIVERY_WRITE,
+      blockPublicAccess:s3.BlockPublicAccess.BLOCK_ALL,
       versioned: true,
+      encryption: s3.BucketEncryption.S3_MANAGED,
       removalPolicy: cdk.RemovalPolicy.RETAIN,
       lifecycleRules: [ 
         {
@@ -38,6 +40,7 @@ export class GcTrailStack extends cdk.Stack {
     // Bucket for CloudTrail
     const cloudTrailBucket = new s3.Bucket(this, 'CloudTrailBucket', {
       accessControl: s3.BucketAccessControl.PRIVATE,
+      blockPublicAccess:s3.BlockPublicAccess.BLOCK_ALL,
       versioned: true,
       serverAccessLogsBucket: archiveLogsBucket,
       serverAccessLogsPrefix: "cloudtraillogs",
@@ -45,12 +48,46 @@ export class GcTrailStack extends cdk.Stack {
     });
     this.addBaseBucketPolicy(cloudTrailBucket);
 
+
+    // CMK for CloudTrail
+    const cloudTrailKey = new kms.Key(this, 'CloudTrailKey', {
+      enableKeyRotation: true,
+      description: "for CloudTrail",
+      alias: "for-cloudtrail",
+    })
+    cloudTrailKey.addToResourcePolicy(new iam.PolicyStatement({
+      actions: [ "kms:GenerateDataKey*" ],
+      principals: [ new iam.ServicePrincipal('cloudtrail.amazonaws.com') ],
+      resources: [ '*' ],
+      conditions: {
+        StringLike: { 'kms:EncryptionContext:aws:cloudtrail:arn': [`arn:aws:cloudtrail:*:${cdk.Stack.of(this).account}:trail/*`] }
+      }
+    }));
+    cloudTrailKey.addToResourcePolicy(new iam.PolicyStatement({
+      actions: [ "kms:DescribeKey" ],
+      principals: [ new iam.ServicePrincipal('cloudtrail.amazonaws.com') ],
+      resources: ['*']
+    }));
+    cloudTrailKey.addToResourcePolicy(new iam.PolicyStatement({
+      actions: [
+        "kms:Decrypt",
+        "kms:ReEncryptFrom"
+       ],
+      principals: [ new iam.Anyone ],
+      resources: [ '*' ],
+      conditions: {
+        StringEquals: {'kms:CallerAccount': `${cdk.Stack.of(this).account}` },
+        StringLike: { 'kms:EncryptionContext:aws:cloudtrail:arn': [`arn:aws:cloudtrail:*:${cdk.Stack.of(this).account}:trail/*`] }
+      }
+    }));
+
     // CloudTrail
     const cloudTrailLoggingLocal = new trail.Trail(this, 'CloudTrail', {
       bucket: cloudTrailBucket,
       enableFileValidation: true,
       includeGlobalServiceEvents: true,
       cloudWatchLogGroup: cloudTrailLogGroup,
+      encryptionKey: cloudTrailKey,
       sendToCloudWatchLogs: true
     });
 
@@ -88,20 +125,6 @@ export class GcTrailStack extends cdk.Stack {
       principals: [ new iam.AnyPrincipal() ],
       resources: [ bucket.arnForObjects('*') ]      
     }));
-
-    bucket.addToResourcePolicy(new iam.PolicyStatement({
-      sid: 'DenyUnEncryptedObjectUploads',
-      effect: iam.Effect.DENY,
-      actions: ['s3:PutObject'],
-      principals: [ new iam.AnyPrincipal() ],
-      resources: [ bucket.arnForObjects('*') ],
-      conditions:  {
-        'StringNotEquals': {
-          's3:x-amz-server-side-encryption': 'AES256'
-        }
-      }
-    }));
-   
   }
 
 }
