@@ -93,3 +93,38 @@ $ cdk deploy GcAuroraServerless
 ```
 * `GcDb` - Deploy Aurora PostgreSQL on baseline
 * `GcAuroraServerless` - Deploy Aurora Serverless on baseline
+
+## 4. Remediate 
+Some SecurityHub benchmark report CRITICAL or HIGH level issues. You need take action for it manually.
+
+Option: You can also disable the security Hub controls (but not recommended).
+* https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-enable-disable-controls.html
+
+
+### 4-1. Set MFA to Root user
+You need to set MFA for root user manually. "root user" is a user using email address to login management console.
+
+Security Hub controls related to MFA(CRITICAL level)
+* [CIS.1.13] Ensure MFA is enabled for the "root" account
+  * https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-cis-controls-1.13
+* [CIS.1.14] Ensure hardware MFA is enabled for the "root" account
+  * https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-cis-controls-1.14
+* [IAM.6] Hardware MFA should be enabled for the root user
+  * https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-iam-6
+
+How to remediate:
+1. Access to root user on Organizations member account.
+* https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_access-as-root
+
+1. Enable hardware MFA for root user
+* https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_enable_physical.html#enable-hw-mfa-for-root
+
+
+### 3-2. Use IDMSv2 to access EC2 metadata
+You need to use IDMSv2 only for EC2 instances. Take a look the document below for remediation.
+
+* [EC2.8] EC2 instances should use IMDSv2
+  * https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-ec2-8
+
+
+
