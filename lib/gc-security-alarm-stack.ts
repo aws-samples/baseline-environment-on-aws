@@ -1,5 +1,7 @@
 import * as cdk from '@aws-cdk/core';
 import * as sns from '@aws-cdk/aws-sns';
+import * as cw from '@aws-cdk/aws-cloudwatch';
+import * as cwa from '@aws-cdk/aws-cloudwatch-actions';
 import * as cwe from '@aws-cdk/aws-events';
 import * as cwet from '@aws-cdk/aws-events-targets';
 
@@ -178,6 +180,25 @@ export class GcSecurityAlarmStack extends cdk.Stack {
       targets: [ new cwet.SnsTopic(secTopic) ],
     })    
 
+
+
+    // Detect Root Activity from CloudTrail Log (For SecurityHub CIS 1.1)
+    // See: https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-standards-cis-controls-1.1
+    //   Note: Metric parameters (namespace and metricName) are defined in "Trail" Stack.
+    new cw.Alarm(this, 'RootUserPolicyEventCountAlarm', {
+      metric: new cw.Metric({
+        namespace: 'LogMetrics',
+        metricName: 'RootUserPolicyEventCount',
+        period: cdk.Duration.seconds(300),
+      }),
+      evaluationPeriods: 1,
+      datapointsToAlarm: 1,
+      threshold: 1,
+      comparisonOperator: cw.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+      alarmDescription: 'Root user activity detected!',
+      actionsEnabled: true,
+      statistic: cw.Statistic.SUM,
+    }).addAlarmAction(new cwa.SnsAction(secTopic));
 
 
     // ------------------- Other security services integration ----------------------
