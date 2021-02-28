@@ -1,55 +1,79 @@
 import * as cdk from '@aws-cdk/core';
 import * as config from '@aws-cdk/aws-config';
+import * as iam from '@aws-cdk/aws-iam';
 
 
 export class GcConfigRulesStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // ------------------------------
-    const pRequiredTagKey = 'Environment';
-    new config.ManagedRule(this, 'check-ec2-for-required-tag', {
-      identifier: config.ManagedRuleIdentifiers.REQUIRED_TAGS,
-      inputParameters: {
-        tag1Key: pRequiredTagKey
-      },
-      ruleScope: config.RuleScope.fromResources([
-        config.ResourceType.EC2_INSTANCE,
-        config.ResourceType.EBS_VOLUME
-      ]),
-      configRuleName: 'check-ec2-for-required-tag',
-      description: 'Checks whether EC2 instances and volumes use the required tag.',
-    });
 
-    // ------------------------------
-    const blockedPort = 3389;
-    new config.ManagedRule(this, 'check-for-unrestricted-ports', {
-      identifier: config.ManagedRuleIdentifiers.EC2_SECURITY_GROUPS_RESTRICTED_INCOMING_TRAFFIC,
-      inputParameters: {
-        blockedPort1: blockedPort
-      },
+    // ConfigRule for Default Security Group is closed  (Same as SecurityHub - need this for auto remediation)
+    //
+    // See: https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-cis-controls-4.3
+    // See: https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html
+    const ruleDefaultSgClosed = new config.ManagedRule(this, 'GcRuleDefaultSecurityGroupClosed', {
+      identifier: config.ManagedRuleIdentifiers.VPC_DEFAULT_SECURITY_GROUP_CLOSED,
       ruleScope: config.RuleScope.fromResources([
         config.ResourceType.EC2_SECURITY_GROUP,
       ]),
-      configRuleName: 'check-for-unrestricted-ports',
-      description: 'Checks whether security groups that are in use disallow unrestricted incoming TCP traffic to the specified ports.',
+      configRuleName: 'gc-default-security-group-closed',
+      description: 'Checks that the default security group of any Amazon Virtual Private Cloud (VPC) does not allow inbound or outbound traffic. The rule is non-compliant if the default security group has one or more inbound or outbound traffic.',
     });
 
-    // ------------------------------
-    new config.ManagedRule(this, 'check-whether-cloudtrail-is-enabled', {
-      identifier: config.ManagedRuleIdentifiers.CLOUDTRAIL_SECURITY_TRAIL_ENABLED,
-      configRuleName: 'check-whether-cloudtrail-is-enabled',
-      description: 'Checks whether CloudTrail is enabled in this region.',
+    // Role for auto remediation
+    const rmDefaultSgRole = new iam.Role(this, 'RemoveSecGroupRemediationRole', {
+      assumedBy: new iam.ServicePrincipal('ssm.amazonaws.com'),
+      path: '/',
+      managedPolicies: [
+        { managedPolicyArn: 'arn:aws:iam::aws:policy/service-role/AmazonSSMAutomationRole' },
+      ],    
+    });
+    rmDefaultSgRole.addToPolicy(new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: [
+          "ec2:RevokeSecurityGroupIngress",
+          "ec2:RevokeSecurityGroupEgress",
+          "ec2:DescribeSecurityGroups",
+        ],
+        resources: ["*"]
+        }));
+    rmDefaultSgRole.addToPolicy(new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: [ "iam:PassRole" ],
+        resources: [ rmDefaultSgRole.roleArn ]
+      }));
+    rmDefaultSgRole.addToPolicy(new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: [ "ssm:StartAutomationExecution" ],
+        resources: [ "arn:aws:ssm:::automation-definition/AWSConfigRemediation-RemoveVPCDefaultSecurityGroupRules" ]
+      }));
+  
+    // Remediation for Remove VPC Default SecurityGroup Rules  by  SSM Automation
+    const remediation = new config.CfnRemediationConfiguration(this, 'RmDefaultSg', {
+      configRuleName:  ruleDefaultSgClosed.configRuleName,
+      targetType: "SSM_DOCUMENT",
+      targetId: "AWSConfigRemediation-RemoveVPCDefaultSecurityGroupRules",
+      targetVersion: "1",
+      parameters: {
+        AutomationAssumeRole: {
+          StaticValue: {
+            Values: [
+              rmDefaultSgRole.roleArn
+            ]}},
+        GroupId: {
+          ResourceValue: {
+            Value: "RESOURCE_ID"
+          }}},
+      automatic: true,
+      maximumAutomaticAttempts: 5,
+      retryAttemptSeconds: 60,
     });
 
-    // ------------------------------
-    new config.ManagedRule(this, 'heck-for-unrestricted-ssh-access', {
-      identifier: config.ManagedRuleIdentifiers.EC2_SECURITY_GROUPS_INCOMING_SSH_DISABLED,
-      ruleScope: config.RuleScope.fromResources([
-        config.ResourceType.EC2_SECURITY_GROUP,
-      ]),
-      configRuleName: 'heck-for-unrestricted-ssh-access',
-      description: 'Checks whether security groups that are in use disallow unrestricted incoming SSH traffic.',
-    });
+        
+  
+
+
+
   }
 }
