@@ -191,6 +191,16 @@ export class GcSecurityAlarmStack extends cdk.Stack {
       eventPattern: {
         source: ['aws.securityhub'],
         detailType: ['Security Hub Findings - Imported'],
+        detail: {
+          findings: {
+            Severity: {
+              Label: [
+                'CRITICAL',
+                'HIGH',
+              ]
+            }
+          }
+        }
       },
       targets: [ new cwet.SnsTopic(secTopic) ],
     })
