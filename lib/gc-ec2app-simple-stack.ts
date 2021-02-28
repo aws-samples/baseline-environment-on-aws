@@ -68,8 +68,39 @@ export class GcEc2appSimpleStack extends cdk.Stack {
         subnetGroupName: 'Public'
       }),
     });
-    lbForApp.logAccessLogs(albLogBucket);
     Tags.of(lbForApp).add('Environment', props.environment);
+
+    // Enable ALB Access Logging
+    lbForApp.setAttribute("access_logs.s3.enabled", "true");
+    lbForApp.setAttribute("access_logs.s3.bucket", albLogBucket.bucketName);
+    
+    // Permissions for Access Logging
+    //    Why don't use bForApp.logAccessLogs(albLogBucket); ?
+    //    Because logAccessLogs add wider permission to other account (PutObject*). S3 will become Noncompliant on Security Hub [S3.6]
+    //    See: https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-s3-6
+    //    See: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-access-logs.html#access-logging-bucket-permissions
+    albLogBucket.addToResourcePolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: ['s3:PutObject'],
+      principals: [ new iam.AccountPrincipal('582318560864') ], // ALB Account for ap-northeast-1
+      resources: [ albLogBucket.arnForObjects(`AWSLogs/${cdk.Stack.of(this).account}/*`) ],
+    }));
+    albLogBucket.addToResourcePolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: ['s3:PutObject'],
+      principals: [ new iam.ServicePrincipal('delivery.logs.amazonaws.com') ],
+      resources: [ albLogBucket.arnForObjects(`AWSLogs/${cdk.Stack.of(this).account}/*`) ],
+      conditions: {
+        StringEquals: {
+          "s3:x-amz-acl": "bucket-owner-full-control"
+        }}}));
+    albLogBucket.addToResourcePolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: ['s3:GetBucketAcl'],
+      principals: [ new iam.ServicePrincipal('delivery.logs.amazonaws.com') ],
+      resources: [ albLogBucket.bucketArn ],
+      }));
+
 
     // TargetGroup for App Server
     const tgForApp = new elbv2.ApplicationTargetGroup(this, 'TgApp', {

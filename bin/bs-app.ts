@@ -40,9 +40,10 @@ new GcTrailStack(app, 'GcTrail');
 new GcIamStack(app, 'GcIam');
 
 const config = new GcConfigStack(app, 'GcConfig');
-const configRule = new GcConfigCtGuardrailStack(app, 'GcConfigCtGuardrail');
+const configRuleCt = new GcConfigCtGuardrailStack(app, 'GcConfigCtGuardrail');
+const configRule = new GcConfigRulesStack(app, 'GcConfigRule');
+configRuleCt.addDependency(config);
 configRule.addDependency(config);
-// new GcConfigRulesStack(app, 'GcConfigRules');  // This is sample rule
 
 
 // ----------------------- Guest System Stacks ------------------------------
