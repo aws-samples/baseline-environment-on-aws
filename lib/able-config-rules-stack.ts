@@ -3,7 +3,7 @@ import * as config from '@aws-cdk/aws-config';
 import * as iam from '@aws-cdk/aws-iam';
 
 
-export class GcConfigRulesStack extends cdk.Stack {
+export class ABLEConfigRulesStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
@@ -12,7 +12,7 @@ export class GcConfigRulesStack extends cdk.Stack {
     //
     // See: https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-cis-controls-4.3
     // See: https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html
-    const ruleDefaultSgClosed = new config.ManagedRule(this, 'GcRuleDefaultSecurityGroupClosed', {
+    const ruleDefaultSgClosed = new config.ManagedRule(this, 'ABLERuleDefaultSecurityGroupClosed', {
       identifier: config.ManagedRuleIdentifiers.VPC_DEFAULT_SECURITY_GROUP_CLOSED,
       ruleScope: config.RuleScope.fromResources([
         config.ResourceType.EC2_SECURITY_GROUP,

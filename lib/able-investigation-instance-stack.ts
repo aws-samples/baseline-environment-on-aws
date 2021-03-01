@@ -3,15 +3,15 @@ import * as ec2 from '@aws-cdk/aws-ec2';
 import * as iam from '@aws-cdk/aws-iam';
 import { Duration, Tags, RemovalPolicy, SecretValue } from '@aws-cdk/core';
 
-export interface GcInvestigationInstanceStackProps extends cdk.StackProps {
+export interface ABLEInvestigationInstanceStackProps extends cdk.StackProps {
   prodVpc: ec2.Vpc,
   environment: string,
 }
 
-export class GcInvestigationInstanceStack extends cdk.Stack {
+export class ABLEInvestigationInstanceStack extends cdk.Stack {
   public readonly InvestigationInstanceSecurityGroup: ec2.SecurityGroup;
 
-  constructor(scope: cdk.Construct, id: string, props: GcInvestigationInstanceStackProps) {
+  constructor(scope: cdk.Construct, id: string, props: ABLEInvestigationInstanceStackProps) {
     super(scope, id, props);
 
     // Security Group

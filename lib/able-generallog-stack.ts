@@ -4,14 +4,14 @@ import * as kms from '@aws-cdk/aws-kms';
 import * as iam from '@aws-cdk/aws-iam';
 
 
-interface GcGeneralLogStackProps extends cdk.StackProps {
+interface ABLEGeneralLogStackProps extends cdk.StackProps {
   kmsKey: kms.IKey
 }
 
-export class GcGeneralLogStack extends cdk.Stack {
+export class ABLEGeneralLogStack extends cdk.Stack {
   public readonly logBucket: s3.Bucket;
 
-  constructor(scope: cdk.Construct, id: string, props: GcGeneralLogStackProps) {
+  constructor(scope: cdk.Construct, id: string, props: ABLEGeneralLogStackProps) {
     super(scope, id, props);
 
     //S3 bucket for Application Logging

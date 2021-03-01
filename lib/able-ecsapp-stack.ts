@@ -14,7 +14,7 @@ import * as sns from '@aws-cdk/aws-sns';
 import * as cw from '@aws-cdk/aws-cloudwatch';
 import * as cw_actions from '@aws-cdk/aws-cloudwatch-actions';
 
-export interface GcAlbFargateStackProps extends cdk.StackProps {
+export interface ABLEECSAppStackProps extends cdk.StackProps {
   prodVpc: ec2.Vpc,
   environment: string,
   logBucket: s3.Bucket,
@@ -22,10 +22,10 @@ export interface GcAlbFargateStackProps extends cdk.StackProps {
   alarmTopic: sns.Topic,
 }
 
-export class GcAlbFargateStack extends cdk.Stack {
+export class ABLEECSAppStack extends cdk.Stack {
   public readonly appServerSecurityGroup: ec2.SecurityGroup;
 
-  constructor(scope: cdk.Construct, id: string, props: GcAlbFargateStackProps) {
+  constructor(scope: cdk.Construct, id: string, props: ABLEECSAppStackProps) {
     super(scope, id, props);
 
     // CORS Allowed Domain
@@ -152,7 +152,7 @@ export class GcAlbFargateStack extends cdk.Stack {
       containerInsights: true
     });
 
-    const albFargate = new ecs_patterns.ApplicationLoadBalancedFargateService(this, "AlbFargate", {
+    const albFargate = new ecs_patterns.ApplicationLoadBalancedFargateService(this, "EcsApp", {
       cluster: cluster,
       loadBalancer: lbForApp,
       taskSubnets: props.prodVpc.selectSubnets({
@@ -253,11 +253,11 @@ export class GcAlbFargateStack extends cdk.Stack {
     // WAFv2 for ALB
     const webAcl = new wafv2.CfnWebACL(this, 'WebAcl', {
       defaultAction: { allow: {}},
-      name: "GcWebAcl",
+      name: "ABLEWebAcl",
       scope: "REGIONAL",
       visibilityConfig: {
         cloudWatchMetricsEnabled: true,
-        metricName: "GcWebAcl",
+        metricName: "ABLEWebAcl",
         sampledRequestsEnabled: true
       },
       rules: [

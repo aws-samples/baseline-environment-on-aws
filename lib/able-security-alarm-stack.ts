@@ -5,14 +5,14 @@ import * as cwa from '@aws-cdk/aws-cloudwatch-actions';
 import * as cwe from '@aws-cdk/aws-events';
 import * as cwet from '@aws-cdk/aws-events-targets';
 
-interface GcSecurityAlarmStackProps extends cdk.StackProps {
+interface ABLESecurityAlarmStackProps extends cdk.StackProps {
   notifyEmail: string
 }
 
-export class GcSecurityAlarmStack extends cdk.Stack {
+export class ABLESecurityAlarmStack extends cdk.Stack {
   public readonly alarmTopic :sns.Topic;
 
-  constructor(scope: cdk.Construct, id: string, props: GcSecurityAlarmStackProps) {
+  constructor(scope: cdk.Construct, id: string, props: ABLESecurityAlarmStackProps) {
     super(scope, id, props);
 
     // SNS Topic for Security Alarm
@@ -28,7 +28,7 @@ export class GcSecurityAlarmStack extends cdk.Stack {
     // --------------- ConfigRule Compliance Change Notification -----------------
     // ConfigRule - Compliance Change
     //  See: https://docs.aws.amazon.com/config/latest/developerguide/monitor-config-with-cloudwatchevents.html
-    new cwe.Rule(this, 'GcRuleConfigRules', {
+    new cwe.Rule(this, 'ABLERuleConfigRules', {
       description: 'CloudWatch Event Rule to send notification on Config Rule compliance changes.',
       enabled: true,
       eventPattern: {
@@ -43,7 +43,7 @@ export class GcSecurityAlarmStack extends cdk.Stack {
     
     // AWS Health - Notify any events on AWS Health
     // See: https://aws.amazon.com/premiumsupport/knowledge-center/cloudwatch-notification-scheduled-events/?nc1=h_ls
-    new cwe.Rule(this, 'GcRuleAwsHealth', {
+    new cwe.Rule(this, 'ABLERuleAwsHealth', {
       description: 'Notify AWS Health event',
       enabled: true,
       eventPattern: {
@@ -59,7 +59,7 @@ export class GcSecurityAlarmStack extends cdk.Stack {
     // Security Groups Change Notification
     // See: https://aws.amazon.com/premiumsupport/knowledge-center/monitor-security-group-changes-ec2/?nc1=h_ls
     //  from NIST template
-    new cwe.Rule(this, 'GcRuleSecurityGroupChange', {
+    new cwe.Rule(this, 'ABLERuleSecurityGroupChange', {
       description: 'Notify to create, update or delete a Security Group.',
       enabled: true,
       eventPattern: {
@@ -78,7 +78,7 @@ export class GcSecurityAlarmStack extends cdk.Stack {
 
     // Network ACL Change Notification
     //  from NIST template
-    new cwe.Rule(this, 'GcRuleNetworkAclChange', {
+    new cwe.Rule(this, 'ABLERuleNetworkAclChange', {
       description: 'Notify to create, update or delete a Network ACL.',
       enabled: true,
       eventPattern: {
@@ -99,7 +99,7 @@ export class GcSecurityAlarmStack extends cdk.Stack {
 
     // IAM Policy Change Notification
     //  from NIST template
-    new cwe.Rule(this, 'GcIAMPolicyChange', {
+    new cwe.Rule(this, 'ABLEIAMPolicyChange', {
       description: 'Notify to modify IAM Policy',
       enabled: true,
       eventPattern: {
@@ -131,7 +131,7 @@ export class GcSecurityAlarmStack extends cdk.Stack {
     // https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudwatch-alarms-for-cloudtrail-additional-examples.html
     // https://docs.aws.amazon.com/eventbridge/latest/userguide/content-filtering-with-event-patterns.html#filtering-exists-matching
     //  from NIST template
-    new cwe.Rule(this, 'GcRuleRootUserUsed', {
+    new cwe.Rule(this, 'ABLERuleRootUserUsed', {
       description: 'Notify to detect root user activity',
       enabled: true,
       eventPattern: {
@@ -151,7 +151,7 @@ export class GcSecurityAlarmStack extends cdk.Stack {
 
     // NewAccessKeyCreated
     //  from NIST template
-    new cwe.Rule(this, 'GcRuleNewAccessKeyCreated', {
+    new cwe.Rule(this, 'ABLERuleNewAccessKeyCreated', {
       description: 'Notify to create new accessKey',
       enabled: true,
       eventPattern: {
@@ -165,7 +165,7 @@ export class GcSecurityAlarmStack extends cdk.Stack {
 
     // CloudTrail Change
     //  from NIST template
-    new cwe.Rule(this, 'GcRuleCloudTrailChange', {
+    new cwe.Rule(this, 'ABLERuleCloudTrailChange', {
       description: 'Notify to change on CloudTrail log configuration',
       enabled: true,
       eventPattern: {
@@ -206,7 +206,7 @@ export class GcSecurityAlarmStack extends cdk.Stack {
     // SecurityHub - Imported
     //   Security Hub automatically sends all new findings and all updates to existing findings to EventBridge as Security Hub Findings - Imported events.
     //   See: https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cwe-integration-types.html
-    new cwe.Rule(this, 'GcRuleSecurityHub', {
+    new cwe.Rule(this, 'ABLERuleSecurityHub', {
       description: 'CloudWatch Event Rule to send notification on SecurityHub all new findings and all updates.',
       enabled: true,
       eventPattern: {
@@ -229,7 +229,7 @@ export class GcSecurityAlarmStack extends cdk.Stack {
     // GuardDutyFindings
     //   Will alert for any Medium to High finding.
     //   See: https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings_cloudwatch.html
-    new cwe.Rule(this, 'GcRuleGuardDuty', {
+    new cwe.Rule(this, 'ABLERuleGuardDuty', {
       description: 'CloudWatch Event Rule to send notification on GuardDuty findings.',
       enabled: true,
       eventPattern: {

@@ -7,7 +7,7 @@ import * as sns from '@aws-cdk/aws-sns';
 import * as cw from '@aws-cdk/aws-cloudwatch';
 import * as cw_actions from '@aws-cdk/aws-cloudwatch-actions';
 
-export interface GcDbStackProps extends cdk.StackProps {
+export interface ABLEDbAuroraPgStackProps extends cdk.StackProps {
   prodVpc: ec2.Vpc,
   dbName: string,
   dbUser: string,
@@ -19,8 +19,8 @@ export interface GcDbStackProps extends cdk.StackProps {
   alarmTopic: sns.Topic, 
 }
 
-export class GcDbStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props: GcDbStackProps) {
+export class ABLEDbAuroraPgStack extends cdk.Stack {
+  constructor(scope: cdk.Construct, id: string, props: ABLEDbAuroraPgStackProps) {
     super(scope, id, props);
 
     // Create RDS MySQL Instance

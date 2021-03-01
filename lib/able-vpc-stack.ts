@@ -2,16 +2,16 @@ import * as cdk from '@aws-cdk/core';
 import * as ec2 from '@aws-cdk/aws-ec2';
 import * as s3 from '@aws-cdk/aws-s3';
 
-export interface GcVpcProdStackProps extends cdk.StackProps {
+export interface ABLEVpcStackProps extends cdk.StackProps {
   prodVpcCidr: string,
   vpcFlowLogsBucket: s3.Bucket
 }
 
 
-export class GcVpcProdStack extends cdk.Stack {
+export class ABLEVpcStack extends cdk.Stack {
   public readonly prodVpc: ec2.Vpc;
 
-  constructor(scope: cdk.Construct, id: string, props: GcVpcProdStackProps) {
+  constructor(scope: cdk.Construct, id: string, props: ABLEVpcStackProps) {
     super(scope, id, props);
 
     const prodVpc = new ec2.Vpc(this, 'Vpc', {

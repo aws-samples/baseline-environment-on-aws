@@ -1,5 +1,4 @@
-# baseline-template
-# CDK template for Multiaccount management with Control Tower
+# ABLE - AWS BaseLine Environment CDK Template
 
 ## How to Deploy
 # 1. Setup CDK prerequisities
@@ -57,42 +56,43 @@ cdk bootstrap
 # 4. How to Deploy Guardrail (For test. It's usually deployed by ControlTower on production)
 You need to specify `--profile your_profile_name` on all of steps below. Each stacks are independent each other.
 ```
-$ cdk deploy GcTrail 
-$ cdk deploy GcConfigCtGuardrail
-$ cdk deploy GcGuardduty
-$ cdk deploy GcSecurityHub
-$ cdk deploy GcSecurityAlarm
+$ cdk deploy ABLE-Trail 
+$ cdk deploy ABLE-ConfigRule
+$ cdk deploy ABLE-ConfigCtGuardrail
+$ cdk deploy ABLE-Guardduty
+$ cdk deploy ABLE-SecurityHub
+$ cdk deploy ABLE-SecurityAlarm
 ```
 
 # 5. How to deploy sample apps
 You need to specify `--profile your_profile_name` on all of steps below.
 ## 1. Deploy roles to operate the apps.
 ```
-$ cdk deploy GcIam 
+$ cdk deploy ABLE-Iam 
 ```
 
 ## 2. Deploy Application Stack (baseline will be deployed as dependency)
 ```
-$ cdk deploy GcEc2app
+$ cdk deploy ABLE-ASGApp
 or 
-$ cdk deploy GcEc2AppSimple
+$ cdk deploy ABLE-EC2App
 or 
-$ cdk deploy GcFargate
+$ cdk deploy ABLE-ECSApp
 ```
-* `GcEc2app` Stack - Deploy EC2 Web Apps (with AutoScaling) on baseline.
-* `GcEc2AppSimple` Stack - Deploy EC2 Web Apps (No AutoScaling) on baseline. 
-* `GcFargate`  Stack  - To eploy Fargate Apps on baseline.
+* `ABLE-ASGApp` Stack - Deploy EC2 Web Apps (with AutoScaling) on baseline.
+* `ABLE-EC2App` Stack - Deploy EC2 Web Apps (No AutoScaling) on baseline. 
+* `ABLE-ECSApp`  Stack  - To eploy Fargate Apps on baseline.
 * Baseline stacks to be deployed as dependency
-  * `GcMonitorAlarm GcGeneralLogKey GcGeneralLog GcFlowlogKey GcFlowLog GcVpc`
+  * `ABLEMonitorAlarm ABLEGeneralLogKey ABLEGeneralLog ABLEFlowlogKey ABLEFlowLog ABLEVpc`
 
 ## 3. Deploy Database (this step takes 15mins)
 ```
-$ cdk deploy GcDb
+$ cdk deploy ABLE-DBAuroraPg
 or 
-$ cdk deploy GcAuroraServerless
+$ cdk deploy ABLE-DBAuroraPgSl
 ```
-* `GcDb` - Deploy Aurora PostgreSQL on baseline
-* `GcAuroraServerless` - Deploy Aurora Serverless on baseline
+* `ABLE-DBAuroraPg` - Deploy Aurora PostgreSQL on baseline
+* `ABLE-DBAuroraPgSl` - Deploy Aurora Serverless on baseline
 
 ## 4. Remediate 
 Some SecurityHub benchmark report CRITICAL or HIGH level issues. You need take action for it manually.
