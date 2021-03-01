@@ -19,7 +19,8 @@ export class ABLEGeneralLogStack extends cdk.Stack {
       accessControl: s3.BucketAccessControl.PRIVATE,
       encryptionKey: props.kmsKey,
       encryption: s3.BucketEncryption.KMS,
-      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      removalPolicy: cdk.RemovalPolicy.RETAIN,
     });
     this.logBucket = LogBucket;
 

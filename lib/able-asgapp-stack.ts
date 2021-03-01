@@ -112,7 +112,8 @@ export class ABLEASGAppStack extends cdk.Stack {
     const albLogBucket = new s3.Bucket(this, 'AlbLogBucket', {
       accessControl: s3.BucketAccessControl.PRIVATE,
       encryption: s3.BucketEncryption.S3_MANAGED,
-      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL        
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      removalPolicy: cdk.RemovalPolicy.RETAIN,
     });
 
     // ALB for App Server

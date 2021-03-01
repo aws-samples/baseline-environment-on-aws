@@ -57,7 +57,7 @@ export class ABLEECSAppStack extends cdk.Stack {
           transitionAfter: Duration.days(90),
         }],
       }],
-      removalPolicy: RemovalPolicy.DESTROY,
+      removalPolicy: RemovalPolicy.RETAIN,
       versioned: false,
       // See Also: Encryption on CloudFront + S3
       //   https://aws.amazon.com/jp/premiumsupport/knowledge-center/s3-rest-api-cloudfront-error-403/
@@ -98,7 +98,8 @@ export class ABLEECSAppStack extends cdk.Stack {
     const albLogBucket = new s3.Bucket(this, 'alb-log-bucket', {
       accessControl: s3.BucketAccessControl.PRIVATE,
       encryption: s3.BucketEncryption.S3_MANAGED,
-      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL        
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      removalPolicy: cdk.RemovalPolicy.RETAIN,
     });
 
     // ALB for App Server
