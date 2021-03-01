@@ -154,7 +154,7 @@ export class ABLEEC2AppStack extends cdk.Stack {
     const numAzs = subnetAzs.length;
     
     for (let i=0; i<2; i++) {
-      const instance = new ec2.Instance(this, 'AppEc2'+i, {
+      const instance = new ec2.Instance(this, `AppEc2${i}`, {
         vpc: props.myVpc,
         availabilityZone:  subnetAzs[i%numAzs],
         vpcSubnets: props.myVpc.selectSubnets({
@@ -170,6 +170,12 @@ export class ABLEEC2AppStack extends cdk.Stack {
         securityGroup: securityGroupForApp,
         role: ssmInstanceRole, 
         userData: userDataForApp,
+        blockDevices: [{
+          deviceName: '/dev/xvda',
+          volume: ec2.BlockDeviceVolume.ebs(10, {
+            encrypted: true,
+          })
+        }]  
       });
       // Tags for AppServers
       Tags.of(instance).add('Environment', props.environment, {applyToLaunchedInstances: true,});

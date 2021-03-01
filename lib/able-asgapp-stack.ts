@@ -85,7 +85,13 @@ export class ABLEASGAppStack extends cdk.Stack {
       ),
       machineImage: new ec2.AmazonLinuxImage({
         generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2
-      }),
+      }),            
+      blockDevices: [{
+        deviceName: '/dev/xvda',
+        volume: autoscaling.BlockDeviceVolume.ebs(10, {
+          encrypted: true,
+        }),
+      }],
       securityGroup: securityGroupForApp,
       role: ssmInstanceRole, 
       userData: userDataForApp,
