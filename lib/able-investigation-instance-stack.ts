@@ -50,6 +50,12 @@ export class ABLEInvestigationInstanceStack extends cdk.Stack {
       securityGroup: securityGroupForEc2,
       role: ssmInstanceRole,
       userData: userData,
+      blockDevices: [{
+        deviceName: '/dev/xvda',
+        volume: ec2.BlockDeviceVolume.ebs(10, {
+          encrypted: true,
+        })
+      }]
     });
 
     // Tag
