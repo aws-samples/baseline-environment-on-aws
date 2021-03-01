@@ -38,7 +38,7 @@ const app = new cdk.App();
 const secAlarm = new ABLESecurityAlarmStack(app, `${pjPrefix}-SecurityAlarm`, { notifyEmail: securityNotifyEmail });
 new ABLEGuarddutyStack(app,`${pjPrefix}-Guardduty`);
 new ABLESecurityHubStack(app,`${pjPrefix}-SecurityHub`)
-new ABLETrailStack(app,`${pjPrefix}-Trail`);
+new ABLETrailStack(app,`${pjPrefix}-Trail`, {env: env});
 new ABLEIamStack(app,`${pjPrefix}-Iam`);
 
 const config = new ABLEConfigStack(app,`${pjPrefix}-Config`);
