@@ -20,7 +20,13 @@ export class ABLEConfigStack extends cdk.Stack {
       }
     });
 
-    const bucket = new s3.Bucket(this, 'ConfigBucket');
+    const bucket = new s3.Bucket(this, 'ConfigBucket', {
+      accessControl: s3.BucketAccessControl.PRIVATE,
+      blockPublicAccess:s3.BlockPublicAccess.BLOCK_ALL,
+      versioned: true,
+      removalPolicy: cdk.RemovalPolicy.RETAIN,
+      encryption: s3.BucketEncryption.S3_MANAGED,
+    });
 
     // Attaches the AWSConfigBucketPermissionsCheck policy statement.
     bucket.addToResourcePolicy(new iam.PolicyStatement({
