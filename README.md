@@ -83,7 +83,7 @@ $ cdk deploy ABLE-ECSApp
 * `ABLE-EC2App` Stack - Deploy EC2 Web Apps (No AutoScaling) on baseline. 
 * `ABLE-ECSApp`  Stack  - To eploy Fargate Apps on baseline.
 * Baseline stacks to be deployed as dependency
-  * `ABLEMonitorAlarm ABLEGeneralLogKey ABLEGeneralLog ABLEFlowlogKey ABLEFlowLog ABLEVpc`
+  * `ABLE-MonitorAlarm ABLE-GeneralLogKey ABLE-GeneralLog ABLE-FlowlogKey ABLE-FlowLog ABLE-Vpc`
 
 ## 3. Deploy Database (this step takes 15mins)
 ```
