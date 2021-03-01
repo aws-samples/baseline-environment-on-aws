@@ -120,7 +120,7 @@ How to remediate:
 * https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_enable_physical.html#enable-hw-mfa-for-root
 
 
-### 3-2. Use IDMSv2 to access EC2 metadata
+### 4-2. Use IDMSv2 to access EC2 metadata
 You need to use IDMSv2 only for EC2 instances. Take a look the document below for remediation.
 
 * [EC2.8] EC2 instances should use IMDSv2
