@@ -6,9 +6,9 @@ import * as cwl from '@aws-cdk/aws-logs';
 import * as iam from '@aws-cdk/aws-iam';
 import * as kms from '@aws-cdk/aws-kms';
 
-export class GcTrailStack extends cdk.Stack {
+export class ABLETrailStack extends cdk.Stack {
 
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: cdk.Construct, id: string, props: cdk.StackProps) {
     super(scope, id, props);
 
     // Archive Bucket for CloudTrail
@@ -87,7 +87,7 @@ export class GcTrailStack extends cdk.Stack {
       resources: ['*'],
       conditions: {
         ArnEquals: {
-          "kms:EncryptionContext:aws:logs:arn": `arn:aws:logs::${cdk.Stack.of(this).account}:log-group:*`
+          "kms:EncryptionContext:aws:logs:arn": `arn:aws:logs:${props?.env?.region}:${cdk.Stack.of(this).account}:log-group:*`
         }
       }
     }));
@@ -95,7 +95,7 @@ export class GcTrailStack extends cdk.Stack {
     // CloudWatch Logs Group for CloudTrail
     const cloudTrailLogGroup = new cwl.LogGroup(this, 'CloudTrailLogGroup', {
       retention: cwl.RetentionDays.THREE_MONTHS,
-      encryptionKey: cloudTrailKey,      
+      encryptionKey: cloudTrailKey,
     });
 
     // CloudTrail

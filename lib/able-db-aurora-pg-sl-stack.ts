@@ -7,8 +7,8 @@ import * as sns from '@aws-cdk/aws-sns';
 import * as cw from '@aws-cdk/aws-cloudwatch';
 import * as cw_actions from '@aws-cdk/aws-cloudwatch-actions';
 
-export interface GcAuroraServerlessStackProps extends cdk.StackProps {
-  prodVpc: ec2.Vpc,
+export interface ABLEDbAuroraPgSlStackProps extends cdk.StackProps {
+  myVpc: ec2.Vpc,
   dbName: string,
   dbUser: string,
   environment: string,
@@ -19,14 +19,14 @@ export interface GcAuroraServerlessStackProps extends cdk.StackProps {
   alarmTopic: sns.Topic, 
 }
 
-export class GcAuroraServerlessStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props: GcAuroraServerlessStackProps) {
+export class ABLEDbAuroraPgSlStack extends cdk.Stack {
+  constructor(scope: cdk.Construct, id: string, props: ABLEDbAuroraPgSlStackProps) {
     super(scope, id, props);
 
     const serverlessCluster = new rds.ServerlessCluster(this, 'AuroraServerless', {
       engine: rds.DatabaseClusterEngine.AURORA_POSTGRESQL,
       parameterGroup: rds.ParameterGroup.fromParameterGroupName(this, 'ParameterGroup', 'default.aurora-postgresql10'),
-      vpc: props.prodVpc,
+      vpc: props.myVpc,
       vpcSubnets: props.vpcSubnets,
       scaling: {
         autoPause: cdk.Duration.minutes(10), // default is to pause after 5 minutes of idle time

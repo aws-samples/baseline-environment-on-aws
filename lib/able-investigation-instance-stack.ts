@@ -3,20 +3,20 @@ import * as ec2 from '@aws-cdk/aws-ec2';
 import * as iam from '@aws-cdk/aws-iam';
 import { Duration, Tags, RemovalPolicy, SecretValue } from '@aws-cdk/core';
 
-export interface GcInvestigationInstanceStackProps extends cdk.StackProps {
-  prodVpc: ec2.Vpc,
+export interface ABLEInvestigationInstanceStackProps extends cdk.StackProps {
+  myVpc: ec2.Vpc,
   environment: string,
 }
 
-export class GcInvestigationInstanceStack extends cdk.Stack {
+export class ABLEInvestigationInstanceStack extends cdk.Stack {
   public readonly InvestigationInstanceSecurityGroup: ec2.SecurityGroup;
 
-  constructor(scope: cdk.Construct, id: string, props: GcInvestigationInstanceStackProps) {
+  constructor(scope: cdk.Construct, id: string, props: ABLEInvestigationInstanceStackProps) {
     super(scope, id, props);
 
     // Security Group
     const securityGroupForEc2 = new ec2.SecurityGroup(this, 'SgEC2', {
-      vpc: props.prodVpc
+      vpc: props.myVpc
     });
 
     // InstanceProfile
@@ -36,8 +36,8 @@ export class GcInvestigationInstanceStack extends cdk.Stack {
     );
 
     const instance = new ec2.Instance(this, 'Investigation', {
-      vpc: props.prodVpc,
-      vpcSubnets: props.prodVpc.selectSubnets({
+      vpc: props.myVpc,
+      vpcSubnets: props.myVpc.selectSubnets({
         subnetGroupName: 'Protected'
       }),
       instanceType: ec2.InstanceType.of(

@@ -1,8 +1,8 @@
 {
-  "name": "nisc-template",
+  "name": "able-template",
   "version": "0.1.0",
   "bin": {
-    "nisc-template": "bin/nisc-template.js"
+    "able-template": "bin/able-app.js"
   },
   "scripts": {
     "build": "tsc",

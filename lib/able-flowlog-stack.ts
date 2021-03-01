@@ -4,14 +4,14 @@ import * as kms from '@aws-cdk/aws-kms';
 import * as iam from '@aws-cdk/aws-iam';
 
 
-interface GcFlowLogStackProps extends cdk.StackProps {
+interface ABLEFlowLogStackProps extends cdk.StackProps {
   kmsKey: kms.IKey
 }
 
-export class GcFlowLogStack extends cdk.Stack {
+export class ABLEFlowLogStack extends cdk.Stack {
   public readonly logBucket: s3.Bucket;
 
-  constructor(scope: cdk.Construct, id: string, props: GcFlowLogStackProps) {
+  constructor(scope: cdk.Construct, id: string, props: ABLEFlowLogStackProps) {
     super(scope, id, props);
 
     //S3 bucket for VPC Flow log

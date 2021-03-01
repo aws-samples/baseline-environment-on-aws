@@ -2,20 +2,20 @@ import * as cdk from '@aws-cdk/core';
 import * as ec2 from '@aws-cdk/aws-ec2';
 import * as s3 from '@aws-cdk/aws-s3';
 
-export interface GcVpcProdStackProps extends cdk.StackProps {
-  prodVpcCidr: string,
+export interface ABLEVpcStackProps extends cdk.StackProps {
+  myVpcCidr: string,
   vpcFlowLogsBucket: s3.Bucket
 }
 
 
-export class GcVpcProdStack extends cdk.Stack {
-  public readonly prodVpc: ec2.Vpc;
+export class ABLEVpcStack extends cdk.Stack {
+  public readonly myVpc: ec2.Vpc;
 
-  constructor(scope: cdk.Construct, id: string, props: GcVpcProdStackProps) {
+  constructor(scope: cdk.Construct, id: string, props: ABLEVpcStackProps) {
     super(scope, id, props);
 
-    const prodVpc = new ec2.Vpc(this, 'Vpc', {
-      cidr: props.prodVpcCidr,
+    const myVpc = new ec2.Vpc(this, 'Vpc', {
+      cidr: props.myVpcCidr,
       maxAzs: 2,
       natGateways: 1,
       flowLogs: {},
@@ -38,17 +38,17 @@ export class GcVpcProdStack extends cdk.Stack {
      ]
     });
 
-    prodVpc.addFlowLog('FlowLogs', {
+    myVpc.addFlowLog('FlowLogs', {
       destination: ec2.FlowLogDestination.toS3(props.vpcFlowLogsBucket),
       trafficType: ec2.FlowLogTrafficType.ALL
     })
-    this.prodVpc = prodVpc;
+    this.myVpc = myVpc;
 
 
 
     // NACL for Public Subnets
     const naclPublic = new ec2.NetworkAcl(this, 'NaclPublic', {
-      vpc: prodVpc,
+      vpc: myVpc,
       subnetSelection: {subnetType: ec2.SubnetType.PUBLIC}
     });
 
@@ -73,7 +73,7 @@ export class GcVpcProdStack extends cdk.Stack {
 
     // NACL for Private Subnets
     const naclPrivate = new ec2.NetworkAcl(this, 'NaclPrivate', {
-      vpc: prodVpc,
+      vpc: myVpc,
       subnetSelection: {subnetType: ec2.SubnetType.PRIVATE}
     });
 
@@ -96,7 +96,7 @@ export class GcVpcProdStack extends cdk.Stack {
     });
 
     // VPC Endpoint for S3
-    prodVpc.addGatewayEndpoint("S3EndpointForPrivate", {
+    myVpc.addGatewayEndpoint("S3EndpointForPrivate", {
       service: ec2.GatewayVpcEndpointAwsService.S3,
       subnets: [
         { subnetType: ec2.SubnetType.PRIVATE },
@@ -105,19 +105,19 @@ export class GcVpcProdStack extends cdk.Stack {
     });
 
     // VPC Endpoint for SSM
-    prodVpc.addInterfaceEndpoint("SsmEndpointForPrivate", {
+    myVpc.addInterfaceEndpoint("SsmEndpointForPrivate", {
       service: ec2.InterfaceVpcEndpointAwsService.SSM,
       subnets: { subnetType: ec2.SubnetType.ISOLATED }
     });
-    prodVpc.addInterfaceEndpoint("SsmMessagesEndpointForPrivate", {
+    myVpc.addInterfaceEndpoint("SsmMessagesEndpointForPrivate", {
       service: ec2.InterfaceVpcEndpointAwsService.SSM_MESSAGES,
       subnets: { subnetType: ec2.SubnetType.ISOLATED }
     });
-    prodVpc.addInterfaceEndpoint("Ec2EndpointForPrivate", {
+    myVpc.addInterfaceEndpoint("Ec2EndpointForPrivate", {
       service: ec2.InterfaceVpcEndpointAwsService.EC2,
       subnets: { subnetType: ec2.SubnetType.ISOLATED }
     });
-    prodVpc.addInterfaceEndpoint("Ec2MessagesEndpointForPrivate", {
+    myVpc.addInterfaceEndpoint("Ec2MessagesEndpointForPrivate", {
       service: ec2.InterfaceVpcEndpointAwsService.EC2_MESSAGES,
       subnets: { subnetType: ec2.SubnetType.ISOLATED }
     });
