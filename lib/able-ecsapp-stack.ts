@@ -15,7 +15,7 @@ import * as cw from '@aws-cdk/aws-cloudwatch';
 import * as cw_actions from '@aws-cdk/aws-cloudwatch-actions';
 
 export interface ABLEECSAppStackProps extends cdk.StackProps {
-  prodVpc: ec2.Vpc,
+  myVpc: ec2.Vpc,
   environment: string,
   logBucket: s3.Bucket,
   appKey: kms.IKey,
@@ -38,7 +38,7 @@ export class ABLEECSAppStack extends cdk.Stack {
 
     //Security Group of ALB for App
     const securityGroupForAlb = new ec2.SecurityGroup(this, 'SgAlb', {
-      vpc: props.prodVpc,
+      vpc: props.myVpc,
       allowAllOutbound: false,
     });
     securityGroupForAlb.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(80));
@@ -103,10 +103,10 @@ export class ABLEECSAppStack extends cdk.Stack {
 
     // ALB for App Server
     const lbForApp = new elbv2.ApplicationLoadBalancer(this, 'Alb', {
-      vpc: props.prodVpc,
+      vpc: props.myVpc,
       internetFacing: true,
       securityGroup: securityGroupForAlb,
-      vpcSubnets: props.prodVpc.selectSubnets({
+      vpcSubnets: props.myVpc.selectSubnets({
         subnetGroupName: 'Public'
       }),
     });
@@ -148,14 +148,14 @@ export class ABLEECSAppStack extends cdk.Stack {
     // --------------------- Fargate Cluster ----------------------------
 
     const cluster = new ecs.Cluster(this, 'Cluster', { 
-      vpc: props.prodVpc,
+      vpc: props.myVpc,
       containerInsights: true
     });
 
     const albFargate = new ecs_patterns.ApplicationLoadBalancedFargateService(this, "EcsApp", {
       cluster: cluster,
       loadBalancer: lbForApp,
-      taskSubnets: props.prodVpc.selectSubnets({
+      taskSubnets: props.myVpc.selectSubnets({
         subnetGroupName: 'Private'
       }),
       taskImageOptions: {

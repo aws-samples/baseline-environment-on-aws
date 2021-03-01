@@ -8,7 +8,7 @@ import * as cw from '@aws-cdk/aws-cloudwatch';
 import * as cw_actions from '@aws-cdk/aws-cloudwatch-actions';
 
 export interface ABLEDbAuroraPgStackProps extends cdk.StackProps {
-  prodVpc: ec2.Vpc,
+  myVpc: ec2.Vpc,
   dbName: string,
   dbUser: string,
   environment: string,
@@ -40,7 +40,7 @@ export class ABLEDbAuroraPgStack extends cdk.Stack {
           ec2.InstanceSize.MEDIUM
         ),
         vpcSubnets: props.vpcSubnets,
-        vpc: props.prodVpc,
+        vpc: props.myVpc,
         enablePerformanceInsights: true,
         performanceInsightEncryptionKey: props.appKey,
         performanceInsightRetention: rds.PerformanceInsightRetention.DEFAULT,  // 7 days

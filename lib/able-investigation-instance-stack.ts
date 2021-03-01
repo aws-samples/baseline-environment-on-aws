@@ -4,7 +4,7 @@ import * as iam from '@aws-cdk/aws-iam';
 import { Duration, Tags, RemovalPolicy, SecretValue } from '@aws-cdk/core';
 
 export interface ABLEInvestigationInstanceStackProps extends cdk.StackProps {
-  prodVpc: ec2.Vpc,
+  myVpc: ec2.Vpc,
   environment: string,
 }
 
@@ -16,7 +16,7 @@ export class ABLEInvestigationInstanceStack extends cdk.Stack {
 
     // Security Group
     const securityGroupForEc2 = new ec2.SecurityGroup(this, 'SgEC2', {
-      vpc: props.prodVpc
+      vpc: props.myVpc
     });
 
     // InstanceProfile
@@ -36,8 +36,8 @@ export class ABLEInvestigationInstanceStack extends cdk.Stack {
     );
 
     const instance = new ec2.Instance(this, 'Investigation', {
-      vpc: props.prodVpc,
-      vpcSubnets: props.prodVpc.selectSubnets({
+      vpc: props.myVpc,
+      vpcSubnets: props.myVpc.selectSubnets({
         subnetGroupName: 'Protected'
       }),
       instanceType: ec2.InstanceType.of(

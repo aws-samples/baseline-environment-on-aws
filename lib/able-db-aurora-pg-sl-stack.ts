@@ -8,7 +8,7 @@ import * as cw from '@aws-cdk/aws-cloudwatch';
 import * as cw_actions from '@aws-cdk/aws-cloudwatch-actions';
 
 export interface ABLEDbAuroraPgSlStackProps extends cdk.StackProps {
-  prodVpc: ec2.Vpc,
+  myVpc: ec2.Vpc,
   dbName: string,
   dbUser: string,
   environment: string,
@@ -26,7 +26,7 @@ export class ABLEDbAuroraPgSlStack extends cdk.Stack {
     const serverlessCluster = new rds.ServerlessCluster(this, 'AuroraServerless', {
       engine: rds.DatabaseClusterEngine.AURORA_POSTGRESQL,
       parameterGroup: rds.ParameterGroup.fromParameterGroupName(this, 'ParameterGroup', 'default.aurora-postgresql10'),
-      vpc: props.prodVpc,
+      vpc: props.myVpc,
       vpcSubnets: props.vpcSubnets,
       scaling: {
         autoPause: cdk.Duration.minutes(10), // default is to pause after 5 minutes of idle time

@@ -8,7 +8,7 @@ import { Duration, Tags, RemovalPolicy, SecretValue } from '@aws-cdk/core';
 import * as kms from '@aws-cdk/aws-kms';
 
 export interface ABLEASGAppStackProps extends cdk.StackProps {
-  prodVpc: ec2.Vpc,
+  myVpc: ec2.Vpc,
   environment: string,
   logBucket: s3.Bucket,
   appKey: kms.IKey,
@@ -25,7 +25,7 @@ export class ABLEASGAppStack extends cdk.Stack {
 
     //Security Group of ALB for App
     const securityGroupForAlb = new ec2.SecurityGroup(this, 'SgAlb', {
-      vpc: props.prodVpc,
+      vpc: props.myVpc,
       allowAllOutbound: false,
     });
     securityGroupForAlb.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(80));
@@ -33,7 +33,7 @@ export class ABLEASGAppStack extends cdk.Stack {
 
     //Security Group for Instance of App
     const securityGroupForApp = new ec2.SecurityGroup(this, 'SgApp', {
-      vpc: props.prodVpc,
+      vpc: props.myVpc,
       allowAllOutbound: false,
     });
     securityGroupForApp.addIngressRule(securityGroupForAlb, ec2.Port.tcp(80));
@@ -42,7 +42,7 @@ export class ABLEASGAppStack extends cdk.Stack {
 
     //Security Group for RDS
     // const securityGroupForRDS = new ec2.SecurityGroup(this, 'SgRds', {
-    //   vpc: props.prodVpc,
+    //   vpc: props.myVpc,
     //   allowAllOutbound: false,
     // });
     // securityGroupForRDS.addIngressRule(securityGroupForApp, ec2.Port.tcp(3306));
@@ -75,8 +75,8 @@ export class ABLEASGAppStack extends cdk.Stack {
     const fleetForApp = new autoscaling.AutoScalingGroup(this, 'AsgApp', {
       minCapacity: 2,
       maxCapacity: 4,
-      vpc: props.prodVpc,
-      vpcSubnets: props.prodVpc.selectSubnets({
+      vpc: props.myVpc,
+      vpcSubnets: props.myVpc.selectSubnets({
         subnetGroupName: 'Private'
       }),
       instanceType: ec2.InstanceType.of(
@@ -117,10 +117,10 @@ export class ABLEASGAppStack extends cdk.Stack {
 
     // ALB for App Server
     const lbForApp = new elbv2.ApplicationLoadBalancer(this, 'AlbApp', {
-      vpc: props.prodVpc,
+      vpc: props.myVpc,
       internetFacing: true,
       securityGroup: securityGroupForAlb,
-      vpcSubnets: props.prodVpc.selectSubnets({
+      vpcSubnets: props.myVpc.selectSubnets({
         subnetGroupName: 'Public'
       }),
     });
@@ -161,7 +161,7 @@ export class ABLEASGAppStack extends cdk.Stack {
 
     // TargetGroup for App Server
     const tgForApp = new elbv2.ApplicationTargetGroup(this, 'TgApp', {
-      vpc: props.prodVpc,
+      vpc: props.myVpc,
       port: 80,
       protocol: elbv2.ApplicationProtocol.HTTP,
       targetType: elbv2.TargetType.INSTANCE,

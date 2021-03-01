@@ -76,9 +76,9 @@ const flowLogStack = new ABLEFlowLogStack(app,`${pjPrefix}-FlowLog`, {
 
 
 // Networking
-const prodVpcCidr = '10.100.0.0/16';
-const vpcProdStack = new ABLEVpcStack(app,`${pjPrefix}-Vpc`, {
-  prodVpcCidr: prodVpcCidr,
+const myVpcCidr = '10.100.0.0/16';
+const prodVpc = new ABLEVpcStack(app,`${pjPrefix}-Vpc`, {
+  myVpcCidr: myVpcCidr,
   vpcFlowLogsBucket: flowLogStack.logBucket,
   env: env
 });
@@ -86,7 +86,7 @@ const vpcProdStack = new ABLEVpcStack(app,`${pjPrefix}-Vpc`, {
 
 // Application Stack (LoadBalancer + AutoScaling AP Servers)
 const asgApp = new ABLEASGAppStack(app,`${pjPrefix}-ASGApp`, {
-  prodVpc: vpcProdStack.prodVpc,
+  myVpc: prodVpc.myVpc,
   environment: 'dev',
   logBucket: generalLogStack.logBucket,
   appKey: generalLogKey.kmsKey,
@@ -95,7 +95,7 @@ const asgApp = new ABLEASGAppStack(app,`${pjPrefix}-ASGApp`, {
 
 // Application Stack (LoadBalancer + Fargate)
 const ecsApp = new ABLEECSAppStack(app,`${pjPrefix}-ECSApp`, {
-  prodVpc: vpcProdStack.prodVpc,
+  myVpc: prodVpc.myVpc,
   environment: 'dev',
   logBucket: generalLogStack.logBucket,
   appKey: generalLogKey.kmsKey,
@@ -105,7 +105,7 @@ const ecsApp = new ABLEECSAppStack(app,`${pjPrefix}-ECSApp`, {
 
 // Application Stack (LoadBalancer + EC2 AP Servers)
 const ec2App = new ABLEEC2AppStack(app,`${pjPrefix}-EC2App`, {
-  prodVpc: vpcProdStack.prodVpc,
+  myVpc: prodVpc.myVpc,
   environment: 'dev',
   logBucket: generalLogStack.logBucket,
   appKey: generalLogKey.kmsKey,
@@ -116,12 +116,12 @@ const ec2App = new ABLEEC2AppStack(app,`${pjPrefix}-EC2App`, {
 
 // Aurora
 const dbAuroraPg = new ABLEDbAuroraPgStack(app,`${pjPrefix}-DBAuroraPg`, {
-  prodVpc: vpcProdStack.prodVpc,
+  myVpc: prodVpc.myVpc,
   dbName: 'mydbname',
   dbUser: 'dbadmin',
   environment: 'dev',
   dbAllocatedStorage: 25, 
-  vpcSubnets: vpcProdStack.prodVpc.selectSubnets({
+  vpcSubnets: prodVpc.myVpc.selectSubnets({
     subnetGroupName: 'Protected'
   }),
   appServerSecurityGroup: asgApp.appServerSecurityGroup,
@@ -132,12 +132,12 @@ const dbAuroraPg = new ABLEDbAuroraPgStack(app,`${pjPrefix}-DBAuroraPg`, {
 
 // Aurora Serverless
 const dbAuroraPgSl = new ABLEDbAuroraPgSlStack(app,`${pjPrefix}-DBAuroraPgSl`, {
-  prodVpc: vpcProdStack.prodVpc,
+  myVpc: prodVpc.myVpc,
   dbName: 'mydbname',
   dbUser: 'dbadmin',
   environment: 'dev',
   dbAllocatedStorage: 25, 
-  vpcSubnets: vpcProdStack.prodVpc.selectSubnets({
+  vpcSubnets: prodVpc.myVpc.selectSubnets({
     subnetGroupName: 'Protected'
   }),
   appServerSecurityGroup: asgApp.appServerSecurityGroup,
@@ -150,7 +150,7 @@ const dbAuroraPgSl = new ABLEDbAuroraPgSlStack(app,`${pjPrefix}-DBAuroraPgSl`, {
 
 // Investigation Instance Stack (EC2)
 const investigationInstanceStack = new ABLEInvestigationInstanceStack(app,`${pjPrefix}-InvestigationInstance`, {
-  prodVpc: vpcProdStack.prodVpc,
+  myVpc: prodVpc.myVpc,
   environment: 'dev',
   env: env
 });
