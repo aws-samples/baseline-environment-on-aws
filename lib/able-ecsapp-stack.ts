@@ -14,6 +14,8 @@ import * as sns from '@aws-cdk/aws-sns';
 import * as cw from '@aws-cdk/aws-cloudwatch';
 import * as cw_actions from '@aws-cdk/aws-cloudwatch-actions';
 
+import { ABLEEcrStack } from './able-ecr-stack';
+
 export interface ABLEECSAppStackProps extends cdk.StackProps {
   myVpc: ec2.Vpc,
   environment: string,
@@ -145,22 +147,55 @@ export class ABLEECSAppStack extends cdk.Stack {
       }));
 
 
+    // ---------------------------- ECR ---------------------------------
+
+    const ecr = new ABLEEcrStack(this, 'ContainerRepository', {
+      // TODO: will get "repositoryName" from parameters
+      repositoryName: 'apprepo',
+      alarmTopic: props.alarmTopic
+    });
+
+    // Store an sample image to the "aws-cdk/assets" repository
+    const sample_repository = this.synthesizer.addDockerImageAsset({
+      directoryName: '../docker/sampleapp',
+      sourceHash: 'latest'
+    });
 
     // --------------------- Fargate Cluster ----------------------------
 
+    // Roles
+    const executionRole = new iam.Role(this, 'EcsTaskExecutionRole', {
+      roleName: 'ecs-task-execution-role',
+      assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
+      managedPolicies: [
+        iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AmazonECSTaskExecutionRolePolicy')
+      ],
+    });
+
+    const serviceTaskRole = new iam.Role(this, 'EcsServiceTaskRole', {
+      roleName: 'ecs-service-task-role',
+      assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
+    });
+    
+    // Cluster
     const cluster = new ecs.Cluster(this, 'Cluster', { 
       vpc: props.myVpc,
       containerInsights: true
     });
 
+    // Task definition & Service
     const albFargate = new ecs_patterns.ApplicationLoadBalancedFargateService(this, "EcsApp", {
       cluster: cluster,
       loadBalancer: lbForApp,
       taskSubnets: props.myVpc.selectSubnets({
-        subnetGroupName: 'Private'
+        subnetGroupName: 'Protected'
       }),
       taskImageOptions: {
-        image: ecs.ContainerImage.fromRegistry("amazon/amazon-ecs-sample"),
+        executionRole: executionRole,
+        taskRole: serviceTaskRole,
+        image: ecs.ContainerImage.fromRegistry(sample_repository.imageUri),
+        // Sample code: if you want to use your repository, you can use like this.
+        // image: ecs.ContainerImage.fromEcrRepository(ecr.repository),
       },
     });
 
@@ -247,9 +282,6 @@ export class ABLEECSAppStack extends cdk.Stack {
       comparisonOperator: cw.ComparisonOperator.LESS_THAN_THRESHOLD,
       actionsEnabled: true
     }).addAlarmAction(new cw_actions.SnsAction(props.alarmTopic));
-  
-
-
 
     // WAFv2 for ALB
     const webAcl = new wafv2.CfnWebACL(this, 'WebAcl', {
