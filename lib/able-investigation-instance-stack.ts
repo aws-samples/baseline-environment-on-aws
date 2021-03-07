@@ -59,7 +59,6 @@ export class ABLEInvestigationInstanceStack extends cdk.Stack {
     });
 
     // Tag
-    Tags.of(instance).add('Environment', props.environment);
     Tags.of(instance).add('Name', 'Investigation');
   }
 }

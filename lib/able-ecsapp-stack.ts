@@ -111,7 +111,6 @@ export class ABLEECSAppStack extends cdk.Stack {
         subnetGroupName: 'Public'
       }),
     });
-    Tags.of(lbForApp).add('Environment', props.environment);
 
     // Enable ALB Access Logging
     lbForApp.setAttribute("access_logs.s3.enabled", "true");

@@ -34,16 +34,34 @@ const monitoringNotifyEmail = 'notify-monitoring@example.com';
 
 const app = new cdk.App();
 
+const environment = app.node.tryGetContext('environment')
+
+if (environment == undefined) throw new Error('Please specify envieonment with context option. ex) cdk deploy -c envonment=dev');
+
+const environment_values = app.node.tryGetContext(environment);
+
+if (environment_values == undefined) throw new Error('Invalid environment environment.');
+
+
 // ----------------------- LandingZone Stacks ------------------------------
 const secAlarm = new ABLESecurityAlarmStack(app, `${pjPrefix}-SecurityAlarm`, { notifyEmail: securityNotifyEmail });
+cdk.Tags.of(secAlarm).add('Environment', environment_values['environment']);
+
 new ABLEGuarddutyStack(app,`${pjPrefix}-Guardduty`);
 new ABLESecurityHubStack(app,`${pjPrefix}-SecurityHub`)
 new ABLETrailStack(app,`${pjPrefix}-Trail`, {env: env});
-new ABLEIamStack(app,`${pjPrefix}-Iam`);
+
+const iam = new ABLEIamStack(app,`${pjPrefix}-Iam`);
+cdk.Tags.of(iam).add('Environment', environment_values['environment']);
 
 const config = new ABLEConfigStack(app,`${pjPrefix}-Config`);
+cdk.Tags.of(config).add('Environment', environment_values['environment']);
+
 const configRuleCt = new ABLEConfigCtGuardrailStack(app,`${pjPrefix}-ConfigCtGuardrail`);
+cdk.Tags.of(configRuleCt).add('Environment', environment_values['environment']);
 const configRule = new ABLEConfigRulesStack(app,`${pjPrefix}-ConfigRule`);
+cdk.Tags.of(configRule).add('Environment', environment_values['environment']);
+
 configRuleCt.addDependency(config);
 configRule.addDependency(config);
 
@@ -52,74 +70,82 @@ configRule.addDependency(config);
 // Topic for monitoring guest system
 const monitorAlarm = new ABLEMonitorAlarmStack(app,`${pjPrefix}-MonitorAlarm`, {
   env: env,
-  notifyEmail: monitoringNotifyEmail,
+  notifyEmail: environment_values['monitoringNotifyEmail'],
 });
+cdk.Tags.of(monitorAlarm).add('Environment', environment_values['environment']);
 
 
 // CMK for General logs
 const generalLogKey = new ABLEGeneralLogKeyStack(app,`${pjPrefix}-GeneralLogKey`, {env: env});
+cdk.Tags.of(generalLogKey).add('Environment', environment_values['environment']);
 
 // Logging Bucket for General logs
-const generalLogStack = new ABLEGeneralLogStack(app,`${pjPrefix}-GeneralLog`, {
+const generalLog = new ABLEGeneralLogStack(app,`${pjPrefix}-GeneralLog`, {
   kmsKey: generalLogKey.kmsKey,
   env: env
 });
+cdk.Tags.of(generalLog).add('Environment', environment_values['environment']);
 
 // CMK for VPC Flow logs
 const flowLogKey = new ABLEFlowLogKeyStack(app,`${pjPrefix}-FlowlogKey`, {env: env});
+cdk.Tags.of(flowLogKey).add('Environment', environment_values['environment']);
 
 // Logging Bucket for VPC Flow log
-const flowLogStack = new ABLEFlowLogStack(app,`${pjPrefix}-FlowLog`, {
+const flowLog = new ABLEFlowLogStack(app,`${pjPrefix}-FlowLog`, {
   kmsKey: flowLogKey.kmsKey,
   env: env
 });
+cdk.Tags.of(flowLog).add('Environment', environment_values['environment']);
 
 
 // Networking
-const myVpcCidr = '10.100.0.0/16';
+const myVpcCidr = environment_values['vpcCidr'];
 const prodVpc = new ABLEVpcStack(app,`${pjPrefix}-Vpc`, {
   myVpcCidr: myVpcCidr,
-  vpcFlowLogsBucket: flowLogStack.logBucket,
+  vpcFlowLogsBucket: flowLog.logBucket,
   env: env
 });
+cdk.Tags.of(prodVpc).add('Environment', environment_values['environment']);
 
 
 // Application Stack (LoadBalancer + AutoScaling AP Servers)
 const asgApp = new ABLEASGAppStack(app,`${pjPrefix}-ASGApp`, {
   myVpc: prodVpc.myVpc,
-  environment: 'dev',
-  logBucket: generalLogStack.logBucket,
+  environment: environment_values['environment'],
+  logBucket: generalLog.logBucket,
   appKey: generalLogKey.kmsKey,
   env: env
 });
+cdk.Tags.of(asgApp).add('Environment', environment_values['environment']);
 
 // Application Stack (LoadBalancer + Fargate)
 const ecsApp = new ABLEECSAppStack(app,`${pjPrefix}-ECSApp`, {
   myVpc: prodVpc.myVpc,
-  environment: 'dev',
-  logBucket: generalLogStack.logBucket,
+  environment: environment_values['environment'],
+  logBucket: generalLog.logBucket,
   appKey: generalLogKey.kmsKey,
   env: env,
   alarmTopic: monitorAlarm.alarmTopic
 })
+cdk.Tags.of(ecsApp).add('Environment', environment_values['environment']);
 
 // Application Stack (LoadBalancer + EC2 AP Servers)
 const ec2App = new ABLEEC2AppStack(app,`${pjPrefix}-EC2App`, {
   myVpc: prodVpc.myVpc,
-  environment: 'dev',
-  logBucket: generalLogStack.logBucket,
+  environment: environment_values['environment'],
+  logBucket: generalLog.logBucket,
   appKey: generalLogKey.kmsKey,
   env: env
 });
-
+cdk.Tags.of(ec2App).add('Environment', environment_values['environment']);
 
 
 // Aurora
 const dbAuroraPg = new ABLEDbAuroraPgStack(app,`${pjPrefix}-DBAuroraPg`, {
   myVpc: prodVpc.myVpc,
   dbName: 'mydbname',
-  dbUser: 'dbadmin',
-  environment: 'dev',
+  dbUser: environment_values['dbUser'],
+  environment: environment_values['environment'],
   dbAllocatedStorage: 25, 
   vpcSubnets: prodVpc.myVpc.selectSubnets({
     subnetGroupName: 'Protected'
@@ -129,13 +155,14 @@ const dbAuroraPg = new ABLEDbAuroraPgStack(app,`${pjPrefix}-DBAuroraPg`, {
   env: env,
   alarmTopic: monitorAlarm.alarmTopic,  
 });
+cdk.Tags.of(dbAuroraPg).add('Environment', environment_values['environment']);
 
 // Aurora Serverless
 const dbAuroraPgSl = new ABLEDbAuroraPgSlStack(app,`${pjPrefix}-DBAuroraPgSl`, {
   myVpc: prodVpc.myVpc,
   dbName: 'mydbname',
-  dbUser: 'dbadmin',
-  environment: 'dev',
+  dbUser: environment_values['dbUser'],
+  environment: environment_values['environment'],
   dbAllocatedStorage: 25, 
   vpcSubnets: prodVpc.myVpc.selectSubnets({
     subnetGroupName: 'Protected'
@@ -145,13 +172,14 @@ const dbAuroraPgSl = new ABLEDbAuroraPgSlStack(app,`${pjPrefix}-DBAuroraPgSl`, {
   env: env,
   alarmTopic: monitorAlarm.alarmTopic,  
 });
+cdk.Tags.of(dbAuroraPgSl).add('Environment', environment_values['environment']);
 
 
 
 // Investigation Instance Stack (EC2)
-const investigationInstanceStack = new ABLEInvestigationInstanceStack(app,`${pjPrefix}-InvestigationInstance`, {
+const investigationInstance = new ABLEInvestigationInstanceStack(app,`${pjPrefix}-InvestigationInstance`, {
   myVpc: prodVpc.myVpc,
-  environment: 'dev',
+  environment: environment_values['environment'],
   env: env
 });
-
+cdk.Tags.of(investigationInstance).add('Environment', environment_values['environment']);

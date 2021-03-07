@@ -1,3 +1,27 @@
 {
-  "app": "npx ts-node bin/able-app.ts"
+  "app": "npx ts-node bin/able-app.ts",
+  "context": {
+    "dev": {
+      "environment": "Development",
+      "vpcCidr": "10.100.0.0/16",
+      "securityNotifyEmail": "notify-security@example.com",
+      "monitoringNotifyEmail": "notify-monitoring@example.com",
+      "dbUser": "dbadmin"
+    },
+    "stage": {
+      "environment": "Staging",
+      "vpcCidr": "10.100.16.0/16",
+      "securityNotifyEmail": "notify-security@example.com",
+      "monitoringNotifyEmail": "notify-monitoring@example.com",
+      "dbUser": "dbadmin"
+    },
+    "prod": {
+      "environment": "Production",
+      "vpcCidr": "10.100.32.0/16",
+      "securityNotifyEmail": "notify-security@example.com",
+      "monitoringNotifyEmail": "notify-monitoring@example.com",
+      "dbUser": "dbadmin"
+    }
+  }
+
 }
