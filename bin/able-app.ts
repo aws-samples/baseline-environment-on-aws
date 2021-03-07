@@ -41,7 +41,7 @@ if (environment == undefined) throw new Error('Please specify envieonment with c
 
 const environment_values = app.node.tryGetContext(environment);
 
-if (environment_values == undefined) throw new Error('Invalid environment environment.');
+if (environment_values == undefined) throw new Error('Invalid environment.');
 
 
 // ----------------------- LandingZone Stacks ------------------------------
