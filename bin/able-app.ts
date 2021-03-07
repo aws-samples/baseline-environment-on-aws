@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 import * as cdk from '@aws-cdk/core';
-import { ABLEParametersStack } from '../lib/able-parameters-stack';
 import { ABLEIamStack } from '../lib/able-iam-stack';
 import { ABLEASGAppStack } from '../lib/able-asgapp-stack';
 import { ABLEEC2AppStack } from '../lib/able-ec2app-stack';
@@ -34,11 +33,6 @@ const securityNotifyEmail = 'notify-security@example.com';
 const monitoringNotifyEmail = 'notify-monitoring@example.com';
 
 const app = new cdk.App();
-
-// Parameters Stack
-const parametersStack = new ABLEParametersStack(app, `${pjPrefix}-Parameters`, {
-  env: env,
-});
 
 // ----------------------- LandingZone Stacks ------------------------------
 const secAlarm = new ABLESecurityAlarmStack(app, `${pjPrefix}-SecurityAlarm`, { notifyEmail: securityNotifyEmail });
@@ -88,7 +82,6 @@ const prodVpc = new ABLEVpcStack(app,`${pjPrefix}-Vpc`, {
   vpcFlowLogsBucket: flowLogStack.logBucket,
   env: env
 });
-cdk.Tags.of(prodVpc).add('Environment', parametersStack.Environment);
 
 
 // Application Stack (LoadBalancer + AutoScaling AP Servers)
