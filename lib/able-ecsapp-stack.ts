@@ -165,7 +165,6 @@ export class ABLEECSAppStack extends cdk.Stack {
 
     // Roles
     const executionRole = new iam.Role(this, 'EcsTaskExecutionRole', {
-      roleName: 'ecs-task-execution-role',
       assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
       managedPolicies: [
         iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AmazonECSTaskExecutionRolePolicy')
@@ -173,7 +172,6 @@ export class ABLEECSAppStack extends cdk.Stack {
     });
 
     const serviceTaskRole = new iam.Role(this, 'EcsServiceTaskRole', {
-      roleName: 'ecs-service-task-role',
       assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
     });
     
