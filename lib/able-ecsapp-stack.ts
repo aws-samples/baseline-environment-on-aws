@@ -21,6 +21,7 @@ export interface ABLEECSAppStackProps extends cdk.StackProps {
   environment: string,
   logBucket: s3.Bucket,
   appKey: kms.IKey,
+  sourceRepositoryStack: ABLEEcrStack,
   alarmTopic: sns.Topic,
 }
 
@@ -149,12 +150,6 @@ export class ABLEECSAppStack extends cdk.Stack {
 
     // ---------------------------- ECR ---------------------------------
 
-    const ecr = new ABLEEcrStack(this, 'ContainerRepository', {
-      // TODO: will get "repositoryName" from parameters
-      repositoryName: 'apprepo',
-      alarmTopic: props.alarmTopic
-    });
-
     // Store an sample image to the "aws-cdk/assets" repository
     const sample_repository = this.synthesizer.addDockerImageAsset({
       directoryName: '../docker/sampleapp',
@@ -191,9 +186,9 @@ export class ABLEECSAppStack extends cdk.Stack {
       taskImageOptions: {
         executionRole: executionRole,
         taskRole: serviceTaskRole,
-        image: ecs.ContainerImage.fromRegistry(sample_repository.imageUri),
+        // image: ecs.ContainerImage.fromRegistry(sample_repository.imageUri),
         // Sample code: if you want to use your repository, you can use like this.
-        // image: ecs.ContainerImage.fromEcrRepository(ecr.repository),
+        image: ecs.ContainerImage.fromEcrRepository(props.sourceRepositoryStack.repository),
       },
     });
 
