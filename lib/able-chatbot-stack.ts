@@ -9,6 +9,9 @@ export interface ABLEChatbotStackProps extends cdk.StackProps {
   workspaceId: string,
 }
 
+
+// NOTICE: AWS Chatbot can send events from supported services only.
+// See: https://docs.aws.amazon.com/ja_jp/chatbot/latest/adminguide/related-services.html
 export class ABLEChatbotStack extends cdk.Stack {
   
   constructor(scope: cdk.Construct, id: string, props: ABLEChatbotStackProps) {
@@ -25,7 +28,7 @@ export class ABLEChatbotStack extends cdk.Stack {
 
     // !!! Create SlackChannel and add aws chatbot app to the room
     const chatbot = new cb.CfnSlackChannelConfiguration(this, 'ChatbotChannel', {
-      configurationName: 'ChatbotChannel',
+      configurationName: `${id}`,
       slackChannelId: props.channelId,
       iamRoleArn: chatbotRole.roleArn,
       slackWorkspaceId: props.workspaceId,
