@@ -1,8 +1,4 @@
 import * as cdk from '@aws-cdk/core';
-import * as s3 from '@aws-cdk/aws-s3';
-import * as trail from '@aws-cdk/aws-cloudtrail';
-import * as cw from '@aws-cdk/aws-cloudwatch';
-import * as cwl from '@aws-cdk/aws-logs';
 import * as iam from '@aws-cdk/aws-iam';
 import * as sns from '@aws-cdk/aws-sns';
 
@@ -27,7 +23,13 @@ export class ABLEMonitorAlarmStack extends cdk.Stack {
     });
     this.alarmTopic = topic;
 
-
+    // Allow to publish message from CloudWatch
+    topic.addToResourcePolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      principals: [new iam.ServicePrincipal('cloudwatch.amazonaws.com')],
+      actions: ['sns:Publish'],
+      resources: [topic.topicArn]
+    }));
   }
 
 }

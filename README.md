@@ -128,3 +128,33 @@ You need to use IDMSv2 only for EC2 instances. Take a look the document below fo
 
 
 
+# 5. Send alarm to Slack
+To send alarms to slack, create ABLE-ChatbotSecurity and ABLE-ChatbotMonitor stack.
+Before create these stack, you need to set up chat client for AWS Chatbot or stack creation will be failed.
+
+Stack creating procedure is discribed below.
+
+1. Create your workspace and channel on Slack.
+(This is an operation on Slack) Create workspace and channel you want to receive message.
+Remember Slack channel ID (You can copy the channel ID with "Copy Link"). It looks like https://your-work-space.slack.com/archives/C01R4THXXXX. "C01R4THXXXX" is the channel ID.
+
+2. Setup chat client for AWS Chatbot
+* Follow the steps 1-4 of "Setting up AWS Chatbot with Slack". It just create Slack workspaces on AWS Chatbot.
+  * https://docs.aws.amazon.com/ja_jp/chatbot/latest/adminguide/getting-started.html
+
+3. Edit your workspace ID and channel ID on ABLE template.
+on able-app.ts, you need to update these parameters for your environment.
+```
+const workspaceId = 'T8XXXXXXX';     // Copy from AWS Chatbot Workspace details
+const channelIdSec = 'C01XXXXXXXX';  // Copy from Your Slack App - Security Alarms
+const channelIdMon = 'C01YYYYYYYY';  // Copy from Your Slack App - Monitoring Alarms
+```
+
+3. Deploy Chatbot Stack.
+```
+$ cdk deploy ABLE-ChatbotSecurity
+$ cdk deploy ABLE-ChatbotMonitor
+```
+* ABLE-ChatbotSecurity is for security alarm topic.
+* ABLE-ChatbotMonitor is for monitoring alarm topic.
+

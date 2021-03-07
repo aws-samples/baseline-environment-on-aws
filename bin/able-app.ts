@@ -49,12 +49,14 @@ configRuleCt.addDependency(config);
 configRule.addDependency(config);
 
 // Slack Notifier
-const workspaceId = 'T8T1EF88P';  // Copy from AWS Chatbot Workspace details
-const channelId = 'C01R4THNH0Q';  // Copy from Your Slack App
-const chatbot = new ABLEChatbotStack(app, `${pjPrefix}-ChatbotSecurity`, {
+const workspaceId = 'T8XXXXXXX';     // Copy from AWS Chatbot Workspace details
+const channelIdSec = 'C01XXXXXXXX';  // Copy from Your Slack App - Security Alarms
+const channelIdMon = 'C01YYYYYYYY';  // Copy from Your Slack App - Monitoring Alarms
+
+const charbotSec = new ABLEChatbotStack(app, `${pjPrefix}-ChatbotSecurity`, {
   topic: secAlarm.alarmTopic,
   workspaceId: workspaceId,
-  channelId: channelId,
+  channelId: channelIdSec,
 });
 
 // ----------------------- Guest System Stacks ------------------------------
@@ -62,6 +64,13 @@ const chatbot = new ABLEChatbotStack(app, `${pjPrefix}-ChatbotSecurity`, {
 const monitorAlarm = new ABLEMonitorAlarmStack(app,`${pjPrefix}-MonitorAlarm`, {
   env: env,
   notifyEmail: monitoringNotifyEmail,
+});
+
+const chatbotMon = new ABLEChatbotStack(app, `${pjPrefix}-ChatbotMonitor`, {
+  env: env,
+  topic: monitorAlarm.alarmTopic,
+  workspaceId: workspaceId,
+  channelId: channelIdMon,
 });
 
 
