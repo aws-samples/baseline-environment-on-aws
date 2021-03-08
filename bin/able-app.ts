@@ -20,6 +20,7 @@ import { ABLEDbAuroraPgSlStack } from '../lib/able-db-aurora-pg-sl-stack';
 import { ABLEMonitorAlarmStack } from '../lib/able-monitor-alarm-stack';
 import { ABLEInvestigationInstanceStack } from '../lib/able-investigation-instance-stack';
 import { ABLESecurityAlarmStack } from '../lib/able-security-alarm-stack';
+import { ABLEChatbotStack } from '../lib/able-chatbot-stack';
 
 
 const env = { 
@@ -66,6 +67,16 @@ cdk.Tags.of(configRule).add('Environment', environment_values['environment']);
 configRuleCt.addDependency(config);
 configRule.addDependency(config);
 
+// Slack Notifier
+const workspaceId = 'T8XXXXXXX';     // Copy from AWS Chatbot Workspace details
+const channelIdSec = 'C01XXXXXXXX';  // Copy from Your Slack App - Security Alarms
+const channelIdMon = 'C01YYYYYYYY';  // Copy from Your Slack App - Monitoring Alarms
+
+const chatbotSec = new ABLEChatbotStack(app, `${pjPrefix}-ChatbotSecurity`, {
+  topic: secAlarm.alarmTopic,
+  workspaceId: workspaceId,
+  channelId: channelIdSec,
+});
 
 // ----------------------- Guest System Stacks ------------------------------
 // Topic for monitoring guest system
@@ -74,6 +85,13 @@ const monitorAlarm = new ABLEMonitorAlarmStack(app,`${pjPrefix}-MonitorAlarm`, {
   notifyEmail: environment_values['monitoringNotifyEmail'],
 });
 cdk.Tags.of(monitorAlarm).add('Environment', environment_values['environment']);
+
+const chatbotMon = new ABLEChatbotStack(app, `${pjPrefix}-ChatbotMonitor`, {
+  env: env,
+  topic: monitorAlarm.alarmTopic,
+  workspaceId: workspaceId,
+  channelId: channelIdMon,
+});
 
 
 // CMK for General logs
