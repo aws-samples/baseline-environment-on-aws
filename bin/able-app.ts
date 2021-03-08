@@ -53,7 +53,7 @@ const workspaceId = 'T8XXXXXXX';     // Copy from AWS Chatbot Workspace details
 const channelIdSec = 'C01XXXXXXXX';  // Copy from Your Slack App - Security Alarms
 const channelIdMon = 'C01YYYYYYYY';  // Copy from Your Slack App - Monitoring Alarms
 
-const charbotSec = new ABLEChatbotStack(app, `${pjPrefix}-ChatbotSecurity`, {
+const chatbotSec = new ABLEChatbotStack(app, `${pjPrefix}-ChatbotSecurity`, {
   topic: secAlarm.alarmTopic,
   workspaceId: workspaceId,
   channelId: channelIdSec,
