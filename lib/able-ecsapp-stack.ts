@@ -13,12 +13,14 @@ import * as origins from "@aws-cdk/aws-cloudfront-origins";
 import * as sns from '@aws-cdk/aws-sns';
 import * as cw from '@aws-cdk/aws-cloudwatch';
 import * as cw_actions from '@aws-cdk/aws-cloudwatch-actions';
+import * as ecr from '@aws-cdk/aws-ecr';
 
 export interface ABLEECSAppStackProps extends cdk.StackProps {
   myVpc: ec2.Vpc,
   environment: string,
   logBucket: s3.Bucket,
   appKey: kms.IKey,
+  repository: ecr.Repository,
   alarmTopic: sns.Topic,
 }
 
@@ -145,22 +147,43 @@ export class ABLEECSAppStack extends cdk.Stack {
       }));
 
 
-
     // --------------------- Fargate Cluster ----------------------------
 
+    // Roles
+    const executionRole = new iam.Role(this, 'EcsTaskExecutionRole', {
+      assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
+      managedPolicies: [
+        iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AmazonECSTaskExecutionRolePolicy')
+      ],
+    });
+
+    const serviceTaskRole = new iam.Role(this, 'EcsServiceTaskRole', {
+      assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
+    });
+    
+    // Cluster
     const cluster = new ecs.Cluster(this, 'Cluster', { 
       vpc: props.myVpc,
       containerInsights: true
     });
 
+    // Task definition & Service
     const albFargate = new ecs_patterns.ApplicationLoadBalancedFargateService(this, "EcsApp", {
       cluster: cluster,
       loadBalancer: lbForApp,
       taskSubnets: props.myVpc.selectSubnets({
-        subnetGroupName: 'Private'
+        subnetGroupName: 'Private'  // For public DockerHub
+        // subnetGroupName: 'Protected'   // For your ECR. Neet to use PrivateLinke for ECR
       }),
       taskImageOptions: {
-        image: ecs.ContainerImage.fromRegistry("amazon/amazon-ecs-sample"),
+        executionRole: executionRole,
+        taskRole: serviceTaskRole,
+
+        // SAMPLE: if you want to use your ECR repository, you can use like this.
+        // image: ecs.ContainerImage.fromEcrRepository(props.repository),
+
+        // SAMPLE: if you want to use DockerHub, you can use like this. 
+        image: ecs.ContainerImage.fromRegistry("amazon/amazon-ecs-sample"), 
       },
     });
 
@@ -247,9 +270,6 @@ export class ABLEECSAppStack extends cdk.Stack {
       comparisonOperator: cw.ComparisonOperator.LESS_THAN_THRESHOLD,
       actionsEnabled: true
     }).addAlarmAction(new cw_actions.SnsAction(props.alarmTopic));
-  
-
-
 
     // WAFv2 for ALB
     const webAcl = new wafv2.CfnWebACL(this, 'WebAcl', {

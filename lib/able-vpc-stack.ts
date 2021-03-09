@@ -122,5 +122,15 @@ export class ABLEVpcStack extends cdk.Stack {
       subnets: { subnetType: ec2.SubnetType.ISOLATED }
     });
 
+    // VPC Endpoint for Fargate
+    myVpc.addInterfaceEndpoint("EcrDkrEndpointForPrivate", {
+      service: ec2.InterfaceVpcEndpointAwsService.ECR_DOCKER,
+      subnets: { subnetType: ec2.SubnetType.ISOLATED }
+    });
+    myVpc.addInterfaceEndpoint("LogsEndpointForPrivate", {
+      service: ec2.InterfaceVpcEndpointAwsService.CLOUDWATCH_LOGS,
+      subnets: { subnetType: ec2.SubnetType.ISOLATED }
+    });
+
   }
 }

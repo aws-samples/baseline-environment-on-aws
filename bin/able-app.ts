@@ -22,6 +22,7 @@ import { ABLEInvestigationInstanceStack } from '../lib/able-investigation-instan
 import { ABLESecurityAlarmStack } from '../lib/able-security-alarm-stack';
 import { ABLEChatbotStack } from '../lib/able-chatbot-stack';
 
+import { ABLEECRStack } from '../lib/able-ecr-stack';
 
 const env = { 
   account: process.env.CDK_DEFAULT_ACCOUNT, 
@@ -111,16 +112,6 @@ const asgApp = new ABLEASGAppStack(app,`${pjPrefix}-ASGApp`, {
   env: env
 });
 
-// Application Stack (LoadBalancer + Fargate)
-const ecsApp = new ABLEECSAppStack(app,`${pjPrefix}-ECSApp`, {
-  myVpc: prodVpc.myVpc,
-  environment: 'dev',
-  logBucket: generalLogStack.logBucket,
-  appKey: generalLogKey.kmsKey,
-  env: env,
-  alarmTopic: monitorAlarm.alarmTopic
-})
-
 // Application Stack (LoadBalancer + EC2 AP Servers)
 const ec2App = new ABLEEC2AppStack(app,`${pjPrefix}-EC2App`, {
   myVpc: prodVpc.myVpc,
@@ -130,6 +121,25 @@ const ec2App = new ABLEEC2AppStack(app,`${pjPrefix}-EC2App`, {
   env: env
 });
 
+// Container Repository
+const ecr = new ABLEECRStack(app,`${pjPrefix}-ECR`, {
+  // TODO: will get "repositoryName" from parameters
+  repositoryName: 'apprepo',
+  alarmTopic: monitorAlarm.alarmTopic,
+  env: env
+});
+
+// Application Stack (LoadBalancer + Fargate)
+const ecsApp = new ABLEECSAppStack(app,`${pjPrefix}-ECSApp`, {
+  myVpc: prodVpc.myVpc,
+  environment: 'dev',
+  logBucket: generalLogStack.logBucket,
+  appKey: generalLogKey.kmsKey,
+  repository: ecr.repository,
+  
+  alarmTopic: monitorAlarm.alarmTopic,
+  env: env,
+})
 
 
 // Aurora
