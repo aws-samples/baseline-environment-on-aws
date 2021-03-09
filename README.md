@@ -59,7 +59,7 @@ You need to define deployment parameters on CDK Context. Context values are defi
 * See: https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/get_context_var.html
 
 ## 1. Sample cdk.json and cdk.context.json:
-These are define `dev`, `prod`, `my` context.
+These files are define `dev`, `prod`, `my` context. cdk.json is managed by git. cdk.context.json is managed just for your local environmen only.
 ```
 $ cat cdk.json
 {
@@ -93,23 +93,23 @@ $ cat cdk.json
 }
 ```
 
+You need to create cdk.context.json by yourself (might be generated automatically). This file is ignored by git.
 ```
-(cdk.context.json: You need to create by yourself (might be generated automatically) and not to be commited in .
-$cat cdk.context.json
+$ cat cdk.context.json
 {
   "@aws-cdk/core:enableStackNameDuplicates": "true",
   "aws-cdk:enableDiffNoFail": "true",
   "@aws-cdk/core:stackRelativeExports": "true",
   "my": {
-    "envName": "Development",
+    "envName": "Personal",
     "vpcCidr": "10.100.0.0/16",
     "securityNotifyEmail": "xxx@example.com",
     "monitoringNotifyEmail": "zzz@example.com",
-    "dbUser": "dbadmin",
+    "dbUser": "personaluser",
     "slackNotifier": {
-      "workspaceId": "T8T1EF88P",
-      "channelIdSec": "C01R4THNH0Q",
-      "channelIdMon": "C01QF3UFEJW"
+      "workspaceId": "T8PERSONAL",
+      "channelIdSec": "C01PERSONAL",
+      "channelIdMon": "C02PERSONAL"
     }
   }
 }
