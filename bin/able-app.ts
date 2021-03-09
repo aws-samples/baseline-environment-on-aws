@@ -48,17 +48,20 @@ if (envVals == undefined) throw new Error('Invalid environment.');
 
 
 // ----------------------- LandingZone Stacks ------------------------------
-const secAlarm = new ABLESecurityAlarmStack(app, `${pjPrefix}-SecurityAlarm`, { notifyEmail: envVals['securityNotifyEmail'] });
+const secAlarm = new ABLESecurityAlarmStack(app, `${pjPrefix}-SecurityAlarm`, { 
+  notifyEmail: envVals['securityNotifyEmail'], 
+  env: procEnv,
+});
 
-new ABLEGuarddutyStack(app,`${pjPrefix}-Guardduty`);
-new ABLESecurityHubStack(app,`${pjPrefix}-SecurityHub`)
+new ABLEGuarddutyStack(app,`${pjPrefix}-Guardduty`, {env: procEnv});
+new ABLESecurityHubStack(app,`${pjPrefix}-SecurityHub`, {env: procEnv})
 new ABLETrailStack(app,`${pjPrefix}-Trail`, {env: procEnv});
 
-const iam = new ABLEIamStack(app,`${pjPrefix}-Iam`);
-const config = new ABLEConfigStack(app,`${pjPrefix}-Config`);
+const iam = new ABLEIamStack(app,`${pjPrefix}-Iam`, {env: procEnv});
+const config = new ABLEConfigStack(app,`${pjPrefix}-Config`, {env: procEnv});
 
-const configRuleCt = new ABLEConfigCtGuardrailStack(app,`${pjPrefix}-ConfigCtGuardrail`);
-const configRule = new ABLEConfigRulesStack(app,`${pjPrefix}-ConfigRule`);
+const configRuleCt = new ABLEConfigCtGuardrailStack(app,`${pjPrefix}-ConfigCtGuardrail`, {env: procEnv});
+const configRule = new ABLEConfigRulesStack(app,`${pjPrefix}-ConfigRule`, {env: procEnv});
 configRuleCt.addDependency(config);
 configRule.addDependency(config);
 
@@ -71,20 +74,21 @@ const chatbotSec = new ABLEChatbotStack(app, `${pjPrefix}-ChatbotSecurity`, {
   topic: secAlarm.alarmTopic,
   workspaceId: workspaceId,
   channelId: channelIdSec,
+  env: procEnv,
 });
 
 // ----------------------- Guest System Stacks ------------------------------
 // Topic for monitoring guest system
 const monitorAlarm = new ABLEMonitorAlarmStack(app,`${pjPrefix}-MonitorAlarm`, {
-  env: procEnv,
   notifyEmail: envVals['monitoringNotifyEmail'],
+  env: procEnv,
 });
 
 const chatbotMon = new ABLEChatbotStack(app, `${pjPrefix}-ChatbotMonitor`, {
-  env: procEnv,
   topic: monitorAlarm.alarmTopic,
   workspaceId: workspaceId,
   channelId: channelIdMon,
+  env: procEnv,
 });
 
 
@@ -159,8 +163,8 @@ const dbAuroraPg = new ABLEDbAuroraPgStack(app,`${pjPrefix}-DBAuroraPg`, {
   }),
   appServerSecurityGroup: asgApp.appServerSecurityGroup,
   appKey: generalLogKey.kmsKey,
-  env: procEnv,
   alarmTopic: monitorAlarm.alarmTopic,  
+  env: procEnv,
 });
 
 // Aurora Serverless
@@ -174,8 +178,8 @@ const dbAuroraPgSl = new ABLEDbAuroraPgSlStack(app,`${pjPrefix}-DBAuroraPgSl`, {
   }),
   appServerSecurityGroup: asgApp.appServerSecurityGroup,
   appKey: generalLogKey.kmsKey,
-  env: procEnv,
   alarmTopic: monitorAlarm.alarmTopic,  
+  env: procEnv,
 });
 
 
