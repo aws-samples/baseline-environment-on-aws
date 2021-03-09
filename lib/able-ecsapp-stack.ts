@@ -16,7 +16,6 @@ import * as cw_actions from '@aws-cdk/aws-cloudwatch-actions';
 
 export interface ABLEECSAppStackProps extends cdk.StackProps {
   myVpc: ec2.Vpc,
-  environment: string,
   logBucket: s3.Bucket,
   appKey: kms.IKey,
   alarmTopic: sns.Topic,

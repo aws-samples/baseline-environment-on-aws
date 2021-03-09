@@ -4,8 +4,7 @@ import * as iam from '@aws-cdk/aws-iam';
 import { Duration, Tags, RemovalPolicy, SecretValue } from '@aws-cdk/core';
 
 export interface ABLEInvestigationInstanceStackProps extends cdk.StackProps {
-  myVpc: ec2.Vpc,
-  environment: string,
+  myVpc: ec2.Vpc
 }
 
 export class ABLEInvestigationInstanceStack extends cdk.Stack {

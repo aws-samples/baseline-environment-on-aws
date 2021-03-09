@@ -9,7 +9,6 @@ import * as kms from '@aws-cdk/aws-kms';
 
 export interface ABLEEC2AppStackProps extends cdk.StackProps {
   myVpc: ec2.Vpc,
-  environment: string,
   logBucket: s3.Bucket,
   appKey: kms.IKey,
 }

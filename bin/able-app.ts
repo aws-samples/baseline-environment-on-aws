@@ -130,7 +130,6 @@ cdk.Tags.of(prodVpc).add('Environment', environment_values['environment']);
 // Application Stack (LoadBalancer + AutoScaling AP Servers)
 const asgApp = new ABLEASGAppStack(app,`${pjPrefix}-ASGApp`, {
   myVpc: prodVpc.myVpc,
-  environment: environment_values['environment'],
   logBucket: generalLog.logBucket,
   appKey: generalLogKey.kmsKey,
   env: env
@@ -140,7 +139,6 @@ cdk.Tags.of(asgApp).add('Environment', environment_values['environment']);
 // Application Stack (LoadBalancer + Fargate)
 const ecsApp = new ABLEECSAppStack(app,`${pjPrefix}-ECSApp`, {
   myVpc: prodVpc.myVpc,
-  environment: environment_values['environment'],
   logBucket: generalLog.logBucket,
   appKey: generalLogKey.kmsKey,
   env: env,
@@ -151,7 +149,6 @@ cdk.Tags.of(ecsApp).add('Environment', environment_values['environment']);
 // Application Stack (LoadBalancer + EC2 AP Servers)
 const ec2App = new ABLEEC2AppStack(app,`${pjPrefix}-EC2App`, {
   myVpc: prodVpc.myVpc,
-  environment: environment_values['environment'],
   logBucket: generalLog.logBucket,
   appKey: generalLogKey.kmsKey,
   env: env
@@ -164,7 +161,6 @@ const dbAuroraPg = new ABLEDbAuroraPgStack(app,`${pjPrefix}-DBAuroraPg`, {
   myVpc: prodVpc.myVpc,
   dbName: 'mydbname',
   dbUser: environment_values['dbUser'],
-  environment: environment_values['environment'],
   dbAllocatedStorage: 25, 
   vpcSubnets: prodVpc.myVpc.selectSubnets({
     subnetGroupName: 'Protected'
@@ -181,7 +177,6 @@ const dbAuroraPgSl = new ABLEDbAuroraPgSlStack(app,`${pjPrefix}-DBAuroraPgSl`, {
   myVpc: prodVpc.myVpc,
   dbName: 'mydbname',
   dbUser: environment_values['dbUser'],
-  environment: environment_values['environment'],
   dbAllocatedStorage: 25, 
   vpcSubnets: prodVpc.myVpc.selectSubnets({
     subnetGroupName: 'Protected'
@@ -198,7 +193,6 @@ cdk.Tags.of(dbAuroraPgSl).add('Environment', environment_values['environment']);
 // Investigation Instance Stack (EC2)
 const investigationInstance = new ABLEInvestigationInstanceStack(app,`${pjPrefix}-InvestigationInstance`, {
   myVpc: prodVpc.myVpc,
-  environment: environment_values['environment'],
   env: env
 });
 cdk.Tags.of(investigationInstance).add('Environment', environment_values['environment']);
