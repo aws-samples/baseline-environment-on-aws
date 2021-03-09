@@ -11,7 +11,6 @@ export interface ABLEDbAuroraPgStackProps extends cdk.StackProps {
   myVpc: ec2.Vpc,
   dbName: string,
   dbUser: string,
-  environment: string,
   dbAllocatedStorage: number,
   appKey: kms.IKey,
   vpcSubnets: ec2.SubnetSelection,

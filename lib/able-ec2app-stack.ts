@@ -9,7 +9,6 @@ import * as kms from '@aws-cdk/aws-kms';
 
 export interface ABLEEC2AppStackProps extends cdk.StackProps {
   myVpc: ec2.Vpc,
-  environment: string,
   logBucket: s3.Bucket,
   appKey: kms.IKey,
 }
@@ -69,7 +68,6 @@ export class ABLEEC2AppStack extends cdk.Stack {
         subnetGroupName: 'Public'
       }),
     });
-    Tags.of(lbForApp).add('Environment', props.environment);
 
     // Enable ALB Access Logging
     lbForApp.setAttribute("access_logs.s3.enabled", "true");
@@ -115,7 +113,6 @@ export class ABLEEC2AppStack extends cdk.Stack {
       },
       deregistrationDelay: Duration.seconds(60),
     }); 
-    Tags.of(tgForApp).add('Environment', props.environment);    
 
 
     // ALB Listener - TargetGroup 
@@ -178,7 +175,6 @@ export class ABLEEC2AppStack extends cdk.Stack {
         }]  
       });
       // Tags for AppServers
-      Tags.of(instance).add('Environment', props.environment, {applyToLaunchedInstances: true,});
       Tags.of(instance).add('Name', 'AppServer'+i, {applyToLaunchedInstances: true,});
       Tags.of(instance).add('Role', 'FRA_AppServer', {applyToLaunchedInstances: true,});
       tgForApp.addTarget(new elbv2.InstanceTarget(instance.instanceId));

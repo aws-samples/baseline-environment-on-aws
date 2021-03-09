@@ -53,8 +53,88 @@ cdk bootstrap
 > * If you don't want to block deploy process with approval, add an option `--require-approval never` (but be careful!).
 
 
-# 4. How to Deploy Guardrail (For test. It's usually deployed by ControlTower on production)
-You need to specify `--profile your_profile_name` on all of steps below. Each stacks are independent each other.
+# 4. Define parameters in CDK Context
+You need to define deployment parameters on CDK Context. Context values are defined in cdk.json file or cdk.context.json file or -c option.
+* See: https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/context.html
+* See: https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/get_context_var.html
+
+## 1. Sample cdk.json and cdk.context.json:
+These files are define `dev`, `prod`, `my` context. cdk.json is managed by git. cdk.context.json is managed just for your local environmen only.
+```
+$ cat cdk.json
+{
+  "app": "npx ts-node bin/able-app.ts",
+  "context": {
+    "dev": {
+      "envName": "Development",
+      "vpcCidr": "10.100.0.0/16",
+      "securityNotifyEmail": "notify-security@example.com",
+      "monitoringNotifyEmail": "notify-monitoring@example.com",
+      "dbUser": "dbadmin",
+      "slackNotifier": {
+        "workspaceId": "T8XXXXXXX",
+        "channelIdSec": "C01XXXXXXXX",
+        "channelIdMon": "C01YYYYYYYY"
+      }
+    },
+    "prod": {
+      "envName": "Production",
+      "vpcCidr": "10.110.0.0/16",
+      "securityNotifyEmail": "notify-security@example.com",
+      "monitoringNotifyEmail": "notify-monitoring@example.com",
+      "dbUser": "dbadmin",
+      "slackNotifier": {
+        "workspaceId": "T8XXXXXXX",
+        "channelIdSec": "C01XXXXXXXX",
+        "channelIdMon": "C01YYYYYYYY"
+      }
+    }
+  }
+}
+```
+
+You need to create cdk.context.json by yourself (might be generated automatically). This file is ignored by git.
+```
+$ cat cdk.context.json
+{
+  "@aws-cdk/core:enableStackNameDuplicates": "true",
+  "aws-cdk:enableDiffNoFail": "true",
+  "@aws-cdk/core:stackRelativeExports": "true",
+  "my": {
+    "envName": "Personal",
+    "vpcCidr": "10.100.0.0/16",
+    "securityNotifyEmail": "xxx@example.com",
+    "monitoringNotifyEmail": "zzz@example.com",
+    "dbUser": "personaluser",
+    "slackNotifier": {
+      "workspaceId": "T8PERSONAL",
+      "channelIdSec": "C01PERSONAL",
+      "channelIdMon": "C02PERSONAL"
+    }
+  }
+}
+```
+
+## 2. Use parameters in CDK code
+You can use parameters like this. This code intend to use context optioin in cdk command with `-c environment=dev`
+```
+const envKey = app.node.tryGetContext('environment'); 
+const valArray = app.node.tryGetContext(envKey);
+const environment_name = valArray['envName'];
+```
+
+
+## 3. Deploy stack with context parameters
+```
+$ cdk deploy ABLE-ECSApp --profile your_profile_dev --require-approval never -c environment=dev
+$ cdk deploy ABLE-ECSApp --profile your_profile_prod --require-approval never -c environment=prod
+$ cdk deploy ABLE-ECSApp --profile your_profile_mine --require-approval never -c environment=my
+```
+
+
+
+# 5. How to Deploy Guardrail (For test. It's usually deployed by ControlTower on production)
+You need to specify `--profile your_profile_name -c environment=xxx` on all of steps below. Each stacks are independent each other.
 ```
 $ cdk deploy ABLE-Trail 
 $ cdk deploy ABLE-ConfigRule
@@ -64,8 +144,8 @@ $ cdk deploy ABLE-SecurityHub
 $ cdk deploy ABLE-SecurityAlarm
 ```
 
-# 5. How to deploy sample apps
-You need to specify `--profile your_profile_name` on all of steps below.
+# 6. How to deploy sample apps
+You need to specify `--profile your_profile_name -c environment=xxx` on all of steps below.
 ## 1. Deploy roles to operate the apps.
 ```
 $ cdk deploy ABLE-Iam 
@@ -116,7 +196,7 @@ How to remediate:
 1. Access to root user on Organizations member account.
 * https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_access-as-root
 
-1. Enable hardware MFA for root user
+2. Enable hardware MFA for root user
 * https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_enable_physical.html#enable-hw-mfa-for-root
 
 
@@ -128,29 +208,35 @@ You need to use IDMSv2 only for EC2 instances. Take a look the document below fo
 
 
 
-# 5. Send alarm to Slack
+# 7. Send alarm to Slack
 To send alarms to slack, create ABLE-ChatbotSecurity and ABLE-ChatbotMonitor stack.
 Before create these stack, you need to set up chat client for AWS Chatbot or stack creation will be failed.
 
 Stack creating procedure is discribed below.
 
-1. Create your workspace and channel on Slack.
+## 1. Create your workspace and channel on Slack
 (This is an operation on Slack) Create workspace and channel you want to receive message.
 Remember Slack channel ID (You can copy the channel ID with "Copy Link"). It looks like https://your-work-space.slack.com/archives/C01R4THXXXX. "C01R4THXXXX" is the channel ID.
 
-2. Setup chat client for AWS Chatbot
+## 2. Setup chat client for AWS Chatbot
 * Follow the steps 1-4 of "Setting up AWS Chatbot with Slack". It just create Slack workspaces on AWS Chatbot.
   * https://docs.aws.amazon.com/ja_jp/chatbot/latest/adminguide/getting-started.html
 
-3. Edit your workspace ID and channel ID on ABLE template.
-on able-app.ts, you need to update these parameters for your environment.
+## 3. Edit your workspace ID and channel ID on context file
+cdk.json or cdk.context.json: 
 ```
-const workspaceId = 'T8XXXXXXX';     // Copy from AWS Chatbot Workspace details
-const channelIdSec = 'C01XXXXXXXX';  // Copy from Your Slack App - Security Alarms
-const channelIdMon = 'C01YYYYYYYY';  // Copy from Your Slack App - Monitoring Alarms
+      "slackNotifier": {
+        "workspaceId": "T8XXXXXXX",
+        "channelIdSec": "C01XXXXXXXX",
+        "channelIdMon": "C01YYYYYYYY"
+      }
 ```
+* workspaceId: Copy from AWS Chatbot Workspace details
+* channelIdSec: Copy from Your Slack App - Security Alarms
+* channelIdMon: Copy from Your Slack App - Monitoring Alarms
 
-3. Deploy Chatbot Stack.
+
+## 4. Deploy Chatbot Stack
 ```
 $ cdk deploy ABLE-ChatbotSecurity
 $ cdk deploy ABLE-ChatbotMonitor

@@ -17,7 +17,6 @@ import * as ecr from '@aws-cdk/aws-ecr';
 
 export interface ABLEECSAppStackProps extends cdk.StackProps {
   myVpc: ec2.Vpc,
-  environment: string,
   logBucket: s3.Bucket,
   appKey: kms.IKey,
   repository: ecr.Repository,
@@ -113,7 +112,6 @@ export class ABLEECSAppStack extends cdk.Stack {
         subnetGroupName: 'Public'
       }),
     });
-    Tags.of(lbForApp).add('Environment', props.environment);
 
     // Enable ALB Access Logging
     lbForApp.setAttribute("access_logs.s3.enabled", "true");

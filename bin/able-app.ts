@@ -24,35 +24,48 @@ import { ABLEChatbotStack } from '../lib/able-chatbot-stack';
 
 import { ABLEECRStack } from '../lib/able-ecr-stack';
 
-const env = { 
+const procEnv = { 
   account: process.env.CDK_DEFAULT_ACCOUNT, 
   region: process.env.CDK_DEFAULT_REGION 
 };
 
 const pjPrefix ='ABLE';
 
-const securityNotifyEmail = 'notify-security@example.com';
-const monitoringNotifyEmail = 'notify-monitoring@example.com';
-
 const app = new cdk.App();
 
+// ----------------------- Load context variables ------------------------------
+// This context need to be specified in args
+const argContext = 'environment' 
+
+// Environment Key (dev,stage,prod...) 
+// Should be defined in 2nd level of "context" tree in cdk.json
+const envKey = app.node.tryGetContext(argContext); 
+if (envKey == undefined) throw new Error(`Please specify envieonment with context option. ex) cdk deploy -c ${argContext}=dev`);
+
+// Array of envrionment variables. These values hould be defined in cdk.json or cdk.context.json
+const envVals = app.node.tryGetContext(envKey);
+if (envVals == undefined) throw new Error('Invalid environment.');
+
+
 // ----------------------- LandingZone Stacks ------------------------------
-const secAlarm = new ABLESecurityAlarmStack(app, `${pjPrefix}-SecurityAlarm`, { notifyEmail: securityNotifyEmail });
+const secAlarm = new ABLESecurityAlarmStack(app, `${pjPrefix}-SecurityAlarm`, { notifyEmail: envVals['securityNotifyEmail'] });
+
 new ABLEGuarddutyStack(app,`${pjPrefix}-Guardduty`);
 new ABLESecurityHubStack(app,`${pjPrefix}-SecurityHub`)
-new ABLETrailStack(app,`${pjPrefix}-Trail`, {env: env});
-new ABLEIamStack(app,`${pjPrefix}-Iam`);
+new ABLETrailStack(app,`${pjPrefix}-Trail`, {env: procEnv});
 
+const iam = new ABLEIamStack(app,`${pjPrefix}-Iam`);
 const config = new ABLEConfigStack(app,`${pjPrefix}-Config`);
+
 const configRuleCt = new ABLEConfigCtGuardrailStack(app,`${pjPrefix}-ConfigCtGuardrail`);
 const configRule = new ABLEConfigRulesStack(app,`${pjPrefix}-ConfigRule`);
 configRuleCt.addDependency(config);
 configRule.addDependency(config);
 
 // Slack Notifier
-const workspaceId = 'T8XXXXXXX';     // Copy from AWS Chatbot Workspace details
-const channelIdSec = 'C01XXXXXXXX';  // Copy from Your Slack App - Security Alarms
-const channelIdMon = 'C01YYYYYYYY';  // Copy from Your Slack App - Monitoring Alarms
+const workspaceId = envVals['slackNotifier']['workspaceId'];
+const channelIdSec = envVals['slackNotifier']['channelIdSec'];
+const channelIdMon = envVals['slackNotifier']['channelIdMon'];
 
 const chatbotSec = new ABLEChatbotStack(app, `${pjPrefix}-ChatbotSecurity`, {
   topic: secAlarm.alarmTopic,
@@ -63,12 +76,12 @@ const chatbotSec = new ABLEChatbotStack(app, `${pjPrefix}-ChatbotSecurity`, {
 // ----------------------- Guest System Stacks ------------------------------
 // Topic for monitoring guest system
 const monitorAlarm = new ABLEMonitorAlarmStack(app,`${pjPrefix}-MonitorAlarm`, {
-  env: env,
-  notifyEmail: monitoringNotifyEmail,
+  env: procEnv,
+  notifyEmail: envVals['monitoringNotifyEmail'],
 });
 
 const chatbotMon = new ABLEChatbotStack(app, `${pjPrefix}-ChatbotMonitor`, {
-  env: env,
+  env: procEnv,
   topic: monitorAlarm.alarmTopic,
   workspaceId: workspaceId,
   channelId: channelIdMon,
@@ -76,49 +89,45 @@ const chatbotMon = new ABLEChatbotStack(app, `${pjPrefix}-ChatbotMonitor`, {
 
 
 // CMK for General logs
-const generalLogKey = new ABLEGeneralLogKeyStack(app,`${pjPrefix}-GeneralLogKey`, {env: env});
+const generalLogKey = new ABLEGeneralLogKeyStack(app,`${pjPrefix}-GeneralLogKey`, {env: procEnv});
 
 // Logging Bucket for General logs
-const generalLogStack = new ABLEGeneralLogStack(app,`${pjPrefix}-GeneralLog`, {
+const generalLog = new ABLEGeneralLogStack(app,`${pjPrefix}-GeneralLog`, {
   kmsKey: generalLogKey.kmsKey,
-  env: env
+  env: procEnv
 });
 
 // CMK for VPC Flow logs
-const flowLogKey = new ABLEFlowLogKeyStack(app,`${pjPrefix}-FlowlogKey`, {env: env});
+const flowLogKey = new ABLEFlowLogKeyStack(app,`${pjPrefix}-FlowlogKey`, {env: procEnv});
 
 // Logging Bucket for VPC Flow log
-const flowLogStack = new ABLEFlowLogStack(app,`${pjPrefix}-FlowLog`, {
+const flowLog = new ABLEFlowLogStack(app,`${pjPrefix}-FlowLog`, {
   kmsKey: flowLogKey.kmsKey,
-  env: env
+  env: procEnv
 });
-
 
 // Networking
-const myVpcCidr = '10.100.0.0/16';
+const myVpcCidr = envVals['vpcCidr'];
 const prodVpc = new ABLEVpcStack(app,`${pjPrefix}-Vpc`, {
   myVpcCidr: myVpcCidr,
-  vpcFlowLogsBucket: flowLogStack.logBucket,
-  env: env
+  vpcFlowLogsBucket: flowLog.logBucket,
+  env: procEnv
 });
-
 
 // Application Stack (LoadBalancer + AutoScaling AP Servers)
 const asgApp = new ABLEASGAppStack(app,`${pjPrefix}-ASGApp`, {
   myVpc: prodVpc.myVpc,
-  environment: 'dev',
-  logBucket: generalLogStack.logBucket,
+  logBucket: generalLog.logBucket,
   appKey: generalLogKey.kmsKey,
-  env: env
+  env: procEnv
 });
 
 // Application Stack (LoadBalancer + EC2 AP Servers)
 const ec2App = new ABLEEC2AppStack(app,`${pjPrefix}-EC2App`, {
   myVpc: prodVpc.myVpc,
-  environment: 'dev',
-  logBucket: generalLogStack.logBucket,
+  logBucket: generalLog.logBucket,
   appKey: generalLogKey.kmsKey,
-  env: env
+  env: procEnv
 });
 
 // Container Repository
@@ -126,35 +135,31 @@ const ecr = new ABLEECRStack(app,`${pjPrefix}-ECR`, {
   // TODO: will get "repositoryName" from parameters
   repositoryName: 'apprepo',
   alarmTopic: monitorAlarm.alarmTopic,
-  env: env
+  env: procEnv
 });
 
 // Application Stack (LoadBalancer + Fargate)
 const ecsApp = new ABLEECSAppStack(app,`${pjPrefix}-ECSApp`, {
   myVpc: prodVpc.myVpc,
-  environment: 'dev',
-  logBucket: generalLogStack.logBucket,
+  logBucket: generalLog.logBucket,
   appKey: generalLogKey.kmsKey,
   repository: ecr.repository,
-  
   alarmTopic: monitorAlarm.alarmTopic,
-  env: env,
+  env: procEnv,
 })
-
 
 // Aurora
 const dbAuroraPg = new ABLEDbAuroraPgStack(app,`${pjPrefix}-DBAuroraPg`, {
   myVpc: prodVpc.myVpc,
   dbName: 'mydbname',
-  dbUser: 'dbadmin',
-  environment: 'dev',
+  dbUser: envVals['dbUser'],
   dbAllocatedStorage: 25, 
   vpcSubnets: prodVpc.myVpc.selectSubnets({
     subnetGroupName: 'Protected'
   }),
   appServerSecurityGroup: asgApp.appServerSecurityGroup,
   appKey: generalLogKey.kmsKey,
-  env: env,
+  env: procEnv,
   alarmTopic: monitorAlarm.alarmTopic,  
 });
 
@@ -162,24 +167,26 @@ const dbAuroraPg = new ABLEDbAuroraPgStack(app,`${pjPrefix}-DBAuroraPg`, {
 const dbAuroraPgSl = new ABLEDbAuroraPgSlStack(app,`${pjPrefix}-DBAuroraPgSl`, {
   myVpc: prodVpc.myVpc,
   dbName: 'mydbname',
-  dbUser: 'dbadmin',
-  environment: 'dev',
+  dbUser: envVals['dbUser'],
   dbAllocatedStorage: 25, 
   vpcSubnets: prodVpc.myVpc.selectSubnets({
     subnetGroupName: 'Protected'
   }),
   appServerSecurityGroup: asgApp.appServerSecurityGroup,
   appKey: generalLogKey.kmsKey,
-  env: env,
+  env: procEnv,
   alarmTopic: monitorAlarm.alarmTopic,  
 });
 
 
-
 // Investigation Instance Stack (EC2)
-const investigationInstanceStack = new ABLEInvestigationInstanceStack(app,`${pjPrefix}-InvestigationInstance`, {
+const investigationInstance = new ABLEInvestigationInstanceStack(app,`${pjPrefix}-InvestigationInstance`, {
   myVpc: prodVpc.myVpc,
-  environment: 'dev',
-  env: env
+  env: procEnv
 });
 
+// --------------------------------- Tagging  -------------------------------------
+
+// Tagging "Environment" tag to all resources in this app
+const envTagName = 'Environment';
+cdk.Tags.of(app).add(envTagName, envVals['envName']);
