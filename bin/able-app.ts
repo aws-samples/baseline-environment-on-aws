@@ -38,7 +38,7 @@ const app = new cdk.App();
 // ----------------------- Load context variables ------------------------------
 const environment = app.node.tryGetContext('environment')
 
-if (environment == undefined) throw new Error('Please specify envieonment with context option. ex) cdk deploy -c envonment=dev');
+if (environment == undefined) throw new Error('Please specify envieonment with context option. ex) cdk deploy -c environment=dev');
 
 const environment_values = app.node.tryGetContext(environment);
 
