@@ -13,15 +13,14 @@ import * as origins from "@aws-cdk/aws-cloudfront-origins";
 import * as sns from '@aws-cdk/aws-sns';
 import * as cw from '@aws-cdk/aws-cloudwatch';
 import * as cw_actions from '@aws-cdk/aws-cloudwatch-actions';
-
-import { ABLEEcrStack } from './able-ecr-stack';
+import * as ecr from '@aws-cdk/aws-ecr';
 
 export interface ABLEECSAppStackProps extends cdk.StackProps {
   myVpc: ec2.Vpc,
   environment: string,
   logBucket: s3.Bucket,
   appKey: kms.IKey,
-  sourceRepositoryStack: ABLEEcrStack,
+  repository: ecr.Repository,
   alarmTopic: sns.Topic,
 }
 
@@ -148,14 +147,6 @@ export class ABLEECSAppStack extends cdk.Stack {
       }));
 
 
-    // ---------------------------- ECR ---------------------------------
-
-    // Store an sample image to the "aws-cdk/assets" repository
-    const sample_repository = this.synthesizer.addDockerImageAsset({
-      directoryName: '../docker/sampleapp',
-      sourceHash: 'latest'
-    });
-
     // --------------------- Fargate Cluster ----------------------------
 
     // Roles
@@ -181,14 +172,18 @@ export class ABLEECSAppStack extends cdk.Stack {
       cluster: cluster,
       loadBalancer: lbForApp,
       taskSubnets: props.myVpc.selectSubnets({
-        subnetGroupName: 'Protected'
+        subnetGroupName: 'Private'  // For public DockerHub
+        // subnetGroupName: 'Protected'   // For your ECR. Neet to use PrivateLinke for ECR
       }),
       taskImageOptions: {
         executionRole: executionRole,
         taskRole: serviceTaskRole,
-        // image: ecs.ContainerImage.fromRegistry(sample_repository.imageUri),
-        // Sample code: if you want to use your repository, you can use like this.
-        image: ecs.ContainerImage.fromEcrRepository(props.sourceRepositoryStack.repository),
+
+        // SAMPLE: if you want to use your ECR repository, you can use like this.
+        // image: ecs.ContainerImage.fromEcrRepository(props.repository),
+
+        // SAMPLE: if you want to use DockerHub, you can use like this. 
+        image: ecs.ContainerImage.fromRegistry("amazon/amazon-ecs-sample"), 
       },
     });
 

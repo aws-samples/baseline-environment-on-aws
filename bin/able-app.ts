@@ -20,7 +20,7 @@ import { ABLEDbAuroraPgSlStack } from '../lib/able-db-aurora-pg-sl-stack';
 import { ABLEMonitorAlarmStack } from '../lib/able-monitor-alarm-stack';
 import { ABLEInvestigationInstanceStack } from '../lib/able-investigation-instance-stack';
 import { ABLESecurityAlarmStack } from '../lib/able-security-alarm-stack';
-import { ABLEEcrStack } from '../lib/able-ecr-stack';
+import { ABLEECRStack } from '../lib/able-ecr-stack';
 
 const env = { 
   account: process.env.CDK_DEFAULT_ACCOUNT, 
@@ -103,10 +103,11 @@ const ec2App = new ABLEEC2AppStack(app,`${pjPrefix}-EC2App`, {
 });
 
 // Container Repository
-const ecr = new ABLEEcrStack(app,`${pjPrefix}-Ecr`, {
+const ecr = new ABLEECRStack(app,`${pjPrefix}-ECR`, {
   // TODO: will get "repositoryName" from parameters
   repositoryName: 'apprepo',
-  alarmTopic: monitorAlarm.alarmTopic
+  alarmTopic: monitorAlarm.alarmTopic,
+  env: env
 });
 
 // Application Stack (LoadBalancer + Fargate)
@@ -115,9 +116,10 @@ const ecsApp = new ABLEECSAppStack(app,`${pjPrefix}-ECSApp`, {
   environment: 'dev',
   logBucket: generalLogStack.logBucket,
   appKey: generalLogKey.kmsKey,
+  repository: ecr.repository,
+  
+  alarmTopic: monitorAlarm.alarmTopic,
   env: env,
-  sourceRepositoryStack: ecr,
-  alarmTopic: monitorAlarm.alarmTopic
 })
 
 

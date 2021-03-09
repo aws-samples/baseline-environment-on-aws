@@ -3,14 +3,15 @@ import * as ecr from '@aws-cdk/aws-ecr';
 import * as eventtarget from '@aws-cdk/aws-events-targets';
 import * as sns from '@aws-cdk/aws-sns';
 
-export interface ABLEEcrProps extends cdk.StackProps {
+export interface ABLEECRStackProps extends cdk.StackProps {
   repositoryName: string,
   alarmTopic: sns.Topic
 }
 
-export class ABLEEcrStack extends cdk.Stack {
+export class ABLEECRStack extends cdk.Stack {
   public readonly repository: ecr.Repository;
-  constructor(scope: cdk.Construct, id: string, props: ABLEEcrProps) {
+
+  constructor(scope: cdk.Construct, id: string, props: ABLEECRStackProps) {
     super(scope, id, props);
 
     // Create a repository
@@ -18,9 +19,9 @@ export class ABLEEcrStack extends cdk.Stack {
       imageScanOnPush: true
     });
     const target = new eventtarget.SnsTopic(props.alarmTopic);
-    console.log(this);
-    console.log(this.repository);
-    console.log(target);
+    // console.log(this);
+    // console.log(this.repository);
+    // console.log(target);
     const options = this.repository.onImageScanCompleted('ImageScanComplete')
       .addTarget(target);
 
