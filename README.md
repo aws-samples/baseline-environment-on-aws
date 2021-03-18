@@ -1,6 +1,8 @@
 # ABLE - AWS BaseLine Environment CDK Template
 
-## How to Deploy
+# How to Deploy on your PC/Mac Terminal
+This deployment process uses AWS credential (e.g. API secret key) on your local PC/Mac.
+If you do not want to use AWS credential locally, please see Appendix A that on a bottom of this document.
 # 1. Setup CDK prerequisities
 
 See: https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/getting_started.html
@@ -244,3 +246,178 @@ $ cdk deploy ABLE-ChatbotMonitor
 * ABLE-ChatbotSecurity is for security alarm topic.
 * ABLE-ChatbotMonitor is for monitoring alarm topic.
 
+
+# Appendix. A: Deploy via CloudShell
+Deploy ABLE via CloudShell on AWS Console.
+Please note that CloudShell will delete environment if you do not use that for 120 days.
+see: https://docs.aws.amazon.com/cloudshell/latest/userguide/limits.html
+
+# 0. Open CloudShell
+* Open CloudShell from [>_] icon on your AWS console (top right, near by account name)
+![OpenConsole](/doc/OpenConsole.png)
+
+# 1. Setup CDK prerequisities
+
+See: https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/getting_started.html
+
+* Update npm
+```
+$ sudo npm -g install npm
+```
+* TypeScript 2.7 or later
+```
+$ sudo npm -g install typescript
+```
+* CDK 1.90.1 or later
+```
+$ sudo npm install -g aws-cdk
+``` 
+* ncu
+```
+$ sudo npm install -g npm-check-updates
+```
+# 2. Upload and extract ABLE file
+* Get ABLE source file from git or your SA
+* Upload ABLE file from [Action]-[Upload File] Button
+![UploadFiles](/doc/UploadFiles.png)
+
+* Extract and delete ABLE file
+```
+$ unzip baseline-template-vx.x.x.zip
+$ rm baseline-template-vx.x.x.zip
+```
+
+# 3. Build
+```
+$ cd path-to-source
+$ ncu -u
+$ npm install
+$ npm run build
+```
+
+if npm install doesn’t work, remove package-lock.json first.
+
+```
+$ cd <path-to-source>
+$ ncu -u
+$ rm package-lock.json
+$ npm install
+$ npm run build
+```
+
+# 4. Define parameters in CDK Context
+You need to define deployment parameters on CDK Context. Context values are defined in cdk.json file or cdk.context.json file or -c option.
+* See: https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/context.html
+* See: https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/get_context_var.html
+
+## 1. Sample cdk.json and cdk.context.json:
+These files are define `dev`, `prod`, `my` context. cdk.json is managed by git. cdk.context.json is managed just for your local environment only.
+```
+$ cat cdk.json
+{
+  "app": "npx ts-node bin/able-app.ts",
+  "context": {
+    "dev": {
+      "envName": "Development",
+      "vpcCidr": "10.100.0.0/16",
+      "securityNotifyEmail": "notify-security@example.com",
+      "monitoringNotifyEmail": "notify-monitoring@example.com",
+      "dbUser": "dbadmin",
+      "slackNotifier": {
+        "workspaceId": "T8XXXXXXX",
+        "channelIdSec": "C01XXXXXXXX",
+        "channelIdMon": "C01YYYYYYYY"
+      }
+    },
+    "prod": {
+      "envName": "Production",
+      "vpcCidr": "10.110.0.0/16",
+      "securityNotifyEmail": "notify-security@example.com",
+      "monitoringNotifyEmail": "notify-monitoring@example.com",
+      "dbUser": "dbadmin",
+      "slackNotifier": {
+        "workspaceId": "T8XXXXXXX",
+        "channelIdSec": "C01XXXXXXXX",
+        "channelIdMon": "C01YYYYYYYY"
+      }
+    }
+  }
+}
+```
+
+You need to create cdk.context.json by yourself (might be generated automatically). This file is ignored by git.
+```
+$ cat cdk.context.json
+{
+  "@aws-cdk/core:enableStackNameDuplicates": "true",
+  "aws-cdk:enableDiffNoFail": "true",
+  "@aws-cdk/core:stackRelativeExports": "true",
+  "my": {
+    "envName": "Personal",
+    "vpcCidr": "10.100.0.0/16",
+    "securityNotifyEmail": "xxx@example.com",
+    "monitoringNotifyEmail": "zzz@example.com",
+    "dbUser": "personaluser",
+    "slackNotifier": {
+      "workspaceId": "T8PERSONAL",
+      "channelIdSec": "C01PERSONAL",
+      "channelIdMon": "C02PERSONAL"
+    }
+  }
+}
+```
+
+## 2. Use parameters in CDK code
+You can use parameters like this. This code intend to use context optioin in cdk command with `-c environment=dev`
+```
+const envKey = app.node.tryGetContext('environment'); 
+const valArray = app.node.tryGetContext(envKey);
+const environment_name = valArray['envName'];
+```
+
+# 5. BootStrap Account & Region
+```
+$ cdk bootstrap -c environment=xxx
+```
+> xxx is environment that you defined in cdk.json or cdk.context.json (dev, prod, my)
+
+# 6. How to Deploy Guardrail (For test. It's usually deployed by ControlTower on production)
+You need to specify `-c environment=xxx` on all of steps below. Each stacks are independent each other.
+```
+$ cdk deploy ABLE-Trail -c environment=xxx
+$ cdk deploy ABLE-ConfigRule -c environment=xxx
+$ cdk deploy ABLE-ConfigCtGuardrail -c environment=xxx
+$ cdk deploy ABLE-Guardduty -c environment=xxx
+$ cdk deploy ABLE-SecurityHub -c environment=xxx
+$ cdk deploy ABLE-SecurityAlarm -c environment=xxx
+```
+
+# 6. How to deploy sample apps
+You need to specify `-c environment=xxx` on all of steps below.
+## 1. Deploy roles to operate the apps.
+```
+$ cdk deploy ABLE-Iam -c environment=xxx
+```
+
+## 2. Deploy Application Stack (baseline will be deployed as dependency)
+```
+$ cdk deploy ABLE-ASGApp -c environment=xxx
+or 
+$ cdk deploy ABLE-EC2App -c environment=xxx
+or 
+$ cdk deploy ABLE-ECSApp -c environment=xxx
+```
+* `ABLE-ASGApp` Stack - Deploy EC2 Web Apps (with AutoScaling) on baseline.
+* `ABLE-EC2App` Stack - Deploy EC2 Web Apps (No AutoScaling) on baseline. 
+* `ABLE-ECSApp`  Stack  - To eploy Fargate Apps on baseline.
+* Baseline stacks to be deployed as dependency
+  * `ABLE-MonitorAlarm ABLE-GeneralLogKey ABLE-GeneralLog ABLE-FlowlogKey ABLE-FlowLog ABLE-Vpc`
+
+## 3. Deploy Database (this step takes 15mins)
+```
+$ cdk deploy ABLE-DBAuroraPg -c environment=xxx
+or 
+$ cdk deploy ABLE-DBAuroraPgSl -c environment=xxx
+```
+* `ABLE-DBAuroraPg` - Deploy Aurora PostgreSQL on baseline
+* `ABLE-DBAuroraPgSl` - Deploy Aurora Serverless on baseline
