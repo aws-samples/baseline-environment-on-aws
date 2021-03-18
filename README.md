@@ -304,3 +304,5 @@ $ rm package-lock.json
 $ npm install
 $ npm run build
 ```
+# 4. and after
+please see "3. BootStrap Account & Region" on the above.
