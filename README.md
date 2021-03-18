@@ -305,4 +305,4 @@ $ npm install
 $ npm run build
 ```
 # 4. and after
-please see "3. BootStrap Account & Region" on the above.
+Please see "2.Bootstrap your account & region" on the above.
