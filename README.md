@@ -1,6 +1,8 @@
 # ABLE - AWS BaseLine Environment CDK Template
 
-## How to Deploy
+# How to Deploy on your PC/Mac Terminal
+This deployment process uses AWS credential (e.g. API secret key) on your local PC/Mac.  
+If you do not want to use AWS credential locally, please see Appendix A that on a bottom of this document.  
 # 1. Setup CDK prerequisities
 
 See: https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/getting_started.html
@@ -244,3 +246,63 @@ $ cdk deploy ABLE-ChatbotMonitor
 * ABLE-ChatbotSecurity is for security alarm topic.
 * ABLE-ChatbotMonitor is for monitoring alarm topic.
 
+
+# Appendix. A: Deploy via CloudShell
+Deploy ABLE via CloudShell on AWS Console.  
+Please note that CloudShell will delete environment if you do not use that for 120 days.  
+see: https://docs.aws.amazon.com/cloudshell/latest/userguide/limits.html  
+
+## 0. Open CloudShell
+* Open CloudShell from [>_] icon on your AWS console (top right, near by account name)
+![OpenConsole](/doc/OpenConsole.png)
+
+## 1. Setup CDK prerequisities
+
+See: https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/getting_started.html
+
+* Update npm
+```
+$ sudo npm -g install npm
+```
+* TypeScript 2.7 or later
+```
+$ sudo npm -g install typescript
+```
+* CDK 1.90.1 or later
+```
+$ sudo npm install -g aws-cdk
+``` 
+* ncu
+```
+$ sudo npm install -g npm-check-updates
+```
+## 2. Upload and extract ABLE file
+* Get ABLE source file from git or your SA
+* Upload ABLE file from [Action]-[Upload File] Button
+![UploadFiles](/doc/UploadFiles.png)
+
+* Extract and delete ABLE file
+```
+$ unzip baseline-template-vx.x.x.zip
+$ rm baseline-template-vx.x.x.zip
+```
+
+## 3. Build
+```
+$ cd path-to-source
+$ ncu -u
+$ npm install
+$ npm run build
+```
+
+if npm install doesn’t work, remove package-lock.json first.
+
+```
+$ cd <path-to-source>
+$ ncu -u
+$ rm package-lock.json
+$ npm install
+$ npm run build
+```
+## 4. and after
+Please see "2.Bootstrap your account & region" on the above.
