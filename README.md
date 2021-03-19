@@ -252,11 +252,11 @@ Deploy ABLE via CloudShell on AWS Console.
 Please note that CloudShell will delete environment if you do not use that for 120 days.  
 see: https://docs.aws.amazon.com/cloudshell/latest/userguide/limits.html  
 
-# 0. Open CloudShell
+## 0. Open CloudShell
 * Open CloudShell from [>_] icon on your AWS console (top right, near by account name)
 ![OpenConsole](/doc/OpenConsole.png)
 
-# 1. Setup CDK prerequisities
+## 1. Setup CDK prerequisities
 
 See: https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/getting_started.html
 
@@ -276,7 +276,7 @@ $ sudo npm install -g aws-cdk
 ```
 $ sudo npm install -g npm-check-updates
 ```
-# 2. Upload and extract ABLE file
+## 2. Upload and extract ABLE file
 * Get ABLE source file from git or your SA
 * Upload ABLE file from [Action]-[Upload File] Button
 ![UploadFiles](/doc/UploadFiles.png)
@@ -287,7 +287,7 @@ $ unzip baseline-template-vx.x.x.zip
 $ rm baseline-template-vx.x.x.zip
 ```
 
-# 3. Build
+## 3. Build
 ```
 $ cd path-to-source
 $ ncu -u
@@ -304,5 +304,5 @@ $ rm package-lock.json
 $ npm install
 $ npm run build
 ```
-# 4. and after
+## 4. and after
 Please see "2.Bootstrap your account & region" on the above.
