@@ -22,6 +22,7 @@ import { ABLEInvestigationInstanceStack } from '../lib/able-investigation-instan
 import { ABLESecurityAlarmStack } from '../lib/able-security-alarm-stack';
 import { ABLEChatbotStack } from '../lib/able-chatbot-stack';
 
+import { ABLEBuildContainerStack } from '../lib/able-build-container-stack';
 import { ABLEECRStack } from '../lib/able-ecr-stack';
 
 const procEnv = { 
@@ -139,6 +140,12 @@ const ecr = new ABLEECRStack(app,`${pjPrefix}-ECR`, {
   // TODO: will get "repositoryName" from parameters
   repositoryName: 'apprepo',
   alarmTopic: monitorAlarm.alarmTopic,
+  env: procEnv
+});
+
+// Build Container Image
+const build_container = new ABLEBuildContainerStack(app, `${pjPrefix}-ContainerImage`, {
+  ecrRepository: ecr.repository,
   env: procEnv
 });
 
