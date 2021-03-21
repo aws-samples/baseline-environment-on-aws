@@ -34,6 +34,13 @@ export class ABLESecurityAlarmStack extends cdk.Stack {
       eventPattern: {
         source: ['aws.config'],
         detailType: ['Config Rules Compliance Change'],
+        detail: {
+          newEvaluationResult: {
+            complianceType: [
+                "NON_COMPLIANT"
+            ]
+          }
+        },
       },
       targets: [ new cwet.SnsTopic(secTopic) ],
     });
@@ -218,6 +225,11 @@ export class ABLESecurityAlarmStack extends cdk.Stack {
               Label: [
                 'CRITICAL',
                 'HIGH',
+              ]
+            },
+            Compliance: {
+              Status: [
+                'FAILED'
               ]
             }
           }
