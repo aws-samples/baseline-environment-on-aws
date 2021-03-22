@@ -213,6 +213,9 @@ export class ABLESecurityAlarmStack extends cdk.Stack {
     // SecurityHub - Imported
     //   Security Hub automatically sends all new findings and all updates to existing findings to EventBridge as Security Hub Findings - Imported events.
     //   See: https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cwe-integration-types.html
+    //
+    //   Security Hub Finding format
+    //   See: https://docs.aws.amazon.com/ja_jp/securityhub/latest/userguide/securityhub-findings-format.html
     new cwe.Rule(this, 'ABLERuleSecurityHub', {
       description: 'CloudWatch Event Rule to send notification on SecurityHub all new findings and all updates.',
       enabled: true,
@@ -230,6 +233,12 @@ export class ABLESecurityAlarmStack extends cdk.Stack {
             Compliance: {
               Status: [
                 'FAILED'
+              ]
+            }, 
+            Workflow: {
+              Status: [
+                'NEW',
+                'NOTIFIED'
               ]
             }
           }
