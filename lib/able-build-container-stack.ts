@@ -3,6 +3,7 @@ import * as ecr from '@aws-cdk/aws-ecr';
 import * as iam from '@aws-cdk/aws-iam';
 import * as codebuild from '@aws-cdk/aws-codebuild';
 import * as s3assets from '@aws-cdk/aws-s3-assets';
+import * as cr from '@aws-cdk/custom-resources';
 
 import * as path from 'path';
 
@@ -14,14 +15,19 @@ export class ABLEBuildContainerStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props: ABLEBuildContainerStackProps) {
     super(scope, id, props);
 
-    const asset = new s3assets.Asset(this, 'SampleAsset', {
-      path: path.join(__dirname, '../assets/sample-app'),
+    const unixtime = Math.floor(Date.now() / 1000);
+
+    // Upload Dockerfile and buildspec.yml to s3
+    const asset = new s3assets.Asset(this, 'app-asset', {
+      path: path.join(__dirname, '../assets/sample-app')
     });
 
-    const project = new codebuild.Project(this, 'sample-app', {
+    // CodeBuild project
+    //const project = new codebuild.Project(this, `sample-app-project-${unixtime}`, {
+    const project = new codebuild.Project(this, 'sample-app-project', {
       source: codebuild.Source.s3({
         bucket: asset.bucket,
-        path: asset.s3ObjectKey
+        path: asset.s3ObjectKey,
       }),
       environment: {
         buildImage: codebuild.LinuxBuildImage.STANDARD_4_0,
@@ -48,16 +54,46 @@ export class ABLEBuildContainerStack extends cdk.Stack {
     });
     project.addToRolePolicy(new iam.PolicyStatement({
       resources: [ '*' ],
-      //resources: [`arn:aws:ecr:${this.region}:${this.account}:repository/${props.ecrRepository.repositoryName}`],
+      actions: [
+        'ecr:GetAuthorizationToken',
+      ]
+    }));
+    project.addToRolePolicy(new iam.PolicyStatement({
+      resources: [`arn:aws:ecr:${this.region}:${this.account}:repository/${props.ecrRepository.repositoryName}`],
       actions: [
         'ecr:BatchCheckLayerAvailability',
         'ecr:CompleteLayerUpload',
-        'ecr:GetAuthorizationToken',
         'ecr:InitiateLayerUpload',
         'ecr:PutImage',
         'ecr:UploadLayerPart'
       ]
     }));
+
+
+    // CodeBuild:StartBuild
+    const sdkcallForStartBuild = {
+        service: 'CodeBuild',
+        action: 'startBuild', // Must with a lowercase letter.
+        parameters: {
+          projectName: project.projectName
+        },
+        physicalResourceId: cr.PhysicalResourceId.of(project.projectArn)
+    }
+
+    const startBuild = new cr.AwsCustomResource(this, 'startBuild', {
+      policy: {
+        statements: [
+          new iam.PolicyStatement({
+            resources: [ '*' ],
+            actions: [
+              'codebuild:StartBuild'
+            ]
+          }),
+        ]
+      },
+      onCreate: sdkcallForStartBuild,
+//      onUpdate: sdkcallForStartBuild
+    });
 
   }
 }
