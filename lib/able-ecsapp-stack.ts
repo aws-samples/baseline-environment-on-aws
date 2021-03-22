@@ -20,6 +20,7 @@ export interface ABLEECSAppStackProps extends cdk.StackProps {
   logBucket: s3.Bucket,
   appKey: kms.IKey,
   repository: ecr.Repository,
+  imageTag: string,
   alarmTopic: sns.Topic,
 }
 
@@ -178,10 +179,10 @@ export class ABLEECSAppStack extends cdk.Stack {
         taskRole: serviceTaskRole,
 
         // SAMPLE: if you want to use your ECR repository, you can use like this.
-        // image: ecs.ContainerImage.fromEcrRepository(props.repository),
+        image: ecs.ContainerImage.fromEcrRepository(props.repository, props.imageTag),
 
         // SAMPLE: if you want to use DockerHub, you can use like this. 
-        image: ecs.ContainerImage.fromRegistry("amazon/amazon-ecs-sample"), 
+        // image: ecs.ContainerImage.fromRegistry("amazon/amazon-ecs-sample"), 
       },
     });
 

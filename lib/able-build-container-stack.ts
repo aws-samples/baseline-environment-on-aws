@@ -12,10 +12,16 @@ export interface ABLEBuildContainerStackProps extends cdk.StackProps {
 }
 
 export class ABLEBuildContainerStack extends cdk.Stack {
+  public readonly imageTag: string; 
+
   constructor(scope: cdk.Construct, id: string, props: ABLEBuildContainerStackProps) {
     super(scope, id, props);
 
     const unixtime = Math.floor(Date.now() / 1000);
+
+    const appName ='sample-app';
+
+    this.imageTag = appName;
 
     // Upload Dockerfile and buildspec.yml to s3
     const asset = new s3assets.Asset(this, 'app-asset', {
@@ -23,8 +29,8 @@ export class ABLEBuildContainerStack extends cdk.Stack {
     });
 
     // CodeBuild project
-    //const project = new codebuild.Project(this, `sample-app-project-${unixtime}`, {
-    const project = new codebuild.Project(this, 'sample-app-project', {
+    //const project = new codebuild.Project(this, `${appName}-project-${unixtime}`, {
+    const project = new codebuild.Project(this, `${appName}-project`, {
       source: codebuild.Source.s3({
         bucket: asset.bucket,
         path: asset.s3ObjectKey,
@@ -43,7 +49,7 @@ export class ABLEBuildContainerStack extends cdk.Stack {
           },
           'IMAGE_TAG': {
             type: codebuild.BuildEnvironmentVariableType.PLAINTEXT,
-            value: 'latest',
+            value: `${appName}`,
           },
           'IMAGE_REPO_NAME': {
             type: codebuild.BuildEnvironmentVariableType.PLAINTEXT,

@@ -155,6 +155,7 @@ const ecsApp = new ABLEECSAppStack(app,`${pjPrefix}-ECSApp`, {
   logBucket: generalLog.logBucket,
   appKey: generalLogKey.kmsKey,
   repository: ecr.repository,
+  imageTag: build_container.imageTag,
   alarmTopic: monitorAlarm.alarmTopic,
   env: procEnv,
 })
