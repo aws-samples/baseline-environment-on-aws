@@ -90,7 +90,7 @@ export class ABLEBuildContainerStack extends cdk.Stack {
       policy: {
         statements: [
           new iam.PolicyStatement({
-            resources: [ '*' ],
+            resources: [ project.projectArn ],
             actions: [
               'codebuild:StartBuild'
             ]
