@@ -159,6 +159,7 @@ const ecsApp = new ABLEECSAppStack(app,`${pjPrefix}-ECSApp`, {
   alarmTopic: monitorAlarm.alarmTopic,
   env: procEnv,
 })
+ecsApp.addDependency(build_container);
 
 // Aurora
 const dbAuroraPg = new ABLEDbAuroraPgStack(app,`${pjPrefix}-DBAuroraPg`, {
