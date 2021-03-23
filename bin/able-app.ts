@@ -22,6 +22,7 @@ import { ABLEInvestigationInstanceStack } from '../lib/able-investigation-instan
 import { ABLESecurityAlarmStack } from '../lib/able-security-alarm-stack';
 import { ABLEChatbotStack } from '../lib/able-chatbot-stack';
 
+import { ABLEBuildContainerStack } from '../lib/able-build-container-stack';
 import { ABLEECRStack } from '../lib/able-ecr-stack';
 
 const procEnv = { 
@@ -142,15 +143,23 @@ const ecr = new ABLEECRStack(app,`${pjPrefix}-ECR`, {
   env: procEnv
 });
 
+// Build Container Image
+const build_container = new ABLEBuildContainerStack(app, `${pjPrefix}-ContainerImage`, {
+  ecrRepository: ecr.repository,
+  env: procEnv
+});
+
 // Application Stack (LoadBalancer + Fargate)
 const ecsApp = new ABLEECSAppStack(app,`${pjPrefix}-ECSApp`, {
   myVpc: prodVpc.myVpc,
   logBucket: generalLog.logBucket,
   appKey: generalLogKey.kmsKey,
   repository: ecr.repository,
+  imageTag: build_container.imageTag,
   alarmTopic: monitorAlarm.alarmTopic,
   env: procEnv,
 })
+ecsApp.addDependency(build_container);
 
 // Aurora
 const dbAuroraPg = new ABLEDbAuroraPgStack(app,`${pjPrefix}-DBAuroraPg`, {
