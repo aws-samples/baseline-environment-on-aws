@@ -44,7 +44,7 @@
     "pre-commit": "npx lint-staged"
   },
   "lint-staged": {
-    "{bin,lib}/*.ts}": [
+    "{bin,lib}/*.ts": [
       "npx prettier --write",
       "npx eslint --fix"
     ]
