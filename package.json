@@ -37,5 +37,14 @@
     "@aws-cdk/cloudformation-include": "^1.94.1",
     "@aws-cdk/core": "1.94.1",
     "source-map-support": "^0.5.19"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
+  "lint-staged": {
+    "{bin,lib}/*.ts}": [
+      "npx prettier --write",
+      "npx eslint --fix"
+    ]
   }
 }
