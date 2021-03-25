@@ -6,8 +6,7 @@ export class ABLEGuarddutyStack extends cdk.Stack {
     super(scope, id, props);
 
     new guardduty.CfnDetector(this, 'GuardDutyDetector', {
-      enable: true
+      enable: true,
     });
-
   }
 }

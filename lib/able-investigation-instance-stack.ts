@@ -1,10 +1,10 @@
 import * as cdk from '@aws-cdk/core';
 import * as ec2 from '@aws-cdk/aws-ec2';
 import * as iam from '@aws-cdk/aws-iam';
-import { Duration, Tags, RemovalPolicy, SecretValue } from '@aws-cdk/core';
+import { Tags } from '@aws-cdk/core';
 
 export interface ABLEInvestigationInstanceStackProps extends cdk.StackProps {
-  myVpc: ec2.Vpc
+  myVpc: ec2.Vpc;
 }
 
 export class ABLEInvestigationInstanceStack extends cdk.Stack {
@@ -15,7 +15,7 @@ export class ABLEInvestigationInstanceStack extends cdk.Stack {
 
     // Security Group
     const securityGroupForEc2 = new ec2.SecurityGroup(this, 'SgEC2', {
-      vpc: props.myVpc
+      vpc: props.myVpc,
     });
 
     // InstanceProfile
@@ -29,32 +29,29 @@ export class ABLEInvestigationInstanceStack extends cdk.Stack {
     });
 
     // UserData
-    const userData = ec2.UserData.forLinux({shebang: '#!/bin/bash'});
-    userData.addCommands(
-      "sudo yum -y install mariadb",
-    );
+    const userData = ec2.UserData.forLinux({ shebang: '#!/bin/bash' });
+    userData.addCommands('sudo yum -y install mariadb');
 
     const instance = new ec2.Instance(this, 'Investigation', {
       vpc: props.myVpc,
       vpcSubnets: props.myVpc.selectSubnets({
-        subnetGroupName: 'Protected'
+        subnetGroupName: 'Protected',
       }),
-      instanceType: ec2.InstanceType.of(
-        ec2.InstanceClass.T3,
-        ec2.InstanceSize.MICRO
-      ),
+      instanceType: ec2.InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.MICRO),
       machineImage: new ec2.AmazonLinuxImage({
-        generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2
+        generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2,
       }),
       securityGroup: securityGroupForEc2,
       role: ssmInstanceRole,
       userData: userData,
-      blockDevices: [{
-        deviceName: '/dev/xvda',
-        volume: ec2.BlockDeviceVolume.ebs(10, {
-          encrypted: true,
-        })
-      }]
+      blockDevices: [
+        {
+          deviceName: '/dev/xvda',
+          volume: ec2.BlockDeviceVolume.ebs(10, {
+            encrypted: true,
+          }),
+        },
+      ],
     });
 
     // Tag

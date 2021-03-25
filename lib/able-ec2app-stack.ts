@@ -3,14 +3,13 @@ import * as ec2 from '@aws-cdk/aws-ec2';
 import * as elbv2 from '@aws-cdk/aws-elasticloadbalancingv2';
 import * as s3 from '@aws-cdk/aws-s3';
 import * as iam from '@aws-cdk/aws-iam';
-import { Duration, Tags, RemovalPolicy, SecretValue } from '@aws-cdk/core';
+import { Duration, Tags } from '@aws-cdk/core';
 import * as kms from '@aws-cdk/aws-kms';
 
-
 export interface ABLEEC2AppStackProps extends cdk.StackProps {
-  myVpc: ec2.Vpc,
-  logBucket: s3.Bucket,
-  appKey: kms.IKey,
+  myVpc: ec2.Vpc;
+  logBucket: s3.Bucket;
+  appKey: kms.IKey;
 }
 
 export class ABLEEC2AppStack extends cdk.Stack {
@@ -18,7 +17,6 @@ export class ABLEEC2AppStack extends cdk.Stack {
 
   constructor(scope: cdk.Construct, id: string, props: ABLEEC2AppStackProps) {
     super(scope, id, props);
-
 
     // --- Security Groups ---
 
@@ -47,7 +45,6 @@ export class ABLEEC2AppStack extends cdk.Stack {
     // securityGroupForRDS.addIngressRule(securityGroupForApp, ec2.Port.tcp(3306));
     // securityGroupForRDS.addEgressRule(securityGroupForApp, ec2.Port.allTcp());
 
-
     // ------------ Application LoadBalancer ---------------
 
     // S3 Bucket for ALB Logging (Needs SSE-S3)
@@ -65,41 +62,48 @@ export class ABLEEC2AppStack extends cdk.Stack {
       internetFacing: true,
       securityGroup: securityGroupForAlb,
       vpcSubnets: props.myVpc.selectSubnets({
-        subnetGroupName: 'Public'
+        subnetGroupName: 'Public',
       }),
     });
 
     // Enable ALB Access Logging
-    lbForApp.setAttribute("access_logs.s3.enabled", "true");
-    lbForApp.setAttribute("access_logs.s3.bucket", albLogBucket.bucketName);
-    
+    lbForApp.setAttribute('access_logs.s3.enabled', 'true');
+    lbForApp.setAttribute('access_logs.s3.bucket', albLogBucket.bucketName);
+
     // Permissions for Access Logging
     //    Why don't use bForApp.logAccessLogs(albLogBucket); ?
     //    Because logAccessLogs add wider permission to other account (PutObject*). S3 will become Noncompliant on Security Hub [S3.6]
     //    See: https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-s3-6
     //    See: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-access-logs.html#access-logging-bucket-permissions
-    albLogBucket.addToResourcePolicy(new iam.PolicyStatement({
-      effect: iam.Effect.ALLOW,
-      actions: ['s3:PutObject'],
-      principals: [ new iam.AccountPrincipal('582318560864') ], // ALB Account for ap-northeast-1
-      resources: [ albLogBucket.arnForObjects(`AWSLogs/${cdk.Stack.of(this).account}/*`) ],
-    }));
-    albLogBucket.addToResourcePolicy(new iam.PolicyStatement({
-      effect: iam.Effect.ALLOW,
-      actions: ['s3:PutObject'],
-      principals: [ new iam.ServicePrincipal('delivery.logs.amazonaws.com') ],
-      resources: [ albLogBucket.arnForObjects(`AWSLogs/${cdk.Stack.of(this).account}/*`) ],
-      conditions: {
-        StringEquals: {
-          "s3:x-amz-acl": "bucket-owner-full-control"
-        }}}));
-    albLogBucket.addToResourcePolicy(new iam.PolicyStatement({
-      effect: iam.Effect.ALLOW,
-      actions: ['s3:GetBucketAcl'],
-      principals: [ new iam.ServicePrincipal('delivery.logs.amazonaws.com') ],
-      resources: [ albLogBucket.bucketArn ],
-      }));
-
+    albLogBucket.addToResourcePolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ['s3:PutObject'],
+        principals: [new iam.AccountPrincipal('582318560864')], // ALB Account for ap-northeast-1
+        resources: [albLogBucket.arnForObjects(`AWSLogs/${cdk.Stack.of(this).account}/*`)],
+      }),
+    );
+    albLogBucket.addToResourcePolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ['s3:PutObject'],
+        principals: [new iam.ServicePrincipal('delivery.logs.amazonaws.com')],
+        resources: [albLogBucket.arnForObjects(`AWSLogs/${cdk.Stack.of(this).account}/*`)],
+        conditions: {
+          StringEquals: {
+            's3:x-amz-acl': 'bucket-owner-full-control',
+          },
+        },
+      }),
+    );
+    albLogBucket.addToResourcePolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ['s3:GetBucketAcl'],
+        principals: [new iam.ServicePrincipal('delivery.logs.amazonaws.com')],
+        resources: [albLogBucket.bucketArn],
+      }),
+    );
 
     // TargetGroup for App Server
     const tgForApp = new elbv2.ApplicationTargetGroup(this, 'TgApp', {
@@ -109,19 +113,17 @@ export class ABLEEC2AppStack extends cdk.Stack {
       targetType: elbv2.TargetType.INSTANCE,
       healthCheck: {
         enabled: true,
-        path: "/index.html"
+        path: '/index.html',
       },
       deregistrationDelay: Duration.seconds(60),
-    }); 
-
-
-    // ALB Listener - TargetGroup 
-    lbForApp.addListener('ListnerApp', {
-      port: 80, 
-      open: true,
-      defaultTargetGroups: [tgForApp], 
     });
 
+    // ALB Listener - TargetGroup
+    lbForApp.addListener('ListnerApp', {
+      port: 80,
+      open: true,
+      defaultTargetGroups: [tgForApp],
+    });
 
     // ------------ AppServers (AutoScaling) ---------------
 
@@ -136,48 +138,47 @@ export class ABLEEC2AppStack extends cdk.Stack {
     });
 
     // UserData for AppServer (setup httpd)
-    const userDataForApp = ec2.UserData.forLinux({shebang: '#!/bin/bash'});
+    const userDataForApp = ec2.UserData.forLinux({ shebang: '#!/bin/bash' });
     userDataForApp.addCommands(
-      "sudo yum -y install httpd",
-      "sudo systemctl enable httpd",
-      "sudo systemctl start httpd",
-      "touch /var/www/html/index.html",
-      "chown apache.apache /var/www/html/index.html",
+      'sudo yum -y install httpd',
+      'sudo systemctl enable httpd',
+      'sudo systemctl start httpd',
+      'touch /var/www/html/index.html',
+      'chown apache.apache /var/www/html/index.html',
     );
 
     const subnetAzs = props.myVpc.selectSubnets({
-      subnetGroupName: 'Private'
+      subnetGroupName: 'Private',
     }).availabilityZones;
     const numAzs = subnetAzs.length;
-    
-    for (let i=0; i<2; i++) {
+
+    for (let i = 0; i < 2; i++) {
       const instance = new ec2.Instance(this, `AppEc2${i}`, {
         vpc: props.myVpc,
-        availabilityZone:  subnetAzs[i%numAzs],
+        availabilityZone: subnetAzs[i % numAzs],
         vpcSubnets: props.myVpc.selectSubnets({
-          subnetGroupName: 'Private'
+          subnetGroupName: 'Private',
         }),
-        instanceType: ec2.InstanceType.of(
-          ec2.InstanceClass.T3,
-          ec2.InstanceSize.MICRO
-        ),
+        instanceType: ec2.InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.MICRO),
         machineImage: new ec2.AmazonLinuxImage({
-          generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2
+          generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2,
         }),
         securityGroup: securityGroupForApp,
-        role: ssmInstanceRole, 
+        role: ssmInstanceRole,
         userData: userDataForApp,
-        blockDevices: [{
-          deviceName: '/dev/xvda',
-          volume: ec2.BlockDeviceVolume.ebs(10, {
-            encrypted: true,
-          })
-        }]  
+        blockDevices: [
+          {
+            deviceName: '/dev/xvda',
+            volume: ec2.BlockDeviceVolume.ebs(10, {
+              encrypted: true,
+            }),
+          },
+        ],
       });
       // Tags for AppServers
-      Tags.of(instance).add('Name', 'AppServer'+i, {applyToLaunchedInstances: true,});
-      Tags.of(instance).add('Role', 'FRA_AppServer', {applyToLaunchedInstances: true,});
+      Tags.of(instance).add('Name', 'AppServer' + i, { applyToLaunchedInstances: true });
+      Tags.of(instance).add('Role', 'FRA_AppServer', { applyToLaunchedInstances: true });
       tgForApp.addTarget(new elbv2.InstanceTarget(instance.instanceId));
-    } 
+    }
   }
 }

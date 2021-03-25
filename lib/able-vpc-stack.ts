@@ -3,10 +3,9 @@ import * as ec2 from '@aws-cdk/aws-ec2';
 import * as s3 from '@aws-cdk/aws-s3';
 
 export interface ABLEVpcStackProps extends cdk.StackProps {
-  myVpcCidr: string,
-  vpcFlowLogsBucket: s3.Bucket
+  myVpcCidr: string;
+  vpcFlowLogsBucket: s3.Bucket;
 }
-
 
 export class ABLEVpcStack extends cdk.Stack {
   public readonly myVpc: ec2.Vpc;
@@ -34,22 +33,20 @@ export class ABLEVpcStack extends cdk.Stack {
           cidrMask: 22,
           name: 'Protected',
           subnetType: ec2.SubnetType.ISOLATED,
-        }
-     ]
+        },
+      ],
     });
 
     myVpc.addFlowLog('FlowLogs', {
       destination: ec2.FlowLogDestination.toS3(props.vpcFlowLogsBucket),
-      trafficType: ec2.FlowLogTrafficType.ALL
-    })
+      trafficType: ec2.FlowLogTrafficType.ALL,
+    });
     this.myVpc = myVpc;
-
-
 
     // NACL for Public Subnets
     const naclPublic = new ec2.NetworkAcl(this, 'NaclPublic', {
       vpc: myVpc,
-      subnetSelection: {subnetType: ec2.SubnetType.PUBLIC}
+      subnetSelection: { subnetType: ec2.SubnetType.PUBLIC },
     });
 
     // Egress Rules for Public Subnets
@@ -59,7 +56,7 @@ export class ABLEVpcStack extends cdk.Stack {
       cidr: ec2.AclCidr.anyIpv4(),
       traffic: ec2.AclTraffic.allTraffic(),
       ruleAction: ec2.Action.ALLOW,
-    })
+    });
 
     // Ingress Rules for Public Subnets
     naclPublic.addEntry('NaclIngressPublic', {
@@ -70,11 +67,10 @@ export class ABLEVpcStack extends cdk.Stack {
       ruleAction: ec2.Action.ALLOW,
     });
 
-
     // NACL for Private Subnets
     const naclPrivate = new ec2.NetworkAcl(this, 'NaclPrivate', {
       vpc: myVpc,
-      subnetSelection: {subnetType: ec2.SubnetType.PRIVATE}
+      subnetSelection: { subnetType: ec2.SubnetType.PRIVATE },
     });
 
     // Egress Rules for Private Subnets
@@ -84,7 +80,7 @@ export class ABLEVpcStack extends cdk.Stack {
       cidr: ec2.AclCidr.anyIpv4(),
       traffic: ec2.AclTraffic.allTraffic(),
       ruleAction: ec2.Action.ALLOW,
-    })
+    });
 
     // Ingress Rules for Public Subnets
     naclPrivate.addEntry('NaclIngressPrivate', {
@@ -96,41 +92,37 @@ export class ABLEVpcStack extends cdk.Stack {
     });
 
     // VPC Endpoint for S3
-    myVpc.addGatewayEndpoint("S3EndpointForPrivate", {
+    myVpc.addGatewayEndpoint('S3EndpointForPrivate', {
       service: ec2.GatewayVpcEndpointAwsService.S3,
-      subnets: [
-        { subnetType: ec2.SubnetType.PRIVATE },
-        { subnetType: ec2.SubnetType.ISOLATED }
-      ]
+      subnets: [{ subnetType: ec2.SubnetType.PRIVATE }, { subnetType: ec2.SubnetType.ISOLATED }],
     });
 
     // VPC Endpoint for SSM
-    myVpc.addInterfaceEndpoint("SsmEndpointForPrivate", {
+    myVpc.addInterfaceEndpoint('SsmEndpointForPrivate', {
       service: ec2.InterfaceVpcEndpointAwsService.SSM,
-      subnets: { subnetType: ec2.SubnetType.ISOLATED }
+      subnets: { subnetType: ec2.SubnetType.ISOLATED },
     });
-    myVpc.addInterfaceEndpoint("SsmMessagesEndpointForPrivate", {
+    myVpc.addInterfaceEndpoint('SsmMessagesEndpointForPrivate', {
       service: ec2.InterfaceVpcEndpointAwsService.SSM_MESSAGES,
-      subnets: { subnetType: ec2.SubnetType.ISOLATED }
+      subnets: { subnetType: ec2.SubnetType.ISOLATED },
     });
-    myVpc.addInterfaceEndpoint("Ec2EndpointForPrivate", {
+    myVpc.addInterfaceEndpoint('Ec2EndpointForPrivate', {
       service: ec2.InterfaceVpcEndpointAwsService.EC2,
-      subnets: { subnetType: ec2.SubnetType.ISOLATED }
+      subnets: { subnetType: ec2.SubnetType.ISOLATED },
     });
-    myVpc.addInterfaceEndpoint("Ec2MessagesEndpointForPrivate", {
+    myVpc.addInterfaceEndpoint('Ec2MessagesEndpointForPrivate', {
       service: ec2.InterfaceVpcEndpointAwsService.EC2_MESSAGES,
-      subnets: { subnetType: ec2.SubnetType.ISOLATED }
+      subnets: { subnetType: ec2.SubnetType.ISOLATED },
     });
 
     // VPC Endpoint for Fargate
-    myVpc.addInterfaceEndpoint("EcrDkrEndpointForPrivate", {
+    myVpc.addInterfaceEndpoint('EcrDkrEndpointForPrivate', {
       service: ec2.InterfaceVpcEndpointAwsService.ECR_DOCKER,
-      subnets: { subnetType: ec2.SubnetType.ISOLATED }
+      subnets: { subnetType: ec2.SubnetType.ISOLATED },
     });
-    myVpc.addInterfaceEndpoint("LogsEndpointForPrivate", {
+    myVpc.addInterfaceEndpoint('LogsEndpointForPrivate', {
       service: ec2.InterfaceVpcEndpointAwsService.CLOUDWATCH_LOGS,
-      subnets: { subnetType: ec2.SubnetType.ISOLATED }
+      subnets: { subnetType: ec2.SubnetType.ISOLATED },
     });
-
   }
 }
