@@ -41,7 +41,7 @@ const argContext = 'environment'
 // Environment Key (dev,stage,prod...) 
 // Should be defined in 2nd level of "context" tree in cdk.json
 const envKey = app.node.tryGetContext(argContext); 
-if (envKey == undefined) throw new Error(`Please specify envieonment with context option. ex) cdk deploy -c ${argContext}=dev`);
+if (envKey == undefined) throw new Error(`Please specify environment with context option. ex) cdk deploy -c ${argContext}=dev`);
 
 // Array of envrionment variables. These values hould be defined in cdk.json or cdk.context.json
 const envVals = app.node.tryGetContext(envKey);
