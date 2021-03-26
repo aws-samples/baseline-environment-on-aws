@@ -254,7 +254,7 @@ see: https://docs.aws.amazon.com/cloudshell/latest/userguide/limits.html
 
 ## 0. Open CloudShell
 * Open CloudShell from [>_] icon on your AWS console (top right, near by account name)
-![OpenConsole](/doc/OpenConsole.png)
+![OpenConsole](/doc/img/OpenConsole.png)
 
 ## 1. Setup CDK prerequisities
 
@@ -279,7 +279,7 @@ $ sudo npm install -g npm-check-updates
 ## 2. Upload and extract ABLE file
 * Get ABLE source file from git or your SA
 * Upload ABLE file from [Action]-[Upload File] Button
-![UploadFiles](/doc/UploadFiles.png)
+![UploadFiles](/doc/img/UploadFiles.png)
 
 * Extract and delete ABLE file
 ```
