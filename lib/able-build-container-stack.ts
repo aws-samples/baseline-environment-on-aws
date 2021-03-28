@@ -8,28 +8,25 @@ import * as cr from '@aws-cdk/custom-resources';
 import * as path from 'path';
 
 export interface ABLEBuildContainerStackProps extends cdk.StackProps {
-  ecrRepository: ecr.Repository
+  ecrRepository: ecr.Repository;
 }
 
 export class ABLEBuildContainerStack extends cdk.Stack {
-  public readonly imageTag: string; 
+  public readonly imageTag: string;
 
   constructor(scope: cdk.Construct, id: string, props: ABLEBuildContainerStackProps) {
     super(scope, id, props);
 
-    const unixtime = Math.floor(Date.now() / 1000);
-
-    const appName ='sample-app';
+    const appName = 'sample-app';
 
     this.imageTag = appName;
 
     // Upload Dockerfile and buildspec.yml to s3
     const asset = new s3assets.Asset(this, 'app-asset', {
-      path: path.join(__dirname, '../assets/sample-app')
+      path: path.join(__dirname, '../assets/sample-app'),
     });
 
     // CodeBuild project
-    //const project = new codebuild.Project(this, `${appName}-project-${unixtime}`, {
     const project = new codebuild.Project(this, `${appName}-project`, {
       source: codebuild.Source.s3({
         bucket: asset.bucket,
@@ -39,67 +36,64 @@ export class ABLEBuildContainerStack extends cdk.Stack {
         buildImage: codebuild.LinuxBuildImage.STANDARD_4_0,
         privileged: true,
         environmentVariables: {
-          'AWS_DEFAULT_REGION': {
+          AWS_DEFAULT_REGION: {
             type: codebuild.BuildEnvironmentVariableType.PLAINTEXT,
-            value: `${this.region}`
+            value: `${this.region}`,
           },
-          'AWS_ACCOUNT_ID': {
+          AWS_ACCOUNT_ID: {
             type: codebuild.BuildEnvironmentVariableType.PLAINTEXT,
-            value: `${this.account}`
+            value: `${this.account}`,
           },
-          'IMAGE_TAG': {
+          IMAGE_TAG: {
             type: codebuild.BuildEnvironmentVariableType.PLAINTEXT,
             value: `${appName}`,
           },
-          'IMAGE_REPO_NAME': {
+          IMAGE_REPO_NAME: {
             type: codebuild.BuildEnvironmentVariableType.PLAINTEXT,
-            value: props.ecrRepository.repositoryName
-          }
-        }
-      }
+            value: props.ecrRepository.repositoryName,
+          },
+        },
+      },
     });
-    project.addToRolePolicy(new iam.PolicyStatement({
-      resources: [ '*' ],
-      actions: [
-        'ecr:GetAuthorizationToken',
-      ]
-    }));
-    project.addToRolePolicy(new iam.PolicyStatement({
-      resources: [`arn:aws:ecr:${this.region}:${this.account}:repository/${props.ecrRepository.repositoryName}`],
-      actions: [
-        'ecr:BatchCheckLayerAvailability',
-        'ecr:CompleteLayerUpload',
-        'ecr:InitiateLayerUpload',
-        'ecr:PutImage',
-        'ecr:UploadLayerPart'
-      ]
-    }));
-
+    project.addToRolePolicy(
+      new iam.PolicyStatement({
+        resources: ['*'],
+        actions: ['ecr:GetAuthorizationToken'],
+      }),
+    );
+    project.addToRolePolicy(
+      new iam.PolicyStatement({
+        resources: [`arn:aws:ecr:${this.region}:${this.account}:repository/${props.ecrRepository.repositoryName}`],
+        actions: [
+          'ecr:BatchCheckLayerAvailability',
+          'ecr:CompleteLayerUpload',
+          'ecr:InitiateLayerUpload',
+          'ecr:PutImage',
+          'ecr:UploadLayerPart',
+        ],
+      }),
+    );
 
     // CodeBuild:StartBuild
     const sdkcallForStartBuild = {
-        service: 'CodeBuild',
-        action: 'startBuild', // Must with a lowercase letter.
-        parameters: {
-          projectName: project.projectName
-        },
-        physicalResourceId: cr.PhysicalResourceId.of(project.projectArn)
-    }
+      service: 'CodeBuild',
+      action: 'startBuild', // Must with a lowercase letter.
+      parameters: {
+        projectName: project.projectName,
+      },
+      physicalResourceId: cr.PhysicalResourceId.of(project.projectArn),
+    };
 
-    const startBuild = new cr.AwsCustomResource(this, 'startBuild', {
+    new cr.AwsCustomResource(this, 'startBuild', {
       policy: {
         statements: [
           new iam.PolicyStatement({
-            resources: [ project.projectArn ],
-            actions: [
-              'codebuild:StartBuild'
-            ]
+            resources: [project.projectArn],
+            actions: ['codebuild:StartBuild'],
           }),
-        ]
+        ],
       },
       onCreate: sdkcallForStartBuild,
-//      onUpdate: sdkcallForStartBuild
     });
-
   }
 }

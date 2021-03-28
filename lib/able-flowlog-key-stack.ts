@@ -10,11 +10,9 @@ export class ABLEFlowLogKeyStack extends cdk.Stack {
     // CMK
     const kmsKey = new kms.Key(this, 'Key', {
       enableKeyRotation: true,
-      description: "for VPC Flow log",
-      alias: "for-flowlog"
-    })
+      description: 'for VPC Flow log',
+      alias: 'for-flowlog',
+    });
     this.kmsKey = kmsKey;
-
   }
-
 }

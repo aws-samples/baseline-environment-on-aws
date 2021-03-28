@@ -4,38 +4,33 @@ import * as cb from '@aws-cdk/aws-chatbot';
 import * as iam from '@aws-cdk/aws-iam';
 
 export interface ABLEChatbotStackProps extends cdk.StackProps {
-  topic: sns.Topic,
-  channelId: string,
-  workspaceId: string,
+  topic: sns.Topic;
+  channelId: string;
+  workspaceId: string;
 }
-
 
 // NOTICE: AWS Chatbot can send events from supported services only.
 // See: https://docs.aws.amazon.com/ja_jp/chatbot/latest/adminguide/related-services.html
 export class ABLEChatbotStack extends cdk.Stack {
-  
   constructor(scope: cdk.Construct, id: string, props: ABLEChatbotStackProps) {
     super(scope, id, props);
 
     // AWS Chatbot configuration for sending message
     const chatbotRole = new iam.Role(this, 'ChatbotRole', {
-      assumedBy:new iam.ServicePrincipal('chatbot.amazonaws.com'),
+      assumedBy: new iam.ServicePrincipal('chatbot.amazonaws.com'),
       managedPolicies: [
         iam.ManagedPolicy.fromAwsManagedPolicyName('ReadOnlyAccess'),
         iam.ManagedPolicy.fromAwsManagedPolicyName('CloudWatchReadOnlyAccess'),
-      ]
+      ],
     });
 
     // !!! Create SlackChannel and add aws chatbot app to the room
-    const chatbot = new cb.CfnSlackChannelConfiguration(this, 'ChatbotChannel', {
+    new cb.CfnSlackChannelConfiguration(this, 'ChatbotChannel', {
       configurationName: `${id}`,
       slackChannelId: props.channelId,
       iamRoleArn: chatbotRole.roleArn,
       slackWorkspaceId: props.workspaceId,
-      snsTopicArns: [
-        props.topic.topicArn
-      ]
+      snsTopicArns: [props.topic.topicArn],
     });
- 
   }
 }

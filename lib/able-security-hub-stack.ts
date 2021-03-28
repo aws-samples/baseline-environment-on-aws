@@ -11,6 +11,5 @@ export class ABLESecurityHubStack extends cdk.Stack {
     });
 
     new hub.CfnHub(this, 'SecurityHub');
-
   }
 }
