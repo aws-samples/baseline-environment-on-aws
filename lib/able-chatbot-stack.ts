@@ -26,7 +26,7 @@ export class ABLEChatbotStack extends cdk.Stack {
 
     // !!! Create SlackChannel and add aws chatbot app to the room
     new cb.CfnSlackChannelConfiguration(this, 'ChatbotChannel', {
-      configurationName: `${id}`,
+      configurationName: `${id}-${props.workspaceId}`,
       slackChannelId: props.channelId,
       iamRoleArn: chatbotRole.roleArn,
       slackWorkspaceId: props.workspaceId,
