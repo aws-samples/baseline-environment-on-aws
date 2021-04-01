@@ -6,11 +6,11 @@ import * as cwe from '@aws-cdk/aws-events';
 import * as cwet from '@aws-cdk/aws-events-targets';
 
 interface ABLESecurityAlarmStackProps extends cdk.StackProps {
-  notifyEmail: string
+  notifyEmail: string;
 }
 
 export class ABLESecurityAlarmStack extends cdk.Stack {
-  public readonly alarmTopic :sns.Topic;
+  public readonly alarmTopic: sns.Topic;
 
   constructor(scope: cdk.Construct, id: string, props: ABLESecurityAlarmStackProps) {
     super(scope, id, props);
@@ -20,10 +20,9 @@ export class ABLESecurityAlarmStack extends cdk.Stack {
     new sns.Subscription(this, 'SecurityAlarmEmail', {
       endpoint: props.notifyEmail,
       protocol: sns.SubscriptionProtocol.EMAIL,
-      topic: secTopic
+      topic: secTopic,
     });
     this.alarmTopic = secTopic;
-
 
     // --------------- ConfigRule Compliance Change Notification -----------------
     // ConfigRule - Compliance Change
@@ -34,13 +33,17 @@ export class ABLESecurityAlarmStack extends cdk.Stack {
       eventPattern: {
         source: ['aws.config'],
         detailType: ['Config Rules Compliance Change'],
+        detail: {
+          newEvaluationResult: {
+            complianceType: ['NON_COMPLIANT'],
+          },
+        },
       },
-      targets: [ new cwet.SnsTopic(secTopic) ],
+      targets: [new cwet.SnsTopic(secTopic)],
     });
 
-
     // ------------------------ AWS Health Notification ---------------------------
-    
+
     // AWS Health - Notify any events on AWS Health
     // See: https://aws.amazon.com/premiumsupport/knowledge-center/cloudwatch-notification-scheduled-events/?nc1=h_ls
     new cwe.Rule(this, 'ABLERuleAwsHealth', {
@@ -50,9 +53,8 @@ export class ABLESecurityAlarmStack extends cdk.Stack {
         source: ['aws.health'],
         detailType: ['AWS Health Event'],
       },
-      targets: [ new cwet.SnsTopic(secTopic) ],
+      targets: [new cwet.SnsTopic(secTopic)],
     });
-
 
     // ------------ Detective guardrails from NIST standard template ----------------
 
@@ -72,9 +74,11 @@ export class ABLESecurityAlarmStack extends cdk.Stack {
             'AuthorizeSecurityGroupEgress',
             'RevokeSecurityGroupIngress',
             'RevokeSecurityGroupEgress',
-          ]}},
-      targets: [ new cwet.SnsTopic(secTopic) ],
-    })
+          ],
+        },
+      },
+      targets: [new cwet.SnsTopic(secTopic)],
+    });
 
     // Network ACL Change Notification
     //  from NIST template
@@ -93,9 +97,11 @@ export class ABLESecurityAlarmStack extends cdk.Stack {
             'DeleteNetworkAclEntry',
             'ReplaceNetworkAclEntry',
             'ReplaceNetworkAclAssociation',
-          ]}},
-      targets: [ new cwet.SnsTopic(secTopic) ],
-    })
+          ],
+        },
+      },
+      targets: [new cwet.SnsTopic(secTopic)],
+    });
 
     // IAM Policy Change Notification
     //  from NIST template
@@ -122,10 +128,11 @@ export class ABLESecurityAlarmStack extends cdk.Stack {
             'DetachUserPolicy',
             'AttachGroupPolicy',
             'DetachGroupPolicy',
-          ]}},
-      targets: [ new cwet.SnsTopic(secTopic) ],
-    })
-
+          ],
+        },
+      },
+      targets: [new cwet.SnsTopic(secTopic)],
+    });
 
     // Root User Activity
     // https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudwatch-alarms-for-cloudtrail-additional-examples.html
@@ -139,15 +146,13 @@ export class ABLESecurityAlarmStack extends cdk.Stack {
         detail: {
           userIdentity: {
             type: ['Root'],
-            invokedBy: [{exists: false}],
+            invokedBy: [{ exists: false }],
           },
-          eventType: [
-            { 'anything-but': 'AwsServiceEvent' }
-          ]
-        }},
-      targets: [ new cwet.SnsTopic(secTopic) ],
-    })
-
+          eventType: [{ 'anything-but': 'AwsServiceEvent' }],
+        },
+      },
+      targets: [new cwet.SnsTopic(secTopic)],
+    });
 
     // NewAccessKeyCreated
     //  from NIST template
@@ -158,10 +163,11 @@ export class ABLESecurityAlarmStack extends cdk.Stack {
         detailType: ['AWS API Call via CloudTrail'],
         detail: {
           eventSource: ['iam.amazonaws.com'],
-          eventName: ['CreateAccessKey']
-        }},
-      targets: [ new cwet.SnsTopic(secTopic) ],
-    })    
+          eventName: ['CreateAccessKey'],
+        },
+      },
+      targets: [new cwet.SnsTopic(secTopic)],
+    });
 
     // CloudTrail Change
     //  from NIST template
@@ -172,15 +178,11 @@ export class ABLESecurityAlarmStack extends cdk.Stack {
         detailType: ['AWS API Call via CloudTrail'],
         detail: {
           eventSource: ['cloudtrail.amazonaws.com'],
-          eventName: [
-            'StopLogging',
-            'DeleteTrail',
-            'UpdateTrail',
-          ]}},
-      targets: [ new cwet.SnsTopic(secTopic) ],
-    })    
-
-
+          eventName: ['StopLogging', 'DeleteTrail', 'UpdateTrail'],
+        },
+      },
+      targets: [new cwet.SnsTopic(secTopic)],
+    });
 
     // Detect Root Activity from CloudTrail Log (For SecurityHub CIS 1.1)
     // See: https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-standards-cis-controls-1.1
@@ -200,12 +202,14 @@ export class ABLESecurityAlarmStack extends cdk.Stack {
       statistic: cw.Statistic.SUM,
     }).addAlarmAction(new cwa.SnsAction(secTopic));
 
-
     // ------------------- Other security services integration ----------------------
 
     // SecurityHub - Imported
     //   Security Hub automatically sends all new findings and all updates to existing findings to EventBridge as Security Hub Findings - Imported events.
     //   See: https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cwe-integration-types.html
+    //
+    //   Security Hub Finding format
+    //   See: https://docs.aws.amazon.com/ja_jp/securityhub/latest/userguide/securityhub-findings-format.html
     new cwe.Rule(this, 'ABLERuleSecurityHub', {
       description: 'CloudWatch Event Rule to send notification on SecurityHub all new findings and all updates.',
       enabled: true,
@@ -215,16 +219,19 @@ export class ABLESecurityAlarmStack extends cdk.Stack {
         detail: {
           findings: {
             Severity: {
-              Label: [
-                'CRITICAL',
-                'HIGH',
-              ]
-            }
-          }
-        }
+              Label: ['CRITICAL', 'HIGH'],
+            },
+            Compliance: {
+              Status: ['FAILED'],
+            },
+            Workflow: {
+              Status: ['NEW', 'NOTIFIED'],
+            },
+          },
+        },
       },
-      targets: [ new cwet.SnsTopic(secTopic) ],
-    })
+      targets: [new cwet.SnsTopic(secTopic)],
+    });
 
     // GuardDutyFindings
     //   Will alert for any Medium to High finding.
@@ -234,7 +241,7 @@ export class ABLESecurityAlarmStack extends cdk.Stack {
       enabled: true,
       eventPattern: {
         source: ['aws.guardduty'],
-        detailType: ['GuardDuty Finding'], 
+        detailType: ['GuardDuty Finding'],
         detail: {
           severity: [
             4,
@@ -291,13 +298,11 @@ export class ABLESecurityAlarmStack extends cdk.Stack {
             8.6,
             8.7,
             8.8,
-            8.9
-          ]
-        }
+            8.9,
+          ],
+        },
       },
-      targets: [ new cwet.SnsTopic(secTopic) ],
-    })
-
+      targets: [new cwet.SnsTopic(secTopic)],
+    });
   }
-
 }

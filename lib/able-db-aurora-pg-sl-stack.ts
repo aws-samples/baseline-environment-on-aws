@@ -2,20 +2,19 @@ import * as cdk from '@aws-cdk/core';
 import * as ec2 from '@aws-cdk/aws-ec2';
 import * as rds from '@aws-cdk/aws-rds';
 import * as kms from '@aws-cdk/aws-kms';
-import * as logs from '@aws-cdk/aws-logs';
 import * as sns from '@aws-cdk/aws-sns';
 import * as cw from '@aws-cdk/aws-cloudwatch';
 import * as cw_actions from '@aws-cdk/aws-cloudwatch-actions';
 
 export interface ABLEDbAuroraPgSlStackProps extends cdk.StackProps {
-  myVpc: ec2.Vpc,
-  dbName: string,
-  dbUser: string,
-  dbAllocatedStorage: number,
-  appKey: kms.IKey,
-  vpcSubnets: ec2.SubnetSelection,
-  appServerSecurityGroup: ec2.SecurityGroup,
-  alarmTopic: sns.Topic, 
+  myVpc: ec2.Vpc;
+  dbName: string;
+  dbUser: string;
+  dbAllocatedStorage: number;
+  appKey: kms.IKey;
+  vpcSubnets: ec2.SubnetSelection;
+  appServerSecurityGroup: ec2.SecurityGroup;
+  alarmTopic: sns.Topic;
 }
 
 export class ABLEDbAuroraPgSlStack extends cdk.Stack {
@@ -34,7 +33,7 @@ export class ABLEDbAuroraPgSlStack extends cdk.Stack {
       },
       removalPolicy: cdk.RemovalPolicy.SNAPSHOT,
       defaultDatabaseName: props.dbName,
-      storageEncryptionKey: props.appKey
+      storageEncryptionKey: props.appKey,
     });
 
     // ----------------------- Alarms for RDS -----------------------------
@@ -46,13 +45,14 @@ export class ABLEDbAuroraPgSlStack extends cdk.Stack {
       },
       period: cdk.Duration.minutes(1),
       statistic: cw.Statistic.AVERAGE,
-    }).createAlarm(this, 'CPUUtilization', {
-      evaluationPeriods: 3,
-      datapointsToAlarm: 2,
-      threshold: 90,
-      comparisonOperator: cw.ComparisonOperator.GREATER_THAN_THRESHOLD,
-      actionsEnabled: true
-    }).addAlarmAction(new cw_actions.SnsAction(props.alarmTopic));
-
+    })
+      .createAlarm(this, 'CPUUtilization', {
+        evaluationPeriods: 3,
+        datapointsToAlarm: 2,
+        threshold: 90,
+        comparisonOperator: cw.ComparisonOperator.GREATER_THAN_THRESHOLD,
+        actionsEnabled: true,
+      })
+      .addAlarmAction(new cw_actions.SnsAction(props.alarmTopic));
   }
 }

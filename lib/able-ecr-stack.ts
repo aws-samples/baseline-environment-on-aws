@@ -4,8 +4,8 @@ import * as eventtarget from '@aws-cdk/aws-events-targets';
 import * as sns from '@aws-cdk/aws-sns';
 
 export interface ABLEECRStackProps extends cdk.StackProps {
-  repositoryName: string,
-  alarmTopic: sns.Topic
+  repositoryName: string;
+  alarmTopic: sns.Topic;
 }
 
 export class ABLEECRStack extends cdk.Stack {
@@ -16,14 +16,10 @@ export class ABLEECRStack extends cdk.Stack {
 
     // Create a repository
     this.repository = new ecr.Repository(this, props.repositoryName, {
-      imageScanOnPush: true
+      imageScanOnPush: true,
     });
     const target = new eventtarget.SnsTopic(props.alarmTopic);
-    // console.log(this);
-    // console.log(this.repository);
-    // console.log(target);
-    const options = this.repository.onImageScanCompleted('ImageScanComplete')
-      .addTarget(target);
 
+    this.repository.onImageScanCompleted('ImageScanComplete').addTarget(target);
   }
 }
