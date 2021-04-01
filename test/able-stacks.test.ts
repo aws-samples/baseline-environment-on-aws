@@ -25,6 +25,7 @@ import { ABLEChatbotStack } from '../lib/able-chatbot-stack';
 import { ABLEBuildContainerStack } from '../lib/able-build-container-stack';
 import { ABLEECRStack } from '../lib/able-ecr-stack';
 
+// Load cdk.json to get context parameters
 import * as cdk_json from '../cdk.json';
 
 const procEnv = {
