@@ -80,7 +80,7 @@ Object {
   "Resources": Object {
     "ChatbotChannel": Object {
       "Properties": Object {
-        "ConfigurationName": "ABLE-ChatbotMonitor",
+        "ConfigurationName": "ABLE-ChatbotMonitor-T8XXXXXXX",
         "IamRoleArn": Object {
           "Fn::GetAtt": Array [
             "ChatbotRole8A87AA1F",
@@ -6834,7 +6834,7 @@ Object {
   "Resources": Object {
     "ChatbotChannel": Object {
       "Properties": Object {
-        "ConfigurationName": "ABLE-ChatbotSecurity",
+        "ConfigurationName": "ABLE-ChatbotSecurity-T8XXXXXXX",
         "IamRoleArn": Object {
           "Fn::GetAtt": Array [
             "ChatbotRole8A87AA1F",
