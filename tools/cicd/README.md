@@ -2,7 +2,7 @@
 
 ## How to setup
 
-*** Assuming an account running cdk bootstrap ***
+*** Assuming an account running cdk bootstrap using ABLE ***
 
 - Configure AWS CLI environment.
   - ex. aws configure
@@ -43,8 +43,12 @@ cdk.json
       "githubTargetBranch": "develop" // target branch name
     },
 ```
-- Deploy CodeBuild project for ABLE CI/CD by CDK
+
+- Build and deploy CDK template to create CodeBuild project for ABLE CI/CD
 ```
+ncu -u
+npm install
+npm run build
 cdk deploy
 ```
 
