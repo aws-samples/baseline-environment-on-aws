@@ -7,7 +7,7 @@ phases:
       - npm -g install typescript aws-cdk npm-check-updates
   pre_build:
     commands:
-      # ABLEbase という名前で、サブモジュールとして ABLE 本体へリンクされている前提
+      # You should change a directory name if submodule name is different
       - cd ABLEbase
       - rm -f ./package-lock.json
       - ncu -u
@@ -16,9 +16,6 @@ phases:
       - npm run build
   build:
     commands:
-      # cdk bootstrap はすでにやっている前提
       - cdk deploy ABLE-Iam -c environment=dev --require-approval never
-      # デプロイ対象を必要に応じて増やす
-      # - cdk deploy ABLE-EC2App -c environment=dev --require-approval never
-
+      - cdk deploy ABLE-EC2App -c environment=dev --require-approval never
 
