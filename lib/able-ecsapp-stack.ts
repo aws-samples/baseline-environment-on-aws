@@ -96,6 +96,7 @@ export class ABLEECSAppStack extends cdk.Stack {
         origin: new origins.S3Origin(webContentBucket),
         originRequestPolicy: cloudfront.OriginRequestPolicy.CORS_S3_ORIGIN,
       },
+      defaultRootObject: 'index.html', // Need for SecurityHub Findings CloudFront.1 compliant
     });
 
     // ------------ Application LoadBalancer ---------------
