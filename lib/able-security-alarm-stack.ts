@@ -27,6 +27,7 @@ export class ABLESecurityAlarmStack extends cdk.Stack {
     // --------------- ConfigRule Compliance Change Notification -----------------
     // ConfigRule - Compliance Change
     //  See: https://docs.aws.amazon.com/config/latest/developerguide/monitor-config-with-cloudwatchevents.html
+    //  See: https://aws.amazon.com/premiumsupport/knowledge-center/config-resource-non-compliant/?nc1=h_ls
     new cwe.Rule(this, 'ABLERuleConfigRules', {
       description: 'CloudWatch Event Rule to send notification on Config Rule compliance changes.',
       enabled: true,
