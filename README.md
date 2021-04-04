@@ -25,6 +25,8 @@ npm run build
 
 ## 1. (OPTIONAL) If you need latest modules for development
 
+Use below commands instead of "npm ci".
+
 * Install ncu
 ```
 npm install -g npm-check-updates
