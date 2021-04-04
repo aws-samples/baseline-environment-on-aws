@@ -171,6 +171,13 @@ export class ABLEECSAppStack extends cdk.Stack {
       assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
     });
 
+    // SecurityGroups
+    const securityGroupForFargate = new ec2.SecurityGroup(this, 'SgFargate', {
+      vpc: props.myVpc,
+      allowAllOutbound: false,
+    });
+    this.appServerSecurityGroup = securityGroupForFargate;
+
     // Cluster
     const cluster = new ecs.Cluster(this, 'Cluster', {
       vpc: props.myVpc,
@@ -185,6 +192,7 @@ export class ABLEECSAppStack extends cdk.Stack {
         subnetGroupName: 'Private', // For public DockerHub
         // subnetGroupName: 'Protected'   // For your ECR. Neet to use PrivateLinke for ECR
       }),
+      securityGroups: [this.appServerSecurityGroup],
       taskImageOptions: {
         executionRole: executionRole,
         taskRole: serviceTaskRole,
