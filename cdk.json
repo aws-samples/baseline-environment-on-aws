@@ -36,7 +36,16 @@
         "channelIdSec": "C01XXXXXXXX",
         "channelIdMon": "C01YYYYYYYY"
       }
+    },
+    "ctaudit": {
+      "env": {
+        "account": "123456789012",
+        "region": "ap-northeast-1"
+      },
+      "slackNotifier": {
+        "workspaceId": "T8XXXXXXX",
+        "channelIdAgg": "C01ZZZZZZZZ"
+      }
     }
   }
-
 }
