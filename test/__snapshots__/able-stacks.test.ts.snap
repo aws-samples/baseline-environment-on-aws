@@ -3657,6 +3657,7 @@ Object {
             "TargetOriginId": "ABLEECSAppDistributionOrigin10F261298",
             "ViewerProtocolPolicy": "allow-all",
           },
+          "DefaultRootObject": "index.html",
           "Enabled": true,
           "HttpVersion": "http2",
           "IPV6Enabled": true,
