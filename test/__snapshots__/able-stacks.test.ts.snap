@@ -3734,7 +3734,7 @@ Object {
             "SecurityGroups": Array [
               Object {
                 "Fn::GetAtt": Array [
-                  "EcsAppServiceSecurityGroup93AFFBE7",
+                  "SgFargateB5F998B7",
                   "GroupId",
                 ],
               },
@@ -3760,49 +3760,6 @@ Object {
         },
       },
       "Type": "AWS::ECS::Service",
-    },
-    "EcsAppServiceSecurityGroup93AFFBE7": Object {
-      "Properties": Object {
-        "GroupDescription": "ABLE-ECSApp/EcsApp/Service/SecurityGroup",
-        "SecurityGroupEgress": Array [
-          Object {
-            "CidrIp": "0.0.0.0/0",
-            "Description": "Allow all outbound traffic by default",
-            "IpProtocol": "-1",
-          },
-        ],
-        "Tags": Array [
-          Object {
-            "Key": "Environment",
-            "Value": "Development",
-          },
-        ],
-        "VpcId": Object {
-          "Fn::ImportValue": "ABLE-Vpc:ExportsOutputRefVpc8378EB38272D6E3A",
-        },
-      },
-      "Type": "AWS::EC2::SecurityGroup",
-    },
-    "EcsAppServiceSecurityGroupfromABLEECSAppSgAlbE0D48A198076967CD7": Object {
-      "Properties": Object {
-        "Description": "Load balancer to target",
-        "FromPort": 80,
-        "GroupId": Object {
-          "Fn::GetAtt": Array [
-            "EcsAppServiceSecurityGroup93AFFBE7",
-            "GroupId",
-          ],
-        },
-        "IpProtocol": "tcp",
-        "SourceSecurityGroupId": Object {
-          "Fn::GetAtt": Array [
-            "SgAlbEA3AC417",
-            "GroupId",
-          ],
-        },
-        "ToPort": 80,
-      },
-      "Type": "AWS::EC2::SecurityGroupIngress",
     },
     "EcsAppTaskDef15257EC1": Object {
       "Properties": Object {
@@ -4116,12 +4073,12 @@ Object {
       },
       "Type": "AWS::EC2::SecurityGroup",
     },
-    "SgAlbtoABLEECSAppEcsAppServiceSecurityGroup34AAB83980713C053A": Object {
+    "SgAlbtoABLEECSAppSgFargate427C68B0805901A02F": Object {
       "Properties": Object {
         "Description": "Load balancer to target",
         "DestinationSecurityGroupId": Object {
           "Fn::GetAtt": Array [
-            "EcsAppServiceSecurityGroup93AFFBE7",
+            "SgFargateB5F998B7",
             "GroupId",
           ],
         },
@@ -4136,6 +4093,51 @@ Object {
         "ToPort": 80,
       },
       "Type": "AWS::EC2::SecurityGroupEgress",
+    },
+    "SgFargateB5F998B7": Object {
+      "Properties": Object {
+        "GroupDescription": "ABLE-ECSApp/SgFargate",
+        "SecurityGroupEgress": Array [
+          Object {
+            "CidrIp": "255.255.255.255/32",
+            "Description": "Disallow all traffic",
+            "FromPort": 252,
+            "IpProtocol": "icmp",
+            "ToPort": 86,
+          },
+        ],
+        "Tags": Array [
+          Object {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+        ],
+        "VpcId": Object {
+          "Fn::ImportValue": "ABLE-Vpc:ExportsOutputRefVpc8378EB38272D6E3A",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "SgFargatefromABLEECSAppSgAlbE0D48A1980F9EBE8F0": Object {
+      "Properties": Object {
+        "Description": "Load balancer to target",
+        "FromPort": 80,
+        "GroupId": Object {
+          "Fn::GetAtt": Array [
+            "SgFargateB5F998B7",
+            "GroupId",
+          ],
+        },
+        "IpProtocol": "tcp",
+        "SourceSecurityGroupId": Object {
+          "Fn::GetAtt": Array [
+            "SgAlbEA3AC417",
+            "GroupId",
+          ],
+        },
+        "ToPort": 80,
+      },
+      "Type": "AWS::EC2::SecurityGroupIngress",
     },
     "WebAcl": Object {
       "Properties": Object {
@@ -4418,7 +4420,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::582318560864:root",
+                      ":iam::undefined:root",
                     ],
                   ],
                 },

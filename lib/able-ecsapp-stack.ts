@@ -14,6 +14,7 @@ import * as sns from '@aws-cdk/aws-sns';
 import * as cw from '@aws-cdk/aws-cloudwatch';
 import * as cw_actions from '@aws-cdk/aws-cloudwatch-actions';
 import * as ecr from '@aws-cdk/aws-ecr';
+import * as ri from '@aws-cdk/region-info';
 
 export interface ABLEECSAppStackProps extends cdk.StackProps {
   myVpc: ec2.Vpc;
@@ -122,6 +123,7 @@ export class ABLEECSAppStack extends cdk.Stack {
     lbForApp.setAttribute('access_logs.s3.enabled', 'true');
     lbForApp.setAttribute('access_logs.s3.bucket', albLogBucket.bucketName);
 
+    const regionInfo = ri.RegionInfo.get(this.region);
     // Permissions for Access Logging
     //    Why don't use bForApp.logAccessLogs(albLogBucket); ?
     //    Because logAccessLogs add wider permission to other account (PutObject*). S3 will become Noncompliant on Security Hub [S3.6]
@@ -131,7 +133,7 @@ export class ABLEECSAppStack extends cdk.Stack {
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         actions: ['s3:PutObject'],
-        principals: [new iam.AccountPrincipal('582318560864')], // ALB Account for ap-northeast-1
+        principals: [new iam.AccountPrincipal(regionInfo.elbv2Account)], // ALB access logging needs S3 put permission from ALB service account for the region
         resources: [albLogBucket.arnForObjects(`AWSLogs/${cdk.Stack.of(this).account}/*`)],
       }),
     );
@@ -169,6 +171,13 @@ export class ABLEECSAppStack extends cdk.Stack {
       assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
     });
 
+    // SecurityGroups
+    const securityGroupForFargate = new ec2.SecurityGroup(this, 'SgFargate', {
+      vpc: props.myVpc,
+      allowAllOutbound: false,
+    });
+    this.appServerSecurityGroup = securityGroupForFargate;
+
     // Cluster
     const cluster = new ecs.Cluster(this, 'Cluster', {
       vpc: props.myVpc,
@@ -183,6 +192,7 @@ export class ABLEECSAppStack extends cdk.Stack {
         subnetGroupName: 'Private', // For public DockerHub
         // subnetGroupName: 'Protected'   // For your ECR. Neet to use PrivateLinke for ECR
       }),
+      securityGroups: [this.appServerSecurityGroup],
       taskImageOptions: {
         executionRole: executionRole,
         taskRole: serviceTaskRole,
