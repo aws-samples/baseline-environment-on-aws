@@ -4418,7 +4418,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::582318560864:root",
+                      ":iam::undefined:root",
                     ],
                   ],
                 },
