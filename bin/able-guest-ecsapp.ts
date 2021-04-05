@@ -8,7 +8,6 @@ import { ABLEGeneralLogStack } from '../lib/able-generallog-stack';
 import { ABLEDbAuroraPgStack } from '../lib/able-db-aurora-pg-stack';
 import { ABLEECSAppStack } from '../lib/able-ecsapp-stack';
 import { ABLEMonitorAlarmStack } from '../lib/able-monitor-alarm-stack';
-import { ABLEInvestigationInstanceStack } from '../lib/able-investigation-instance-stack';
 import { ABLEChatbotStack } from '../lib/able-chatbot-stack';
 import { ABLEBuildContainerStack } from '../lib/able-build-container-stack';
 import { ABLEECRStack } from '../lib/able-ecr-stack';

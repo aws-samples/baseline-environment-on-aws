@@ -9,7 +9,6 @@ import { ABLEDbAuroraPgStack } from '../lib/able-db-aurora-pg-stack';
 import { ABLEMonitorAlarmStack } from '../lib/able-monitor-alarm-stack';
 import { ABLEInvestigationInstanceStack } from '../lib/able-investigation-instance-stack';
 import { ABLEChatbotStack } from '../lib/able-chatbot-stack';
-import { ABLEASGAppStack } from '../lib/able-asgapp-stack';
 import { ABLEEC2AppStack } from '../lib/able-ec2app-stack';
 
 const procEnv = {
