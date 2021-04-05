@@ -1,10 +1,9 @@
 import * as cdk from '@aws-cdk/core';
-import * as sns from '@aws-cdk/aws-sns';
 import * as cb from '@aws-cdk/aws-chatbot';
 import * as iam from '@aws-cdk/aws-iam';
 
 export interface ABLEChatbotStackProps extends cdk.StackProps {
-  topic: sns.Topic;
+  topicArn: string;
   channelId: string;
   workspaceId: string;
 }
@@ -30,7 +29,7 @@ export class ABLEChatbotStack extends cdk.Stack {
       slackChannelId: props.channelId,
       iamRoleArn: chatbotRole.roleArn,
       slackWorkspaceId: props.workspaceId,
-      snsTopicArns: [props.topic.topicArn],
+      snsTopicArns: [props.topicArn],
     });
   }
 }

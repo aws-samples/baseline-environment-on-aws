@@ -61,7 +61,7 @@ describe(`${pjPrefix} Stacks`, () => {
     const channelIdSec = envVals['slackNotifier']['channelIdSec'];
 
     const chatbotForSec = new ABLEChatbotStack(app, `${pjPrefix}-ChatbotSecurity`, {
-      topic: secAlarm.alarmTopic,
+      topicArn: secAlarm.alarmTopic.topicArn,
       workspaceId: workspaceId,
       channelId: channelIdSec,
       env: procEnv,
@@ -90,7 +90,7 @@ describe(`${pjPrefix} Stacks`, () => {
     });
 
     const chatbotForMon = new ABLEChatbotStack(app, `${pjPrefix}-ChatbotMonitor`, {
-      topic: monitorAlarm.alarmTopic,
+      topicArn: monitorAlarm.alarmTopic.topicArn,
       workspaceId: workspaceId,
       channelId: channelIdMon,
       env: procEnv,
