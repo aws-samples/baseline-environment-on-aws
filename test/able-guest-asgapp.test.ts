@@ -11,11 +11,8 @@ import { ABLEGeneralLogStack } from '../lib/able-generallog-stack';
 import { ABLEFlowLogKeyStack } from '../lib/able-flowlog-key-stack';
 import { ABLEFlowLogStack } from '../lib/able-flowlog-stack';
 import { ABLEVpcStack } from '../lib/able-vpc-stack';
-import { ABLEECRStack } from '../lib/able-ecr-stack';
-import { ABLEBuildContainerStack } from '../lib/able-build-container-stack';
-import { ABLEECSAppStack } from '../lib/able-ecsapp-stack';
 import { ABLEDbAuroraPgStack } from '../lib/able-db-aurora-pg-stack';
-import { ABLEInvestigationInstanceStack } from '../lib/able-investigation-instance-stack';
+import { ABLEASGAppStack } from '../lib/able-asgapp-stack';
 
 const procEnv = {
   account: process.env.CDK_DEFAULT_ACCOUNT,
@@ -27,8 +24,8 @@ const app = new cdk.App();
 const envKey = 'dev';
 const envVals = cdk_json['context'][envKey];
 
-describe(`${pjPrefix} ControlTower Stacks`, () => {
-  test('GuestAccount Base Stacks', () => {
+describe(`${pjPrefix} Guest Stacks`, () => {
+  test('GuestAccount ASG App Stacks', () => {
     // Slack Notifier
     const workspaceId = envVals['slackNotifier']['workspaceId'];
     const channelIdMon = envVals['slackNotifier']['channelIdMon'];
@@ -72,31 +69,13 @@ describe(`${pjPrefix} ControlTower Stacks`, () => {
       env: procEnv,
     });
 
-    // Container Repository
-    const ecr = new ABLEECRStack(app, `${pjPrefix}-ECR`, {
-      // TODO: will get "repositoryName" from parameters
-      repositoryName: 'apprepo',
-      alarmTopic: monitorAlarm.alarmTopic,
-      env: procEnv,
-    });
-
-    // Build Container Image
-    const build_container = new ABLEBuildContainerStack(app, `${pjPrefix}-ContainerImage`, {
-      ecrRepository: ecr.repository,
-      env: procEnv,
-    });
-
-    // Application Stack (LoadBalancer + Fargate)
-    const ecsApp = new ABLEECSAppStack(app, `${pjPrefix}-ECSApp`, {
+    // Application Stack (LoadBalancer + AutoScaling AP Servers)
+    const asgApp = new ABLEASGAppStack(app, `${pjPrefix}-ASGApp`, {
       myVpc: prodVpc.myVpc,
       logBucket: generalLog.logBucket,
       appKey: generalLogKey.kmsKey,
-      repository: ecr.repository,
-      imageTag: build_container.imageTag,
-      alarmTopic: monitorAlarm.alarmTopic,
       env: procEnv,
     });
-    ecsApp.addDependency(build_container);
 
     // Aurora
     const dbAuroraPg = new ABLEDbAuroraPgStack(app, `${pjPrefix}-DBAuroraPg`, {
@@ -107,15 +86,9 @@ describe(`${pjPrefix} ControlTower Stacks`, () => {
       vpcSubnets: prodVpc.myVpc.selectSubnets({
         subnetGroupName: 'Protected',
       }),
-      appServerSecurityGroup: ecsApp.appServerSecurityGroup,
+      appServerSecurityGroup: asgApp.appServerSecurityGroup,
       appKey: generalLogKey.kmsKey,
       alarmTopic: monitorAlarm.alarmTopic,
-      env: procEnv,
-    });
-
-    // Investigation Instance Stack (EC2)
-    const investigationInstance = new ABLEInvestigationInstanceStack(app, `${pjPrefix}-InvestigationInstance`, {
-      myVpc: prodVpc.myVpc,
       env: procEnv,
     });
 
@@ -131,10 +104,7 @@ describe(`${pjPrefix} ControlTower Stacks`, () => {
     expect(SynthUtils.toCloudFormation(flowLogKey)).toMatchSnapshot();
     expect(SynthUtils.toCloudFormation(flowLogKey)).toMatchSnapshot();
     expect(SynthUtils.toCloudFormation(prodVpc)).toMatchSnapshot();
-    expect(SynthUtils.toCloudFormation(ecr)).toMatchSnapshot();
-    expect(SynthUtils.toCloudFormation(build_container)).toMatchSnapshot();
-    expect(SynthUtils.toCloudFormation(ecsApp)).toMatchSnapshot();
+    expect(SynthUtils.toCloudFormation(asgApp)).toMatchSnapshot();
     expect(SynthUtils.toCloudFormation(dbAuroraPg)).toMatchSnapshot();
-    expect(SynthUtils.toCloudFormation(investigationInstance)).toMatchSnapshot();
   });
 });

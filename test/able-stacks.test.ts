@@ -5,17 +5,17 @@ import { ABLEIamStack } from '../lib/able-iam-stack';
 import { ABLEASGAppStack } from '../lib/able-asgapp-stack';
 import { ABLEEC2AppStack } from '../lib/able-ec2app-stack';
 import { ABLEConfigRulesStack } from '../lib/able-config-rules-stack';
-import { ABLEConfigCtGuardrailStack } from '../lib/able-config-ct-guardrail-stack';
-import { ABLEGuarddutyStack } from '../lib/able-guardduty-stack';
-import { ABLETrailStack } from '../lib/able-trail-stack';
+import { ABLEConfigCtGuardrailStack } from '../lib/standalone-base/able-config-ct-guardrail-stack';
+import { ABLEGuarddutyStack } from '../lib/standalone-base/able-guardduty-stack';
+import { ABLETrailStack } from '../lib/standalone-base/able-trail-stack';
 import { ABLEVpcStack } from '../lib/able-vpc-stack';
 import { ABLEFlowLogKeyStack } from '../lib/able-flowlog-key-stack';
 import { ABLEFlowLogStack } from '../lib/able-flowlog-stack';
 import { ABLEGeneralLogKeyStack } from '../lib/able-generallog-key-stack';
 import { ABLEGeneralLogStack } from '../lib/able-generallog-stack';
 import { ABLEDbAuroraPgStack } from '../lib/able-db-aurora-pg-stack';
-import { ABLESecurityHubStack } from '../lib/able-security-hub-stack';
-import { ABLEConfigStack } from '../lib/able-config-stack';
+import { ABLESecurityHubStack } from '../lib/standalone-base/able-security-hub-stack';
+import { ABLEConfigStack } from '../lib/standalone-base/able-config-stack';
 import { ABLEECSAppStack } from '../lib/able-ecsapp-stack';
 import { ABLEDbAuroraPgSlStack } from '../lib/able-db-aurora-pg-sl-stack';
 import { ABLEMonitorAlarmStack } from '../lib/able-monitor-alarm-stack';
@@ -38,8 +38,8 @@ const app = new cdk.App();
 const envKey = 'dev';
 const envVals = cdk_json['context'][envKey];
 
-describe(`${pjPrefix} Stacks`, () => {
-  test('LandingZone Stacks', () => {
+describe(`${pjPrefix} Standalone Base Stacks`, () => {
+  test('Base Stacks', () => {
     const secAlarm = new ABLESecurityAlarmStack(app, `${pjPrefix}-SecurityAlarm`, {
       notifyEmail: envVals['securityNotifyEmail'],
       env: procEnv,
