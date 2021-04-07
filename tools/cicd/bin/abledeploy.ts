@@ -1,38 +1,33 @@
 #!/usr/bin/env node
-import "source-map-support/register";
-import * as cdk from "@aws-cdk/core";
-import { ABLEdeployStack } from "../lib/abledeploy-stack";
+import 'source-map-support/register';
+import * as cdk from '@aws-cdk/core';
+import { ABLEdeployStack } from '../lib/abledeploy-stack';
 
-const procEnv = {
-  account: process.env.CDK_DEFAULT_ACCOUNT,
-  region: process.env.CDK_DEFAULT_REGION,
-};
-
-const pjPrefix = "ABLE";
+const pjPrefix = 'ABLE';
 
 const app = new cdk.App();
 
 // ----------------------- Load context variables ------------------------------
 // (This is same as ABLE implementation)
 // This context need to be specified in args
-const argContext = "environment";
+const argContext = 'environment';
 
 // Environment Key (dev,stage,prod...)
 // Should be defined in 2nd level of "context" tree in cdk.json
 const envKey = app.node.tryGetContext(argContext);
 if (envKey == undefined)
-  throw new Error(
-    `Please specify envieonment with context option. ex) cdk deploy -c ${argContext}=dev`
-  );
+  throw new Error(`Please specify envieonment with context option. ex) cdk deploy -c ${argContext}=dev`);
 
 // Array of envrionment variables. These values hould be defined in cdk.json or cdk.context.json
 const envVals = app.node.tryGetContext(envKey);
-if (envVals == undefined) throw new Error("Invalid environment.");
+if (envVals == undefined) throw new Error('Invalid environment.');
+
+const procEnv = envVals['env']; // contains "account" and "region"
 
 // ----------------------- Deploy CI/CD Stack  ------------------------------
 new ABLEdeployStack(app, `${pjPrefix}-DeployStack`, {
-  githubRepositoryOwner: envVals["githubRepositoryOwner"],
-  githubRepositoryName: envVals["githubRepositoryName"],
-  githubTargetBranch: envVals["githubTargetBranch"],
+  githubRepositoryOwner: envVals['githubRepositoryOwner'],
+  githubRepositoryName: envVals['githubRepositoryName'],
+  githubTargetBranch: envVals['githubTargetBranch'],
   env: procEnv,
 });

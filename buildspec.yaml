@@ -8,7 +8,6 @@ phases:
   pre_build:
     commands:
       # You should change a directory name if submodule name is different
-      - cd ABLEbase
       - rm -f ./package-lock.json
       - ncu -u
       - npm cache clean --force
@@ -17,5 +16,3 @@ phases:
   build:
     commands:
       - cdk deploy ABLE-Iam -c environment=dev --require-approval never
-      - cdk deploy ABLE-EC2App -c environment=dev --require-approval never
-

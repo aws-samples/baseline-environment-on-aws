@@ -10,12 +10,20 @@
     "@aws-cdk/aws-s3:grantWriteWithoutAcl": true,
     "@aws-cdk/aws-ecs-patterns:removeDefaultDesiredCount": true,
     "dev": {
+      "env": {
+        "account": "012345678901",
+        "region": "ap-northeast-1"
+      },
       "envName": "Development",
       "githubRepositoryOwner": "ownername",
       "githubRepositoryName": "repositoryname",
       "githubTargetBranch": "develop"
     },
     "prod": {
+      "env": {
+        "account": "123456789012",
+        "region": "ap-northeast-1"
+      },
       "envName": "Production",
       "githubRepositoryOwner": "ownername",
       "githubRepositoryName": "repositoryname",
