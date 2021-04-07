@@ -6,12 +6,9 @@ import { ABLEFlowLogStack } from '../lib/able-flowlog-stack';
 import { ABLEGeneralLogKeyStack } from '../lib/able-generallog-key-stack';
 import { ABLEGeneralLogStack } from '../lib/able-generallog-stack';
 import { ABLEDbAuroraPgStack } from '../lib/able-db-aurora-pg-stack';
-import { ABLEECSAppStack } from '../lib/able-ecsapp-stack';
 import { ABLEMonitorAlarmStack } from '../lib/able-monitor-alarm-stack';
-import { ABLEInvestigationInstanceStack } from '../lib/able-investigation-instance-stack';
 import { ABLEChatbotStack } from '../lib/able-chatbot-stack';
-import { ABLEBuildContainerStack } from '../lib/able-build-container-stack';
-import { ABLEECRStack } from '../lib/able-ecr-stack';
+import { ABLEASGAppStack } from '../lib/able-asgapp-stack';
 
 const procEnv = {
   account: process.env.CDK_DEFAULT_ACCOUNT,
@@ -76,31 +73,13 @@ const prodVpc = new ABLEVpcStack(app, `${pjPrefix}-Vpc`, {
   env: procEnv,
 });
 
-// Container Repository
-const ecr = new ABLEECRStack(app, `${pjPrefix}-ECR`, {
-  // TODO: will get "repositoryName" from parameters
-  repositoryName: 'apprepo',
-  alarmTopic: monitorAlarm.alarmTopic,
-  env: procEnv,
-});
-
-// Build Container Image
-const build_container = new ABLEBuildContainerStack(app, `${pjPrefix}-ContainerImage`, {
-  ecrRepository: ecr.repository,
-  env: procEnv,
-});
-
-// Application Stack (LoadBalancer + Fargate)
-const ecsApp = new ABLEECSAppStack(app, `${pjPrefix}-ECSApp`, {
+// Application Stack (LoadBalancer + AutoScaling AP Servers)
+const asgApp = new ABLEASGAppStack(app, `${pjPrefix}-ASGApp`, {
   myVpc: prodVpc.myVpc,
   logBucket: generalLog.logBucket,
   appKey: generalLogKey.kmsKey,
-  repository: ecr.repository,
-  imageTag: build_container.imageTag,
-  alarmTopic: monitorAlarm.alarmTopic,
   env: procEnv,
 });
-ecsApp.addDependency(build_container);
 
 // Aurora
 new ABLEDbAuroraPgStack(app, `${pjPrefix}-DBAuroraPg`, {
@@ -111,15 +90,9 @@ new ABLEDbAuroraPgStack(app, `${pjPrefix}-DBAuroraPg`, {
   vpcSubnets: prodVpc.myVpc.selectSubnets({
     subnetGroupName: 'Protected',
   }),
-  appServerSecurityGroup: ecsApp.appServerSecurityGroup,
+  appServerSecurityGroup: asgApp.appServerSecurityGroup,
   appKey: generalLogKey.kmsKey,
   alarmTopic: monitorAlarm.alarmTopic,
-  env: procEnv,
-});
-
-// Investigation Instance Stack (EC2)
-new ABLEInvestigationInstanceStack(app, `${pjPrefix}-InvestigationInstance`, {
-  myVpc: prodVpc.myVpc,
   env: procEnv,
 });
 
