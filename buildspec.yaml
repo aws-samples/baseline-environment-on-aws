@@ -1,0 +1,18 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - npm i -g npm
+      - npm -g install typescript aws-cdk npm-check-updates
+  pre_build:
+    commands:
+      # You should change a directory name if submodule name is different
+      - rm -f ./package-lock.json
+      - ncu -u
+      - npm cache clean --force
+      - npm install
+      - npm run build
+  build:
+    commands:
+      - cdk deploy ABLE-Iam -c environment=dev --require-approval never
