@@ -15,17 +15,28 @@ npm -g install typescript
 ```
 npm install -g aws-cdk
 ``` 
-* ncu
-```
-npm install -g npm-check-updates
-```
 
 # 2. Build
 ```
 cd path-to-source
+npm ci
+npm run build
+```
+
+## 1. (OPTIONAL) If you need latest modules for development
+
+Use below commands instead of "npm ci".
+
+* Install ncu
+```
+npm install -g npm-check-updates
+```
+
+* Update modules
+```
+rm -rf package-lock.json node_modules/
 ncu -u
 npm install
-npm run build
 ```
 
 # 3. BootStrap Account & Region
