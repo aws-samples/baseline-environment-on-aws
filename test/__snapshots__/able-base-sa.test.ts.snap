@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ABLE Stacks LandingZone Stacks 1`] = `
+exports[`ABLE Standalone Stacks GuestAccount Base Stacks 1`] = `
 Object {
   "Resources": Object {
     "GuardDutyDetector": Object {
@@ -13,7 +13,7 @@ Object {
 }
 `;
 
-exports[`ABLE Stacks LandingZone Stacks 2`] = `
+exports[`ABLE Standalone Stacks GuestAccount Base Stacks 2`] = `
 Object {
   "Resources": Object {
     "RoleForSecurityHub": Object {
@@ -29,7 +29,7 @@ Object {
 }
 `;
 
-exports[`ABLE Stacks LandingZone Stacks 3`] = `
+exports[`ABLE Standalone Stacks GuestAccount Base Stacks 3`] = `
 Object {
   "Resources": Object {
     "ArchiveLogsBucketBC7EE643": Object {
@@ -639,7 +639,7 @@ Object {
 }
 `;
 
-exports[`ABLE Stacks LandingZone Stacks 4`] = `
+exports[`ABLE Standalone Stacks GuestAccount Base Stacks 4`] = `
 Object {
   "Resources": Object {
     "IamAdminGroupA13BD09E": Object {
@@ -1050,7 +1050,7 @@ Object {
 }
 `;
 
-exports[`ABLE Stacks LandingZone Stacks 5`] = `
+exports[`ABLE Standalone Stacks GuestAccount Base Stacks 5`] = `
 Object {
   "Resources": Object {
     "ConfigBucket2112C5EC": Object {
@@ -1202,7 +1202,7 @@ Object {
 }
 `;
 
-exports[`ABLE Stacks LandingZone Stacks 6`] = `
+exports[`ABLE Standalone Stacks GuestAccount Base Stacks 6`] = `
 Object {
   "Resources": Object {
     "CheckForEbsOptimizedInstance": Object {
@@ -1431,7 +1431,7 @@ Object {
 }
 `;
 
-exports[`ABLE Stacks LandingZone Stacks 7`] = `
+exports[`ABLE Standalone Stacks GuestAccount Base Stacks 7`] = `
 Object {
   "Resources": Object {
     "ABLERuleDefaultSecurityGroupClosed3A4B84A3": Object {
@@ -1548,7 +1548,7 @@ Object {
 }
 `;
 
-exports[`ABLE Stacks LandingZone Stacks 8`] = `
+exports[`ABLE Standalone Stacks GuestAccount Base Stacks 8`] = `
 Object {
   "Resources": Object {
     "ChatbotChannel": Object {
@@ -1617,7 +1617,7 @@ Object {
 }
 `;
 
-exports[`ABLE Stacks LandingZone Stacks 9`] = `
+exports[`ABLE Standalone Stacks GuestAccount Base Stacks 9`] = `
 Object {
   "Outputs": Object {
     "ExportsOutputRefSecurityAlarmTopicEE71C63385BAAF8E": Object {

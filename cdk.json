@@ -1,7 +1,8 @@
 {
-  "app": "npx ts-node bin/able-app.ts",
+  "app": "npx ts-node bin/base-sa.ts",
   "context": {
     "dev": {
+      "description": "Environment variables for able-guest-*-samples.ts",
       "envName": "Development",
       "vpcCidr": "10.100.0.0/16",
       "securityNotifyEmail": "notify-security@example.com",
@@ -14,6 +15,7 @@
       }
     },
     "stage": {
+      "description": "Environment variables for able-guest-*-samples.ts",
       "envName": "Staging",
       "vpcCidr": "10.110.0.0/16",
       "securityNotifyEmail": "notify-security@example.com",
@@ -26,6 +28,7 @@
       }
     },
     "prod": {
+      "description": "Environment variables for able-guest-*-samples.ts",
       "envName": "Production",
       "vpcCidr": "10.120.0.0/16",
       "securityNotifyEmail": "notify-security@example.com",
@@ -38,6 +41,7 @@
       }
     },
     "ctaudit": {
+      "description": "Environment variables for able-base-ct-audit.ts",
       "env": {
         "account": "123456789012",
         "region": "ap-northeast-1"
