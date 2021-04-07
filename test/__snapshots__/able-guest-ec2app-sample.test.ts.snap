@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ABLE ControlTower Stacks GuestAccount Base Stacks 1`] = `
+exports[`ABLE Guest Stacks GuestAccount EC2 App Stacks 1`] = `
 Object {
   "Resources": Object {
     "ChatbotChannel": Object {
@@ -75,7 +75,7 @@ Object {
 }
 `;
 
-exports[`ABLE ControlTower Stacks GuestAccount Base Stacks 2`] = `
+exports[`ABLE Guest Stacks GuestAccount EC2 App Stacks 2`] = `
 Object {
   "Outputs": Object {
     "ExportsOutputRefMonitorAlarmTopic9C746E8C5F969821": Object {
@@ -124,17 +124,6 @@ Object {
               },
               "Sid": "0",
             },
-            Object {
-              "Action": "sns:Publish",
-              "Effect": "Allow",
-              "Principal": Object {
-                "Service": "events.amazonaws.com",
-              },
-              "Resource": Object {
-                "Ref": "MonitorAlarmTopic9C746E8C",
-              },
-              "Sid": "1",
-            },
           ],
           "Version": "2012-10-17",
         },
@@ -150,7 +139,7 @@ Object {
 }
 `;
 
-exports[`ABLE ControlTower Stacks GuestAccount Base Stacks 3`] = `
+exports[`ABLE Guest Stacks GuestAccount EC2 App Stacks 3`] = `
 Object {
   "Outputs": Object {
     "ExportsOutputFnGetAttKey961B73FDArn5A860C43": Object {
@@ -255,7 +244,7 @@ Object {
 }
 `;
 
-exports[`ABLE ControlTower Stacks GuestAccount Base Stacks 4`] = `
+exports[`ABLE Guest Stacks GuestAccount EC2 App Stacks 4`] = `
 Object {
   "Resources": Object {
     "GeneralLogBucket79898759": Object {
@@ -294,7 +283,7 @@ Object {
 }
 `;
 
-exports[`ABLE ControlTower Stacks GuestAccount Base Stacks 5`] = `
+exports[`ABLE Guest Stacks GuestAccount EC2 App Stacks 5`] = `
 Object {
   "Outputs": Object {
     "ExportsOutputFnGetAttKey961B73FDArn5A860C43": Object {
@@ -399,7 +388,7 @@ Object {
 }
 `;
 
-exports[`ABLE ControlTower Stacks GuestAccount Base Stacks 6`] = `
+exports[`ABLE Guest Stacks GuestAccount EC2 App Stacks 6`] = `
 Object {
   "Outputs": Object {
     "ExportsOutputFnGetAttKey961B73FDArn5A860C43": Object {
@@ -504,7 +493,7 @@ Object {
 }
 `;
 
-exports[`ABLE ControlTower Stacks GuestAccount Base Stacks 7`] = `
+exports[`ABLE Guest Stacks GuestAccount EC2 App Stacks 7`] = `
 Object {
   "Outputs": Object {
     "ExportsOutputRefVpc8378EB38272D6E3A": Object {
@@ -1833,617 +1822,29 @@ Object {
 }
 `;
 
-exports[`ABLE ControlTower Stacks GuestAccount Base Stacks 8`] = `
+exports[`ABLE Guest Stacks GuestAccount EC2 App Stacks 8`] = `
 Object {
   "Outputs": Object {
-    "ExportsOutputFnGetAttapprepo60CBE1D0ArnCF800CDF": Object {
+    "ExportsOutputFnGetAttSgApp7DE78E7EGroupIdBE09B119": Object {
       "Export": Object {
-        "Name": "ABLE-ECR:ExportsOutputFnGetAttapprepo60CBE1D0ArnCF800CDF",
+        "Name": "ABLE-EC2App:ExportsOutputFnGetAttSgApp7DE78E7EGroupIdBE09B119",
       },
       "Value": Object {
         "Fn::GetAtt": Array [
-          "apprepo60CBE1D0",
-          "Arn",
-        ],
-      },
-    },
-    "ExportsOutputRefapprepo60CBE1D08890BEDC": Object {
-      "Export": Object {
-        "Name": "ABLE-ECR:ExportsOutputRefapprepo60CBE1D08890BEDC",
-      },
-      "Value": Object {
-        "Ref": "apprepo60CBE1D0",
-      },
-    },
-  },
-  "Resources": Object {
-    "apprepo60CBE1D0": Object {
-      "DeletionPolicy": "Retain",
-      "Properties": Object {
-        "ImageScanningConfiguration": Object {
-          "ScanOnPush": true,
-        },
-        "Tags": Array [
-          Object {
-            "Key": "Environment",
-            "Value": "Development",
-          },
-        ],
-      },
-      "Type": "AWS::ECR::Repository",
-      "UpdateReplacePolicy": "Retain",
-    },
-    "apprepoImageScanCompleteAA5AE0A9": Object {
-      "Properties": Object {
-        "EventPattern": Object {
-          "detail": Object {
-            "repository-name": Array [
-              Object {
-                "Ref": "apprepo60CBE1D0",
-              },
-            ],
-            "scan-status": Array [
-              "COMPLETE",
-            ],
-          },
-          "detail-type": Array [
-            "ECR Image Scan",
-          ],
-          "source": Array [
-            "aws.ecr",
-          ],
-        },
-        "State": "ENABLED",
-        "Targets": Array [
-          Object {
-            "Arn": Object {
-              "Fn::ImportValue": "ABLE-MonitorAlarm:ExportsOutputRefMonitorAlarmTopic9C746E8C5F969821",
-            },
-            "Id": "Target0",
-          },
-        ],
-      },
-      "Type": "AWS::Events::Rule",
-    },
-  },
-}
-`;
-
-exports[`ABLE ControlTower Stacks GuestAccount Base Stacks 9`] = `
-Object {
-  "Parameters": Object {
-    "AssetParametersa5a55f40f05c1031f30cc935c76b58b0b7dbc81e70845edf4ef615d6580ae04dArtifactHashBC261AD6": Object {
-      "Description": "Artifact hash for asset \\"a5a55f40f05c1031f30cc935c76b58b0b7dbc81e70845edf4ef615d6580ae04d\\"",
-      "Type": "String",
-    },
-    "AssetParametersa5a55f40f05c1031f30cc935c76b58b0b7dbc81e70845edf4ef615d6580ae04dS3BucketDDD15B67": Object {
-      "Description": "S3 bucket for asset \\"a5a55f40f05c1031f30cc935c76b58b0b7dbc81e70845edf4ef615d6580ae04d\\"",
-      "Type": "String",
-    },
-    "AssetParametersa5a55f40f05c1031f30cc935c76b58b0b7dbc81e70845edf4ef615d6580ae04dS3VersionKey76284988": Object {
-      "Description": "S3 key for asset version \\"a5a55f40f05c1031f30cc935c76b58b0b7dbc81e70845edf4ef615d6580ae04d\\"",
-      "Type": "String",
-    },
-    "AssetParametersc3641c985a5817398703c6df709295c2b4602a21174ed2ec95c1e02a7000d50bArtifactHash148EA76C": Object {
-      "Description": "Artifact hash for asset \\"c3641c985a5817398703c6df709295c2b4602a21174ed2ec95c1e02a7000d50b\\"",
-      "Type": "String",
-    },
-    "AssetParametersc3641c985a5817398703c6df709295c2b4602a21174ed2ec95c1e02a7000d50bS3Bucket3DE7C4A9": Object {
-      "Description": "S3 bucket for asset \\"c3641c985a5817398703c6df709295c2b4602a21174ed2ec95c1e02a7000d50b\\"",
-      "Type": "String",
-    },
-    "AssetParametersc3641c985a5817398703c6df709295c2b4602a21174ed2ec95c1e02a7000d50bS3VersionKey321C6667": Object {
-      "Description": "S3 key for asset version \\"c3641c985a5817398703c6df709295c2b4602a21174ed2ec95c1e02a7000d50b\\"",
-      "Type": "String",
-    },
-  },
-  "Resources": Object {
-    "AWS679f53fac002430cb0da5b7982bd22872D164C4C": Object {
-      "DependsOn": Array [
-        "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2",
-      ],
-      "Properties": Object {
-        "Code": Object {
-          "S3Bucket": Object {
-            "Ref": "AssetParametersa5a55f40f05c1031f30cc935c76b58b0b7dbc81e70845edf4ef615d6580ae04dS3BucketDDD15B67",
-          },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParametersa5a55f40f05c1031f30cc935c76b58b0b7dbc81e70845edf4ef615d6580ae04dS3VersionKey76284988",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParametersa5a55f40f05c1031f30cc935c76b58b0b7dbc81e70845edf4ef615d6580ae04dS3VersionKey76284988",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
-        },
-        "Handler": "index.handler",
-        "Role": Object {
-          "Fn::GetAtt": Array [
-            "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2",
-            "Arn",
-          ],
-        },
-        "Runtime": "nodejs12.x",
-        "Tags": Array [
-          Object {
-            "Key": "Environment",
-            "Value": "Development",
-          },
-        ],
-        "Timeout": 120,
-      },
-      "Type": "AWS::Lambda::Function",
-    },
-    "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "Service": "lambda.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "arn:",
-                Object {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-              ],
-            ],
-          },
-        ],
-        "Tags": Array [
-          Object {
-            "Key": "Environment",
-            "Value": "Development",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "sampleappproject1B1B27DE": Object {
-      "Properties": Object {
-        "Artifacts": Object {
-          "Type": "NO_ARTIFACTS",
-        },
-        "EncryptionKey": "alias/aws/s3",
-        "Environment": Object {
-          "ComputeType": "BUILD_GENERAL1_SMALL",
-          "EnvironmentVariables": Array [
-            Object {
-              "Name": "AWS_DEFAULT_REGION",
-              "Type": "PLAINTEXT",
-              "Value": Object {
-                "Ref": "AWS::Region",
-              },
-            },
-            Object {
-              "Name": "AWS_ACCOUNT_ID",
-              "Type": "PLAINTEXT",
-              "Value": Object {
-                "Ref": "AWS::AccountId",
-              },
-            },
-            Object {
-              "Name": "IMAGE_TAG",
-              "Type": "PLAINTEXT",
-              "Value": "sample-app",
-            },
-            Object {
-              "Name": "IMAGE_REPO_NAME",
-              "Type": "PLAINTEXT",
-              "Value": Object {
-                "Fn::ImportValue": "ABLE-ECR:ExportsOutputRefapprepo60CBE1D08890BEDC",
-              },
-            },
-          ],
-          "Image": "aws/codebuild/standard:4.0",
-          "ImagePullCredentialsType": "CODEBUILD",
-          "PrivilegedMode": true,
-          "Type": "LINUX_CONTAINER",
-        },
-        "ServiceRole": Object {
-          "Fn::GetAtt": Array [
-            "sampleappprojectRoleE074BB24",
-            "Arn",
-          ],
-        },
-        "Source": Object {
-          "Location": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Ref": "AssetParametersc3641c985a5817398703c6df709295c2b4602a21174ed2ec95c1e02a7000d50bS3Bucket3DE7C4A9",
-                },
-                "/",
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParametersc3641c985a5817398703c6df709295c2b4602a21174ed2ec95c1e02a7000d50bS3VersionKey321C6667",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParametersc3641c985a5817398703c6df709295c2b4602a21174ed2ec95c1e02a7000d50bS3VersionKey321C6667",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
-          "Type": "S3",
-        },
-        "Tags": Array [
-          Object {
-            "Key": "Environment",
-            "Value": "Development",
-          },
-        ],
-      },
-      "Type": "AWS::CodeBuild::Project",
-    },
-    "sampleappprojectRoleDefaultPolicy3B2ADD6F": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
-                "s3:GetObject*",
-                "s3:GetBucket*",
-                "s3:List*",
-              ],
-              "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":s3:::",
-                      Object {
-                        "Ref": "AssetParametersc3641c985a5817398703c6df709295c2b4602a21174ed2ec95c1e02a7000d50bS3Bucket3DE7C4A9",
-                      },
-                    ],
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":s3:::",
-                      Object {
-                        "Ref": "AssetParametersc3641c985a5817398703c6df709295c2b4602a21174ed2ec95c1e02a7000d50bS3Bucket3DE7C4A9",
-                      },
-                      "/*",
-                    ],
-                  ],
-                },
-              ],
-            },
-            Object {
-              "Action": Array [
-                "logs:CreateLogGroup",
-                "logs:CreateLogStream",
-                "logs:PutLogEvents",
-              ],
-              "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":logs:",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
-                      ":",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":log-group:/aws/codebuild/",
-                      Object {
-                        "Ref": "sampleappproject1B1B27DE",
-                      },
-                    ],
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":logs:",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
-                      ":",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":log-group:/aws/codebuild/",
-                      Object {
-                        "Ref": "sampleappproject1B1B27DE",
-                      },
-                      ":*",
-                    ],
-                  ],
-                },
-              ],
-            },
-            Object {
-              "Action": Array [
-                "codebuild:CreateReportGroup",
-                "codebuild:CreateReport",
-                "codebuild:UpdateReport",
-                "codebuild:BatchPutTestCases",
-                "codebuild:BatchPutCodeCoverages",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    "arn:",
-                    Object {
-                      "Ref": "AWS::Partition",
-                    },
-                    ":codebuild:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
-                    Object {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":report-group/",
-                    Object {
-                      "Ref": "sampleappproject1B1B27DE",
-                    },
-                    "-*",
-                  ],
-                ],
-              },
-            },
-            Object {
-              "Action": "ecr:GetAuthorizationToken",
-              "Effect": "Allow",
-              "Resource": "*",
-            },
-            Object {
-              "Action": Array [
-                "ecr:BatchCheckLayerAvailability",
-                "ecr:CompleteLayerUpload",
-                "ecr:InitiateLayerUpload",
-                "ecr:PutImage",
-                "ecr:UploadLayerPart",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    "arn:aws:ecr:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
-                    Object {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":repository/",
-                    Object {
-                      "Fn::ImportValue": "ABLE-ECR:ExportsOutputRefapprepo60CBE1D08890BEDC",
-                    },
-                  ],
-                ],
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "sampleappprojectRoleDefaultPolicy3B2ADD6F",
-        "Roles": Array [
-          Object {
-            "Ref": "sampleappprojectRoleE074BB24",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
-    "sampleappprojectRoleE074BB24": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "Service": "codebuild.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "Tags": Array [
-          Object {
-            "Key": "Environment",
-            "Value": "Development",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "startBuild2A2C3416": Object {
-      "DeletionPolicy": "Delete",
-      "DependsOn": Array [
-        "startBuildCustomResourcePolicy55D05B4A",
-      ],
-      "Properties": Object {
-        "Create": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "{\\"service\\":\\"CodeBuild\\",\\"action\\":\\"startBuild\\",\\"parameters\\":{\\"projectName\\":\\"",
-              Object {
-                "Ref": "sampleappproject1B1B27DE",
-              },
-              "\\"},\\"physicalResourceId\\":{\\"id\\":\\"",
-              Object {
-                "Fn::GetAtt": Array [
-                  "sampleappproject1B1B27DE",
-                  "Arn",
-                ],
-              },
-              "\\"}}",
-            ],
-          ],
-        },
-        "InstallLatestAwsSdk": true,
-        "ServiceToken": Object {
-          "Fn::GetAtt": Array [
-            "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
-            "Arn",
-          ],
-        },
-      },
-      "Type": "Custom::AWS",
-      "UpdateReplacePolicy": "Delete",
-    },
-    "startBuildCustomResourcePolicy55D05B4A": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "codebuild:StartBuild",
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "sampleappproject1B1B27DE",
-                  "Arn",
-                ],
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "startBuildCustomResourcePolicy55D05B4A",
-        "Roles": Array [
-          Object {
-            "Ref": "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
-  },
-}
-`;
-
-exports[`ABLE ControlTower Stacks GuestAccount Base Stacks 10`] = `
-Object {
-  "Outputs": Object {
-    "EcsAppLoadBalancerDNS24E0BD9F": Object {
-      "Value": Object {
-        "Fn::GetAtt": Array [
-          "Alb16C2F182",
-          "DNSName",
-        ],
-      },
-    },
-    "EcsAppServiceURL87E4732E": Object {
-      "Value": Object {
-        "Fn::Join": Array [
-          "",
-          Array [
-            "http://",
-            Object {
-              "Fn::GetAtt": Array [
-                "Alb16C2F182",
-                "DNSName",
-              ],
-            },
-          ],
-        ],
-      },
-    },
-    "ExportsOutputFnGetAttSgFargateB5F998B7GroupId58365FB1": Object {
-      "Export": Object {
-        "Name": "ABLE-ECSApp:ExportsOutputFnGetAttSgFargateB5F998B7GroupId58365FB1",
-      },
-      "Value": Object {
-        "Fn::GetAtt": Array [
-          "SgFargateB5F998B7",
+          "SgApp7DE78E7E",
           "GroupId",
         ],
       },
     },
   },
+  "Parameters": Object {
+    "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter": Object {
+      "Default": "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2",
+      "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
+    },
+  },
   "Resources": Object {
-    "Alb16C2F182": Object {
+    "AlbAppFFAFE0DC": Object {
       "Properties": Object {
         "LoadBalancerAttributes": Array [
           Object {
@@ -2457,7 +1858,7 @@ Object {
           Object {
             "Key": "access_logs.s3.bucket",
             "Value": Object {
-              "Ref": "alblogbucketC97CC057",
+              "Ref": "AlbLogBucketC26F4D8A",
             },
           },
         ],
@@ -2488,236 +1889,43 @@ Object {
       },
       "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
     },
-    "AlbHttp4xxAA038176": Object {
-      "Properties": Object {
-        "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
-            "Fn::ImportValue": "ABLE-MonitorAlarm:ExportsOutputRefMonitorAlarmTopic9C746E8C5F969821",
-          },
-        ],
-        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
-        "Dimensions": Array [
-          Object {
-            "Name": "LoadBalancer",
-            "Value": Object {
-              "Fn::GetAtt": Array [
-                "Alb16C2F182",
-                "LoadBalancerFullName",
-              ],
-            },
-          },
-        ],
-        "EvaluationPeriods": 3,
-        "MetricName": "HTTPCode_ELB_4XX_Count",
-        "Namespace": "AWS/ApplicationELB",
-        "Period": 60,
-        "Statistic": "Sum",
-        "Threshold": 10,
-      },
-      "Type": "AWS::CloudWatch::Alarm",
-    },
-    "AlbHttp5xx7EA5097F": Object {
-      "Properties": Object {
-        "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
-            "Fn::ImportValue": "ABLE-MonitorAlarm:ExportsOutputRefMonitorAlarmTopic9C746E8C5F969821",
-          },
-        ],
-        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
-        "Dimensions": Array [
-          Object {
-            "Name": "LoadBalancer",
-            "Value": Object {
-              "Fn::GetAtt": Array [
-                "Alb16C2F182",
-                "LoadBalancerFullName",
-              ],
-            },
-          },
-        ],
-        "EvaluationPeriods": 3,
-        "MetricName": "HTTPCode_ELB_5XX_Count",
-        "Namespace": "AWS/ApplicationELB",
-        "Period": 60,
-        "Statistic": "Sum",
-        "Threshold": 10,
-      },
-      "Type": "AWS::CloudWatch::Alarm",
-    },
-    "AlbPublicListener54E492A7": Object {
+    "AlbAppListnerApp18657E8F": Object {
       "Properties": Object {
         "DefaultActions": Array [
           Object {
             "TargetGroupArn": Object {
-              "Ref": "AlbPublicListenerECSGroupF2C3EDC7",
+              "Ref": "TgApp5918B053",
             },
             "Type": "forward",
           },
         ],
         "LoadBalancerArn": Object {
-          "Ref": "Alb16C2F182",
+          "Ref": "AlbAppFFAFE0DC",
         },
         "Port": 80,
         "Protocol": "HTTP",
       },
       "Type": "AWS::ElasticLoadBalancingV2::Listener",
     },
-    "AlbPublicListenerECSGroupF2C3EDC7": Object {
+    "AlbLogBucketC26F4D8A": Object {
+      "DeletionPolicy": "Retain",
       "Properties": Object {
-        "Port": 80,
-        "Protocol": "HTTP",
-        "Tags": Array [
-          Object {
-            "Key": "Environment",
-            "Value": "Development",
-          },
-        ],
-        "TargetGroupAttributes": Array [
-          Object {
-            "Key": "deregistration_delay.timeout_seconds",
-            "Value": "30",
-          },
-        ],
-        "TargetType": "ip",
-        "VpcId": Object {
-          "Fn::ImportValue": "ABLE-Vpc:ExportsOutputRefVpc8378EB38272D6E3A",
-        },
-      },
-      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
-    },
-    "AlbResponseTimeCFBA9063": Object {
-      "Properties": Object {
-        "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
-            "Fn::ImportValue": "ABLE-MonitorAlarm:ExportsOutputRefMonitorAlarmTopic9C746E8C5F969821",
-          },
-        ],
-        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
-        "Dimensions": Array [
-          Object {
-            "Name": "LoadBalancer",
-            "Value": Object {
-              "Fn::GetAtt": Array [
-                "Alb16C2F182",
-                "LoadBalancerFullName",
-              ],
+        "AccessControl": "Private",
+        "BucketEncryption": Object {
+          "ServerSideEncryptionConfiguration": Array [
+            Object {
+              "ServerSideEncryptionByDefault": Object {
+                "SSEAlgorithm": "AES256",
+              },
             },
-          },
-        ],
-        "EvaluationPeriods": 3,
-        "MetricName": "TargetResponseTime",
-        "Namespace": "AWS/ApplicationELB",
-        "Period": 60,
-        "Statistic": "Average",
-        "Threshold": 100,
-      },
-      "Type": "AWS::CloudWatch::Alarm",
-    },
-    "AlbTgHealthyHostCount48815779": Object {
-      "Properties": Object {
-        "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
-            "Fn::ImportValue": "ABLE-MonitorAlarm:ExportsOutputRefMonitorAlarmTopic9C746E8C5F969821",
-          },
-        ],
-        "ComparisonOperator": "LessThanThreshold",
-        "Dimensions": Array [
-          Object {
-            "Name": "LoadBalancer",
-            "Value": Object {
-              "Fn::Join": Array [
-                "",
-                Array [
-                  Object {
-                    "Fn::Select": Array [
-                      1,
-                      Object {
-                        "Fn::Split": Array [
-                          "/",
-                          Object {
-                            "Ref": "AlbPublicListener54E492A7",
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                  "/",
-                  Object {
-                    "Fn::Select": Array [
-                      2,
-                      Object {
-                        "Fn::Split": Array [
-                          "/",
-                          Object {
-                            "Ref": "AlbPublicListener54E492A7",
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                  "/",
-                  Object {
-                    "Fn::Select": Array [
-                      3,
-                      Object {
-                        "Fn::Split": Array [
-                          "/",
-                          Object {
-                            "Ref": "AlbPublicListener54E492A7",
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                ],
-              ],
-            },
-          },
-          Object {
-            "Name": "TargetGroup",
-            "Value": Object {
-              "Fn::GetAtt": Array [
-                "AlbPublicListenerECSGroupF2C3EDC7",
-                "TargetGroupFullName",
-              ],
-            },
-          },
-        ],
-        "EvaluationPeriods": 3,
-        "MetricName": "HealthyHostCount",
-        "Namespace": "AWS/ApplicationELB",
-        "Period": 60,
-        "Statistic": "Average",
-        "Threshold": 2,
-      },
-      "Type": "AWS::CloudWatch::Alarm",
-    },
-    "BsWebAclAssociation": Object {
-      "Properties": Object {
-        "ResourceArn": Object {
-          "Ref": "Alb16C2F182",
-        },
-        "WebACLArn": Object {
-          "Fn::GetAtt": Array [
-            "WebAcl",
-            "Arn",
           ],
         },
-      },
-      "Type": "AWS::WAFv2::WebACLAssociation",
-    },
-    "ClusterEB0386A7": Object {
-      "Properties": Object {
-        "ClusterSettings": Array [
-          Object {
-            "Name": "containerInsights",
-            "Value": "enabled",
-          },
-        ],
+        "PublicAccessBlockConfiguration": Object {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true,
+        },
         "Tags": Array [
           Object {
             "Key": "Environment",
@@ -2725,314 +1933,91 @@ Object {
           },
         ],
       },
-      "Type": "AWS::ECS::Cluster",
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Retain",
     },
-    "Distribution830FAC52": Object {
+    "AlbLogBucketPolicy222549B1": Object {
       "Properties": Object {
-        "DistributionConfig": Object {
-          "DefaultCacheBehavior": Object {
-            "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
-            "Compress": true,
-            "OriginRequestPolicyId": "88a5eaf4-2fd4-4709-b370-b4c650ea3fcf",
-            "TargetOriginId": "ABLEECSAppDistributionOrigin10F261298",
-            "ViewerProtocolPolicy": "allow-all",
-          },
-          "DefaultRootObject": "index.html",
-          "Enabled": true,
-          "HttpVersion": "http2",
-          "IPV6Enabled": true,
-          "Origins": Array [
+        "Bucket": Object {
+          "Ref": "AlbLogBucketC26F4D8A",
+        },
+        "PolicyDocument": Object {
+          "Statement": Array [
             Object {
-              "DomainName": Object {
-                "Fn::GetAtt": Array [
-                  "WebBucket12880F5B",
-                  "RegionalDomainName",
-                ],
-              },
-              "Id": "ABLEECSAppDistributionOrigin10F261298",
-              "S3OriginConfig": Object {
-                "OriginAccessIdentity": Object {
+              "Action": "s3:PutObject",
+              "Effect": "Allow",
+              "Principal": Object {
+                "AWS": Object {
                   "Fn::Join": Array [
                     "",
                     Array [
-                      "origin-access-identity/cloudfront/",
+                      "arn:",
                       Object {
-                        "Ref": "DistributionOrigin1S3Origin5F5C0696",
+                        "Ref": "AWS::Partition",
                       },
+                      ":iam::582318560864:root",
                     ],
                   ],
                 },
               },
-            },
-          ],
-        },
-        "Tags": Array [
-          Object {
-            "Key": "Environment",
-            "Value": "Development",
-          },
-        ],
-      },
-      "Type": "AWS::CloudFront::Distribution",
-    },
-    "DistributionOrigin1S3Origin5F5C0696": Object {
-      "Properties": Object {
-        "CloudFrontOriginAccessIdentityConfig": Object {
-          "Comment": "Identity for ABLEECSAppDistributionOrigin10F261298",
-        },
-      },
-      "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
-    },
-    "EcsAppServiceABC8901F": Object {
-      "DependsOn": Array [
-        "AlbPublicListenerECSGroupF2C3EDC7",
-        "AlbPublicListener54E492A7",
-      ],
-      "Properties": Object {
-        "Cluster": Object {
-          "Ref": "ClusterEB0386A7",
-        },
-        "DeploymentConfiguration": Object {
-          "MaximumPercent": 200,
-          "MinimumHealthyPercent": 50,
-        },
-        "DesiredCount": 1,
-        "EnableECSManagedTags": false,
-        "HealthCheckGracePeriodSeconds": 60,
-        "LaunchType": "FARGATE",
-        "LoadBalancers": Array [
-          Object {
-            "ContainerName": "web",
-            "ContainerPort": 80,
-            "TargetGroupArn": Object {
-              "Ref": "AlbPublicListenerECSGroupF2C3EDC7",
-            },
-          },
-        ],
-        "NetworkConfiguration": Object {
-          "AwsvpcConfiguration": Object {
-            "AssignPublicIp": "DISABLED",
-            "SecurityGroups": Array [
-              Object {
-                "Fn::GetAtt": Array [
-                  "SgFargateB5F998B7",
-                  "GroupId",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    Object {
+                      "Fn::GetAtt": Array [
+                        "AlbLogBucketC26F4D8A",
+                        "Arn",
+                      ],
+                    },
+                    "/AWSLogs/",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    "/*",
+                  ],
                 ],
               },
-            ],
-            "Subnets": Array [
-              Object {
-                "Fn::ImportValue": "ABLE-Vpc:ExportsOutputRefVpcPrivateSubnet1Subnet536B997AFD4CC940",
-              },
-              Object {
-                "Fn::ImportValue": "ABLE-Vpc:ExportsOutputRefVpcPrivateSubnet2Subnet3788AAA1380949A3",
-              },
-            ],
-          },
-        },
-        "Tags": Array [
-          Object {
-            "Key": "Environment",
-            "Value": "Development",
-          },
-        ],
-        "TaskDefinition": Object {
-          "Ref": "EcsAppTaskDef15257EC1",
-        },
-      },
-      "Type": "AWS::ECS::Service",
-    },
-    "EcsAppTaskDef15257EC1": Object {
-      "Properties": Object {
-        "ContainerDefinitions": Array [
-          Object {
-            "Essential": true,
-            "Image": Object {
-              "Fn::Join": Array [
-                "",
-                Array [
-                  Object {
-                    "Fn::Select": Array [
-                      4,
-                      Object {
-                        "Fn::Split": Array [
-                          ":",
-                          Object {
-                            "Fn::ImportValue": "ABLE-ECR:ExportsOutputFnGetAttapprepo60CBE1D0ArnCF800CDF",
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                  ".dkr.ecr.",
-                  Object {
-                    "Fn::Select": Array [
-                      3,
-                      Object {
-                        "Fn::Split": Array [
-                          ":",
-                          Object {
-                            "Fn::ImportValue": "ABLE-ECR:ExportsOutputFnGetAttapprepo60CBE1D0ArnCF800CDF",
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                  ".",
-                  Object {
-                    "Ref": "AWS::URLSuffix",
-                  },
-                  "/",
-                  Object {
-                    "Fn::ImportValue": "ABLE-ECR:ExportsOutputRefapprepo60CBE1D08890BEDC",
-                  },
-                  ":sample-app",
-                ],
-              ],
             },
-            "LogConfiguration": Object {
-              "LogDriver": "awslogs",
-              "Options": Object {
-                "awslogs-group": Object {
-                  "Ref": "EcsAppTaskDefwebLogGroup022B5E5D",
-                },
-                "awslogs-region": Object {
-                  "Ref": "AWS::Region",
-                },
-                "awslogs-stream-prefix": "EcsApp",
-              },
-            },
-            "Name": "web",
-            "PortMappings": Array [
-              Object {
-                "ContainerPort": 80,
-                "Protocol": "tcp",
-              },
-            ],
-          },
-        ],
-        "Cpu": "256",
-        "ExecutionRoleArn": Object {
-          "Fn::GetAtt": Array [
-            "EcsTaskExecutionRoleC0B6A84D",
-            "Arn",
-          ],
-        },
-        "Family": "ABLEECSAppEcsAppTaskDef9CC4B194",
-        "Memory": "512",
-        "NetworkMode": "awsvpc",
-        "RequiresCompatibilities": Array [
-          "FARGATE",
-        ],
-        "Tags": Array [
-          Object {
-            "Key": "Environment",
-            "Value": "Development",
-          },
-        ],
-        "TaskRoleArn": Object {
-          "Fn::GetAtt": Array [
-            "EcsServiceTaskRoleB376410D",
-            "Arn",
-          ],
-        },
-      },
-      "Type": "AWS::ECS::TaskDefinition",
-    },
-    "EcsAppTaskDefwebLogGroup022B5E5D": Object {
-      "DeletionPolicy": "Retain",
-      "Type": "AWS::Logs::LogGroup",
-      "UpdateReplacePolicy": "Retain",
-    },
-    "EcsServiceTaskRoleB376410D": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
             Object {
-              "Action": "sts:AssumeRole",
+              "Action": "s3:PutObject",
+              "Condition": Object {
+                "StringEquals": Object {
+                  "s3:x-amz-acl": "bucket-owner-full-control",
+                },
+              },
               "Effect": "Allow",
               "Principal": Object {
-                "Service": "ecs-tasks.amazonaws.com",
+                "Service": "delivery.logs.amazonaws.com",
               },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "Tags": Array [
-          Object {
-            "Key": "Environment",
-            "Value": "Development",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "EcsTaskExecutionRoleC0B6A84D": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "Service": "ecs-tasks.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "arn:",
-                Object {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy",
-              ],
-            ],
-          },
-        ],
-        "Tags": Array [
-          Object {
-            "Key": "Environment",
-            "Value": "Development",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "EcsTaskExecutionRoleDefaultPolicyDCEEFDC3": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
-                "ecr:BatchCheckLayerAvailability",
-                "ecr:GetDownloadUrlForLayer",
-                "ecr:BatchGetImage",
-              ],
-              "Effect": "Allow",
               "Resource": Object {
-                "Fn::ImportValue": "ABLE-ECR:ExportsOutputFnGetAttapprepo60CBE1D0ArnCF800CDF",
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    Object {
+                      "Fn::GetAtt": Array [
+                        "AlbLogBucketC26F4D8A",
+                        "Arn",
+                      ],
+                    },
+                    "/AWSLogs/",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    "/*",
+                  ],
+                ],
               },
             },
             Object {
-              "Action": "ecr:GetAuthorizationToken",
+              "Action": "s3:GetBucketAcl",
               "Effect": "Allow",
-              "Resource": "*",
-            },
-            Object {
-              "Action": Array [
-                "logs:CreateLogStream",
-                "logs:PutLogEvents",
-              ],
-              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "delivery.logs.amazonaws.com",
+              },
               "Resource": Object {
                 "Fn::GetAtt": Array [
-                  "EcsAppTaskDefwebLogGroup022B5E5D",
+                  "AlbLogBucketC26F4D8A",
                   "Arn",
                 ],
               },
@@ -3040,90 +2025,162 @@ Object {
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "EcsTaskExecutionRoleDefaultPolicyDCEEFDC3",
+      },
+      "Type": "AWS::S3::BucketPolicy",
+    },
+    "AppEc20ABA98CDE": Object {
+      "DependsOn": Array [
+        "ssminstancerole0E7D791C",
+      ],
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            0,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "BlockDeviceMappings": Array [
+          Object {
+            "DeviceName": "/dev/xvda",
+            "Ebs": Object {
+              "Encrypted": true,
+              "VolumeSize": 10,
+            },
+          },
+        ],
+        "IamInstanceProfile": Object {
+          "Ref": "AppEc20InstanceProfileE4E834F4",
+        },
+        "ImageId": Object {
+          "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter",
+        },
+        "InstanceType": "t3.micro",
+        "SecurityGroupIds": Array [
+          Object {
+            "Fn::GetAtt": Array [
+              "SgApp7DE78E7E",
+              "GroupId",
+            ],
+          },
+        ],
+        "SubnetId": Object {
+          "Fn::ImportValue": "ABLE-Vpc:ExportsOutputRefVpcPrivateSubnet1Subnet536B997AFD4CC940",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "AppServer0",
+          },
+          Object {
+            "Key": "Role",
+            "Value": "FRA_AppServer",
+          },
+        ],
+        "UserData": Object {
+          "Fn::Base64": "#!/bin/bash
+sudo yum -y install httpd
+sudo systemctl enable httpd
+sudo systemctl start httpd
+touch /var/www/html/index.html
+chown apache.apache /var/www/html/index.html",
+        },
+      },
+      "Type": "AWS::EC2::Instance",
+    },
+    "AppEc20InstanceProfileE4E834F4": Object {
+      "Properties": Object {
         "Roles": Array [
           Object {
-            "Ref": "EcsTaskExecutionRoleC0B6A84D",
+            "Ref": "ssminstancerole0E7D791C",
           },
         ],
       },
-      "Type": "AWS::IAM::Policy",
+      "Type": "AWS::IAM::InstanceProfile",
     },
-    "FargateCpuUtilD5713973": Object {
+    "AppEc214159FB59": Object {
+      "DependsOn": Array [
+        "ssminstancerole0E7D791C",
+      ],
       "Properties": Object {
-        "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
-            "Fn::ImportValue": "ABLE-MonitorAlarm:ExportsOutputRefMonitorAlarmTopic9C746E8C5F969821",
-          },
-        ],
-        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
-        "DatapointsToAlarm": 3,
-        "Dimensions": Array [
-          Object {
-            "Name": "ClusterName",
-            "Value": Object {
-              "Ref": "ClusterEB0386A7",
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            1,
+            Object {
+              "Fn::GetAZs": "",
             },
-          },
+          ],
+        },
+        "BlockDeviceMappings": Array [
           Object {
-            "Name": "ServiceName",
-            "Value": Object {
-              "Fn::GetAtt": Array [
-                "EcsAppServiceABC8901F",
-                "Name",
-              ],
+            "DeviceName": "/dev/xvda",
+            "Ebs": Object {
+              "Encrypted": true,
+              "VolumeSize": 10,
             },
           },
         ],
-        "EvaluationPeriods": 3,
-        "MetricName": "CPUUtilization",
-        "Namespace": "AWS/ECS",
-        "Period": 60,
-        "Statistic": "Average",
-        "Threshold": 80,
+        "IamInstanceProfile": Object {
+          "Ref": "AppEc21InstanceProfile951A10DD",
+        },
+        "ImageId": Object {
+          "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter",
+        },
+        "InstanceType": "t3.micro",
+        "SecurityGroupIds": Array [
+          Object {
+            "Fn::GetAtt": Array [
+              "SgApp7DE78E7E",
+              "GroupId",
+            ],
+          },
+        ],
+        "SubnetId": Object {
+          "Fn::ImportValue": "ABLE-Vpc:ExportsOutputRefVpcPrivateSubnet2Subnet3788AAA1380949A3",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "AppServer1",
+          },
+          Object {
+            "Key": "Role",
+            "Value": "FRA_AppServer",
+          },
+        ],
+        "UserData": Object {
+          "Fn::Base64": "#!/bin/bash
+sudo yum -y install httpd
+sudo systemctl enable httpd
+sudo systemctl start httpd
+touch /var/www/html/index.html
+chown apache.apache /var/www/html/index.html",
+        },
       },
-      "Type": "AWS::CloudWatch::Alarm",
+      "Type": "AWS::EC2::Instance",
     },
-    "RunningTaskCount38288424": Object {
+    "AppEc21InstanceProfile951A10DD": Object {
       "Properties": Object {
-        "ActionsEnabled": true,
-        "AlarmActions": Array [
+        "Roles": Array [
           Object {
-            "Fn::ImportValue": "ABLE-MonitorAlarm:ExportsOutputRefMonitorAlarmTopic9C746E8C5F969821",
+            "Ref": "ssminstancerole0E7D791C",
           },
         ],
-        "ComparisonOperator": "LessThanThreshold",
-        "DatapointsToAlarm": 2,
-        "Dimensions": Array [
-          Object {
-            "Name": "ClusterName",
-            "Value": Object {
-              "Ref": "ClusterEB0386A7",
-            },
-          },
-          Object {
-            "Name": "ServiceName",
-            "Value": Object {
-              "Fn::GetAtt": Array [
-                "EcsAppServiceABC8901F",
-                "Name",
-              ],
-            },
-          },
-        ],
-        "EvaluationPeriods": 3,
-        "MetricName": "RunningTaskCount",
-        "Namespace": "ECS/ContainerInsights",
-        "Period": 60,
-        "Statistic": "Average",
-        "Threshold": 1,
       },
-      "Type": "AWS::CloudWatch::Alarm",
+      "Type": "AWS::IAM::InstanceProfile",
     },
     "SgAlbEA3AC417": Object {
       "Properties": Object {
-        "GroupDescription": "ABLE-ECSApp/SgAlb",
+        "GroupDescription": "ABLE-EC2App/SgAlb",
         "SecurityGroupEgress": Array [
           Object {
             "CidrIp": "0.0.0.0/0",
@@ -3154,30 +2211,18 @@ Object {
       },
       "Type": "AWS::EC2::SecurityGroup",
     },
-    "SgAlbtoABLEECSAppSgFargate427C68B0805901A02F": Object {
+    "SgApp7DE78E7E": Object {
       "Properties": Object {
-        "Description": "Load balancer to target",
-        "DestinationSecurityGroupId": Object {
-          "Fn::GetAtt": Array [
-            "SgFargateB5F998B7",
-            "GroupId",
-          ],
-        },
-        "FromPort": 80,
-        "GroupId": Object {
-          "Fn::GetAtt": Array [
-            "SgAlbEA3AC417",
-            "GroupId",
-          ],
-        },
-        "IpProtocol": "tcp",
-        "ToPort": 80,
-      },
-      "Type": "AWS::EC2::SecurityGroupEgress",
-    },
-    "SgFargateB5F998B7": Object {
-      "Properties": Object {
-        "GroupDescription": "ABLE-ECSApp/SgFargate",
+        "GroupDescription": "ABLE-EC2App/SgApp",
+        "SecurityGroupEgress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "from 0.0.0.0/0:ALL PORTS",
+            "FromPort": 0,
+            "IpProtocol": "tcp",
+            "ToPort": 65535,
+          },
+        ],
         "Tags": Array [
           Object {
             "Key": "Environment",
@@ -3190,13 +2235,13 @@ Object {
       },
       "Type": "AWS::EC2::SecurityGroup",
     },
-    "SgFargatefromABLEECSAppSgAlbE0D48A1980F9EBE8F0": Object {
+    "SgAppfromABLEEC2AppSgAlb7B19535B8044395A9F": Object {
       "Properties": Object {
-        "Description": "Load balancer to target",
+        "Description": "from ABLEEC2AppSgAlb7B19535B:80",
         "FromPort": 80,
         "GroupId": Object {
           "Fn::GetAtt": Array [
-            "SgFargateB5F998B7",
+            "SgApp7DE78E7E",
             "GroupId",
           ],
         },
@@ -3211,365 +2256,86 @@ Object {
       },
       "Type": "AWS::EC2::SecurityGroupIngress",
     },
-    "WebAcl": Object {
+    "TgApp5918B053": Object {
       "Properties": Object {
-        "DefaultAction": Object {
-          "Allow": Object {},
-        },
-        "Name": "ABLEWebAcl",
-        "Rules": Array [
-          Object {
-            "Name": "AWSManagedRulesCommonRuleSet",
-            "OverrideAction": Object {
-              "Count": Object {},
-            },
-            "Priority": 1,
-            "Statement": Object {
-              "ManagedRuleGroupStatement": Object {
-                "Name": "AWSManagedRulesCommonRuleSet",
-                "VendorName": "AWS",
-              },
-            },
-            "VisibilityConfig": Object {
-              "CloudWatchMetricsEnabled": true,
-              "MetricName": "AWS-AWSManagedRulesCommonRuleSet",
-              "SampledRequestsEnabled": true,
-            },
-          },
-          Object {
-            "Name": "AWSManagedRulesKnownBadInputsRuleSet",
-            "OverrideAction": Object {
-              "Count": Object {},
-            },
-            "Priority": 2,
-            "Statement": Object {
-              "ManagedRuleGroupStatement": Object {
-                "Name": "AWSManagedRulesKnownBadInputsRuleSet",
-                "VendorName": "AWS",
-              },
-            },
-            "VisibilityConfig": Object {
-              "CloudWatchMetricsEnabled": true,
-              "MetricName": "AWS-AWSManagedRulesKnownBadInputsRuleSet",
-              "SampledRequestsEnabled": true,
-            },
-          },
-          Object {
-            "Name": "AWSManagedRulesAmazonIpReputationList",
-            "OverrideAction": Object {
-              "Count": Object {},
-            },
-            "Priority": 3,
-            "Statement": Object {
-              "ManagedRuleGroupStatement": Object {
-                "Name": "AWSManagedRulesAmazonIpReputationList",
-                "VendorName": "AWS",
-              },
-            },
-            "VisibilityConfig": Object {
-              "CloudWatchMetricsEnabled": true,
-              "MetricName": "AWS-AWSManagedRulesAmazonIpReputationList",
-              "SampledRequestsEnabled": true,
-            },
-          },
-          Object {
-            "Name": "AWSManagedRulesLinuxRuleSet",
-            "OverrideAction": Object {
-              "Count": Object {},
-            },
-            "Priority": 4,
-            "Statement": Object {
-              "ManagedRuleGroupStatement": Object {
-                "Name": "AWSManagedRulesLinuxRuleSet",
-                "VendorName": "AWS",
-              },
-            },
-            "VisibilityConfig": Object {
-              "CloudWatchMetricsEnabled": true,
-              "MetricName": "AWS-AWSManagedRulesLinuxRuleSet",
-              "SampledRequestsEnabled": true,
-            },
-          },
-          Object {
-            "Name": "AWSManagedRulesSQLiRuleSet",
-            "OverrideAction": Object {
-              "Count": Object {},
-            },
-            "Priority": 5,
-            "Statement": Object {
-              "ManagedRuleGroupStatement": Object {
-                "Name": "AWSManagedRulesSQLiRuleSet",
-                "VendorName": "AWS",
-              },
-            },
-            "VisibilityConfig": Object {
-              "CloudWatchMetricsEnabled": true,
-              "MetricName": "AWS-AWSManagedRulesSQLiRuleSet",
-              "SampledRequestsEnabled": true,
-            },
-          },
-        ],
-        "Scope": "REGIONAL",
+        "HealthCheckEnabled": true,
+        "HealthCheckPath": "/index.html",
+        "Port": 80,
+        "Protocol": "HTTP",
         "Tags": Array [
           Object {
             "Key": "Environment",
             "Value": "Development",
           },
         ],
-        "VisibilityConfig": Object {
-          "CloudWatchMetricsEnabled": true,
-          "MetricName": "ABLEWebAcl",
-          "SampledRequestsEnabled": true,
-        },
-      },
-      "Type": "AWS::WAFv2::WebACL",
-    },
-    "WebBucket12880F5B": Object {
-      "DeletionPolicy": "Retain",
-      "Properties": Object {
-        "AccessControl": "Private",
-        "BucketEncryption": Object {
-          "ServerSideEncryptionConfiguration": Array [
-            Object {
-              "ServerSideEncryptionByDefault": Object {
-                "SSEAlgorithm": "AES256",
-              },
-            },
-          ],
-        },
-        "CorsConfiguration": Object {
-          "CorsRules": Array [
-            Object {
-              "AllowedMethods": Array [
-                "GET",
-                "HEAD",
-              ],
-              "AllowedOrigins": Array [
-                "https://example.com",
-                "https://www.example.com",
-              ],
-            },
-          ],
-        },
-        "LifecycleConfiguration": Object {
-          "Rules": Array [
-            Object {
-              "ExpirationInDays": 2555,
-              "Status": "Enabled",
-              "Transitions": Array [
-                Object {
-                  "StorageClass": "GLACIER",
-                  "TransitionInDays": 90,
-                },
-              ],
-            },
-          ],
-        },
-        "PublicAccessBlockConfiguration": Object {
-          "BlockPublicAcls": true,
-          "BlockPublicPolicy": true,
-          "IgnorePublicAcls": true,
-          "RestrictPublicBuckets": true,
-        },
-        "Tags": Array [
+        "TargetGroupAttributes": Array [
           Object {
-            "Key": "Environment",
-            "Value": "Development",
+            "Key": "deregistration_delay.timeout_seconds",
+            "Value": "60",
           },
         ],
-      },
-      "Type": "AWS::S3::Bucket",
-      "UpdateReplacePolicy": "Retain",
-    },
-    "WebBucketPolicy95D08FAA": Object {
-      "Properties": Object {
-        "Bucket": Object {
-          "Ref": "WebBucket12880F5B",
+        "TargetType": "instance",
+        "Targets": Array [
+          Object {
+            "Id": Object {
+              "Ref": "AppEc20ABA98CDE",
+            },
+          },
+          Object {
+            "Id": Object {
+              "Ref": "AppEc214159FB59",
+            },
+          },
+        ],
+        "VpcId": Object {
+          "Fn::ImportValue": "ABLE-Vpc:ExportsOutputRefVpc8378EB38272D6E3A",
         },
-        "PolicyDocument": Object {
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+    },
+    "ssminstancerole0E7D791C": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
           "Statement": Array [
             Object {
-              "Action": "s3:*",
-              "Condition": Object {
-                "Bool": Object {
-                  "aws:SecureTransport": "false",
-                },
-              },
-              "Effect": "Deny",
-              "Principal": "*",
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    Object {
-                      "Fn::GetAtt": Array [
-                        "WebBucket12880F5B",
-                        "Arn",
-                      ],
-                    },
-                    "/*",
-                  ],
-                ],
-              },
-            },
-            Object {
-              "Action": "s3:GetObject",
+              "Action": "sts:AssumeRole",
               "Effect": "Allow",
               "Principal": Object {
-                "CanonicalUser": Object {
-                  "Fn::GetAtt": Array [
-                    "DistributionOrigin1S3Origin5F5C0696",
-                    "S3CanonicalUserId",
-                  ],
-                },
-              },
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    Object {
-                      "Fn::GetAtt": Array [
-                        "WebBucket12880F5B",
-                        "Arn",
-                      ],
-                    },
-                    "/*",
-                  ],
-                ],
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-      },
-      "Type": "AWS::S3::BucketPolicy",
-    },
-    "alblogbucketC97CC057": Object {
-      "DeletionPolicy": "Retain",
-      "Properties": Object {
-        "AccessControl": "Private",
-        "BucketEncryption": Object {
-          "ServerSideEncryptionConfiguration": Array [
-            Object {
-              "ServerSideEncryptionByDefault": Object {
-                "SSEAlgorithm": "AES256",
-              },
-            },
-          ],
-        },
-        "PublicAccessBlockConfiguration": Object {
-          "BlockPublicAcls": true,
-          "BlockPublicPolicy": true,
-          "IgnorePublicAcls": true,
-          "RestrictPublicBuckets": true,
-        },
-        "Tags": Array [
-          Object {
-            "Key": "Environment",
-            "Value": "Development",
-          },
-        ],
-      },
-      "Type": "AWS::S3::Bucket",
-      "UpdateReplacePolicy": "Retain",
-    },
-    "alblogbucketPolicyA74E0CFF": Object {
-      "Properties": Object {
-        "Bucket": Object {
-          "Ref": "alblogbucketC97CC057",
-        },
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "s3:PutObject",
-              "Effect": "Allow",
-              "Principal": Object {
-                "AWS": Object {
+                "Service": Object {
                   "Fn::Join": Array [
                     "",
                     Array [
-                      "arn:",
+                      "ec2.",
                       Object {
-                        "Ref": "AWS::Partition",
+                        "Ref": "AWS::URLSuffix",
                       },
-                      ":iam::undefined:root",
                     ],
                   ],
                 },
               },
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    Object {
-                      "Fn::GetAtt": Array [
-                        "alblogbucketC97CC057",
-                        "Arn",
-                      ],
-                    },
-                    "/AWSLogs/",
-                    Object {
-                      "Ref": "AWS::AccountId",
-                    },
-                    "/*",
-                  ],
-                ],
-              },
-            },
-            Object {
-              "Action": "s3:PutObject",
-              "Condition": Object {
-                "StringEquals": Object {
-                  "s3:x-amz-acl": "bucket-owner-full-control",
-                },
-              },
-              "Effect": "Allow",
-              "Principal": Object {
-                "Service": "delivery.logs.amazonaws.com",
-              },
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    Object {
-                      "Fn::GetAtt": Array [
-                        "alblogbucketC97CC057",
-                        "Arn",
-                      ],
-                    },
-                    "/AWSLogs/",
-                    Object {
-                      "Ref": "AWS::AccountId",
-                    },
-                    "/*",
-                  ],
-                ],
-              },
-            },
-            Object {
-              "Action": "s3:GetBucketAcl",
-              "Effect": "Allow",
-              "Principal": Object {
-                "Service": "delivery.logs.amazonaws.com",
-              },
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "alblogbucketC97CC057",
-                  "Arn",
-                ],
-              },
             },
           ],
           "Version": "2012-10-17",
         },
+        "ManagedPolicyArns": Array [
+          "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
+          "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
+        ],
+        "Path": "/",
+        "Tags": Array [
+          Object {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+        ],
       },
-      "Type": "AWS::S3::BucketPolicy",
+      "Type": "AWS::IAM::Role",
     },
   },
 }
 `;
 
-exports[`ABLE ControlTower Stacks GuestAccount Base Stacks 11`] = `
+exports[`ABLE Guest Stacks GuestAccount EC2 App Stacks 9`] = `
 Object {
   "Parameters": Object {
     "AssetParameters67b7823b74bc135986aa72f889d6a8da058d0c4a20cbc2dfc6f78995fdd2fc24ArtifactHashBA91B77F": Object {
@@ -3806,7 +2572,7 @@ Object {
       },
       "Type": "AWS::EC2::SecurityGroup",
     },
-    "AuroraSecurityGroupABLEECSAppSgFargate427C68B0IndirectPortfrom06D8C51F": Object {
+    "AuroraSecurityGroupABLEEC2AppSgApp4E588C92IndirectPortfromA2ABC887": Object {
       "Properties": Object {
         "Description": "to ABLEDBAuroraPgAuroraSecurityGroup99769412:{IndirectPort}",
         "DestinationSecurityGroupId": Object {
@@ -3822,7 +2588,7 @@ Object {
           ],
         },
         "GroupId": Object {
-          "Fn::ImportValue": "ABLE-ECSApp:ExportsOutputFnGetAttSgFargateB5F998B7GroupId58365FB1",
+          "Fn::ImportValue": "ABLE-EC2App:ExportsOutputFnGetAttSgApp7DE78E7EGroupIdBE09B119",
         },
         "IpProtocol": "tcp",
         "ToPort": Object {
@@ -3834,9 +2600,9 @@ Object {
       },
       "Type": "AWS::EC2::SecurityGroupEgress",
     },
-    "AuroraSecurityGroupfromABLEECSAppSgFargate427C68B0IndirectPort6B62B17D": Object {
+    "AuroraSecurityGroupfromABLEEC2AppSgApp4E588C92IndirectPortD4ECD584": Object {
       "Properties": Object {
-        "Description": "from ABLEECSAppSgFargate427C68B0:{IndirectPort}",
+        "Description": "from ABLEEC2AppSgApp4E588C92:{IndirectPort}",
         "FromPort": Object {
           "Fn::GetAtt": Array [
             "Aurora2CBAB212",
@@ -3851,7 +2617,7 @@ Object {
         },
         "IpProtocol": "tcp",
         "SourceSecurityGroupId": Object {
-          "Fn::ImportValue": "ABLE-ECSApp:ExportsOutputFnGetAttSgFargateB5F998B7GroupId58365FB1",
+          "Fn::ImportValue": "ABLE-EC2App:ExportsOutputFnGetAttSgApp7DE78E7EGroupIdBE09B119",
         },
         "ToPort": Object {
           "Fn::GetAtt": Array [
@@ -4037,7 +2803,7 @@ Object {
 }
 `;
 
-exports[`ABLE ControlTower Stacks GuestAccount Base Stacks 12`] = `
+exports[`ABLE Guest Stacks GuestAccount EC2 App Stacks 10`] = `
 Object {
   "Parameters": Object {
     "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter": Object {
