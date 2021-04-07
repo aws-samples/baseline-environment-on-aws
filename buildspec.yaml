@@ -7,7 +7,6 @@ phases:
       - npm -g install typescript aws-cdk npm-check-updates
   pre_build:
     commands:
-      # You should change a directory name if submodule name is different
       - rm -f ./package-lock.json
       - ncu -u
       - npm cache clean --force
@@ -15,4 +14,5 @@ phases:
       - npm run build
   build:
     commands:
-      - cdk deploy ABLE-Iam -c environment=dev --require-approval never
+      # You can specify CDK deployment commands. Usually, you may want to deploy all of resources in the app. If you want to do so, please specify `"*"`
+      - cdk deploy ABLE-GeneralLog --app "npx ts-node bin/able-guest-ecsapp-sample.ts" -c environment=dev --require-approval never
