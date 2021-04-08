@@ -29,7 +29,7 @@ aws codebuild import-source-credentials --server-type GITHUB --auth-type PERSONA
 Update tools/cicd/cdk.json so CodeBuild can access your ABLE repository and specify a target branch.
 
 ```
-    "dev": {
+    "prod": {
       "env": {
         "account": "012345678901",
         "region": "ap-northeast-1"
@@ -41,7 +41,7 @@ Update tools/cicd/cdk.json so CodeBuild can access your ABLE repository and spec
     },
 ```
 
-- `dev`: Environment name to specify from CDK command line. In this sample, it should be `-c environment=dev`
+- `prod`: Environment name to specify from CDK command line. In this sample, it should be `-c environment=prod`
 - env: Target account and region you want to deploy this pipeline and resources.
 - envName: Environment name discription.
 - githubRepositoryOwner: GitHub repository owner name. If your reopsitory URL is 'https://github.com/ownername/repositoryname.git', you can specify `ownername`.
@@ -55,8 +55,8 @@ cd tools/cicd/
 ncu -u
 npm install
 npm run build
-cdk bootstrap   # If you haven't bootstrap target account
-cdk deploy -c environment=dev --profile your_profile_name
+cdk bootstrap -c environment=prod --profile your_profile_name  # If you haven't bootstrap target account
+cdk deploy -c environment=prod --profile your_profile_name
 ```
 
 ## 5. Update buildspec.yaml
@@ -82,7 +82,7 @@ phases:
       - npm run build
   build:
     commands:
-      - cdk deploy ABLE-ECSApp -c environment=dev --require-approval never
+      - cdk deploy ABLE-GeneralLog --app "npx ts-node bin/able-guest-ecsapp-sample.ts" -c environment=dev --require-approval never
 ```
 
 > Notes: You can add another lines to deploy another stacks.
