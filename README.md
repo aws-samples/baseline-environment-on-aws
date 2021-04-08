@@ -1,6 +1,6 @@
 # AWS Baseline Environment
 
-AWS Baseline Environment is a set of reference CDK template to establish secure baseline on standalone-account or ControlTower based multi-account AWS environment. This solution provides basic and extensible guardrail with AWS security services and end-to-end sample CDK code for typical system architecture. The CDK codes is also useful to learn more about AWS best architecting bestpractice and how to customize CDK because we incorporated comments in detail so that users can know why and how to code.
+AWS Baseline Environment is a set of reference CDK template to establish secure baseline on standalone-account or ControlTower based multi-account AWS environment. This solution provides basic and extensible guardrail with AWS security services and end-to-end sample CDK code for typical system architecture. This template is also useful to learn more about AWS architecting best practices and how to customize CDK code as we incorporated comments in detail so that users can know why and how to customize.
 
 # Governance Architecture
 
