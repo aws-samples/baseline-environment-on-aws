@@ -73,9 +73,9 @@ npm ci
 npm run build
 ```
 
-## (OPTIONAL for 1) When you want to use latest CDK modules for development
+## (OPTIONAL) Use latest CDK modules
 
-Use below commands instead of "npm ci".
+After install CDK, Use below commands instead of "npm ci".
 
 - Install ncu
 
@@ -86,6 +86,7 @@ npm install -g npm-check-updates
 - Update modules
 
 ```
+cd path-to-source
 rm -rf package-lock.json node_modules/
 ncu -u
 npm install
@@ -94,8 +95,6 @@ npm install
 - Build
 
 ```
-cd path-to-source
-npm ci
 npm run build
 ```
 
@@ -103,7 +102,7 @@ npm run build
 
 ## Optioin1. Setup AWS Credentials (Permanent Credentials)
 
-For development purpose, you can use permanent credentials for IAM User created on each account. Here is an example for using `dev` and `prod` account.
+For development purpose, you can use permanent credentials for IAM User created on each account. Here is an example for using `prof_dev` and `prof_prod` account.
 
 ```
 $ vi ~/.aws/credentials
@@ -121,43 +120,48 @@ region = ap-northeast-1
 
 ## Option2. Setup AWS Credentials (with AWS SSO)
 
-For secure use, we recommend to use AWS SSO to login AWS Management Console and AWS CLI - AWS SSO Integration.
+We recommend to use AWS SSO to login AWS Management Console and AWS CLI - AWS SSO Integration.
 
 > Notes: For AWS CLI-AWS SSO Integration, you need to use AWS CLIv2
+> See: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html
 
-To use AWS CLI - AWS SSO Integration from AWS CDK, you need to install aws2-wrap(https://github.com/linaro-its/aws2-wrap) on your laptop.
+To use AWS CLI - AWS SSO Integration from AWS CDK, you need to install opensource tool aws2-wrap (https://github.com/linaro-its/aws2-wrap) on your build environment.
 
 ```
 $ pip3 install aws2-wrap
 ```
 
-Configure AWS CLI for Deploying to Audit Account.
+Configure AWS CLI profile for deploying to Audit Account. This example assume Management Account ID as `1111111111111`, Audit Account ID as `222222222222`.
+
+~/.aws/config
 
 ```
-$ vi ~/.aws/config
-
-[profile ct-maste-sso]
+# for Management Account
+[profile ct-master-sso]
 sso_start_url = https://d-90xxxxxxxx.awsapps.com/start#/
 sso_region = ap-northeast-1
 sso_account_id = 1111111111111
 sso_role_name = AWSAdministratorAccess
 region = ap-northeast-1
 
+# for AWSControlTowerExecution Role on Audit Account
 [profile ct-audit-exec-role]
 role_arn = arn:aws:iam::222222222222:role/AWSControlTowerExecution
 source_profile = ct-master-sso
 region = ap-northeast-1
 
+# for CDK access to ct-audit-exec-role
 [profile ct-audit-exec]
 credential_process = aws2-wrap --process --profile ct-audit-exec-role
 region = ap-northeast-1
 ```
 
-Configure AWS CLI for Deploying to Guest Account.
+Configure AWS CLI profile for deploying to Guest Account.
+
+~/.aws/config
 
 ```
-$ vi ~/.aws/config
-
+# for Guest Account
 [profile ct-guest-sso]
 sso_start_url = https://d-90xxxxxxxx.awsapps.com/start#/
 sso_region = ap-northeast-1
@@ -165,6 +169,7 @@ sso_account_id = 123456789012
 sso_role_name = AWSAdministratorAccess
 region = ap-northeast-1
 
+# for CDK access to ct-guest-sso
 [profile ct-guest]
 credential_process = aws2-wrap --process --profile ct-guest-sso
 region = ap-northeast-1
@@ -176,7 +181,7 @@ Now, you can login with AWS SSO like this.
 $ aws sso login ct-guest-sso
 ```
 
-This command display AWS SSO login window on browser. Entering username and password, you will go back to terminal and can access with AWS CLI with profile ct-guest-sso. You need to use profile ct-guest on AWS CDK.
+This command display AWS SSO login window on your browser. Enter username and password, then you will go back to terminal and can access with AWS CLI with profile `ct-guest-sso`. On AWS CDK, you need to use profile `ct-guest`.
 
 # 4. Define parameters in CDK Context
 
@@ -189,10 +194,11 @@ You need to define deployment parameters on CDK Context. Context values are defi
 
 These files define `dev`, `prod`, `ctaudit`, `my` context. cdk.json is managed by git. cdk.context.json doesn't managed by git so you can use it just for your local environmen only.
 
+cdk.json
+
 ```
-$ cat cdk.json
 {
-  "app": "npx ts-node bin/able-app.ts",
+  "app": "npx ts-node bin/able-base-sa.ts",
   "context": {
     "dev": {
       "description": "Environment variables for able-guest-*-samples.ts",
@@ -223,7 +229,7 @@ $ cat cdk.json
     "ctaudit": {
       "description": "Environment variables for able-base-ct-audit.ts",
       "env": {
-        "account": "123456789012",
+        "account": "222222222222",
         "region": "ap-northeast-1"
       },
       "slackNotifier": {
@@ -235,15 +241,17 @@ $ cat cdk.json
 }
 ```
 
-You need to create cdk.context.json by yourself (may be generated automatically). This file is ignored by git.
+You can create cdk.context.json to define your developing environment parameters. It may be generated automatically. This file is ignored by git.
+
+cdk.context.json
 
 ```
-$ cat cdk.context.json
 {
   "@aws-cdk/core:enableStackNameDuplicates": "true",
   "aws-cdk:enableDiffNoFail": "true",
   "@aws-cdk/core:stackRelativeExports": "true",
   "my": {
+    "description": "Personal Environment variables for able-guest-*-samples.ts",
     "envName": "Personal",
     "vpcCidr": "10.100.0.0/16",
     "securityNotifyEmail": "xxx@example.com",
@@ -253,6 +261,17 @@ $ cat cdk.context.json
       "workspaceId": "T8XXXXXXXXX",
       "channelIdSec": "C01YYYYYYYY",
       "channelIdMon": "C02YYYYYYYY"
+    }
+  },
+  "myaudit": {
+    "description": "Personal Environment variables for able-base-ct-audit.ts",
+    "env": {
+      "account": "222222222222",
+      "region": "ap-northeast-1"
+    },
+    "slackNotifier": {
+      "workspaceId": "T8XXXXXXX",
+      "channelIdAgg": "C01ZZZZZZZZ"
     }
   }
 }
@@ -266,49 +285,38 @@ $ cat cdk.context.json
 > const environment_name = valArray['envName'];
 > ```
 
-> Tips: How to Deploy stack with context parameters. (This command deploys `bin/base-sa.ts`. It defined on cdk.json `app`)
+> Tips: How to Deploy stack with context parameters. (This command deploys `bin/able-base-sa.ts`. It defined on cdk.json `app`)
+> Use `--profile xxxxx` to specify AWS profile. Use `-c envrionment=xxxx` to specify parameters you defined in cdk.json.
 >
 > ```
 > $ cdk deploy "*" --profile prof_dev  -c environment=dev
 > $ cdk deploy "*" --profile prof_prod -c environment=prod
 > ```
 
-# 5.Bootstrap your account & region
-
-Before deploying CDK, you need bootstrap for each account you want to deploy.
-
-```
-cdk bootstrap --profile prof_dev
-```
-
-> CDK Tips
+> Tips: If you don't want to block deploy process with approval, add an option `--require-approval never` (but be careful!). \
+>  When you configure cdk.json like this, you don't need to specify `--require-approval never` on every deploy command.
 >
-> - Use cdk command with `--profile` option. Example:
->   - For dev account: `cdk bootstrap --profile your_profile_dev`
->   - For prod account: `cdk bootstrap --profile your_profile_prod`
-> - If you don't want to block deploy process with approval, add an option `--require-approval never` (but be careful!).
->   When you configure cdk.json like this, you don't need to specify `--require-approval never`.
->   > ```
->   > "requireApproval": "never",
->   > ```
+> > ```
+> > "requireApproval": "never",
+> > ```
 
-# 6. Guardrails and Samples
+# 6. Baseline and Sample templates
 
-We provide several guardrail templates and sample application templates.
+We provide several guardrail templates and sample application templates. They are placed in `bin/` directory.
 
 ## Base for ControlTower
 
 - able-base-ct-audit.ts
 
-  - Governance Base for ControlTower Audit Account(Currently just setup chatbot)
+  - Governance Base for ControlTower Audit Account.
 
 - able-base-ct-guest.ts
-  - Guest Base(for eatch guest account). Setup log bucket, IAM User, Monitoring.
+  - Guest Base(for eatch guest account). Setup log bucket, IAM User, Monitoring Chatbot for the account you specified.
 
 ## Base for Santdalone
 
 - able-base-sa.ts
-  - Setup Governance Base for Standalone environment
+  - Setup Governance Base for Standalone environment.
 
 ## Guest System samples
 
@@ -319,17 +327,27 @@ We provide several guardrail templates and sample application templates.
 - able-guest-ec2app-sample.ts
   - Sample app with EC2+AuroraPostgreSQL
 
-# 7. (Option1) Deploying on Single Account Environment
+# 7. Deploying on Single Account Environment
+
+(If you want to deploy to ControlTower environment, go to step 8)
 
 ## 1. Create new account
 
 Create new account using Organizations. (Or you can use just standalone account without Organizations).
 
-## 2. Setup AWS Chatbot
+## 2. Setup Slack for AWS Chatbot
 
-(See Appendix B)
+See: `Appendix B`
 
 ## 3. Deploy Governance Base for Standalone and Sample Apps
+
+If this is a first time to use CDK on the account and region, you need to bootstrap CDK.
+
+```
+$ cdk bootstrap --app "npx ts-node bin/able-base-sa.ts"             -c environment=dev --profile prof_dev
+```
+
+Deploy baseline and guest app.
 
 ```
 $ cdk deploy "*" --app "npx ts-node bin/able-base-sa.ts"             -c environment=dev --profile prof_dev
@@ -337,38 +355,60 @@ $ cdk deploy "*" --app "npx ts-node bin/able-guest-ecsapp-sample.ts" -c environm
 
 ```
 
-# 8. (Option2) Deploying on Multi-Account Environment
+Now you finished to deploy AWS Baseline template on single account environment.
+
+# 8. Deploying on Multi-Account Environment
 
 ## 1. Setup ControlTower
 
 Setup ControlTower.
+See: https://docs.aws.amazon.com/controltower/latest/userguide/setting-up.html
 
 ## 2. Setup Security services
 
 Setup SecurityHub, GuardDuty and IAM Access Analyzer for Organizations. You should specify deligate account to Audit account.
 
-## 2. Setup AWS Chatbot
+SecurityHub
 
-(See Appendix B)
+- https://docs.aws.amazon.com/securityhub/latest/userguide/designate-orgs-admin-account.html
+- https://docs.aws.amazon.com/securityhub/latest/userguide/accounts-orgs-auto-enable.html
 
-## 3. Create new account
+GuardDuty
+
+- https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_organizations.html
+
+IAM Access Analyzer
+
+- https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-settings.html#access-analyzer-delegated-administrator
+
+## 3. Deploy Governance Base for CT (to audit account)
+
+### Setup Slack for AWS Chatbot
+
+Setup Slack Workspace on Audit account. \
+See `Appendix B`
+
+### Deploy
+
+```
+$ aws sso login ct-master-sso
+$ cdk bootstrap  --app "npx ts-node bin/able-base-ct-audit.ts" -c environment=ctaudit --profile ct-audit-exec  # First time only
+$ cdk deploy "*" --app "npx ts-node bin/able-base-ct-audit.ts" -c environment=ctaudit --profile ct-audit-exec
+```
+
+## 4. Create new account
 
 Create new account with Account Vending Machine provided by ControlTower.
-
-## 4. Deploy Governance Base for CT (to audit account)
-
-```
-$ aws sso login able1-master-sso
-$ cdk deploy "*" --app "npx ts-node bin/able-base-ct-audit.ts" -c environment=dev --profile ct-audit-exec
-```
 
 ## 5. Deploy Guest Base and Sample Applications for CT (to guest account)
 
 ```
-$ aws sso login able1-guest1-sso
-$ cdk deploy "*" --app "npx ts-node bin/able-base-ct-guest.ts" -c environment=dev --profile able-guest
-$ cdk deploy "*" --app "npx ts-node bin/able-guest-ecsapp-sample.ts" -c environment=dev --profile able-guest
+$ aws sso login ct-guest-sso
+$ cdk deploy "*" --app "npx ts-node bin/able-base-ct-guest.ts" -c environment=dev --profile ct-guest # First time only
+$ cdk deploy "*" --app "npx ts-node bin/able-guest-ecsapp-sample.ts" -c environment=dev --profile ct-guest
 ```
+
+Now you finished to deploy AWS Baseline template on multi account environment.
 
 # 9. Remediation
 
@@ -417,7 +457,7 @@ see: https://docs.aws.amazon.com/cloudshell/latest/userguide/limits.html
 ## 0. Open CloudShell
 
 - Open CloudShell from [>_] icon on your AWS console (top right, near by account name)
-  ![OpenConsole](/doc/OpenConsole.png)
+  ![OpenConsole](/doc/images/OpenConsole.png)
 
 ## 1. Setup CDK prerequisities
 
@@ -435,7 +475,7 @@ $ sudo npm -g install npm
 $ sudo npm -g install typescript
 ```
 
-- CDK 1.90.1 or later
+- CDK 1.97.0 or later
 
 ```
 $ sudo npm install -g aws-cdk
@@ -451,9 +491,9 @@ $ sudo npm install -g npm-check-updates
 
 - Get ABLE source file from git or your SA
 - Upload ABLE file from [Action]-[Upload File] Button
-  ![UploadFiles](/doc/UploadFiles.png)
+  ![UploadFiles](/doc/images/UploadFiles.png)
 
-- Extract and delete ABLE file
+- Extract and delete uploaded file
 
 ```
 $ unzip baseline-template-vx.x.x.zip
@@ -479,11 +519,7 @@ $ npm install
 $ npm run build
 ```
 
-## 4. and after
-
-Please see "2.Bootstrap your account & region" on the above.
-
-# Appendix.B Setup Slack channel
+# Appendix.B Setup Slack for AWS Chatbot
 
 To send alarms to slack, create ABLE-ChatbotSecurity and ABLE-ChatbotMonitor stack.
 Before create these stack, you need to set up chat client for AWS Chatbot or stack creation will be failed.
@@ -493,12 +529,12 @@ Stack creating procedure is discribed below.
 ## 1. Create your workspace and channel on Slack
 
 (This is an operation on Slack) Create workspace and channel you want to receive message.
-Remember Slack channel ID (You can copy the channel ID with "Copy Link"). It looks like https://your-work-space.slack.com/archives/C01R4THXXXX. "C01R4THXXXX" is the channel ID.
+Remember Slack channel ID (You can copy the channel ID with "Copy Link"). It looks like https://your-work-space.slack.com/archives/C01XXXXXXXX. `C01XXXXXXXX` is the channel ID.
 
 ## 2. Setup chat client for AWS Chatbot
 
 - Follow the steps 1-4 of "Setting up AWS Chatbot with Slack". It just create Slack workspaces on AWS Chatbot.
-  - https://docs.aws.amazon.com/ja_jp/chatbot/latest/adminguide/getting-started.html
+  - https://docs.aws.amazon.com/chatbot/latest/adminguide/getting-started.html
 
 ## 3. Edit your workspace ID and channel ID on context file
 
