@@ -551,3 +551,11 @@ cdk.json or cdk.context.json:
 - workspaceId: Copy from AWS Chatbot Workspace details
 - channelIdSec: Copy from Your Slack App - Security Alarms
 - channelIdMon: Copy from Your Slack App - Monitoring Alarms
+
+# Security
+
+See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
+
+# License
+
+This library is licensed under the MIT-0 License. See the LICENSE file.
