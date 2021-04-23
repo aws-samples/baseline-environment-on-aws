@@ -20,5 +20,5 @@
     "typeRoots": ["./node_modules/@types"],
     "resolveJsonModule": true
   },
-  "exclude": ["cdk.out", "ABLEbase"]
+  "exclude": ["cdk.out", "BLEAbase"]
 }

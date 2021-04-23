@@ -1,48 +1,48 @@
-# AWS Baseline Environment
+# Baseline Environment on AWS
 
-AWS Baseline Environment is a set of reference CDK template to establish secure baseline on standalone-account or ControlTower based multi-account AWS environment. This solution provides basic and extensible guardrail with AWS security services and end-to-end sample CDK code for typical system architecture. This template is also useful to learn more about AWS architecting best practices and how to customize CDK code as we incorporated comments in detail so that users can know why and how to customize.
+Baseline Environment on AWS is a set of reference CDK template to establish secure baseline on standalone-account or ControlTower based multi-account AWS environment. This solution provides basic and extensible guardrail with AWS security services and end-to-end sample CDK code for typical system architecture. This template is also useful to learn more about AWS architecting best practices and how to customize CDK code as we incorporated comments in detail so that users can know why and how to customize.
 
 # Governance Architecture
 
 ## Operation patterns
 
-![ABLE-OpsPatterns](/doc/images/ABLE-OpsPatterns.png)
+![BLEA-OpsPatterns](/doc/images/BLEA-OpsPatterns.png)
 
 ## Multi-Account Governance (With ControlTower)
 
-![ABLE-GovOverviewMultiAccount](/doc/images/ABLE-GovOverviewMultiAccount.png)
+![BLEA-GovOverviewMultiAccount](/doc/images/BLEA-GovOverviewMultiAccount.png)
 
 ## Standalone Governance (With Individual account)
 
-![ABLE-GovOverviewSingleAccount](/doc/images/ABLE-GovOverviewSingleAccount.png)
+![BLEA-GovOverviewSingleAccount](/doc/images/BLEA-GovOverviewSingleAccount.png)
 
 # Baseline Architecture
 
 ## Multi-Account (With ControlTower)
 
-![ABLE-ArchMultiAccount](/doc/images/ABLE-ArchMultiAccount.png)
+![BLEA-ArchMultiAccount](/doc/images/BLEA-ArchMultiAccount.png)
 
 ## Standalone (With Individual account)
 
-![ABLE-ArchSingleAccount](/doc/images/ABLE-ArchSingleAccount.png)
+![BLEA-ArchSingleAccount](/doc/images/BLEA-ArchSingleAccount.png)
 
 ## Stack Architecture (Standalone)
 
-![ABLE-StackDependency](/doc/images/ABLE-StackDependency.png)
+![BLEA-StackDependency](/doc/images/BLEA-StackDependency.png)
 
 # Sample Architectures on Guest Account
 
 ## ECS
 
-![ABLE-GuestSampleECS](/doc/images/ABLE-GuestSampleECS.png)
+![BLEA-GuestSampleECS](/doc/images/BLEA-GuestSampleECS.png)
 
 ## AutoSacling
 
-![ABLE-GuestSampleASG](/doc/images/ABLE-GuestSampleASG.png)
+![BLEA-GuestSampleASG](/doc/images/BLEA-GuestSampleASG.png)
 
 ## EC2
 
-![ABLE-GuestSampleEC2](/doc/images/ABLE-GuestSampleEC2.png)
+![BLEA-GuestSampleEC2](/doc/images/BLEA-GuestSampleEC2.png)
 
 # Deployment
 
@@ -198,10 +198,10 @@ cdk.json
 
 ```
 {
-  "app": "npx ts-node bin/able-base-sa.ts",
+  "app": "npx ts-node bin/blea-base-sa.ts",
   "context": {
     "dev": {
-      "description": "Environment variables for able-guest-*-samples.ts",
+      "description": "Environment variables for blea-guest-*-samples.ts",
       "envName": "Development",
       "vpcCidr": "10.100.0.0/16",
       "securityNotifyEmail": "notify-security@example.com",
@@ -214,7 +214,7 @@ cdk.json
       }
     },
     "prod": {
-      "description": "Environment variables for able-guest-*-samples.ts",
+      "description": "Environment variables for blea-guest-*-samples.ts",
       "envName": "Production",
       "vpcCidr": "10.110.0.0/16",
       "securityNotifyEmail": "notify-security@example.com",
@@ -227,7 +227,7 @@ cdk.json
       }
     },
     "ctaudit": {
-      "description": "Environment variables for able-base-ct-audit.ts",
+      "description": "Environment variables for blea-base-ct-audit.ts",
       "env": {
         "account": "222222222222",
         "region": "ap-northeast-1"
@@ -251,7 +251,7 @@ cdk.context.json
   "aws-cdk:enableDiffNoFail": "true",
   "@aws-cdk/core:stackRelativeExports": "true",
   "my": {
-    "description": "Personal Environment variables for able-guest-*-samples.ts",
+    "description": "Personal Environment variables for blea-guest-*-samples.ts",
     "envName": "Personal",
     "vpcCidr": "10.100.0.0/16",
     "securityNotifyEmail": "xxx@example.com",
@@ -264,7 +264,7 @@ cdk.context.json
     }
   },
   "myaudit": {
-    "description": "Personal Environment variables for able-base-ct-audit.ts",
+    "description": "Personal Environment variables for blea-base-ct-audit.ts",
     "env": {
       "account": "222222222222",
       "region": "ap-northeast-1"
@@ -285,7 +285,7 @@ cdk.context.json
 > const environment_name = valArray['envName'];
 > ```
 
-> Tips: How to Deploy stack with context parameters. (This command deploys `bin/able-base-sa.ts`. It defined on cdk.json `app`)
+> Tips: How to Deploy stack with context parameters. (This command deploys `bin/blea-base-sa.ts`. It defined on cdk.json `app`)
 > Use `--profile xxxxx` to specify AWS profile. Use `-c envrionment=xxxx` to specify parameters you defined in cdk.json.
 >
 > ```
@@ -306,25 +306,25 @@ We provide several guardrail templates and sample application templates. They ar
 
 ## Base for ControlTower
 
-- able-base-ct-audit.ts
+- blea-base-ct-audit.ts
 
   - Governance Base for ControlTower Audit Account.
 
-- able-base-ct-guest.ts
+- blea-base-ct-guest.ts
   - Guest Base(for eatch guest account). Setup log bucket, IAM User, Monitoring Chatbot for the account you specified.
 
 ## Base for Santdalone
 
-- able-base-sa.ts
+- blea-base-sa.ts
   - Setup Governance Base for Standalone environment.
 
 ## Guest System samples
 
-- able-guest-ecsapp-sample.ts
+- blea-guest-ecsapp-sample.ts
   - Sample app with ECS/Fargate+AuroraPostgreSQL
-- able-guest-asgapp-sample.ts
+- blea-guest-asgapp-sample.ts
   - Sample app with EC2 Autoscaling Group+AuroraPostgreSQL
-- able-guest-ec2app-sample.ts
+- blea-guest-ec2app-sample.ts
   - Sample app with EC2+AuroraPostgreSQL
 
 # 7. Deploying on Single Account Environment
@@ -344,14 +344,14 @@ See: `Appendix B`
 If this is a first time to use CDK on the account and region, you need to bootstrap CDK.
 
 ```
-$ cdk bootstrap --app "npx ts-node bin/able-base-sa.ts"             -c environment=dev --profile prof_dev
+$ cdk bootstrap --app "npx ts-node bin/blea-base-sa.ts"             -c environment=dev --profile prof_dev
 ```
 
 Deploy baseline and guest app.
 
 ```
-$ cdk deploy "*" --app "npx ts-node bin/able-base-sa.ts"             -c environment=dev --profile prof_dev
-$ cdk deploy "*" --app "npx ts-node bin/able-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev
+$ cdk deploy "*" --app "npx ts-node bin/blea-base-sa.ts"             -c environment=dev --profile prof_dev
+$ cdk deploy "*" --app "npx ts-node bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev
 
 ```
 
@@ -392,8 +392,8 @@ See `Appendix B`
 
 ```
 $ aws sso login ct-master-sso
-$ cdk bootstrap  --app "npx ts-node bin/able-base-ct-audit.ts" -c environment=ctaudit --profile ct-audit-exec  # First time only
-$ cdk deploy "*" --app "npx ts-node bin/able-base-ct-audit.ts" -c environment=ctaudit --profile ct-audit-exec
+$ cdk bootstrap  --app "npx ts-node bin/blea-base-ct-audit.ts" -c environment=ctaudit --profile ct-audit-exec  # First time only
+$ cdk deploy "*" --app "npx ts-node bin/blea-base-ct-audit.ts" -c environment=ctaudit --profile ct-audit-exec
 ```
 
 ## 4. Create new account
@@ -404,8 +404,8 @@ Create new account with Account Vending Machine provided by ControlTower.
 
 ```
 $ aws sso login ct-guest-sso
-$ cdk deploy "*" --app "npx ts-node bin/able-base-ct-guest.ts" -c environment=dev --profile ct-guest # First time only
-$ cdk deploy "*" --app "npx ts-node bin/able-guest-ecsapp-sample.ts" -c environment=dev --profile ct-guest
+$ cdk deploy "*" --app "npx ts-node bin/blea-base-ct-guest.ts" -c environment=dev --profile ct-guest # First time only
+$ cdk deploy "*" --app "npx ts-node bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile ct-guest
 ```
 
 Now you finished to deploy AWS Baseline template on multi account environment.
@@ -450,7 +450,7 @@ You need to use IDMSv2 only for EC2 instances. Take a look the document below fo
 
 # Appendix. A: Deploy via CloudShell
 
-Deploy ABLE via CloudShell on AWS Console.  
+Deploy BLEA via CloudShell on AWS Console.  
 Please note that CloudShell will delete environment if you do not use that for 120 days.  
 see: https://docs.aws.amazon.com/cloudshell/latest/userguide/limits.html
 
@@ -487,10 +487,10 @@ $ sudo npm install -g aws-cdk
 $ sudo npm install -g npm-check-updates
 ```
 
-## 2. Upload and extract ABLE file
+## 2. Upload and extract BLEA file
 
-- Get ABLE source file from git or your SA
-- Upload ABLE file from [Action]-[Upload File] Button
+- Get BLEA source file from git or your SA
+- Upload BLEA file from [Action]-[Upload File] Button
   ![UploadFiles](/doc/images/UploadFiles.png)
 
 - Extract and delete uploaded file
@@ -521,7 +521,7 @@ $ npm run build
 
 # Appendix.B Setup Slack for AWS Chatbot
 
-To send alarms to slack, create ABLE-ChatbotSecurity and ABLE-ChatbotMonitor stack.
+To send alarms to slack, create BLEA-ChatbotSecurity and BLEA-ChatbotMonitor stack.
 Before create these stack, you need to set up chat client for AWS Chatbot or stack creation will be failed.
 
 Stack creating procedure is discribed below.
