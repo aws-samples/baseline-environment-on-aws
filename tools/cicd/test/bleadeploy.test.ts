@@ -16,7 +16,7 @@ const envKey = 'dev';
 const envVals = cdk_json['context'][envKey];
 
 describe(`${pjPrefix} Stacks`, () => {
-  test('Empty Stack', () => {
+  test('BLEA Deploy Stack', () => {
     const deployStack = new BLEAdeploy.BLEAdeployStack(app, 'DeployStack', {
       githubRepositoryOwner: 'githubRepositoryOwner',
       githubRepositoryName: 'githubRepositoryName',

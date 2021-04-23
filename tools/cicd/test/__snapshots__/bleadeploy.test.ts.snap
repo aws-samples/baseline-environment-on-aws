@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`BLEA Stacks Empty Stack 1`] = `
+exports[`BLEA Stacks BLEA Deploy Stack 1`] = `
 Object {
   "Resources": Object {
     "BLEAdeployProject9B689572": Object {
