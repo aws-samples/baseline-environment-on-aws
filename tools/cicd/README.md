@@ -1,12 +1,12 @@
-# Deploy AWS Baseline Envirionment from GitHub with CodeBuilde
+# Deploy Baseline Envirionment on AWS from GitHub with CodeBuilde
 
-This CDK application deploys Simple CodeBuild project to deploy resouces defined in ABLE to the same AWS account.
+This CDK application deploys Simple CodeBuild project to deploy resouces defined in BLEA to the same AWS account.
 
 ## Prerequisities
 
 - You have bootstrapped CDK on the account
 - You have configured AWS CLI environment (credentials) to access target account as Administrator.
-- You have forked ABLE repository to your GitHub account.
+- You have forked BLEA repository to your GitHub account.
 
 ## 1. Generate a GitHub Private Token
 
@@ -26,7 +26,7 @@ aws codebuild import-source-credentials --server-type GITHUB --auth-type PERSONA
 
 ## 3. Setup your CodeBuild project configuration
 
-Update tools/cicd/cdk.json so CodeBuild can access your ABLE repository and specify a target branch.
+Update tools/cicd/cdk.json so CodeBuild can access your BLEA repository and specify a target branch.
 
 ```
     "prod": {
@@ -62,7 +62,7 @@ cdk deploy -c environment=prod --profile your_profile_name
 ## 5. Update buildspec.yaml
 
 You need to specify CDK deploy command on buildspec.yaml.
-For example, when you want to deploy `ABLE-EC2App` stack with `dev` environment variables on cdk.json, your buildspec.yaml will be like this.
+For example, when you want to deploy `BLEA-EC2App` stack with `dev` environment variables on cdk.json, your buildspec.yaml will be like this.
 
 ```
 version: 0.2
@@ -82,15 +82,15 @@ phases:
       - npm run build
   build:
     commands:
-      - cdk deploy ABLE-GeneralLog --app "npx ts-node bin/able-guest-ecsapp-sample.ts" -c environment=dev --require-approval never
+      - cdk deploy BLEA-GeneralLog --app "npx ts-node bin/blea-guest-ecsapp-sample.ts" -c environment=dev --require-approval never
 ```
 
 > Notes: You can add another lines to deploy another stacks.
 > Notes: You don't need to specify --profile because we already add sufficient role (Administrator) to CodeBuild.
 
-## 6. Update ABLE codes, merge and deploy
+## 6. Update BLEA codes, merge and deploy
 
-Now you set up buildspec.yaml, you can add changes to ABLE codes.
+Now you set up buildspec.yaml, you can add changes to BLEA codes.
 When you finished updating codes, you will commit and merge updates into target branch. Don't forget to add buildspec.yaml too.
 
-When you push the changes into GitHub, CodeBuild project will be triggerd automatically then deploy resources you defined in ABLE CDK codes.
+When you push the changes into GitHub, CodeBuild project will be triggerd automatically then deploy resources you defined in BLEA CDK codes.
