@@ -489,7 +489,7 @@ $ sudo npm install -g npm-check-updates
 
 ## 2. Upload and extract BLEA file
 
-- Get BLEA source file from git or your SA
+- Get BLEA source file from git repository and archive it
 - Upload BLEA file from [Action]-[Upload File] Button
   ![UploadFiles](/doc/images/UploadFiles.png)
 
