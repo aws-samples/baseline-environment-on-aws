@@ -327,6 +327,9 @@ We provide several guardrail templates and sample application templates. They ar
 - blea-guest-ec2app-sample.ts
   - Sample app with EC2+AuroraPostgreSQL
 
+> These are sample code, so use one of these at the same time because each application uses the same name stack. (For example VPCs, Chatbot, Log, AuroraDB etc)
+> When you deploy several applications simultaneously, the resource defined in the same name stack will be shared by each application.
+
 # 7. Deploying on Single Account Environment
 
 (If you want to deploy to ControlTower environment, go to step 8)
