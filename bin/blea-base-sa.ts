@@ -15,7 +15,7 @@ const procEnv = {
   region: process.env.CDK_DEFAULT_REGION,
 };
 
-const pjPrefix = 'BLEA';
+const pjPrefix = 'BLEA-BASE';
 
 const app = new cdk.App();
 
@@ -34,14 +34,16 @@ const envVals = app.node.tryGetContext(envKey);
 if (envVals == undefined) throw new Error('Invalid environment.');
 
 // ---------------- Governance Base Stacks for this account --------------------------
-const secAlarm = new BLEASecurityAlarmStack(app, `${pjPrefix}-SecurityAlarm`, {
-  notifyEmail: envVals['securityNotifyEmail'],
-  env: procEnv,
-});
 
 new BLEAGuarddutyStack(app, `${pjPrefix}-Guardduty`, { env: procEnv });
 new BLEASecurityHubStack(app, `${pjPrefix}-SecurityHub`, { env: procEnv });
-new BLEATrailStack(app, `${pjPrefix}-Trail`, { env: procEnv });
+const trail = new BLEATrailStack(app, `${pjPrefix}-Trail`, { env: procEnv });
+
+const secAlarm = new BLEASecurityAlarmStack(app, `${pjPrefix}-SecurityAlarm`, {
+  notifyEmail: envVals['securityNotifyEmail'],
+  cloudTrailLogGroupName: trail.cloudTrailLogGroup.logGroupName,
+  env: procEnv,
+});
 
 new BLEAIamStack(app, `${pjPrefix}-Iam`, { env: procEnv });
 const config = new BLEAConfigStack(app, `${pjPrefix}-Config`, { env: procEnv });

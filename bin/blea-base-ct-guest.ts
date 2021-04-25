@@ -10,7 +10,7 @@ const procEnv = {
   region: process.env.CDK_DEFAULT_REGION,
 };
 
-const pjPrefix = 'BLEA';
+const pjPrefix = 'BLEA-BASE';
 
 const app = new cdk.App();
 
@@ -29,9 +29,15 @@ new BLEAConfigRulesStack(app, `${pjPrefix}-ConfigRule`, { env: procEnv });
 new BLEAIamStack(app, `${pjPrefix}-Iam`, { env: procEnv });
 
 // Security Alarms
-// !!! Need to setup SecurityHub, GuardDuty, AWS Config, CloudTrail with ControlTower and Organizations Master account
+// !!! Need to setup SecurityHub, GuardDuty manually on Organizations Management account
+// AWS Config and CloudTrail are set up by ControlTower
+
+// CloudWatch LogGroup Name for CloudTrail - Created by ControlTower for each account
+const cloudTrailLogGroupName = 'aws-controltower/CloudTrailLogs';
+
 const secAlarm = new BLEASecurityAlarmStack(app, `${pjPrefix}-SecurityAlarm`, {
   notifyEmail: envVals['securityNotifyEmail'],
+  cloudTrailLogGroupName: cloudTrailLogGroupName,
   env: procEnv,
 });
 

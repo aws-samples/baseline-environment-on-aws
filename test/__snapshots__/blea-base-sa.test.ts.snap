@@ -31,6 +31,16 @@ Object {
 
 exports[`BLEA Standalone Stacks GuestAccount Base Stacks 3`] = `
 Object {
+  "Outputs": Object {
+    "ExportsOutputRefCloudTrailLogGroup343A29D62364BB0C": Object {
+      "Export": Object {
+        "Name": "BLEA-Trail:ExportsOutputRefCloudTrailLogGroup343A29D62364BB0C",
+      },
+      "Value": Object {
+        "Ref": "CloudTrailLogGroup343A29D6",
+      },
+    },
+  },
   "Resources": Object {
     "ArchiveLogsBucketBC7EE643": Object {
       "DeletionPolicy": "Retain",
@@ -619,22 +629,6 @@ Object {
       },
       "Type": "AWS::IAM::Policy",
     },
-    "RootUserPolicyEventCount35663DD3": Object {
-      "Properties": Object {
-        "FilterPattern": "{$.userIdentity.type=\\"Root\\" && $.userIdentity.invokedBy NOT EXISTS && $.eventType !=\\"AwsServiceEvent\\"}",
-        "LogGroupName": Object {
-          "Ref": "CloudTrailLogGroup343A29D6",
-        },
-        "MetricTransformations": Array [
-          Object {
-            "MetricName": "RootUserPolicyEventCount",
-            "MetricNamespace": "LogMetrics",
-            "MetricValue": "1",
-          },
-        ],
-      },
-      "Type": "AWS::Logs::MetricFilter",
-    },
   },
 }
 `;
@@ -1157,6 +1151,7 @@ Object {
       "Properties": Object {
         "RecordingGroup": Object {
           "AllSupported": true,
+          "IncludeGlobalResourceTypes": true,
         },
         "RoleARN": Object {
           "Fn::GetAtt": Array [
@@ -1630,48 +1625,6 @@ Object {
     },
   },
   "Resources": Object {
-    "BLEAIAMPolicyChange699A38F3": Object {
-      "Properties": Object {
-        "Description": "Notify to modify IAM Policy",
-        "EventPattern": Object {
-          "detail": Object {
-            "eventName": Array [
-              "DeleteRolePolicy",
-              "DeleteUserPolicy",
-              "PutGroupPolicy",
-              "PutRolePolicy",
-              "PutUserPolicy",
-              "CreatePolicy",
-              "DeletePolicy",
-              "CreatePolicyVersion",
-              "DeletePolicyVersion",
-              "AttachRolePolicy",
-              "DetachRolePolicy",
-              "AttachUserPolicy",
-              "DetachUserPolicy",
-              "AttachGroupPolicy",
-              "DetachGroupPolicy",
-            ],
-            "eventSource": Array [
-              "iam.amazonaws.com",
-            ],
-          },
-          "detail-type": Array [
-            "AWS API Call via CloudTrail",
-          ],
-        },
-        "State": "ENABLED",
-        "Targets": Array [
-          Object {
-            "Arn": Object {
-              "Ref": "SecurityAlarmTopicEE71C633",
-            },
-            "Id": "Target0",
-          },
-        ],
-      },
-      "Type": "AWS::Events::Rule",
-    },
     "BLEARuleAwsHealthF42E6F23": Object {
       "Properties": Object {
         "Description": "Notify AWS Health event",
@@ -1873,71 +1826,6 @@ Object {
       },
       "Type": "AWS::Events::Rule",
     },
-    "BLEARuleNewAccessKeyCreatedEA332B5D": Object {
-      "Properties": Object {
-        "Description": "Notify to create new accessKey",
-        "EventPattern": Object {
-          "detail": Object {
-            "eventName": Array [
-              "CreateAccessKey",
-            ],
-            "eventSource": Array [
-              "iam.amazonaws.com",
-            ],
-          },
-          "detail-type": Array [
-            "AWS API Call via CloudTrail",
-          ],
-        },
-        "State": "ENABLED",
-        "Targets": Array [
-          Object {
-            "Arn": Object {
-              "Ref": "SecurityAlarmTopicEE71C633",
-            },
-            "Id": "Target0",
-          },
-        ],
-      },
-      "Type": "AWS::Events::Rule",
-    },
-    "BLEARuleRootUserUsed43879EDB": Object {
-      "Properties": Object {
-        "Description": "Notify to detect root user activity",
-        "EventPattern": Object {
-          "detail": Object {
-            "eventType": Array [
-              Object {
-                "anything-but": "AwsServiceEvent",
-              },
-            ],
-            "userIdentity": Object {
-              "invokedBy": Array [
-                Object {
-                  "exists": false,
-                },
-              ],
-              "type": Array [
-                "Root",
-              ],
-            },
-          },
-          "detail-type": Array [
-            "AWS API Call via CloudTrail",
-          ],
-        },
-        "State": "ENABLED",
-        "Targets": Array [
-          Object {
-            "Arn": Object {
-              "Ref": "SecurityAlarmTopicEE71C633",
-            },
-            "Id": "Target0",
-          },
-        ],
-      },
-      "Type": "AWS::Events::Rule",
-    },
     "BLEARuleSecurityGroupChange40274701": Object {
       "Properties": Object {
         "Description": "Notify to create, update or delete a Security Group.",
@@ -2016,6 +1904,94 @@ Object {
       },
       "Type": "AWS::Events::Rule",
     },
+    "IAMPolicyChange92C67B60": Object {
+      "Properties": Object {
+        "FilterPattern": "{($.eventName=DeleteGroupPolicy)||($.eventName=DeleteRolePolicy)||($.eventName=DeleteUserPolicy)||($.eventName=PutGroupPolicy)||($.eventName=PutRolePolicy)||($.eventName=PutUserPolicy)||($.eventName=CreatePolicy)||($.eventName=DeletePolicy)||($.eventName=CreatePolicyVersion)||($.eventName=DeletePolicyVersion)||($.eventName=AttachRolePolicy)||($.eventName=DetachRolePolicy)||($.eventName=AttachUserPolicy)||($.eventName=DetachUserPolicy)||($.eventName=AttachGroupPolicy)||($.eventName=DetachGroupPolicy)}",
+        "LogGroupName": Object {
+          "Fn::ImportValue": "BLEA-Trail:ExportsOutputRefCloudTrailLogGroup343A29D62364BB0C",
+        },
+        "MetricTransformations": Array [
+          Object {
+            "MetricName": "IAMPolicyEventCount",
+            "MetricNamespace": "CloudTrailMetrics",
+            "MetricValue": "1",
+          },
+        ],
+      },
+      "Type": "AWS::Logs::MetricFilter",
+    },
+    "IAMPolicyChangeAlarm014E790D": Object {
+      "Properties": Object {
+        "ActionsEnabled": true,
+        "AlarmActions": Array [
+          Object {
+            "Ref": "SecurityAlarmTopicEE71C633",
+          },
+        ],
+        "AlarmDescription": "IAM Configuration changes detected!",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "DatapointsToAlarm": 1,
+        "EvaluationPeriods": 1,
+        "MetricName": "IAMPolicyEventCount",
+        "Namespace": "CloudTrailMetrics",
+        "Period": 300,
+        "Statistic": "Sum",
+        "Threshold": 1,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "NewAccessKeyCreated2B0746DE": Object {
+      "Properties": Object {
+        "FilterPattern": "{($.eventName=CreateAccessKey)}",
+        "LogGroupName": Object {
+          "Fn::ImportValue": "BLEA-Trail:ExportsOutputRefCloudTrailLogGroup343A29D62364BB0C",
+        },
+        "MetricTransformations": Array [
+          Object {
+            "MetricName": "NewAccessKeyCreatedEventCount",
+            "MetricNamespace": "CloudTrailMetrics",
+            "MetricValue": "1",
+          },
+        ],
+      },
+      "Type": "AWS::Logs::MetricFilter",
+    },
+    "NewAccessKeyCreatedAlarmBBF3FA3E": Object {
+      "Properties": Object {
+        "ActionsEnabled": true,
+        "AlarmActions": Array [
+          Object {
+            "Ref": "SecurityAlarmTopicEE71C633",
+          },
+        ],
+        "AlarmDescription": "Warning: New IAM access Eey was created. Please be sure this action was neccessary.",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "DatapointsToAlarm": 1,
+        "EvaluationPeriods": 1,
+        "MetricName": "NewAccessKeyCreatedEventCount",
+        "Namespace": "CloudTrailMetrics",
+        "Period": 300,
+        "Statistic": "Sum",
+        "Threshold": 1,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "RootUserPolicyEventCount35663DD3": Object {
+      "Properties": Object {
+        "FilterPattern": "{$.userIdentity.type=\\"Root\\" && $.userIdentity.invokedBy NOT EXISTS && $.eventType !=\\"AwsServiceEvent\\"}",
+        "LogGroupName": Object {
+          "Fn::ImportValue": "BLEA-Trail:ExportsOutputRefCloudTrailLogGroup343A29D62364BB0C",
+        },
+        "MetricTransformations": Array [
+          Object {
+            "MetricName": "RootUserPolicyEventCount",
+            "MetricNamespace": "CloudTrailMetrics",
+            "MetricValue": "1",
+          },
+        ],
+      },
+      "Type": "AWS::Logs::MetricFilter",
+    },
     "RootUserPolicyEventCountAlarm55CEC7AC": Object {
       "Properties": Object {
         "ActionsEnabled": true,
@@ -2029,7 +2005,7 @@ Object {
         "DatapointsToAlarm": 1,
         "EvaluationPeriods": 1,
         "MetricName": "RootUserPolicyEventCount",
-        "Namespace": "LogMetrics",
+        "Namespace": "CloudTrailMetrics",
         "Period": 300,
         "Statistic": "Sum",
         "Threshold": 1,
@@ -2057,12 +2033,23 @@ Object {
               "Action": "sns:Publish",
               "Effect": "Allow",
               "Principal": Object {
-                "Service": "events.amazonaws.com",
+                "Service": "cloudwatch.amazonaws.com",
               },
               "Resource": Object {
                 "Ref": "SecurityAlarmTopicEE71C633",
               },
               "Sid": "0",
+            },
+            Object {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "events.amazonaws.com",
+              },
+              "Resource": Object {
+                "Ref": "SecurityAlarmTopicEE71C633",
+              },
+              "Sid": "1",
             },
           ],
           "Version": "2012-10-17",
@@ -2074,6 +2061,42 @@ Object {
         ],
       },
       "Type": "AWS::SNS::TopicPolicy",
+    },
+    "UnauthorizedAttemptsA72B9105": Object {
+      "Properties": Object {
+        "FilterPattern": "{($.errorCode=AccessDenied)||($.errorCode=UnauthorizedOperation)}",
+        "LogGroupName": Object {
+          "Fn::ImportValue": "BLEA-Trail:ExportsOutputRefCloudTrailLogGroup343A29D62364BB0C",
+        },
+        "MetricTransformations": Array [
+          Object {
+            "MetricName": "UnauthorizedAttemptsEventCount",
+            "MetricNamespace": "CloudTrailMetrics",
+            "MetricValue": "1",
+          },
+        ],
+      },
+      "Type": "AWS::Logs::MetricFilter",
+    },
+    "UnauthorizedAttemptsAlarm27121FA6": Object {
+      "Properties": Object {
+        "ActionsEnabled": true,
+        "AlarmActions": Array [
+          Object {
+            "Ref": "SecurityAlarmTopicEE71C633",
+          },
+        ],
+        "AlarmDescription": "Multiple unauthorized actions or logins attempted!",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "DatapointsToAlarm": 1,
+        "EvaluationPeriods": 1,
+        "MetricName": "UnauthorizedAttemptsEventCount",
+        "Namespace": "CloudTrailMetrics",
+        "Period": 300,
+        "Statistic": "Sum",
+        "Threshold": 5,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
     },
   },
 }
