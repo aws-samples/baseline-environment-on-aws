@@ -16,6 +16,7 @@ export class BLEAConfigStack extends cdk.Stack {
       roleArn: role.roleArn,
       recordingGroup: {
         allSupported: true,
+        includeGlobalResourceTypes: true,
       },
     });
 
