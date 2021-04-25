@@ -1,12 +1,15 @@
 import * as cdk from '@aws-cdk/core';
+import * as iam from '@aws-cdk/aws-iam';
 import * as sns from '@aws-cdk/aws-sns';
 import * as cw from '@aws-cdk/aws-cloudwatch';
 import * as cwa from '@aws-cdk/aws-cloudwatch-actions';
 import * as cwe from '@aws-cdk/aws-events';
+import * as cwl from '@aws-cdk/aws-logs';
 import * as cwet from '@aws-cdk/aws-events-targets';
 
 interface BLEASecurityAlarmStackProps extends cdk.StackProps {
   notifyEmail: string;
+  cloudTrailLogGroupName: string;
 }
 
 export class BLEASecurityAlarmStack extends cdk.Stack {
@@ -23,6 +26,16 @@ export class BLEASecurityAlarmStack extends cdk.Stack {
       topic: secTopic,
     });
     this.alarmTopic = secTopic;
+
+    // Allow to publish message from CloudWatch
+    secTopic.addToResourcePolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        principals: [new iam.ServicePrincipal('cloudwatch.amazonaws.com')],
+        actions: ['sns:Publish'],
+        resources: [secTopic.topicArn],
+      }),
+    );
 
     // --------------- ConfigRule Compliance Change Notification -----------------
     // ConfigRule - Compliance Change
@@ -58,6 +71,7 @@ export class BLEASecurityAlarmStack extends cdk.Stack {
     });
 
     // ------------ Detective guardrails from NIST standard template ----------------
+    // See: https://aws.amazon.com/quickstart/architecture/compliance-nist/?nc1=h_ls
 
     // Security Groups Change Notification
     // See: https://aws.amazon.com/premiumsupport/knowledge-center/monitor-security-group-changes-ec2/?nc1=h_ls
@@ -104,72 +118,6 @@ export class BLEASecurityAlarmStack extends cdk.Stack {
       targets: [new cwet.SnsTopic(secTopic)],
     });
 
-    // IAM Policy Change Notification
-    //  from NIST template
-    new cwe.Rule(this, 'BLEAIAMPolicyChange', {
-      description: 'Notify to modify IAM Policy',
-      enabled: true,
-      eventPattern: {
-        detailType: ['AWS API Call via CloudTrail'],
-        detail: {
-          eventSource: ['iam.amazonaws.com'],
-          eventName: [
-            'DeleteRolePolicy',
-            'DeleteUserPolicy',
-            'PutGroupPolicy',
-            'PutRolePolicy',
-            'PutUserPolicy',
-            'CreatePolicy',
-            'DeletePolicy',
-            'CreatePolicyVersion',
-            'DeletePolicyVersion',
-            'AttachRolePolicy',
-            'DetachRolePolicy',
-            'AttachUserPolicy',
-            'DetachUserPolicy',
-            'AttachGroupPolicy',
-            'DetachGroupPolicy',
-          ],
-        },
-      },
-      targets: [new cwet.SnsTopic(secTopic)],
-    });
-
-    // Root User Activity
-    // https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudwatch-alarms-for-cloudtrail-additional-examples.html
-    // https://docs.aws.amazon.com/eventbridge/latest/userguide/content-filtering-with-event-patterns.html#filtering-exists-matching
-    //  from NIST template
-    new cwe.Rule(this, 'BLEARuleRootUserUsed', {
-      description: 'Notify to detect root user activity',
-      enabled: true,
-      eventPattern: {
-        detailType: ['AWS API Call via CloudTrail'],
-        detail: {
-          userIdentity: {
-            type: ['Root'],
-            invokedBy: [{ exists: false }],
-          },
-          eventType: [{ 'anything-but': 'AwsServiceEvent' }],
-        },
-      },
-      targets: [new cwet.SnsTopic(secTopic)],
-    });
-
-    // NewAccessKeyCreated
-    //  from NIST template
-    new cwe.Rule(this, 'BLEARuleNewAccessKeyCreated', {
-      description: 'Notify to create new accessKey',
-      enabled: true,
-      eventPattern: {
-        detailType: ['AWS API Call via CloudTrail'],
-        detail: {
-          eventSource: ['iam.amazonaws.com'],
-          eventName: ['CreateAccessKey'],
-        },
-      },
-      targets: [new cwet.SnsTopic(secTopic)],
-    });
-
     // CloudTrail Change
     //  from NIST template
     new cwe.Rule(this, 'BLEARuleCloudTrailChange', {
@@ -185,13 +133,111 @@ export class BLEASecurityAlarmStack extends cdk.Stack {
       targets: [new cwet.SnsTopic(secTopic)],
     });
 
+    // LogGroup Construct for CloudTrail
+    //   Use LogGroup.fromLogGroupName() because...
+    //   On ControlTower environment, it created by not BLEA but ControlTower. So we need to refer existent LogGroup.
+    //   When you use BLEA Standalone version, the LogGroup is created by BLEA.
+    //
+    //   Note:
+    //     MetricFilter-based detection may delay for several minutes because of latency on CloudTrail Log delivery to CloudWatchLogs
+    //     Use CloudWatch Events if you can, it deliver CloudTrail event faster.
+    //     IAM event occur in us-east-1 region so if you want to detect it, you need to use MetrifFilter-based detection
+    //     See: https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-aws-console-sign-in-events.html
+    //
+    const cloudTrailLogGroup = cwl.LogGroup.fromLogGroupName(this, 'CloudTrailLogGroup', props.cloudTrailLogGroupName);
+
+    // IAM Policy Change Notification
+    //  from NIST template
+    const mfIAMPolicyChange = new cwl.MetricFilter(this, 'IAMPolicyChange', {
+      logGroup: cloudTrailLogGroup,
+      filterPattern: {
+        logPatternString:
+          '{($.eventName=DeleteGroupPolicy)||($.eventName=DeleteRolePolicy)||($.eventName=DeleteUserPolicy)||($.eventName=PutGroupPolicy)||($.eventName=PutRolePolicy)||($.eventName=PutUserPolicy)||($.eventName=CreatePolicy)||($.eventName=DeletePolicy)||($.eventName=CreatePolicyVersion)||($.eventName=DeletePolicyVersion)||($.eventName=AttachRolePolicy)||($.eventName=DetachRolePolicy)||($.eventName=AttachUserPolicy)||($.eventName=DetachUserPolicy)||($.eventName=AttachGroupPolicy)||($.eventName=DetachGroupPolicy)}',
+      },
+      metricNamespace: 'CloudTrailMetrics',
+      metricName: 'IAMPolicyEventCount',
+      metricValue: '1',
+    });
+
+    new cw.Alarm(this, 'IAMPolicyChangeAlarm', {
+      metric: mfIAMPolicyChange.metric({
+        period: cdk.Duration.seconds(300),
+      }),
+      evaluationPeriods: 1,
+      datapointsToAlarm: 1,
+      threshold: 1,
+      comparisonOperator: cw.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+      alarmDescription: 'IAM Configuration changes detected!',
+      actionsEnabled: true,
+      statistic: cw.Statistic.SUM,
+    }).addAlarmAction(new cwa.SnsAction(secTopic));
+
+    // Unauthorized Attempts
+    //  from NIST template
+    const mfUnauthorizedAttempts = new cwl.MetricFilter(this, 'UnauthorizedAttempts', {
+      logGroup: cloudTrailLogGroup,
+      filterPattern: {
+        logPatternString: '{($.errorCode=AccessDenied)||($.errorCode=UnauthorizedOperation)}',
+      },
+      metricNamespace: 'CloudTrailMetrics',
+      metricName: 'UnauthorizedAttemptsEventCount',
+      metricValue: '1',
+    });
+
+    new cw.Alarm(this, 'UnauthorizedAttemptsAlarm', {
+      metric: mfUnauthorizedAttempts.metric({
+        period: cdk.Duration.seconds(300),
+      }),
+      evaluationPeriods: 1,
+      datapointsToAlarm: 1,
+      threshold: 5,
+      comparisonOperator: cw.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+      alarmDescription: 'Multiple unauthorized actions or logins attempted!',
+      actionsEnabled: true,
+      statistic: cw.Statistic.SUM,
+    }).addAlarmAction(new cwa.SnsAction(secTopic));
+
+    // NewAccessKeyCreated
+    //  from NIST template
+    const mfNewAccessKeyCreated = new cwl.MetricFilter(this, 'NewAccessKeyCreated', {
+      logGroup: cloudTrailLogGroup,
+      filterPattern: {
+        logPatternString: '{($.eventName=CreateAccessKey)}',
+      },
+      metricNamespace: 'CloudTrailMetrics',
+      metricName: 'NewAccessKeyCreatedEventCount',
+      metricValue: '1',
+    });
+
+    new cw.Alarm(this, 'NewAccessKeyCreatedAlarm', {
+      metric: mfNewAccessKeyCreated.metric({
+        period: cdk.Duration.seconds(300),
+      }),
+      evaluationPeriods: 1,
+      datapointsToAlarm: 1,
+      threshold: 1,
+      comparisonOperator: cw.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+      alarmDescription: 'Warning: New IAM access Eey was created. Please be sure this action was neccessary.',
+      actionsEnabled: true,
+      statistic: cw.Statistic.SUM,
+    }).addAlarmAction(new cwa.SnsAction(secTopic));
+
     // Detect Root Activity from CloudTrail Log (For SecurityHub CIS 1.1)
     // See: https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-standards-cis-controls-1.1
-    //   Note: Metric parameters (namespace and metricName) are defined in "Trail" Stack.
+    // See: https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudwatch-alarms-for-cloudtrail-additional-examples.html
+    const mfRooUserPolicy = new cwl.MetricFilter(this, 'RootUserPolicyEventCount', {
+      logGroup: cloudTrailLogGroup,
+      filterPattern: {
+        logPatternString:
+          '{$.userIdentity.type="Root" && $.userIdentity.invokedBy NOT EXISTS && $.eventType !="AwsServiceEvent"}',
+      },
+      metricNamespace: 'CloudTrailMetrics',
+      metricName: 'RootUserPolicyEventCount',
+      metricValue: '1',
+    });
+
     new cw.Alarm(this, 'RootUserPolicyEventCountAlarm', {
-      metric: new cw.Metric({
-        namespace: 'LogMetrics',
-        metricName: 'RootUserPolicyEventCount',
+      metric: mfRooUserPolicy.metric({
         period: cdk.Duration.seconds(300),
       }),
       evaluationPeriods: 1,

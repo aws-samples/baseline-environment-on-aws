@@ -25,10 +25,12 @@ describe(`${pjPrefix} ControlTower Stacks`, () => {
     const configRule = new BLEAConfigRulesStack(app, `${pjPrefix}-ConfigRule`, { env: procEnv });
     const iam = new BLEAIamStack(app, `${pjPrefix}-Iam`, { env: procEnv });
 
-    // Security Alarms
-    // !!! Need to setup SecurityHub, GuardDuty, AWS Config, CloudTrail with ControlTower and Organizations Master account
+    // CloudWatch LogGroup Name for CloudTrail - Created by ControlTower for each account
+    const cloudTrailLogGroupName = 'aws-controltower/CloudTrailLogs';
+
     const secAlarm = new BLEASecurityAlarmStack(app, `${pjPrefix}-SecurityAlarm`, {
       notifyEmail: envVals['securityNotifyEmail'],
+      cloudTrailLogGroupName: cloudTrailLogGroupName,
       env: procEnv,
     });
 

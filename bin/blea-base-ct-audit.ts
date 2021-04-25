@@ -2,7 +2,7 @@
 import * as cdk from '@aws-cdk/core';
 import { BLEAChatbotStack } from '../lib/blea-chatbot-stack';
 
-const pjPrefix = 'BLEA';
+const pjPrefix = 'BLEA-BASE';
 const app = new cdk.App();
 
 // Get Parameters from Context

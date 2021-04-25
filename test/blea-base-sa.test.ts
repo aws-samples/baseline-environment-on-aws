@@ -26,14 +26,15 @@ const envVals = cdk_json['context'][envKey];
 
 describe(`${pjPrefix} Standalone Stacks`, () => {
   test('GuestAccount Base Stacks', () => {
-    const secAlarm = new BLEASecurityAlarmStack(app, `${pjPrefix}-SecurityAlarm`, {
-      notifyEmail: envVals['securityNotifyEmail'],
-      env: procEnv,
-    });
-
     const guardDuty = new BLEAGuarddutyStack(app, `${pjPrefix}-Guardduty`, { env: procEnv });
     const securityHub = new BLEASecurityHubStack(app, `${pjPrefix}-SecurityHub`, { env: procEnv });
     const trail = new BLEATrailStack(app, `${pjPrefix}-Trail`, { env: procEnv });
+
+    const secAlarm = new BLEASecurityAlarmStack(app, `${pjPrefix}-SecurityAlarm`, {
+      notifyEmail: envVals['securityNotifyEmail'],
+      cloudTrailLogGroupName: trail.cloudTrailLogGroup.logGroupName,
+      env: procEnv,
+    });
 
     const iam = new BLEAIamStack(app, `${pjPrefix}-Iam`, { env: procEnv });
     const config = new BLEAConfigStack(app, `${pjPrefix}-Config`, { env: procEnv });

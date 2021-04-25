@@ -6,6 +6,8 @@ import * as iam from '@aws-cdk/aws-iam';
 import * as kms from '@aws-cdk/aws-kms';
 
 export class BLEATrailStack extends cdk.Stack {
+  public readonly cloudTrailLogGroup: cwl.LogGroup;
+
   constructor(scope: cdk.Construct, id: string, props: cdk.StackProps) {
     super(scope, id, props);
 
@@ -100,6 +102,7 @@ export class BLEATrailStack extends cdk.Stack {
       retention: cwl.RetentionDays.THREE_MONTHS,
       encryptionKey: cloudTrailKey,
     });
+    this.cloudTrailLogGroup = cloudTrailLogGroup;
 
     // CloudTrail
     new trail.Trail(this, 'CloudTrail', {
@@ -119,20 +122,6 @@ export class BLEATrailStack extends cdk.Stack {
     });
     cloudTrailBucket.grantPut(cloudTrailRole);
     cloudTrailBucket.grantRead(cloudTrailRole);
-
-    // CloudWatch Logs metric filter to Detect root activity (For SecurityHub CIS 1.1)
-    //   This filter is required to compliant CIS benchmark 1.1
-    //   See: https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-standards-cis-controls-1.1
-    new cwl.MetricFilter(this, 'RootUserPolicyEventCount', {
-      logGroup: cloudTrailLogGroup,
-      filterPattern: {
-        logPatternString:
-          '{$.userIdentity.type="Root" && $.userIdentity.invokedBy NOT EXISTS && $.eventType !="AwsServiceEvent"}',
-      },
-      metricNamespace: 'LogMetrics',
-      metricName: 'RootUserPolicyEventCount',
-      metricValue: '1',
-    });
   }
 
   // Add base BucketPolicy for CloudTrail
