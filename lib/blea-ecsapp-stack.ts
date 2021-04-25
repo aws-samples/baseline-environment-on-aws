@@ -298,7 +298,7 @@ export class BLEAECSAppStack extends cdk.Stack {
       })
       .createAlarm(this, 'AlbTgHealthyHostCount', {
         evaluationPeriods: 3,
-        threshold: 2,
+        threshold: 1,
         comparisonOperator: cw.ComparisonOperator.LESS_THAN_THRESHOLD,
         actionsEnabled: true,
       })

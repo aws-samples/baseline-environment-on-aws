@@ -230,7 +230,7 @@ Object {
     },
     "KeyAlias910D852D": Object {
       "Properties": Object {
-        "AliasName": "alias/for-generallog",
+        "AliasName": "alias/BLEA-GeneralLogKey-for-generallog",
         "TargetKeyId": Object {
           "Fn::GetAtt": Array [
             "Key961B73FD",
@@ -374,7 +374,7 @@ Object {
     },
     "KeyAlias910D852D": Object {
       "Properties": Object {
-        "AliasName": "alias/for-flowlog",
+        "AliasName": "alias/BLEA-FlowlogKey-for-flowlog",
         "TargetKeyId": Object {
           "Fn::GetAtt": Array [
             "Key961B73FD",
@@ -479,7 +479,7 @@ Object {
     },
     "KeyAlias910D852D": Object {
       "Properties": Object {
-        "AliasName": "alias/for-flowlog",
+        "AliasName": "alias/BLEA-FlowlogKey-for-flowlog",
         "TargetKeyId": Object {
           "Fn::GetAtt": Array [
             "Key961B73FD",
