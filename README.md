@@ -1,6 +1,6 @@
 # Baseline Environment on AWS
 
-Baseline Environment on AWS is a set of reference CDK template to establish secure baseline on standalone-account or ControlTower based multi-account AWS environment. This solution provides basic and extensible guardrail with AWS security services and end-to-end sample CDK code for typical system architecture. This template is also useful to learn more about AWS architecting best practices and how to customize CDK code as we incorporated comments in detail so that users can know why and how to customize.
+Baseline Environment on AWS(BLEA) is a set of reference CDK template to establish secure baseline on standalone-account or ControlTower based multi-account AWS environment. This solution provides basic and extensible guardrail with AWS security services and end-to-end sample CDK code for typical system architecture. This template is also useful to learn more about AWS architecting best practices and how to customize CDK code as we incorporated comments in detail so that users can know why and how to customize.
 
 # Governance Architecture
 
@@ -59,7 +59,7 @@ See: https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/getting_started.html
 npm -g install typescript
 ```
 
-- CDK 1.97.0 or later
+- CDK 1.100.0 or later
 
 ```
 npm install -g aws-cdk
@@ -104,9 +104,9 @@ npm run build
 
 For development purpose, you can use permanent credentials for IAM User created on each account. Here is an example for using `prof_dev` and `prof_prod` account.
 
-```
-$ vi ~/.aws/credentials
+~/.aws/credentials
 
+```
 [prof_dev]
 aws_access_key_id = XXXXXXXXXXXXXXX
 aws_secret_access_key = YYYYYYYYYYYYYYY
@@ -128,7 +128,7 @@ We recommend to use AWS SSO to login AWS Management Console and AWS CLI - AWS SS
 To use AWS CLI - AWS SSO Integration from AWS CDK, you need to install opensource tool aws2-wrap (https://github.com/linaro-its/aws2-wrap) on your build environment.
 
 ```
-$ pip3 install aws2-wrap
+pip3 install aws2-wrap
 ```
 
 Configure AWS CLI profile for deploying to Audit Account. This example assume Management Account ID as `1111111111111`, Audit Account ID as `222222222222`.
@@ -137,7 +137,7 @@ Configure AWS CLI profile for deploying to Audit Account. This example assume Ma
 
 ```
 # for Management Account
-[profile ct-master-sso]
+[profile ct-management-sso]
 sso_start_url = https://d-90xxxxxxxx.awsapps.com/start#/
 sso_region = ap-northeast-1
 sso_account_id = 1111111111111
@@ -147,7 +147,7 @@ region = ap-northeast-1
 # for AWSControlTowerExecution Role on Audit Account
 [profile ct-audit-exec-role]
 role_arn = arn:aws:iam::222222222222:role/AWSControlTowerExecution
-source_profile = ct-master-sso
+source_profile = ct-management-sso
 region = ap-northeast-1
 
 # for CDK access to ct-audit-exec-role
@@ -178,7 +178,7 @@ region = ap-northeast-1
 Now, you can login with AWS SSO like this.
 
 ```
-$ aws sso login ct-guest-sso
+aws sso login --profile ct-guest-sso
 ```
 
 This command display AWS SSO login window on your browser. Enter username and password, then you will go back to terminal and can access with AWS CLI with profile `ct-guest-sso`. On AWS CDK, you need to use profile `ct-guest`.
@@ -289,8 +289,8 @@ cdk.context.json
 > Use `--profile xxxxx` to specify AWS profile. Use `-c envrionment=xxxx` to specify parameters you defined in cdk.json.
 >
 > ```
-> $ cdk deploy "*" --profile prof_dev  -c environment=dev
-> $ cdk deploy "*" --profile prof_prod -c environment=prod
+> cdk deploy "*" --profile prof_dev  -c environment=dev
+> cdk deploy "*" --profile prof_prod -c environment=prod
 > ```
 
 > Tips: If you don't want to block deploy process with approval, add an option `--require-approval never` (but be careful!). \
@@ -347,14 +347,19 @@ See: `Appendix B`
 If this is a first time to use CDK on the account and region, you need to bootstrap CDK.
 
 ```
-$ cdk bootstrap --app "npx ts-node bin/blea-base-sa.ts"             -c environment=dev --profile prof_dev
+cdk bootstrap --app "npx ts-node bin/blea-base-sa.ts"             -c environment=dev --profile prof_dev
 ```
 
-Deploy baseline and guest app.
+Deploy Base stacks.
 
 ```
-$ cdk deploy "*" --app "npx ts-node bin/blea-base-sa.ts"             -c environment=dev --profile prof_dev
-$ cdk deploy "*" --app "npx ts-node bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev
+cdk deploy "*" --app "npx ts-node bin/blea-base-sa.ts"             -c environment=dev --profile prof_dev
+```
+
+Deploy Sample Application stacks.
+
+```
+cdk deploy "*" --app "npx ts-node bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev
 
 ```
 
@@ -393,10 +398,24 @@ See `Appendix B`
 
 ### Deploy
 
+Login to Management Account with SSO.
+
+> Audit account can configure only with AWSControlTowerExecution Role on Management Account
+
 ```
-$ aws sso login ct-master-sso
-$ cdk bootstrap  --app "npx ts-node bin/blea-base-ct-audit.ts" -c environment=ctaudit --profile ct-audit-exec  # First time only
-$ cdk deploy "*" --app "npx ts-node bin/blea-base-ct-audit.ts" -c environment=ctaudit --profile ct-audit-exec
+aws sso login --profile ct-management-sso
+```
+
+Bootstrap CDK bucket (first time only).
+
+```
+cdk bootstrap  --app "npx ts-node bin/blea-base-ct-audit.ts" -c environment=ctaudit --profile ct-audit-exec
+```
+
+Deploy Audit Base.
+
+```
+cdk deploy "*" --app "npx ts-node bin/blea-base-ct-audit.ts" -c environment=ctaudit --profile ct-audit-exec
 ```
 
 ## 4. Create new account
@@ -405,10 +424,28 @@ Create new account with Account Vending Machine provided by ControlTower.
 
 ## 5. Deploy Guest Base and Sample Applications for CT (to guest account)
 
+Login to Guest Account with SSO.
+
 ```
-$ aws sso login ct-guest-sso
-$ cdk deploy "*" --app "npx ts-node bin/blea-base-ct-guest.ts" -c environment=dev --profile ct-guest # First time only
-$ cdk deploy "*" --app "npx ts-node bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile ct-guest
+aws sso login --profile ct-guest-sso
+```
+
+Bootstrap CDK bucket (first time only).
+
+```
+cdk bootstrap --app "npx ts-node bin/blea-base-ct-guest.ts" -c environment=dev --profile ct-guest # First time only
+```
+
+Deploy Guest Base stacks.
+
+```
+cdk deploy "*" --app "npx ts-node bin/blea-base-ct-guest.ts" -c environment=dev --profile ct-guest
+```
+
+Deploy Guest Application Sample stacks.
+
+```
+cdk deploy "*" --app "npx ts-node bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile ct-guest
 ```
 
 Now you finished to deploy AWS Baseline template on multi account environment.
@@ -469,25 +506,19 @@ See: https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/getting_started.html
 - Update npm
 
 ```
-$ sudo npm -g install npm
+sudo npm -g install npm
 ```
 
 - TypeScript 2.7 or later
 
 ```
-$ sudo npm -g install typescript
+sudo npm -g install typescript
 ```
 
-- CDK 1.97.0 or later
+- CDK 1.100.0 or later
 
 ```
-$ sudo npm install -g aws-cdk
-```
-
-- ncu
-
-```
-$ sudo npm install -g npm-check-updates
+sudo npm install -g aws-cdk
 ```
 
 ## 2. Upload and extract BLEA file
@@ -499,27 +530,35 @@ $ sudo npm install -g npm-check-updates
 - Extract and delete uploaded file
 
 ```
-$ unzip baseline-template-vx.x.x.zip
-$ rm baseline-template-vx.x.x.zip
+unzip baseline-environment-on-aws-vx.x.x.zip
+rm baseline-environment-on-aws-vx.x.x.zip
 ```
 
 ## 3. Build
 
 ```
-$ cd path-to-source
-$ ncu -u
-$ npm install
-$ npm run build
+cd path-to-source
+npm ci
+npm install
+npm run build
 ```
 
-if npm install doesn’t work, remove package-lock.json first.
+if npm install doesn’t work, install ncu and update packages.json, remove package-lock.json and build.
+
+- Install ncu
 
 ```
-$ cd <path-to-source>
-$ ncu -u
-$ rm package-lock.json
-$ npm install
-$ npm run build
+npm install -g npm-check-updates
+```
+
+- Update modules
+
+```
+cd path-to-source
+rm -rf package-lock.json node_modules/
+ncu -u
+npm install
+npm run build
 ```
 
 # Appendix.B Setup Slack for AWS Chatbot
