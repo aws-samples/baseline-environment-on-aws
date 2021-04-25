@@ -11,7 +11,7 @@ export class BLEAFlowLogKeyStack extends cdk.Stack {
     const kmsKey = new kms.Key(this, 'Key', {
       enableKeyRotation: true,
       description: 'for VPC Flow log',
-      alias: 'for-flowlog',
+      alias: `${id}-for-flowlog`,
     });
     this.kmsKey = kmsKey;
   }

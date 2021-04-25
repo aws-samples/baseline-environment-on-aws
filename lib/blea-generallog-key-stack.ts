@@ -11,7 +11,7 @@ export class BLEAGeneralLogKeyStack extends cdk.Stack {
     const kmsKey = new kms.Key(this, 'Key', {
       enableKeyRotation: true,
       description: 'for General Logs',
-      alias: 'for-generallog',
+      alias: `${id}-for-generallog`,
     });
     this.kmsKey = kmsKey;
   }
