@@ -7,10 +7,7 @@ phases:
       - npm -g install typescript aws-cdk npm-check-updates
   pre_build:
     commands:
-      - rm -f ./package-lock.json
-      - ncu -u
-      - npm cache clean --force
-      - npm install
+      - npm ci
       - npm run build
   build:
     commands:
