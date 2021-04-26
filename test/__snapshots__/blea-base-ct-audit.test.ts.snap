@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BLEA ControlTower Stacks AuditAccount Stacks 1`] = `
+Object {
+  "Resources": Object {
+    "ChatbotChannel": Object {
+      "Properties": Object {
+        "ConfigurationName": "BLEA-ChatbotAggregate-T8XXXXXXX",
+        "IamRoleArn": Object {
+          "Fn::GetAtt": Array [
+            "ChatbotRole8A87AA1F",
+            "Arn",
+          ],
+        },
+        "SlackChannelId": "C01ZZZZZZZZ",
+        "SlackWorkspaceId": "T8XXXXXXX",
+        "SnsTopicArns": Array [
+          "arn:aws:sns:ap-northeast-1:333333333333:aws-controltower-AggregateSecurityNotifications",
+        ],
+      },
+      "Type": "AWS::Chatbot::SlackChannelConfiguration",
+    },
+    "ChatbotRole8A87AA1F": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "chatbot.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/ReadOnlyAccess",
+              ],
+            ],
+          },
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/CloudWatchReadOnlyAccess",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+  },
+}
+`;
