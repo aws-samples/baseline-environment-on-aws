@@ -1,48 +1,52 @@
 # Baseline Environment on AWS
 
+[View this page in Japanese (日本語)](README_ja.md)
+
 Baseline Environment on AWS(BLEA) is a set of reference CDK template to establish secure baseline on standalone-account or ControlTower based multi-account AWS environment. This solution provides basic and extensible guardrail with AWS security services and end-to-end sample CDK code for typical system architecture. This template is also useful to learn more about AWS architecting best practices and how to customize CDK code as we incorporated comments in detail so that users can know why and how to customize.
+
+Jump to | [Changelog](CHANGELOG.md) | [Deployment Pipeline](tools/cicd/README.md) | [Standalone to ControlTower](doc/Standalone2ControlTower.md) |
 
 # Governance Architecture
 
 ## Operation patterns
 
-![BLEA-OpsPatterns](/doc/images/BLEA-OpsPatterns.png)
+![BLEA-OpsPatterns](doc/images/BLEA-OpsPatterns.png)
 
-## Multi-Account Governance (With ControlTower)
+## Multi-Account Governance (with ControlTower)
 
-![BLEA-GovOverviewMultiAccount](/doc/images/BLEA-GovOverviewMultiAccount.png)
+![BLEA-GovOverviewMultiAccount](doc/images/BLEA-GovOverviewMultiAccount.png)
 
-## Standalone Governance (With Individual account)
+## Standalone Governance (with Individual account)
 
-![BLEA-GovOverviewSingleAccount](/doc/images/BLEA-GovOverviewSingleAccount.png)
+![BLEA-GovOverviewSingleAccount](doc/images/BLEA-GovOverviewSingleAccount.png)
 
 # Baseline Architecture
 
 ## Multi-Account (With ControlTower)
 
-![BLEA-ArchMultiAccount](/doc/images/BLEA-ArchMultiAccount.png)
+![BLEA-ArchMultiAccount](doc/images/BLEA-ArchMultiAccount.png)
 
 ## Standalone (With Individual account)
 
-![BLEA-ArchSingleAccount](/doc/images/BLEA-ArchSingleAccount.png)
+![BLEA-ArchSingleAccount](doc/images/BLEA-ArchSingleAccount.png)
 
 ## Stack Architecture (Standalone)
 
-![BLEA-StackDependency](/doc/images/BLEA-StackDependency.png)
+![BLEA-StackDependency](doc/images/BLEA-StackDependency.png)
 
 # Sample Architectures on Guest Account
 
 ## ECS
 
-![BLEA-GuestSampleECS](/doc/images/BLEA-GuestSampleECS.png)
+![BLEA-GuestSampleECS](doc/images/BLEA-GuestSampleECS.png)
 
 ## AutoSacling
 
-![BLEA-GuestSampleASG](/doc/images/BLEA-GuestSampleASG.png)
+![BLEA-GuestSampleASG](doc/images/BLEA-GuestSampleASG.png)
 
 ## EC2
 
-![BLEA-GuestSampleEC2](/doc/images/BLEA-GuestSampleEC2.png)
+![BLEA-GuestSampleEC2](doc/images/BLEA-GuestSampleEC2.png)
 
 # Deployment
 
@@ -75,7 +79,7 @@ npm run build
 
 ## (OPTIONAL) Use latest CDK modules
 
-After install CDK, Use below commands instead of "npm ci".
+After install CDK, Use below commands instead of `npm ci`.
 
 - Install ncu
 
@@ -194,7 +198,7 @@ You need to define deployment parameters on CDK Context. Context values are defi
 
 These files define `dev`, `prod`, `ctaudit`, `my` context. cdk.json is managed by git. cdk.context.json doesn't managed by git so you can use it just for your local environmen only.
 
-For production stacks, we recommend that you explicitly specify the environment in cdk.json using the `env` property.  If you not specified env property, to use CDK_DEFAULT_ACCOUNT and CDK_DEFAULT_REGION variables.
+For production stacks, we recommend that you explicitly specify the environment in cdk.json using the `env` property. If you not specified env property, to use CDK_DEFAULT_ACCOUNT and CDK_DEFAULT_REGION variables.
 
 cdk.json
 
@@ -317,7 +321,7 @@ We provide several guardrail templates and sample application templates. They ar
   - Governance Base for ControlTower Audit Account.
 
 - blea-base-ct-guest.ts
-  - Guest Base(for eatch guest account). Setup log bucket, IAM User, Monitoring Chatbot for the account you specified.
+  - Guest Base(for each guest account). Setup log bucket, IAM User, Monitoring Chatbot for the account you specified.
 
 ## Base for Santdalone
 
@@ -424,7 +428,7 @@ See `Appendix B`
 
 ### Deploy
 
-Login to Management Account with SSO.
+Login to Management Account with AWS SSO.
 
 > Audit account can configure only with AWSControlTowerExecution Role on Management Account
 
@@ -450,7 +454,7 @@ Create new account with Account Vending Machine provided by ControlTower.
 
 ## 5. Deploy Guest Base for CT (to guest account)
 
-Login to Guest Account with SSO.
+Login to Guest Account with AWS SO.
 
 ```
 aws sso login --profile ct-guest-sso
@@ -479,7 +483,7 @@ How to setup: https://docs.aws.amazon.com/systems-manager/latest/userguide/quick
 
 Quick Setup provides below:
 
-- WS Identity and Access Management (IAM) instance profile roles for Systems Manager.
+- AWS Identity and Access Management (IAM) instance profile roles for Systems Manager.
 - A scheduled, bi-weekly update of SSM Agent.
 - A scheduled collection of Inventory metadata every 30 minutes.
 - A daily scan of your instances to identify missing patches.
@@ -540,12 +544,12 @@ Deploy BLEA via CloudShell on AWS Console.
 Please note that CloudShell will delete environment if you do not use that for 120 days.  
 see: https://docs.aws.amazon.com/cloudshell/latest/userguide/limits.html
 
-## 0. Open CloudShell
+## 1. Open CloudShell
 
 - Open CloudShell from [>_] icon on your AWS console (top right, near by account name)
-  ![OpenConsole](/doc/images/OpenConsole.png)
+  ![OpenConsole](doc/images/CloudShell-OpenConsole.png)
 
-## 1. Setup CDK prerequisities
+## 2. Setup CDK prerequisities
 
 See: https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/getting_started.html
 
@@ -567,11 +571,11 @@ sudo npm -g install typescript
 sudo npm install -g aws-cdk
 ```
 
-## 2. Upload and extract BLEA file
+## 2. Upload and extract template files
 
 - Get BLEA source file from git repository and archive it
 - Upload BLEA file from [Action]-[Upload File] Button
-  ![UploadFiles](/doc/images/UploadFiles.png)
+  ![UploadFiles](doc/images/CloudShell-UploadFiles.png)
 
 - Extract and delete uploaded file
 
