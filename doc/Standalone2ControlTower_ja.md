@@ -1,6 +1,6 @@
-# Baseline Environment on AWS Standalone版管理下のアカウントを マルチアカウント版管理下へ移行する
+# Baseline Environment on AWS Standalone 版管理下のアカウントを マルチアカウント版管理下へ移行する
 
-[In English](Standalone2ControlTower.md) | [READMEに戻る](../README_ja.md)
+[In English](Standalone2ControlTower.md) | [README に戻る](../README_ja.md)
 
 Baseline Environment on AWS の Standalone 版でセットアップしたアカウントを、マルチアカウント版（Control Tower）管理下へ移行することができます。
 この手順を通して、Standalone 版でセットアップしたアカウントの Guest Base および Guest System は変更しませんが、Control Tower 管理下に入ることで Organizations Service Control Policy の影響を受ける点に注意して、十分なテストの上で移行を行なってください。
@@ -17,7 +17,7 @@ Baseline Environment on AWS の Standalone 版でセットアップしたアカ�
 
 2. AWS CloudFormation Stacksets で 信頼されたアクセスが有効化されている
 
-   参照: https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html
+   参照: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html
 
 3. AWS Security Hub で 新しい組織アカウントが自動有効化されている
 

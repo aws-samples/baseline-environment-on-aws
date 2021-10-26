@@ -3,13 +3,19 @@ version: 0.2
 phases:
   install:
     commands:
+      # requires npm >7
       - npm i -g npm
-      - npm -g install typescript aws-cdk
   pre_build:
     commands:
       - npm ci
-      - npm run build
   build:
     commands:
-      # You can specify CDK deployment commands. Usually, you may want to deploy all of resources in the app. If you want to do so, please specify `"*"`
-      - cdk deploy BLEA-GeneralLog --app "npx ts-node bin/blea-guest-ecsapp-sample.ts" -c environment=dev --require-approval never
+      - npm audit
+      - npm run lint
+      - npm run build --workspace usecases/guest-webapp-sample
+      - npm run test --workspace usecases/guest-webapp-sample
+      # You can specify CDK deployment commands.
+      # Usually, you may want to deploy all of resources in the app.
+      # If you want to do so, please specify `"*"`
+      - cd usecases/guest-webapp-sample
+      - npx cdk deploy BLEA-MonitorAlarm -c environment=dev --require-approval never

@@ -19,7 +19,7 @@ On Management account, You need to have setup Baseline Environment on AWS with M
 
 2. Enabled trusted access using the AWS CloudFormation Stacksets console
 
-   Refer: https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html
+   Refer: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html
 
 3. Enabled Security Hub and automatically enabling new organization accounts
 

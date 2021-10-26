@@ -1,30 +1,38 @@
 {
+  "private": true,
   "name": "bleadeploy",
   "version": "1.0.0",
+  "description": "Pipelines for BLEA",
   "bin": {
     "bleadeploy": "bin/bleadeploy.js"
   },
+  "license": "MIT-0",
   "scripts": {
-    "build": "tsc",
+    "synth:dev": "npx cdk synth -c environment=dev",
+    "depcheck": "npx depcheck --ignore-dirs cdk.out",
+    "build": "tsc --build",
+    "clean": "tsc --build --clean && rm -rf cdk.out",
     "watch": "tsc -w",
     "test": "jest",
-    "cdk": "cdk"
+    "lint": "eslint --fix .",
+    "format": "prettier --write ."
   },
   "devDependencies": {
-    "@aws-cdk/assert": "1.107.0",
-    "@types/jest": "^26.0.23",
-    "@types/node": "15.12.1",
-    "aws-cdk": "1.107.0",
+    "@types/jest": "^27.0.2",
+    "@types/node": "16.11.2",
+    "aws-cdk": "^1.129.0",
     "jest": "^27.0.4",
     "ts-jest": "^27.0.3",
     "ts-node": "^10.0.0",
-    "typescript": "~4.3.2"
+    "typescript": "~4.4.4"
   },
   "dependencies": {
-    "@aws-cdk/aws-codebuild": "^1.107.0",
-    "@aws-cdk/aws-codepipeline": "^1.107.0",
-    "@aws-cdk/aws-codepipeline-actions": "^1.107.0",
-    "@aws-cdk/core": "1.107.0",
+    "@aws-cdk/assert": "^1.129.0",
+    "@aws-cdk/aws-codebuild": "^1.129.0",
+    "@aws-cdk/aws-codepipeline": "^1.129.0",
+    "@aws-cdk/aws-codepipeline-actions": "^1.129.0",
+    "@aws-cdk/aws-iam": "^1.129.0",
+    "@aws-cdk/core": "^1.129.0",
     "source-map-support": "^0.5.19"
   }
 }

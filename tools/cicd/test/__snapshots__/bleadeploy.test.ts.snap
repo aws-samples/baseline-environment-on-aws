@@ -43,7 +43,15 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":logs:ap-northeast-1:111111111111:log-group:/aws/codebuild/",
+                      ":logs:",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
+                      ":",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":log-group:/aws/codebuild/",
                       Object {
                         "Ref": "DeployStackCodeBuildProject9086D16F",
                       },
@@ -58,7 +66,15 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":logs:ap-northeast-1:111111111111:log-group:/aws/codebuild/",
+                      ":logs:",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
+                      ":",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":log-group:/aws/codebuild/",
                       Object {
                         "Ref": "DeployStackCodeBuildProject9086D16F",
                       },
@@ -85,7 +101,15 @@ Object {
                     Object {
                       "Ref": "AWS::Partition",
                     },
-                    ":codebuild:ap-northeast-1:111111111111:report-group/",
+                    ":codebuild:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":report-group/",
                     Object {
                       "Ref": "DeployStackCodeBuildProject9086D16F",
                     },
@@ -181,10 +205,12 @@ Object {
             Object {
               "Name": "AWS_DEFAULT_REGION",
               "Type": "PLAINTEXT",
-              "Value": "ap-northeast-1",
+              "Value": Object {
+                "Ref": "AWS::Region",
+              },
             },
           ],
-          "Image": "aws/codebuild/standard:3.0",
+          "Image": "aws/codebuild/amazonlinux2-x86_64-standard:3.0",
           "ImagePullCredentialsType": "CODEBUILD",
           "PrivilegedMode": false,
           "Type": "LINUX_CONTAINER",
@@ -277,7 +303,11 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::111111111111:root",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":root",
                     ],
                   ],
                 },
@@ -379,7 +409,11 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::111111111111:root",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":root",
                     ],
                   ],
                 },
@@ -722,7 +756,11 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::111111111111:root",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":root",
                     ],
                   ],
                 },

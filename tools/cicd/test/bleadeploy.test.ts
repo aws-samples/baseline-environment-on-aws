@@ -5,9 +5,14 @@ import * as BLEAdeploy from '../lib/bleadeploy-stack';
 // Load cdk.json to get context parameters
 import * as cdk_json from '../cdk.json';
 
+const procEnv = {
+  account: process.env.CDK_DEFAULT_ACCOUNT,
+  region: process.env.CDK_DEFAULT_REGION,
+};
+
 const pjPrefix = 'BLEA';
 const app = new cdk.App();
-const envKey = 'stagepipeline';
+const envKey = 'dev';
 const envVals = cdk_json['context'][envKey];
 
 describe(`${pjPrefix} Stacks`, () => {
@@ -17,7 +22,7 @@ describe(`${pjPrefix} Stacks`, () => {
       githubRepositoryName: envVals['githubRepositoryName'],
       githubTargetBranch: envVals['githubTargetBranch'],
       codestarConnectionArn: envVals['codestarConnectionArn'],
-      env: envVals['env'],
+      env: procEnv,
     });
 
     // test with snapshot

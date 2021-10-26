@@ -1,0 +1,2247 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BLEA Guest Stack GuestAccount Serverless App Stacks 1`] = `
+Object {
+  "Outputs": Object {
+    "ExportsOutputRefMonitorAlarmTopic9C746E8C5F969821": Object {
+      "Export": Object {
+        "Name": "BLEA-MonitorAlarm:ExportsOutputRefMonitorAlarmTopic9C746E8C5F969821",
+      },
+      "Value": Object {
+        "Ref": "MonitorAlarmTopic9C746E8C",
+      },
+    },
+  },
+  "Resources": Object {
+    "MonitorAlarmEmail9C782A25": Object {
+      "Properties": Object {
+        "Endpoint": "notify-monitoring@example.com",
+        "Protocol": "email",
+        "TopicArn": Object {
+          "Ref": "MonitorAlarmTopic9C746E8C",
+        },
+      },
+      "Type": "AWS::SNS::Subscription",
+    },
+    "MonitorAlarmTopic9C746E8C": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+        ],
+      },
+      "Type": "AWS::SNS::Topic",
+    },
+    "MonitorAlarmTopicPolicy7BD5FCD1": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "cloudwatch.amazonaws.com",
+              },
+              "Resource": Object {
+                "Ref": "MonitorAlarmTopic9C746E8C",
+              },
+              "Sid": "0",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Topics": Array [
+          Object {
+            "Ref": "MonitorAlarmTopic9C746E8C",
+          },
+        ],
+      },
+      "Type": "AWS::SNS::TopicPolicy",
+    },
+  },
+}
+`;
+
+exports[`BLEA Guest Stack GuestAccount Serverless App Stacks 2`] = `
+Object {
+  "Resources": Object {
+    "ChatbotChannel": Object {
+      "Properties": Object {
+        "ConfigurationName": "BLEA-ChatbotMonitor-T8XXXXXXX",
+        "IamRoleArn": Object {
+          "Fn::GetAtt": Array [
+            "ChatbotRole8A87AA1F",
+            "Arn",
+          ],
+        },
+        "SlackChannelId": "C01YYYYYYYY",
+        "SlackWorkspaceId": "T8XXXXXXX",
+        "SnsTopicArns": Array [
+          Object {
+            "Fn::ImportValue": "BLEA-MonitorAlarm:ExportsOutputRefMonitorAlarmTopic9C746E8C5F969821",
+          },
+        ],
+      },
+      "Type": "AWS::Chatbot::SlackChannelConfiguration",
+    },
+    "ChatbotRole8A87AA1F": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "chatbot.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/ReadOnlyAccess",
+              ],
+            ],
+          },
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/CloudWatchReadOnlyAccess",
+              ],
+            ],
+          },
+        ],
+        "Tags": Array [
+          Object {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+  },
+}
+`;
+
+exports[`BLEA Guest Stack GuestAccount Serverless App Stacks 3`] = `
+Object {
+  "Outputs": Object {
+    "ExportsOutputFnGetAttKeyApiapp4E3354CAArn94D89392": Object {
+      "Export": Object {
+        "Name": "BLEA-AppKeyNodejs:ExportsOutputFnGetAttKeyApiapp4E3354CAArn94D89392",
+      },
+      "Value": Object {
+        "Fn::GetAtt": Array [
+          "KeyApiapp4E3354CA",
+          "Arn",
+        ],
+      },
+    },
+  },
+  "Resources": Object {
+    "KeyApiapp4E3354CA": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "Description": "for Apiapp",
+        "EnableKeyRotation": true,
+        "KeyPolicy": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "kms:Create*",
+                "kms:Describe*",
+                "kms:Enable*",
+                "kms:List*",
+                "kms:Put*",
+                "kms:Update*",
+                "kms:Revoke*",
+                "kms:Disable*",
+                "kms:Get*",
+                "kms:Delete*",
+                "kms:ScheduleKeyDeletion",
+                "kms:CancelKeyDeletion",
+                "kms:GenerateDataKey",
+                "kms:TagResource",
+                "kms:UntagResource",
+              ],
+              "Effect": "Allow",
+              "Principal": Object {
+                "AWS": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":root",
+                    ],
+                  ],
+                },
+              },
+              "Resource": "*",
+            },
+            Object {
+              "Action": "kms:*",
+              "Effect": "Allow",
+              "Principal": Object {
+                "AWS": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":root",
+                    ],
+                  ],
+                },
+              },
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
+                "kms:Encrypt*",
+                "kms:Decrypt*",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*",
+                "kms:Describe*",
+              ],
+              "Condition": Object {
+                "ArnLike": Object {
+                  "aws:PrincipalArn": Object {
+                    "Fn::Join": Array [
+                      "",
+                      Array [
+                        "arn:aws:iam::",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        ":role/BLEA-LambdaPython-*",
+                      ],
+                    ],
+                  },
+                },
+              },
+              "Effect": "Allow",
+              "Principal": Object {
+                "AWS": "*",
+              },
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+        ],
+      },
+      "Type": "AWS::KMS::Key",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "KeyApiappAlias0706058C": Object {
+      "Properties": Object {
+        "AliasName": "alias/BLEA-AppKeyNodejs-for-apiapp",
+        "TargetKeyId": Object {
+          "Fn::GetAtt": Array [
+            "KeyApiapp4E3354CA",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::KMS::Alias",
+    },
+  },
+}
+`;
+
+exports[`BLEA Guest Stack GuestAccount Serverless App Stacks 4`] = `
+Object {
+  "Outputs": Object {
+    "ExportsOutputFnGetAttDynamoDB25F6E66CArn715D1DA9": Object {
+      "Export": Object {
+        "Name": "BLEA-DBDynamoDb:ExportsOutputFnGetAttDynamoDB25F6E66CArn715D1DA9",
+      },
+      "Value": Object {
+        "Fn::GetAtt": Array [
+          "DynamoDB25F6E66C",
+          "Arn",
+        ],
+      },
+    },
+    "ExportsOutputRefDynamoDB25F6E66C6BBEA39C": Object {
+      "Export": Object {
+        "Name": "BLEA-DBDynamoDb:ExportsOutputRefDynamoDB25F6E66C6BBEA39C",
+      },
+      "Value": Object {
+        "Ref": "DynamoDB25F6E66C",
+      },
+    },
+  },
+  "Resources": Object {
+    "DynamoConsumedReadCapacityUnit9947468B": Object {
+      "Properties": Object {
+        "ActionsEnabled": true,
+        "AlarmActions": Array [
+          Object {
+            "Fn::ImportValue": "BLEA-MonitorAlarm:ExportsOutputRefMonitorAlarmTopic9C746E8C5F969821",
+          },
+        ],
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "DatapointsToAlarm": 3,
+        "Dimensions": Array [
+          Object {
+            "Name": "TableName",
+            "Value": Object {
+              "Ref": "DynamoDB25F6E66C",
+            },
+          },
+        ],
+        "EvaluationPeriods": 3,
+        "MetricName": "ConsumedReadCapacityUnits",
+        "Namespace": "AWS/DynamoDB",
+        "Period": 300,
+        "Statistic": "Average",
+        "Threshold": 90,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "DynamoDB25F6E66C": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "AttributeDefinitions": Array [
+          Object {
+            "AttributeName": "title",
+            "AttributeType": "S",
+          },
+          Object {
+            "AttributeName": "content",
+            "AttributeType": "S",
+          },
+          Object {
+            "AttributeName": "createdAt",
+            "AttributeType": "S",
+          },
+        ],
+        "BillingMode": "PAY_PER_REQUEST",
+        "KeySchema": Array [
+          Object {
+            "AttributeName": "title",
+            "KeyType": "HASH",
+          },
+          Object {
+            "AttributeName": "content",
+            "KeyType": "RANGE",
+          },
+        ],
+        "LocalSecondaryIndexes": Array [
+          Object {
+            "IndexName": "SampleIndex",
+            "KeySchema": Array [
+              Object {
+                "AttributeName": "title",
+                "KeyType": "HASH",
+              },
+              Object {
+                "AttributeName": "createdAt",
+                "KeyType": "RANGE",
+              },
+            ],
+            "Projection": Object {
+              "ProjectionType": "ALL",
+            },
+          },
+        ],
+        "SSESpecification": Object {
+          "KMSMasterKeyId": Object {
+            "Fn::ImportValue": "BLEA-AppKeyNodejs:ExportsOutputFnGetAttKeyApiapp4E3354CAArn94D89392",
+          },
+          "SSEEnabled": true,
+          "SSEType": "KMS",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+        ],
+      },
+      "Type": "AWS::DynamoDB::Table",
+      "UpdateReplacePolicy": "Retain",
+    },
+  },
+}
+`;
+
+exports[`BLEA Guest Stack GuestAccount Serverless App Stacks 5`] = `
+Object {
+  "Mappings": Object {
+    "LambdaInsightsVersions10980": Object {
+      "af-south-1": Object {
+        "arn": "arn:aws:lambda:af-south-1:012438385374:layer:LambdaInsightsExtension:8",
+      },
+      "ap-east-1": Object {
+        "arn": "arn:aws:lambda:ap-east-1:519774774795:layer:LambdaInsightsExtension:8",
+      },
+      "ap-northeast-1": Object {
+        "arn": "arn:aws:lambda:ap-northeast-1:580247275435:layer:LambdaInsightsExtension:14",
+      },
+      "ap-northeast-2": Object {
+        "arn": "arn:aws:lambda:ap-northeast-2:580247275435:layer:LambdaInsightsExtension:14",
+      },
+      "ap-south-1": Object {
+        "arn": "arn:aws:lambda:ap-south-1:580247275435:layer:LambdaInsightsExtension:14",
+      },
+      "ap-southeast-1": Object {
+        "arn": "arn:aws:lambda:ap-southeast-1:580247275435:layer:LambdaInsightsExtension:14",
+      },
+      "ap-southeast-2": Object {
+        "arn": "arn:aws:lambda:ap-southeast-2:580247275435:layer:LambdaInsightsExtension:14",
+      },
+      "ca-central-1": Object {
+        "arn": "arn:aws:lambda:ca-central-1:580247275435:layer:LambdaInsightsExtension:14",
+      },
+      "cn-north-1": Object {
+        "arn": "arn:aws-cn:lambda:cn-north-1:488211338238:layer:LambdaInsightsExtension:8",
+      },
+      "cn-northwest-1": Object {
+        "arn": "arn:aws-cn:lambda:cn-northwest-1:488211338238:layer:LambdaInsightsExtension:8",
+      },
+      "eu-central-1": Object {
+        "arn": "arn:aws:lambda:eu-central-1:580247275435:layer:LambdaInsightsExtension:14",
+      },
+      "eu-north-1": Object {
+        "arn": "arn:aws:lambda:eu-north-1:580247275435:layer:LambdaInsightsExtension:14",
+      },
+      "eu-south-1": Object {
+        "arn": "arn:aws:lambda:eu-south-1:339249233099:layer:LambdaInsightsExtension:8",
+      },
+      "eu-west-1": Object {
+        "arn": "arn:aws:lambda:eu-west-1:580247275435:layer:LambdaInsightsExtension:14",
+      },
+      "eu-west-2": Object {
+        "arn": "arn:aws:lambda:eu-west-2:580247275435:layer:LambdaInsightsExtension:14",
+      },
+      "eu-west-3": Object {
+        "arn": "arn:aws:lambda:eu-west-3:580247275435:layer:LambdaInsightsExtension:14",
+      },
+      "me-south-1": Object {
+        "arn": "arn:aws:lambda:me-south-1:285320876703:layer:LambdaInsightsExtension:8",
+      },
+      "sa-east-1": Object {
+        "arn": "arn:aws:lambda:sa-east-1:580247275435:layer:LambdaInsightsExtension:14",
+      },
+      "us-east-1": Object {
+        "arn": "arn:aws:lambda:us-east-1:580247275435:layer:LambdaInsightsExtension:14",
+      },
+      "us-east-2": Object {
+        "arn": "arn:aws:lambda:us-east-2:580247275435:layer:LambdaInsightsExtension:14",
+      },
+      "us-west-1": Object {
+        "arn": "arn:aws:lambda:us-west-1:580247275435:layer:LambdaInsightsExtension:14",
+      },
+      "us-west-2": Object {
+        "arn": "arn:aws:lambda:us-west-2:580247275435:layer:LambdaInsightsExtension:14",
+      },
+    },
+  },
+  "Outputs": Object {
+    "ExportsOutputFnGetAttgetItem89554DD9Arn253A3888": Object {
+      "Export": Object {
+        "Name": "BLEA-LambdaPython:ExportsOutputFnGetAttgetItem89554DD9Arn253A3888",
+      },
+      "Value": Object {
+        "Fn::GetAtt": Array [
+          "getItem89554DD9",
+          "Arn",
+        ],
+      },
+    },
+    "ExportsOutputFnGetAttlistItemsF3CB59CFArnAE16A8D7": Object {
+      "Export": Object {
+        "Name": "BLEA-LambdaPython:ExportsOutputFnGetAttlistItemsF3CB59CFArnAE16A8D7",
+      },
+      "Value": Object {
+        "Fn::GetAtt": Array [
+          "listItemsF3CB59CF",
+          "Arn",
+        ],
+      },
+    },
+    "ExportsOutputFnGetAttputItemEAA1A834Arn80CDE58C": Object {
+      "Export": Object {
+        "Name": "BLEA-LambdaPython:ExportsOutputFnGetAttputItemEAA1A834Arn80CDE58C",
+      },
+      "Value": Object {
+        "Fn::GetAtt": Array [
+          "putItemEAA1A834",
+          "Arn",
+        ],
+      },
+    },
+  },
+  "Parameters": Object {
+    "AssetParameters6c6248559cf324952895870a3b546cf7cbfbafe0cce9e4a60bc61e6ec8eef051ArtifactHashE3A8111A": Object {
+      "Description": "Artifact hash for asset \\"6c6248559cf324952895870a3b546cf7cbfbafe0cce9e4a60bc61e6ec8eef051\\"",
+      "Type": "String",
+    },
+    "AssetParameters6c6248559cf324952895870a3b546cf7cbfbafe0cce9e4a60bc61e6ec8eef051S3Bucket21947BF8": Object {
+      "Description": "S3 bucket for asset \\"6c6248559cf324952895870a3b546cf7cbfbafe0cce9e4a60bc61e6ec8eef051\\"",
+      "Type": "String",
+    },
+    "AssetParameters6c6248559cf324952895870a3b546cf7cbfbafe0cce9e4a60bc61e6ec8eef051S3VersionKeyFE350D86": Object {
+      "Description": "S3 key for asset version \\"6c6248559cf324952895870a3b546cf7cbfbafe0cce9e4a60bc61e6ec8eef051\\"",
+      "Type": "String",
+    },
+    "AssetParameters9935294482ff6ee39a0af20cfbf740c113a6d493e51300bfd6e98e85e6e9f360ArtifactHashC67E1EEB": Object {
+      "Description": "Artifact hash for asset \\"9935294482ff6ee39a0af20cfbf740c113a6d493e51300bfd6e98e85e6e9f360\\"",
+      "Type": "String",
+    },
+    "AssetParameters9935294482ff6ee39a0af20cfbf740c113a6d493e51300bfd6e98e85e6e9f360S3Bucket423BBE30": Object {
+      "Description": "S3 bucket for asset \\"9935294482ff6ee39a0af20cfbf740c113a6d493e51300bfd6e98e85e6e9f360\\"",
+      "Type": "String",
+    },
+    "AssetParameters9935294482ff6ee39a0af20cfbf740c113a6d493e51300bfd6e98e85e6e9f360S3VersionKey9EE2FEA5": Object {
+      "Description": "S3 key for asset version \\"9935294482ff6ee39a0af20cfbf740c113a6d493e51300bfd6e98e85e6e9f360\\"",
+      "Type": "String",
+    },
+    "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827ArtifactHash1355580A": Object {
+      "Description": "Artifact hash for asset \\"b120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827\\"",
+      "Type": "String",
+    },
+    "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827S3Bucket2070BA0A": Object {
+      "Description": "S3 bucket for asset \\"b120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827\\"",
+      "Type": "String",
+    },
+    "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827S3VersionKeyB95D17C3": Object {
+      "Description": "S3 key for asset version \\"b120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827\\"",
+      "Type": "String",
+    },
+    "AssetParametersdc0a332c2c8fb4d4e7977a51466ff04fda2926977fd3f496acfa00722ded9563ArtifactHash79F7C6B4": Object {
+      "Description": "Artifact hash for asset \\"dc0a332c2c8fb4d4e7977a51466ff04fda2926977fd3f496acfa00722ded9563\\"",
+      "Type": "String",
+    },
+    "AssetParametersdc0a332c2c8fb4d4e7977a51466ff04fda2926977fd3f496acfa00722ded9563S3BucketB8F45183": Object {
+      "Description": "S3 bucket for asset \\"dc0a332c2c8fb4d4e7977a51466ff04fda2926977fd3f496acfa00722ded9563\\"",
+      "Type": "String",
+    },
+    "AssetParametersdc0a332c2c8fb4d4e7977a51466ff04fda2926977fd3f496acfa00722ded9563S3VersionKeyC3144BEA": Object {
+      "Description": "S3 key for asset version \\"dc0a332c2c8fb4d4e7977a51466ff04fda2926977fd3f496acfa00722ded9563\\"",
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A": Object {
+      "DependsOn": Array [
+        "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+        "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827S3Bucket2070BA0A",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827S3VersionKeyB95D17C3",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827S3VersionKeyB95D17C3",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Handler": "index.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+        "Tags": Array [
+          Object {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "logs:PutRetentionPolicy",
+                "logs:DeleteRetentionPolicy",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+        "Roles": Array [
+          Object {
+            "Ref": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "getItem89554DD9": Object {
+      "DependsOn": Array [
+        "getItemServiceRoleDefaultPolicyD8A4C868",
+        "getItemServiceRoleB6E9117D",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParameters6c6248559cf324952895870a3b546cf7cbfbafe0cce9e4a60bc61e6ec8eef051S3Bucket21947BF8",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters6c6248559cf324952895870a3b546cf7cbfbafe0cce9e4a60bc61e6ec8eef051S3VersionKeyFE350D86",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters6c6248559cf324952895870a3b546cf7cbfbafe0cce9e4a60bc61e6ec8eef051S3VersionKeyFE350D86",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "DDB_TABLE": Object {
+              "Fn::ImportValue": "BLEA-DBDynamoDb:ExportsOutputRefDynamoDB25F6E66C6BBEA39C",
+            },
+          },
+        },
+        "Handler": "getItem.lambda_handler",
+        "KmsKeyArn": Object {
+          "Fn::ImportValue": "BLEA-AppKeyNodejs:ExportsOutputFnGetAttKeyApiapp4E3354CAArn94D89392",
+        },
+        "Layers": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:aws:lambda:",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                ":017000801446:layer:AWSLambdaPowertoolsPython:3",
+              ],
+            ],
+          },
+          Object {
+            "Fn::FindInMap": Array [
+              "LambdaInsightsVersions10980",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              "arn",
+            ],
+          },
+        ],
+        "MemorySize": 256,
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "getItemServiceRoleB6E9117D",
+            "Arn",
+          ],
+        },
+        "Runtime": "python3.7",
+        "Tags": Array [
+          Object {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+        ],
+        "Timeout": 25,
+        "TracingConfig": Object {
+          "Mode": "Active",
+        },
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "getItemConcurrentExecutionsAlarm4C0F6BCA": Object {
+      "Properties": Object {
+        "ActionsEnabled": true,
+        "AlarmActions": Array [
+          Object {
+            "Fn::ImportValue": "BLEA-MonitorAlarm:ExportsOutputRefMonitorAlarmTopic9C746E8C5F969821",
+          },
+        ],
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "DatapointsToAlarm": 3,
+        "Dimensions": Array [
+          Object {
+            "Name": "FunctionName",
+            "Value": Object {
+              "Ref": "getItem89554DD9",
+            },
+          },
+        ],
+        "EvaluationPeriods": 3,
+        "MetricName": "ConcurrentExecutions",
+        "Namespace": "AWS/Lambda",
+        "Period": 300,
+        "Statistic": "Maximum",
+        "Threshold": 80,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "getItemDurationAlarm43D494E5": Object {
+      "Properties": Object {
+        "ActionsEnabled": true,
+        "AlarmActions": Array [
+          Object {
+            "Fn::ImportValue": "BLEA-MonitorAlarm:ExportsOutputRefMonitorAlarmTopic9C746E8C5F969821",
+          },
+        ],
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "DatapointsToAlarm": 3,
+        "Dimensions": Array [
+          Object {
+            "Name": "FunctionName",
+            "Value": Object {
+              "Ref": "getItem89554DD9",
+            },
+          },
+        ],
+        "EvaluationPeriods": 3,
+        "MetricName": "Duration",
+        "Namespace": "AWS/Lambda",
+        "Period": 60,
+        "Statistic": "Average",
+        "Threshold": 80,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "getItemErrorsAlarm77E011D9": Object {
+      "Properties": Object {
+        "ActionsEnabled": true,
+        "AlarmActions": Array [
+          Object {
+            "Fn::ImportValue": "BLEA-MonitorAlarm:ExportsOutputRefMonitorAlarmTopic9C746E8C5F969821",
+          },
+        ],
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "DatapointsToAlarm": 3,
+        "Dimensions": Array [
+          Object {
+            "Name": "FunctionName",
+            "Value": Object {
+              "Ref": "getItem89554DD9",
+            },
+          },
+        ],
+        "EvaluationPeriods": 3,
+        "MetricName": "Errors",
+        "Namespace": "AWS/Lambda",
+        "Period": 60,
+        "Statistic": "Average",
+        "Threshold": 80,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "getItemLogRetention0B69BE3A": Object {
+      "Properties": Object {
+        "LogGroupName": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "/aws/lambda/",
+              Object {
+                "Ref": "getItem89554DD9",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 90,
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "getItemServiceRoleB6E9117D": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
+              ],
+            ],
+          },
+        ],
+        "Tags": Array [
+          Object {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "getItemServiceRoleDefaultPolicyD8A4C868": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
+                "kms:Encrypt*",
+                "kms:Decrypt*",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*",
+                "kms:Describe*",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::ImportValue": "BLEA-AppKeyNodejs:ExportsOutputFnGetAttKeyApiapp4E3354CAArn94D89392",
+              },
+            },
+            Object {
+              "Action": Array [
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::ImportValue": "BLEA-DBDynamoDb:ExportsOutputFnGetAttDynamoDB25F6E66CArn715D1DA9",
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::ImportValue": "BLEA-DBDynamoDb:ExportsOutputFnGetAttDynamoDB25F6E66CArn715D1DA9",
+                      },
+                      "/index/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "getItemServiceRoleDefaultPolicyD8A4C868",
+        "Roles": Array [
+          Object {
+            "Ref": "getItemServiceRoleB6E9117D",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "getItemThrottlesAlarm20B2A0CD": Object {
+      "Properties": Object {
+        "ActionsEnabled": true,
+        "AlarmActions": Array [
+          Object {
+            "Fn::ImportValue": "BLEA-MonitorAlarm:ExportsOutputRefMonitorAlarmTopic9C746E8C5F969821",
+          },
+        ],
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "DatapointsToAlarm": 3,
+        "Dimensions": Array [
+          Object {
+            "Name": "FunctionName",
+            "Value": Object {
+              "Ref": "getItem89554DD9",
+            },
+          },
+        ],
+        "EvaluationPeriods": 3,
+        "MetricName": "Throttles",
+        "Namespace": "AWS/Lambda",
+        "Period": 60,
+        "Statistic": "Average",
+        "Threshold": 80,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "listItemsConcurrentExecutionsAlarm971573A2": Object {
+      "Properties": Object {
+        "ActionsEnabled": true,
+        "AlarmActions": Array [
+          Object {
+            "Fn::ImportValue": "BLEA-MonitorAlarm:ExportsOutputRefMonitorAlarmTopic9C746E8C5F969821",
+          },
+        ],
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "DatapointsToAlarm": 3,
+        "Dimensions": Array [
+          Object {
+            "Name": "FunctionName",
+            "Value": Object {
+              "Ref": "listItemsF3CB59CF",
+            },
+          },
+        ],
+        "EvaluationPeriods": 3,
+        "MetricName": "ConcurrentExecutions",
+        "Namespace": "AWS/Lambda",
+        "Period": 300,
+        "Statistic": "Maximum",
+        "Threshold": 80,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "listItemsDurationAlarmD2F4214E": Object {
+      "Properties": Object {
+        "ActionsEnabled": true,
+        "AlarmActions": Array [
+          Object {
+            "Fn::ImportValue": "BLEA-MonitorAlarm:ExportsOutputRefMonitorAlarmTopic9C746E8C5F969821",
+          },
+        ],
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "DatapointsToAlarm": 3,
+        "Dimensions": Array [
+          Object {
+            "Name": "FunctionName",
+            "Value": Object {
+              "Ref": "listItemsF3CB59CF",
+            },
+          },
+        ],
+        "EvaluationPeriods": 3,
+        "MetricName": "Duration",
+        "Namespace": "AWS/Lambda",
+        "Period": 60,
+        "Statistic": "Average",
+        "Threshold": 80,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "listItemsErrorsExecutionsAlarmEBA22F80": Object {
+      "Properties": Object {
+        "ActionsEnabled": true,
+        "AlarmActions": Array [
+          Object {
+            "Fn::ImportValue": "BLEA-MonitorAlarm:ExportsOutputRefMonitorAlarmTopic9C746E8C5F969821",
+          },
+        ],
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "DatapointsToAlarm": 3,
+        "Dimensions": Array [
+          Object {
+            "Name": "FunctionName",
+            "Value": Object {
+              "Ref": "listItemsF3CB59CF",
+            },
+          },
+        ],
+        "EvaluationPeriods": 3,
+        "MetricName": "Errors",
+        "Namespace": "AWS/Lambda",
+        "Period": 60,
+        "Statistic": "Average",
+        "Threshold": 80,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "listItemsF3CB59CF": Object {
+      "DependsOn": Array [
+        "listItemsServiceRoleDefaultPolicy7D628D20",
+        "listItemsServiceRole8352DC49",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParameters9935294482ff6ee39a0af20cfbf740c113a6d493e51300bfd6e98e85e6e9f360S3Bucket423BBE30",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters9935294482ff6ee39a0af20cfbf740c113a6d493e51300bfd6e98e85e6e9f360S3VersionKey9EE2FEA5",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters9935294482ff6ee39a0af20cfbf740c113a6d493e51300bfd6e98e85e6e9f360S3VersionKey9EE2FEA5",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "DDB_TABLE": Object {
+              "Fn::ImportValue": "BLEA-DBDynamoDb:ExportsOutputRefDynamoDB25F6E66C6BBEA39C",
+            },
+          },
+        },
+        "Handler": "listItems.lambda_handler",
+        "KmsKeyArn": Object {
+          "Fn::ImportValue": "BLEA-AppKeyNodejs:ExportsOutputFnGetAttKeyApiapp4E3354CAArn94D89392",
+        },
+        "Layers": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:aws:lambda:",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                ":017000801446:layer:AWSLambdaPowertoolsPython:3",
+              ],
+            ],
+          },
+          Object {
+            "Fn::FindInMap": Array [
+              "LambdaInsightsVersions10980",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              "arn",
+            ],
+          },
+        ],
+        "MemorySize": 2048,
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "listItemsServiceRole8352DC49",
+            "Arn",
+          ],
+        },
+        "Runtime": "python3.7",
+        "Tags": Array [
+          Object {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+        ],
+        "Timeout": 25,
+        "TracingConfig": Object {
+          "Mode": "Active",
+        },
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "listItemsLogRetentionA50925B9": Object {
+      "Properties": Object {
+        "LogGroupName": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "/aws/lambda/",
+              Object {
+                "Ref": "listItemsF3CB59CF",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 90,
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "listItemsServiceRole8352DC49": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
+              ],
+            ],
+          },
+        ],
+        "Tags": Array [
+          Object {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "listItemsServiceRoleDefaultPolicy7D628D20": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
+                "kms:Encrypt*",
+                "kms:Decrypt*",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*",
+                "kms:Describe*",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::ImportValue": "BLEA-AppKeyNodejs:ExportsOutputFnGetAttKeyApiapp4E3354CAArn94D89392",
+              },
+            },
+            Object {
+              "Action": Array [
+                "dynamodb:Query",
+                "dynamodb:Scan",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::ImportValue": "BLEA-DBDynamoDb:ExportsOutputFnGetAttDynamoDB25F6E66CArn715D1DA9",
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::ImportValue": "BLEA-DBDynamoDb:ExportsOutputFnGetAttDynamoDB25F6E66CArn715D1DA9",
+                      },
+                      "/index/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "listItemsServiceRoleDefaultPolicy7D628D20",
+        "Roles": Array [
+          Object {
+            "Ref": "listItemsServiceRole8352DC49",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "listItemsThrottlesAlarm3614D851": Object {
+      "Properties": Object {
+        "ActionsEnabled": true,
+        "AlarmActions": Array [
+          Object {
+            "Fn::ImportValue": "BLEA-MonitorAlarm:ExportsOutputRefMonitorAlarmTopic9C746E8C5F969821",
+          },
+        ],
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "DatapointsToAlarm": 3,
+        "Dimensions": Array [
+          Object {
+            "Name": "FunctionName",
+            "Value": Object {
+              "Ref": "listItemsF3CB59CF",
+            },
+          },
+        ],
+        "EvaluationPeriods": 3,
+        "MetricName": "Throttles",
+        "Namespace": "AWS/Lambda",
+        "Period": 60,
+        "Statistic": "Average",
+        "Threshold": 80,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "putItemConcurrentExecutionsAlarmE4D1D001": Object {
+      "Properties": Object {
+        "ActionsEnabled": true,
+        "AlarmActions": Array [
+          Object {
+            "Fn::ImportValue": "BLEA-MonitorAlarm:ExportsOutputRefMonitorAlarmTopic9C746E8C5F969821",
+          },
+        ],
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "DatapointsToAlarm": 3,
+        "Dimensions": Array [
+          Object {
+            "Name": "FunctionName",
+            "Value": Object {
+              "Ref": "putItemEAA1A834",
+            },
+          },
+        ],
+        "EvaluationPeriods": 3,
+        "MetricName": "ConcurrentExecutions",
+        "Namespace": "AWS/Lambda",
+        "Period": 300,
+        "Statistic": "Maximum",
+        "Threshold": 80,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "putItemDurationAlarmD129A876": Object {
+      "Properties": Object {
+        "ActionsEnabled": true,
+        "AlarmActions": Array [
+          Object {
+            "Fn::ImportValue": "BLEA-MonitorAlarm:ExportsOutputRefMonitorAlarmTopic9C746E8C5F969821",
+          },
+        ],
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "DatapointsToAlarm": 3,
+        "Dimensions": Array [
+          Object {
+            "Name": "FunctionName",
+            "Value": Object {
+              "Ref": "putItemEAA1A834",
+            },
+          },
+        ],
+        "EvaluationPeriods": 3,
+        "MetricName": "Duration",
+        "Namespace": "AWS/Lambda",
+        "Period": 60,
+        "Statistic": "Average",
+        "Threshold": 80,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "putItemEAA1A834": Object {
+      "DependsOn": Array [
+        "putItemServiceRoleDefaultPolicyF1E2D1A4",
+        "putItemServiceRoleD85646F9",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParametersdc0a332c2c8fb4d4e7977a51466ff04fda2926977fd3f496acfa00722ded9563S3BucketB8F45183",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParametersdc0a332c2c8fb4d4e7977a51466ff04fda2926977fd3f496acfa00722ded9563S3VersionKeyC3144BEA",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParametersdc0a332c2c8fb4d4e7977a51466ff04fda2926977fd3f496acfa00722ded9563S3VersionKeyC3144BEA",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "DDB_TABLE": Object {
+              "Fn::ImportValue": "BLEA-DBDynamoDb:ExportsOutputRefDynamoDB25F6E66C6BBEA39C",
+            },
+          },
+        },
+        "Handler": "putItem.lambda_handler",
+        "KmsKeyArn": Object {
+          "Fn::ImportValue": "BLEA-AppKeyNodejs:ExportsOutputFnGetAttKeyApiapp4E3354CAArn94D89392",
+        },
+        "Layers": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:aws:lambda:",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                ":017000801446:layer:AWSLambdaPowertoolsPython:3",
+              ],
+            ],
+          },
+          Object {
+            "Fn::FindInMap": Array [
+              "LambdaInsightsVersions10980",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              "arn",
+            ],
+          },
+        ],
+        "MemorySize": 256,
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "putItemServiceRoleD85646F9",
+            "Arn",
+          ],
+        },
+        "Runtime": "python3.7",
+        "Tags": Array [
+          Object {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+        ],
+        "Timeout": 25,
+        "TracingConfig": Object {
+          "Mode": "Active",
+        },
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "putItemErrorsAlarmAD31549F": Object {
+      "Properties": Object {
+        "ActionsEnabled": true,
+        "AlarmActions": Array [
+          Object {
+            "Fn::ImportValue": "BLEA-MonitorAlarm:ExportsOutputRefMonitorAlarmTopic9C746E8C5F969821",
+          },
+        ],
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "DatapointsToAlarm": 3,
+        "Dimensions": Array [
+          Object {
+            "Name": "FunctionName",
+            "Value": Object {
+              "Ref": "putItemEAA1A834",
+            },
+          },
+        ],
+        "EvaluationPeriods": 3,
+        "MetricName": "Errors",
+        "Namespace": "AWS/Lambda",
+        "Period": 60,
+        "Statistic": "Average",
+        "Threshold": 80,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "putItemLogRetention04F036D0": Object {
+      "Properties": Object {
+        "LogGroupName": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "/aws/lambda/",
+              Object {
+                "Ref": "putItemEAA1A834",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 90,
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "putItemServiceRoleD85646F9": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
+              ],
+            ],
+          },
+        ],
+        "Tags": Array [
+          Object {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "putItemServiceRoleDefaultPolicyF1E2D1A4": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
+                "kms:Encrypt*",
+                "kms:Decrypt*",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*",
+                "kms:Describe*",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::ImportValue": "BLEA-AppKeyNodejs:ExportsOutputFnGetAttKeyApiapp4E3354CAArn94D89392",
+              },
+            },
+            Object {
+              "Action": "dynamodb:PutItem",
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::ImportValue": "BLEA-DBDynamoDb:ExportsOutputFnGetAttDynamoDB25F6E66CArn715D1DA9",
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::ImportValue": "BLEA-DBDynamoDb:ExportsOutputFnGetAttDynamoDB25F6E66CArn715D1DA9",
+                      },
+                      "/index/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "putItemServiceRoleDefaultPolicyF1E2D1A4",
+        "Roles": Array [
+          Object {
+            "Ref": "putItemServiceRoleD85646F9",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "putItemThrottlesAlarmB284CAE3": Object {
+      "Properties": Object {
+        "ActionsEnabled": true,
+        "AlarmActions": Array [
+          Object {
+            "Fn::ImportValue": "BLEA-MonitorAlarm:ExportsOutputRefMonitorAlarmTopic9C746E8C5F969821",
+          },
+        ],
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "DatapointsToAlarm": 3,
+        "Dimensions": Array [
+          Object {
+            "Name": "FunctionName",
+            "Value": Object {
+              "Ref": "putItemEAA1A834",
+            },
+          },
+        ],
+        "EvaluationPeriods": 3,
+        "MetricName": "Throttles",
+        "Namespace": "AWS/Lambda",
+        "Period": 60,
+        "Statistic": "Average",
+        "Threshold": 80,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+  },
+}
+`;
+
+exports[`BLEA Guest Stack GuestAccount Serverless App Stacks 6`] = `
+Object {
+  "Outputs": Object {
+    "RestApiEndpoint0551178A": Object {
+      "Value": Object {
+        "Fn::Join": Array [
+          "",
+          Array [
+            "https://",
+            Object {
+              "Ref": "RestApi0C43BF4B",
+            },
+            ".execute-api.",
+            Object {
+              "Ref": "AWS::Region",
+            },
+            ".",
+            Object {
+              "Ref": "AWS::URLSuffix",
+            },
+            "/",
+            Object {
+              "Ref": "RestApiDeploymentStageprod3855DE66",
+            },
+            "/",
+          ],
+        ],
+      },
+    },
+  },
+  "Resources": Object {
+    "APIGatewayInvocationCountB2089961": Object {
+      "Properties": Object {
+        "ActionsEnabled": true,
+        "AlarmActions": Array [
+          Object {
+            "Fn::ImportValue": "BLEA-MonitorAlarm:ExportsOutputRefMonitorAlarmTopic9C746E8C5F969821",
+          },
+        ],
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "DatapointsToAlarm": 3,
+        "Dimensions": Array [
+          Object {
+            "Name": "ApiName",
+            "Value": "RestApi",
+          },
+        ],
+        "EvaluationPeriods": 3,
+        "MetricName": "Count",
+        "Namespace": "AWS/ApiGateway",
+        "Period": 60,
+        "Statistic": "Average",
+        "Threshold": 70,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "ApiGatewayLogGroupA9770429": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "RetentionInDays": 30,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "RestApi0C43BF4B": Object {
+      "Properties": Object {
+        "Name": "RestApi",
+        "Tags": Array [
+          Object {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+        ],
+      },
+      "Type": "AWS::ApiGateway::RestApi",
+    },
+    "RestApiAccount7C83CF5A": Object {
+      "DependsOn": Array [
+        "RestApi0C43BF4B",
+      ],
+      "Properties": Object {
+        "CloudWatchRoleArn": Object {
+          "Fn::GetAtt": Array [
+            "RestApiCloudWatchRoleE3ED6605",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ApiGateway::Account",
+    },
+    "RestApiCloudWatchRoleE3ED6605": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "apigateway.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs",
+              ],
+            ],
+          },
+        ],
+        "Tags": Array [
+          Object {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "RestApiDeployment180EC503a456e1534aa2786db1e21962ec8ef95e": Object {
+      "DependsOn": Array [
+        "RestApiitemtitleGETC210C7B3",
+        "RestApiitemtitle7F8F6831",
+        "RestApiitemPOST45451C84",
+        "RestApiitemCBE60B4E",
+        "RestApilistGETE778C3E2",
+        "RestApilistA2EDBAC4",
+      ],
+      "Properties": Object {
+        "Description": "Automatically created by the RestApi construct",
+        "RestApiId": Object {
+          "Ref": "RestApi0C43BF4B",
+        },
+      },
+      "Type": "AWS::ApiGateway::Deployment",
+    },
+    "RestApiDeploymentStageprod3855DE66": Object {
+      "Properties": Object {
+        "AccessLogSetting": Object {
+          "DestinationArn": Object {
+            "Fn::GetAtt": Array [
+              "ApiGatewayLogGroupA9770429",
+              "Arn",
+            ],
+          },
+          "Format": "{\\"requestId\\":\\"$context.requestId\\",\\"ip\\":\\"$context.identity.sourceIp\\",\\"user\\":\\"$context.identity.user\\",\\"caller\\":\\"$context.identity.caller\\",\\"requestTime\\":\\"$context.requestTime\\",\\"httpMethod\\":\\"$context.httpMethod\\",\\"resourcePath\\":\\"$context.resourcePath\\",\\"status\\":\\"$context.status\\",\\"protocol\\":\\"$context.protocol\\",\\"responseLength\\":\\"$context.responseLength\\"}",
+        },
+        "DeploymentId": Object {
+          "Ref": "RestApiDeployment180EC503a456e1534aa2786db1e21962ec8ef95e",
+        },
+        "MethodSettings": Array [
+          Object {
+            "HttpMethod": "*",
+            "LoggingLevel": "INFO",
+            "MetricsEnabled": true,
+            "ResourcePath": "/*",
+          },
+        ],
+        "RestApiId": Object {
+          "Ref": "RestApi0C43BF4B",
+        },
+        "StageName": "prod",
+        "Tags": Array [
+          Object {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+        ],
+        "TracingEnabled": true,
+      },
+      "Type": "AWS::ApiGateway::Stage",
+    },
+    "RestApiitemCBE60B4E": Object {
+      "Properties": Object {
+        "ParentId": Object {
+          "Fn::GetAtt": Array [
+            "RestApi0C43BF4B",
+            "RootResourceId",
+          ],
+        },
+        "PathPart": "item",
+        "RestApiId": Object {
+          "Ref": "RestApi0C43BF4B",
+        },
+      },
+      "Type": "AWS::ApiGateway::Resource",
+    },
+    "RestApiitemPOST45451C84": Object {
+      "Properties": Object {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "POST",
+        "Integration": Object {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                ":lambda:path/2015-03-31/functions/",
+                Object {
+                  "Fn::ImportValue": "BLEA-LambdaPython:ExportsOutputFnGetAttputItemEAA1A834Arn80CDE58C",
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": Object {
+          "Ref": "RestApiitemCBE60B4E",
+        },
+        "RestApiId": Object {
+          "Ref": "RestApi0C43BF4B",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "RestApiitemPOSTApiPermissionBLEARestApiC1A160FDPOSTitem63B4DBB5": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::ImportValue": "BLEA-LambdaPython:ExportsOutputFnGetAttputItemEAA1A834Arn80CDE58C",
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "RestApi0C43BF4B",
+              },
+              "/",
+              Object {
+                "Ref": "RestApiDeploymentStageprod3855DE66",
+              },
+              "/POST/item",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "RestApiitemPOSTApiPermissionTestBLEARestApiC1A160FDPOSTitem7A9D7F67": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::ImportValue": "BLEA-LambdaPython:ExportsOutputFnGetAttputItemEAA1A834Arn80CDE58C",
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "RestApi0C43BF4B",
+              },
+              "/test-invoke-stage/POST/item",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "RestApiitemtitle7F8F6831": Object {
+      "Properties": Object {
+        "ParentId": Object {
+          "Ref": "RestApiitemCBE60B4E",
+        },
+        "PathPart": "{title}",
+        "RestApiId": Object {
+          "Ref": "RestApi0C43BF4B",
+        },
+      },
+      "Type": "AWS::ApiGateway::Resource",
+    },
+    "RestApiitemtitleGETApiPermissionBLEARestApiC1A160FDGETitemtitle72F4E7B9": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::ImportValue": "BLEA-LambdaPython:ExportsOutputFnGetAttgetItem89554DD9Arn253A3888",
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "RestApi0C43BF4B",
+              },
+              "/",
+              Object {
+                "Ref": "RestApiDeploymentStageprod3855DE66",
+              },
+              "/GET/item/*",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "RestApiitemtitleGETApiPermissionTestBLEARestApiC1A160FDGETitemtitle854D35A6": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::ImportValue": "BLEA-LambdaPython:ExportsOutputFnGetAttgetItem89554DD9Arn253A3888",
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "RestApi0C43BF4B",
+              },
+              "/test-invoke-stage/GET/item/*",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "RestApiitemtitleGETC210C7B3": Object {
+      "Properties": Object {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "GET",
+        "Integration": Object {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                ":lambda:path/2015-03-31/functions/",
+                Object {
+                  "Fn::ImportValue": "BLEA-LambdaPython:ExportsOutputFnGetAttgetItem89554DD9Arn253A3888",
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": Object {
+          "Ref": "RestApiitemtitle7F8F6831",
+        },
+        "RestApiId": Object {
+          "Ref": "RestApi0C43BF4B",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "RestApilistA2EDBAC4": Object {
+      "Properties": Object {
+        "ParentId": Object {
+          "Fn::GetAtt": Array [
+            "RestApi0C43BF4B",
+            "RootResourceId",
+          ],
+        },
+        "PathPart": "list",
+        "RestApiId": Object {
+          "Ref": "RestApi0C43BF4B",
+        },
+      },
+      "Type": "AWS::ApiGateway::Resource",
+    },
+    "RestApilistGETApiPermissionBLEARestApiC1A160FDGETlist339FC084": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::ImportValue": "BLEA-LambdaPython:ExportsOutputFnGetAttlistItemsF3CB59CFArnAE16A8D7",
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "RestApi0C43BF4B",
+              },
+              "/",
+              Object {
+                "Ref": "RestApiDeploymentStageprod3855DE66",
+              },
+              "/GET/list",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "RestApilistGETApiPermissionTestBLEARestApiC1A160FDGETlistAEF1AA1E": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::ImportValue": "BLEA-LambdaPython:ExportsOutputFnGetAttlistItemsF3CB59CFArnAE16A8D7",
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "RestApi0C43BF4B",
+              },
+              "/test-invoke-stage/GET/list",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "RestApilistGETE778C3E2": Object {
+      "Properties": Object {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "GET",
+        "Integration": Object {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                ":lambda:path/2015-03-31/functions/",
+                Object {
+                  "Fn::ImportValue": "BLEA-LambdaPython:ExportsOutputFnGetAttlistItemsF3CB59CFArnAE16A8D7",
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": Object {
+          "Ref": "RestApilistA2EDBAC4",
+        },
+        "RestApiId": Object {
+          "Ref": "RestApi0C43BF4B",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+  },
+}
+`;

@@ -75,14 +75,14 @@ Update tools/cicd/cdk.json so CodePipeline can access your BLEA repository and s
 cd tools/cicd/
 npm ci
 npm run build
-cdk bootstrap -c environment=prodpipeline --profile your_profile_name  # If you haven't bootstrapped target account
-cdk deploy -c environment=prodpipeline --profile your_profile_name
+npx cdk bootstrap -c environment=prodpipeline --profile your_profile_name  # If you haven't bootstrapped target account
+npx cdk deploy -c environment=prodpipeline --profile your_profile_name
 ```
 
 ## 4. Update buildspec.yaml
 
 You need to specify CDK deploy command on buildspec.yaml.
-This is example, when you want to deploy `BLEA-GeneralLog` stack with `prod` environment variables on cdk.json. This is not in this directory but in root directory of Baseline Environment on AWS. your buildspec.yaml will be like this.
+This is example, when you want to deploy `BLEA-MonitorAlarm` stack with `prod` environment variables on cdk.json. This is not in this directory but in root directory of Baseline Environment on AWS. your buildspec.yaml will be like this.
 
 ```
 version: 0.2
@@ -90,15 +90,22 @@ version: 0.2
 phases:
   install:
     commands:
+      # requires npm >7
       - npm i -g npm
-      - npm -g install typescript aws-cdk
   pre_build:
     commands:
       - npm ci
-      - npm run build
   build:
     commands:
-      - cdk deploy BLEA-GeneralLog --app "npx ts-node bin/blea-guest-ecsapp-sample.ts" -c environment=prod --require-approval never
+      - npm audit
+      - npm run lint
+      - npm run build --workspace usecases/guest-webapp-sample
+      - npm run test --workspace usecases/guest-webapp-sample
+      # You can specify CDK deployment commands.
+      # Usually, you may want to deploy all of resources in the app.
+      # If you want to do so, please specify `"*"`
+      - cd usecases/guest-webapp-sample
+      - npx cdk deploy BLEA-MonitorAlarm -c environment=dev --require-approval never
 ```
 
 > Notes: You can add another commands to build stage for deploying another stacks.

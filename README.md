@@ -4,117 +4,147 @@
 
 Baseline Environment on AWS(BLEA) is a set of reference CDK template to establish secure baseline on standalone-account or ControlTower based multi-account AWS environment. This solution provides basic and extensible guardrail with AWS security services and end-to-end sample CDK code for typical system architecture. This template is also useful to learn more about AWS architecting best practices and how to customize CDK code as we incorporated comments in detail so that users can know why and how to customize.
 
-Jump to | [Changelog](CHANGELOG.md) | [Deployment Pipeline](tools/cicd/README.md) | [Standalone to ControlTower](doc/Standalone2ControlTower.md) |
+Jump to | [Changelog](CHANGELOG.md) | [HowTo](doc/HowTo.md) | [Deploy to Multiaccount environment](/doc/DeployToControlTower_ja.md) | [Standalone to ControlTower](doc/Standalone2ControlTower_ja.md) | [Deployment Pipeline](tools/cicd/README_ja.md) |
 
-# Governance Architecture
+## Governance Architecture
 
-## Operation patterns
+### Operation patterns
 
 ![BLEA-OpsPatterns](doc/images/BLEA-OpsPatterns.png)
 
-## Multi-Account Governance (with ControlTower)
+### Multi-Account Governance (with ControlTower)
 
 ![BLEA-GovOverviewMultiAccount](doc/images/BLEA-GovOverviewMultiAccount.png)
 
-## Standalone Governance (with Individual account)
+### Standalone Governance (with Individual account)
 
 ![BLEA-GovOverviewSingleAccount](doc/images/BLEA-GovOverviewSingleAccount.png)
 
-# Baseline Architecture
+## Baseline Architecture
 
-## Multi-Account (With ControlTower)
+### Multi-Account (With ControlTower)
 
 ![BLEA-ArchMultiAccount](doc/images/BLEA-ArchMultiAccount.png)
 
-## Standalone (With Individual account)
+### Standalone (With Individual account)
 
 ![BLEA-ArchSingleAccount](doc/images/BLEA-ArchSingleAccount.png)
 
-## Stack Architecture (Standalone)
+### Stack Architecture (Standalone)
 
 ![BLEA-StackDependency](doc/images/BLEA-StackDependency.png)
 
-# Sample Architectures on Guest Account
+## Governance baselines
 
-## ECS
+| Use Cases                                         | Folders                    |
+| ------------------------------------------------- | -------------------------- |
+| Standalone Governance Base                        | `usecases/base-standalone` |
+| ControlTower governance base (for guest accounts) | `usecases/base-ct-guest`   |
+| ControlTower governance base for Audit accounts   | `usecases/base-ct-audit`   |
 
-![BLEA-GuestSampleECS](doc/images/BLEA-GuestSampleECS.png)
+## Sample applications for Guest systems
 
-## AutoSacling
+| Use Cases              | Folders                        |
+| ---------------------- | ------------------------------ |
+| Web Application Sample | `usecases/guest-webapp-sample` |
+| API Application Sample | `usecases/guest-apiapp-sample` |
 
-![BLEA-GuestSampleASG](doc/images/BLEA-GuestSampleASG.png)
+- The web application sample provides four different options
 
-## EC2
+  - Sample web application with ECS (default)
+  - Option: SSL-enabled sample of ECS web application
+  - Option: Sample web application with AutoScaling
+  - Option: Sample web application with EC2
 
-![BLEA-GuestSampleEC2](doc/images/BLEA-GuestSampleEC2.png)
+- The API application sample provides two different options
+  - Sample serverless API application with NodeJS (default)
+  - Option: Python implementation of the same application
 
-# Deployment
+> NOTE: Each use case can be deployed independently, but other options within the same use case may share some resources. Please check the dependencies when deleting or changing them.
 
-> Information: \
-> This deployment process uses AWS credential (e.g. API secret key) on your local PC/Mac. If you want to use CloudShell, please see `Appendix A` that on a bottom of this document.
+## Deployment flow
 
-# 1. Setup CDK prerequisities and build
+Describe the steps to deploy. When deploying only, it is not necessary to build a development environment, but it is recommended to have a development environment that includes an editor because it is easier to change the code and reduces mistakes.
 
-See: https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/getting_started.html
+### Prerequisites
 
-- TypeScript 2.7 or later
+#### a. Runtime
 
+Use the following runtimes: Follow the instructions for each OS to install.
+
+- [Node.js](https://nodejs.org/) (>= `14.0.0`)
+  - `npm` (>= `7.0.0`)
+- [Git](https://git-scm.com/)
+
+npm requires 7.0.0 or higher because it uses workspaces. Please install the latest version as follows.
+
+```sh
+npm install -g npm
 ```
-npm -g install typescript
+
+#### b. Development environment
+
+We recommend that you set up a development environment, even if you are not doing serious development, to ensure safe editing of CDK code. The following are the steps to set up VisualStudioCode.
+
+- [Instructions]: [VisualStudioCode Setup Instructions](doc/HowTo.md#VisualStudioCode-Setup-Instructions)
+
+### Typical deployment steps
+
+The most typical deployment steps for using BLEA are as follows: Here are the steps for deploying a governance base and guest applications in a single account.
+
+1. Install related libraries and build code
+
+2. Configuring AWS CLI Credentials
+
+3. Create an account for deployment
+
+4. Deploy a governance base
+
+5. Deploy guest application samples
+
+> NOTE:
+> Here we will introduce the standalone governance base and the ECS version of the web application sample in a single account.
+> For instructions on deploying a multi-account version using ControlTower, see [Deploy to ControlTower environment](doc/DeployToControlTower.md).
+
+## Implementation steps
+
+Here is the simplest example of deploying the Standalone version to a single account.
+
+### 1. Checkout a repository and initializing a project
+
+#### 1-1. Checkout a repository
+
+```sh
+git clone https://github.com/aws-samples/baseline-environment-on-aws.git
+cd baseline-environment-on-aws
 ```
 
-- CDK 1.100.0 or later
+#### 1-2. Initializing a project
 
-```
-npm install -g aws-cdk
-```
-
-- Build
-
-```
-cd path-to-source
+```sh
+# install dependencies
 npm ci
-npm run build
 ```
 
-## (OPTIONAL) Use latest CDK modules
+#### 1-3. Setting up a pre-commit hook for Git
 
-After install CDK, Use below commands instead of `npm ci`.
+Registers a hook to perform checks by Linter, Formatter, and Git-Secrets when committing to Git. Follow the steps below to set it up. It is not required if you are just deploying, but we recommend a setup for more secure development.
 
-- Install ncu
+- [Instructions]: [Git pre-commit hook setup](doc/HowTo.md#Git-pre-commit-hook-setup)
 
-```
-npm install -g npm-check-updates
-```
+### 2. Set credentials for the AWS CLI
 
-- Update modules
+You need your AWS credentials (API key) to deploy the CDK. Here's the simplest way to use permanent credentials.
 
-```
-cd path-to-source
-rm -rf package-lock.json node_modules/
-ncu -u
-npm install
-```
-
-- Build
-
-```
-npm run build
-```
-
-# 3. Setup AWS CLI/CDK Configurations
-
-## Optioin1. Setup AWS Credentials (Permanent Credentials)
-
-For development purpose, you can use permanent credentials for IAM User created on each account. Here is an example for using `prof_dev` and `prof_prod` account.
+This method is mainly used for development environments. Consider using two accounts, `prof_dev` and `prof_prod`, as an example of a profile in the AWS CLI.
 
 ~/.aws/credentials
 
-```
+```text
 [prof_dev]
 aws_access_key_id = XXXXXXXXXXXXXXX
 aws_secret_access_key = YYYYYYYYYYYYYYY
-rgion = ap-northeast-1
+region = ap-northeast-1
 
 [prof_prod]
 aws_access_key_id = ZZZZZZZZZZZZZZZZ
@@ -122,532 +152,218 @@ aws_secret_access_key = PPPPPPPPPPPPPPPP
 region = ap-northeast-1
 ```
 
-## Option2. Setup AWS Credentials (with AWS SSO)
+### 3. Create an account for deployment
 
-We recommend to use AWS SSO to login AWS Management Console and AWS CLI - AWS SSO Integration.
+#### 3-1. Create a new account
 
-> Notes: For AWS CLI-AWS SSO Integration, you need to use AWS CLIv2
-> See: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html
+Create a new account using Organizations.
+It is possible to use a single account that does not use Organizations, but members under Organizations to make it easier to migrate to a multi-account management environment later It is recommended to use an account.
 
-To use AWS CLI - AWS SSO Integration from AWS CDK, you need to install opensource tool aws2-wrap (https://github.com/linaro-its/aws2-wrap) on your build environment.
+#### 3-2. Set up Slack to prepare for using AWS Chatbot
 
-```
-pip3 install aws2-wrap
-```
+BLEA uses Slack channels for notification of security and monitoring events, respectively. Create two channels on Slack and follow the steps below to set up the default AWS Chatbot.
+When you are done, make a note of the ID of one workspace and the ID of two channels you want to notify for later settings.
 
-Configure AWS CLI profile for deploying to Audit Account. This example assume Management Account ID as `1111111111111`, Audit Account ID as `222222222222`.
+- [Instructions]: [Set up Slack for AWS ChatBot](doc/HowTo.md#set-up-slack-for-aws-chatbot)
 
-~/.aws/config
+### 4. Deploy a governance base
 
-```
-# for Management Account
-[profile ct-management-sso]
-sso_start_url = https://d-90xxxxxxxx.awsapps.com/start#/
-sso_region = ap-northeast-1
-sso_account_id = 1111111111111
-sso_role_name = AWSAdministratorAccess
-region = ap-northeast-1
+#### 4-1. Set deployment information (Context)
 
-# for AWSControlTowerExecution Role on Audit Account
-[profile ct-audit-exec-role]
-role_arn = arn:aws:iam::222222222222:role/AWSControlTowerExecution
-source_profile = ct-management-sso
-region = ap-northeast-1
+You must specify parameters in the CDK Context (cdk.json) for each use case for deployment. Here is the configuration file for the Standalone version of the governance base.
 
-# for CDK access to ct-audit-exec-role
-[profile ct-audit-exec]
-credential_process = aws2-wrap --process --profile ct-audit-exec-role
-region = ap-northeast-1
+```sh
+usecases/base-standalone/cdk.json
 ```
 
-Configure AWS CLI profile for deploying to Guest Account.
+This example shows an example of defining a Context called `dev`. To verify the same configuration and deploy it to a production account, prepare a Context such as `staging` or `prod`. The Context name can be any alphabet.
 
-~/.aws/config
+usecases/base-standalone/cdk.json
 
-```
-# for Guest Account
-[profile ct-guest-sso]
-sso_start_url = https://d-90xxxxxxxx.awsapps.com/start#/
-sso_region = ap-northeast-1
-sso_account_id = 123456789012
-sso_role_name = AWSAdministratorAccess
-region = ap-northeast-1
-
-# for CDK access to ct-guest-sso
-[profile ct-guest]
-credential_process = aws2-wrap --process --profile ct-guest-sso
-region = ap-northeast-1
-```
-
-Now, you can login with AWS SSO like this.
-
-```
-aws sso login --profile ct-guest-sso
-```
-
-This command display AWS SSO login window on your browser. Enter username and password, then you will go back to terminal and can access with AWS CLI with profile `ct-guest-sso`. On AWS CDK, you need to use profile `ct-guest`.
-
-# 4. Define parameters in CDK Context
-
-You need to define deployment parameters on CDK Context. Context values are defined in cdk.json file or cdk.context.json file (or -c option).
-
-- See: https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/context.html
-- See: https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/get_context_var.html
-
-## 1. Sample cdk.json and cdk.context.json:
-
-These files define `dev`, `prod`, `ctaudit`, `my` context. cdk.json is managed by git. cdk.context.json doesn't managed by git so you can use it just for your local environmen only.
-
-For production stacks, we recommend that you explicitly specify the environment in cdk.json using the `env` property. If you not specified env property, to use CDK_DEFAULT_ACCOUNT and CDK_DEFAULT_REGION variables.
-
-cdk.json
-
-```
+```json
 {
   "app": "npx ts-node bin/blea-base-sa.ts",
   "context": {
     "dev": {
-      "description": "Environment variables for blea-guest-*-samples.ts",
+      "description": "Environment variables for Governance base ",
+      "envName": "Development",
+      "securityNotifyEmail": "notify-security@example.com",
+      "slackNotifier": {
+        "workspaceId": "T8XXXXXXX",
+        "channelIdSec": "C01XXXXXXXX"
+      }
+    }
+  }
+}
+```
+
+The contents of this setting are as follows.
+
+| key                        | value                                                                                               |
+| -------------------------- | --------------------------------------------------------------------------------------------------- |
+| description                | Comment on settings                                                                                 |
+| envName                    | Environment name. This will be set for each resource tag                                            |
+| securityNotifyEmail        | The email address to which security notifications will be sent. The content is similar to Slack     |
+| SlackNotifier.WorkspaceID  | ID of Slack workspace set on AWS Chatbot                                                            |
+| SlackNotifier.channelIDSec | The ID of the Slack channel that you configured on AWS Chatbot. You will be notified about security |
+
+> NOTE: See the following explanation for how to use Context
+>
+> - [Manage personal environment by cdk.context.json](doc/HowTo.md#cdkcontextjson-Manage-personal-environment)
+>
+> - [Accessing context in application](doc/HowTo.md#accessing-context-in-application)
+
+#### 4-2. Deploy a governance base
+
+Build BLEA.
+
+```sh
+cd usecases/base-standalone
+npm run build
+```
+
+If you are running a CDK for the first time, navigate to the target use case directory and bootstrap the CDK. This is required when you run the CDK for the first time with that account and region combination.
+
+```sh
+npx cdk bootstrap -c environment=dev --profile prof_dev
+```
+
+> NOTE:
+>
+> - Here we are using `npx` to use a local cdk installed in the BLEA environment. If you start the command directly from `cdk`, the globally installed cdk will be used.
+>
+> - There are options that are useful when using the cdk command. See [Skip Deployment Approvals and Don't Roll Back](doc/HowTo.md#skip-deployment-approvals-and-dont-roll-back).
+
+Deploy a governance baseline.
+
+```sh
+npx cdk deploy --all -c environment=dev --profile prof_dev
+```
+
+This will set up the following features
+
+- API logging with CloudTrail
+- Recording configuration changes with AWS Config
+- Detect abnormal behavior with GuardDuty
+- Detecting Deviations from Best Practices with SecurityHub (AWS Foundational Security Best Practice, CIS benchmark)
+- Default security group blockage (auto repair in case of deviation)
+- Notifications for AWS Health events
+- Some notifications of security-impacting change actions
+- Slack notifies you of security events
+
+#### 4-3. (Optional) Set up other baseline setups manually
+
+In addition to setting up a governance base, AWS provides several operational baseline services. Set up these services as needed.
+
+##### a. Perform AWS Systems Manager Quick Setup for EC2 Management
+
+If you use EC2, we recommend that you use SystemsManager to manage it. You can use AWS Systems Manager Quick Setup to automate the basic setup required to manage EC2.
+See: [https://docs.aws.amazon.com/systems-manager/latest/userguide/quick-setup-host-management.html]
+
+Quick Setup provides the following features:
+
+- Configure AWS Identity and Access Management (IAM) Instance Profile Roles Required by Systems Manager
+- Auto-update of SSM Agent every other week
+- Collect inventory metadata every 30 minutes
+- Daily scans to detect instances that are out of patch
+- Installing and configuring Amazon CloudWatch Agent for the first time only
+- Monthly automatic updates of the CloudWatch agent
+
+##### b. Trusted Advisor Detection Results Report
+
+TrustedAdvisor provides advice for following AWS best practices. It is possible to receive the contents of the report regularly by e-mail. Please refer to the following document for details.
+
+- See: [https://docs.aws.amazon.com/awssupport/latest/user/get-started-with-aws-trusted-advisor.html#preferences-trusted-advisor-console]
+
+### 5. Deploy a sample guest application
+
+Once the governance base is set up, deploy guest applications on top of it.
+As an example of a guest application, this section provides instructions for deploying an ECS-based web application sample.
+
+#### 5-1. Set the Context for the guest application
+
+Configure guest applications before deploying.
+Navigate to `usecases/guest-webapp-sample` where the web application sample is located and edit cdk.json.
+
+usecases/guest-webapp-sample/cdk.json
+
+```json
+{
+  "app": "npx ts-node bin/blea-guest-ecsapp-sample.ts",
+  "context": {
+    "dev": {
+      "description": "Context samples for Dev - Anonymous account & region",
       "envName": "Development",
       "vpcCidr": "10.100.0.0/16",
-      "securityNotifyEmail": "notify-security@example.com",
       "monitoringNotifyEmail": "notify-monitoring@example.com",
       "dbUser": "dbadmin",
       "slackNotifier": {
         "workspaceId": "T8XXXXXXX",
-        "channelIdSec": "C01XXXXXXXX",
         "channelIdMon": "C01YYYYYYYY"
-      }
-    },
-    "prod": {
-      "description": "Environment variables for blea-guest-*-samples.ts",
-      "env": {
-        "account": "111111111111",
-        "region": "ap-northeast-1"
       },
-      "envName": "Production",
-      "vpcCidr": "10.110.0.0/16",
-      "securityNotifyEmail": "notify-security@example.com",
-      "monitoringNotifyEmail": "notify-monitoring@example.com",
-      "dbUser": "dbadmin",
-      "slackNotifier": {
-        "workspaceId": "T8XXXXXXX",
-        "channelIdSec": "C01XXXXXXXX",
-        "channelIdMon": "C01YYYYYYYY"
-      }
-    },
-    "ctaudit": {
-      "description": "Environment variables for blea-base-ct-audit.ts",
-      "env": {
-        "account": "222222222222",
-        "region": "ap-northeast-1"
-      },
-      "slackNotifier": {
-        "workspaceId": "T8XXXXXXX",
-        "channelIdAgg": "C01ZZZZZZZZ"
-      }
+      "domainName": "example.com",
+      "hostedZoneId": "Z0123456789",
+      "hostName": "www"
     }
   }
 }
 ```
 
-You can create cdk.context.json to define your developing environment parameters. It may be generated automatically. This file is ignored by git.
+The settings are as follows:
 
-cdk.context.json
+| key                        | value                                                                                                                                                                         |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| description                | Comment on settings                                                                                                                                                           |
+| envName                    | Environment name. This is set for each resource tag.                                                                                                                          |
+| vpcCidr                    | CIDR of the VPC you want to create                                                                                                                                            |
+| monitoringNotifyEmail      | Email address to which notifications about system monitoring are sent. The content is similar to Slack.                                                                       |
+| dbuser                     | Login username to AuroraDB                                                                                                                                                    |
+| SlackNotifier.WorkspaceID  | ID of Slack workspace set on AWS Chatbot                                                                                                                                      |
+| SlackNotifier.channelIdMon | The ID of the Slack channel that you configured for AWS Chatbot. You will be notified about system monitoring. Specify a channel that is different from the security channel. |
 
-```
-{
-  "@aws-cdk/core:enableStackNameDuplicates": "true",
-  "aws-cdk:enableDiffNoFail": "true",
-  "@aws-cdk/core:stackRelativeExports": "true",
-  "my": {
-    "description": "Personal Environment variables for blea-guest-*-samples.ts",
-    "envName": "Personal",
-    "vpcCidr": "10.100.0.0/16",
-    "securityNotifyEmail": "xxx@example.com",
-    "monitoringNotifyEmail": "zzz@example.com",
-    "dbUser": "personaluser",
-    "slackNotifier": {
-      "workspaceId": "T8XXXXXXXXX",
-      "channelIdSec": "C01YYYYYYYY",
-      "channelIdMon": "C02YYYYYYYY"
-    }
-  },
-  "myaudit": {
-    "description": "Personal Environment variables for blea-base-ct-audit.ts",
-    "env": {
-      "account": "222222222222",
-      "region": "ap-northeast-1"
-    },
-    "slackNotifier": {
-      "workspaceId": "T8XXXXXXX",
-      "channelIdAgg": "C01ZZZZZZZZ"
-    }
-  }
-}
+#### 5-2. Deploy a guest application
+
+```sh
+cd usecases/guest-webapp-sample
+npx cdk deploy --all -c environment=dev --profile prof_dev
 ```
 
-> Tips: This is example of how CDK code use this context optioin.
+This completes the baseline and sample application deployment for a single account.
+
+> NOTE:
 >
-> ```
-> const envKey = app.node.tryGetContext('environment');
-> const valArray = app.node.tryGetContext(envKey);
-> const environment_name = valArray['envName'];
-> ```
-
-> Tips: How to Deploy stack with context parameters. (This command deploys `bin/blea-base-sa.ts`. It defined on cdk.json `app`)
-> Use `--profile xxxxx` to specify AWS profile. Use `-c envrionment=xxxx` to specify parameters you defined in cdk.json.
+> It takes about 30 minutes to complete the deployment of all resources, including Aurora. If you want to deploy only some resources, specify the target stack name explicitly. The stack name is expressed in the application code (here bin/blea-guest-ecsapp-sample.ts) as `$ {pjPrefix} -ecsApp` .
 >
+> ```sh
+> cd usecases/guest-webapp-sample
+> npx cdk deploy "BLEA-ECSApp" --app "npx ts-node bin/blea-guest-asgapp-sample.ts" -c environment=dev --profile prof_dev
 > ```
-> cdk deploy "*" --profile prof_dev  -c environment=dev
-> cdk deploy "*" --profile prof_prod -c environment=prod
-> ```
-
-> Tips: If you don't want to block deploy process with approval, add an option `--require-approval never` (but be careful!). \
->  When you configure cdk.json like this, you don't need to specify `--require-approval never` on every deploy command.
 >
-> > ```
-> > "requireApproval": "never",
-> > ```
+> NOTE:
+> guest-webapp-sample provides several variations under the bin directory. By default, the application specified in `app` in cdk.json (blea-guest-ecsapp-sample.ts) is deployed. If you want to deploy another application, you can do so by explicitly specifying `—app` in the cdk argument as follows: All contexts in cdk.json work with the same content within the same use case.
+>
+> ```sh
+> cd usecases/guest-webapp-sample
+> npx cdk deploy --all --app "npx ts-node bin/blea-guest-asgapp-sample.ts" -c environment=dev --profile prof_dev
+> ```
 
-# 6. Baseline and Sample templates
+#### 5-3. Develop your own applications
 
-We provide several guardrail templates and sample application templates. They are placed in `bin/` directory.
+From now on, you will use this sample code as a starting point to develop applications tailored to your use case. Indicates information necessary for general development.
 
-## Base for ControlTower
+- [Development process](doc/HowTo.md#development-process)
+- [Update package dependencies](doc/HowTo.md#update-dependencies)
 
-- blea-base-ct-audit.ts
+#### 5-4. Remediation of security issues
 
-  - Governance Base for ControlTower Audit Account.
+Even after deploying a governance base, there are detections that are reported at a critical or high severity level in Security Hub benchmark reports . You will need to take action on these manually. If necessary, perform remediation.
 
-- blea-base-ct-guest.ts
-  - Guest Base(for each guest account). Setup log bucket, IAM User, Monitoring Chatbot for the account you specified.
+- [Remediate Security Issues](doc/HowTo.md#remediate-security-issues)
 
-## Base for Santdalone
-
-- blea-base-sa.ts
-  - Setup Governance Base for Standalone environment.
-
-## Guest System samples
-
-- blea-guest-ecsapp-sample.ts
-  - Sample app with ECS/Fargate+AuroraPostgreSQL
-- blea-guest-asgapp-sample.ts
-  - Sample app with EC2 Autoscaling Group+AuroraPostgreSQL
-- blea-guest-ec2app-sample.ts
-  - Sample app with EC2+AuroraPostgreSQL
-
-> These are sample code, so use one of these at the same time because each application uses the same name stack. (For example VPCs, Chatbot, Log, AuroraDB etc)
-> When you deploy several applications simultaneously, the resource defined in the same name stack will be shared by each application.
-
-# 7. Deploying on Single Account Environment
-
-(If you want to deploy to ControlTower environment, go to step 8)
-
-## 1. Create new account
-
-Create new account using Organizations. (Or you can use just standalone account without Organizations).
-
-## 2. Setup Slack for AWS Chatbot
-
-See: `Appendix B`
-
-## 3. Deploy Governance Base for Standalone
-
-If this is a first time to use CDK on the account and region, you need to bootstrap CDK.
-
-```
-cdk bootstrap --app "npx ts-node bin/blea-base-sa.ts"             -c environment=dev --profile prof_dev
-```
-
-Deploy Base stacks.
-
-```
-cdk deploy "*" --app "npx ts-node bin/blea-base-sa.ts"             -c environment=dev --profile prof_dev
-```
-
-## 4. (Option) Other baseline setup
-
-AWS provide several operational baseline service. You can setup it if you need.
-
-### Setup AWS Systems Manager Quick Setup for managing EC2
-
-You can setup several baseline EC2 management with AWS Systems Manager Quick Setup
-How to setup: https://docs.aws.amazon.com/systems-manager/latest/userguide/quick-setup-host-management.html
-
-Quick Setup provides below:
-
-- WS Identity and Access Management (IAM) instance profile roles for Systems Manager.
-- A scheduled, bi-weekly update of SSM Agent.
-- A scheduled collection of Inventory metadata every 30 minutes.
-- A daily scan of your instances to identify missing patches.
-- A one-time installation and configuration of the Amazon CloudWatch agent.
-- A scheduled, monthly update of the CloudWatch agent.
-
-## 5. Deploy Application Stack
-
-Deploy Sample Application stacks.
-
-```
-cdk deploy "*" --app "npx ts-node bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev
-
-```
-
-Now you finished to deploy AWS Baseline template on single account environment.
-
-# 8. Deploying on Multi-Account Environment
-
-## 1. Setup ControlTower
-
-Setup ControlTower.
-See: https://docs.aws.amazon.com/controltower/latest/userguide/setting-up.html
-
-## 2. Setup Security services
-
-Setup SecurityHub, GuardDuty and IAM Access Analyzer for Organizations. You should specify deligate account to Audit account.
-
-SecurityHub
-
-- https://docs.aws.amazon.com/securityhub/latest/userguide/designate-orgs-admin-account.html
-- https://docs.aws.amazon.com/securityhub/latest/userguide/accounts-orgs-auto-enable.html
-
-GuardDuty
-
-- https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_organizations.html
-
-IAM Access Analyzer
-
-- https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-settings.html#access-analyzer-delegated-administrator
-
-## 3. Deploy Governance Base for CT (to audit account)
-
-### Setup Slack for AWS Chatbot
-
-Setup Slack Workspace on Audit account. \
-See `Appendix B`
-
-### Deploy
-
-Login to Management Account with AWS SSO.
-
-> Audit account can configure only with AWSControlTowerExecution Role on Management Account
-
-```
-aws sso login --profile ct-management-sso
-```
-
-Bootstrap CDK bucket (first time only).
-
-```
-cdk bootstrap  --app "npx ts-node bin/blea-base-ct-audit.ts" -c environment=ctaudit --profile ct-audit-exec
-```
-
-Deploy Audit Base.
-
-```
-cdk deploy "*" --app "npx ts-node bin/blea-base-ct-audit.ts" -c environment=ctaudit --profile ct-audit-exec
-```
-
-## 4. Create new account
-
-Create new account with Account Vending Machine provided by ControlTower.
-
-## 5. Deploy Guest Base for CT (to guest account)
-
-Login to Guest Account with AWS SO.
-
-```
-aws sso login --profile ct-guest-sso
-```
-
-Bootstrap CDK bucket (first time only).
-
-```
-cdk bootstrap --app "npx ts-node bin/blea-base-ct-guest.ts" -c environment=dev --profile ct-guest # First time only
-```
-
-Deploy Guest Base stacks.
-
-```
-cdk deploy "*" --app "npx ts-node bin/blea-base-ct-guest.ts" -c environment=dev --profile ct-guest
-```
-
-## 6. (Option) Other baseline setup (to guest account)
-
-AWS provide several operational baseline service. You can setup it if you need.
-
-### Setup AWS Systems Manager Quick Setup for managing EC2
-
-You can setup several baseline EC2 management with AWS Systems Manager Quick Setup
-How to setup: https://docs.aws.amazon.com/systems-manager/latest/userguide/quick-setup-host-management.html
-
-Quick Setup provides below:
-
-- AWS Identity and Access Management (IAM) instance profile roles for Systems Manager.
-- A scheduled, bi-weekly update of SSM Agent.
-- A scheduled collection of Inventory metadata every 30 minutes.
-- A daily scan of your instances to identify missing patches.
-- A one-time installation and configuration of the Amazon CloudWatch agent.
-- A scheduled, monthly update of the CloudWatch agent.
-
-## 7. Deploy Application Stack (to guest account)
-
-Deploy Guest Application Sample stacks.
-
-```
-cdk deploy "*" --app "npx ts-node bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile ct-guest
-```
-
-Now you finished to deploy AWS Baseline template on multi account environment.
-
-# 9. Remediation
-
-Some SecurityHub benchmark report CRITICAL or HIGH level issues. You need take action for it manually.
-
-Option: You can also disable the security Hub controls (but not recommended).
-
-- https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-enable-disable-controls.html
-
-## 1. Set MFA to Root user
-
-You need to set MFA for root user manually. "root user" is a user using email address to login management console.
-
-Security Hub controls related to MFA(CRITICAL level)
-
-- [CIS.1.13] Ensure MFA is enabled for the "root" account
-  - https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-cis-controls-1.13
-- [CIS.1.14] Ensure hardware MFA is enabled for the "root" account
-  - https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-cis-controls-1.14
-- [IAM.6] Hardware MFA should be enabled for the root user
-  - https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-iam-6
-
-How to remediate:
-
-1. Access to root user on Organizations member account.
-
-- https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_access-as-root
-
-2. Enable hardware MFA for root user
-
-- https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_enable_physical.html#enable-hw-mfa-for-root
-
-## 2. Use IDMSv2 to access EC2 metadata
-
-You need to use IDMSv2 only for EC2 instances. Take a look the document below for remediation.
-
-- [EC2.8] EC2 instances should use IMDSv2
-  - https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-ec2-8
-
-# Appendix. A: Deploy via CloudShell
-
-Deploy BLEA via CloudShell on AWS Console.  
-Please note that CloudShell will delete environment if you do not use that for 120 days.  
-see: https://docs.aws.amazon.com/cloudshell/latest/userguide/limits.html
-
-## 1. Open CloudShell
-
-- Open CloudShell from [>_] icon on your AWS console (top right, near by account name)
-  ![OpenConsole](doc/images/CloudShell-OpenConsole.png)
-
-## 2. Setup CDK prerequisities
-
-See: https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/getting_started.html
-
-- Update npm
-
-```
-sudo npm -g install npm
-```
-
-- TypeScript 2.7 or later
-
-```
-sudo npm -g install typescript
-```
-
-- CDK 1.100.0 or later
-
-```
-sudo npm install -g aws-cdk
-```
-
-## 2. Upload and extract template files
-
-- Get BLEA source file from git repository and archive it
-- Upload BLEA file from [Action]-[Upload File] Button
-  ![UploadFiles](doc/images/CloudShell-UploadFiles.png)
-
-- Extract and delete uploaded file
-
-```
-unzip baseline-environment-on-aws-vx.x.x.zip
-rm baseline-environment-on-aws-vx.x.x.zip
-```
-
-## 3. Build
-
-```
-cd path-to-source
-npm ci
-npm install
-npm run build
-```
-
-if npm install doesn’t work, install ncu and update packages.json, remove package-lock.json and build.
-
-- Install ncu
-
-```
-npm install -g npm-check-updates
-```
-
-- Update modules
-
-```
-cd path-to-source
-rm -rf package-lock.json node_modules/
-ncu -u
-npm install
-npm run build
-```
-
-# Appendix.B Setup Slack for AWS Chatbot
-
-To send alarms to slack, create BLEA-ChatbotSecurity and BLEA-ChatbotMonitor stack.
-Before create these stack, you need to set up chat client for AWS Chatbot or stack creation will be failed.
-
-Stack creating procedure is discribed below.
-
-## 1. Create your workspace and channel on Slack
-
-(This is an operation on Slack) Create workspace and channel you want to receive message.
-Remember Slack channel ID (You can copy the channel ID with "Copy Link"). It looks like https://your-work-space.slack.com/archives/C01XXXXXXXX. `C01XXXXXXXX` is the channel ID.
-
-## 2. Setup chat client for AWS Chatbot
-
-- Follow the steps 1-4 of "Setting up AWS Chatbot with Slack". It just create Slack workspaces on AWS Chatbot.
-  - https://docs.aws.amazon.com/chatbot/latest/adminguide/getting-started.html
-
-## 3. Edit your workspace ID and channel ID on context file
-
-cdk.json or cdk.context.json:
-
-```
-      "slackNotifier": {
-        "workspaceId": "T8XXXXXXX",
-        "channelIdSec": "C01XXXXXXXX",
-        "channelIdMon": "C01YYYYYYYY"
-      }
-```
-
-- workspaceId: Copy from AWS Chatbot Workspace details
-- channelIdSec: Copy from Your Slack App - Security Alarms
-- channelIdMon: Copy from Your Slack App - Monitoring Alarms
-
-# Security
+## Security
 
 See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
 
-# License
+## License
 
 This library is licensed under the MIT-0 License. See the LICENSE file.

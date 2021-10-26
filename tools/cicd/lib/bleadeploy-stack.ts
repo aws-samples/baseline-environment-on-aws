@@ -44,7 +44,7 @@ export class BLEAdeployStack extends cdk.Stack {
       projectName: `${id}-CodeBuildProject`,
       role: deployRole,
       environment: {
-        buildImage: LinuxBuildImage.STANDARD_3_0,
+        buildImage: codebuild.LinuxBuildImage.AMAZON_LINUX_2_3,
         environmentVariables: {
           AWS_DEFAULT_REGION: {
             type: codebuild.BuildEnvironmentVariableType.PLAINTEXT,
@@ -69,6 +69,5 @@ export class BLEAdeployStack extends cdk.Stack {
       stageName: 'Build',
       actions: [buildAction],
     });
-
   }
 }

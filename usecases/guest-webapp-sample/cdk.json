@@ -1,0 +1,55 @@
+{
+  "app": "npx ts-node bin/blea-guest-ecsapp-sample.ts",
+  "context": {
+    "dev": {
+      "description": "Context samples for Dev - Anonymous account & region",
+      "envName": "Development",
+      "vpcCidr": "10.100.0.0/16",
+      "monitoringNotifyEmail": "notify-monitoring@example.com",
+      "dbUser": "dbadmin",
+      "slackNotifier": {
+        "workspaceId": "T8XXXXXXX",
+        "channelIdMon": "C01YYYYYYYY"
+      },
+      "domainName": "example.com",
+      "hostedZoneId": "Z0123456789",
+      "hostName": "www"
+    },
+    "stage": {
+      "description": "Context samples for Staging - Specific account & region  ",
+      "env": {
+        "account": "111111111111",
+        "region": "ap-northeast-1"
+      },
+      "envName": "Staging",
+      "vpcCidr": "10.110.0.0/16",
+      "monitoringNotifyEmail": "notify-monitoring@example.com",
+      "dbUser": "dbadmin",
+      "slackNotifier": {
+        "workspaceId": "T8XXXXXXX",
+        "channelIdMon": "C01YYYYYYYY"
+      },
+      "domainName": "example.com",
+      "hostedZoneId": "Z0123456789",
+      "hostName": "www"
+    },
+    "prod": {
+      "description": "Context samples for Production - Specific account & region  ",
+      "env": {
+        "account": "222222222222",
+        "region": "ap-northeast-1"
+      },
+      "envName": "Production",
+      "vpcCidr": "10.120.0.0/16",
+      "monitoringNotifyEmail": "notify-monitoring@example.com",
+      "dbUser": "dbadmin",
+      "slackNotifier": {
+        "workspaceId": "T8XXXXXXX",
+        "channelIdMon": "C01YYYYYYYY"
+      },
+      "domainName": "example.com",
+      "hostedZoneId": "Z0123456789",
+      "hostName": "www"
+    }
+  }
+}

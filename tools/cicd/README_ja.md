@@ -75,14 +75,14 @@ CodePipeline が自身の BLEA リポジトリの対象ブランチにアクセ�
 cd tools/cicd/
 npm ci
 npm run build
-cdk bootstrap -c environment=prodpipeline --profile your_profile_name  # If you haven't bootstrapped target account
-cdk deploy -c environment=prodpipeline --profile your_profile_name
+npx cdk bootstrap -c environment=prodpipeline --profile your_profile_name  # If you haven't bootstrapped target account
+npx cdk deploy -c environment=prodpipeline --profile your_profile_name
 ```
 
 ## 4. buildspec.yaml のアップデート
 
 buildspec.yaml で CDK のデプロイコマンドを指定します。
-例えば、cdk.json で定義した `prod` 環境へ、スタック`BLEA-GeneralLog`をデプロイしたい場合の例を示します。
+例えば、cdk.json で定義した `prod` 環境へ、スタック`BLEA-MonitorAlarm`をデプロイしたい場合の例を示します。
 buildspec.yaml はこのディレクトリではなく、BLEA ソースコードのルートディレクトリにあります。
 
 ```
@@ -91,15 +91,22 @@ version: 0.2
 phases:
   install:
     commands:
+      # requires npm >7
       - npm i -g npm
-      - npm -g install typescript aws-cdk
   pre_build:
     commands:
       - npm ci
-      - npm run build
   build:
     commands:
-      - cdk deploy BLEA-GeneralLog --app "npx ts-node bin/blea-guest-ecsapp-sample.ts" -c environment=prod --require-approval never
+      - npm audit
+      - npm run lint
+      - npm run build --workspace usecases/guest-webapp-sample
+      - npm run test --workspace usecases/guest-webapp-sample
+      # You can specify CDK deployment commands.
+      # Usually, you may want to deploy all of resources in the app.
+      # If you want to do so, please specify `"*"`
+      - cd usecases/guest-webapp-sample
+      - npx cdk deploy BLEA-MonitorAlarm -c environment=dev --require-approval never
 ```
 
 > Notes: 他のスタックをデプロイしたい場合は build フェーズに他のコマンドを追加することができます。

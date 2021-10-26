@@ -1,0 +1,32 @@
+root = true
+
+# base settings
+[*]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# hidden files
+[.*]
+end_of_line = lf
+
+# by extensions
+[*.sh]
+end_of_line = lf
+[*.bat]
+end_of_line = crlf
+[*.md]
+trim_trailing_whitespace = false
+indent_size = 4
+[*.{yml,yaml}]
+indent_size = 4
+[{Makefile,go.mod,go.sum,*.go}]
+indent_style = tab
+indent_size = 4
+
+# by unique files
+[package{,-lock}.json]
+end_of_line = lf

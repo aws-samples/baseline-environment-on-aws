@@ -4,119 +4,147 @@
 
 Baseline Environment on AWS(BLEA) は 単独の AWS アカウントまたは ControlTower で管理されたマルチアカウント環境で、セキュアなベースラインを確立するための リファレンス CDK テンプレート群です。このテンプレート群は AWS のセキュリティサービスを活用して基本的かつ拡張可能なガードレールを提供します。また典型的なシステムアーキテクチャを実現するエンドツーエンドの CDK サンプルコードを提供します。この CDK テンプレートは用途に合わせてユーザが拡張して使うことを前提としており、拡張の参考となるコードやコメントを多く含んでいます。これによって AWS のアーキテクチャベストプラクティスや CDK コードのカスタマイズを習得しやすくすることを目的としています。
 
-Jump to | [Changelog](CHANGELOG.md) | [デプロイメントパイプライン](tools/cicd/README_ja.md) | [Standalone 版からマルチアカウント版への移行](doc/Standalone2ControlTower_ja.md) |
+Jump to | [Changelog](CHANGELOG.md) | [HowTo](doc/HowTo_ja.md) | [マルチアカウント環境へのデプロイ](/doc/DeployToControlTower_ja.md) | [Standalone 版からマルチアカウント版への移行](doc/Standalone2ControlTower_ja.md) | [パイプラインによるデプロイ](tools/cicd/README_ja.md) |
 
-# ガバナンスアーキテクチャ
+## ガバナンスアーキテクチャ
 
-## オペレーションパターン
+### オペレーションパターン
 
 ![BLEA-OpsPatterns](doc/images/BLEA-OpsPatterns.png)
 
-## マルチアカウント版 (ControlTower 利用)
+### マルチアカウント版 (ControlTower 利用)
 
 ![BLEA-GovOverviewMultiAccount](doc/images/BLEA-GovOverviewMultiAccount.png)
 
-## Standalone 版 (単一アカウント利用)
+### Standalone 版 (単一アカウント利用)
 
 ![BLEA-GovOverviewSingleAccount](doc/images/BLEA-GovOverviewSingleAccount.png)
 
-# ベースライン アーキテクチャ
+## ベースライン アーキテクチャ
 
-## マルチアカウント版
+### マルチアカウント版
 
 ![BLEA-ArchMultiAccount](doc/images/BLEA-ArchMultiAccount.png)
 
-## Standalone 版
+### Standalone 版
 
 ![BLEA-ArchSingleAccount](doc/images/BLEA-ArchSingleAccount.png)
 
-## CloudFormation スタック構成 (Standalone 版)
+### CloudFormation スタック構成 (Standalone 版)
 
 ![BLEA-StackDependency](doc/images/BLEA-StackDependency.png)
 
-# ゲストシステムのサンプルアーキテクチャ
+## ガバナンスベース一覧
 
-## ECS システムサンプル
+| ユースケース                                           | フォルダ                   |
+| ------------------------------------------------------ | -------------------------- |
+| スタンドアローン版ガバナンスベース                     | `usecases/base-standalone` |
+| ControlTower 版ガバナンスベース（ゲストアカウント用）  | `usecases/base-ct-guest`   |
+| ControlTower 版 ガバナンスベース（Audit アカウント用） | `usecases/base-ct-audit`   |
 
-![BLEA-GuestSampleECS](doc/images/BLEA-GuestSampleECS.png)
+## ゲストシステムのサンプルアーキテクチャ一覧
 
-## AutoSacling システムサンプル
+| ユースケース                 | フォルダ                       |
+| ---------------------------- | ------------------------------ |
+| Web アプリケーションサンプル | `usecases/guest-webapp-sample` |
+| API アプリケーションサンプル | `usecases/guest-apiapp-sample` |
 
-![BLEA-GuestSampleASG](doc/images/BLEA-GuestSampleASG.png)
+- Web アプリケーションサンプルでは異なる 4 つのオプションを提供しています
 
-## EC2 システムサンプル
+  - ECS による Web アプリケーションのサンプル（デフォルト）
+  - Option: ECS Web アプリケーションの SSL 対応版サンプル
+  - Option: AutoScaling による Web アプリケーションのサンプル
+  - Option: EC2 による Web アプリケーションのサンプル
 
-![BLEA-GuestSampleEC2](doc/images/BLEA-GuestSampleEC2.png)
+- API アプリケーションサンプルでは異なる 2 つのオプションを提供しています
+  - NodeJS によるサーバーレスな API アプリケーションのサンプル（デフォルト）
+  - Option: 同アプリケーションの Python による実装
 
-# デプロイ
+> NOTE: 各々のユースケースは独立してデプロイ可能ですが、同一ユースケース内の別オプションは一部のリソースを共用している場合があります。削除、変更時は依存関係をご確認ください。
 
-> Information: \
-> このデプロイ手順は AWS 認証情報（アクセスキー/シークレットキー）を手元の PC/Mac に保存します。認証情報を手元に保存しないために CloudShell を使う方法があります。詳しくはこのドキュメントの下部にある `Appendix A` を参照してください。
+## デプロイの流れ
 
-# 1. CDK 実行環境のセットアップとコードのビルド
+デプロイするステップについて記載します。デプロイだけ行う場合はエディタ環境の構築は必ずしも必要ありませんが、コードの変更が容易になりミスを減らすことができるため、エディタも含めた開発環境を用意することをお勧めします。
 
-参照: https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/getting_started.html
+### 前提条件
 
-- TypeScript 2.7 or later のインストール
+#### a. ランタイム
 
+以下のランタイムを使用します。各 OS ごとの手順に従いインストールしてください。
+
+- [Node.js](https://nodejs.org/) (>= `14.0.0`)
+  - `npm` (>= `7.0.0`)
+- [Git](https://git-scm.com/)
+
+npm は workspaces を使用するため 7.0.0 以上が必要です。最新バージョンは以下のようにしてインストールしてください。
+
+```sh
+npm install -g npm
 ```
-npm -g install typescript
+
+#### b. 開発環境
+
+CDK コードを安全に編集するため、本格的な開発を行わない場合であっても開発環境のセットアップを推奨します。以下に VisualStudioCode のセットアップ手順を示します。
+
+- [手順]: [VisualStudioCode のセットアップ手順](doc/HowTo_ja.md#VisualStudioCode-のセットアップ)
+
+### 典型的な導入手順
+
+BLEA を使う場合の最も典型的な導入手順は次の通りです。ここでは単独のアカウントにガバナンスベースとゲストアプリケーションを導入する手順を示します。
+
+1. 関連ライブラリのインストールとコードのビルド
+
+2. AWS CLI の認証情報の設定
+
+3. デプロイ対象のアカウント作成
+
+4. ガバナンスベースをデプロイ
+
+5. ゲストアプリケーションサンプルをデプロイ
+
+> NOTE:
+> ここでは 単独アカウントに Standalone 版ガバナンスベースと Web アプリケーションサンプルの ECS 版を導入します。
+> ControlTower を使ったマルチアカウント版の導入手順については、[Deploy to ControlTower environment](/doc/DeployToControlTower_ja.md)を参照してください。
+
+## 導入手順
+
+ここでは最もシンプルな、単一アカウントへの Standalone 版導入を例にとって解説します。
+
+### 1. リポジトリの取得とプロジェクトの初期化
+
+#### 1-1. リポジトリの取得
+
+```sh
+git clone https://github.com/aws-samples/baseline-environment-on-aws.git
+cd baseline-environment-on-aws
 ```
 
-- CDK 1.100.0 or later のインストール
+#### 1-2. プロジェクトの初期化
 
-```
-npm install -g aws-cdk
-```
-
-- ビルド
-
-```
-cd path-to-source
+```sh
+# install dependencies
 npm ci
-npm run build
 ```
 
-## (オプション) 最新の CDK を使う場合
+#### 1-3. Git の pre-commit hook のセットアップ
 
-CDK のインストール後、ビルド工程で `npm ci` ではなく以下のコマンドを実行します。
+Git に Commit する際に Linter, Formatter, git-secrets によるチェックを行うための Hook を登録します。以下の手順に従ってセットアップしてください。デプロイするだけの場合は必須ではありませんが、よりセキュアに開発するためにセットアップを推奨します。
 
-- ncu のインストール
+- [手順] [Git の pre-commit hook のセットアップ](doc/HowTo_ja.md#Git-の-pre-commit-hook-のセットアップ)
 
-```
-npm install -g npm-check-updates
-```
+### 2. AWS CLI の認証情報を設定する
 
-- モジュールのアップデート
+CDK をデプロイするために AWS 認証情報（API キー）が必要です。ここでは最もシンプルな、恒久的な認証情報を使用する方法を紹介します。
 
-```
-cd path-to-source
-rm -rf package-lock.json node_modules/
-ncu -u
-npm install
-```
-
-- ビルド
-
-```
-npm run build
-```
-
-# 3. AWS CLI および CDK の設定
-
-CDK をデプロイするために AWS 認証情報（API キー）が必要です。恒久的な認証情報を使用する方法と、AWS SSO を使用して一時的な認証情報を取得して使用する方法を紹介します。
-
-## オプション 1. AWS 認証情報を設定する (恒久的な認証情報を使用する場合)
-
-主に開発環境用として、デプロイ対象アカウントの IAM ユーザの認証情報を使うことができます。ここでは AWS CLI のプロファイルの例として、`prof_dev` と `prof_prod` の二つのアカウントを使う場合を考えます。
+これは主に開発環境用として利用する方式です。ここでは AWS CLI のプロファイルの例として、`prof_dev` と `prof_prod` の二つのアカウントを使う場合を考えます。
 
 ~/.aws/credentials
 
-```
+```text
 [prof_dev]
 aws_access_key_id = XXXXXXXXXXXXXXX
 aws_secret_access_key = YYYYYYYYYYYYYYY
-rgion = ap-northeast-1
+region = ap-northeast-1
 
 [prof_prod]
 aws_access_key_id = ZZZZZZZZZZZZZZZZ
@@ -124,514 +152,216 @@ aws_secret_access_key = PPPPPPPPPPPPPPPP
 region = ap-northeast-1
 ```
 
-## オプション 2. AWS 認証情報を設定する (AWS SSO を使用する場合)
+### 3. デプロイ対象のアカウントを作成する
 
-通常は AWS SSO の利用を推奨します。マネジメントコンソールへのログインおよび AWS CLI - AWS SSO 統合による CLI の実行が可能です。
+#### 3-1. 新しいアカウントを作成する
 
-> Notes: AWS CLI - AWS SSO 統合を使うためには、AWS CLIv2 を使う必要があります \
-> See: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html
+Organizations を使って新しいアカウントを作成します。
+Organizations を使用しない単一のアカウントを利用することも可能ですが、後にマルチアカウント管理の環境に移行しやすくするため Organizations 配下のメンバーアカウント使用を推奨します。
 
-1. AWS CLI - AWS SSO 統合を CDK から使用する場合は、オープンソースのツールである aws2-wrap (https://github.com/linaro-its/aws2-wrap) を CDK を実行する環境にインストールする必要があります。
+#### 3-2. AWS Chatbot 利用の事前準備として Slack を設定する
 
-```
-pip3 install aws2-wrap
-```
+BLEA ではセキュリティイベントおよびモニタリングイベントを通知のためにそれぞれ Slack チャネルを使用します。Slack 上にチャネルを 2 つ作成し、以下の手順を参照して AWS Chatbot の初期設定を行ってください。
+設定が終わったら後の設定のため、ワークスペースの ID（1 つ）、通知先のチャネルの ID（2 つ）をメモしておきます。
 
-2. Control Tower の Audit アカウントにデプロイするための CLI プロファイルを設定します。ここではマネジメントアカウントの ID を `1111111111111`, Audit アカウントの ID を `222222222222` としています。
+- [手順] [AWSChatbot 用に Slack を設定する](doc/HowTo_ja.md#AWSChatbot-用に-Slack-を設定する)
 
-> Notes: ControlTower の仕様により、Audit アカウントにデプロイするためには、マネジメントアカウントの `AWSAdministratorAccess` ロールでログインし、Audit アカウントの`AWSControlTowerExecution`ロールにスイッチして処理を実行する必要があります。
+### 4. ガバナンスベースをデプロイする
 
-~/.aws/config
+#### 4-1. デプロイ情報(Context)を設定する
 
-```
-# for Management Account
-[profile ct-management-sso]
-sso_start_url = https://d-90xxxxxxxx.awsapps.com/start#/
-sso_region = ap-northeast-1
-sso_account_id = 1111111111111
-sso_role_name = AWSAdministratorAccess
-region = ap-northeast-1
+デプロイのため 各ユースケースの CDK Context (cdk.json) にパラメータを指定する必要があります。 Standalone 版のガバナンスベース用の設定ファイルはこちらです。
 
-# for AWSControlTowerExecution Role on Audit Account
-[profile ct-audit-exec-role]
-role_arn = arn:aws:iam::222222222222:role/AWSControlTowerExecution
-source_profile = ct-management-sso
-region = ap-northeast-1
-
-# for CDK access to ct-audit-exec-role
-[profile ct-audit-exec]
-credential_process = aws2-wrap --process --profile ct-audit-exec-role
-region = ap-northeast-1
+```sh
+usecases/base-standalone/cdk.json
 ```
 
-3. ゲストアカウントにデプロイするための CLI プロファイルを設定します。ここではゲストアカウントの ID を`123456789012`としています。
+このサンプルは `dev` という Context を定義する例です。同様の設定を検証、本番アカウントにもデプロイできるようにするには、`staging`や`prod`といった Context を用意します。Context 名は任意のアルファベットが利用可能です。
 
-~/.aws/config
+usecases/base-standalone/cdk.json
 
-```
-# for Guest Account
-[profile ct-guest-sso]
-sso_start_url = https://d-90xxxxxxxx.awsapps.com/start#/
-sso_region = ap-northeast-1
-sso_account_id = 123456789012
-sso_role_name = AWSAdministratorAccess
-region = ap-northeast-1
-
-# for CDK access to ct-guest-sso
-[profile ct-guest]
-credential_process = aws2-wrap --process --profile ct-guest-sso
-region = ap-northeast-1
-```
-
-4. AWS SSO を使った CLI ログイン
-
-次のコマンドで AWS SSO にログインします。ここでは`ct-guest-sso`プロファイルでログインする例を示します。
-
-```
-aws sso login --profile ct-guest-sso
-```
-
-このコマンドによって ブラウザが起動し、AWS SSO のログイン画面が表示されます。ゲストアカウントの管理者ユーザー名（メールアドレス）とパスワードを正しく入力すると画面がターミナルに戻り、 AWS CLI で ゲストアカウントでの作業が可能になります。
-
-> Notes: `ct-guest`プロファイルは aws2-warp を経由した認証を行なっており、CDK を実行する場合に使用します。
-
-# 4. CDK Context にパラメータを指定する
-
-デプロイのために CDK Context にパラメータを指定する必要があります。Context の値は cdk.json ファイルまたは cdk.context.json ファイルで指定します。（Context は CDK コマンドラインで -c オプションで指定することも可能ですが、 このソリューションでは -c に `environment` というパラメータのみを指定することとしています）
-
-- See: https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/context.html
-- See: https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/get_context_var.html
-
-## 1. サンプルの cdk.json と cdk.context.json:
-
-このサンプルでは `dev`, `prod`, `ctaudit`, `my` という Context を定義しています。cdk.json ファイルは Git で管理されますが、cdk.context.json は Git の管理外としています(.gitignore に指定)。これによってチームで共有管理する本番環境などの定義は cdk.json に定義し、個人で使用する開発環境の定義は cdk.context.json に定義するといった使い分けが可能です。
-
-Context の中で`env`プロパティはデプロイ対象となるアカウント ID やリージョンを指定します。これは CDK でスタックを作成する際に渡されます。`env`プロパティが指定されていない場合は、実行時点の CLI プロファイルで指定されているアカウントおよびリージョンの組み合わせにデプロイしますが、これは開発用途での利用に留めてください。誤った環境へのデプロイメントを防ぐため、本番環境のスタックは cdk.json で明示的に`env`プロパティを指定することを推奨します。
-
-cdk.json
-
-```
+```json
 {
   "app": "npx ts-node bin/blea-base-sa.ts",
   "context": {
     "dev": {
-      "description": "Environment variables for blea-guest-*-samples.ts",
+      "description": "Environment variables for Governance base ",
       "envName": "Development",
-      "vpcCidr": "10.100.0.0/16",
       "securityNotifyEmail": "notify-security@example.com",
-      "monitoringNotifyEmail": "notify-monitoring@example.com",
-      "dbUser": "dbadmin",
       "slackNotifier": {
         "workspaceId": "T8XXXXXXX",
-        "channelIdSec": "C01XXXXXXXX",
-        "channelIdMon": "C01YYYYYYYY"
-      }
-    },
-    "prod": {
-      "description": "Environment variables for blea-guest-*-samples.ts",
-      "env": {
-        "account": "111111111111",
-        "region": "ap-northeast-1"
-      },
-      "envName": "Production",
-      "vpcCidr": "10.110.0.0/16",
-      "securityNotifyEmail": "notify-security@example.com",
-      "monitoringNotifyEmail": "notify-monitoring@example.com",
-      "dbUser": "dbadmin",
-      "slackNotifier": {
-        "workspaceId": "T8XXXXXXX",
-        "channelIdSec": "C01XXXXXXXX",
-        "channelIdMon": "C01YYYYYYYY"
-      }
-    },
-    "ctaudit": {
-      "description": "Environment variables for blea-base-ct-audit.ts",
-      "env": {
-        "account": "222222222222",
-        "region": "ap-northeast-1"
-      },
-      "slackNotifier": {
-        "workspaceId": "T8XXXXXXX",
-        "channelIdAgg": "C01ZZZZZZZZ"
+        "channelIdSec": "C01XXXXXXXX"
       }
     }
   }
 }
 ```
 
-cdk.context.json は自分のための開発環境のパラメータを指定するために有用です。このファイルは CDK によって自動的に作成されている場合があります。その場合は既存の設定を残したまま自分自身の Context 定義を追加してください。
+この設定内容は以下の通りです。
 
-cdk.context.json
+| key                        | value                                                                            |
+| -------------------------- | -------------------------------------------------------------------------------- |
+| description                | 設定についてのコメント                                                           |
+| envName                    | 環境名。これが各々のリソースタグに設定されます                                   |
+| securityNotifyEmail        | セキュリティに関する通知が送られるメールアドレス。内容は Slack と同様です        |
+| slackNotifier.workspaceId  | AWS Chatbot に設定した Slack workspace の ID                                     |
+| slackNotifier.channelIdSec | AWS Chatbot に設定した Slack channel の ID。セキュリティに関する通知が行われます |
 
-```
-{
-  "@aws-cdk/core:enableStackNameDuplicates": "true",
-  "aws-cdk:enableDiffNoFail": "true",
-  "@aws-cdk/core:stackRelativeExports": "true",
-  "my": {
-    "description": "Personal Environment variables for blea-guest-*-samples.ts",
-    "envName": "Personal",
-    "vpcCidr": "10.100.0.0/16",
-    "securityNotifyEmail": "xxx@example.com",
-    "monitoringNotifyEmail": "zzz@example.com",
-    "dbUser": "personaluser",
-    "slackNotifier": {
-      "workspaceId": "T8XXXXXXXXX",
-      "channelIdSec": "C01YYYYYYYY",
-      "channelIdMon": "C02YYYYYYYY"
-    }
-  },
-  "myaudit": {
-    "description": "Personal Environment variables for blea-base-ct-audit.ts",
-    "env": {
-      "account": "222222222222",
-      "region": "ap-northeast-1"
-    },
-    "slackNotifier": {
-      "workspaceId": "T8XXXXXXX",
-      "channelIdAgg": "C01ZZZZZZZZ"
-    }
-  }
-}
-```
-
-> Information: Context は CDK コード（bin/\*.ts）の中で次のようにアクセスします。
+> NOTE: Context の使い方については以下の解説を参照してください
 >
-> ```
-> const envKey = app.node.tryGetContext('environment');
-> const valArray = app.node.tryGetContext(envKey);
-> const environment_name = valArray['envName'];
-> ```
+> - [cdk.context.json による個人環境の管理](doc/HowTo_ja.md#cdkcontextjson-による個人環境の管理)
+> - [アプリケーション内で Context にアクセスする仕組み](doc/HowTo_ja.md#アプリケーション内で-Context-にアクセスする仕組み)
 
-> Tips: Context パラメータを使ったデプロイメントの方法の例。（--app を指定しない場合は`bin/blea-base-sa.ts`がデプロイされます。対象の Application は cdk.json の `app` で指定しています)
-> デプロイする際のプロファイル（認証情報）を指定するには `--profile xxxxx` を指定します。また、cdk.json で定義した Context パラメータを指定するには `-c envrionment=xxxx` を指定します。通常、profile で指定する認証情報と Context（の env）で指定するアカウント、リージョンは一致している必要があります。
->
-> ```
-> cdk deploy "*" --profile prof_dev  -c environment=dev
-> cdk deploy "*" --profile prof_prod -c environment=prod
-> ```
+#### 4-2. ガバナンスベースをデプロイする
 
-> Tips: 通常、CDK によるデプロイは承認を求めるプロンプトが表示されますが、 `--require-approval never` をコマンドに指定することで確認のプロンプトが表示されなくなります（ただし利用にはご注意ください！）。 \
->  以下のような設定を cdk.json に追加することで、コマンドで都度設定する必要が無くなります。
->
-> > ```
-> > "requireApproval": "never",
-> > ```
+BLEA をビルドします。
 
-# 6. ベースラインとサンプルテンプレート
-
-このテンプレートで提供する、ガバナンスベーステンプレートと、サンプルアプリケーションのテンプレートを紹介します。これらのコードは`bin/`ディレクトリにあります。
-
-## ガバナンスベース（ControlTower 版）
-
-- blea-base-ct-audit.ts
-
-  - ControlTower の Audit アカウントに対するガバナンスベース.
-
-- blea-base-ct-guest.ts
-  - ControlTower の各ゲストアカウントに設定するガバナンスベース。指定したアカウントに対してログバケット、IAM ユーザ、モニタリング用 Chatbot をセットアップする
-
-## ガバナンスベース（Santdalone 版）
-
-- blea-base-sa.ts
-  - 単一アカウントに対して、ガバナンスベースをセットアップする。
-
-## ゲストシステムサンプル
-
-- blea-guest-ecsapp-sample.ts
-  - ECS/Fargate+AuroraPostgreSQL を使ったサンプルシステム
-- blea-guest-asgapp-sample.ts
-  - EC2 Autoscaling Group+AuroraPostgreSQL を使ったサンプルシステム
-- blea-guest-ec2app-sample.ts
-  - EC2+AuroraPostgreSQL を使ったサンプルシステム
-
-> これらのサンプルコードをデプロイする場合は一度に 1 つのサンプルだけを使用してください。各サンプルは VPC、Chatbot、Log、AuroraDB などで同じ名前のスタックを定義しているため、複数のサンプルを同時にデプロイした場合は後から実行した設定で上書きされます。スタックの名前を変えることで並列にデプロイすることも可能です。詳しくはそれぞれのサンプルのコードをご覧ください。
-
-# 7. 単一アカウントへのデプロイ（Standalone 版）
-
-（マルチアカウント版のセットアップを行う場合は Step8 を参照してください）
-
-## 7.1. 新しいアカウントを作成する
-
-Orgnizations を使って新しいアカウントを作成する。（Organizations を使用しない単一のアカウントを利用することも可能ですが、後にマルチアカウント管理の環境に移行することが想定される場合は Organizations 配下のメンバーアカウント使用を推奨します）
-
-## 7.2. AWS Chatbot の事前準備として Slack workspaces の設定を行う
-
-参照: `Appendix B`
-
-## 7.3. ガバナンスベース（Standalone 版)をデプロイする
-
-対象のアカウントとリージョンの組み合わせで、初めて CDK を実行する場合、以下のように CDK を bootstrap する必要があります。
-
-```
-cdk bootstrap --app "npx ts-node bin/blea-base-sa.ts" -c environment=dev --profile prof_dev
-```
-
-ガバナンスベースをデプロイします。
-
-```
-cdk deploy "*" --app "npx ts-node bin/blea-base-sa.ts" -c environment=dev --profile prof_dev
-```
-
-## 7.4. (オプション) 他のベースラインセットアップ
-
-AWS はいくつかの運用上のベースラインサービスを提供しています。必要に応じてこれらのサービスのセットアップを行なってください。
-
-### EC2 管理のため AWS Systems Manager Quick Setup を実施する
-
-AWS Systems Manager Quick Setup を使うことで、EC2 の管理に必要な基本的なセットアップを自動化できます。
-セットアップ手順: https://docs.aws.amazon.com/systems-manager/latest/userguide/quick-setup-host-management.html
-
-Quick Setup は以下の機能を提供します:
-
-- Systems Manager で必要となる AWS Identity and Access Management (IAM) インスタンスプロファイルロールの設定
-- SSM Agent の隔週自動アップデート
-- 30 分ごとのインベントリメタデータの収集
-- インスタンスのパッチ不足を検出するための日次スキャン
-- 初回のみの、Amazon CloudWatch agent のインストールと設定
-- CloudWatch agent の月次自動アップデート
-
-## 7.5. サンプルアプリケーションのデプロイ
-
-サンプルアプリケーションのデプロイ（--app の指定を変更することで AutoScalingGroup や EC2 のデプロイも可能）
-
-```
-cdk deploy "*" --app "npx ts-node bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev
-
-```
-
-以上で単一アカウントに対するベースラインおよびサンプルアプリケーションのデプロイが完了しました。
-
-# 8. マルチアカウント環境へのデプロイ
-
-## 8.1. ControlTower のセットアップ
-
-ControlTower をセットアップします。
-See: https://docs.aws.amazon.com/controltower/latest/userguide/setting-up.html
-
-## 8.2. セキュリティサービスのセットアップ
-
-Organizations 全体に対し、SecurityHub, GuardDuty そして IAM Access Analyzer を有効化します。ここでは委任アカウントとして Audit アカウントを指定します。
-
-1. SecurityHub
-
-- https://docs.aws.amazon.com/securityhub/latest/userguide/designate-orgs-admin-account.html
-- https://docs.aws.amazon.com/securityhub/latest/userguide/accounts-orgs-auto-enable.html
-
-2. GuardDuty
-
-- https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_organizations.html
-
-3. IAM Access Analyzer
-
-- https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-settings.html#access-analyzer-delegated-administrator
-
-## 8.3. ガバナンスベースのデプロイ(Audit アカウントに対して)
-
-### AWS Chatbot 用の Slack セットアップ
-
-Audit account の AWS Chatbot に Slack Workspace をセットアップする。 \
-`Appendix B` を参照。
-
-### デプロイ
-
-AWS SSO を使ってマネジメントアカウントにログインする。
-
-> Audit アカウントは マネジメントアカウントの `AWSControlTowerExecution` ロールでのみセットアップが可能です（ControlTower の仕様）
-
-```
-aws sso login --profile ct-management-sso
-```
-
-CDK 用バケットのブートストラップ(初回のみ)
-
-```
-cdk bootstrap  --app "npx ts-node bin/blea-base-ct-audit.ts" -c environment=ctaudit --profile ct-audit-exec
-```
-
-Audit アカウントのガバナンスベースをデプロイ
-
-```
-cdk deploy "*" --app "npx ts-node bin/blea-base-ct-audit.ts" -c environment=ctaudit --profile ct-audit-exec
-```
-
-## 8.4. 新規ゲストアカウントの作成
-
-ControlTower の Account Vending Machine を使ってゲストアカウントを新規に作成する。
-
-## 8.5. ゲストカウントのガバナンスベースをデプロイ
-
-AWS SSO を使ってゲストアカウントにログイン
-
-```
-aws sso login --profile ct-guest-sso
-```
-
-CDK 用バケットのブートストラップ(初回のみ)
-
-```
-cdk bootstrap --app "npx ts-node bin/blea-base-ct-guest.ts" -c environment=dev --profile ct-guest # First time only
-```
-
-ゲストアカウントのガバナンスベースをデプロイ
-
-```
-cdk deploy "*" --app "npx ts-node bin/blea-base-ct-guest.ts" -c environment=dev --profile ct-guest
-```
-
-## 8.6. (オプション) 他のベースラインのセットアップ（ゲストアカウント）
-
-AWS はいくつかの運用上のベースラインサービスを提供しています。必要に応じてこれらのサービスのセットアップを行なってください。
-
-### EC2 管理のため AWS Systems Manager Quick Setup を実施する
-
-AWS Systems Manager Quick Setup を使うことで、EC2 の管理に必要な基本的なセットアップを自動化できます。
-セットアップ手順: https://docs.aws.amazon.com/systems-manager/latest/userguide/quick-setup-host-management.html
-
-Quick Setup は以下の機能を提供します:
-
-- Systems Manager で必要となる AWS Identity and Access Management (IAM) インスタンスプロファイルロールの設定
-- SSM Agent の隔週自動アップデート
-- 30 分ごとのインベントリメタデータの収集
-- インスタンスのパッチ不足を検出するための日次スキャン
-- 初回のみの、Amazon CloudWatch agent のインストールと設定
-- CloudWatch agent の月次自動アップデート
-
-## 8.7. サンプルアプリケーションのデプロイ
-
-サンプルアプリケーションのデプロイ（--app の指定を変更することで AutoScalingGroup や EC2 のデプロイも可能）
-
-```
-cdk deploy "*" --app "npx ts-node bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile ct-guest
-```
-
-以上でマルチアカウントに対するベースラインおよびサンプルアプリケーションのデプロイが完了しました。
-
-# 9. 修復
-
-ガバナンスベースをデプロイした後でも、Security Hub のベンチマークレポートで 重要度が CRITICAL あるいは HIGH のレベルでレポートされる問題(Issues)があります。これらに対して手動で対応が必要です。
-
-> オプション: Security Hub の 検出項目を無効化することもできます（推奨しません。無効化する場合はセキュリティリスクを十分に評価した上で実施して下さい）。
-
-- https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-enable-disable-controls.html
-
-## 9.1. ルートユーザに対して MFA を有効化する
-
-ルートユーザに対する MFA の設定は手動で実施する必要があります。ルートユーザとはマネジメントコンソールにログインする際に、E メールアドレスを使ってログインするユーザのことです。
-
-MFA に関連する Security Hub コントロール（CRITICAL レベル）
-
-- [CIS.1.13] Ensure MFA is enabled for the "root" account
-  - https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-cis-controls-1.13
-- [CIS.1.14] Ensure hardware MFA is enabled for the "root" account
-  - https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-cis-controls-1.14
-- [IAM.6] Hardware MFA should be enabled for the root user
-  - https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-iam-6
-
-修復方法:
-
-1. Organizations メンバアカウントのルートユーザにアクセスする
-
-- https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_access-as-root
-
-2. ルートユーザに対してハードウェア MFA を有効化する
-
-- https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_enable_physical.html#enable-hw-mfa-for-root
-
-## 9.2. EC2 のメタデータアクセスに IMDSv2 を使う
-
-EC2 インスタンスのメタデータアクセスには IDMSv2 のみを使用することが推奨されています。修復については以下のドキュメントを参照してください。
-
-- [EC2.8] EC2 instances should use IMDSv2
-  - https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-ec2-8
-
-# Appendix. A: CloudShell によるデプロイメント
-
-CloudShell を使い、マネジメントコンソールからこのテンプレートをデプロイすることが可能です。
-ただし ClouShell は 120 日間使用しないとセットアップした環境のデータを削除することに注意してください。
-
-see: https://docs.aws.amazon.com/cloudshell/latest/userguide/limits.html
-
-## A.1. CloudShell を起動する
-
-- AWS マネジメントコンソールの [>_] アイコンをクリックして CloudShell を起動する (画面右上のアカウント名の隣)
-  ![OpenConsole](doc/images/CloudShell-OpenConsole.png)
-
-## A.2. CDK の実行環境をセットアップする
-
-See: https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/getting_started.html
-
-- npm をアップデートする
-
-```
-sudo npm -g install npm
-```
-
-- TypeScript 2.7 or later をインストールする
-
-```
-sudo npm -g install typescript
-```
-
-- CDK 1.100.0 or later をインストールする
-
-```
-sudo npm install -g aws-cdk
-```
-
-## A.3. CDK コードをアップロードする
-
-1. デプロイ対象の CDK コードをダウンロードし、zip 等でアーカイブする。
-2. CloudShell の画面から [Action]-[Upload File] をクリックし、アーカイブしたファイルをアップロードする
-   ![UploadFiles](doc/images/CloudShell-UploadFiles.png)
-
-3. アップロードしたファイルを展開する
-
-- CloudShell で git clone して CDK コードを取得してもよい
-
-## A.4. ビルド
-
-```
-cd path-to-source
-npm ci
+```sh
+cd usecases/base-standalone
 npm run build
 ```
 
-# Appendix.B AWS Chatbot 用に Slack を設定する
+初めて CDK を実行する場合は、対象のユースケースディレクトリへ移動し、CDK を bootstrap します。これは対象のアカウントとリージョンの組み合わせで初めて CDK を実行するときに必要です。
 
-アラームを Slack に送るためには BLEA-ChatbotSecurity および BLEA-ChatbotMonitor stack をデプロイします。これらのスタックをデプロイする前に、AWS Chatbot に対してチャットクライアントのセットアップが必要です。この作業を行なっていないとスタックのデプロイは櫛比します。
-AWS Chatbot の設定手順は以下の通りです。
-
-## B.1. Slack に workspace と channel を作る
-
-(この手順は Slack での操作です) workspace を作り、メッセージを受信したい Slack channel を作ります。Slack channel ID をメモしてください(channel ID はチャネル名を右クリックして"Copy Link"でコピーできます). このリンクは次のようになります。 https://your-work-space.slack.com/archives/C01XXXXXXXX. ここで、 `C01XXXXXXXX` が
-そのチャネルの channel ID です。
-
-## B.2. AWS Chatbot でチャットクライアントをセットアップする
-
-- 以下の手順の "Setting up AWS Chatbot with Slack" の 1〜4 にしたがって、Slack workspace を AWS Chatbot に作成してください。
-  - https://docs.aws.amazon.com/chatbot/latest/adminguide/getting-started.html
-
-## B.3. Context file に workspace ID と channel ID を設定する
-
-cdk.json または cdk.context.json に次のように Slack workspace ID と Channel ID を設定します。セキュリティ用とモニタリング用で Channel は異なるものを指定してください:
-
+```sh
+npx cdk bootstrap -c environment=dev --profile prof_dev
 ```
+
+> NOTE:
+>
+> - ここでは BLEA 環境にインストールしたローカルの cdk を利用するため、`npx`を使用しています。直接`cdk`からコマンドを始めた場合は、グローバルインストールされた cdk が利用されます。
+> - cdk コマンドを利用するときに便利なオプションがあります。[デプロイ時の承認をスキップしロールバックさせない](doc/HowTo_ja.md#デプロイ時の承認をスキップしロールバックさせない)を参照してください。
+
+ガバナンスベースをデプロイします。
+
+```sh
+npx cdk deploy --all -c environment=dev --profile prof_dev
+```
+
+これによって以下の機能がセットアップされます
+
+- CloudTrail による API のロギング
+- AWS Config による構成変更の記録
+- GuardDuty による異常なふるまいの検知
+- SecurityHub によるベストプラクティスからの逸脱検知 (AWS Foundational Security Best Practice, CIS benchmark)
+- デフォルトセキュリティグループの閉塞 （逸脱した場合自動修復）
+- AWS Health イベントの通知
+- セキュリティに影響する変更操作の通知（一部）
+- Slack によるセキュリティイベントの通知
+
+#### 4-3. (オプション) 他のベースラインセットアップを手動でセットアップする
+
+ガバナンスベースでセットアップする他に AWS はいくつかの運用上のベースラインサービスを提供しています。必要に応じてこれらのサービスのセットアップを行なってください。
+
+##### a. EC2 管理のため AWS Systems Manager Quick Setup を実施する
+
+EC2 を利用する場合は SystemsManager を利用して管理することをお勧めします。AWS Systems Manager Quick Setup を使うことで、EC2 の管理に必要な基本的なセットアップを自動化できます。
+セットアップ手順: [https://docs.aws.amazon.com/systems-manager/latest/userguide/quick-setup-host-management.html]
+
+Quick Setup は以下の機能を提供します:
+
+- Systems Manager で必要となる AWS Identity and Access Management (IAM) インスタンスプロファイルロールの設定
+- SSM Agent の隔週自動アップデート
+- 30 分ごとのインベントリメタデータの収集
+- インスタンスのパッチ不足を検出するための日次スキャン
+- 初回のみの、Amazon CloudWatch agent のインストールと設定
+- CloudWatch agent の月次自動アップデート
+
+##### b. Trusted Advisor の検知結果レポート
+
+TrustedAdvisor は AWS のベストプラクティスをフォローするためのアドバイスを提供します。レポート内容を定期的にメールで受け取ることが可能です。詳細は下記ドキュメントを参照してください。
+
+- See: [https://docs.aws.amazon.com/awssupport/latest/user/get-started-with-aws-trusted-advisor.html#preferences-trusted-advisor-console]
+
+### 5. ゲストアプリケーションのサンプルをデプロイする
+
+ガバナンスベースの設定が完了したら、その上にゲストアプリケーションを導入します。
+ここではゲストアプリケーションの例として、ECS ベースの Web アプリケーションサンプルをデプロイする手順を示します。
+
+#### 5-1. ゲストアプリケーションの Context を設定する
+
+デプロイする前にゲストアプリケーションの設定を行います。
+Web アプリケーションのサンプルが配置された `usecases/guest-webapp-sample` に移動して cdk.json を編集します。
+
+usecases/guest-webapp-sample/cdk.json
+
+```json
+{
+  "app": "npx ts-node bin/blea-guest-ecsapp-sample.ts",
+  "context": {
+    "dev": {
+      "description": "Context samples for Dev - Anonymous account & region",
+      "envName": "Development",
+      "vpcCidr": "10.100.0.0/16",
+      "monitoringNotifyEmail": "notify-monitoring@example.com",
+      "dbUser": "dbadmin",
       "slackNotifier": {
         "workspaceId": "T8XXXXXXX",
-        "channelIdSec": "C01XXXXXXXX",
         "channelIdMon": "C01YYYYYYYY"
-      }
+      },
+      "domainName": "example.com",
+      "hostedZoneId": "Z0123456789",
+      "hostName": "www"
+    }
+  }
+}
 ```
 
-- workspaceId: AWS Chatbot の Workspace details からコピー
-- channelIdSec: Slack App からコピー - セキュリティアラーム用
-- channelIdMon: Slack App からコピー - モニタリングアラーム用
+設定内容は以下の通りです:
 
-# Security
+| key                        | value                                                                                                                                          |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| description                | 設定についてのコメント                                                                                                                         |
+| envName                    | 環境名。これが各々のリソースタグに設定されます。                                                                                               |
+| vpcCidr                    | 作成する VPC の CIDR                                                                                                                           |
+| monitoringNotifyEmail      | システム監視についての通知が送られるメールアドレス。内容は Slack と同様です。                                                                  |
+| dbUser                     | AuroraDB へのログインユーザ名                                                                                                                  |
+| slackNotifier.workspaceId  | AWS Chatbot に設定した Slack workspace の ID                                                                                                   |
+| slackNotifier.channelIdMon | AWS Chatbot に設定した Slack channel の ID。システム監視についての通知が行われます。セキュリティのチャネルとは別のチャネルを指定してください。 |
+
+#### 5-2. ゲストアプリケーションをデプロイする
+
+```sh
+cd usecases/guest-webapp-sample
+npx cdk deploy --all -c environment=dev --profile prof_dev
+```
+
+以上で単一アカウントに対するベースラインおよびサンプルアプリケーションのデプロイが完了します。
+
+> NOTE:
+>
+> Aurora を含めた全てのリソースをデプロイ完了するまでには 30 分程度かかります。一部のリソースだけをデプロイしたい場合は対象のスタック名を明示的に指定してください。スタック名はアプリケーションコード(ここでは bin/blea-guest-ecsapp-sample.ts)の中で`${pjPrefix}-ECSApp`のように表現されています。
+>
+> ```sh
+> cd usecases/guest-webapp-sample
+> npx cdk deploy "BLEA-ECSApp" --app "npx ts-node bin/blea-guest-asgapp-sample.ts" -c environment=dev --profile prof_dev
+> ```
+>
+> NOTE:
+> guest-webapp-sample は bin ディレクトリ配下に複数のバリエーションを用意しています。デフォルトでは cdk.json の `app` に指定されたアプリケーション(blea-guest-ecsapp-sample.ts)がデプロイされます。 別のアプリケーションをデプロイしたい場合は、以下のように cdk の引数で明示的に `--app` を指定することで対応可能です。同一ユースケース内であれば cdk.json の Context はいずれも同じ内容で動作します。
+>
+> ```sh
+> cd usecases/guest-webapp-sample
+> npx cdk deploy --all --app "npx ts-node bin/blea-guest-asgapp-sample.ts" -c environment=dev --profile prof_dev
+> ```
+
+#### 5-3. 独自のアプリケーションを開発する
+
+以後はこのサンプルコードを起点にして、自分のユースケースに合わせたアプリケーションを開発していくことになります。一般的な開発に必要な情報を示します。
+
+- [通常の開発の流れ](doc/HowTo_ja.md#通常の開発の流れ)
+- [依存パッケージの最新化](doc/HowTo_ja.md#依存パッケージの最新化)
+
+#### 5-4. セキュリティ指摘事項の修復
+
+ガバナンスベースをデプロイした後でも、Security Hub のベンチマークレポートで 重要度が CRITICAL あるいは HIGH のレベルでレポートされる検出項目があります。これらに対しては手動で対応が必要です。必要に応じて修復(Remediation)を実施してください。
+
+- [セキュリティ指摘事項の修復](doc/HowTo_ja.md#セキュリティ指摘事項の修復)
+
+## Security
 
 See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
 
-# License
+## License
 
 This library is licensed under the MIT-0 License. See the LICENSE file.
