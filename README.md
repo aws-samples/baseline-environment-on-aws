@@ -209,7 +209,7 @@ The contents of this setting are as follows.
 
 > NOTE: See the following explanation for how to use Context
 >
-> - [Manage personal environment by cdk.context.json](doc/HowTo.md#cdkcontextjson-Manage-personal-environment)
+> - [Manage personal environment by cdk.context.json](doc/HowTo.md#Manage-personal-environment-by-cdkcontextjson)
 >
 > - [Accessing context in application](doc/HowTo.md#accessing-context-in-application)
 
@@ -352,7 +352,7 @@ This completes the baseline and sample application deployment for a single accou
 From now on, you will use this sample code as a starting point to develop applications tailored to your use case. Indicates information necessary for general development.
 
 - [Development process](doc/HowTo.md#development-process)
-- [Update package dependencies](doc/HowTo.md#update-dependencies)
+- [Update package dependencies](doc/HowTo.md#update-package-dependencies)
 
 #### 5-4. Remediation of security issues
 

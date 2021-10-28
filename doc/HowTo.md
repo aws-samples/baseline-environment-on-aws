@@ -7,10 +7,10 @@ Here we will describe howTo for various settings.
 - [VisualStudioCode Setup Instructions](#VisualStudioCode-Setup-Instructions)
 - [Git pre-commit hook setup](#Git-pre-commit-hook-setup)
 - [Skip Deployment Approvals and Don't Roll Back](#skip-deployment-approvals-and-dont-roll-back)
-- [Manage personal environment by cdk.context.json](#cdkcontextjson-Manage-personal-environment)
+- [Manage personal environment by cdk.context.json](#Manage-personal-environment-by-cdkcontextjson)
 - [Set up Slack for AWS ChatBot](#set-up-slack-for-aws-chatbot)
 - [Deployment with CloudShell](#deployment-with-cloudshell)
-- [Update package dependencies](#update-dependencies)
+- [Update package dependencies](#update-package-dependencies)
 - [Accessing context in application](#accessing-context-in-application)
 - [Development process](#development-process)
 - [Remediate Security Issues](#remediate-security-issues)
@@ -39,7 +39,7 @@ For macOS, select [Running Visual Studio Code on macOS](https://code.visualstudi
 
 If you clone this repository in a subsequent step and open it in VSCode, you will be prompted to install the recommended extension. Now click on _Install_.
 
-! [vscode-recommended-extensions](doc/images/VSCode-Recommended-Extensions.jpg)
+![vscode-recommended-extensions](../doc/images/VSCode-Recommended-Extensions.jpg)
 
 This recommended extension is defined in `.vscode/extensions.json`. For more information about this feature, see [Managing Extensions in Visual Studio Code](https://code.visualstudio.com/docs/editor/extension-marketplace#_workspace-recommended-extensions).
 
@@ -340,6 +340,14 @@ If your CDK code requires additional packages, install them as follows: Here we 
 > ```
 
 > NOTE:
+> When you update a CDK source code, your snap shot test (npm run test) will be failed because a generated template is differ from previous one.
+> If your CDK code is correct, you need to update a snapshot using command below.
+>
+> ```sh
+> # Update snapshot
+> npm run test -- -u
+> ```
+>
 > To build all use cases, run the following using workspaces:
 >
 > ```sh
@@ -349,6 +357,7 @@ If your CDK code requires additional packages, install them as follows: Here we 
 > npm run format
 > npm run clean --workspaces
 > npm run build --workspaces
+> npm run test --workspaces -- -u      # update snaphosts
 > npm run test --workspaces
 > ```
 >

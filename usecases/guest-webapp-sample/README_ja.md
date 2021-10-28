@@ -1,22 +1,30 @@
-### ECS システムサンプル
+# Web アプリケーションサンプルアーキテクチャ図
 
-![BLEA-GuestSampleECS](doc/images/BLEA-GuestSampleECS.png)
+## Web アプリケーションサンプル (ECS)
+
+![ECS](../../doc/images/BLEA-GuestSampleWebECS.png)
 
 - bin/blea-guest-ecsapp-sample.ts
   - ECS/Fargate+AuroraPostgreSQL を使ったサンプルシステム
 
+## Web アプリケーションサンプル (ECS+SSL)
 
+![ECS-and-SSL](../../doc/images/BLEA-GuestSampleWebECSSSL.png)
 
-### AutoSacling システムサンプル
+- bin/blea-guest-ecsapp-ssl-sample.ts
+  - ECS/Fargate+AuroraPostgreSQL を使ったサンプルシステム
+  - 独自ドメインによる SSL 証明書対応
 
-![BLEA-GuestSampleASG](doc/images/BLEA-GuestSampleASG.png)
+## Web アプリケーションサンプル (Autoscaling Group)
+
+![ASG](../../doc/images/BLEA-GuestSampleWebASG.png)
 
 - bin/blea-guest-asgapp-sample.ts
   - EC2 Autoscaling Group+AuroraPostgreSQL を使ったサンプルシステム
 
-### EC2 システムサンプル
+## Web アプリケーションサンプル (EC2)
 
-![BLEA-GuestSampleEC2](doc/images/BLEA-GuestSampleEC2.png)
+![EC2](../../doc/images/BLEA-GuestSampleWebEC2.png)
 
 - bin/blea-guest-ec2app-sample.ts
   - EC2+AuroraPostgreSQL を使ったサンプルシステム
