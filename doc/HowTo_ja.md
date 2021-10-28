@@ -39,7 +39,7 @@ macOS の場合、 [Running Visual Studio Code on macOS](https://code.visualstud
 
 後続の手順でこのリポジトリを clone して VSCode で開くと、推奨 Extension のインストールを促されます。ここで _Install_ をクリックます。
 
-![VSCode-Recommended-Extensions](doc/images/VSCode-Recommended-Extensions.jpg)
+![VSCode-Recommended-Extensions](../doc/images/VSCode-Recommended-Extensions.jpg)
 
 この推奨 Extension は `.vscode/extensions.json` で定義されています。この機能の詳細は [Managing Extensions in Visual Studio Code](https://code.visualstudio.com/docs/editor/extension-marketplace#_workspace-recommended-extensions) をご参照ください。
 
@@ -335,11 +335,19 @@ CDK コードで追加のパッケージが必要になった場合は、以下�
 > npm run format
 > # build
 > npm run build
-> # snapshot test
+> # snapshot test (see NOTE)
 > npm run test
 > ```
 
 > NOTE:
+>
+> CDK コードを変更した場合、以前とは異なるテンプレートが生成されるため、スナップショットテスト (npm run test) が失敗します
+> テンプレートが正しく生成されているならば、次のようにスナップショットの更新が必要です。
+>
+> ```sh
+> # Update snapshot
+> npm run test -- -u
+> ```
 >
 > 全てのユースケースをビルドするには workspaces を使用して次のように実行します。
 >
@@ -350,6 +358,7 @@ CDK コードで追加のパッケージが必要になった場合は、以下�
 > npm run format
 > npm run clean --workspaces
 > npm run build --workspaces
+> npm run test --workspaces -- -u      # update snaphosts
 > npm run test --workspaces
 > ```
 >
