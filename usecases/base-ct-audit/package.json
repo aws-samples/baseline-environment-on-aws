@@ -4,9 +4,6 @@
   "version": "1.0.0",
   "description": "Baseline for AWS Control Tower audit account",
   "license": "MIT-0",
-  "bin": {
-    "blea-base-ct-audit": "bin/blea-base-ct-audit.js"
-  },
   "scripts": {
     "synth:dev": "npx cdk synth -c environment=dev-audit",
     "depcheck": "npx depcheck --ignore-dirs cdk.out",

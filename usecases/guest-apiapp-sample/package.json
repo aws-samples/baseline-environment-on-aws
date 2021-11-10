@@ -4,9 +4,6 @@
   "version": "1.0.0",
   "description": "Sample servlerless application with BLEA",
   "license": "MIT-0",
-  "bin": {
-    "blea-guest-apiapp-nodejs-sample": "bin/blea-guest-apiapp-nodejs-sample.js"
-  },
   "scripts": {
     "synth:dev": "npx cdk synth -c environment=dev",
     "depcheck": "npx depcheck --ignore-dirs cdk.out",

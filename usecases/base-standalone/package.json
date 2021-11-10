@@ -4,9 +4,6 @@
   "version": "1.0.0",
   "description": "Baseline for standalone accounts",
   "license": "MIT-0",
-  "bin": {
-    "blea-base-sa": "bin/blea-base-sa.js"
-  },
   "scripts": {
     "synth:dev": "npx cdk synth -c environment=dev",
     "depcheck": "npx depcheck --ignore-dirs cdk.out",

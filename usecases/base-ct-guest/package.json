@@ -4,9 +4,6 @@
   "version": "1.0.0",
   "description": "Baseline for AWS Control Tower guest accounts",
   "license": "MIT-0",
-  "bin": {
-    "blea-base-ct-guest": "bin/blea-base-ct-guest.js"
-  },
   "scripts": {
     "synth:dev": "npx cdk synth -c environment=dev",
     "depcheck": "npx depcheck --ignore-dirs cdk.out",

@@ -3,9 +3,6 @@
   "name": "bleadeploy",
   "version": "1.0.0",
   "description": "Pipelines for BLEA",
-  "bin": {
-    "bleadeploy": "bin/bleadeploy.js"
-  },
   "license": "MIT-0",
   "scripts": {
     "synth:dev": "npx cdk synth -c environment=dev",

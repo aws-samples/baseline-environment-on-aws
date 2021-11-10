@@ -4,9 +4,6 @@
   "version": "1.0.0",
   "description": "Sample web application with BLEA",
   "license": "MIT-0",
-  "bin": {
-    "blea-guest-ecsapp-sample": "bin/blea-guest-ecsapp-sample.js"
-  },
   "scripts": {
     "synth:dev": "npx cdk synth -c environment=dev",
     "depcheck": "npx depcheck --ignore-dirs cdk.out",
