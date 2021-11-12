@@ -1,7 +1,11 @@
 name: build
+
 on:
-  - push
-  - pull_request
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
 jobs:
   build:
     name: Build on Node.js v${{ matrix.node }} on ${{ matrix.os }}
