@@ -10,7 +10,7 @@
   "license": "MIT-0",
   "engines": {
     "node": ">=14",
-    "npm": ">=7"
+    "npm": ">=8.1.0"
   },
   "workspaces": [
     "usecases/*",
