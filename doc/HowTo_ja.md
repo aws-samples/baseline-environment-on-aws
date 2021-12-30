@@ -45,7 +45,7 @@ macOS の場合、 [Running Visual Studio Code on macOS](https://code.visualstud
 
 ### VSCode Extension の設定
 
-`Ctrl + Shift + p` (macOS: `Ctrl + Command + p`) を押してコマンドパレットを表示し、 `Preferences: Open Settings (JSON)` を選択します。以下の設定を追加します。
+`Ctrl + Shift + p` (macOS: `Command + Shift + p`) を押してコマンドパレットを表示し、 `Preferences: Open Settings (JSON)` を選択します。以下の設定を追加します。
 これによって保存時にコードの Linting、フォーマッティング等が行われるようになります。
 
 ```json
