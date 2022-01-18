@@ -404,72 +404,72 @@ Object {
 exports[`BLEA Guest Stack GuestAccount Serverless App Stacks 5`] = `
 Object {
   "Mappings": Object {
-    "LambdaInsightsVersions10980": Object {
+    "CloudwatchlambdainsightsversionMap": Object {
       "af-south-1": Object {
-        "arn": "arn:aws:lambda:af-south-1:012438385374:layer:LambdaInsightsExtension:8",
+        "1_0_98_0_x86_64": "arn:aws:lambda:af-south-1:012438385374:layer:LambdaInsightsExtension:8",
       },
       "ap-east-1": Object {
-        "arn": "arn:aws:lambda:ap-east-1:519774774795:layer:LambdaInsightsExtension:8",
+        "1_0_98_0_x86_64": "arn:aws:lambda:ap-east-1:519774774795:layer:LambdaInsightsExtension:8",
       },
       "ap-northeast-1": Object {
-        "arn": "arn:aws:lambda:ap-northeast-1:580247275435:layer:LambdaInsightsExtension:14",
+        "1_0_98_0_x86_64": "arn:aws:lambda:ap-northeast-1:580247275435:layer:LambdaInsightsExtension:14",
       },
       "ap-northeast-2": Object {
-        "arn": "arn:aws:lambda:ap-northeast-2:580247275435:layer:LambdaInsightsExtension:14",
+        "1_0_98_0_x86_64": "arn:aws:lambda:ap-northeast-2:580247275435:layer:LambdaInsightsExtension:14",
       },
       "ap-south-1": Object {
-        "arn": "arn:aws:lambda:ap-south-1:580247275435:layer:LambdaInsightsExtension:14",
+        "1_0_98_0_x86_64": "arn:aws:lambda:ap-south-1:580247275435:layer:LambdaInsightsExtension:14",
       },
       "ap-southeast-1": Object {
-        "arn": "arn:aws:lambda:ap-southeast-1:580247275435:layer:LambdaInsightsExtension:14",
+        "1_0_98_0_x86_64": "arn:aws:lambda:ap-southeast-1:580247275435:layer:LambdaInsightsExtension:14",
       },
       "ap-southeast-2": Object {
-        "arn": "arn:aws:lambda:ap-southeast-2:580247275435:layer:LambdaInsightsExtension:14",
+        "1_0_98_0_x86_64": "arn:aws:lambda:ap-southeast-2:580247275435:layer:LambdaInsightsExtension:14",
       },
       "ca-central-1": Object {
-        "arn": "arn:aws:lambda:ca-central-1:580247275435:layer:LambdaInsightsExtension:14",
+        "1_0_98_0_x86_64": "arn:aws:lambda:ca-central-1:580247275435:layer:LambdaInsightsExtension:14",
       },
       "cn-north-1": Object {
-        "arn": "arn:aws-cn:lambda:cn-north-1:488211338238:layer:LambdaInsightsExtension:8",
+        "1_0_98_0_x86_64": "arn:aws-cn:lambda:cn-north-1:488211338238:layer:LambdaInsightsExtension:8",
       },
       "cn-northwest-1": Object {
-        "arn": "arn:aws-cn:lambda:cn-northwest-1:488211338238:layer:LambdaInsightsExtension:8",
+        "1_0_98_0_x86_64": "arn:aws-cn:lambda:cn-northwest-1:488211338238:layer:LambdaInsightsExtension:8",
       },
       "eu-central-1": Object {
-        "arn": "arn:aws:lambda:eu-central-1:580247275435:layer:LambdaInsightsExtension:14",
+        "1_0_98_0_x86_64": "arn:aws:lambda:eu-central-1:580247275435:layer:LambdaInsightsExtension:14",
       },
       "eu-north-1": Object {
-        "arn": "arn:aws:lambda:eu-north-1:580247275435:layer:LambdaInsightsExtension:14",
+        "1_0_98_0_x86_64": "arn:aws:lambda:eu-north-1:580247275435:layer:LambdaInsightsExtension:14",
       },
       "eu-south-1": Object {
-        "arn": "arn:aws:lambda:eu-south-1:339249233099:layer:LambdaInsightsExtension:8",
+        "1_0_98_0_x86_64": "arn:aws:lambda:eu-south-1:339249233099:layer:LambdaInsightsExtension:8",
       },
       "eu-west-1": Object {
-        "arn": "arn:aws:lambda:eu-west-1:580247275435:layer:LambdaInsightsExtension:14",
+        "1_0_98_0_x86_64": "arn:aws:lambda:eu-west-1:580247275435:layer:LambdaInsightsExtension:14",
       },
       "eu-west-2": Object {
-        "arn": "arn:aws:lambda:eu-west-2:580247275435:layer:LambdaInsightsExtension:14",
+        "1_0_98_0_x86_64": "arn:aws:lambda:eu-west-2:580247275435:layer:LambdaInsightsExtension:14",
       },
       "eu-west-3": Object {
-        "arn": "arn:aws:lambda:eu-west-3:580247275435:layer:LambdaInsightsExtension:14",
+        "1_0_98_0_x86_64": "arn:aws:lambda:eu-west-3:580247275435:layer:LambdaInsightsExtension:14",
       },
       "me-south-1": Object {
-        "arn": "arn:aws:lambda:me-south-1:285320876703:layer:LambdaInsightsExtension:8",
+        "1_0_98_0_x86_64": "arn:aws:lambda:me-south-1:285320876703:layer:LambdaInsightsExtension:8",
       },
       "sa-east-1": Object {
-        "arn": "arn:aws:lambda:sa-east-1:580247275435:layer:LambdaInsightsExtension:14",
+        "1_0_98_0_x86_64": "arn:aws:lambda:sa-east-1:580247275435:layer:LambdaInsightsExtension:14",
       },
       "us-east-1": Object {
-        "arn": "arn:aws:lambda:us-east-1:580247275435:layer:LambdaInsightsExtension:14",
+        "1_0_98_0_x86_64": "arn:aws:lambda:us-east-1:580247275435:layer:LambdaInsightsExtension:14",
       },
       "us-east-2": Object {
-        "arn": "arn:aws:lambda:us-east-2:580247275435:layer:LambdaInsightsExtension:14",
+        "1_0_98_0_x86_64": "arn:aws:lambda:us-east-2:580247275435:layer:LambdaInsightsExtension:14",
       },
       "us-west-1": Object {
-        "arn": "arn:aws:lambda:us-west-1:580247275435:layer:LambdaInsightsExtension:14",
+        "1_0_98_0_x86_64": "arn:aws:lambda:us-west-1:580247275435:layer:LambdaInsightsExtension:14",
       },
       "us-west-2": Object {
-        "arn": "arn:aws:lambda:us-west-2:580247275435:layer:LambdaInsightsExtension:14",
+        "1_0_98_0_x86_64": "arn:aws:lambda:us-west-2:580247275435:layer:LambdaInsightsExtension:14",
       },
     },
   },
@@ -521,18 +521,6 @@ Object {
       "Description": "S3 key for asset version \\"4cf56171781b4ca623a6615507787ea079f07c78c3a65ebfed6bcf64966c2d2f\\"",
       "Type": "String",
     },
-    "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827ArtifactHash1355580A": Object {
-      "Description": "Artifact hash for asset \\"b120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827\\"",
-      "Type": "String",
-    },
-    "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827S3Bucket2070BA0A": Object {
-      "Description": "S3 bucket for asset \\"b120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827\\"",
-      "Type": "String",
-    },
-    "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827S3VersionKeyB95D17C3": Object {
-      "Description": "S3 key for asset version \\"b120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827\\"",
-      "Type": "String",
-    },
     "AssetParametersb74b95cb93b2a0e0ae551df2ba1ef59e408a57891811c704c4fe12bac59b3626ArtifactHash365663D4": Object {
       "Description": "Artifact hash for asset \\"b74b95cb93b2a0e0ae551df2ba1ef59e408a57891811c704c4fe12bac59b3626\\"",
       "Type": "String",
@@ -543,6 +531,18 @@ Object {
     },
     "AssetParametersb74b95cb93b2a0e0ae551df2ba1ef59e408a57891811c704c4fe12bac59b3626S3VersionKey5FC32570": Object {
       "Description": "S3 key for asset version \\"b74b95cb93b2a0e0ae551df2ba1ef59e408a57891811c704c4fe12bac59b3626\\"",
+      "Type": "String",
+    },
+    "AssetParametersc13434f8f1aa2ea30fa577b2feb208a41368b11787b752e10bfc71fe8eb919d5ArtifactHashE9AE13B7": Object {
+      "Description": "Artifact hash for asset \\"c13434f8f1aa2ea30fa577b2feb208a41368b11787b752e10bfc71fe8eb919d5\\"",
+      "Type": "String",
+    },
+    "AssetParametersc13434f8f1aa2ea30fa577b2feb208a41368b11787b752e10bfc71fe8eb919d5S3Bucket51CDED69": Object {
+      "Description": "S3 bucket for asset \\"c13434f8f1aa2ea30fa577b2feb208a41368b11787b752e10bfc71fe8eb919d5\\"",
+      "Type": "String",
+    },
+    "AssetParametersc13434f8f1aa2ea30fa577b2feb208a41368b11787b752e10bfc71fe8eb919d5S3VersionKey50C3CFF0": Object {
+      "Description": "S3 key for asset version \\"c13434f8f1aa2ea30fa577b2feb208a41368b11787b752e10bfc71fe8eb919d5\\"",
       "Type": "String",
     },
     "AssetParametersecf601678cc1f5654e65e7489e5c05b2bdf5dbfafe57f86382d8f00e4202b55cArtifactHash7396E24D": Object {
@@ -567,7 +567,7 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827S3Bucket2070BA0A",
+            "Ref": "AssetParametersc13434f8f1aa2ea30fa577b2feb208a41368b11787b752e10bfc71fe8eb919d5S3Bucket51CDED69",
           },
           "S3Key": Object {
             "Fn::Join": Array [
@@ -580,7 +580,7 @@ Object {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827S3VersionKeyB95D17C3",
+                          "Ref": "AssetParametersc13434f8f1aa2ea30fa577b2feb208a41368b11787b752e10bfc71fe8eb919d5S3VersionKey50C3CFF0",
                         },
                       ],
                     },
@@ -593,7 +593,7 @@ Object {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827S3VersionKeyB95D17C3",
+                          "Ref": "AssetParametersc13434f8f1aa2ea30fa577b2feb208a41368b11787b752e10bfc71fe8eb919d5S3VersionKey50C3CFF0",
                         },
                       ],
                     },
@@ -611,6 +611,12 @@ Object {
           ],
         },
         "Runtime": "nodejs14.x",
+        "Tags": Array [
+          Object {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+        ],
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -734,11 +740,11 @@ Object {
         "Layers": Array [
           Object {
             "Fn::FindInMap": Array [
-              "LambdaInsightsVersions10980",
+              "CloudwatchlambdainsightsversionMap",
               Object {
                 "Ref": "AWS::Region",
               },
-              "arn",
+              "1_0_98_0_x86_64",
             ],
           },
         ],
@@ -1143,11 +1149,11 @@ Object {
         "Layers": Array [
           Object {
             "Fn::FindInMap": Array [
-              "LambdaInsightsVersions10980",
+              "CloudwatchlambdainsightsversionMap",
               Object {
                 "Ref": "AWS::Region",
               },
-              "arn",
+              "1_0_98_0_x86_64",
             ],
           },
         ],
@@ -1444,11 +1450,11 @@ Object {
         "Layers": Array [
           Object {
             "Fn::FindInMap": Array [
-              "LambdaInsightsVersions10980",
+              "CloudwatchlambdainsightsversionMap",
               Object {
                 "Ref": "AWS::Region",
               },
-              "arn",
+              "1_0_98_0_x86_64",
             ],
           },
         ],
@@ -1720,6 +1726,12 @@ Object {
       "DeletionPolicy": "Retain",
       "Properties": Object {
         "RetentionInDays": 30,
+        "Tags": Array [
+          Object {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+        ],
       },
       "Type": "AWS::Logs::LogGroup",
       "UpdateReplacePolicy": "Retain",
@@ -1805,6 +1817,9 @@ Object {
       "Type": "AWS::ApiGateway::Deployment",
     },
     "RestApiDeploymentStageprod3855DE66": Object {
+      "DependsOn": Array [
+        "RestApiAccount7C83CF5A",
+      ],
       "Properties": Object {
         "AccessLogSetting": Object {
           "DestinationArn": Object {
@@ -1820,6 +1835,7 @@ Object {
         },
         "MethodSettings": Array [
           Object {
+            "DataTraceEnabled": false,
             "HttpMethod": "*",
             "LoggingLevel": "INFO",
             "MetricsEnabled": true,

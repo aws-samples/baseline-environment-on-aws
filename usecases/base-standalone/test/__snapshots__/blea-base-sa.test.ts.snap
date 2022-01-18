@@ -1344,6 +1344,100 @@ Object {
 
 exports[`BLEA Standalone Stacks GuestAccount Base Stacks 7`] = `
 Object {
+  "Mappings": Object {
+    "ServiceprincipalMap": Object {
+      "af-south-1": Object {
+        "ssm": "ssm.af-south-1.amazonaws.com",
+      },
+      "ap-east-1": Object {
+        "ssm": "ssm.ap-east-1.amazonaws.com",
+      },
+      "ap-northeast-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "ap-northeast-2": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "ap-northeast-3": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "ap-south-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "ap-southeast-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "ap-southeast-2": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "ap-southeast-3": Object {
+        "ssm": "ssm.ap-southeast-3.amazonaws.com",
+      },
+      "ca-central-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "cn-north-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "cn-northwest-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "eu-central-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "eu-north-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "eu-south-1": Object {
+        "ssm": "ssm.eu-south-1.amazonaws.com",
+      },
+      "eu-south-2": Object {
+        "ssm": "ssm.eu-south-2.amazonaws.com",
+      },
+      "eu-west-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "eu-west-2": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "eu-west-3": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "me-south-1": Object {
+        "ssm": "ssm.me-south-1.amazonaws.com",
+      },
+      "sa-east-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "us-east-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "us-east-2": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "us-gov-east-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "us-gov-west-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "us-iso-east-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "us-iso-west-1": Object {
+        "ssm": "ssm.us-iso-west-1.amazonaws.com",
+      },
+      "us-isob-east-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "us-west-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "us-west-2": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+    },
+  },
   "Resources": Object {
     "BLEARuleDefaultSecurityGroupClosed456A269D": Object {
       "Properties": Object {
@@ -1409,7 +1503,15 @@ Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
               "Principal": Object {
-                "Service": "ssm.amazonaws.com",
+                "Service": Object {
+                  "Fn::FindInMap": Array [
+                    "ServiceprincipalMap",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    "ssm",
+                  ],
+                },
               },
             },
           ],

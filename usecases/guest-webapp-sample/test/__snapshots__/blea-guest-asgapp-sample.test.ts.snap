@@ -2087,6 +2087,10 @@ chown apache.apache /var/www/html/index.html",
             "Key": "deregistration_delay.timeout_seconds",
             "Value": "60",
           },
+          Object {
+            "Key": "stickiness.enabled",
+            "Value": "false",
+          },
         ],
         "TargetType": "instance",
         "VpcId": Object {
@@ -2295,16 +2299,16 @@ chown apache.apache /var/www/html/index.html",
 exports[`BLEA Guest Stacks GuestAccount ASG App Stacks 6`] = `
 Object {
   "Parameters": Object {
-    "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827ArtifactHash1355580A": Object {
-      "Description": "Artifact hash for asset \\"b120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827\\"",
+    "AssetParametersc13434f8f1aa2ea30fa577b2feb208a41368b11787b752e10bfc71fe8eb919d5ArtifactHashE9AE13B7": Object {
+      "Description": "Artifact hash for asset \\"c13434f8f1aa2ea30fa577b2feb208a41368b11787b752e10bfc71fe8eb919d5\\"",
       "Type": "String",
     },
-    "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827S3Bucket2070BA0A": Object {
-      "Description": "S3 bucket for asset \\"b120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827\\"",
+    "AssetParametersc13434f8f1aa2ea30fa577b2feb208a41368b11787b752e10bfc71fe8eb919d5S3Bucket51CDED69": Object {
+      "Description": "S3 bucket for asset \\"c13434f8f1aa2ea30fa577b2feb208a41368b11787b752e10bfc71fe8eb919d5\\"",
       "Type": "String",
     },
-    "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827S3VersionKeyB95D17C3": Object {
-      "Description": "S3 key for asset version \\"b120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827\\"",
+    "AssetParametersc13434f8f1aa2ea30fa577b2feb208a41368b11787b752e10bfc71fe8eb919d5S3VersionKey50C3CFF0": Object {
+      "Description": "S3 key for asset version \\"c13434f8f1aa2ea30fa577b2feb208a41368b11787b752e10bfc71fe8eb919d5\\"",
       "Type": "String",
     },
   },
@@ -2579,6 +2583,7 @@ Object {
       "Type": "AWS::RDS::DBSubnetGroup",
     },
     "BLEADBAuroraPgAuroraSecretC8E806513fdaad7efa858a3daf9490cf0a702aeb": Object {
+      "DeletionPolicy": "Delete",
       "Properties": Object {
         "Description": Object {
           "Fn::Join": Array [
@@ -2605,6 +2610,7 @@ Object {
         ],
       },
       "Type": "AWS::SecretsManager::Secret",
+      "UpdateReplacePolicy": "Delete",
     },
     "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A": Object {
       "DependsOn": Array [
@@ -2614,7 +2620,7 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827S3Bucket2070BA0A",
+            "Ref": "AssetParametersc13434f8f1aa2ea30fa577b2feb208a41368b11787b752e10bfc71fe8eb919d5S3Bucket51CDED69",
           },
           "S3Key": Object {
             "Fn::Join": Array [
@@ -2627,7 +2633,7 @@ Object {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827S3VersionKeyB95D17C3",
+                          "Ref": "AssetParametersc13434f8f1aa2ea30fa577b2feb208a41368b11787b752e10bfc71fe8eb919d5S3VersionKey50C3CFF0",
                         },
                       ],
                     },
@@ -2640,7 +2646,7 @@ Object {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827S3VersionKeyB95D17C3",
+                          "Ref": "AssetParametersc13434f8f1aa2ea30fa577b2feb208a41368b11787b752e10bfc71fe8eb919d5S3VersionKey50C3CFF0",
                         },
                       ],
                     },
@@ -2658,6 +2664,12 @@ Object {
           ],
         },
         "Runtime": "nodejs14.x",
+        "Tags": Array [
+          Object {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+        ],
       },
       "Type": "AWS::Lambda::Function",
     },

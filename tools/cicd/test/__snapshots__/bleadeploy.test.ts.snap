@@ -193,6 +193,9 @@ Object {
         "Artifacts": Object {
           "Type": "CODEPIPELINE",
         },
+        "Cache": Object {
+          "Type": "NO_CACHE",
+        },
         "EncryptionKey": Object {
           "Fn::GetAtt": Array [
             "DeployStackPipelineArtifactsBucketEncryptionKeyD623D0F7",
@@ -392,6 +395,53 @@ Object {
       },
       "Type": "AWS::KMS::Key",
       "UpdateReplacePolicy": "Delete",
+    },
+    "DeployStackPipelineArtifactsBucketPolicy9C58EA6A": Object {
+      "Properties": Object {
+        "Bucket": Object {
+          "Ref": "DeployStackPipelineArtifactsBucket2FBBF0B9",
+        },
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "s3:*",
+              "Condition": Object {
+                "Bool": Object {
+                  "aws:SecureTransport": "false",
+                },
+              },
+              "Effect": "Deny",
+              "Principal": Object {
+                "AWS": "*",
+              },
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "DeployStackPipelineArtifactsBucket2FBBF0B9",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "DeployStackPipelineArtifactsBucket2FBBF0B9",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::S3::BucketPolicy",
     },
     "DeployStackPipelineBuildDeployStackBuildActionCodePipelineActionRoleDB81A0F3": Object {
       "Properties": Object {
