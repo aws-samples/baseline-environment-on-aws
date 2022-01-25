@@ -44,7 +44,7 @@
     "@aws-cdk/aws-iam": "^1.129.0",
     "@aws-cdk/aws-kms": "^1.129.0",
     "@aws-cdk/aws-logs": "^1.129.0",
-    "@aws-cdk/aws-s3": "^1.129.0",
+    "@aws-cdk/aws-s3": "^1.140.0",
     "@aws-cdk/aws-securityhub": "^1.129.0",
     "@aws-cdk/aws-sns": "^1.129.0",
     "@aws-cdk/cloudformation-include": "^1.129.0",
