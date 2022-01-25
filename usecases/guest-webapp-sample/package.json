@@ -47,7 +47,7 @@
     "@aws-cdk/aws-elasticloadbalancingv2": "^1.129.0",
     "@aws-cdk/aws-elasticloadbalancingv2-targets": "^1.129.0",
     "@aws-cdk/aws-events": "^1.129.0",
-    "@aws-cdk/aws-events-targets": "^1.129.0",
+    "@aws-cdk/aws-events-targets": "^1.140.0",
     "@aws-cdk/aws-iam": "^1.129.0",
     "@aws-cdk/aws-kms": "^1.129.0",
     "@aws-cdk/aws-logs": "^1.129.0",
