@@ -56,7 +56,7 @@
     "@aws-cdk/aws-route53-targets": "^1.129.0",
     "@aws-cdk/aws-s3": "^1.129.0",
     "@aws-cdk/aws-s3-assets": "^1.129.0",
-    "@aws-cdk/aws-sns": "^1.129.0",
+    "@aws-cdk/aws-sns": "^1.140.0",
     "@aws-cdk/aws-synthetics": "^1.129.0",
     "@aws-cdk/aws-wafv2": "^1.129.0",
     "@aws-cdk/core": "^1.129.0",
