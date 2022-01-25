@@ -2,9 +2,9 @@ name: build
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
@@ -20,6 +20,9 @@ jobs:
           - node: 14
             os: windows-latest
     steps:
+      - run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
@@ -30,7 +33,8 @@ jobs:
           echo "node: $(node --version)"
           echo "npm: $(npm --version)"
       - run: npm ci
-      - run: npm run lint
+      - run: npm run lint:ci
+      - run: npm run format:ci
       - run: npm run build --workspaces
       - run: npm run test --workspaces
       - run: npm run synth:dev --workspaces
