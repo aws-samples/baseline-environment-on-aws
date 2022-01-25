@@ -18,7 +18,9 @@
   ],
   "scripts": {
     "lint": "eslint --fix .",
+    "lint:ci": "eslint .",
     "format": "prettier --write .",
+    "format:ci": "prettier --check .",
     "release": "standard-version"
   },
   "devDependencies": {
@@ -41,8 +43,10 @@
     "*": [
       "git-secrets --scan"
     ],
-    "*.ts": [
-      "npx eslint --fix",
+    "*.(ts|tsx|js|jsx)": [
+      "npx eslint --fix"
+    ],
+    "*.(ts|tsx|js|jsx|json|html|yml|yaml|md|graphql|css|scss|less|vue|flow)": [
       "npx prettier --write"
     ]
   }
