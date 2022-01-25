@@ -76,10 +76,10 @@ Describe the steps to deploy. When deploying only, it is not necessary to build 
 Use the following runtimes: Follow the instructions for each OS to install.
 
 - [Node.js](https://nodejs.org/) (>= `14.0.0`)
-  - `npm` (>= `7.0.0`)
+  - `npm` (>= `8.1.0`)
 - [Git](https://git-scm.com/)
 
-npm requires 7.0.0 or higher because it uses workspaces. Please install the latest version as follows.
+npm requires 8.1.0 or higher because it uses workspaces. Please install the latest version as follows.
 
 ```sh
 npm install -g npm
