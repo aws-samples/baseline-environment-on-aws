@@ -90,7 +90,7 @@ version: 0.2
 phases:
   install:
     commands:
-      # requires npm >7
+      # requires npm >=8.1.0
       - npm i -g npm
   pre_build:
     commands:

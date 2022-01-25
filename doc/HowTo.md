@@ -45,7 +45,7 @@ This recommended extension is defined in `.vscode/extensions.json`. For more inf
 
 ### Configuring the VSCode Extension
 
-Press `Ctrl + Shift + p` (macOS: `Ctrl + Command + p`) to display the Command Palette and `Preferences:Open Select Settings (JSON)` Add the following settings:
+Press `Ctrl + Shift + p` (macOS: `Command + Shift + p`) to display the Command Palette and `Preferences:Open Select Settings (JSON)` Add the following settings:
 This will allow the code to be linted, formatting, etc. at the time of saving.
 
 ```json
