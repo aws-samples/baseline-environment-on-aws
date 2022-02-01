@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/aws-samples/baseline-environment-on-aws/compare/v1.3.0...v2.0.0) (2022-02-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* Update to CDKv2 (#23)
+
+### Features
+
+* Update to CDKv2 ([#23](https://github.com/aws-samples/baseline-environment-on-aws/issues/23)) ([74fe43c](https://github.com/aws-samples/baseline-environment-on-aws/commit/74fe43c84d37c57438c23e56cf9ba89233cc6179))
+
 ## [1.3.0](https://github.com/aws-samples/baseline-environment-on-aws/compare/v1.2.1...v1.3.0) (2022-02-01)
 
 ## [1.2.0] - 2021-10-26
