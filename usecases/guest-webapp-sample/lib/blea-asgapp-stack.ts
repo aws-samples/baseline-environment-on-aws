@@ -1,11 +1,12 @@
-import * as cdk from '@aws-cdk/core';
-import * as ec2 from '@aws-cdk/aws-ec2';
-import * as autoscaling from '@aws-cdk/aws-autoscaling';
-import * as elbv2 from '@aws-cdk/aws-elasticloadbalancingv2';
-import * as s3 from '@aws-cdk/aws-s3';
-import * as iam from '@aws-cdk/aws-iam';
-import * as kms from '@aws-cdk/aws-kms';
-import * as ri from '@aws-cdk/region-info';
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_ec2 as ec2 } from 'aws-cdk-lib';
+import { aws_autoscaling as autoscaling } from 'aws-cdk-lib';
+import { aws_elasticloadbalancingv2 as elbv2 } from 'aws-cdk-lib';
+import { aws_s3 as s3 } from 'aws-cdk-lib';
+import { aws_iam as iam } from 'aws-cdk-lib';
+import { aws_kms as kms } from 'aws-cdk-lib';
+import { region_info as ri } from 'aws-cdk-lib';
 
 export interface BLEAASGAppStackProps extends cdk.StackProps {
   myVpc: ec2.Vpc;
@@ -15,7 +16,7 @@ export interface BLEAASGAppStackProps extends cdk.StackProps {
 export class BLEAASGAppStack extends cdk.Stack {
   public readonly appServerSecurityGroup: ec2.SecurityGroup;
 
-  constructor(scope: cdk.Construct, id: string, props: BLEAASGAppStackProps) {
+  constructor(scope: Construct, id: string, props: BLEAASGAppStackProps) {
     super(scope, id, props);
 
     // --- Security Groups ---

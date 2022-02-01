@@ -1,10 +1,11 @@
-import * as cdk from '@aws-cdk/core';
-import * as ec2 from '@aws-cdk/aws-ec2';
-import * as rds from '@aws-cdk/aws-rds';
-import * as kms from '@aws-cdk/aws-kms';
-import * as sns from '@aws-cdk/aws-sns';
-import * as cw from '@aws-cdk/aws-cloudwatch';
-import * as cw_actions from '@aws-cdk/aws-cloudwatch-actions';
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_ec2 as ec2 } from 'aws-cdk-lib';
+import { aws_rds as rds } from 'aws-cdk-lib';
+import { aws_kms as kms } from 'aws-cdk-lib';
+import { aws_sns as sns } from 'aws-cdk-lib';
+import { aws_cloudwatch as cw } from 'aws-cdk-lib';
+import { aws_cloudwatch_actions as cw_actions } from 'aws-cdk-lib';
 
 export interface BLEADbAuroraPgSlStackProps extends cdk.StackProps {
   myVpc: ec2.Vpc;
@@ -18,7 +19,7 @@ export interface BLEADbAuroraPgSlStackProps extends cdk.StackProps {
 }
 
 export class BLEADbAuroraPgSlStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props: BLEADbAuroraPgSlStackProps) {
+  constructor(scope: Construct, id: string, props: BLEADbAuroraPgSlStackProps) {
     super(scope, id, props);
 
     const serverlessCluster = new rds.ServerlessCluster(this, 'AuroraServerless', {
@@ -36,11 +37,13 @@ export class BLEADbAuroraPgSlStack extends cdk.Stack {
       storageEncryptionKey: props.appKey,
     });
 
+    serverlessCluster;
+
     // ----------------------- Alarms for RDS -----------------------------
     new cw.Metric({
       metricName: 'CPUUtilization',
       namespace: 'AWS/RDS',
-      dimensions: {
+      dimensionsMap: {
         DBClusterIdentifier: serverlessCluster.clusterIdentifier,
       },
       period: cdk.Duration.minutes(1),

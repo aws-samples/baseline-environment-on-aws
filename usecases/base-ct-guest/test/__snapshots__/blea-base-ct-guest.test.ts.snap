@@ -2,6 +2,107 @@
 
 exports[`BLEA ControlTower Stacks GuestAccount Base Stacks 1`] = `
 Object {
+  "Mappings": Object {
+    "ServiceprincipalMap": Object {
+      "af-south-1": Object {
+        "ssm": "ssm.af-south-1.amazonaws.com",
+      },
+      "ap-east-1": Object {
+        "ssm": "ssm.ap-east-1.amazonaws.com",
+      },
+      "ap-northeast-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "ap-northeast-2": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "ap-northeast-3": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "ap-south-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "ap-southeast-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "ap-southeast-2": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "ap-southeast-3": Object {
+        "ssm": "ssm.ap-southeast-3.amazonaws.com",
+      },
+      "ca-central-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "cn-north-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "cn-northwest-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "eu-central-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "eu-north-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "eu-south-1": Object {
+        "ssm": "ssm.eu-south-1.amazonaws.com",
+      },
+      "eu-south-2": Object {
+        "ssm": "ssm.eu-south-2.amazonaws.com",
+      },
+      "eu-west-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "eu-west-2": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "eu-west-3": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "me-south-1": Object {
+        "ssm": "ssm.me-south-1.amazonaws.com",
+      },
+      "sa-east-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "us-east-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "us-east-2": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "us-gov-east-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "us-gov-west-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "us-iso-east-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "us-iso-west-1": Object {
+        "ssm": "ssm.us-iso-west-1.amazonaws.com",
+      },
+      "us-isob-east-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "us-west-1": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+      "us-west-2": Object {
+        "ssm": "ssm.amazonaws.com",
+      },
+    },
+  },
+  "Parameters": Object {
+    "BootstrapVersion": Object {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
   "Resources": Object {
     "BLEARuleDefaultSecurityGroupClosed456A269D": Object {
       "Properties": Object {
@@ -67,7 +168,15 @@ Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
               "Principal": Object {
-                "Service": "ssm.amazonaws.com",
+                "Service": Object {
+                  "Fn::FindInMap": Array [
+                    "ServiceprincipalMap",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    "ssm",
+                  ],
+                },
               },
             },
           ],
@@ -120,11 +229,45 @@ Object {
       "Type": "AWS::Config::RemediationConfiguration",
     },
   },
+  "Rules": Object {
+    "CheckBootstrapVersion": Object {
+      "Assertions": Array [
+        Object {
+          "Assert": Object {
+            "Fn::Not": Array [
+              Object {
+                "Fn::Contains": Array [
+                  Array [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  Object {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
 }
 `;
 
 exports[`BLEA ControlTower Stacks GuestAccount Base Stacks 2`] = `
 Object {
+  "Parameters": Object {
+    "BootstrapVersion": Object {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
   "Resources": Object {
     "IamAdminGroupA13BD09E": Object {
       "Properties": Object {
@@ -555,6 +698,33 @@ Object {
       "Type": "AWS::IAM::Role",
     },
   },
+  "Rules": Object {
+    "CheckBootstrapVersion": Object {
+      "Assertions": Array [
+        Object {
+          "Assert": Object {
+            "Fn::Not": Array [
+              Object {
+                "Fn::Contains": Array [
+                  Array [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  Object {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
 }
 `;
 
@@ -568,6 +738,13 @@ Object {
       "Value": Object {
         "Ref": "SecurityAlarmTopicEE71C633",
       },
+    },
+  },
+  "Parameters": Object {
+    "BootstrapVersion": Object {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
     },
   },
   "Resources": Object {
@@ -1051,11 +1228,45 @@ Object {
       "Type": "AWS::CloudWatch::Alarm",
     },
   },
+  "Rules": Object {
+    "CheckBootstrapVersion": Object {
+      "Assertions": Array [
+        Object {
+          "Assert": Object {
+            "Fn::Not": Array [
+              Object {
+                "Fn::Contains": Array [
+                  Array [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  Object {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
 }
 `;
 
 exports[`BLEA ControlTower Stacks GuestAccount Base Stacks 4`] = `
 Object {
+  "Parameters": Object {
+    "BootstrapVersion": Object {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
   "Resources": Object {
     "ChatbotChannel": Object {
       "Properties": Object {
@@ -1124,6 +1335,33 @@ Object {
         ],
       },
       "Type": "AWS::IAM::Role",
+    },
+  },
+  "Rules": Object {
+    "CheckBootstrapVersion": Object {
+      "Assertions": Array [
+        Object {
+          "Assert": Object {
+            "Fn::Not": Array [
+              Object {
+                "Fn::Contains": Array [
+                  Array [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  Object {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
     },
   },
 }

@@ -1,5 +1,5 @@
-import * as cdk from '@aws-cdk/core';
-import { SynthUtils } from '@aws-cdk/assert';
+import * as cdk from 'aws-cdk-lib';
+import { Template } from 'aws-cdk-lib/assertions';
 
 // Load cdk.json to get context parameters
 import * as cdk_json from '../cdk.json';
@@ -77,12 +77,12 @@ describe(`${pjPrefix} Guest Stack`, () => {
     cdk.Tags.of(app).add(envTagName, envVals['envName']);
 
     // Test with snapshot
-    expect(SynthUtils.toCloudFormation(monitorAlarm)).toMatchSnapshot();
-    expect(SynthUtils.toCloudFormation(chatbotMonitor)).toMatchSnapshot();
-    expect(SynthUtils.toCloudFormation(appKey)).toMatchSnapshot();
+    expect(Template.fromStack(monitorAlarm)).toMatchSnapshot();
+    expect(Template.fromStack(chatbotMonitor)).toMatchSnapshot();
+    expect(Template.fromStack(appKey)).toMatchSnapshot();
 
-    expect(SynthUtils.toCloudFormation(dynamoDb)).toMatchSnapshot();
-    expect(SynthUtils.toCloudFormation(lambda)).toMatchSnapshot();
-    expect(SynthUtils.toCloudFormation(restApi)).toMatchSnapshot();
+    expect(Template.fromStack(dynamoDb)).toMatchSnapshot();
+    expect(Template.fromStack(lambda)).toMatchSnapshot();
+    expect(Template.fromStack(restApi)).toMatchSnapshot();
   });
 });

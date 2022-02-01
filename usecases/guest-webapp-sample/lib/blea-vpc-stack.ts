@@ -1,8 +1,9 @@
-import * as cdk from '@aws-cdk/core';
-import * as ec2 from '@aws-cdk/aws-ec2';
-import * as s3 from '@aws-cdk/aws-s3';
-import * as kms from '@aws-cdk/aws-kms';
-import * as iam from '@aws-cdk/aws-iam';
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_ec2 as ec2 } from 'aws-cdk-lib';
+import { aws_s3 as s3 } from 'aws-cdk-lib';
+import { aws_kms as kms } from 'aws-cdk-lib';
+import { aws_iam as iam } from 'aws-cdk-lib';
 
 export interface BLEAVpcStackProps extends cdk.StackProps {
   myVpcCidr: string;
@@ -11,7 +12,7 @@ export interface BLEAVpcStackProps extends cdk.StackProps {
 export class BLEAVpcStack extends cdk.Stack {
   public readonly myVpc: ec2.Vpc;
 
-  constructor(scope: cdk.Construct, id: string, props: BLEAVpcStackProps) {
+  constructor(scope: Construct, id: string, props: BLEAVpcStackProps) {
     super(scope, id, props);
 
     const myVpc = new ec2.Vpc(this, 'Vpc', {

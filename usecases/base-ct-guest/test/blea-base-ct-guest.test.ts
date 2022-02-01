@@ -1,5 +1,5 @@
-import * as cdk from '@aws-cdk/core';
-import { SynthUtils } from '@aws-cdk/assert';
+import * as cdk from 'aws-cdk-lib';
+import { Template } from 'aws-cdk-lib/assertions';
 
 import { BLEAChatbotStack } from '../lib/blea-chatbot-stack';
 
@@ -49,9 +49,9 @@ describe(`${pjPrefix} ControlTower Stacks`, () => {
     cdk.Tags.of(app).add(envTagName, envVals['envName']);
 
     // test with snapshot
-    expect(SynthUtils.toCloudFormation(configRule)).toMatchSnapshot();
-    expect(SynthUtils.toCloudFormation(iam)).toMatchSnapshot();
-    expect(SynthUtils.toCloudFormation(secAlarm)).toMatchSnapshot();
-    expect(SynthUtils.toCloudFormation(chatbotSecurity)).toMatchSnapshot();
+    expect(Template.fromStack(configRule)).toMatchSnapshot();
+    expect(Template.fromStack(iam)).toMatchSnapshot();
+    expect(Template.fromStack(secAlarm)).toMatchSnapshot();
+    expect(Template.fromStack(chatbotSecurity)).toMatchSnapshot();
   });
 });

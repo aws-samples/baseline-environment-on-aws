@@ -1,5 +1,4 @@
-#!/usr/bin/env node
-import * as cdk from '@aws-cdk/core';
+import * as cdk from 'aws-cdk-lib';
 
 import { BLEAMonitorAlarmStack } from '../lib/blea-monitor-alarm-stack';
 import { BLEAChatbotStack } from '../lib/blea-chatbot-stack';

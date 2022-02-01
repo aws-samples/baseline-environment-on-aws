@@ -1,5 +1,5 @@
-import * as cdk from '@aws-cdk/core';
-import { SynthUtils } from '@aws-cdk/assert';
+import * as cdk from 'aws-cdk-lib';
+import { Template } from 'aws-cdk-lib/assertions';
 
 import { BLEAChatbotStack } from '../lib/blea-chatbot-stack';
 
@@ -28,6 +28,6 @@ describe(`${pjPrefix} ControlTower Stacks`, () => {
     });
 
     // test with snapshot
-    expect(SynthUtils.toCloudFormation(chatbotAggregate)).toMatchSnapshot();
+    expect(Template.fromStack(chatbotAggregate)).toMatchSnapshot();
   });
 });

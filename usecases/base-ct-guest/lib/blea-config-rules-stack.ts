@@ -1,9 +1,10 @@
-import * as cdk from '@aws-cdk/core';
-import * as config from '@aws-cdk/aws-config';
-import * as iam from '@aws-cdk/aws-iam';
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_config as config } from 'aws-cdk-lib';
+import { aws_iam as iam } from 'aws-cdk-lib';
 
 export class BLEAConfigRulesStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
     // ConfigRule for Default Security Group is closed  (Same as SecurityHub - need this for auto remediation)

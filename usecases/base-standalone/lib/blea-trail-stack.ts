@@ -1,14 +1,15 @@
-import * as cdk from '@aws-cdk/core';
-import * as s3 from '@aws-cdk/aws-s3';
-import * as trail from '@aws-cdk/aws-cloudtrail';
-import * as cwl from '@aws-cdk/aws-logs';
-import * as iam from '@aws-cdk/aws-iam';
-import * as kms from '@aws-cdk/aws-kms';
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_s3 as s3 } from 'aws-cdk-lib';
+import { aws_cloudtrail as trail } from 'aws-cdk-lib';
+import { aws_logs as cwl } from 'aws-cdk-lib';
+import { aws_iam as iam } from 'aws-cdk-lib';
+import { aws_kms as kms } from 'aws-cdk-lib';
 
 export class BLEATrailStack extends cdk.Stack {
   public readonly cloudTrailLogGroup: cwl.LogGroup;
 
-  constructor(scope: cdk.Construct, id: string, props: cdk.StackProps) {
+  constructor(scope: Construct, id: string, props: cdk.StackProps) {
     super(scope, id, props);
 
     // Archive Bucket for CloudTrail
@@ -72,7 +73,7 @@ export class BLEATrailStack extends cdk.Stack {
     cloudTrailKey.addToResourcePolicy(
       new iam.PolicyStatement({
         actions: ['kms:Decrypt', 'kms:ReEncryptFrom'],
-        principals: [new iam.Anyone()],
+        principals: [new iam.AnyPrincipal()],
         resources: ['*'],
         conditions: {
           StringEquals: { 'kms:CallerAccount': `${cdk.Stack.of(this).account}` },

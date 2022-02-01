@@ -1,12 +1,13 @@
-import * as cdk from '@aws-cdk/core';
-import * as wafv2 from '@aws-cdk/aws-wafv2';
-import * as ec2 from '@aws-cdk/aws-ec2';
-import * as elbv2 from '@aws-cdk/aws-elasticloadbalancingv2';
-import * as s3 from '@aws-cdk/aws-s3';
-import * as iam from '@aws-cdk/aws-iam';
-import * as ri from '@aws-cdk/region-info';
-import * as cloudfront from '@aws-cdk/aws-cloudfront';
-import * as origins from '@aws-cdk/aws-cloudfront-origins';
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_wafv2 as wafv2 } from 'aws-cdk-lib';
+import { aws_ec2 as ec2 } from 'aws-cdk-lib';
+import { aws_elasticloadbalancingv2 as elbv2 } from 'aws-cdk-lib';
+import { aws_s3 as s3 } from 'aws-cdk-lib';
+import { aws_iam as iam } from 'aws-cdk-lib';
+import { region_info as ri } from 'aws-cdk-lib';
+import { aws_cloudfront as cloudfront } from 'aws-cdk-lib';
+import { aws_cloudfront_origins as origins } from 'aws-cdk-lib';
 import { IBLEAFrontend } from './blea-frontend-interface';
 
 interface BLEAFrontendSimpleStackProps extends cdk.StackProps {
@@ -21,7 +22,7 @@ export class BLEAFrontendSimpleStack extends cdk.Stack implements IBLEAFrontend 
   public readonly webContentsBucket: s3.Bucket;
   public readonly cfDistribution: cloudfront.Distribution;
 
-  constructor(scope: cdk.Construct, id: string, props: BLEAFrontendSimpleStackProps) {
+  constructor(scope: Construct, id: string, props: BLEAFrontendSimpleStackProps) {
     super(scope, id, props);
 
     // --- Security Groups ---

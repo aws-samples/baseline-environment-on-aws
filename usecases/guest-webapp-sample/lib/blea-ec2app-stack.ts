@@ -1,11 +1,12 @@
-import * as cdk from '@aws-cdk/core';
-import * as ec2 from '@aws-cdk/aws-ec2';
-import * as elbv2 from '@aws-cdk/aws-elasticloadbalancingv2';
-import * as elbv2targets from '@aws-cdk/aws-elasticloadbalancingv2-targets';
-import * as s3 from '@aws-cdk/aws-s3';
-import * as iam from '@aws-cdk/aws-iam';
-import * as kms from '@aws-cdk/aws-kms';
-import * as ri from '@aws-cdk/region-info';
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_ec2 as ec2 } from 'aws-cdk-lib';
+import { aws_elasticloadbalancingv2 as elbv2 } from 'aws-cdk-lib';
+import { aws_elasticloadbalancingv2_targets as elbv2targets } from 'aws-cdk-lib';
+import { aws_s3 as s3 } from 'aws-cdk-lib';
+import { aws_iam as iam } from 'aws-cdk-lib';
+import { aws_kms as kms } from 'aws-cdk-lib';
+import { region_info as ri } from 'aws-cdk-lib';
 
 export interface BLEAEC2AppStackProps extends cdk.StackProps {
   myVpc: ec2.Vpc;
@@ -15,7 +16,7 @@ export interface BLEAEC2AppStackProps extends cdk.StackProps {
 export class BLEAEC2AppStack extends cdk.Stack {
   public readonly appServerSecurityGroup: ec2.SecurityGroup;
 
-  constructor(scope: cdk.Construct, id: string, props: BLEAEC2AppStackProps) {
+  constructor(scope: Construct, id: string, props: BLEAEC2AppStackProps) {
     super(scope, id, props);
 
     // --- Security Groups ---
@@ -159,7 +160,8 @@ export class BLEAEC2AppStack extends cdk.Stack {
     });
 
     // TargetGroup for App Server
-    const lbForAppTargetGroup = listener.addTargets('Ec2App', {
+    // const lbForAppTargetGroup =
+    listener.addTargets('Ec2App', {
       protocol: elbv2.ApplicationProtocol.HTTP,
       targets: instanceTargetIds,
       deregistrationDelay: cdk.Duration.seconds(30),
