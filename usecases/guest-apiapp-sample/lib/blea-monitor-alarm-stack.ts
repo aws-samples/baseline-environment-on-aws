@@ -1,6 +1,7 @@
-import * as cdk from '@aws-cdk/core';
-import * as iam from '@aws-cdk/aws-iam';
-import * as sns from '@aws-cdk/aws-sns';
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_iam as iam } from 'aws-cdk-lib';
+import { aws_sns as sns } from 'aws-cdk-lib';
 
 interface BLEAMonitorAlarmStackProps extends cdk.StackProps {
   notifyEmail: string;
@@ -9,7 +10,7 @@ interface BLEAMonitorAlarmStackProps extends cdk.StackProps {
 export class BLEAMonitorAlarmStack extends cdk.Stack {
   public readonly alarmTopic: sns.Topic;
 
-  constructor(scope: cdk.Construct, id: string, props: BLEAMonitorAlarmStackProps) {
+  constructor(scope: Construct, id: string, props: BLEAMonitorAlarmStackProps) {
     super(scope, id, props);
 
     // SNS Topic for Monitoring Alarm

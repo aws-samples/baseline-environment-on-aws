@@ -1,5 +1,5 @@
-import * as cdk from '@aws-cdk/core';
-import { SynthUtils } from '@aws-cdk/assert';
+import * as cdk from 'aws-cdk-lib';
+import { Template } from 'aws-cdk-lib/assertions';
 
 import { BLEAIamStack } from '../lib/blea-iam-stack';
 import { BLEAConfigRulesStack } from '../lib/blea-config-rules-stack';
@@ -55,14 +55,14 @@ describe(`${pjPrefix} Standalone Stacks`, () => {
     });
 
     // test with snapshot
-    expect(SynthUtils.toCloudFormation(guardDuty)).toMatchSnapshot();
-    expect(SynthUtils.toCloudFormation(securityHub)).toMatchSnapshot();
-    expect(SynthUtils.toCloudFormation(trail)).toMatchSnapshot();
-    expect(SynthUtils.toCloudFormation(iam)).toMatchSnapshot();
-    expect(SynthUtils.toCloudFormation(config)).toMatchSnapshot();
-    expect(SynthUtils.toCloudFormation(configRuleCt)).toMatchSnapshot();
-    expect(SynthUtils.toCloudFormation(configRule)).toMatchSnapshot();
-    expect(SynthUtils.toCloudFormation(chatbotForSec)).toMatchSnapshot();
-    expect(SynthUtils.toCloudFormation(secAlarm)).toMatchSnapshot();
+    expect(Template.fromStack(guardDuty)).toMatchSnapshot();
+    expect(Template.fromStack(securityHub)).toMatchSnapshot();
+    expect(Template.fromStack(trail)).toMatchSnapshot();
+    expect(Template.fromStack(iam)).toMatchSnapshot();
+    expect(Template.fromStack(config)).toMatchSnapshot();
+    expect(Template.fromStack(configRuleCt)).toMatchSnapshot();
+    expect(Template.fromStack(configRule)).toMatchSnapshot();
+    expect(Template.fromStack(chatbotForSec)).toMatchSnapshot();
+    expect(Template.fromStack(secAlarm)).toMatchSnapshot();
   });
 });

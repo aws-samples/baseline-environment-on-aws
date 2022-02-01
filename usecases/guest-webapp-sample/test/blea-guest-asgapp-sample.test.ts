@@ -1,5 +1,5 @@
-import * as cdk from '@aws-cdk/core';
-import { SynthUtils } from '@aws-cdk/assert';
+import * as cdk from 'aws-cdk-lib';
+import { Template } from 'aws-cdk-lib/assertions';
 
 import { BLEAChatbotStack } from '../lib/blea-chatbot-stack';
 
@@ -77,11 +77,11 @@ describe(`${pjPrefix} Guest Stacks`, () => {
     cdk.Tags.of(app).add(envTagName, envVals['envName']);
 
     // test with snapshot
-    expect(SynthUtils.toCloudFormation(chatbotMonitor)).toMatchSnapshot();
-    expect(SynthUtils.toCloudFormation(monitorAlarm)).toMatchSnapshot();
-    expect(SynthUtils.toCloudFormation(appKey)).toMatchSnapshot();
-    expect(SynthUtils.toCloudFormation(prodVpc)).toMatchSnapshot();
-    expect(SynthUtils.toCloudFormation(asgApp)).toMatchSnapshot();
-    expect(SynthUtils.toCloudFormation(dbAuroraPg)).toMatchSnapshot();
+    expect(Template.fromStack(chatbotMonitor)).toMatchSnapshot();
+    expect(Template.fromStack(monitorAlarm)).toMatchSnapshot();
+    expect(Template.fromStack(appKey)).toMatchSnapshot();
+    expect(Template.fromStack(prodVpc)).toMatchSnapshot();
+    expect(Template.fromStack(asgApp)).toMatchSnapshot();
+    expect(Template.fromStack(dbAuroraPg)).toMatchSnapshot();
   });
 });

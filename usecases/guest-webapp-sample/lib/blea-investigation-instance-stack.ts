@@ -1,7 +1,7 @@
-import * as cdk from '@aws-cdk/core';
-import * as ec2 from '@aws-cdk/aws-ec2';
-import * as iam from '@aws-cdk/aws-iam';
-import { Tags } from '@aws-cdk/core';
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_ec2 as ec2 } from 'aws-cdk-lib';
+import { aws_iam as iam } from 'aws-cdk-lib';
 
 export interface BLEAInvestigationInstanceStackProps extends cdk.StackProps {
   myVpc: ec2.Vpc;
@@ -10,7 +10,7 @@ export interface BLEAInvestigationInstanceStackProps extends cdk.StackProps {
 export class BLEAInvestigationInstanceStack extends cdk.Stack {
   public readonly InvestigationInstanceSecurityGroup: ec2.SecurityGroup;
 
-  constructor(scope: cdk.Construct, id: string, props: BLEAInvestigationInstanceStackProps) {
+  constructor(scope: Construct, id: string, props: BLEAInvestigationInstanceStackProps) {
     super(scope, id, props);
 
     // Security Group
@@ -55,6 +55,6 @@ export class BLEAInvestigationInstanceStack extends cdk.Stack {
     });
 
     // Tag
-    Tags.of(instance).add('Name', 'Investigation');
+    cdk.Tags.of(instance).add('Name', 'Investigation');
   }
 }

@@ -1,10 +1,11 @@
-import * as cdk from '@aws-cdk/core';
-import * as config from '@aws-cdk/aws-config';
-import * as iam from '@aws-cdk/aws-iam';
-import * as s3 from '@aws-cdk/aws-s3';
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_config as config } from 'aws-cdk-lib';
+import { aws_iam as iam } from 'aws-cdk-lib';
+import { aws_s3 as s3 } from 'aws-cdk-lib';
 
 export class BLEAConfigStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
     const role = new iam.Role(this, 'ConfigRole', {

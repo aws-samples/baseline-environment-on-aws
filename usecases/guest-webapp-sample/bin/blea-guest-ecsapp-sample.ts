@@ -1,5 +1,4 @@
-#!/usr/bin/env node
-import * as cdk from '@aws-cdk/core';
+import * as cdk from 'aws-cdk-lib';
 import { BLEAVpcStack } from '../lib/blea-vpc-stack';
 import { BLEAKeyAppStack } from '../lib/blea-key-app-stack';
 import { BLEADbAuroraPgStack } from '../lib/blea-db-aurora-pg-stack';

@@ -1,10 +1,11 @@
-import * as cdk from '@aws-cdk/core';
-import * as kms from '@aws-cdk/aws-kms';
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_kms as kms } from 'aws-cdk-lib';
 
 export class BLEAKeyApiappStack extends cdk.Stack {
   public readonly kmsKey: kms.Key;
 
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
     // KMS CMK

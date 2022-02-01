@@ -1,5 +1,4 @@
-#!/usr/bin/env node
-import * as cdk from '@aws-cdk/core';
+import * as cdk from 'aws-cdk-lib';
 import { BLEAConfigCtGuardrailStack } from '../lib/blea-config-ct-guardrail-stack';
 import { BLEAGuarddutyStack } from '../lib/blea-guardduty-stack';
 import { BLEATrailStack } from '../lib/blea-trail-stack';

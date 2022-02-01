@@ -1,5 +1,6 @@
-import * as cdk from '@aws-cdk/core';
-import * as wafv2 from '@aws-cdk/aws-wafv2';
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_wafv2 as wafv2 } from 'aws-cdk-lib';
 
 export interface BLEAWafStackProps extends cdk.StackProps {
   scope: string;
@@ -8,7 +9,7 @@ export interface BLEAWafStackProps extends cdk.StackProps {
 export class BLEAWafStack extends cdk.Stack {
   public readonly webAcl: wafv2.CfnWebACL;
 
-  constructor(scope: cdk.Construct, id: string, props: BLEAWafStackProps) {
+  constructor(scope: Construct, id: string, props: BLEAWafStackProps) {
     super(scope, id, props);
 
     // ------------------------------------------------------------------------

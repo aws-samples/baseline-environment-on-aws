@@ -1,9 +1,10 @@
-import * as cdk from '@aws-cdk/core';
-import * as dynamodb from '@aws-cdk/aws-dynamodb';
-import * as sns from '@aws-cdk/aws-sns';
-import * as kms from '@aws-cdk/aws-kms';
-import * as cw from '@aws-cdk/aws-cloudwatch';
-import * as cw_actions from '@aws-cdk/aws-cloudwatch-actions';
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_dynamodb as dynamodb } from 'aws-cdk-lib';
+import { aws_sns as sns } from 'aws-cdk-lib';
+import { aws_kms as kms } from 'aws-cdk-lib';
+import { aws_cloudwatch as cw } from 'aws-cdk-lib';
+import { aws_cloudwatch_actions as cw_actions } from 'aws-cdk-lib';
 
 export interface BLEADbDynamoDbStackProps extends cdk.StackProps {
   alarmTopic: sns.Topic;
@@ -11,7 +12,7 @@ export interface BLEADbDynamoDbStackProps extends cdk.StackProps {
 }
 export class BLEADbDynamoDbStack extends cdk.Stack {
   public readonly table: dynamodb.Table;
-  constructor(scope: cdk.Construct, id: string, props: BLEADbDynamoDbStackProps) {
+  constructor(scope: Construct, id: string, props: BLEADbDynamoDbStackProps) {
     super(scope, id, props);
 
     // Create table

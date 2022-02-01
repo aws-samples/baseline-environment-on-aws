@@ -1,10 +1,10 @@
-import * as cdk from '@aws-cdk/core';
-import * as ecr from '@aws-cdk/aws-ecr';
-import * as iam from '@aws-cdk/aws-iam';
-import * as codebuild from '@aws-cdk/aws-codebuild';
-import * as s3assets from '@aws-cdk/aws-s3-assets';
-import * as cr from '@aws-cdk/custom-resources';
-
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_ecr as ecr } from 'aws-cdk-lib';
+import { aws_iam as iam } from 'aws-cdk-lib';
+import { aws_codebuild as codebuild } from 'aws-cdk-lib';
+import { aws_s3_assets as s3assets } from 'aws-cdk-lib';
+import { custom_resources as cr } from 'aws-cdk-lib';
 import * as path from 'path';
 
 export interface BLEABuildContainerStackProps extends cdk.StackProps {
@@ -14,7 +14,7 @@ export interface BLEABuildContainerStackProps extends cdk.StackProps {
 export class BLEABuildContainerStack extends cdk.Stack {
   public readonly imageTag: string;
 
-  constructor(scope: cdk.Construct, id: string, props: BLEABuildContainerStackProps) {
+  constructor(scope: Construct, id: string, props: BLEABuildContainerStackProps) {
     super(scope, id, props);
 
     const appName = 'sample-ecs-app';

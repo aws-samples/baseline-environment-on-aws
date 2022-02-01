@@ -1,11 +1,12 @@
-import * as cdk from '@aws-cdk/core';
-import * as iam from '@aws-cdk/aws-iam';
-import * as sns from '@aws-cdk/aws-sns';
-import * as cw from '@aws-cdk/aws-cloudwatch';
-import * as cwa from '@aws-cdk/aws-cloudwatch-actions';
-import * as cwe from '@aws-cdk/aws-events';
-import * as cwl from '@aws-cdk/aws-logs';
-import * as cwet from '@aws-cdk/aws-events-targets';
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_iam as iam } from 'aws-cdk-lib';
+import { aws_sns as sns } from 'aws-cdk-lib';
+import { aws_cloudwatch as cw } from 'aws-cdk-lib';
+import { aws_cloudwatch_actions as cwa } from 'aws-cdk-lib';
+import { aws_events as cwe } from 'aws-cdk-lib';
+import { aws_logs as cwl } from 'aws-cdk-lib';
+import { aws_events_targets as cwet } from 'aws-cdk-lib';
 
 interface BLEASecurityAlarmStackProps extends cdk.StackProps {
   notifyEmail: string;
@@ -15,7 +16,7 @@ interface BLEASecurityAlarmStackProps extends cdk.StackProps {
 export class BLEASecurityAlarmStack extends cdk.Stack {
   public readonly alarmTopic: sns.Topic;
 
-  constructor(scope: cdk.Construct, id: string, props: BLEASecurityAlarmStackProps) {
+  constructor(scope: Construct, id: string, props: BLEASecurityAlarmStackProps) {
     super(scope, id, props);
 
     // SNS Topic for Security Alarm
@@ -165,6 +166,7 @@ export class BLEASecurityAlarmStack extends cdk.Stack {
     new cw.Alarm(this, 'IAMPolicyChangeAlarm', {
       metric: mfIAMPolicyChange.metric({
         period: cdk.Duration.seconds(300),
+        statistic: cw.Statistic.SUM,
       }),
       evaluationPeriods: 1,
       datapointsToAlarm: 1,
@@ -172,7 +174,6 @@ export class BLEASecurityAlarmStack extends cdk.Stack {
       comparisonOperator: cw.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
       alarmDescription: 'IAM Configuration changes detected!',
       actionsEnabled: true,
-      statistic: cw.Statistic.SUM,
     }).addAlarmAction(new cwa.SnsAction(secTopic));
 
     // Unauthorized Attempts
@@ -190,6 +191,7 @@ export class BLEASecurityAlarmStack extends cdk.Stack {
     new cw.Alarm(this, 'UnauthorizedAttemptsAlarm', {
       metric: mfUnauthorizedAttempts.metric({
         period: cdk.Duration.seconds(300),
+        statistic: cw.Statistic.SUM,
       }),
       evaluationPeriods: 1,
       datapointsToAlarm: 1,
@@ -197,7 +199,6 @@ export class BLEASecurityAlarmStack extends cdk.Stack {
       comparisonOperator: cw.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
       alarmDescription: 'Multiple unauthorized actions or logins attempted!',
       actionsEnabled: true,
-      statistic: cw.Statistic.SUM,
     }).addAlarmAction(new cwa.SnsAction(secTopic));
 
     // NewAccessKeyCreated
@@ -215,6 +216,7 @@ export class BLEASecurityAlarmStack extends cdk.Stack {
     new cw.Alarm(this, 'NewAccessKeyCreatedAlarm', {
       metric: mfNewAccessKeyCreated.metric({
         period: cdk.Duration.seconds(300),
+        statistic: cw.Statistic.SUM,
       }),
       evaluationPeriods: 1,
       datapointsToAlarm: 1,
@@ -222,7 +224,6 @@ export class BLEASecurityAlarmStack extends cdk.Stack {
       comparisonOperator: cw.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
       alarmDescription: 'Warning: New IAM access Eey was created. Please be sure this action was neccessary.',
       actionsEnabled: true,
-      statistic: cw.Statistic.SUM,
     }).addAlarmAction(new cwa.SnsAction(secTopic));
 
     // Detect Root Activity from CloudTrail Log (For SecurityHub CIS 1.1)
@@ -242,6 +243,7 @@ export class BLEASecurityAlarmStack extends cdk.Stack {
     new cw.Alarm(this, 'RootUserPolicyEventCountAlarm', {
       metric: mfRooUserPolicy.metric({
         period: cdk.Duration.seconds(300),
+        statistic: cw.Statistic.SUM,
       }),
       evaluationPeriods: 1,
       datapointsToAlarm: 1,
@@ -249,7 +251,6 @@ export class BLEASecurityAlarmStack extends cdk.Stack {
       comparisonOperator: cw.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
       alarmDescription: 'Root user activity detected!',
       actionsEnabled: true,
-      statistic: cw.Statistic.SUM,
     }).addAlarmAction(new cwa.SnsAction(secTopic));
 
     // ------------------- Other security services integration ----------------------
