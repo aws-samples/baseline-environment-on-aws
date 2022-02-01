@@ -39,7 +39,7 @@
     "@aws-cdk/aws-cloudwatch-actions": "^1.129.0",
     "@aws-cdk/aws-config": "^1.129.0",
     "@aws-cdk/aws-events": "^1.129.0",
-    "@aws-cdk/aws-events-targets": "^1.129.0",
+    "@aws-cdk/aws-events-targets": "^1.142.0",
     "@aws-cdk/aws-guardduty": "^1.129.0",
     "@aws-cdk/aws-iam": "^1.129.0",
     "@aws-cdk/aws-kms": "^1.129.0",
