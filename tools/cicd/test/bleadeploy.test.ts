@@ -1,5 +1,5 @@
-import { SynthUtils } from '@aws-cdk/assert';
-import * as cdk from '@aws-cdk/core';
+import { Template } from 'aws-cdk-lib/assertions';
+import * as cdk from 'aws-cdk-lib';
 import * as BLEAdeploy from '../lib/bleadeploy-stack';
 
 // Load cdk.json to get context parameters
@@ -26,6 +26,6 @@ describe(`${pjPrefix} Stacks`, () => {
     });
 
     // test with snapshot
-    expect(SynthUtils.toCloudFormation(deployStack)).toMatchSnapshot();
+    expect(Template.fromStack(deployStack)).toMatchSnapshot();
   });
 });

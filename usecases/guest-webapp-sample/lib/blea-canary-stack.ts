@@ -1,11 +1,12 @@
-import * as cdk from '@aws-cdk/core';
-import * as iam from '@aws-cdk/aws-iam';
-import * as sns from '@aws-cdk/aws-sns';
-import * as s3 from '@aws-cdk/aws-s3';
-import * as synthetics from '@aws-cdk/aws-synthetics';
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_iam as iam } from 'aws-cdk-lib';
+import { aws_sns as sns } from 'aws-cdk-lib';
+import { aws_s3 as s3 } from 'aws-cdk-lib';
+import * as synthetics from '@aws-cdk/aws-synthetics-alpha';
 import * as path from 'path';
-import * as cw from '@aws-cdk/aws-cloudwatch';
-import * as cw_actions from '@aws-cdk/aws-cloudwatch-actions';
+import { aws_cloudwatch as cw } from 'aws-cdk-lib';
+import { aws_cloudwatch_actions as cw_actions } from 'aws-cdk-lib';
 
 interface BLEACanaryStackProps extends cdk.StackProps {
   alarmTopic: sns.Topic;
@@ -20,7 +21,7 @@ export class BLEACanaryStack extends cdk.Stack {
   public readonly canaryDurationAlarm: cw.Alarm;
   public readonly canaryFailedAlarm: cw.Alarm;
 
-  constructor(scope: cdk.Construct, id: string, props: BLEACanaryStackProps) {
+  constructor(scope: Construct, id: string, props: BLEACanaryStackProps) {
     super(scope, id, props);
 
     // ----------------------------------------------------------------------------

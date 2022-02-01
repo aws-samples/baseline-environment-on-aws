@@ -2,6 +2,13 @@
 
 exports[`BLEA Stacks BLEA Deploy Stack 1`] = `
 Object {
+  "Parameters": Object {
+    "BootstrapVersion": Object {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
   "Resources": Object {
     "DeployStackCodeBuildDeployRoleAAA60B15": Object {
       "Properties": Object {
@@ -193,6 +200,9 @@ Object {
         "Artifacts": Object {
           "Type": "CODEPIPELINE",
         },
+        "Cache": Object {
+          "Type": "NO_CACHE",
+        },
         "EncryptionKey": Object {
           "Fn::GetAtt": Array [
             "DeployStackPipelineArtifactsBucketEncryptionKeyD623D0F7",
@@ -276,23 +286,7 @@ Object {
         "KeyPolicy": Object {
           "Statement": Array [
             Object {
-              "Action": Array [
-                "kms:Create*",
-                "kms:Describe*",
-                "kms:Enable*",
-                "kms:List*",
-                "kms:Put*",
-                "kms:Update*",
-                "kms:Revoke*",
-                "kms:Disable*",
-                "kms:Get*",
-                "kms:Delete*",
-                "kms:ScheduleKeyDeletion",
-                "kms:CancelKeyDeletion",
-                "kms:GenerateDataKey",
-                "kms:TagResource",
-                "kms:UntagResource",
-              ],
+              "Action": "kms:*",
               "Effect": "Allow",
               "Principal": Object {
                 "AWS": Object {
@@ -314,84 +308,59 @@ Object {
               },
               "Resource": "*",
             },
-            Object {
-              "Action": Array [
-                "kms:Decrypt",
-                "kms:DescribeKey",
-                "kms:Encrypt",
-                "kms:ReEncrypt*",
-                "kms:GenerateDataKey*",
-              ],
-              "Effect": "Allow",
-              "Principal": Object {
-                "AWS": Object {
-                  "Fn::GetAtt": Array [
-                    "DeployStackPipelineRole9A958AB1",
-                    "Arn",
-                  ],
-                },
-              },
-              "Resource": "*",
-            },
-            Object {
-              "Action": Array [
-                "kms:Decrypt",
-                "kms:DescribeKey",
-                "kms:Encrypt",
-                "kms:ReEncrypt*",
-                "kms:GenerateDataKey*",
-              ],
-              "Effect": "Allow",
-              "Principal": Object {
-                "AWS": Object {
-                  "Fn::GetAtt": Array [
-                    "DeployStackPipelineSourceDeployStackGitHubSourceCodePipelineActionRoleF0A57F33",
-                    "Arn",
-                  ],
-                },
-              },
-              "Resource": "*",
-            },
-            Object {
-              "Action": Array [
-                "kms:Decrypt",
-                "kms:DescribeKey",
-              ],
-              "Effect": "Allow",
-              "Principal": Object {
-                "AWS": Object {
-                  "Fn::GetAtt": Array [
-                    "DeployStackCodeBuildDeployRoleAAA60B15",
-                    "Arn",
-                  ],
-                },
-              },
-              "Resource": "*",
-            },
-            Object {
-              "Action": Array [
-                "kms:Decrypt",
-                "kms:Encrypt",
-                "kms:ReEncrypt*",
-                "kms:GenerateDataKey*",
-              ],
-              "Effect": "Allow",
-              "Principal": Object {
-                "AWS": Object {
-                  "Fn::GetAtt": Array [
-                    "DeployStackCodeBuildDeployRoleAAA60B15",
-                    "Arn",
-                  ],
-                },
-              },
-              "Resource": "*",
-            },
           ],
           "Version": "2012-10-17",
         },
       },
       "Type": "AWS::KMS::Key",
       "UpdateReplacePolicy": "Delete",
+    },
+    "DeployStackPipelineArtifactsBucketPolicy9C58EA6A": Object {
+      "Properties": Object {
+        "Bucket": Object {
+          "Ref": "DeployStackPipelineArtifactsBucket2FBBF0B9",
+        },
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "s3:*",
+              "Condition": Object {
+                "Bool": Object {
+                  "aws:SecureTransport": "false",
+                },
+              },
+              "Effect": "Deny",
+              "Principal": Object {
+                "AWS": "*",
+              },
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "DeployStackPipelineArtifactsBucket2FBBF0B9",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "DeployStackPipelineArtifactsBucket2FBBF0B9",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::S3::BucketPolicy",
     },
     "DeployStackPipelineBuildDeployStackBuildActionCodePipelineActionRoleDB81A0F3": Object {
       "Properties": Object {
@@ -577,7 +546,7 @@ Object {
                 "s3:GetBucket*",
                 "s3:List*",
                 "s3:DeleteObject*",
-                "s3:PutObject*",
+                "s3:PutObject",
                 "s3:Abort*",
               ],
               "Effect": "Allow",
@@ -667,7 +636,7 @@ Object {
                 "s3:GetBucket*",
                 "s3:List*",
                 "s3:DeleteObject*",
-                "s3:PutObject*",
+                "s3:PutObject",
                 "s3:Abort*",
               ],
               "Effect": "Allow",
@@ -771,6 +740,33 @@ Object {
         },
       },
       "Type": "AWS::IAM::Role",
+    },
+  },
+  "Rules": Object {
+    "CheckBootstrapVersion": Object {
+      "Assertions": Array [
+        Object {
+          "Assert": Object {
+            "Fn::Not": Array [
+              Object {
+                "Fn::Contains": Array [
+                  Array [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  Object {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
     },
   },
 }

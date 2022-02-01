@@ -1,15 +1,16 @@
-import * as cdk from '@aws-cdk/core';
-import * as wafv2 from '@aws-cdk/aws-wafv2';
-import * as ec2 from '@aws-cdk/aws-ec2';
-import * as elbv2 from '@aws-cdk/aws-elasticloadbalancingv2';
-import * as s3 from '@aws-cdk/aws-s3';
-import * as iam from '@aws-cdk/aws-iam';
-import * as ri from '@aws-cdk/region-info';
-import * as cloudfront from '@aws-cdk/aws-cloudfront';
-import * as origins from '@aws-cdk/aws-cloudfront-origins';
-import * as r53 from '@aws-cdk/aws-route53';
-import * as acm from '@aws-cdk/aws-certificatemanager';
-import * as r53targets from '@aws-cdk/aws-route53-targets';
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_wafv2 as wafv2 } from 'aws-cdk-lib';
+import { aws_ec2 as ec2 } from 'aws-cdk-lib';
+import { aws_elasticloadbalancingv2 as elbv2 } from 'aws-cdk-lib';
+import { aws_s3 as s3 } from 'aws-cdk-lib';
+import { aws_iam as iam } from 'aws-cdk-lib';
+import { region_info as ri } from 'aws-cdk-lib';
+import { aws_cloudfront as cloudfront } from 'aws-cdk-lib';
+import { aws_cloudfront_origins as origins } from 'aws-cdk-lib';
+import { aws_route53 as r53 } from 'aws-cdk-lib';
+import { aws_certificatemanager as acm } from 'aws-cdk-lib';
+import { aws_route53_targets as r53targets } from 'aws-cdk-lib';
 import { IBLEAFrontend } from './blea-frontend-interface';
 
 interface BLEAFrontendSslStackProps extends cdk.StackProps {
@@ -27,7 +28,7 @@ export class BLEAFrontendSslStack extends cdk.Stack implements IBLEAFrontend {
   public readonly webContentsBucket: s3.Bucket;
   public readonly cfDistribution: cloudfront.Distribution;
 
-  constructor(scope: cdk.Construct, id: string, props: BLEAFrontendSslStackProps) {
+  constructor(scope: Construct, id: string, props: BLEAFrontendSslStackProps) {
     super(scope, id, props);
 
     const appHostedZone = r53.HostedZone.fromHostedZoneAttributes(this, 'appHostedZone', {

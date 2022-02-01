@@ -1,12 +1,13 @@
-import * as cdk from '@aws-cdk/core';
-import * as dynamodb from '@aws-cdk/aws-dynamodb';
-import * as lambda from '@aws-cdk/aws-lambda';
-import * as kms from '@aws-cdk/aws-kms';
-import * as iam from '@aws-cdk/aws-iam';
-import * as sns from '@aws-cdk/aws-sns';
-import * as logs from '@aws-cdk/aws-logs';
-import * as cw from '@aws-cdk/aws-cloudwatch';
-import * as cw_actions from '@aws-cdk/aws-cloudwatch-actions';
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_dynamodb as dynamodb } from 'aws-cdk-lib';
+import { aws_lambda as lambda } from 'aws-cdk-lib';
+import { aws_kms as kms } from 'aws-cdk-lib';
+import { aws_iam as iam } from 'aws-cdk-lib';
+import { aws_sns as sns } from 'aws-cdk-lib';
+import { aws_logs as logs } from 'aws-cdk-lib';
+import { aws_cloudwatch as cw } from 'aws-cdk-lib';
+import { aws_cloudwatch_actions as cw_actions } from 'aws-cdk-lib';
 import * as path from 'path';
 
 export interface BLEALambdaPythonStackProps extends cdk.StackProps {
@@ -19,7 +20,7 @@ export class BLEALambdaPythonStack extends cdk.Stack {
   public readonly listItemsFunction: lambda.Function;
   public readonly putItemFunction: lambda.Function;
 
-  constructor(scope: cdk.Construct, id: string, props: BLEALambdaPythonStackProps) {
+  constructor(scope: Construct, id: string, props: BLEALambdaPythonStackProps) {
     super(scope, id, props);
 
     // Custom Policy for App Key

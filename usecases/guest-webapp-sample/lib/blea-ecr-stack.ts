@@ -1,7 +1,8 @@
-import * as cdk from '@aws-cdk/core';
-import * as ecr from '@aws-cdk/aws-ecr';
-import * as eventtarget from '@aws-cdk/aws-events-targets';
-import * as sns from '@aws-cdk/aws-sns';
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_ecr as ecr } from 'aws-cdk-lib';
+import { aws_events_targets as eventtarget } from 'aws-cdk-lib';
+import { aws_sns as sns } from 'aws-cdk-lib';
 
 export interface BLEAECRStackProps extends cdk.StackProps {
   repositoryName: string;
@@ -11,7 +12,7 @@ export interface BLEAECRStackProps extends cdk.StackProps {
 export class BLEAECRStack extends cdk.Stack {
   public readonly repository: ecr.Repository;
 
-  constructor(scope: cdk.Construct, id: string, props: BLEAECRStackProps) {
+  constructor(scope: Construct, id: string, props: BLEAECRStackProps) {
     super(scope, id, props);
 
     // Create a repository

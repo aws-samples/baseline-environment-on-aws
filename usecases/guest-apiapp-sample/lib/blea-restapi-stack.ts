@@ -1,10 +1,11 @@
-import * as cdk from '@aws-cdk/core';
-import * as lambda from '@aws-cdk/aws-lambda';
-import * as apigateway from '@aws-cdk/aws-apigateway';
-import * as sns from '@aws-cdk/aws-sns';
-import * as cw from '@aws-cdk/aws-cloudwatch';
-import * as cw_logs from '@aws-cdk/aws-logs';
-import * as cw_actions from '@aws-cdk/aws-cloudwatch-actions';
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_lambda as lambda } from 'aws-cdk-lib';
+import { aws_apigateway as apigateway } from 'aws-cdk-lib';
+import { aws_sns as sns } from 'aws-cdk-lib';
+import { aws_cloudwatch as cw } from 'aws-cdk-lib';
+import { aws_logs as cw_logs } from 'aws-cdk-lib';
+import { aws_cloudwatch_actions as cw_actions } from 'aws-cdk-lib';
 
 export interface BLEARestApiStackProps extends cdk.StackProps {
   alarmTopic: sns.Topic;
@@ -14,7 +15,7 @@ export interface BLEARestApiStackProps extends cdk.StackProps {
 }
 
 export class BLEARestApiStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props: BLEARestApiStackProps) {
+  constructor(scope: Construct, id: string, props: BLEARestApiStackProps) {
     super(scope, id, props);
 
     // Sample log group for API Gateway

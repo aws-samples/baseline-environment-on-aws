@@ -1,6 +1,7 @@
-import * as cdk from '@aws-cdk/core';
-import * as cb from '@aws-cdk/aws-chatbot';
-import * as iam from '@aws-cdk/aws-iam';
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_chatbot as cb } from 'aws-cdk-lib';
+import { aws_iam as iam } from 'aws-cdk-lib';
 
 export interface BLEAChatbotStackProps extends cdk.StackProps {
   topicArn: string;
@@ -11,7 +12,7 @@ export interface BLEAChatbotStackProps extends cdk.StackProps {
 // NOTICE: AWS Chatbot can send events from supported services only.
 // See: https://docs.aws.amazon.com/ja_jp/chatbot/latest/adminguide/related-services.html
 export class BLEAChatbotStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props: BLEAChatbotStackProps) {
+  constructor(scope: Construct, id: string, props: BLEAChatbotStackProps) {
     super(scope, id, props);
 
     // AWS Chatbot configuration for sending message

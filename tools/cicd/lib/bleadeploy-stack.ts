@@ -1,9 +1,9 @@
-import * as cdk from '@aws-cdk/core';
-import * as iam from '@aws-cdk/aws-iam';
-import * as codebuild from '@aws-cdk/aws-codebuild';
-import { LinuxBuildImage } from '@aws-cdk/aws-codebuild';
-import * as codepipeline from '@aws-cdk/aws-codepipeline';
-import * as codepipeline_actions from '@aws-cdk/aws-codepipeline-actions';
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_iam as iam } from 'aws-cdk-lib';
+import { aws_codebuild as codebuild } from 'aws-cdk-lib';
+import { aws_codepipeline as codepipeline } from 'aws-cdk-lib';
+import { aws_codepipeline_actions as codepipeline_actions } from 'aws-cdk-lib';
 
 export interface BLEAdeployStackProps extends cdk.StackProps {
   githubRepositoryOwner: string;
@@ -13,7 +13,7 @@ export interface BLEAdeployStackProps extends cdk.StackProps {
 }
 
 export class BLEAdeployStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props: BLEAdeployStackProps) {
+  constructor(scope: Construct, id: string, props: BLEAdeployStackProps) {
     super(scope, id, props);
 
     const pipeline = new codepipeline.Pipeline(this, `${id}-Pipeline`, {

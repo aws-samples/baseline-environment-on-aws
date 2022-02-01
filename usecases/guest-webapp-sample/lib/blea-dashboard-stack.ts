@@ -1,5 +1,6 @@
-import * as cdk from '@aws-cdk/core';
-import * as cw from '@aws-cdk/aws-cloudwatch';
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_cloudwatch as cw } from 'aws-cdk-lib';
 import { IBLEAFrontend } from './blea-frontend-interface';
 
 interface BLEADashboardStackProps extends cdk.StackProps {
@@ -17,7 +18,7 @@ interface BLEADashboardStackProps extends cdk.StackProps {
 }
 
 export class BLEADashboardStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props: BLEADashboardStackProps) {
+  constructor(scope: Construct, id: string, props: BLEADashboardStackProps) {
     super(scope, id, props);
 
     /*
@@ -32,7 +33,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const cfRequests = new cw.Metric({
       namespace: 'AWS/CloudFront',
       metricName: 'Requests',
-      dimensions: {
+      dimensionsMap: {
         Region: 'Global',
         DistributionId: props.webFront.cfDistribution.distributionId,
       },
@@ -45,7 +46,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const cf5xxErrorRate = new cw.Metric({
       namespace: 'AWS/CloudFront',
       metricName: '5xxErrorRate',
-      dimensions: {
+      dimensionsMap: {
         Region: 'Global',
         DistributionId: props.webFront.cfDistribution.distributionId,
       },
@@ -58,7 +59,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const cf4xxErrorRate = new cw.Metric({
       namespace: 'AWS/CloudFront',
       metricName: '4xxErrorRate',
-      dimensions: {
+      dimensionsMap: {
         Region: 'Global',
         DistributionId: props.webFront.cfDistribution.distributionId,
       },
@@ -68,10 +69,10 @@ export class BLEADashboardStack extends cdk.Stack {
       unit: cw.Unit.PERCENT,
       region: 'us-east-1', // cloudfront defined on us-east-1
     });
-    const cfTotalErrorRate = new cw.Metric({
+    new cw.Metric({
       namespace: 'AWS/CloudFront',
       metricName: 'TotalErrorRate',
-      dimensions: {
+      dimensionsMap: {
         Region: 'Global',
         DistributionId: props.webFront.cfDistribution.distributionId,
       },
@@ -87,7 +88,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const albRequests = new cw.Metric({
       namespace: 'AWS/ApplicationELB',
       metricName: 'RequestCount',
-      dimensions: {
+      dimensionsMap: {
         LoadBalancer: props.webFront.appAlb.loadBalancerFullName,
       },
       period: cdk.Duration.minutes(1),
@@ -98,7 +99,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const albNewConnectionCount = new cw.Metric({
       namespace: 'AWS/ApplicationELB',
       metricName: 'NewConnectionCount',
-      dimensions: {
+      dimensionsMap: {
         LoadBalancer: props.webFront.appAlb.loadBalancerFullName,
       },
       period: cdk.Duration.minutes(1),
@@ -109,7 +110,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const albRejectedConnectionCount = new cw.Metric({
       namespace: 'AWS/ApplicationELB',
       metricName: 'RejectedConnectionCount',
-      dimensions: {
+      dimensionsMap: {
         LoadBalancer: props.webFront.appAlb.loadBalancerFullName,
       },
       period: cdk.Duration.minutes(1),
@@ -120,7 +121,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const albTLSNegotiationErrors = new cw.Metric({
       namespace: 'AWS/ApplicationELB',
       metricName: 'ClientTLSNegotiationErrorCount',
-      dimensions: {
+      dimensionsMap: {
         LoadBalancer: props.webFront.appAlb.loadBalancerFullName,
       },
       period: cdk.Duration.minutes(1),
@@ -131,7 +132,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const alb5xxErrors = new cw.Metric({
       namespace: 'AWS/ApplicationELB',
       metricName: 'HTTPCode_ELB_5XX_Count',
-      dimensions: {
+      dimensionsMap: {
         LoadBalancer: props.webFront.appAlb.loadBalancerFullName,
       },
       period: cdk.Duration.minutes(1),
@@ -142,7 +143,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const alb4xxErrors = new cw.Metric({
       namespace: 'AWS/ApplicationELB',
       metricName: 'HTTPCode_ELB_4XX_Count',
-      dimensions: {
+      dimensionsMap: {
         LoadBalancer: props.webFront.appAlb.loadBalancerFullName,
       },
       period: cdk.Duration.minutes(1),
@@ -156,7 +157,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const albTgRequests = new cw.Metric({
       namespace: 'AWS/ApplicationELB',
       metricName: 'HTTPCode_Target_2XX_Count',
-      dimensions: {
+      dimensionsMap: {
         LoadBalancer: props.webFront.appAlb.loadBalancerFullName,
       },
       period: cdk.Duration.minutes(1),
@@ -167,7 +168,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const albTg5xxErrors = new cw.Metric({
       namespace: 'AWS/ApplicationELB',
       metricName: 'HTTPCode_Target_5XX_Count',
-      dimensions: {
+      dimensionsMap: {
         LoadBalancer: props.webFront.appAlb.loadBalancerFullName,
       },
       period: cdk.Duration.minutes(1),
@@ -178,7 +179,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const albTg4xxErrors = new cw.Metric({
       namespace: 'AWS/ApplicationELB',
       metricName: 'HTTPCode_Target_4XX_Count',
-      dimensions: {
+      dimensionsMap: {
         LoadBalancer: props.webFront.appAlb.loadBalancerFullName,
       },
       period: cdk.Duration.minutes(1),
@@ -189,7 +190,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const albTgConnectionErrors = new cw.Metric({
       namespace: 'AWS/ApplicationELB',
       metricName: 'TargetConnectionErrorCount',
-      dimensions: {
+      dimensionsMap: {
         LoadBalancer: props.webFront.appAlb.loadBalancerFullName,
       },
       period: cdk.Duration.minutes(1),
@@ -200,7 +201,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const albTgTLSNegotiationErrors = new cw.Metric({
       namespace: 'AWS/ApplicationELB',
       metricName: 'TargetConnectionErrorCount',
-      dimensions: {
+      dimensionsMap: {
         LoadBalancer: props.webFront.appAlb.loadBalancerFullName,
       },
       period: cdk.Duration.minutes(1),
@@ -211,7 +212,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const albTgResponseTime = new cw.Metric({
       namespace: 'AWS/ApplicationELB',
       metricName: 'TargetResponseTime',
-      dimensions: {
+      dimensionsMap: {
         LoadBalancer: props.webFront.appAlb.loadBalancerFullName,
       },
       period: cdk.Duration.minutes(1),
@@ -222,7 +223,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const albTgRequestCountPerTarget = new cw.Metric({
       namespace: 'AWS/ApplicationELB',
       metricName: 'RequestCountPerTarget',
-      dimensions: {
+      dimensionsMap: {
         LoadBalancer: props.webFront.appAlb.loadBalancerFullName,
         TargetGroup: props.appTargetGroupName,
       },
@@ -239,7 +240,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const ecsCPUUtilization = new cw.Metric({
       namespace: 'AWS/ECS',
       metricName: 'CPUUtilization',
-      dimensions: {
+      dimensionsMap: {
         ClusterName: props.ecsClusterName,
         ServiceName: props.ecsServiceName,
       },
@@ -251,7 +252,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const ecsMemoryUtilization = new cw.Metric({
       namespace: 'AWS/ECS',
       metricName: 'MemoryUtilization',
-      dimensions: {
+      dimensionsMap: {
         ClusterName: props.ecsClusterName,
         ServiceName: props.ecsServiceName,
       },
@@ -263,7 +264,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const ecsDesiredTaskCount = new cw.Metric({
       namespace: 'ECS/ContainerInsights',
       metricName: 'DesiredTaskCount',
-      dimensions: {
+      dimensionsMap: {
         ClusterName: props.ecsClusterName,
         ServiceName: props.ecsServiceName,
       },
@@ -275,7 +276,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const ecsRunningTaskCount = new cw.Metric({
       namespace: 'ECS/ContainerInsights',
       metricName: 'RunningTaskCount',
-      dimensions: {
+      dimensionsMap: {
         ClusterName: props.ecsClusterName,
         ServiceName: props.ecsServiceName,
       },
@@ -287,7 +288,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const ecsPendingTaskCount = new cw.Metric({
       namespace: 'ECS/ContainerInsights',
       metricName: 'PendingTaskCount',
-      dimensions: {
+      dimensionsMap: {
         ClusterName: props.ecsClusterName,
         ServiceName: props.ecsServiceName,
       },
@@ -303,7 +304,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const dbWriterDatabaseConnections = new cw.Metric({
       namespace: 'AWS/RDS',
       metricName: 'DatabaseConnections',
-      dimensions: {
+      dimensionsMap: {
         DBClusterIdentifier: props.dbClusterName,
         Role: 'WRITER',
       },
@@ -315,7 +316,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const dbReaderDatabaseConnections = new cw.Metric({
       namespace: 'AWS/RDS',
       metricName: 'DatabaseConnections',
-      dimensions: {
+      dimensionsMap: {
         DBClusterIdentifier: props.dbClusterName,
         Role: 'READER',
       },
@@ -327,7 +328,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const dbWriterCPUUtilization = new cw.Metric({
       namespace: 'AWS/RDS',
       metricName: 'CPUUtilization',
-      dimensions: {
+      dimensionsMap: {
         DBClusterIdentifier: props.dbClusterName,
         Role: 'WRITER',
       },
@@ -339,7 +340,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const dbReaderCPUUtilization = new cw.Metric({
       namespace: 'AWS/RDS',
       metricName: 'CPUUtilization',
-      dimensions: {
+      dimensionsMap: {
         DBClusterIdentifier: props.dbClusterName,
         Role: 'READER',
       },
@@ -351,7 +352,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const dbWriterFreeableMemory = new cw.Metric({
       namespace: 'AWS/RDS',
       metricName: 'FreeableMemory',
-      dimensions: {
+      dimensionsMap: {
         DBClusterIdentifier: props.dbClusterName,
         Role: 'WRITER',
       },
@@ -363,7 +364,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const dbReaderFreeableMemory = new cw.Metric({
       namespace: 'AWS/RDS',
       metricName: 'FreeableMemory',
-      dimensions: {
+      dimensionsMap: {
         DBClusterIdentifier: props.dbClusterName,
         Role: 'READER',
       },
@@ -375,7 +376,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const dbWriterFreeLocalStorage = new cw.Metric({
       namespace: 'AWS/RDS',
       metricName: 'FreeLocalStorage',
-      dimensions: {
+      dimensionsMap: {
         DBClusterIdentifier: props.dbClusterName,
         Role: 'WRITER',
       },
@@ -387,7 +388,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const dbReaderFreeLocalStorage = new cw.Metric({
       namespace: 'AWS/RDS',
       metricName: 'FreeLocalStorage',
-      dimensions: {
+      dimensionsMap: {
         DBClusterIdentifier: props.dbClusterName,
         Role: 'READER',
       },
@@ -401,7 +402,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const dbWriterInsertLatency = new cw.Metric({
       namespace: 'AWS/RDS',
       metricName: 'InsertLatency',
-      dimensions: {
+      dimensionsMap: {
         DBClusterIdentifier: props.dbClusterName,
         Role: 'WRITER',
       },
@@ -413,7 +414,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const dbWriterSelectLatency = new cw.Metric({
       namespace: 'AWS/RDS',
       metricName: 'SelectLatency',
-      dimensions: {
+      dimensionsMap: {
         DBClusterIdentifier: props.dbClusterName,
         Role: 'WRITER',
       },
@@ -425,7 +426,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const dbWriterUpdateLatency = new cw.Metric({
       namespace: 'AWS/RDS',
       metricName: 'UpdateLatency',
-      dimensions: {
+      dimensionsMap: {
         DBClusterIdentifier: props.dbClusterName,
         Role: 'WRITER',
       },
@@ -437,7 +438,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const dbWriterCommitLatency = new cw.Metric({
       namespace: 'AWS/RDS',
       metricName: 'CommitLatency',
-      dimensions: {
+      dimensionsMap: {
         DBClusterIdentifier: props.dbClusterName,
         Role: 'WRITER',
       },
@@ -449,7 +450,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const dbWriterDDLLatency = new cw.Metric({
       namespace: 'AWS/RDS',
       metricName: 'DDLLatency',
-      dimensions: {
+      dimensionsMap: {
         DBClusterIdentifier: props.dbClusterName,
         Role: 'WRITER',
       },
@@ -461,7 +462,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const dbWriterDeleteLatency = new cw.Metric({
       namespace: 'AWS/RDS',
       metricName: 'DeleteLatency',
-      dimensions: {
+      dimensionsMap: {
         DBClusterIdentifier: props.dbClusterName,
         Role: 'WRITER',
       },
@@ -473,7 +474,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const dbWriterDMLLatency = new cw.Metric({
       namespace: 'AWS/RDS',
       metricName: 'DeleteLatency',
-      dimensions: {
+      dimensionsMap: {
         DBClusterIdentifier: props.dbClusterName,
         Role: 'WRITER',
       },
@@ -485,7 +486,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const dbWriterReadLatency = new cw.Metric({
       namespace: 'AWS/RDS',
       metricName: 'ReadLatency',
-      dimensions: {
+      dimensionsMap: {
         DBClusterIdentifier: props.dbClusterName,
         Role: 'WRITER',
       },
@@ -497,7 +498,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const dbWriterWriteLatency = new cw.Metric({
       namespace: 'AWS/RDS',
       metricName: 'WriteLatency',
-      dimensions: {
+      dimensionsMap: {
         DBClusterIdentifier: props.dbClusterName,
         Role: 'WRITER',
       },
@@ -511,7 +512,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const dbReaderSelectLatency = new cw.Metric({
       namespace: 'AWS/RDS',
       metricName: 'SelectLatency',
-      dimensions: {
+      dimensionsMap: {
         DBClusterIdentifier: props.dbClusterName,
         Role: 'READER',
       },
@@ -523,7 +524,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const dbReaderReadLatency = new cw.Metric({
       namespace: 'AWS/RDS',
       metricName: 'ReadLatency',
-      dimensions: {
+      dimensionsMap: {
         DBClusterIdentifier: props.dbClusterName,
         Role: 'READER',
       },
@@ -535,7 +536,7 @@ export class BLEADashboardStack extends cdk.Stack {
     const dbReaderWriteLatency = new cw.Metric({
       namespace: 'AWS/RDS',
       metricName: 'WriteLatency',
-      dimensions: {
+      dimensionsMap: {
         DBClusterIdentifier: props.dbClusterName,
         Role: 'READER',
       },

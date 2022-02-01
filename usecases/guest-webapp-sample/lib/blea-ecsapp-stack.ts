@@ -1,16 +1,17 @@
-import * as cdk from '@aws-cdk/core';
-import * as ec2 from '@aws-cdk/aws-ec2';
-import * as elbv2 from '@aws-cdk/aws-elasticloadbalancingv2';
-import * as iam from '@aws-cdk/aws-iam';
-import * as kms from '@aws-cdk/aws-kms';
-import * as ecs from '@aws-cdk/aws-ecs';
-import * as sns from '@aws-cdk/aws-sns';
-import * as cw from '@aws-cdk/aws-cloudwatch';
-import * as cwe from '@aws-cdk/aws-events';
-import * as cwet from '@aws-cdk/aws-events-targets';
-import * as cwl from '@aws-cdk/aws-logs';
-import * as cw_actions from '@aws-cdk/aws-cloudwatch-actions';
-import * as ecr from '@aws-cdk/aws-ecr';
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_ec2 as ec2 } from 'aws-cdk-lib';
+import { aws_elasticloadbalancingv2 as elbv2 } from 'aws-cdk-lib';
+import { aws_iam as iam } from 'aws-cdk-lib';
+import { aws_kms as kms } from 'aws-cdk-lib';
+import { aws_ecs as ecs } from 'aws-cdk-lib';
+import { aws_sns as sns } from 'aws-cdk-lib';
+import { aws_cloudwatch as cw } from 'aws-cdk-lib';
+import { aws_events as cwe } from 'aws-cdk-lib';
+import { aws_events_targets as cwet } from 'aws-cdk-lib';
+import { aws_logs as cwl } from 'aws-cdk-lib';
+import { aws_cloudwatch_actions as cw_actions } from 'aws-cdk-lib';
+import { aws_ecr as ecr } from 'aws-cdk-lib';
 import { IBLEAFrontend } from './blea-frontend-interface';
 
 export interface BLEAECSAppStackProps extends cdk.StackProps {
@@ -31,7 +32,7 @@ export class BLEAECSAppStack extends cdk.Stack {
   public readonly ecsTargetUtilizationPercent: number;
   public readonly ecsScaleOnRequestCount: number;
 
-  constructor(scope: cdk.Construct, id: string, props: BLEAECSAppStackProps) {
+  constructor(scope: Construct, id: string, props: BLEAECSAppStackProps) {
     super(scope, id, props);
 
     // --------------------- Fargate Cluster ----------------------------
@@ -222,7 +223,7 @@ export class BLEAECSAppStack extends cdk.Stack {
     // new cw.Metric({
     //   metricName: 'RunningTaskCount',
     //   namespace: 'ECS/ContainerInsights',
-    //   dimensions: {
+    //    dimensionsMap: {
     //     ClusterName: ecsCluster.clusterName,
     //     ServiceName: ecsService.serviceName,
     //   },

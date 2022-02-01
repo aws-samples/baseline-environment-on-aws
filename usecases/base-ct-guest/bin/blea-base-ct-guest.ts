@@ -1,5 +1,4 @@
-#!/usr/bin/env node
-import * as cdk from '@aws-cdk/core';
+import * as cdk from 'aws-cdk-lib';
 import { BLEAIamStack } from '../lib/blea-iam-stack';
 import { BLEAConfigRulesStack } from '../lib/blea-config-rules-stack';
 import { BLEASecurityAlarmStack } from '../lib/blea-security-alarm-stack';
