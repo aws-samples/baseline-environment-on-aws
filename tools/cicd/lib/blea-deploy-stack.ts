@@ -1,0 +1,84 @@
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { aws_iam as iam } from 'aws-cdk-lib';
+import { aws_codebuild as codebuild } from 'aws-cdk-lib';
+import { pipelines as pipelines } from 'aws-cdk-lib';
+
+export interface BLEAdeployStackProps extends cdk.StackProps {
+  githubRepositoryOwner: string;
+  githubRepositoryName: string;
+  githubTargetBranch: string;
+  codestarConnectionArn: string;
+}
+
+export class BLEAdeployStack extends cdk.Stack {
+  constructor(scope: Construct, id: string, props: BLEAdeployStackProps) {
+    super(scope, id, props);
+
+    // 'Owner/Repo'で渡すので、二つの引数をまとめて一つのPropにする。
+    const githubRepository = props.githubRepositoryOwner + '/' + props.githubRepositoryName;
+
+    const deployRole = new iam.Role(this, `${id}-CodeBuildDeployRole`, {
+      assumedBy: new iam.ServicePrincipal('codebuild.amazonaws.com'),
+      managedPolicies: [
+        {
+          managedPolicyArn: 'arn:aws:iam::aws:policy/AdministratorAccess',
+        },
+      ],
+    });
+
+    // You just have to select GitHub as the source when creating the connection in the console
+    // basic pipeline declaration. This sets the initial structure of our pipeline
+    const pipeline = new pipelines.CodePipeline(this, 'pipeline', {
+      pipelineName: 'BLEAdeployPipeline',
+      // ここをShellStageにするのか、CodeBuildStageにするのかは、コマンドをCodeBuildで走らせたいかに依存する。
+      synth: new pipelines.CodeBuildStep('SynthStep', {
+        // input: このパイプラインでビルドするべきソースコード（つまり、BLEAのProjectコード）
+        input: pipelines.CodePipelineSource.connection(githubRepository, props.githubTargetBranch, {
+          connectionArn: props.codestarConnectionArn,
+        }),
+        installCommands: ['n stable', 'node -v', 'npm i -g npm'],
+        commands: [
+          'npm ci',
+          'npm audit',
+          'npm run lint',
+          'npm run build --workspace usecases/guest-webapp-sample',
+          'npm run test --workspace usecases/guest-webapp-sample',
+          // # You can specify CDK deployment commands.
+          // # Usually, you may want to deploy all of resources in the app.
+          // # If you want to do so, please specify `"*"`
+          'cd usecases/guest-webapp-sample',
+          ' npx cdk deploy BLEA-MonitorAlarm -c environment=dev --require-approval never',
+        ],
+        // commands: [
+        //   'ls',
+        //   'cat /codebuild/readonly/buildspec.yml',
+        //   'ls ./usecases/guest-webapp-sample',
+        //   'ls ./usecases/base-standalone',
+        //   'find ./ -name cdk.out -type d',
+        // ],
+        // TODO:ここのコマンドは精査が必要。BuildSpecで記述されているので、問題ない？
+        role: deployRole,
+        // そもそもbuildspecがディレクトリの直下のものを呼んでくれない。このコードでも無理。
+        // partialBuildSpec: codebuild.BuildSpec.fromSourceFilename('./buildspec.yaml'),
+        // control Build Environment
+        buildEnvironment: {
+          buildImage: codebuild.LinuxBuildImage.AMAZON_LINUX_2_3,
+          environmentVariables: {
+            AWS_DEFAULT_REGION: {
+              type: codebuild.BuildEnvironmentVariableType.PLAINTEXT,
+              value: this.region,
+            },
+          },
+        },
+        primaryOutputDirectory: './usecases/guest-webapp-sample/cdk.out',
+      }),
+    });
+    // pipeline.addStage();
+  }
+}
+
+// // Pipelineで動かすためのApplicationをStageをExtendして定義する必要がある。
+// class ExampleApp extends Stage {
+//   constructor(parameters) {}
+// }
