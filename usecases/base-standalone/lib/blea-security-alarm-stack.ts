@@ -75,7 +75,7 @@ export class BLEASecurityAlarmStack extends cdk.Stack {
     });
 
     // ------------ Detective guardrails from NIST standard template ----------------
-    // See: https://aws.amazon.com/quickstart/architecture/compliance-nist/?nc1=h_ls
+    // See: https://aws.amazon.com/blogs/publicsector/automating-compliance-architecting-for-fedramp-high-and-nist-workloads-in-aws-govcloud-us/
 
     // Security Groups Change Notification
     // See: https://aws.amazon.com/premiumsupport/knowledge-center/monitor-security-group-changes-ec2/?nc1=h_ls
