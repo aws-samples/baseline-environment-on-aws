@@ -1,6 +1,7 @@
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
-import { BLEAdeployStack } from '../lib/bleadeploy-stack';
+// import { BLEAdeployStack } from '../lib/bleadeploy-stack';
+import { BLEAdeployStack } from '../lib/blea-deploy-stack';
 
 const pjPrefix = 'BLEA-DEPLOY';
 
