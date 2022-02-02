@@ -118,7 +118,7 @@ BLEA を使う場合の最も典型的な導入手順は次の通りです。こ
 #### 1-1. リポジトリの取得
 
 ```sh
-git clone https://github.com/aws-samples/baseline-environment-on-aws.git
+git clone https://github.com/morisy575/baseline-environment-on-aws.git
 cd baseline-environment-on-aws
 ```
 
