@@ -54,12 +54,12 @@ export class BLEAPipelineStage extends cdk.Stage {
     const channelIdMon = envVals['slackNotifier']['channelIdMon'];
 
     // Topic for monitoring guest system
-    const monitorAlarm = new BLEAMonitorAlarmStack(app, `${pjPrefix}-MonitorAlarm`, {
+    const monitorAlarm = new BLEAMonitorAlarmStack(this, `${pjPrefix}-MonitorAlarm`, {
       notifyEmail: envVals['monitoringNotifyEmail'],
       env: getProcEnv(),
     });
 
-    new BLEAChatbotStack(app, `${pjPrefix}-ChatbotMonitor`, {
+    new BLEAChatbotStack(this, `${pjPrefix}-ChatbotMonitor`, {
       topicArn: monitorAlarm.alarmTopic.topicArn,
       workspaceId: workspaceId,
       channelId: channelIdMon,
@@ -67,11 +67,11 @@ export class BLEAPipelineStage extends cdk.Stage {
     });
 
     // CMK for Apps
-    const appKey = new BLEAKeyAppStack(app, `${pjPrefix}-AppKey`, { env: getProcEnv() });
+    const appKey = new BLEAKeyAppStack(this, `${pjPrefix}-AppKey`, { env: getProcEnv() });
 
     // Networking
     const myVpcCidr = envVals['vpcCidr'];
-    const prodVpc = new BLEAVpcStack(app, `${pjPrefix}-Vpc`, {
+    const prodVpc = new BLEAVpcStack(this, `${pjPrefix}-Vpc`, {
       myVpcCidr: myVpcCidr,
       env: getProcEnv(),
     });
@@ -85,20 +85,20 @@ export class BLEAPipelineStage extends cdk.Stage {
     //      account: getProcEnv().account,
     //      region: 'us-east-1',
     //  }}
-    const waf = new BLEAWafStack(app, `${pjPrefix}-Waf`, {
+    const waf = new BLEAWafStack(this, `${pjPrefix}-Waf`, {
       scope: 'REGIONAL',
       env: getProcEnv(),
     });
 
     // Simple CloudFront FrontEnd
-    const front = new BLEAFrontendSimpleStack(app, `${pjPrefix}-SimpleFrontStack`, {
+    const front = new BLEAFrontendSimpleStack(this, `${pjPrefix}-SimpleFrontStack`, {
       myVpc: prodVpc.myVpc,
       webAcl: waf.webAcl,
       env: getProcEnv(),
     });
 
     // Container Repository
-    const ecr = new BLEAECRStack(app, `${pjPrefix}-ECR`, {
+    const ecr = new BLEAECRStack(this, `${pjPrefix}-ECR`, {
       // TODO: will get "repositoryName" from parameters
       repositoryName: 'apprepo',
       alarmTopic: monitorAlarm.alarmTopic,
@@ -106,13 +106,13 @@ export class BLEAPipelineStage extends cdk.Stage {
     });
 
     // Build Container Image
-    const build_container = new BLEABuildContainerStack(app, `${pjPrefix}-ContainerImage`, {
+    const build_container = new BLEABuildContainerStack(this, `${pjPrefix}-ContainerImage`, {
       ecrRepository: ecr.repository,
       env: getProcEnv(),
     });
 
     // Application Stack (LoadBalancer + Fargate)
-    const ecsApp = new BLEAECSAppStack(app, `${pjPrefix}-ECSApp`, {
+    const ecsApp = new BLEAECSAppStack(this, `${pjPrefix}-ECSApp`, {
       myVpc: prodVpc.myVpc,
       appKey: appKey.kmsKey,
       repository: ecr.repository,
@@ -124,7 +124,7 @@ export class BLEAPipelineStage extends cdk.Stage {
     ecsApp.addDependency(build_container);
 
     // Aurora
-    const dbCluster = new BLEADbAuroraPgStack(app, `${pjPrefix}-DBAuroraPg`, {
+    const dbCluster = new BLEADbAuroraPgStack(this, `${pjPrefix}-DBAuroraPg`, {
       myVpc: prodVpc.myVpc,
       dbName: 'mydbname',
       dbUser: envVals['dbUser'],
@@ -139,13 +139,13 @@ export class BLEAPipelineStage extends cdk.Stage {
     });
 
     // Monitoring
-    const appCanary = new BLEACanaryStack(app, `${pjPrefix}-ECSAppCanary`, {
+    const appCanary = new BLEACanaryStack(this, `${pjPrefix}-ECSAppCanary`, {
       alarmTopic: monitorAlarm.alarmTopic,
       appEndpoint: front.cfDistribution.domainName,
       env: getProcEnv(),
     });
 
-    new BLEADashboardStack(app, `${pjPrefix}-ECSAppDashboard`, {
+    new BLEADashboardStack(this, `${pjPrefix}-ECSAppDashboard`, {
       dashboardName: `${pjPrefix}-ECSApp`,
       webFront: front,
       ecsClusterName: ecsApp.ecsClusterName,
