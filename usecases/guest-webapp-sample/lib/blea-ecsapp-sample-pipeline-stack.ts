@@ -5,8 +5,9 @@ import { aws_codebuild as codebuild } from 'aws-cdk-lib';
 import { pipelines } from 'aws-cdk-lib';
 
 export interface BLEAPipelineStackProps extends cdk.StackProps {
-  githubRepositoryOwner: string;
-  githubRepositoryName: string;
+  // githubRepositoryOwner: string;
+  // githubRepositoryName: string;
+  githubRepository: string;
   githubTargetBranch: string;
   codestarConnectionArn: string;
 
@@ -18,7 +19,8 @@ export class BLEAPipelineStack extends cdk.Stack {
     super(scope, id, props);
 
     // 'Owner/Repo'で渡すので、二つの引数をまとめて一つのPropにする。
-    const githubRepository = props.githubRepositoryOwner + '/' + props.githubRepositoryName;
+    // const githubRepository = props.githubRepositoryOwner + '/' + props.githubRepositoryName;
+    const githubRepository = props.githubRepository;
 
     const deployRole = new iam.Role(this, `${id}-CodeBuildDeployRole`, {
       assumedBy: new iam.ServicePrincipal('codebuild.amazonaws.com'),
@@ -41,6 +43,8 @@ export class BLEAPipelineStack extends cdk.Stack {
         }),
         installCommands: ['n stable', 'node -v', 'npm i -g npm'],
         commands: [
+          'echo "node: $(node --version)" ',
+          'echo "npm: $(npm --version)" ',
           'npm ci',
           'npm audit',
           'npm run lint',
@@ -48,6 +52,7 @@ export class BLEAPipelineStack extends cdk.Stack {
           'npm run build --workspaces',
           // 'npm run build --workspace usecases/guest-webapp-sample',
           'npm run test --workspaces',
+          'npm run synth',
           // # You can specify CDK deployment commands.
           // # Usually, you may want to deploy all of resources in the app.
           // # If you want to do so, please specify `"*"`

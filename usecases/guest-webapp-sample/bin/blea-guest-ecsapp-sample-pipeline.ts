@@ -165,8 +165,9 @@ export class BLEAPipelineStage extends cdk.Stage {
 const deploy = new BLEAPipelineStage(app, 'ecsapp-sample-deploy');
 
 new BLEAPipelineStack(app, `${pjPrefix}-Stack`, {
-  githubRepositoryOwner: envVals['githubRepositoryOwner'],
-  githubRepositoryName: envVals['githubRepositoryName'],
+  // githubRepositoryOwner: envVals['githubRepositoryOwner'],
+  // githubRepositoryName: envVals['githubRepositoryName'],
+  githubRepository: envVals['githubRepository'],
   githubTargetBranch: envVals['githubTargetBranch'],
   codestarConnectionArn: envVals['codestarConnectionArn'],
   env: getProcEnv(),
