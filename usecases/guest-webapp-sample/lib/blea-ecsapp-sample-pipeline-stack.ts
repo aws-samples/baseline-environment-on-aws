@@ -44,14 +44,14 @@ export class BLEAPipelineStack extends cdk.Stack {
           'npm ci',
           'npm audit',
           'npm run lint',
-          'cd usecases/guest-webapp-sample',
-          'npm run build',
+          // 'cd usecases/guest-webapp-sample',
+          'npm run build --workspaces',
           // 'npm run build --workspace usecases/guest-webapp-sample',
-          'npm run test',
+          'npm run test --workspaces',
           // # You can specify CDK deployment commands.
           // # Usually, you may want to deploy all of resources in the app.
           // # If you want to do so, please specify `"*"`
-          ' npx cdk deploy BLEA-MonitorAlarm -c environment=dev --require-approval never',
+          // ' npx cdk deploy BLEA-MonitorAlarm -c environment=dev --require-approval never',
         ],
         role: deployRole,
         // control Build Environment
