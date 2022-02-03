@@ -34,7 +34,7 @@ export class BLEAPipelineStack extends cdk.Stack {
     // You just have to select GitHub as the source when creating the connection in the console
     // basic pipeline declaration. This sets the initial structure of our pipeline
     const pipeline = new pipelines.CodePipeline(this, 'pipeline', {
-      pipelineName: 'BLEAdeployPipeline',
+      pipelineName: 'EcsSamplePipeline',
       // ここをShellStageにするのか、CodeBuildStageにするのかは、コマンドをCodeBuildで走らせたいかに依存する。
       synth: new pipelines.CodeBuildStep('SynthStep', {
         // input: このパイプラインでビルドするべきソースコード（つまり、BLEAのProjectコード）
