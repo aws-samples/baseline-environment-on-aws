@@ -53,6 +53,7 @@ export class BLEAPipelineStack extends cdk.Stack {
           'npm run build',
           'npm run test',
           'npm run synth:dev',
+          'ls',
           // # You can specify CDK deployment commands.
           // # Usually, you may want to deploy all of resources in the app.
           // # If you want to do so, please specify `"*"`
