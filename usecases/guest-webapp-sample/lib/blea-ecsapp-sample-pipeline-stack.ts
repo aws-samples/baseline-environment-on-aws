@@ -2,7 +2,7 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { aws_iam as iam } from 'aws-cdk-lib';
 import { aws_codebuild as codebuild } from 'aws-cdk-lib';
-import { pipelines as pipelines } from 'aws-cdk-lib';
+import { pipelines } from 'aws-cdk-lib';
 
 export interface BLEAPipelineStackProps extends cdk.StackProps {
   githubRepositoryOwner: string;
