@@ -41,18 +41,17 @@ export class BLEAPipelineStack extends cdk.Stack {
         input: pipelines.CodePipelineSource.connection(githubRepository, props.githubTargetBranch, {
           connectionArn: props.codestarConnectionArn,
         }),
-        installCommands: ['n stable', 'node -v', 'npm i -g npm'],
+        installCommands: ['n stable', 'node -v', 'npm i -g npm@8.3'],
         commands: [
           'echo "node: $(node --version)" ',
           'echo "npm: $(npm --version)" ',
           'npm ci',
           'npm audit',
           'npm run lint',
-          // 'cd usecases/guest-webapp-sample',
-          'npm run build --workspaces',
-          // 'npm run build --workspace usecases/guest-webapp-sample',
-          'npm run test --workspaces',
-          'npm run synth',
+          'cd usecases/guest-webapp-sample',
+          'npm run build',
+          'npm run test',
+          'npm run synth:dev',
           // # You can specify CDK deployment commands.
           // # Usually, you may want to deploy all of resources in the app.
           // # If you want to do so, please specify `"*"`
