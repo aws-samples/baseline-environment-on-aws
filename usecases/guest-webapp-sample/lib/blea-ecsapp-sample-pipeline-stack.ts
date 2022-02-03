@@ -70,7 +70,7 @@ export class BLEAPipelineStack extends cdk.Stack {
             },
           },
         },
-        primaryOutputDirectory: './cdk.out',
+        primaryOutputDirectory: './usecases/guest-webapp-sample/cdk.out',
       }),
     });
     pipeline.addStage(props.deployStage);
