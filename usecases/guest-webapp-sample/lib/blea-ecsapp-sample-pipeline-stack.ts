@@ -44,7 +44,9 @@ export class BLEAPipelineStack extends cdk.Stack {
           'npm ci',
           'npm audit',
           'npm run lint',
-          'npm run build --workspace usecases/guest-webapp-sample',
+          'cd usecases/guest-webapp-sample',
+          'npm run build',
+          // 'npm run build --workspace usecases/guest-webapp-sample',
           'npm run test --workspace usecases/guest-webapp-sample',
           // # You can specify CDK deployment commands.
           // # Usually, you may want to deploy all of resources in the app.
