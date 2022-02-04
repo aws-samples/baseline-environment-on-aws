@@ -34,7 +34,7 @@ export class BLEAPipelineStack extends cdk.Stack {
     // You just have to select GitHub as the source when creating the connection in the console
     // basic pipeline declaration. This sets the initial structure of our pipeline
     const pipeline = new pipelines.CodePipeline(this, 'pipeline', {
-      selfMutation: false,
+      // selfMutation: false,
       pipelineName: 'EcsSamplePipeline',
       // ここをShellStageにするのか、CodeBuildStageにするのかは、コマンドをCodeBuildで走らせたいかに依存する。
       synth: new pipelines.CodeBuildStep('SynthStep', {
@@ -52,8 +52,9 @@ export class BLEAPipelineStack extends cdk.Stack {
           'cd usecases/guest-webapp-sample',
           'npm run build',
           'npm run test',
-          'npm run synth:dev',
+          'npm run synth:my-dev',
           'ls',
+          'npx cdk ls -c environment=my-dev-multi',
           // # You can specify CDK deployment commands.
           // # Usually, you may want to deploy all of resources in the app.
           // # If you want to do so, please specify `"*"`
