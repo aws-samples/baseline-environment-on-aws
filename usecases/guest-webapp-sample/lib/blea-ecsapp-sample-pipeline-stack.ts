@@ -12,6 +12,7 @@ export interface BLEAPipelineStackProps extends cdk.StackProps {
   codestarConnectionArn: string;
 
   deployStage: cdk.Stage;
+  contextParameterStore: string;
 }
 
 export class BLEAPipelineStack extends cdk.Stack {
@@ -52,6 +53,7 @@ export class BLEAPipelineStack extends cdk.Stack {
           'cd usecases/guest-webapp-sample',
           'npm run build',
           'npm run test',
+          'npx cdk context',
           'npm run synth:my-dev',
           'ls',
           'npx cdk ls -c environment=my-dev-multi',
