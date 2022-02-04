@@ -9,14 +9,16 @@
   },
   "scripts": {
     "synth:dev": "npx cdk synth -c environment=dev && npx cdk synth --app \"npx ts-node bin/blea-guest-asgapp-sample.ts\" -c environment=dev && npx cdk synth --app \"npx ts-node bin/blea-guest-ec2app-sample.ts\" -c environment=dev && npx cdk synth --app \"npx ts-node bin/blea-guest-ecsapp-ssl-sample.ts\" -c environment=dev",
-    "synth:my-dev": "npx cdk synth -c environment=my-dev-multi && npx cdk synth --app \"npx ts-node bin/blea-guest-asgapp-sample.ts\" -c environment=my-dev-multi && npx cdk synth --app \"npx ts-node bin/blea-guest-ec2app-sample.ts\" -c environment=my-dev-multi && npx cdk synth --app \"npx ts-node bin/blea-guest-ecsapp-ssl-sample.ts\" -c environment=my-dev-multi",
+    "synth:dev_context": "npx cdk synth -c environment=my-dev-multi && npx cdk synth --app \"npx ts-node bin/blea-guest-asgapp-sample.ts\" -c environment=my-dev-multi && npx cdk synth --app \"npx ts-node bin/blea-guest-ec2app-sample.ts\" -c environment=my-dev-multi && npx cdk synth --app \"npx ts-node bin/blea-guest-ecsapp-ssl-sample.ts\" -c environment=my-dev-multi",
+    "synth_dev_context_test": "npx cdk synth -c",
     "depcheck": "npx depcheck --ignore-dirs cdk.out",
     "build": "tsc --build",
     "clean": "tsc --build --clean && rm -rf cdk.out",
     "watch": "tsc -w",
     "test": "jest",
     "lint": "eslint --fix .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "pipeline_put_context": "aws secretsmanager create-secret --name SamplePipelineContextSecretFromFile --description \"cdk context information for deploying sample-pipeline\" --secret-string file://cdk.context.json --profile blea-multi-original-pipeline-guest-exec"
   },
   "devDependencies": {
     "@types/jest": "^27.4.0",
