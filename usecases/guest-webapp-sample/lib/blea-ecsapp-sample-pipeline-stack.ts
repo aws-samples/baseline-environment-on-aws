@@ -17,8 +17,6 @@ export class BLEAPipelineStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: BLEAPipelineStackProps) {
     super(scope, id, props);
 
-    // 'Owner/Repo'で渡すので、二つの引数をまとめて一つのPropにする。
-    // const githubRepository = props.githubRepositoryOwner + '/' + props.githubRepositoryName;
     const githubRepository = props.githubRepository;
 
     const deployRole = new iam.Role(this, `${id}-CodeBuildDeployRole`, {
@@ -39,6 +37,9 @@ export class BLEAPipelineStack extends cdk.Stack {
         input: pipelines.CodePipelineSource.connection(githubRepository, props.githubTargetBranch, {
           connectionArn: props.codestarConnectionArn,
         }),
+
+        // ここは、Contextファイルを使ったデプロイを行いたい時のみ必要。
+        // フラグを置く・そもそも別Stackにしてしまうことで対応？？
         partialBuildSpec: codebuild.BuildSpec.fromObject({
           version: '0.2',
           env: {
@@ -52,6 +53,8 @@ export class BLEAPipelineStack extends cdk.Stack {
             },
           },
         }),
+        // ここまで
+
         installCommands: ['n stable', 'node -v', 'npm i -g npm@8.3'],
         commands: [
           'echo "node: $(node --version)" ',
@@ -62,9 +65,9 @@ export class BLEAPipelineStack extends cdk.Stack {
           'cd usecases/guest-webapp-sample',
           'npm run build',
           'npm run test',
-          'npx cdk context',
+          // 'npx cdk context',
           'npm run synth:dev_context',
-          'npx cdk ls -c environment=my-dev-multi',
+          // 'npx cdk ls -c environment=my-dev-multi',
         ],
         role: deployRole,
         // control Build Environment
