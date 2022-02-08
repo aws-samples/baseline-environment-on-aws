@@ -14,5 +14,3 @@ cdk.out
 # CDK context
 cdk.context.json
 
-usecases/base-standalone/cdk.json
-usecases/guest-webapp-sample/cdk.json
