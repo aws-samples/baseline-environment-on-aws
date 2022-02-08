@@ -10,9 +10,7 @@ export interface BLEAPipelineStackProps extends cdk.StackProps {
   githubRepository: string;
   githubTargetBranch: string;
   codestarConnectionArn: string;
-
   deployStage: cdk.Stage;
-  contextParameterStore: string;
 }
 
 export class BLEAPipelineStack extends cdk.Stack {
@@ -35,13 +33,24 @@ export class BLEAPipelineStack extends cdk.Stack {
     // You just have to select GitHub as the source when creating the connection in the console
     // basic pipeline declaration. This sets the initial structure of our pipeline
     const pipeline = new pipelines.CodePipeline(this, 'pipeline', {
-      // selfMutation: false,
+      selfMutation: false,
       pipelineName: 'EcsSamplePipeline',
-      // ここをShellStageにするのか、CodeBuildStageにするのかは、コマンドをCodeBuildで走らせたいかに依存する。
       synth: new pipelines.CodeBuildStep('SynthStep', {
-        // input: このパイプラインでビルドするべきソースコード（つまり、BLEAのProjectコード）
         input: pipelines.CodePipelineSource.connection(githubRepository, props.githubTargetBranch, {
           connectionArn: props.codestarConnectionArn,
+        }),
+        partialBuildSpec: codebuild.BuildSpec.fromObject({
+          version: '0.2',
+          env: {
+            'parameter-store': {
+              cdkContext: '/pipeline-context/guest-webapp-sample/cdk.context.json',
+            },
+          },
+          phases: {
+            pre_build: {
+              commands: ['cd usecases/guest-webapp-sample', 'echo $cdkContext > cdk.context.json', 'cd ../..'],
+            },
+          },
         }),
         installCommands: ['n stable', 'node -v', 'npm i -g npm@8.3'],
         commands: [
@@ -54,13 +63,8 @@ export class BLEAPipelineStack extends cdk.Stack {
           'npm run build',
           'npm run test',
           'npx cdk context',
-          'npm run synth:my-dev',
-          'ls',
+          'npm run synth:dev_context',
           'npx cdk ls -c environment=my-dev-multi',
-          // # You can specify CDK deployment commands.
-          // # Usually, you may want to deploy all of resources in the app.
-          // # If you want to do so, please specify `"*"`
-          // ' npx cdk deploy BLEA-MonitorAlarm -c environment=dev --require-approval never',
         ],
         role: deployRole,
         // control Build Environment

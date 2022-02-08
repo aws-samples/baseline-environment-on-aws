@@ -174,8 +174,6 @@ new BLEAPipelineStack(app, `${pjPrefix}-Stack`, {
 
   deployStage: deploy,
   stackName: `${pjPrefix}-Stack`,
-  // 作成されたSecretsManagerのARNをあらかじめContextの中に入れなきゃいけなくなるので筋悪
-  contextParameterStore: envVals['contextParameterStoreArn'],
 });
 
 // --------------------------------- Tagging  -------------------------------------
