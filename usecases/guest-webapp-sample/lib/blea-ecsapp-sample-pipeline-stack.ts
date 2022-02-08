@@ -5,8 +5,6 @@ import { aws_codebuild as codebuild } from 'aws-cdk-lib';
 import { pipelines } from 'aws-cdk-lib';
 
 export interface BLEAPipelineStackProps extends cdk.StackProps {
-  // githubRepositoryOwner: string;
-  // githubRepositoryName: string;
   githubRepository: string;
   githubTargetBranch: string;
   codestarConnectionArn: string;
@@ -38,30 +36,22 @@ export class BLEAPipelineStack extends cdk.Stack {
           connectionArn: props.codestarConnectionArn,
         }),
 
-        // ここは、Contextファイルを使ったデプロイを行いたい時のみ必要。
-        // フラグを置く・そもそも別Stackにしてしまうことで対応？？
-        partialBuildSpec: codebuild.BuildSpec.fromObject({
-          version: '0.2',
-          env: {
-            'parameter-store': {
-              cdkContext: '/pipeline-context/guest-webapp-sample/cdk.context.json',
-            },
-          },
-          phases: {
-            pre_build: {
-              commands: ['cd usecases/guest-webapp-sample', 'echo $cdkContext > cdk.context.json', 'cd ../..'],
-            },
-          },
-        }),
-        // ここまで
-
-        installCommands: ['n stable', 'node -v', 'npm i -g npm@8.3'],
+        installCommands: [
+          'n stable',
+          'node -v',
+          'npm i -g npm@8.3',
+          'cd usecases/guest-webapp-sample',
+          // If you don't want to commit cdk.json file to remote repo, you can refer it via SSM Parameter Store
+          'aws ssm get-parameter --name "/pipeline-context/guest-webapp-sample/cdk.context.json" | jq -r .Parameter.Value > cdk.context.json',
+          'cd ../..',
+        ],
         commands: [
           'echo "node: $(node --version)" ',
           'echo "npm: $(npm --version)" ',
           'npm ci',
           'npm audit',
           'npm run lint',
+          // move to repository to be deployed by this pipeline
           'cd usecases/guest-webapp-sample',
           'npm run build',
           'npm run test',
