@@ -17,8 +17,7 @@
     "watch": "tsc -w",
     "test": "jest",
     "lint": "eslint --fix .",
-    "format": "prettier --write .",
-    "pipeline_put_context": "aws secretsmanager create-secret --name SamplePipelineContextSecretFromFile --description \"cdk context information for deploying sample-pipeline\" --secret-string file://cdk.context.json --profile blea-multi-original-pipeline-guest-exec"
+    "format": "prettier --write ."
   },
   "devDependencies": {
     "@types/jest": "^27.4.0",
