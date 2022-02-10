@@ -52,7 +52,7 @@
 
 CodePipeline が自身の BLEA リポジトリの対象ブランチにアクセスできるようにするため、デプロイするアプリケーションの cdk.json ファイルを編集する。
 
-```json
+```
     "prodpipeline": {
       "env": {
         "account": "222222222222",
@@ -107,7 +107,7 @@ CDK Pipelines では、Tools アカウントの CodeBuild において、 `cdk s
 
 #### **`usecases/guest-webapp-sample/cdk.json`**
 
-```json
+```
 {
   "app": "npx ts-node bin/blea-guest-ecsapp-sample-pipeline.ts",
   ...
@@ -119,7 +119,7 @@ CDK ipelines では、Tools アカウントの CodeBuild において、 `cdk sy
 
 #### **`usecases/guest-webapp-sample/blea-ecsapp-sample-pipeline-stack.ts`**
 
-```ts
+```
         ...
         commands: [
           'echo "node: $(node --version)" ',
@@ -142,7 +142,7 @@ CDK ipelines では、Tools アカウントの CodeBuild において、 `cdk sy
 
 #### **`usecases/guest-webapp-sample/package.json`**
 
-```json
+```
   ...
   "scripts": {
     "synth:dev": "npx cdk synth -c environment=dev && npx cdk synth --app \"npx ts-node bin/blea-guest-asgapp-sample.ts\" -c environment=dev && npx cdk synth --app \"npx ts-node bin/blea-guest-ec2app-sample.ts\" -c environment=dev && npx cdk synth --app \"npx ts-node bin/blea-guest-ecsapp-ssl-sample.ts\" -c environment=dev",
@@ -176,7 +176,7 @@ GitHub に変更が push されたら、CodePipeline プロジェクトが起動
 
 > Notes: CDK Pipelines では、 [SelfMutation](https://aws.amazon.com/jp/blogs/news/deploying-a-cdk-application-using-the-cdk-pipelines-modern-api/) という機能を使用することで、デプロイパイプラインもレポジトリの更新に追従させることができます。つまり、 `cdk deploy` コマンドの実行は初回のみで、以降はターゲットブランチの更新によってパイプラインの構成を変更することができます。現在サンプルではこの機能が有効化されていませんが、pipeline Stack の `SelfMutation: false` と記述されているコードをコメントアウトすることで有効化できます。
 
-# Appendix.1 - コンテナイメージのデプロイの流れ
+<!-- # Appendix.1 - コンテナイメージのデプロイの流れ
 
 ECS サンプルアプリケーションでは GitHub に push された Dockerfile を元に、GitHub Actions でコンテナイメージをビルドし、ECR に Push されることを想定しています。ここではコンテナイメージの一連のデプロイの流れを概説します。
 
@@ -196,6 +196,6 @@ GitHub に Dockerfile を push します。GitHub Actions でビルドを実行�
 
 BLEA コードをアップデート（最新のコンテナイメージを指すように変更する）して GitHub へ push します。ECS は ECR から最新のイメージを取得します。
 
-![BLEA-DeployECS-Prod](images/BLEA-DeployECS-Prod.png)
+![BLEA-DeployECS-Prod](images/BLEA-DeployECS-Prod.png) -->
 
-# Appendix.2 - 開発環境へのアプリケーションスタックのデプロイ（WIP）
+# Appendix - 開発環境へのアプリケーションスタックのデプロイ（WIP）
