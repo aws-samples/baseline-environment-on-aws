@@ -52,7 +52,7 @@
 
 CodePipeline が自身の BLEA リポジトリの対象ブランチにアクセスできるようにするため、デプロイするアプリケーションの cdk.json ファイルを編集する。
 
-```
+```json
     "prodpipeline": {
       "env": {
         "account": "222222222222",
@@ -60,7 +60,7 @@ CodePipeline が自身の BLEA リポジトリの対象ブランチにアクセ�
       },
       "envName": "Production",
 
-      ~~~~~ (Your App Context) ~~~~~
+      // ~~~~~ (Your App Context) ~~~~~
 
       "githubRepository": "ownername/repositoryname",
       "githubTargetBranch": "main",
@@ -85,7 +85,7 @@ CDK Pipelines では、Tools アカウントの CodeBuild において、 `cdk s
 
 #### **`usecases/guest-webapp-sample/blea-ecsapp-sample-pipeline-stack.ts`**
 
-```
+```ts
         installCommands: [
           'n stable',
           'node -v',
@@ -107,10 +107,10 @@ CDK Pipelines では、Tools アカウントの CodeBuild において、 `cdk s
 
 #### **`usecases/guest-webapp-sample/cdk.json`**
 
-```
+```ts
 {
   "app": "npx ts-node bin/blea-guest-ecsapp-sample-pipeline.ts",
-  ...
+  // ...
 ```
 
 ### 3.2. Synth コマンドの定義を確認する（pipeline Stack および、 `package.json` ）
@@ -119,8 +119,8 @@ CDK Pipelines では、Tools アカウントの CodeBuild において、 `cdk s
 
 #### **`usecases/guest-webapp-sample/blea-ecsapp-sample-pipeline-stack.ts`**
 
-```
-        ...
+```ts
+        // ...
         commands: [
           'echo "node: $(node --version)" ',
           'echo "npm: $(npm --version)" ',
@@ -135,22 +135,22 @@ CDK Pipelines では、Tools アカウントの CodeBuild において、 `cdk s
           'npm run synth:dev_context',
           // 'npx cdk ls -c environment=my-dev-multi',
         ],
-        ...
+        // ...
 ```
 
 `'npm run synth:dev_context',` の部分を実体に即した synth コマンドに書き換えるか、または以下のように `package.json` で定義される scripts にデプロイパイプラインに即した Synth コマンドを追記・上書きすることも可能です。
 
 #### **`usecases/guest-webapp-sample/package.json`**
 
-```
-  ...
+```json
+  // ...
   "scripts": {
     "synth:dev": "npx cdk synth -c environment=dev && npx cdk synth --app \"npx ts-node bin/blea-guest-asgapp-sample.ts\" -c environment=dev && npx cdk synth --app \"npx ts-node bin/blea-guest-ec2app-sample.ts\" -c environment=dev && npx cdk synth --app \"npx ts-node bin/blea-guest-ecsapp-ssl-sample.ts\" -c environment=dev",
     "synth:dev_context": "npx cdk synth -c environment=dev-context && npx cdk synth --app \"npx ts-node bin/blea-guest-asgapp-sample.ts\" -c environment=dev-context && npx cdk synth --app \"npx ts-node bin/blea-guest-ec2app-sample.ts\" -c environment=dev-context && npx cdk synth --app \"npx ts-node bin/blea-guest-ecsapp-ssl-sample.ts\" -c environment=dev-context",
     "synth_dev_context_test": "npx cdk synth -c",
     "depcheck": "npx depcheck --ignore-dirs cdk.out",
     "build": "tsc --build",
-    ...
+    // ...
 ```
 
 > Notes: synth コマンドを実行する際にオプションとして --profile を指定する必要はありません。CodeBuild は適切な権限( Tools アカウントの Administrator 権限)を保持しているためです。

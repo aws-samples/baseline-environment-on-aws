@@ -52,7 +52,7 @@ This CDK application deploys Simple CodePipeline project to deploy resouces defi
 
 Update `cdk.json` of target application so CodePipeline can access your BLEA repository and specify a target branch.
 
-```
+```json
     "prodpipeline": {
       "env": {
         "account": "222222222222",
@@ -60,7 +60,7 @@ Update `cdk.json` of target application so CodePipeline can access your BLEA rep
       },
       "envName": "Production",
 
-      ~~~~~ (Your App Context) ~~~~~
+      // ~~~~~ (Your App Context) ~~~~~
 
       "githubRepository": "ownername/repositoryname",
       "githubTargetBranch": "main",
@@ -83,7 +83,7 @@ In CDK Pipelines' Stack, `cdk synth` command is executed in CodeBuild Project. T
 
 #### **`usecases/guest-webapp-sample/blea-ecsapp-sample-pipeline-stack.ts`**
 
-```
+```ts
         installCommands: [
           'n stable',
           'node -v',
@@ -106,10 +106,10 @@ The target file of `cdk build` or `cdk deploy` is selected by `-a` option or `ap
 
 #### **`usecases/guest-webapp-sample/cdk.json`**
 
-```
+```json
 {
   "app": "npx ts-node bin/blea-guest-ecsapp-sample-pipeline.ts",
-  ...
+  // ...
 ```
 
 ### 3.2. Confirm Synth Command Definition (at pipeline stack and `package.json` )
@@ -118,8 +118,8 @@ In CDK Pipeline Instance, `cdk synth` command is executed in CodeBuild Project i
 
 #### **`usecases/guest-webapp-sample/blea-ecsapp-sample-pipeline-stack.ts`**
 
-```
-        ...
+```ts
+        // ...
         commands: [
           'echo "node: $(node --version)" ',
           'echo "npm: $(npm --version)" ',
@@ -134,22 +134,22 @@ In CDK Pipeline Instance, `cdk synth` command is executed in CodeBuild Project i
           'npm run synth:dev_context',
           // 'npx cdk ls -c environment=my-dev-multi',
         ],
-        ...
+        // ...
 ```
 
 You can deploy target application from pipeline by overwriting code `'npm run synth:dev_context',` to your configuration or overwriting/adding appropreate synth command to `script` configuration defined in `package.json`
 
 #### **`usecases/guest-webapp-sample/package.json`**
 
-```
-  ...
+```json
+  // ...
   "scripts": {
     "synth:dev": "npx cdk synth -c environment=dev && npx cdk synth --app \"npx ts-node bin/blea-guest-asgapp-sample.ts\" -c environment=dev && npx cdk synth --app \"npx ts-node bin/blea-guest-ec2app-sample.ts\" -c environment=dev && npx cdk synth --app \"npx ts-node bin/blea-guest-ecsapp-ssl-sample.ts\" -c environment=dev",
     "synth:dev_context": "npx cdk synth -c environment=dev-context && npx cdk synth --app \"npx ts-node bin/blea-guest-asgapp-sample.ts\" -c environment=dev-context && npx cdk synth --app \"npx ts-node bin/blea-guest-ec2app-sample.ts\" -c environment=dev-context && npx cdk synth --app \"npx ts-node bin/blea-guest-ecsapp-ssl-sample.ts\" -c environment=dev-context",
     "synth_dev_context_test": "npx cdk synth -c",
     "depcheck": "npx depcheck --ignore-dirs cdk.out",
     "build": "tsc --build",
-    ...
+    // ...
 ```
 
 > Notes: You don't have to select `--profile` option in executing synth command in CodeBuild Project. This is because CodeBuild has enough privileges (Administrator privileges in Tools Account) to execute it.
