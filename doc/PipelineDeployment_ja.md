@@ -75,17 +75,17 @@ CodePipeline が自身の BLEA リポジトリの対象ブランチにアクセ�
 - `githubTargetBranch`: ターゲットブランチ（このブランチにマージするとパイプラインが起動する）
 - `codestarConnectionArn`: 先のセクションで取得した GitHub Connection の AR
 
-### 2.a (Optional) クロスアカウントでデプロイを行う際、デプロイ先のアカウントの設定を行う（WIP）
+### 2.a (Optional) クロスアカウントでデプロイを行う際、デプロイ先のアカウントのセットアップを行う（WIP）
 
 参考情報：https://aws.amazon.com/jp/blogs/news/deploying-a-cdk-application-using-the-cdk-pipelines-modern-api/
 
-### 2.b (Optional) cdk.context.json を Tools アカウントの SSM Parameter Store にアップロードする
+### 2.b (Optional) `cdk.context.json` を Tools アカウントの SSM Parameter Store にアップロードする
 
 CDK Pipelines では、Tools アカウントの CodeBuild において、 `cdk synth` コマンドを実施します。したがって、基本的には `cdk.json` で定義されたコンテキストで　 Build/Synth を実施することを推奨します。一方で、何らかの要件でリモートレポジトリにこれらの設定ファイルを後悔したくない場合、 Tools アカウントの SSM Parameter Store に `cdk.context.json` を置くことで、リモートレポジトリにアカウントや各種設定情報を公開することなくデプロイ対象のアプリケーションをデプロイすることができます。以下は、SSM の API を介して CodeBuild にコンテキスト情報を渡している実装例になります。
 
 #### **`usecases/guest-webapp-sample/blea-ecsapp-sample-pipeline-stack.ts`**
 
-```ts
+```
         installCommands: [
           'n stable',
           'node -v',
@@ -99,7 +99,7 @@ CDK Pipelines では、Tools アカウントの CodeBuild において、 `cdk s
 
 ## 3. CodePipeline project のデプロイ
 
-例えば、 `guest-webapp-sample` をパイプラインからデプロイしたい場合、以下の手順で実施する。
+現在 `guest-webapp-sample/blea-guest-ecsapp-sample.ts` をパイプライン `guest-webapp-sample/blea-guest-ecsapp-sample-pipeline.ts` からデプロイするサンプルが実装されている。これをデプロイする際には以下の手順を実施する。
 
 ### 3.1. ビルド対象のアプリケーションを `cdk.json` から確認する
 
@@ -115,7 +115,7 @@ CDK Pipelines では、Tools アカウントの CodeBuild において、 `cdk s
 
 ### 3.2. Synth コマンドの定義を確認する（pipeline Stack および、 `package.json` ）
 
-CDK ipelines では、Tools アカウントの CodeBuild において、 `cdk synth` コマンドを実施します。以下は、サンプル実装における Synth コマンドの実装例になります。
+CDK Pipelines では、Tools アカウントの CodeBuild において、 `cdk synth` コマンドを実施します。以下は、サンプル実装における Synth コマンドの実装例になります。
 
 #### **`usecases/guest-webapp-sample/blea-ecsapp-sample-pipeline-stack.ts`**
 
@@ -157,6 +157,8 @@ CDK ipelines では、Tools アカウントの CodeBuild において、 `cdk sy
 
 ### 3.3. 以下のコマンドによってパイプラインを Tools アカウントにデプロイする
 
+以下のコマンドをローカル環境から実行することで、サンプルパイプラインを Tools アカウントにデプロイすることができます。
+
 ```sh
 cd usecase/guest-webapp-sample/
 npm ci
@@ -174,7 +176,7 @@ GitHub に変更が push されたら、CodePipeline プロジェクトが起動
 
 以上で BLEA のコードがパイプラインを通じてデプロイされました。
 
-> Notes: CDK Pipelines では、 [SelfMutation](https://aws.amazon.com/jp/blogs/news/deploying-a-cdk-application-using-the-cdk-pipelines-modern-api/) という機能を使用することで、デプロイパイプラインもレポジトリの更新に追従させることができます。つまり、 `cdk deploy` コマンドの実行は初回のみで、以降はターゲットブランチの更新によってパイプラインの構成を変更することができます。現在サンプルではこの機能が有効化されていませんが、pipeline Stack の `SelfMutation: false` と記述されているコードをコメントアウトすることで有効化できます。
+> Notes: CDK Pipelines では、 [SelfMutation](https://aws.amazon.com/jp/blogs/news/deploying-a-cdk-application-using-the-cdk-pipelines-modern-api/) という機能を使用することで、デプロイパイプラインもレポジトリの更新に応じて継続的にデプロイすることが可能です。これにより、技術的には Tools アカウントを介して定義されたスタックを全てデプロイすることが可能です。現在サンプルではこの機能が有効化されていませんが、pipeline Stack の `SelfMutation: false` と記述されているコードをコメントアウトすることで有効化できます。
 
 <!-- # Appendix.1 - コンテナイメージのデプロイの流れ
 
