@@ -1,0 +1,43 @@
+{
+  "private": true,
+  "name": "blea-guest-rdsproxy-sample",
+  "version": "1.0.0",
+  "description": "Sample servlerless application with BLEA",
+  "license": "MIT-0",
+  "bin": {
+    "blea-guest-rdsproxy-nodejs-sample": "bin/blea-guest-rdsproxy-nodejs-sample.js"
+  },
+  "scripts": {
+    "synth:dev": "npx cdk synth -c environment=dev && npx cdk synth --app \"npx ts-node bin/blea-guest-rdsproxy-python-sample.ts\" -c environment=dev",
+    "depcheck": "npx depcheck --ignore-dirs cdk.out",
+    "build": "tsc --build",
+    "clean": "tsc --build --clean && rm -rf cdk.out",
+    "watch": "tsc -w",
+    "test": "jest",
+    "lint": "eslint --fix .",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@types/jest": "^27.4.0",
+    "@types/node": "17.0.12",
+    "@typescript-eslint/eslint-plugin": "^5.10.1",
+    "@typescript-eslint/parser": "^5.10.1",
+    "aws-cdk": "^2.8.0",
+    "esbuild": "^0.14.14",
+    "eslint": "^8.7.0",
+    "eslint-config-prettier": "^8.3.0",
+    "jest": "^27.4.7",
+    "prettier": "^2.5.1",
+    "ts-jest": "^27.1.3",
+    "ts-node": "^10.4.0",
+    "typescript": "~4.5.5"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "^2.8.0",
+    "aws-sdk": "^2.1063.0",
+    "aws-xray-sdk": "^3.3.4",
+    "cdk": "^2.8.0",
+    "constructs": "^10.0.45",
+    "pg": "^8.7.3"
+  }
+}

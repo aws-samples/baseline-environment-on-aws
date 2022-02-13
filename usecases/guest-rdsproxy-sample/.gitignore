@@ -1,0 +1,21 @@
+*.js
+!jest.config.js
+*.d.ts
+node_modules
+lambda/nodejs/
+.npmignore
+bin/blea-guest-rdsproxy-nodejs-sample.ts
+lib/blea-lambda-nodejs-stack.ts
+lib/blea-setup-lambda-layer-nodejs.ts
+package-lock.json
+
+
+# Parcel default cache directory
+.parcel-cache
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out
+
+# CDK context
+cdk.context.json
