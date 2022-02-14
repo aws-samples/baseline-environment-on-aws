@@ -72,7 +72,10 @@ export class BLEALambdaPythonStack extends cdk.Stack {
       `arn:aws:lambda:${cdk.Stack.of(this).region}:017000801446:layer:AWSLambdaPowertoolsPython:3`,
     );
 
-    // Lambda Layer to install pg8000 library (pure-Python PostgreSQL driver)
+    // Create Lambda Layer to install the modules (install pg8000 library (pure-Python PostgreSQL driver) in this CDK template.)
+    // For each Lambda runtime, the PATH variable includes specific folders in the /opt directory.
+    // If you define the same folder structure in your layer, your function code can access the layer content without the need to specify the path.
+    // https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html#configuration-layers-path
     const lambdaLayer = new lambda.LayerVersion(this, 'LambdaLayer', {
       compatibleRuntimes: [lambda.Runtime.PYTHON_3_8],
       code: lambda.AssetCode.fromAsset('./lambda/python/layer'),

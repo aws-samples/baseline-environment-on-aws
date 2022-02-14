@@ -62,10 +62,9 @@ export class BLEADbAuroraPgStack extends cdk.Stack {
     });
 
     // RDS Proxy
-    // You have two options for security to connect to RDS Proxy.
-    // 1. use IAM authentication (This is recommended because it can remove the need to embed or read credentials in your function code.)
-    // 2. use your native database credentials stored in Secrets Manager
-    // In this CDK template we use IAM authentication. If you want to use secrets stored in Secrets Manager, you can refer to this blog post. (https://aws.amazon.com/jp/blogs/compute/using-amazon-rds-proxy-with-aws-lambda/)
+    // You have two options for security to connect to RDS Proxy. (https://docs.aws.amazon.com/ja_jp/AmazonRDS/latest/UserGuide/rds-proxy-setup.html#rds-proxy-connecting)
+    // 1. use IAM authentication. This is recommended because it can remove the need to embed or read credentials in your function code). In this CDK template we use IAM authentication.
+    // 2. use your native database credentials stored in Secrets Manager. If you want to implement in this way, you have to create IAM policy that allows Lambda function to access DB credentials in Secrets Manager.
     const dbProxy = cluster.addProxy('DbProxy', {
       secrets: [cluster.secret!],
       vpc: props.myVpc,
