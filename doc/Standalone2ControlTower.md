@@ -29,6 +29,10 @@ On Management account, You need to have setup Baseline Environment on AWS with M
 
    Refer: https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_organizations.html
 
+5. Enable Inspector and automatically enabling new organization accounts
+
+   Refer: https://docs.aws.amazon.com/inspector/latest/user/adding-member-accounts.html
+
 # 1. Invite Target account to Management account Organizations
 
 ## 1.1. [Management Account] Invite account

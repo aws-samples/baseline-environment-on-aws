@@ -47,7 +47,7 @@ ControlTower の配下にマルチアカウント版のガバナンスベース�
 
 ControlTower を利用することで、ガバナンスベースの一部の機能は自動的に設定されます。ControlTower が対応していないセキュリティサービスは Organizations に対して一括有効化を行うことで、以後新しいアカウントが作られると自動的に設定されるようになります。
 
-ここでは ControlTower をセットアップし、Organizations 全体に対して SecurityHub, GuardDuty そして IAM Access Analyzer を有効化する手順を示します。これらの委任アカウントとして Audit アカウントを指定します。
+ここでは ControlTower をセットアップし、Organizations 全体に対して SecurityHub, GuardDuty, Inspector そして IAM Access Analyzer を有効化する手順を示します。これらの委任アカウントとして Audit アカウントを指定します。
 
 #### 1-1. ControlTower のセットアップ
 
@@ -63,11 +63,15 @@ See: [https://docs.aws.amazon.com/controltower/latest/userguide/setting-up.html]
 
 - [https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_organizations.html]
 
-#### 1-4. IAM Access Analyzer のセットアップ
+#### 1-4. Inspector のセットアップ
+
+- [https://docs.aws.amazon.com/inspector/latest/user/designating-admin.html#delegated-admin-proc]
+
+#### 1-5. IAM Access Analyzer のセットアップ
 
 - [https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-settings.html#access-analyzer-delegated-administrator]
 
-#### 1-5. Trusted Advisor のセットアップ
+#### 1-6. Trusted Advisor のセットアップ
 
 - [https://docs.aws.amazon.com/awssupport/latest/user/organizational-view.html]
 
@@ -408,6 +412,7 @@ Standalone 版でセットアップされていた以下の内容は ControlTowe
 
 - CloudTrail による API のロギング
 - AWS Config による構成変更の記録
+- Inspector による脆弱性の検出
 - GuardDuty による異常なふるまいの検知
 - SecurityHub によるベストプラクティスからの逸脱検知 (AWS Foundational Security Best Practice, CIS benchmark)
 

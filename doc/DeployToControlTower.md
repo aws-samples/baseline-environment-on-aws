@@ -63,11 +63,15 @@ See: [https://docs.aws.amazon.com/controltower/latest/userguide/setting-up.html]
 
 - [https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_organizations.html]
 
-#### 1-4. Setting Up the IAM Access Analyzer
+#### 1-4. Set up Inspector
+
+- [https://docs.aws.amazon.com/inspector/latest/user/designating-admin.html#delegated-admin-proc]
+
+#### 1-5. Setting Up the IAM Access Analyzer
 
 - [https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-settings.html#access-analyzer-delegated-administrator]
 
-#### 1-5. Set up Trusted Advisor
+#### 1-6. Set up Trusted Advisor
 
 - [https://docs.aws.amazon.com/awssupport/latest/user/organizational-view.html]
 
@@ -410,6 +414,7 @@ The following settings that were set up in the Standalone version are configured
 
 - API logging with CloudTrail
 - Recording configuration changes with AWS Config
+- Detecting vulnerability with Inspector
 - Detect abnormal behavior with GuardDuty
 - Detecting Deviations from Best Practices with SecurityHub (AWS Foundational Security Best Practice, CIS benchmark)
 

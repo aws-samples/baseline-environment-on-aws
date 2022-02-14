@@ -258,7 +258,13 @@ This will set up the following features
 
 In addition to setting up a governance base, AWS provides several operational baseline services. Set up these services as needed.
 
-##### a. Perform AWS Systems Manager Quick Setup for EC2 Management
+##### a. Enabling Inspector and Detecting Vaulnerability
+
+Inspector automatically checks vulnerability. You can detect software vulnerability and unintended network exposure with continuous scanning by Inspector. You can view the detected vulnerabilities on your dashboard and prioritize them based on your calculated risk score, giving you greater visibility into your results. In addition, when vulnerabirities detected, it would be notified by the security hub.
+
+See: [https://docs.aws.amazon.com/inspector/latest/user/getting_started_tutorial.html]
+
+##### b. Perform AWS Systems Manager Quick Setup for EC2 Management
 
 If you use EC2, we recommend that you use SystemsManager to manage it. You can use AWS Systems Manager Quick Setup to automate the basic setup required to manage EC2.
 See: [https://docs.aws.amazon.com/systems-manager/latest/userguide/quick-setup-host-management.html]
@@ -272,7 +278,7 @@ Quick Setup provides the following features:
 - Installing and configuring Amazon CloudWatch Agent for the first time only
 - Monthly automatic updates of the CloudWatch agent
 
-##### b. Trusted Advisor Detection Results Report
+##### c. Trusted Advisor Detection Results Report
 
 TrustedAdvisor provides advice for following AWS best practices. It is possible to receive the contents of the report regularly by e-mail. Please refer to the following document for details.
 
