@@ -4,4 +4,5 @@ module.exports = {
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
   },
+  snapshotSerializers: ['./test/snapshot-serializer.ts'],
 };

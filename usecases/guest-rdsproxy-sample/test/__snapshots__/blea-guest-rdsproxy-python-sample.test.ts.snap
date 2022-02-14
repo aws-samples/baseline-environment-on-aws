@@ -1240,10 +1240,10 @@ Object {
           ],
         },
         "GenerateSecretString": Object {
-          "ExcludeCharacters": " %+~\`#$&*()|[]{}:;<>?!'/@\\"\\\\",
+          "ExcludeCharacters": " %+~\`#$&*()|[]{}:;<>?!'/@"\\",
           "GenerateStringKey": "password",
           "PasswordLength": 30,
-          "SecretStringTemplate": "{\\"username\\":\\"dbadmin\\"}",
+          "SecretStringTemplate": "{"username":"dbadmin"}",
         },
         "Tags": Array [
           Object {
@@ -1318,7 +1318,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "6c0316fef24d0df8a9a705c77052001217d864f49af386539d01df54618cd131.zip",
+          "S3Key": "[HASH REMOVED]",
         },
         "Handler": "index.handler",
         "Role": Object {
@@ -1566,7 +1566,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "5e0913c76db68ba44c15edf0928288c3fe79a94aa6e2c8c6b8e13279f2032cb7.zip",
+          "S3Key": "[HASH REMOVED]",
         },
       },
       "Type": "AWS::Lambda::LayerVersion",
@@ -1581,7 +1581,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "6c0316fef24d0df8a9a705c77052001217d864f49af386539d01df54618cd131.zip",
+          "S3Key": "[HASH REMOVED]",
         },
         "Handler": "index.handler",
         "Role": Object {
@@ -1779,7 +1779,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "ee513bd84a39d1c27435392eaa3bb620276f56e0d0332d5aab8e34a9a7211dd7.zip",
+          "S3Key": "[HASH REMOVED]",
         },
         "Environment": Object {
           "Variables": Object {
@@ -2254,7 +2254,7 @@ Object {
               "Arn",
             ],
           },
-          "Format": "{\\"requestId\\":\\"$context.requestId\\",\\"ip\\":\\"$context.identity.sourceIp\\",\\"user\\":\\"$context.identity.user\\",\\"caller\\":\\"$context.identity.caller\\",\\"requestTime\\":\\"$context.requestTime\\",\\"httpMethod\\":\\"$context.httpMethod\\",\\"resourcePath\\":\\"$context.resourcePath\\",\\"status\\":\\"$context.status\\",\\"protocol\\":\\"$context.protocol\\",\\"responseLength\\":\\"$context.responseLength\\"}",
+          "Format": "{"requestId":"$context.requestId","ip":"$context.identity.sourceIp","user":"$context.identity.user","caller":"$context.identity.caller","requestTime":"$context.requestTime","httpMethod":"$context.httpMethod","resourcePath":"$context.resourcePath","status":"$context.status","protocol":"$context.protocol","responseLength":"$context.responseLength"}",
         },
         "DeploymentId": Object {
           "Ref": "RestApi6Deployment9C273AE890cdaf8e7dfeb14b736f6544bf9ce6ad",
