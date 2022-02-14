@@ -258,7 +258,7 @@ npx cdk deploy --all -c environment=dev --profile prof_dev
 
 ##### a. Inspector を有効化
 
-Inspector は、脆弱性を管理します。EC2 とECR を継続的にスキャンして、ソフトウェアの脆弱性や意図しないネットワークのエクスポージャーをを検出します。検出された脆弱性は、算出されたリスクスコアに基づく優先順位により表示され、可視性高く結果を取得することができます。また、脆弱性を検知した際には、Security Hub 経由で通知することもできます。
+Inspector は、脆弱性を管理します。EC2 とECR を継続的にスキャンして、ソフトウェアの脆弱性や意図しないネットワークのエクスポージャーをを検出します。検出された脆弱性は、算出されたリスクスコアに基づく優先順位により表示され、可視性高く結果を取得することができます。また、Scurity Hub と組み合わせて有効にすることで、自動で統合され Security Hub へ結果を送信します。
 
 セットアップ手順：[https://docs.aws.amazon.com/inspector/latest/user/getting_started_tutorial.html]
 

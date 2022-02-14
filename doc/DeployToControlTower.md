@@ -65,7 +65,11 @@ See: [https://docs.aws.amazon.com/controltower/latest/userguide/setting-up.html]
 
 #### 1-4. Set up Inspector
 
+Designating a delegated administrator
 - [https://docs.aws.amazon.com/inspector/latest/user/designating-admin.html#delegated-admin-proc]
+
+Enabling scans for member accounts
+- [https://docs.aws.amazon.com/inspector/latest/user/adding-member-accounts.html]
 
 #### 1-5. Setting Up the IAM Access Analyzer
 

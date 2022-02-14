@@ -65,7 +65,10 @@ See: [https://docs.aws.amazon.com/controltower/latest/userguide/setting-up.html]
 
 #### 1-4. Inspector のセットアップ
 
+委任された管理者権限の指定
 - [https://docs.aws.amazon.com/inspector/latest/user/designating-admin.html#delegated-admin-proc]
+メンバーアカウントでの有効化
+- [https://docs.aws.amazon.com/inspector/latest/user/adding-member-accounts.html]
 
 #### 1-5. IAM Access Analyzer のセットアップ
 

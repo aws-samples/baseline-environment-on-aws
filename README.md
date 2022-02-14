@@ -260,7 +260,7 @@ In addition to setting up a governance base, AWS provides several operational ba
 
 ##### a. Enabling Inspector and Detecting Vaulnerability
 
-Inspector automatically checks vulnerability. You can detect software vulnerability and unintended network exposure with continuous scanning by Inspector. You can view the detected vulnerabilities on your dashboard and prioritize them based on your calculated risk score, giving you greater visibility into your results. In addition, when vulnerabirities detected, it would be notified by the security hub.
+Inspector automatically checks vulnerability. You can detect software vulnerability and unintended network exposure with continuous scanning by Inspector. You can view the detected vulnerabilities on your dashboard and prioritize them based on your calculated risk score, giving you greater visibility into your results. When enabled in conjunction with Security Hub, it would be automatically integrated and send the results to Security Hub.
 
 See: [https://docs.aws.amazon.com/inspector/latest/user/getting_started_tutorial.html]
 
