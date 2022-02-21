@@ -163,6 +163,8 @@ export class BLEAPipelineStage extends cdk.Stage {
 }
 // --------------------------------- Pipleine  -------------------------------------
 const deploy = new BLEAPipelineStage(app, 'ecsapp-sample-deploy');
+// You can deploy development stacks.
+new BLEAPipelineStage(app, 'ecsapp-sample-development');
 
 new BLEAPipelineStack(app, `${pjPrefix}-Stack`, {
   githubRepository: envVals['githubRepository'],

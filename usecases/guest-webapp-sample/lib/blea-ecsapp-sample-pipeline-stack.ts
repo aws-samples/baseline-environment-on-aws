@@ -29,11 +29,20 @@ export class BLEAPipelineStack extends cdk.Stack {
     // You just have to select GitHub as the source when creating the connection in the console
     // basic pipeline declaration. This sets the initial structure of our pipeline
     const pipeline = new pipelines.CodePipeline(this, 'pipeline', {
-      selfMutation: false,
+      // selfMutation: false,
       pipelineName: 'EcsSamplePipeline',
       synth: new pipelines.CodeBuildStep('SynthStep', {
         input: pipelines.CodePipelineSource.connection(githubRepository, props.githubTargetBranch, {
           connectionArn: props.codestarConnectionArn,
+        }),
+
+        partialBuildSpec: codebuild.BuildSpec.fromObject({
+          version: '0.2',
+          env: {
+            'parameter-store': {
+              account_id: '/pipeline-deploy/prod',
+            },
+          },
         }),
 
         installCommands: [
@@ -43,6 +52,8 @@ export class BLEAPipelineStack extends cdk.Stack {
           'cd usecases/guest-webapp-sample',
           // If you don't want to commit cdk.json file to remote repo, you can refer it via SSM Parameter Store
           'aws ssm get-parameter --name "/pipeline-context/guest-webapp-sample/cdk.context.json" | jq -r .Parameter.Value > cdk.context.json',
+          'echo $account_id',
+          'npm run bootstrap:prod',
           'cd ../..',
         ],
         commands: [
