@@ -61,9 +61,9 @@ export class BLEAPipelineStack extends cdk.Stack {
           'npm ci',
           'npm audit',
           'npm run lint',
-          'npm run bootstrap:prod',
           // move to repository to be deployed by this pipeline
           'cd usecases/guest-webapp-sample',
+          'npm run bootstrap:prod',
           'npm run build',
           'npm run test',
           // 'npx cdk context',
