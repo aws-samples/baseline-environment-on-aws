@@ -53,7 +53,6 @@ export class BLEAPipelineStack extends cdk.Stack {
           // If you don't want to commit cdk.json file to remote repo, you can refer it via SSM Parameter Store
           'aws ssm get-parameter --name "/pipeline-context/guest-webapp-sample/cdk.context.json" | jq -r .Parameter.Value > cdk.context.json',
           'echo $account_id',
-          'npm run bootstrap:prod',
           'cd ../..',
         ],
         commands: [
@@ -62,6 +61,7 @@ export class BLEAPipelineStack extends cdk.Stack {
           'npm ci',
           'npm audit',
           'npm run lint',
+          'npm run bootstrap:prod',
           // move to repository to be deployed by this pipeline
           'cd usecases/guest-webapp-sample',
           'npm run build',
