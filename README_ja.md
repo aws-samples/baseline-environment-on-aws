@@ -347,6 +347,9 @@ npx cdk deploy --all -c environment=dev --profile prof_dev
 > cd usecases/guest-webapp-sample
 > npx cdk deploy --all --app "npx ts-node bin/blea-guest-asgapp-sample.ts" -c environment=dev --profile prof_dev
 > ```
+>
+> NOTE:
+> ECS のゲストアプリケーションをデプロイした際に Security Hub のスタンダードの１つである[CodeBuild.5](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-codebuild-5)が警告を上げる可能性があります。[CodeBuild の特権モードに関する通知のステータスを変更する](doc/HowTo_ja.md#修復方法)を参照してこの警告を抑制することができます。
 
 #### 5-3. 独自のアプリケーションを開発する
 
