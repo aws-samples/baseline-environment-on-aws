@@ -74,7 +74,6 @@ Update tools/cicd/cdk.json so CodePipeline can access your BLEA repository and s
 ```
 cd tools/cicd/
 npm ci
-npm run build
 npx cdk bootstrap -c environment=prodpipeline --profile your_profile_name  # If you haven't bootstrapped target account
 npx cdk deploy -c environment=prodpipeline --profile your_profile_name
 ```
