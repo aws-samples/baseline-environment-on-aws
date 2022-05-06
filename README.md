@@ -185,7 +185,7 @@ usecases/base-standalone/cdk.json
 
 ```json
 {
-  "app": "npx ts-node bin/blea-base-sa.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/blea-base-sa.ts",
   "context": {
     "dev": {
       "description": "Environment variables for Governance base ",
@@ -218,16 +218,10 @@ The contents of this setting are as follows.
 
 #### 4-2. Deploy a governance base
 
-Build BLEA.
-
-```sh
-cd usecases/base-standalone
-npm run build
-```
-
 If you are running a CDK for the first time, navigate to the target use case directory and bootstrap the CDK. This is required when you run the CDK for the first time with that account and region combination.
 
 ```sh
+cd usecases/base-standalone
 npx cdk bootstrap -c environment=dev --profile prof_dev
 ```
 
@@ -292,7 +286,7 @@ usecases/guest-webapp-sample/cdk.json
 
 ```json
 {
-  "app": "npx ts-node bin/blea-guest-ecsapp-sample.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts",
   "context": {
     "dev": {
       "description": "Context samples for Dev - Anonymous account & region",
@@ -339,7 +333,7 @@ This completes the baseline and sample application deployment for a single accou
 >
 > ```sh
 > cd usecases/guest-webapp-sample
-> npx cdk deploy "BLEA-ECSApp" --app "npx ts-node bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev
+> npx cdk deploy "BLEA-ECSApp" --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev
 > ```
 >
 > NOTE:
@@ -347,7 +341,7 @@ This completes the baseline and sample application deployment for a single accou
 >
 > ```sh
 > cd usecases/guest-webapp-sample
-> npx cdk deploy --all --app "npx ts-node bin/blea-guest-asgapp-sample.ts" -c environment=dev --profile prof_dev
+> npx cdk deploy --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-asgapp-sample.ts" -c environment=dev --profile prof_dev
 > ```
 
 #### 5-3. Develop your own applications
