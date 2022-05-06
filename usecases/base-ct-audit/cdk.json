@@ -1,5 +1,5 @@
 {
-  "app": "npx ts-node bin/blea-base-ct-audit.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/blea-base-ct-audit.ts",
   "context": {
     "dev-audit": {
       "description": "Context samples for ControlTower Audit Account - Specific account & region",
