@@ -1228,7 +1228,7 @@ Object {
                 Object {
                   "Ref": "AWS::Partition",
                 },
-                ":iam::aws:policy/service-role/AWSConfigRole",
+                ":iam::aws:policy/service-role/AWS_ConfigRole",
               ],
             ],
           },
