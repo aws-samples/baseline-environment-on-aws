@@ -122,7 +122,7 @@ CDK は CloudFormation を使ってデプロイしますが、通常デプロイ
 
 ```json
 {
-  "app": "npx ts-node bin/blea-guest-ecsapp-sample.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts",
   "requireApproval": "never",
   "rollback": false,
   "context": {
@@ -239,16 +239,19 @@ sudo npm -g install npm
 
 - リモートリポジトリにアクセスできる場合は、CloudShell で git clone して CDK コードを取得することも可能です
 
-### 4. ビルドとデプロイ
+### 4. デプロイ
 
 ```sh
 cd path/to/source
 npm ci
-# 全usecaseのbuild
-npm run build --workspaces
+# デプロイしたいusecaseのディレクトリに移動する
 cd usecases/guest-webapp-sample
 npx cdk deploy --all -c environment=dev --profile prof_dev
 ```
+
+> NOTE
+>
+> ビルドは cdk.json に記載されている`"app": "npx ts-node --prefer-ts-exts bin/bleadeploy.ts"`によって、`npx cdk deploy`実行時に行われる
 
 ---
 
@@ -326,15 +329,13 @@ CDK コードで追加のパッケージが必要になった場合は、以下�
 > npm i -P @aws-cdk/aws-kms --workspace usecases/guest-webapp-sample
 > ```
 
-### 5. ビルド&テストする
+### 5. テストする
 
 > ```sh
 > # linting
 > npm run lint
 > # formatting
 > npm run format
-> # build
-> npm run build
 > # snapshot test (see NOTE)
 > npm run test
 > ```
@@ -349,7 +350,7 @@ CDK コードで追加のパッケージが必要になった場合は、以下�
 > npm run test -- -u
 > ```
 >
-> 全てのユースケースをビルドするには workspaces を使用して次のように実行します。
+> 全てのユースケースをテストするには workspaces を使用して次のように実行します。
 >
 > ```sh
 > # BLEAのルートディレクトリで実行
@@ -357,16 +358,15 @@ CDK コードで追加のパッケージが必要になった場合は、以下�
 > npm run lint
 > npm run format
 > npm run clean --workspaces
-> npm run build --workspaces
 > npm run test --workspaces -- -u      # update snaphosts
 > npm run test --workspaces
 > ```
 >
-> 個別のユースケースを workspaces を使用してビルドするには次のように実行します。workspaces と workspace の違いに注意してください。
+> 個別のユースケースを workspaces を使用してテストするには次のように実行します。workspaces と workspace の違いに注意してください。
 >
 > ```sh
 > # BLEAのルートディレクトリで実行
-> npm run build --workspace usecases/base-standalone
+> npm run test --workspace usecases/base-standalone
 > ```
 
 ### 6. Synth/Diff する
@@ -374,8 +374,8 @@ CDK コードで追加のパッケージが必要になった場合は、以下�
 CDK Asset を作成し、現在の環境との差分を確認します。
 
 > ```sh
-> npx cdk synth --all --app "npx ts-node bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
-> npx cdk diff --all --app "npx ts-node bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
+> npx cdk synth --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
+> npx cdk diff --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
 > ```
 
 ### 7. Deploy する
@@ -383,7 +383,7 @@ CDK Asset を作成し、現在の環境との差分を確認します。
 デプロイします。ここでは承認をスキップし、ロールバックさせないオプションを追加しています。
 
 > ```sh
-> npx cdk deploy --all --app "npx ts-node bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
+> npx cdk deploy --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
 > ```
 
 ---

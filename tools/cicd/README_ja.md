@@ -74,7 +74,6 @@ CodePipeline が自身の BLEA リポジトリの対象ブランチにアクセ�
 ```
 cd tools/cicd/
 npm ci
-npm run build
 npx cdk bootstrap -c environment=prodpipeline --profile your_profile_name  # If you haven't bootstrapped target account
 npx cdk deploy -c environment=prodpipeline --profile your_profile_name
 ```

@@ -185,7 +185,7 @@ usecases/base-standalone/cdk.json
 
 ```json
 {
-  "app": "npx ts-node bin/blea-base-sa.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/blea-base-sa.ts",
   "context": {
     "dev": {
       "description": "Environment variables for Governance base ",
@@ -217,16 +217,10 @@ usecases/base-standalone/cdk.json
 
 #### 4-2. ガバナンスベースをデプロイする
 
-BLEA をビルドします。
-
-```sh
-cd usecases/base-standalone
-npm run build
-```
-
 初めて CDK を実行する場合は、対象のユースケースディレクトリへ移動し、CDK を bootstrap します。これは対象のアカウントとリージョンの組み合わせで初めて CDK を実行するときに必要です。
 
 ```sh
+cd usecases/base-standalone
 npx cdk bootstrap -c environment=dev --profile prof_dev
 ```
 
@@ -290,7 +284,7 @@ usecases/guest-webapp-sample/cdk.json
 
 ```json
 {
-  "app": "npx ts-node bin/blea-guest-ecsapp-sample.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts",
   "context": {
     "dev": {
       "description": "Context samples for Dev - Anonymous account & region",
@@ -337,7 +331,7 @@ npx cdk deploy --all -c environment=dev --profile prof_dev
 >
 > ```sh
 > cd usecases/guest-webapp-sample
-> npx cdk deploy "BLEA-ECSApp" --app "npx ts-node bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev
+> npx cdk deploy "BLEA-ECSApp" --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev
 > ```
 >
 > NOTE:
@@ -345,7 +339,7 @@ npx cdk deploy --all -c environment=dev --profile prof_dev
 >
 > ```sh
 > cd usecases/guest-webapp-sample
-> npx cdk deploy --all --app "npx ts-node bin/blea-guest-asgapp-sample.ts" -c environment=dev --profile prof_dev
+> npx cdk deploy --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-asgapp-sample.ts" -c environment=dev --profile prof_dev
 > ```
 
 #### 5-3. 独自のアプリケーションを開発する

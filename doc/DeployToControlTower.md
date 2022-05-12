@@ -233,7 +233,7 @@ usecases/base-ct-audit/cdk.json
 
 ```json
 {
-  "app": "npx ts-node bin/blea-base-ct-audit.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/blea-base-ct-audit.ts",
   "context": {
     "dev-audit": {
       "description": "Context samples for ControlTower Audit Account - Specific account & region",
@@ -277,13 +277,6 @@ Log in to your management account using AWS SSO with the following command:
 aws sso login --profile ct-management-sso
 ```
 
-Build Blea
-
-```sh
-cd usecases/base-ct-audit
-npm run build
-```
-
 Bootstrap a bucket for CDK to the Audit account (first time only)
 
 ```sh
@@ -294,6 +287,7 @@ npx cdk bootstrap -c environment=dev-audit --profile ct-audit-exec
 Deploy a governance base to the Audit account
 
 ```sh
+cd usecases/base-ct-audit
 npx cdk deploy --all -c environment=dev-audit --profile ct-audit-exec
 ```
 
@@ -325,7 +319,7 @@ usecases/base-ct-guest/cdk.json
 
 ```json
 {
-  "app": "npx ts-node bin/blea-base-sa.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/blea-base-sa.ts",
   "context": {
     "dev": {
       "description": "Context samples for Dev - Anonymous account & region",
@@ -373,13 +367,6 @@ Log in to your guest account using AWS SSO.
 aws sso login --profile ct-guest-sso
 ```
 
-Build Blea
-
-```sh
-cd usecases/base-ct-guest
-npm run build
-```
-
 Bootstrap a bucket for CDK (first time only).
 
 ```sh
@@ -396,6 +383,7 @@ npx cdk bootstrap -c environment=dev --profile ct-guest
 Deploy a governance base for guest accounts.
 
 ```sh
+cd usecases/base-ct-guest
 npx cdk deploy --all -c environment=dev --profile ct-guest
 ```
 
@@ -456,16 +444,10 @@ Configure the Context using the same steps as in the Standalone version.
 aws sso login --profile ct-guest-sso
 ```
 
-Build Blea
-
-```sh
-cd usecases/guest-webapp-sample
-npm run build
-```
-
 Deploy a guest application.
 
 ```sh
+cd usecases/guest-webapp-sample
 npx cdk deploy --all -c environment=dev --profile ct-guest
 ```
 
@@ -477,7 +459,7 @@ This completes the baseline and sample application deployment for a single accou
 >
 > ```sh
 > cd usecases/guest-webapp-sample
-> npx cdk deploy "BLEA-ECSApp" --app "npx ts-node bin/blea-guest-asgapp-sample.ts" -c environment=dev --profile prof_dev
+> npx cdk deploy "BLEA-ECSApp" --app "npx ts-node --prefer-ts-exts bin/blea-guest-asgapp-sample.ts" -c environment=dev --profile prof_dev
 > ```
 >
 > NOTE:
@@ -485,7 +467,7 @@ This completes the baseline and sample application deployment for a single accou
 >
 > ```sh
 > cd usecases/guest-webapp-sample
-> npx cdk deploy --all --app "npx ts-node bin/blea-guest-asgapp-sample.ts" -c environment=dev --profile prof_dev
+> npx cdk deploy --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-asgapp-sample.ts" -c environment=dev --profile prof_dev
 > ```
 
 #### 7-3. Develop your own applications
