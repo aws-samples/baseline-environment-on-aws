@@ -593,7 +593,7 @@ Object {
                   "Version": "1",
                 },
                 "Configuration": Object {
-                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"d4b70da99433e221a42bba8dc96b757de7f6860a047439efde6531083e46901f\\"}]",
+                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"689d4bdc218311f5ed1ecef9bd33186929236bc7a73eaab384a91ce9de49dc2d\\"}]",
                   "ProjectName": Object {
                     "Ref": "BLEAProdPipelinepipelinePipelineBuildSynthStepCdkBuildProject2E3BBE1A",
                   },
@@ -2108,7 +2108,6 @@ Object {
         \\"node -v\\",
         \\"npm i -g npm@8.3\\",
         \\"cd usecases/guest-webapp-sample\\",
-        \\"aws ssm get-parameter --name \\\\\\"/pipeline-context/guest-webapp-sample/cdk.context.json\\\\\\" | jq -r .Parameter.Value > cdk.context.json\\",
         \\"echo $account_id\\",
         \\"cd ../..\\"
       ]
@@ -2123,8 +2122,8 @@ Object {
         \\"cd usecases/guest-webapp-sample\\",
         \\"npm run build\\",
         \\"npm run test\\",
-        \\"npm run synth:dev_context\\",
-        \\"npx cdk ls -c environment=dev-context\\"
+        \\"npm run synth:dev\\",
+        \\"npx cdk ls -c environment=dev\\"
       ]
     }
   },
