@@ -426,4 +426,15 @@ EC2 インスタンスのメタデータアクセスには IDMSv2 のみを使�
 - [EC2.8] EC2 instances should use IMDSv2
   - [https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-ec2-8]
 
+### 3. CodeBuild の特権モードに関する通知のステータスを変更する
+
+CodeBuild では Docker イメージをビルドするときにのみ特権モードが有効化されるべきです。以下のコントロールがコンプライアンス違反となった場合には、その CodeBuild プロジェクトが特権モードを有効化する必要があるかを確認し、もし必要だと確認された場合にはワークフローのステータスを SUPPRESSED に変更します。
+
+- [CodeBuild.5] CodeBuild project environments should not have privileged mode enabled
+  - [https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-codebuild-5]
+
+ワークフローのステータスを変更する方法は以下のドキュメントを参照してください。
+
+[https://docs.aws.amazon.com/securityhub/latest/userguide/finding-workflow-status.html]
+
 ---

@@ -343,6 +343,9 @@ This completes the baseline and sample application deployment for a single accou
 > cd usecases/guest-webapp-sample
 > npx cdk deploy --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-asgapp-sample.ts" -c environment=dev --profile prof_dev
 > ```
+>
+> NOTE:
+> When deploying a guest ECS application, one of the Security Hub standards, [CodeBuild.5](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-codebuild-5), may raise an alert. You can suppress the alert by referring to [Changing the status of notifications about CodeBuild's privileged mode](doc/HowTo.md#remediate-security-issues).
 
 #### 5-3. Develop your own applications
 

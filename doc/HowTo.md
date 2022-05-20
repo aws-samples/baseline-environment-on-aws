@@ -425,4 +425,15 @@ It is recommended that you use IDMSv2 only for metadata access on EC2 instances.
 - [EC2.8] EC2 instances should use IMDSv2
   - [https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-ec2-8]
 
+### 3. Changing the status of notifications about CodeBuild's privileged mode
+
+CodeBuild should only enable privileged mode when building Docker images. If the following controls are out of compliance, check to see if the CodeBuild project needs to enable privileged mode, and if so, change the status of the workflow to SUPPRESSED.
+
+- [CodeBuild.5] CodeBuild project environments should not have privileged mode enabled
+  - [https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-codebuild-5]
+
+Refer to the following document how to change the status of a workflow.
+
+[https://docs.aws.amazon.com/securityhub/latest/userguide/finding-workflow-status.html]
+
 ---
