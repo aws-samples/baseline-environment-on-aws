@@ -10,23 +10,23 @@ CDK Pipelines は、AWS CodePipeline によって CDK アプリケーション�
 
 ## デプロイの概要
 
-### 1. パイプラインに必要な情報をセットアップする
+### セットアップ（共通） - パイプラインに必要な情報を設定
 
 ![BLEA-Deploy-Setup](images/BLEA-DeployECS-01-Setup.png)
 
-### 2. アプリケーションとパイプラインを同一アカウント内でデプロイする
+### 構成 ①：同一アカウント内でパイプラインとアプリケーションをデプロイする
 
 ![BLEA-Deploy-Tools](images/BLEA-DeployECS-02-Tool.png)
 
-### 3. ローカル環境から開発環境用にアプリケーションスタックのコピーをデプロイする
+### 構成 ②：パイプラインから別アカウントに対してアプリケーションをデプロイする
 
 ![BLEA-Deploy-Dev](images/BLEA-DeployECS-03-Dev.png)
 
-### 4. パイプラインから本番環境用のアカウントにデプロイする
+### 構成 ③：パイプラインから複数のアカウントに対してアプリケーションをデプロイする
 
 ![BLEA-Deploy-Prod](images/BLEA-DeployECS-04-Prod.png)
 
-### 5. 複数のアカウントに対してパイプラインを使ってデプロイする
+### （オプション）パイプライン経由ではなく直接アプリケーションをデプロイする
 
 ![BLEA-Deploy-Multi](images/BLEA-DeployECS-05-Multi.png)
 
