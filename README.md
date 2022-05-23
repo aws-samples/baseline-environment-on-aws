@@ -7,7 +7,7 @@
 
 Baseline Environment on AWS(BLEA) is a set of reference CDK template to establish secure baseline on standalone-account or ControlTower based multi-account AWS environment. This solution provides basic and extensible guardrail with AWS security services and end-to-end sample CDK code for typical system architecture. This template is also useful to learn more about AWS architecting best practices and how to customize CDK code as we incorporated comments in detail so that users can know why and how to customize.
 
-Jump to | [Changelog](CHANGELOG.md) | [HowTo](doc/HowTo.md) | [Deploy to Multiaccount environment](/doc/DeployToControlTower_ja.md) | [Standalone to ControlTower](doc/Standalone2ControlTower_ja.md) | [Deployment Pipeline](tools/cicd/README_ja.md) |
+Jump to | [Changelog](CHANGELOG.md) | [HowTo](doc/HowTo.md) | [Deploy to Multiaccount environment](/doc/DeployToControlTower.md) | [Standalone to ControlTower](doc/Standalone2ControlTower.md) | [Deployment Pipeline](doc/PipelineDeployment.md) |
 
 ## Governance Architecture
 
