@@ -564,7 +564,7 @@ Object {
                   "Version": "1",
                 },
                 "Configuration": Object {
-                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"c7b55c505a5fada3ff2524b6215738e4d186e9f3bc9419871a1197d79938516c\\"}]",
+                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"3a0819c7a20d1e62b1aaaf8a359764c084f7d3e188a09a344578ff8fdf94bd56\\"}]",
                   "ProjectName": Object {
                     "Ref": "BLEAProdPipelinepipelinePipelineBuildSynthStepCdkBuildProject2E3BBE1A",
                   },
@@ -2415,9 +2415,7 @@ Object {
       \\"commands\\": [
         \\"n stable\\",
         \\"node -v\\",
-        \\"npm i -g\\",
-        \\"cd usecases/guest-webapp-sample\\",
-        \\"cd ../..\\"
+        \\"npm i -g\\"
       ]
     },
     \\"build\\": {
