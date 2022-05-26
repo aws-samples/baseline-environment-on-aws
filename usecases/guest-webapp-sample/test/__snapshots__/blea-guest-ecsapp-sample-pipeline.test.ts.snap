@@ -50,7 +50,15 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":logs:ap-northeast-1:222222222222:log-group:/aws/codebuild/",
+                      ":logs:",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
+                      ":",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":log-group:/aws/codebuild/",
                       Object {
                         "Ref": "BLEAProdPipelinepipelinePipelineBuildSynthStepCdkBuildProject2E3BBE1A",
                       },
@@ -65,7 +73,15 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":logs:ap-northeast-1:222222222222:log-group:/aws/codebuild/",
+                      ":logs:",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
+                      ":",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":log-group:/aws/codebuild/",
                       Object {
                         "Ref": "BLEAProdPipelinepipelinePipelineBuildSynthStepCdkBuildProject2E3BBE1A",
                       },
@@ -92,7 +108,15 @@ Object {
                     Object {
                       "Ref": "AWS::Partition",
                     },
-                    ":codebuild:ap-northeast-1:222222222222:report-group/",
+                    ":codebuild:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":report-group/",
                     Object {
                       "Ref": "BLEAProdPipelinepipelinePipelineBuildSynthStepCdkBuildProject2E3BBE1A",
                     },
@@ -134,37 +158,6 @@ Object {
                 },
               ],
             },
-            Object {
-              "Action": Array [
-                "kms:Decrypt",
-                "kms:DescribeKey",
-                "kms:Encrypt",
-                "kms:ReEncrypt*",
-                "kms:GenerateDataKey*",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "BLEAProdPipelinepipelinePipelineArtifactsBucketEncryptionKey1FD701B6",
-                  "Arn",
-                ],
-              },
-            },
-            Object {
-              "Action": Array [
-                "kms:Decrypt",
-                "kms:Encrypt",
-                "kms:ReEncrypt*",
-                "kms:GenerateDataKey*",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "BLEAProdPipelinepipelinePipelineArtifactsBucketEncryptionKey1FD701B6",
-                  "Arn",
-                ],
-              },
-            },
           ],
           "Version": "2012-10-17",
         },
@@ -185,12 +178,7 @@ Object {
         "Cache": Object {
           "Type": "NO_CACHE",
         },
-        "EncryptionKey": Object {
-          "Fn::GetAtt": Array [
-            "BLEAProdPipelinepipelinePipelineArtifactsBucketEncryptionKey1FD701B6",
-            "Arn",
-          ],
-        },
+        "EncryptionKey": "alias/aws/s3",
         "Environment": Object {
           "ComputeType": "BUILD_GENERAL1_SMALL",
           "Image": "aws/codebuild/standard:5.0",
@@ -215,7 +203,7 @@ Object {
     },
     \\"build\\": {
       \\"commands\\": [
-        \\"cdk-assets --path \\\\\\"assembly-BLEA-Prod-Stage-Tool-Account-Deployment/BLEAProdStageToolAccountDeploymentBLEAContainerImageE4E7C8E5.assets.json\\\\\\" --verbose publish \\\\\\"80f730532f1195ed4fede75fbf8191acdfc52e6721de3b612c0c6a7eab1dbbc1:333333333333-ap-northeast-1\\\\\\"\\"
+        \\"cdk-assets --path \\\\\\"assembly-BLEA-Prod-Stage/BLEAProdStageBLEAContainerImage0D8D1EEB.assets.json\\\\\\" --verbose publish \\\\\\"80f730532f1195ed4fede75fbf8191acdfc52e6721de3b612c0c6a7eab1dbbc1:current_account-current_region\\\\\\"\\"
       ]
     }
   }
@@ -233,12 +221,7 @@ Object {
         "Cache": Object {
           "Type": "NO_CACHE",
         },
-        "EncryptionKey": Object {
-          "Fn::GetAtt": Array [
-            "BLEAProdPipelinepipelinePipelineArtifactsBucketEncryptionKey1FD701B6",
-            "Arn",
-          ],
-        },
+        "EncryptionKey": "alias/aws/s3",
         "Environment": Object {
           "ComputeType": "BUILD_GENERAL1_SMALL",
           "Image": "aws/codebuild/standard:5.0",
@@ -263,7 +246,7 @@ Object {
     },
     \\"build\\": {
       \\"commands\\": [
-        \\"cdk-assets --path \\\\\\"assembly-BLEA-Prod-Stage-Tool-Account-Deployment/BLEAProdStageToolAccountDeploymentBLEAContainerImageE4E7C8E5.assets.json\\\\\\" --verbose publish \\\\\\"4a575666d1c2c6412590d2a56f328e040a81ad1ef59aecee31ae9b393d05f659:333333333333-ap-northeast-1\\\\\\"\\"
+        \\"cdk-assets --path \\\\\\"assembly-BLEA-Prod-Stage/BLEAProdStageBLEAContainerImage0D8D1EEB.assets.json\\\\\\" --verbose publish \\\\\\"4a575666d1c2c6412590d2a56f328e040a81ad1ef59aecee31ae9b393d05f659:current_account-current_region\\\\\\"\\"
       ]
     }
   }
@@ -281,12 +264,7 @@ Object {
         "Cache": Object {
           "Type": "NO_CACHE",
         },
-        "EncryptionKey": Object {
-          "Fn::GetAtt": Array [
-            "BLEAProdPipelinepipelinePipelineArtifactsBucketEncryptionKey1FD701B6",
-            "Arn",
-          ],
-        },
+        "EncryptionKey": "alias/aws/s3",
         "Environment": Object {
           "ComputeType": "BUILD_GENERAL1_SMALL",
           "Image": "aws/codebuild/standard:5.0",
@@ -311,7 +289,7 @@ Object {
     },
     \\"build\\": {
       \\"commands\\": [
-        \\"cdk-assets --path \\\\\\"assembly-BLEA-Prod-Stage-Tool-Account-Deployment/BLEAProdStageToolAccountDeploymentBLEAECSAppCanary837C0833.assets.json\\\\\\" --verbose publish \\\\\\"1e64e462d93160eb5230b00e665705bfaf2299d9c302ab56dd093bccbe387c4f:333333333333-ap-northeast-1\\\\\\"\\"
+        \\"cdk-assets --path \\\\\\"assembly-BLEA-Prod-Stage/BLEAProdStageBLEAECSAppCanary23394634.assets.json\\\\\\" --verbose publish \\\\\\"1e64e462d93160eb5230b00e665705bfaf2299d9c302ab56dd093bccbe387c4f:current_account-current_region\\\\\\"\\"
       ]
     }
   }
@@ -329,12 +307,7 @@ Object {
         "Cache": Object {
           "Type": "NO_CACHE",
         },
-        "EncryptionKey": Object {
-          "Fn::GetAtt": Array [
-            "BLEAProdPipelinepipelinePipelineArtifactsBucketEncryptionKey1FD701B6",
-            "Arn",
-          ],
-        },
+        "EncryptionKey": "alias/aws/s3",
         "Environment": Object {
           "ComputeType": "BUILD_GENERAL1_SMALL",
           "Image": "aws/codebuild/standard:5.0",
@@ -359,7 +332,7 @@ Object {
     },
     \\"build\\": {
       \\"commands\\": [
-        \\"cdk-assets --path \\\\\\"assembly-BLEA-Prod-Stage-Tool-Account-Deployment/BLEAProdStageToolAccountDeploymentBLEADBAuroraPg8B0E2DBC.assets.json\\\\\\" --verbose publish \\\\\\"6c0316fef24d0df8a9a705c77052001217d864f49af386539d01df54618cd131:333333333333-ap-northeast-1\\\\\\"\\"
+        \\"cdk-assets --path \\\\\\"assembly-BLEA-Prod-Stage/BLEAProdStageBLEADBAuroraPg1F6BF089.assets.json\\\\\\" --verbose publish \\\\\\"6c0316fef24d0df8a9a705c77052001217d864f49af386539d01df54618cd131:current_account-current_region\\\\\\"\\"
       ]
     }
   }
@@ -392,7 +365,11 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::222222222222:root",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":root",
                     ],
                   ],
                 },
@@ -423,7 +400,15 @@ Object {
                     Object {
                       "Ref": "AWS::Partition",
                     },
-                    ":logs:ap-northeast-1:222222222222:log-group:/aws/codebuild/*",
+                    ":logs:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":log-group:/aws/codebuild/*",
                   ],
                 ],
               },
@@ -445,7 +430,15 @@ Object {
                     Object {
                       "Ref": "AWS::Partition",
                     },
-                    ":codebuild:ap-northeast-1:222222222222:report-group/*",
+                    ":codebuild:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":report-group/*",
                   ],
                 ],
               },
@@ -464,7 +457,7 @@ Object {
               "Effect": "Allow",
               "Resource": Array [
                 Object {
-                  "Fn::Sub": "arn:\${AWS::Partition}:iam::333333333333:role/cdk-hnb659fds-file-publishing-role-333333333333-ap-northeast-1",
+                  "Fn::Sub": "arn:\${AWS::Partition}:iam::\${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-\${AWS::AccountId}-\${AWS::Region}",
                 },
               ],
             },
@@ -498,19 +491,6 @@ Object {
                 },
               ],
             },
-            Object {
-              "Action": Array [
-                "kms:Decrypt",
-                "kms:DescribeKey",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "BLEAProdPipelinepipelinePipelineArtifactsBucketEncryptionKey1FD701B6",
-                  "Arn",
-                ],
-              },
-            },
           ],
           "Version": "2012-10-17",
         },
@@ -530,15 +510,6 @@ Object {
       ],
       "Properties": Object {
         "ArtifactStore": Object {
-          "EncryptionKey": Object {
-            "Id": Object {
-              "Fn::GetAtt": Array [
-                "BLEAProdPipelinepipelinePipelineArtifactsBucketEncryptionKey1FD701B6",
-                "Arn",
-              ],
-            },
-            "Type": "KMS",
-          },
           "Location": Object {
             "Ref": "BLEAProdPipelinepipelinePipelineArtifactsBucket1D5BA592",
           },
@@ -593,7 +564,7 @@ Object {
                   "Version": "1",
                 },
                 "Configuration": Object {
-                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"689d4bdc218311f5ed1ecef9bd33186929236bc7a73eaab384a91ce9de49dc2d\\"}]",
+                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"c7b55c505a5fada3ff2524b6215738e4d186e9f3bc9419871a1197d79938516c\\"}]",
                   "ProjectName": Object {
                     "Ref": "BLEAProdPipelinepipelinePipelineBuildSynthStepCdkBuildProject2E3BBE1A",
                   },
@@ -782,12 +753,23 @@ Object {
                         Object {
                           "Ref": "AWS::Partition",
                         },
-                        ":iam::333333333333:role/cdk-hnb659fds-cfn-exec-role-333333333333-ap-northeast-1",
+                        ":iam::",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        ":role/cdk-hnb659fds-cfn-exec-role-",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        "-",
+                        Object {
+                          "Ref": "AWS::Region",
+                        },
                       ],
                     ],
                   },
-                  "StackName": "BLEA-Prod-Stage-Tool-Account-Deployment-BLEA-AppKey",
-                  "TemplatePath": "SynthStep_Output::assembly-BLEA-Prod-Stage-Tool-Account-Deployment/BLEAProdStageToolAccountDeploymentBLEAAppKey975A1CA8.template.json",
+                  "StackName": "BLEA-Prod-Stage-BLEA-AppKey",
+                  "TemplatePath": "SynthStep_Output::assembly-BLEA-Prod-Stage/BLEAProdStageBLEAAppKeyA3C76E23.template.json",
                 },
                 "InputArtifacts": Array [
                   Object {
@@ -803,7 +785,18 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::333333333333:role/cdk-hnb659fds-deploy-role-333333333333-ap-northeast-1",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
                     ],
                   ],
                 },
@@ -828,12 +821,23 @@ Object {
                         Object {
                           "Ref": "AWS::Partition",
                         },
-                        ":iam::333333333333:role/cdk-hnb659fds-cfn-exec-role-333333333333-ap-northeast-1",
+                        ":iam::",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        ":role/cdk-hnb659fds-cfn-exec-role-",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        "-",
+                        Object {
+                          "Ref": "AWS::Region",
+                        },
                       ],
                     ],
                   },
-                  "StackName": "BLEA-Prod-Stage-Tool-Account-Deployment-BLEA-MonitorAlarm",
-                  "TemplatePath": "SynthStep_Output::assembly-BLEA-Prod-Stage-Tool-Account-Deployment/BLEAProdStageToolAccountDeploymentBLEAMonitorAlarm13B8213E.template.json",
+                  "StackName": "BLEA-Prod-Stage-BLEA-MonitorAlarm",
+                  "TemplatePath": "SynthStep_Output::assembly-BLEA-Prod-Stage/BLEAProdStageBLEAMonitorAlarm3AAF4660.template.json",
                 },
                 "InputArtifacts": Array [
                   Object {
@@ -849,7 +853,18 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::333333333333:role/cdk-hnb659fds-deploy-role-333333333333-ap-northeast-1",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
                     ],
                   ],
                 },
@@ -874,12 +889,23 @@ Object {
                         Object {
                           "Ref": "AWS::Partition",
                         },
-                        ":iam::333333333333:role/cdk-hnb659fds-cfn-exec-role-333333333333-ap-northeast-1",
+                        ":iam::",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        ":role/cdk-hnb659fds-cfn-exec-role-",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        "-",
+                        Object {
+                          "Ref": "AWS::Region",
+                        },
                       ],
                     ],
                   },
-                  "StackName": "BLEA-Prod-Stage-Tool-Account-Deployment-BLEA-Vpc",
-                  "TemplatePath": "SynthStep_Output::assembly-BLEA-Prod-Stage-Tool-Account-Deployment/BLEAProdStageToolAccountDeploymentBLEAVpc87972E23.template.json",
+                  "StackName": "BLEA-Prod-Stage-BLEA-Vpc",
+                  "TemplatePath": "SynthStep_Output::assembly-BLEA-Prod-Stage/BLEAProdStageBLEAVpc133DC938.template.json",
                 },
                 "InputArtifacts": Array [
                   Object {
@@ -895,7 +921,18 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::333333333333:role/cdk-hnb659fds-deploy-role-333333333333-ap-northeast-1",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
                     ],
                   ],
                 },
@@ -920,12 +957,23 @@ Object {
                         Object {
                           "Ref": "AWS::Partition",
                         },
-                        ":iam::333333333333:role/cdk-hnb659fds-cfn-exec-role-333333333333-ap-northeast-1",
+                        ":iam::",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        ":role/cdk-hnb659fds-cfn-exec-role-",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        "-",
+                        Object {
+                          "Ref": "AWS::Region",
+                        },
                       ],
                     ],
                   },
-                  "StackName": "BLEA-Prod-Stage-Tool-Account-Deployment-BLEA-Waf",
-                  "TemplatePath": "SynthStep_Output::assembly-BLEA-Prod-Stage-Tool-Account-Deployment/BLEAProdStageToolAccountDeploymentBLEAWaf14A9561A.template.json",
+                  "StackName": "BLEA-Prod-Stage-BLEA-Waf",
+                  "TemplatePath": "SynthStep_Output::assembly-BLEA-Prod-Stage/BLEAProdStageBLEAWaf59A0E818.template.json",
                 },
                 "InputArtifacts": Array [
                   Object {
@@ -941,7 +989,18 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::333333333333:role/cdk-hnb659fds-deploy-role-333333333333-ap-northeast-1",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
                     ],
                   ],
                 },
@@ -957,7 +1016,7 @@ Object {
                 "Configuration": Object {
                   "ActionMode": "CHANGE_SET_EXECUTE",
                   "ChangeSetName": "PipelineChange",
-                  "StackName": "BLEA-Prod-Stage-Tool-Account-Deployment-BLEA-AppKey",
+                  "StackName": "BLEA-Prod-Stage-BLEA-AppKey",
                 },
                 "Name": "BLEA-AppKey.Deploy",
                 "RoleArn": Object {
@@ -968,7 +1027,18 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::333333333333:role/cdk-hnb659fds-deploy-role-333333333333-ap-northeast-1",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
                     ],
                   ],
                 },
@@ -984,7 +1054,7 @@ Object {
                 "Configuration": Object {
                   "ActionMode": "CHANGE_SET_EXECUTE",
                   "ChangeSetName": "PipelineChange",
-                  "StackName": "BLEA-Prod-Stage-Tool-Account-Deployment-BLEA-MonitorAlarm",
+                  "StackName": "BLEA-Prod-Stage-BLEA-MonitorAlarm",
                 },
                 "Name": "BLEA-MonitorAlarm.Deploy",
                 "RoleArn": Object {
@@ -995,7 +1065,18 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::333333333333:role/cdk-hnb659fds-deploy-role-333333333333-ap-northeast-1",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
                     ],
                   ],
                 },
@@ -1011,7 +1092,7 @@ Object {
                 "Configuration": Object {
                   "ActionMode": "CHANGE_SET_EXECUTE",
                   "ChangeSetName": "PipelineChange",
-                  "StackName": "BLEA-Prod-Stage-Tool-Account-Deployment-BLEA-Vpc",
+                  "StackName": "BLEA-Prod-Stage-BLEA-Vpc",
                 },
                 "Name": "BLEA-Vpc.Deploy",
                 "RoleArn": Object {
@@ -1022,7 +1103,18 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::333333333333:role/cdk-hnb659fds-deploy-role-333333333333-ap-northeast-1",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
                     ],
                   ],
                 },
@@ -1038,7 +1130,7 @@ Object {
                 "Configuration": Object {
                   "ActionMode": "CHANGE_SET_EXECUTE",
                   "ChangeSetName": "PipelineChange",
-                  "StackName": "BLEA-Prod-Stage-Tool-Account-Deployment-BLEA-Waf",
+                  "StackName": "BLEA-Prod-Stage-BLEA-Waf",
                 },
                 "Name": "BLEA-Waf.Deploy",
                 "RoleArn": Object {
@@ -1049,7 +1141,18 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::333333333333:role/cdk-hnb659fds-deploy-role-333333333333-ap-northeast-1",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
                     ],
                   ],
                 },
@@ -1074,12 +1177,23 @@ Object {
                         Object {
                           "Ref": "AWS::Partition",
                         },
-                        ":iam::333333333333:role/cdk-hnb659fds-cfn-exec-role-333333333333-ap-northeast-1",
+                        ":iam::",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        ":role/cdk-hnb659fds-cfn-exec-role-",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        "-",
+                        Object {
+                          "Ref": "AWS::Region",
+                        },
                       ],
                     ],
                   },
-                  "StackName": "BLEA-Prod-Stage-Tool-Account-Deployment-BLEA-ChatbotMonitor",
-                  "TemplatePath": "SynthStep_Output::assembly-BLEA-Prod-Stage-Tool-Account-Deployment/BLEAProdStageToolAccountDeploymentBLEAChatbotMonitor1996DB65.template.json",
+                  "StackName": "BLEA-Prod-Stage-BLEA-ChatbotMonitor",
+                  "TemplatePath": "SynthStep_Output::assembly-BLEA-Prod-Stage/BLEAProdStageBLEAChatbotMonitorD6AEFD65.template.json",
                 },
                 "InputArtifacts": Array [
                   Object {
@@ -1095,7 +1209,18 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::333333333333:role/cdk-hnb659fds-deploy-role-333333333333-ap-northeast-1",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
                     ],
                   ],
                 },
@@ -1120,12 +1245,23 @@ Object {
                         Object {
                           "Ref": "AWS::Partition",
                         },
-                        ":iam::333333333333:role/cdk-hnb659fds-cfn-exec-role-333333333333-ap-northeast-1",
+                        ":iam::",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        ":role/cdk-hnb659fds-cfn-exec-role-",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        "-",
+                        Object {
+                          "Ref": "AWS::Region",
+                        },
                       ],
                     ],
                   },
-                  "StackName": "BLEA-Prod-Stage-Tool-Account-Deployment-BLEA-ECR",
-                  "TemplatePath": "SynthStep_Output::assembly-BLEA-Prod-Stage-Tool-Account-Deployment/BLEAProdStageToolAccountDeploymentBLEAECR03D2FCEA.template.json",
+                  "StackName": "BLEA-Prod-Stage-BLEA-ECR",
+                  "TemplatePath": "SynthStep_Output::assembly-BLEA-Prod-Stage/BLEAProdStageBLEAECR33F72816.template.json",
                 },
                 "InputArtifacts": Array [
                   Object {
@@ -1141,7 +1277,18 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::333333333333:role/cdk-hnb659fds-deploy-role-333333333333-ap-northeast-1",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
                     ],
                   ],
                 },
@@ -1166,12 +1313,23 @@ Object {
                         Object {
                           "Ref": "AWS::Partition",
                         },
-                        ":iam::333333333333:role/cdk-hnb659fds-cfn-exec-role-333333333333-ap-northeast-1",
+                        ":iam::",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        ":role/cdk-hnb659fds-cfn-exec-role-",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        "-",
+                        Object {
+                          "Ref": "AWS::Region",
+                        },
                       ],
                     ],
                   },
-                  "StackName": "BLEA-Prod-Stage-Tool-Account-Deployment-BLEA-SimpleFrontStack",
-                  "TemplatePath": "SynthStep_Output::assembly-BLEA-Prod-Stage-Tool-Account-Deployment/BLEAProdStageToolAccountDeploymentBLEASimpleFrontStack2B7AD093.template.json",
+                  "StackName": "BLEA-Prod-Stage-BLEA-SimpleFrontStack",
+                  "TemplatePath": "SynthStep_Output::assembly-BLEA-Prod-Stage/BLEAProdStageBLEASimpleFrontStack331E818B.template.json",
                 },
                 "InputArtifacts": Array [
                   Object {
@@ -1187,7 +1345,18 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::333333333333:role/cdk-hnb659fds-deploy-role-333333333333-ap-northeast-1",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
                     ],
                   ],
                 },
@@ -1203,7 +1372,7 @@ Object {
                 "Configuration": Object {
                   "ActionMode": "CHANGE_SET_EXECUTE",
                   "ChangeSetName": "PipelineChange",
-                  "StackName": "BLEA-Prod-Stage-Tool-Account-Deployment-BLEA-ChatbotMonitor",
+                  "StackName": "BLEA-Prod-Stage-BLEA-ChatbotMonitor",
                 },
                 "Name": "BLEA-ChatbotMonitor.Deploy",
                 "RoleArn": Object {
@@ -1214,7 +1383,18 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::333333333333:role/cdk-hnb659fds-deploy-role-333333333333-ap-northeast-1",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
                     ],
                   ],
                 },
@@ -1230,7 +1410,7 @@ Object {
                 "Configuration": Object {
                   "ActionMode": "CHANGE_SET_EXECUTE",
                   "ChangeSetName": "PipelineChange",
-                  "StackName": "BLEA-Prod-Stage-Tool-Account-Deployment-BLEA-ECR",
+                  "StackName": "BLEA-Prod-Stage-BLEA-ECR",
                 },
                 "Name": "BLEA-ECR.Deploy",
                 "RoleArn": Object {
@@ -1241,7 +1421,18 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::333333333333:role/cdk-hnb659fds-deploy-role-333333333333-ap-northeast-1",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
                     ],
                   ],
                 },
@@ -1257,7 +1448,7 @@ Object {
                 "Configuration": Object {
                   "ActionMode": "CHANGE_SET_EXECUTE",
                   "ChangeSetName": "PipelineChange",
-                  "StackName": "BLEA-Prod-Stage-Tool-Account-Deployment-BLEA-SimpleFrontStack",
+                  "StackName": "BLEA-Prod-Stage-BLEA-SimpleFrontStack",
                 },
                 "Name": "BLEA-SimpleFrontStack.Deploy",
                 "RoleArn": Object {
@@ -1268,7 +1459,18 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::333333333333:role/cdk-hnb659fds-deploy-role-333333333333-ap-northeast-1",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
                     ],
                   ],
                 },
@@ -1293,12 +1495,23 @@ Object {
                         Object {
                           "Ref": "AWS::Partition",
                         },
-                        ":iam::333333333333:role/cdk-hnb659fds-cfn-exec-role-333333333333-ap-northeast-1",
+                        ":iam::",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        ":role/cdk-hnb659fds-cfn-exec-role-",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        "-",
+                        Object {
+                          "Ref": "AWS::Region",
+                        },
                       ],
                     ],
                   },
-                  "StackName": "BLEA-Prod-Stage-Tool-Account-Deployment-BLEA-ContainerImage",
-                  "TemplatePath": "SynthStep_Output::assembly-BLEA-Prod-Stage-Tool-Account-Deployment/BLEAProdStageToolAccountDeploymentBLEAContainerImageE4E7C8E5.template.json",
+                  "StackName": "BLEA-Prod-Stage-BLEA-ContainerImage",
+                  "TemplatePath": "SynthStep_Output::assembly-BLEA-Prod-Stage/BLEAProdStageBLEAContainerImage0D8D1EEB.template.json",
                 },
                 "InputArtifacts": Array [
                   Object {
@@ -1314,7 +1527,18 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::333333333333:role/cdk-hnb659fds-deploy-role-333333333333-ap-northeast-1",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
                     ],
                   ],
                 },
@@ -1339,12 +1563,23 @@ Object {
                         Object {
                           "Ref": "AWS::Partition",
                         },
-                        ":iam::333333333333:role/cdk-hnb659fds-cfn-exec-role-333333333333-ap-northeast-1",
+                        ":iam::",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        ":role/cdk-hnb659fds-cfn-exec-role-",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        "-",
+                        Object {
+                          "Ref": "AWS::Region",
+                        },
                       ],
                     ],
                   },
-                  "StackName": "BLEA-Prod-Stage-Tool-Account-Deployment-BLEA-ECSAppCanary",
-                  "TemplatePath": "SynthStep_Output::assembly-BLEA-Prod-Stage-Tool-Account-Deployment/BLEAProdStageToolAccountDeploymentBLEAECSAppCanary837C0833.template.json",
+                  "StackName": "BLEA-Prod-Stage-BLEA-ECSAppCanary",
+                  "TemplatePath": "SynthStep_Output::assembly-BLEA-Prod-Stage/BLEAProdStageBLEAECSAppCanary23394634.template.json",
                 },
                 "InputArtifacts": Array [
                   Object {
@@ -1360,7 +1595,18 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::333333333333:role/cdk-hnb659fds-deploy-role-333333333333-ap-northeast-1",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
                     ],
                   ],
                 },
@@ -1376,7 +1622,7 @@ Object {
                 "Configuration": Object {
                   "ActionMode": "CHANGE_SET_EXECUTE",
                   "ChangeSetName": "PipelineChange",
-                  "StackName": "BLEA-Prod-Stage-Tool-Account-Deployment-BLEA-ContainerImage",
+                  "StackName": "BLEA-Prod-Stage-BLEA-ContainerImage",
                 },
                 "Name": "BLEA-ContainerImage.Deploy",
                 "RoleArn": Object {
@@ -1387,7 +1633,18 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::333333333333:role/cdk-hnb659fds-deploy-role-333333333333-ap-northeast-1",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
                     ],
                   ],
                 },
@@ -1403,7 +1660,7 @@ Object {
                 "Configuration": Object {
                   "ActionMode": "CHANGE_SET_EXECUTE",
                   "ChangeSetName": "PipelineChange",
-                  "StackName": "BLEA-Prod-Stage-Tool-Account-Deployment-BLEA-ECSAppCanary",
+                  "StackName": "BLEA-Prod-Stage-BLEA-ECSAppCanary",
                 },
                 "Name": "BLEA-ECSAppCanary.Deploy",
                 "RoleArn": Object {
@@ -1414,7 +1671,18 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::333333333333:role/cdk-hnb659fds-deploy-role-333333333333-ap-northeast-1",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
                     ],
                   ],
                 },
@@ -1439,12 +1707,23 @@ Object {
                         Object {
                           "Ref": "AWS::Partition",
                         },
-                        ":iam::333333333333:role/cdk-hnb659fds-cfn-exec-role-333333333333-ap-northeast-1",
+                        ":iam::",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        ":role/cdk-hnb659fds-cfn-exec-role-",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        "-",
+                        Object {
+                          "Ref": "AWS::Region",
+                        },
                       ],
                     ],
                   },
-                  "StackName": "BLEA-Prod-Stage-Tool-Account-Deployment-BLEA-ECSApp",
-                  "TemplatePath": "SynthStep_Output::assembly-BLEA-Prod-Stage-Tool-Account-Deployment/BLEAProdStageToolAccountDeploymentBLEAECSApp8D4F6381.template.json",
+                  "StackName": "BLEA-Prod-Stage-BLEA-ECSApp",
+                  "TemplatePath": "SynthStep_Output::assembly-BLEA-Prod-Stage/BLEAProdStageBLEAECSAppF5C1E96D.template.json",
                 },
                 "InputArtifacts": Array [
                   Object {
@@ -1460,7 +1739,18 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::333333333333:role/cdk-hnb659fds-deploy-role-333333333333-ap-northeast-1",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
                     ],
                   ],
                 },
@@ -1476,7 +1766,7 @@ Object {
                 "Configuration": Object {
                   "ActionMode": "CHANGE_SET_EXECUTE",
                   "ChangeSetName": "PipelineChange",
-                  "StackName": "BLEA-Prod-Stage-Tool-Account-Deployment-BLEA-ECSApp",
+                  "StackName": "BLEA-Prod-Stage-BLEA-ECSApp",
                 },
                 "Name": "BLEA-ECSApp.Deploy",
                 "RoleArn": Object {
@@ -1487,7 +1777,18 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::333333333333:role/cdk-hnb659fds-deploy-role-333333333333-ap-northeast-1",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
                     ],
                   ],
                 },
@@ -1512,12 +1813,23 @@ Object {
                         Object {
                           "Ref": "AWS::Partition",
                         },
-                        ":iam::333333333333:role/cdk-hnb659fds-cfn-exec-role-333333333333-ap-northeast-1",
+                        ":iam::",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        ":role/cdk-hnb659fds-cfn-exec-role-",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        "-",
+                        Object {
+                          "Ref": "AWS::Region",
+                        },
                       ],
                     ],
                   },
-                  "StackName": "BLEA-Prod-Stage-Tool-Account-Deployment-BLEA-DBAuroraPg",
-                  "TemplatePath": "SynthStep_Output::assembly-BLEA-Prod-Stage-Tool-Account-Deployment/BLEAProdStageToolAccountDeploymentBLEADBAuroraPg8B0E2DBC.template.json",
+                  "StackName": "BLEA-Prod-Stage-BLEA-DBAuroraPg",
+                  "TemplatePath": "SynthStep_Output::assembly-BLEA-Prod-Stage/BLEAProdStageBLEADBAuroraPg1F6BF089.template.json",
                 },
                 "InputArtifacts": Array [
                   Object {
@@ -1533,7 +1845,18 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::333333333333:role/cdk-hnb659fds-deploy-role-333333333333-ap-northeast-1",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
                     ],
                   ],
                 },
@@ -1549,7 +1872,7 @@ Object {
                 "Configuration": Object {
                   "ActionMode": "CHANGE_SET_EXECUTE",
                   "ChangeSetName": "PipelineChange",
-                  "StackName": "BLEA-Prod-Stage-Tool-Account-Deployment-BLEA-DBAuroraPg",
+                  "StackName": "BLEA-Prod-Stage-BLEA-DBAuroraPg",
                 },
                 "Name": "BLEA-DBAuroraPg.Deploy",
                 "RoleArn": Object {
@@ -1560,7 +1883,18 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::333333333333:role/cdk-hnb659fds-deploy-role-333333333333-ap-northeast-1",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
                     ],
                   ],
                 },
@@ -1585,12 +1919,23 @@ Object {
                         Object {
                           "Ref": "AWS::Partition",
                         },
-                        ":iam::333333333333:role/cdk-hnb659fds-cfn-exec-role-333333333333-ap-northeast-1",
+                        ":iam::",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        ":role/cdk-hnb659fds-cfn-exec-role-",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        "-",
+                        Object {
+                          "Ref": "AWS::Region",
+                        },
                       ],
                     ],
                   },
-                  "StackName": "BLEA-Prod-Stage-Tool-Account-Deployment-BLEA-ECSAppDashboard",
-                  "TemplatePath": "SynthStep_Output::assembly-BLEA-Prod-Stage-Tool-Account-Deployment/BLEAProdStageToolAccountDeploymentBLEAECSAppDashboardF921D451.template.json",
+                  "StackName": "BLEA-Prod-Stage-BLEA-ECSAppDashboard",
+                  "TemplatePath": "SynthStep_Output::assembly-BLEA-Prod-Stage/BLEAProdStageBLEAECSAppDashboard5720D941.template.json",
                 },
                 "InputArtifacts": Array [
                   Object {
@@ -1606,7 +1951,18 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::333333333333:role/cdk-hnb659fds-deploy-role-333333333333-ap-northeast-1",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
                     ],
                   ],
                 },
@@ -1622,7 +1978,7 @@ Object {
                 "Configuration": Object {
                   "ActionMode": "CHANGE_SET_EXECUTE",
                   "ChangeSetName": "PipelineChange",
-                  "StackName": "BLEA-Prod-Stage-Tool-Account-Deployment-BLEA-ECSAppDashboard",
+                  "StackName": "BLEA-Prod-Stage-BLEA-ECSAppDashboard",
                 },
                 "Name": "BLEA-ECSAppDashboard.Deploy",
                 "RoleArn": Object {
@@ -1633,14 +1989,25 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::333333333333:role/cdk-hnb659fds-deploy-role-333333333333-ap-northeast-1",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
                     ],
                   ],
                 },
                 "RunOrder": 12,
               },
             ],
-            "Name": "BLEA-Prod-Stage-Tool-Account-Deployment",
+            "Name": "BLEA-Prod-Stage",
           },
         ],
       },
@@ -1653,12 +2020,6 @@ Object {
           "ServerSideEncryptionConfiguration": Array [
             Object {
               "ServerSideEncryptionByDefault": Object {
-                "KMSMasterKeyID": Object {
-                  "Fn::GetAtt": Array [
-                    "BLEAProdPipelinepipelinePipelineArtifactsBucketEncryptionKey1FD701B6",
-                    "Arn",
-                  ],
-                },
                 "SSEAlgorithm": "aws:kms",
               },
             },
@@ -1673,73 +2034,6 @@ Object {
       },
       "Type": "AWS::S3::Bucket",
       "UpdateReplacePolicy": "Retain",
-    },
-    "BLEAProdPipelinepipelinePipelineArtifactsBucketEncryptionKey1FD701B6": Object {
-      "DeletionPolicy": "Delete",
-      "Properties": Object {
-        "KeyPolicy": Object {
-          "Statement": Array [
-            Object {
-              "Action": "kms:*",
-              "Effect": "Allow",
-              "Principal": Object {
-                "AWS": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":iam::222222222222:root",
-                    ],
-                  ],
-                },
-              },
-              "Resource": "*",
-            },
-            Object {
-              "Action": Array [
-                "kms:Decrypt",
-                "kms:DescribeKey",
-              ],
-              "Effect": "Allow",
-              "Principal": Object {
-                "AWS": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":iam::333333333333:role/cdk-hnb659fds-deploy-role-333333333333-ap-northeast-1",
-                    ],
-                  ],
-                },
-              },
-              "Resource": "*",
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-      },
-      "Type": "AWS::KMS::Key",
-      "UpdateReplacePolicy": "Delete",
-    },
-    "BLEAProdPipelinepipelinePipelineArtifactsBucketEncryptionKeyAlias752E1E6E": Object {
-      "DeletionPolicy": "Delete",
-      "Properties": Object {
-        "AliasName": "alias/codepipeline-bleaprodpipelinebleaprodpipelinepipelinepipelineb643491e",
-        "TargetKeyId": Object {
-          "Fn::GetAtt": Array [
-            "BLEAProdPipelinepipelinePipelineArtifactsBucketEncryptionKey1FD701B6",
-            "Arn",
-          ],
-        },
-      },
-      "Type": "AWS::KMS::Alias",
-      "UpdateReplacePolicy": "Delete",
     },
     "BLEAProdPipelinepipelinePipelineArtifactsBucketPolicy17CDC247": Object {
       "Properties": Object {
@@ -1798,7 +2092,18 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::333333333333:role/cdk-hnb659fds-deploy-role-333333333333-ap-northeast-1",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
                     ],
                   ],
                 },
@@ -1848,7 +2153,11 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::222222222222:root",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":root",
                     ],
                   ],
                 },
@@ -1936,7 +2245,11 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::222222222222:root",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":root",
                     ],
                   ],
                 },
@@ -1964,7 +2277,11 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::222222222222:root",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":root",
                     ],
                   ],
                 },
@@ -2022,7 +2339,11 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::222222222222:root",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":root",
                     ],
                   ],
                 },
@@ -2072,22 +2393,10 @@ Object {
         "Cache": Object {
           "Type": "NO_CACHE",
         },
-        "EncryptionKey": Object {
-          "Fn::GetAtt": Array [
-            "BLEAProdPipelinepipelinePipelineArtifactsBucketEncryptionKey1FD701B6",
-            "Arn",
-          ],
-        },
+        "EncryptionKey": "alias/aws/s3",
         "Environment": Object {
           "ComputeType": "BUILD_GENERAL1_SMALL",
-          "EnvironmentVariables": Array [
-            Object {
-              "Name": "AWS_DEFAULT_REGION",
-              "Type": "PLAINTEXT",
-              "Value": "ap-northeast-1",
-            },
-          ],
-          "Image": "aws/codebuild/amazonlinux2-x86_64-standard:3.0",
+          "Image": "aws/codebuild/standard:5.0",
           "ImagePullCredentialsType": "CODEBUILD",
           "PrivilegedMode": false,
           "Type": "LINUX_CONTAINER",
@@ -2106,9 +2415,8 @@ Object {
       \\"commands\\": [
         \\"n stable\\",
         \\"node -v\\",
-        \\"npm i -g npm@8.3\\",
+        \\"npm i -g\\",
         \\"cd usecases/guest-webapp-sample\\",
-        \\"echo $account_id\\",
         \\"cd ../..\\"
       ]
     },
@@ -2122,8 +2430,7 @@ Object {
         \\"cd usecases/guest-webapp-sample\\",
         \\"npm run build\\",
         \\"npm run test\\",
-        \\"npm run synth:dev\\",
-        \\"npx cdk ls -c environment=dev\\"
+        \\"npm run synth:dev\\"
       ]
     }
   },
@@ -2153,7 +2460,11 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::222222222222:root",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":root",
                     ],
                   ],
                 },
@@ -2250,22 +2561,6 @@ Object {
               ],
             },
             Object {
-              "Action": Array [
-                "kms:Decrypt",
-                "kms:DescribeKey",
-                "kms:Encrypt",
-                "kms:ReEncrypt*",
-                "kms:GenerateDataKey*",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "BLEAProdPipelinepipelinePipelineArtifactsBucketEncryptionKey1FD701B6",
-                  "Arn",
-                ],
-              },
-            },
-            Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
               "Resource": Object {
@@ -2346,7 +2641,18 @@ Object {
                     Object {
                       "Ref": "AWS::Partition",
                     },
-                    ":iam::333333333333:role/cdk-hnb659fds-deploy-role-333333333333-ap-northeast-1",
+                    ":iam::",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":role/cdk-hnb659fds-deploy-role-",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    "-",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
                   ],
                 ],
               },
@@ -2379,7 +2685,11 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::222222222222:root",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":root",
                     ],
                   ],
                 },
@@ -2434,22 +2744,6 @@ Object {
               ],
             },
             Object {
-              "Action": Array [
-                "kms:Decrypt",
-                "kms:DescribeKey",
-                "kms:Encrypt",
-                "kms:ReEncrypt*",
-                "kms:GenerateDataKey*",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "BLEAProdPipelinepipelinePipelineArtifactsBucketEncryptionKey1FD701B6",
-                  "Arn",
-                ],
-              },
-            },
-            Object {
               "Action": "s3:PutObjectAcl",
               "Effect": "Allow",
               "Resource": Object {
@@ -2495,7 +2789,11 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::222222222222:root",
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":root",
                     ],
                   ],
                 },
@@ -2545,12 +2843,7 @@ Object {
         "Cache": Object {
           "Type": "NO_CACHE",
         },
-        "EncryptionKey": Object {
-          "Fn::GetAtt": Array [
-            "BLEAProdPipelinepipelinePipelineArtifactsBucketEncryptionKey1FD701B6",
-            "Arn",
-          ],
-        },
+        "EncryptionKey": "alias/aws/s3",
         "Environment": Object {
           "ComputeType": "BUILD_GENERAL1_SMALL",
           "Image": "aws/codebuild/standard:5.0",
@@ -2622,7 +2915,15 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":logs:ap-northeast-1:222222222222:log-group:/aws/codebuild/",
+                      ":logs:",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
+                      ":",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":log-group:/aws/codebuild/",
                       Object {
                         "Ref": "BLEAProdPipelinepipelineUpdatePipelineSelfMutation359507DE",
                       },
@@ -2637,7 +2938,15 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":logs:ap-northeast-1:222222222222:log-group:/aws/codebuild/",
+                      ":logs:",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
+                      ":",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":log-group:/aws/codebuild/",
                       Object {
                         "Ref": "BLEAProdPipelinepipelineUpdatePipelineSelfMutation359507DE",
                       },
@@ -2664,7 +2973,15 @@ Object {
                     Object {
                       "Ref": "AWS::Partition",
                     },
-                    ":codebuild:ap-northeast-1:222222222222:report-group/",
+                    ":codebuild:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":report-group/",
                     Object {
                       "Ref": "BLEAProdPipelinepipelineUpdatePipelineSelfMutation359507DE",
                     },
@@ -2685,7 +3002,18 @@ Object {
                 },
               },
               "Effect": "Allow",
-              "Resource": "arn:*:iam::222222222222:role/*",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:*:iam::",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":role/*",
+                  ],
+                ],
+              },
             },
             Object {
               "Action": "cloudformation:DescribeStacks",
@@ -2726,34 +3054,6 @@ Object {
                   ],
                 },
               ],
-            },
-            Object {
-              "Action": Array [
-                "kms:Decrypt",
-                "kms:DescribeKey",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "BLEAProdPipelinepipelinePipelineArtifactsBucketEncryptionKey1FD701B6",
-                  "Arn",
-                ],
-              },
-            },
-            Object {
-              "Action": Array [
-                "kms:Decrypt",
-                "kms:Encrypt",
-                "kms:ReEncrypt*",
-                "kms:GenerateDataKey*",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "BLEAProdPipelinepipelinePipelineArtifactsBucketEncryptionKey1FD701B6",
-                  "Arn",
-                ],
-              },
             },
           ],
           "Version": "2012-10-17",

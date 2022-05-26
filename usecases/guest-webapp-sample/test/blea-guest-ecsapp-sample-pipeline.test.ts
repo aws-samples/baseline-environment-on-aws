@@ -150,24 +150,11 @@ describe(`${pjPrefix} Stacks`, () => {
 
     // const devStack = new BLEAPipelineStage(app, `${pjPrefix}-Dev-Stage`);
     const prodStack = new BLEAPipeline.BLEAPipelineStack(app, `${pjPrefix}-Prod-Pipeline`, {
-      githubRepository: envVals['githubRepository'],
-      githubTargetBranch: envVals['githubTargetBranchStage'],
-      codestarConnectionArn: envVals['codestarConnectionArn'],
-      // env: {
-      //   account: envVals['prodEnv']['account'],
-      //   region: envVals['prodEnv']['region'],
-      // },
-      // env: procEnv,
-      env: {
-        account: envVals['toolEnv']['account'],
-        region: envVals['toolEnv']['region'],
-      },
-      deployStage: new BLEAPipelineStage(app, `${pjPrefix}-Prod-Stage-Tool-Account-Deployment`, {
-        env: {
-          account: envVals['prodEnv']['account'],
-          region: envVals['prodEnv']['region'],
-        },
-      }),
+      repository: envVals['repository'],
+      branch: envVals['branch'],
+      connectionArn: envVals['connectionArn'],
+      env: procEnv,
+      deployStage: new BLEAPipelineStage(app, `${pjPrefix}-Prod-Stage`),
     });
 
     // test with snapshot

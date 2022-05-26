@@ -66,15 +66,11 @@ export class BLEAPipelineStage extends cdk.Stage {
       topicArn: monitorAlarm.alarmTopic.topicArn,
       workspaceId: workspaceId,
       channelId: channelIdMon,
-      // getProcEnv should be called in pipeline layer and do not call this func in stage stack.
-      // This is because deployment environment is set in instanciating stage stack.
       // env: getProcEnv(),
     });
 
     // CMK for Apps
     const appKey = new BLEAKeyAppStack(this, `${pjPrefix}-AppKey`, {
-      // getProcEnv should be called in pipeline layer and do not call this func in stage stack.
-      // This is because deployment environment is set in instanciating stage stack.
       // env: getProcEnv()
     });
 
@@ -82,8 +78,6 @@ export class BLEAPipelineStage extends cdk.Stage {
     const myVpcCidr = envVals['vpcCidr'];
     const prodVpc = new BLEAVpcStack(this, `${pjPrefix}-Vpc`, {
       myVpcCidr: myVpcCidr,
-      // getProcEnv should be called in pipeline layer and do not call this func in stage stack.
-      // This is because deployment environment is set in instanciating stage stack.
       // env: getProcEnv(),
     });
 
@@ -98,8 +92,6 @@ export class BLEAPipelineStage extends cdk.Stage {
     //  }}
     const waf = new BLEAWafStack(this, `${pjPrefix}-Waf`, {
       scope: 'REGIONAL',
-      // getProcEnv should be called in pipeline layer and do not call this func in stage stack.
-      // This is because deployment environment is set in instanciating stage stack.
       // env: getProcEnv(),
     });
 
@@ -107,8 +99,6 @@ export class BLEAPipelineStage extends cdk.Stage {
     const front = new BLEAFrontendSimpleStack(this, `${pjPrefix}-SimpleFrontStack`, {
       myVpc: prodVpc.myVpc,
       webAcl: waf.webAcl,
-      // getProcEnv should be called in pipeline layer and do not call this func in stage stack.
-      // This is because deployment environment is set in instanciating stage stack.
       // env: getProcEnv(),
     });
 
@@ -117,16 +107,12 @@ export class BLEAPipelineStage extends cdk.Stage {
       // TODO: will get "repositoryName" from parameters
       repositoryName: 'apprepo',
       alarmTopic: monitorAlarm.alarmTopic,
-      // getProcEnv should be called in pipeline layer and do not call this func in stage stack.
-      // This is because deployment environment is set in instanciating stage stack.
       // env: getProcEnv(),
     });
 
     // Build Container Image
     const build_container = new BLEABuildContainerStack(this, `${pjPrefix}-ContainerImage`, {
       ecrRepository: ecr.repository,
-      // getProcEnv should be called in pipeline layer and do not call this func in stage stack.
-      // This is because deployment environment is set in instanciating stage stack.
       // env: getProcEnv(),
     });
 
@@ -138,8 +124,6 @@ export class BLEAPipelineStage extends cdk.Stage {
       imageTag: build_container.imageTag,
       alarmTopic: monitorAlarm.alarmTopic,
       webFront: front,
-      // getProcEnv should be called in pipeline layer and do not call this func in stage stack.
-      // This is because deployment environment is set in instanciating stage stack.
       // env: getProcEnv(),
     });
     ecsApp.addDependency(build_container);
@@ -156,8 +140,6 @@ export class BLEAPipelineStage extends cdk.Stage {
       appServerSecurityGroup: ecsApp.appServerSecurityGroup,
       appKey: appKey.kmsKey,
       alarmTopic: monitorAlarm.alarmTopic,
-      // getProcEnv should be called in pipeline layer and do not call this func in stage stack.
-      // This is because deployment environment is set in instanciating stage stack.
       // env: getProcEnv(),
     });
 
@@ -165,8 +147,6 @@ export class BLEAPipelineStage extends cdk.Stage {
     const appCanary = new BLEACanaryStack(this, `${pjPrefix}-ECSAppCanary`, {
       alarmTopic: monitorAlarm.alarmTopic,
       appEndpoint: front.cfDistribution.domainName,
-      // getProcEnv should be called in pipeline layer and do not call this func in stage stack.
-      // This is because deployment environment is set in instanciating stage stack.
       // env: getProcEnv(),
     });
 
@@ -182,48 +162,19 @@ export class BLEAPipelineStage extends cdk.Stage {
       ecsTargetUtilizationPercent: ecsApp.ecsTargetUtilizationPercent,
       canaryDurationAlarm: appCanary.canaryDurationAlarm,
       canaryFailedAlarm: appCanary.canaryFailedAlarm,
-      // getProcEnv should be called in pipeline layer and do not call this func in stage stack.
-      // This is because deployment environment is set in instanciating stage stack.
       // env: getProcEnv(),
     });
   }
 }
 // --------------------------------- Pipleine  -------------------------------------
-// You can deploy development stacks.
-new BLEAPipelineStage(app, `${pjPrefix}-Dev-Stage`);
+new BLEAPipelineStack(app, `${pjPrefix}-Pipeline`, {
+  repository: envVals['repository'],
+  branch: envVals['branch'],
+  connectionArn: envVals['connectionArn'],
+  env: getProcEnv(),
 
-new BLEAPipelineStack(app, `${pjPrefix}-Prod-Pipeline`, {
-  githubRepository: envVals['githubRepository'],
-  githubTargetBranch: envVals['githubTargetBranchProd'],
-  codestarConnectionArn: envVals['codestarConnectionArn'],
-  env: {
-    account: envVals['toolEnv']['account'],
-    region: envVals['toolEnv']['region'],
-  },
-
-  deployStage: new BLEAPipelineStage(app, `${pjPrefix}-Prod-Stage-Tool-Account-Deployment`, {
-    env: {
-      account: envVals['prodEnv']['account'],
-      region: envVals['prodEnv']['region'],
-    },
-  }),
-});
-new BLEAPipelineStack(app, `${pjPrefix}-Sandbox-Pipeline`, {
-  githubRepository: envVals['githubRepository'],
-  githubTargetBranch: envVals['githubTargetBranchProd'],
-  codestarConnectionArn: envVals['codestarConnectionArn'],
-  env: {
-    account: envVals['toolEnv']['account'],
-    region: envVals['toolEnv']['region'],
-  },
-
-  // If yod don't specify env, stacks will be deployed to Tools Account.
-  // This is not recommend in multi-account situation in the point of responsibility boundary.
-  deployStage: new BLEAPipelineStage(app, `${pjPrefix}-Sandbox-Stage`, {
-    env: {
-      account: envVals['toolEnv']['account'],
-      region: envVals['toolEnv']['region'],
-    },
+  deployStage: new BLEAPipelineStage(app, `${pjPrefix}-Pipeline-Deployment`, {
+    env: getProcEnv(), // you can change deploy account by changing this value.
   }),
 });
 
