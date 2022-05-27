@@ -7,12 +7,18 @@ export interface BLEAPipelineStackProps extends cdk.StackProps {
   repository: string;
   branch: string;
   connectionArn: string;
+  environment?: string;
   deployStage: cdk.Stage;
 }
 
 export class BLEAPipelineStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: BLEAPipelineStackProps) {
     super(scope, id, props);
+    let environment = 'dev';
+
+    if (props.environment) {
+      environment = props.environment;
+    }
 
     const deployRole = new iam.Role(this, `${id}-CodeBuildDeployRole`, {
       assumedBy: new iam.ServicePrincipal('codebuild.amazonaws.com'),
@@ -42,7 +48,8 @@ export class BLEAPipelineStack extends cdk.Stack {
           'cd usecases/guest-webapp-sample',
           'npm run build',
           'npm run test',
-          'npm run synth:dev',
+          `npx cdk synth --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample-pipeline.ts" -c environment=${environment}`,
+          `npx cdk ls -c environment=${environment}`,
         ],
         role: deployRole,
         primaryOutputDirectory: './usecases/guest-webapp-sample/cdk.out',

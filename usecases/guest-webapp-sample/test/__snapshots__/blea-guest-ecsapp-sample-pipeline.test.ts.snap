@@ -564,7 +564,7 @@ Object {
                   "Version": "1",
                 },
                 "Configuration": Object {
-                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"3a0819c7a20d1e62b1aaaf8a359764c084f7d3e188a09a344578ff8fdf94bd56\\"}]",
+                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"b54e2bf6777eb31c755a84f8c2ed96d1f74938b4446beed2ace426851562da3c\\"}]",
                   "ProjectName": Object {
                     "Ref": "BLEAProdPipelinepipelinePipelineBuildSynthStepCdkBuildProject2E3BBE1A",
                   },
@@ -2428,7 +2428,8 @@ Object {
         \\"cd usecases/guest-webapp-sample\\",
         \\"npm run build\\",
         \\"npm run test\\",
-        \\"npm run synth:dev\\"
+        \\"npx cdk synth --app \\\\\\"npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample-pipeline.ts\\\\\\" -c environment=dev\\",
+        \\"npx cdk ls -c environment=dev\\"
       ]
     }
   },

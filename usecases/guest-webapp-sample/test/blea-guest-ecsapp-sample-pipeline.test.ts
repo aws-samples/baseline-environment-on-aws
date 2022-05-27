@@ -154,6 +154,7 @@ describe(`${pjPrefix} Stacks`, () => {
       branch: envVals['branch'],
       connectionArn: envVals['connectionArn'],
       env: procEnv,
+      environment: 'dev',
       deployStage: new BLEAPipelineStage(app, `${pjPrefix}-Prod-Stage`),
     });
 
