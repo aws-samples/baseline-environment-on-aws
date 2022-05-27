@@ -38,7 +38,7 @@ export class BLEAPipelineStack extends cdk.Stack {
           connectionArn: props.connectionArn,
         }),
 
-        installCommands: ['n stable', 'node -v', 'npm i -g'],
+        installCommands: ['n stable', 'node -v', 'npm update npm'],
         commands: [
           'echo "node: $(node --version)" ',
           'echo "npm: $(npm --version)" ',

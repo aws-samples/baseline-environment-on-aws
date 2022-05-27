@@ -564,7 +564,7 @@ Object {
                   "Version": "1",
                 },
                 "Configuration": Object {
-                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"b54e2bf6777eb31c755a84f8c2ed96d1f74938b4446beed2ace426851562da3c\\"}]",
+                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"9f610b88a06977a00a6cc1c1c194ce24263d06c353b7e796932b1f6a7ab83d0e\\"}]",
                   "ProjectName": Object {
                     "Ref": "BLEAProdPipelinepipelinePipelineBuildSynthStepCdkBuildProject2E3BBE1A",
                   },
@@ -2415,7 +2415,7 @@ Object {
       \\"commands\\": [
         \\"n stable\\",
         \\"node -v\\",
-        \\"npm i -g\\"
+        \\"npm update npm\\"
       ]
     },
     \\"build\\": {
