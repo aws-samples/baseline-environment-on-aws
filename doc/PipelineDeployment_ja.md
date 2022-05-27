@@ -49,7 +49,7 @@ CodePipeline がソースコードを取得するために必要な設定を実�
 - パイプラインのデプロイ先のアカウント（以下、 Tools アカウント（ID: `222222222222`） または単にアカウント）およびリージョンで CDK をブートストラップ済みであること
 - Tools アカウントに Administrator 権限でアクセスする認証情報（本ドキュメントでは `blea-pipeline-tool-exec` と記載）を AWS CLI プロファイルとして設定済みであること
 
-  > Notes: Administrator 権限は CDK のブートストラップを行う際と、パイプラインをデプロイする際に必要な権限となります。セキュリティの観点から、パイプラインのデプロイが完了したら Administrator 権限を外すことが推奨されます（ [CDK Pipelines のドキュメント](https://docs.aws.amazon.com/cdk/api/v1/docs/pipelines-readme.html) より）。
+  > **Note** Administrator 権限は CDK のブートストラップを行う際と、パイプラインをデプロイする際に必要な権限となります。セキュリティの観点から、パイプラインのデプロイが完了したら Administrator 権限を外すことが推奨されます（ [CDK Pipelines のドキュメント](https://docs.aws.amazon.com/cdk/api/v1/docs/pipelines-readme.html) より）。
 
 ### 1. AWS CodeStar Connections を使用して　 GitHub を接続する
 
@@ -116,48 +116,41 @@ CodePipeline がソースコードを取得するために必要な設定を実�
   // ...
 ```
 
-#### 3.2. Synth コマンドの定義を確認する（pipeline Stack および、 `package.json` ）
+#### 3.A （Optional）デプロイ先の環境を変更する場合
 
-CDK Pipelines では、Tools アカウントの CodeBuild において、 `cdk synth` コマンドを実施します。以下は、サンプル実装における Synth コマンドの実装例になります。
+CDK Pipelines では、Tools アカウントの CodeBuild において、 `cdk synth` コマンドを実施します。以下は、サンプル実装における Synth コマンドの実装になります。 `${environment}` でデプロイする環境を指定することができます。
 
 ##### **`usecases/guest-webapp-sample/pipeline/blea-ecsapp-sample-pipeline-stack.ts`**
 
 ```ts
         // ...
         commands: [
-          'echo "node: $(node --version)" ',
-          'echo "npm: $(npm --version)" ',
-          'npm ci',
-          'npm audit',
-          'npm run lint',
-          'cd usecases/guest-webapp-sample',
-          'npm run build',
-          'npm run test',
-          'npm run synth:dev',
+        ~~~ (Your Build Commands) ~~~
+          `npx cdk synth --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample-pipeline.ts" -c environment=${environment}`,
+          `npx cdk ls -c environment=${environment}`,
         ],
         // ...
 ```
 
-`'npm run synth:dev',` の部分を実態に即した synth コマンドに書き換えるか、または以下のように `package.json` で定義される scripts にデプロイパイプラインに即した Synth コマンドを追記・上書きすることも可能です。
+> **Note** synth コマンドをパイプライン内部で実行する際は、実行する際にオプションとして --profile を指定する必要はありません。CodeBuild は適切な権限( Tools アカウントの Administrator 権限)を保持しているためです。
+> ローカルで実行する場合は、 `npx cdk synth -c environment=dev --profile xxxxxx` のような形で Profile を指定することで実行することができます。
 
-> Notes: ここで `package.json` を編集することができるのは、　`npm run` によって実行されるコマンドが当該ファイルの `scripts` において定義されているためです。
+デフォルトの設定値は `dev` となっていますが、デプロイ先の環境を変更したい場合は適宜 Context の環境名を指定してください。
 
-##### **`usecases/guest-webapp-sample/package.json`**
+##### **`usecases/guest-webapp-sample/bin/blea-guest-ecsapp-sample-pipeline.ts`**
 
-```json
-  // ...
-  "scripts": {
-    "synth:dev": "npx cdk synth -c environment=dev && npx cdk synth --app \"npx ts-node --prefer-ts-exts bin/blea-guest-asgapp-sample.ts\" -c environment=dev && npx cdk synth --app \"npx ts-node --prefer-ts-exts bin/blea-guest-ec2app-sample.ts\" -c environment=dev && npx cdk synth --app \"npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-ssl-sample.ts\" -c environment=dev && npx cdk ls -c environment=dev",
-    "synth_dev_context_test": "npx cdk synth -c",
-    "depcheck": "npx depcheck --ignore-dirs cdk.out",
-    "build": "tsc --build",
-    // ...
+```ts
+const prodStack = new BLEAPipeline.BLEAPipelineStack(app, `${pjPrefix}-Prod-Pipeline`, {
+  repository: envVals['repository'],
+  branch: envVals['branch'],
+  connectionArn: envVals['connectionArn'],
+  env: procEnv,
+  environment: 'prod', // you can change context env.
+  deployStage: new BLEAPipelineStage(app, `${pjPrefix}-Prod-Stage`),
+});
 ```
 
-> Notes: synth コマンドをパイプライン内部で実行する際は、実行する際にオプションとして --profile を指定する必要はありません。CodeBuild は適切な権限( Tools アカウントの Administrator 権限)を保持しているためです。
-> ローカルで実行する場合は、 `npm run synth:dev -- --profile xxxxxx` のような形で Profile を指定することで実行することができます。
-
-#### 3.3. アカウントをブートストラップし、パイプラインを Tools アカウントにデプロイする
+#### 3.2. アカウントをブートストラップし、パイプラインを Tools アカウントにデプロイする
 
 以下のコマンドをローカル環境から実行することで、パイプラインを Tools アカウントにデプロイすることができます。
 
@@ -179,7 +172,7 @@ GitHub に変更が push されたら、CodePipeline が起動して Git リポ�
 
 以上でユースケース `guest-webapp-sample/bin/blea-guest-ecsapp-sample-pipeline.ts` の Stage で定義された CDK アプリケーションがパイプラインを通じてデプロイされました。
 
-> Notes: CDK Pipelines では、 [SelfMutation](https://aws.amazon.com/jp/blogs/news/deploying-a-cdk-application-using-the-cdk-pipelines-modern-api/) という機能を使用することで、デプロイパイプラインもリポジトリの更新に応じて継続的にデプロイすることが可能です。これにより、Tools アカウントを介して定義されたスタックを全てデプロイすることが可能です。
+> **Note** CDK Pipelines では、 [SelfMutation](https://aws.amazon.com/jp/blogs/news/deploying-a-cdk-application-using-the-cdk-pipelines-modern-api/) という機能を使用することで、デプロイパイプラインもリポジトリの更新に応じて継続的にデプロイすることが可能です。これにより、Tools アカウントを介して定義されたスタックを全てデプロイすることが可能です。
 
 ---
 
@@ -193,7 +186,7 @@ CDK Pipelines は、アカウント間にまたがるアプリケーションを
 - Prod アカウントが Organization に登録されていて、SSO を用いて Credential を取得することができること
 - パイプラインをデプロイする Git リポジトリがプライベートリポジトリとして管理され、第三者が `cdk.json` またはパイプラインのスタック等に記載されているアカウント情報にアクセスできないこと
 
-  > Notes: 本サンプルでは、パイプラインがデプロイするスタックのデプロイ先となるアカウントの接続情報を記載する必要があるため、当該情報を管理する Git リポジトリは Private である必要があります。例えば GitHub 上で開発を行う場合、公開されている本リポジトリを Clone して Push することで Private なリポジトリを作成する必要があります。この際本リポジトリを Fork するとプライベートリポジトリとして管理することができないので、注意が必要です。
+  > **Note** 本サンプルでは、パイプラインがデプロイするスタックのデプロイ先となるアカウントの接続情報を記載する必要があるため、当該情報を管理する Git リポジトリは Private である必要があります。例えば GitHub 上で開発を行う場合、公開されている本リポジトリを Clone して Push することで Private なリポジトリを作成する必要があります。この際本リポジトリを Fork するとプライベートリポジトリとして管理することができないので、注意が必要です。
 
 ### コードの変更
 
@@ -202,14 +195,13 @@ CDK Pipelines は、アカウント間にまたがるアプリケーションを
 ##### **`usecases/guest-webapp-sample/pipeline/blea-ecsapp-sample-pipeline-stack.ts`**
 
 ```ts
-    const pipeline = new pipelines.CodePipeline(this, `${id}-pipeline`, {
-      // crossAccountKeys: true,
-      synth: new pipelines.CodeBuildStep('SynthStep', {
+const pipeline = new pipelines.CodePipeline(this, `${id}-pipeline`, {
+    // crossAccountKeys: true,
+    synth: new pipelines.CodeBuildStep('SynthStep', {
         input: pipelines.CodePipelineSource.connection(props.repository, props.branch, {
 ```
 
-> **NOTE** > `crossAccountKeys` を `true`　にすると、テスト時のアカウント情報に関する評価がより厳密になります。
-> 具体的には、パイプラインスタックにおいて明示的に（環境情報を介さずに）アカウント情報を渡す必要があります。このためには `cdk.json` の設定値を介してアカウント情報を渡す、などといった手段が考えられます。
+> **Note** `crossAccountKeys` を `true`　にすると、テスト時のアカウント情報に関する評価がより厳密になります。具体的には、パイプラインスタックにおいて明示的に（環境情報を介さずに）アカウント情報を渡す必要があります。このためには `cdk.json` の設定値を介してアカウント情報を渡す、などといった手段が考えられます。
 
 2. Pipeline がデプロイする Stage をインスタンスかする際に、デプロイ先のアカウント情報を　`env` に渡す。
 
