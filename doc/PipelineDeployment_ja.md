@@ -196,7 +196,7 @@ CDK Pipelines は、アカウント間にまたがるアプリケーションを
 
 ```ts
 const pipeline = new pipelines.CodePipeline(this, `${id}-pipeline`, {
-    // crossAccountKeys: true,
+    crossAccountKeys: true,
     synth: new pipelines.CodeBuildStep('SynthStep', {
         input: pipelines.CodePipelineSource.connection(props.repository, props.branch, {
 ```
