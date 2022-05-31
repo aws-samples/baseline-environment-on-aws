@@ -2,7 +2,7 @@
 
 [View this page in Japanese (日本語)](README_ja.md) | [Back to Repository README](../../README.md)
 
-As an example of CI/CD with CDK, this document shows how to use sample to deploy CDK Application via CDK pipelines.
+As an example of CI/CD with CDK, this document shows how to use sample to deploy CDK Application via CDK Pipelines.
 
 CDK Pipelines is a high-level construct library that makes it easy to set up a continuous deployment pipeline for your CDK applications, powered by AWS CodePipeline. By building pipelines quickly with CDK pipelines, you can simplify application development and focus on areas of greater interest.
 

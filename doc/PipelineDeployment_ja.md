@@ -2,15 +2,15 @@
 
 [In English](PipelineDeployment.md) | [リポジトリの README に戻る](../../README_ja.md)
 
-CDK による CI/CD の一例として、このドキュメントでは [CDK pipelines](https://github.com/aws/aws-cdk/tree/master/packages/%40aws-cdk/pipelines) を用いてスタックをデプロイするためのサンプルコードの使用方法を示します。
+CDK による CI/CD の一例として、このドキュメントでは [CDK Pipelines](https://docs.aws.amazon.com/cdk/v2/guide/cdk_pipeline.html) を用いてアプリケーションをデプロイするためのサンプルコードの使用方法を示します。
 
 CDK Pipelines は、AWS CodePipeline によって CDK アプリケーションの継続的なデプロイパイプラインを簡単にセットアップできる高レベルのコンストラクトライブラリです。CDK pipelines で迅速にパイプラインを構築することで、お客様はアプリケーション開発を簡素化し、より関心の高い部分に注力することができます。
 
-現在 `guest-webapp-sample/bin/blea-guest-ecsapp-sample.ts` と同等の構成を `guest-webapp-sample/bin/blea-guest-ecsapp-sample-pipeline.ts` で Stage (CDK Pipelines におけるデプロイ単位を定義するサブクラス) として定義し、パイプラインからデプロイするサンプルが実装されています。このドキュメントではこのユースケースをもとに、実際にパイプラインによる継続的なデプロイを構築していきます。
+`guest-webapp-sample/bin/blea-guest-ecsapp-sample.ts` と同等の構成を `guest-webapp-sample/bin/blea-guest-ecsapp-sample-pipeline.ts` で Stage (CDK Pipelines におけるデプロイ単位を定義するクラス) として定義し、パイプラインからデプロイするサンプルが実装されています。
 
-事前に `guest-webapp-sample/bin/blea-guest-ecsapp-sample.ts` を別にデプロイしている場合、複数リソースに対する課金であったり、リソース名のコンフリクトに伴うパイプラインデプロイの失敗等が発生する可能性がありますのでご注意ください。
+すでにユースケース `guest-webapp-sample/bin/blea-guest-ecsapp-sample.ts` をデプロイ済みの場合、以下の手順に従って CDK Pipelines によるデプロイを行うと、同じアプリケーションを異なるスタック名でデプロイすることになります。課金の重複やデプロイの失敗を回避するため、`npx cdk destroy` を実行してすでにデプロイ済みのスタックを削除してください。
 
-## デプロイの概要
+## パイプラインの構成
 
 ### セットアップ（共通） - パイプラインに必要な情報を設定
 
@@ -22,13 +22,13 @@ CodePipeline がソースコードを取得するために必要な設定を実�
 
 ![BLEA-Deploy-Tools](images/BLEA-DeployECS-02-Tool.png)
 
-パイプラインとアプリケーションの両方を同一アカウント内にでデプロイすることができます。Git リポジトリに対する Push を CodePipeline が検知してそれをトリガーにアプリケーションがパイプラインによって更新されます。以降で示される手順のうち、必須のものを実施した場合にこちらの構成を検証することが可能です。
+パイプラインとアプリケーションの両方を同一アカウント内にでデプロイします。Git リポジトリに対する Push を 契機としてアプリケーションがパイプラインによってデプロイされます。以降で示される手順のうち、必須のものを実施した場合はこちらの構成となります。
 
 ### 構成パターン B：パイプラインから別アカウントに対してアプリケーションをデプロイする
 
 ![BLEA-Deploy-Dev](images/BLEA-DeployECS-03-Dev.png)
 
-パイプラインを持つアカウント（Tools アカウント）とは別のアカウントに対してアプリケーションをデプロイします。以降で示される手順のうち、Appendix A も含めて実施した場合にこちらの構成を検証することができます。
+パイプラインを持つアカウント（Tools アカウント）とは別のアカウントに対してアプリケーションをデプロイします。以降で示される手順のうち、Appendix A も含めて実施した場合にこちらの構成となります。
 
 ### 構成パターン C：パイプラインから複数のアカウントに対してアプリケーションをデプロイする
 
@@ -36,24 +36,24 @@ CodePipeline がソースコードを取得するために必要な設定を実�
 
 複数アカウントにアプリケーションをデプロイする方法は複数ありますが、ここでは一例として、各アカウントごとにパイプラインを作成している例を示しています。この構成は、各アカウントごとに構成 ② で要求される作業を実施することで検証可能です。
 
-### （Appendix）パイプライン経由ではなく直接アプリケーションをデプロイする
+### （Appendix）開発時にパイプラインを経由せず直接アプリケーションをデプロイする
 
 ![BLEA-Deploy-Multi](images/BLEA-DeployECS-05-Multi.png)
 
-パイプライン経由でなく、ローカル環境から直接アプリケーションをデプロイすることも可能です。本構成の手順は Appendix B にて示されている手順を実施することにより検証可能です。
+パイプライン構築後の開発時にパイプラインの完了を待たずにデプロイ結果を確認したい場合、Appendix B の手順で直接デプロイを実行することができます。ただし、この手順は本番環境では使用しないでください。
 
-## デプロイメント
+## デプロイ手順
 
 ### 前提条件
 
 - パイプラインのデプロイ先のアカウント（以下、 Tools アカウント（ID: `222222222222`） または単にアカウント）およびリージョンで CDK をブートストラップ済みであること
-- Tools アカウントに Administrator 権限でアクセスする認証情報（本ドキュメントでは `blea-pipeline-tool-exec` と記載）を AWS CLI プロファイルとして設定済みであること
+- Tools アカウントに Administrator 権限でアクセスする認証情報を AWS CLI プロファイルとして設定済みであること（本ドキュメントでは `blea-pipeline-tool-exec` プロファイルを使用）
 
   > **Note** Administrator 権限は CDK のブートストラップを行う際と、パイプラインをデプロイする際に必要な権限となります。セキュリティの観点から、パイプラインのデプロイが完了したら Administrator 権限を外すことが推奨されます（ [CDK Pipelines のドキュメント](https://docs.aws.amazon.com/cdk/api/v1/docs/pipelines-readme.html) より）。
 
-### 1. AWS CodeStar Connections を使用して　 GitHub を接続する
+### 1. AWS CodeStar Connections を使用して GitHub を接続する
 
-はじめに、パイプラインによってデプロイを行う Git リポジトリに対する Connection を作成する必要があります。ただし、既に対象 Git リポジトリにアクセスできる Connection を作成済みの場合においては手順 1-7 をスキップすることが可能です。
+はじめに、パイプラインによってデプロイを行う Git リポジトリに対する Connection を作成する必要があります。既に対象の Git リポジトリにアクセスできる Connection を作成済みの場合は手順 1-7 までスキップすることができます。
 
 1. Tools アカウントの AWS マネジメントコンソールにログインします
 2. [CodePipeline] サービスを開きます
@@ -83,7 +83,7 @@ CodePipeline がソースコードを取得するために必要な設定を実�
 
 ### 2. `cdk.json` に Connection の情報を設定する
 
-デプロイするアプリケーションの `cdk.json` ファイル（今回の場合、`usecases/guest-webapp-sample/cdk.json`）を編集することで、CDK がコンテクスト情報を CodePipeline に引き渡せるように設定します。
+デプロイするアプリケーションの `cdk.json` ファイル（今回の場合、`usecases/guest-webapp-sample/cdk.json`）を編集することで、CDK がコンテキスト情報を CodePipeline に引き渡せるように設定します。
 
 ```json
     "dev": {
@@ -97,7 +97,7 @@ CodePipeline がソースコードを取得するために必要な設定を実�
     },
 ```
 
-- `dev`: このあと CDK コマンドラインで指定する環境名。このサンプルの場合は `-c environment=dev` のように指定することになる
+- `dev`: CDK コマンドの実行時にコンテキストで指定する環境名。例：`npx cdk deploy -c environment=dev`
 - `repository`: GitHub リポジトリの名前。自身のリポジトリ URL が 'https://github.com/ownername/repositoryname.git' である場合、`ownername/repositoryname` を指定する
 - `branch`: パイプラインが参照するブランチ名
 - `connectionArn`: 先のセクションで取得した GitHub Connection の ARN
@@ -106,7 +106,7 @@ CodePipeline がソースコードを取得するために必要な設定を実�
 
 #### 3.1. ビルド対象のアプリケーションを `cdk.json` から確認する
 
-`cdk synth` あるいは `cdk deploy` されるファイルは、 `cdk.json` で`app` において対象ファイルを指定するか、各コマンドを実行する際に `--app` オプションで `cdk.json` の `app` 設定値をオーバーライドすることで指定することができます。パイプラインを使って今後継続的にデプロイを行う場合、以下のように `cdk.json` の設定を書き換えることを推奨します。
+`cdk synth` または `cdk deploy` 実行時に参照されるアプリケーションの初期値は、 `cdk.json` の `app` キーに指定されています。各コマンドを実行する際に `--app` オプションを渡すことでオーバーライドすることもできます。パイプラインを使って今後継続的にデプロイを行う場合、以下のように `cdk.json` の設定を書き換えることを推奨します。
 
 ##### **`usecases/guest-webapp-sample/cdk.json`**
 
@@ -132,7 +132,7 @@ CDK Pipelines では、Tools アカウントの CodeBuild において、 `cdk s
         // ...
 ```
 
-> **Note** synth コマンドをパイプライン内部で実行する際は、実行する際にオプションとして --profile を指定する必要はありません。CodeBuild は適切な権限( Tools アカウントの Administrator 権限)を保持しているためです。
+> **Note** synth コマンドをパイプライン内部で実行する際は、オプションとして `--profile` を指定する必要はありません。CodeBuild の実行ロールを参照するためです。
 > ローカルで実行する場合は、 `npx cdk synth -c environment=dev --profile xxxxxx` のような形で Profile を指定することで実行することができます。
 
 デフォルトの設定値は `dev` となっていますが、デプロイ先の環境を変更したい場合は適宜 Context の環境名を指定してください。
@@ -292,7 +292,7 @@ npx cdk deploy -c environment=dev --profile blea-pipeline-tool-exec
 
 実際にシステムを CDK を用いて開発する際には、パイプラインを介さずにスタックをデプロイして検証サイクルを短くすることが必要になることがあります。そのような場合は開発環境用のアカウントに向けて、パイプライン経由ではなく、特定のスタックを直接デプロイすることも可能です。ただし、デプロイ元のコードと実際構成されるシステムの構成を一致させるため、本番環境ではこのような直接的なデプロイは避けるようにしてください。
 
-前提：以下に示されているような形で開発環境用に払い出されたアカウント（以下、Dev アカウント（ID: `xxxxxxxxxxxx`））が、Organization に登録されていて、SSO 経由で Credential を取得することができること
+前提：以下に示されているような形で開発環境用に払い出されたアカウント（以下、Dev アカウント（ID: `xxxxxxxxxxxx`））が、Organization に登録されていて、SSO 経由で Credential を取得できること
 
 ```json
     "dev": {
@@ -323,7 +323,7 @@ credential_process = aws2-wrap --process --profile blea-pipeline-dev-sso
 region = ap-northeast-1
 ```
 
-### 開発環境に対して Stage を直接デプロイする
+### 開発環境にスタックを直接デプロイする
 
 例えば、`BLEA-Dev-Stage` 中で定義されている `BLEA-ECSApp` を指定してデプロイしたい場合は以下のコマンドによって Dev アカウントにデプロイすることができます。
 
