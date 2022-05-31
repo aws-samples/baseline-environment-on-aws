@@ -34,7 +34,7 @@ CodePipeline がソースコードを取得するために必要な設定を実�
 
 ![BLEA-Deploy-Prod](images/BLEA-DeployECS-04-Prod.png)
 
-複数アカウントにアプリケーションをデプロイする方法は複数ありますが、ここでは一例として、各アカウントごとにパイプラインを作成している例を示しています。この構成は、各アカウントごとに構成 ② で要求される作業を実施することで検証可能です。
+複数アカウントにアプリケーションをデプロイする方法の一例として、各アカウントごとにパイプラインを作成している例を示しています。この構成は、各アカウントごとに構成 B で要求される作業を実施することで検証可能です。
 
 ### （Appendix）開発時にパイプラインを経由せず直接アプリケーションをデプロイする
 
@@ -46,7 +46,7 @@ CodePipeline がソースコードを取得するために必要な設定を実�
 
 ### 前提条件
 
-- パイプラインのデプロイ先のアカウント（以下、 Tools アカウント（ID: `222222222222`） または単にアカウント）およびリージョンで CDK をブートストラップ済みであること
+- パイプラインのデプロイ先のアカウント（以下、 Tools アカウント（ID: `222222222222`））およびリージョンで CDK をブートストラップ済みであること
 - Tools アカウントに Administrator 権限でアクセスする認証情報を AWS CLI プロファイルとして設定済みであること（本ドキュメントでは `blea-pipeline-tool-exec` プロファイルを使用）
 
   > **Note** Administrator 権限は CDK のブートストラップを行う際と、パイプラインをデプロイする際に必要な権限となります。セキュリティの観点から、パイプラインのデプロイが完了したら Administrator 権限を外すことが推奨されます（ [CDK Pipelines のドキュメント](https://docs.aws.amazon.com/cdk/api/v1/docs/pipelines-readme.html) より）。
@@ -118,7 +118,7 @@ CodePipeline がソースコードを取得するために必要な設定を実�
 
 #### 3.A （Optional）デプロイ先の環境を変更する場合
 
-CDK Pipelines では、Tools アカウントの CodeBuild において、 `cdk synth` コマンドを実施します。以下は、サンプル実装における Synth コマンドの実装になります。 `${environment}` でデプロイする環境を指定することができます。
+CDK Pipelines では、Tools アカウントの CodeBuild において、 `cdk synth` コマンドを実施します。以下は、サンプル実装における Synth コマンドの実装になります。Pipeline Stack の Props の `environment` にデプロイする環境を渡すことができます（デフォルトの設定値は `dev`）。
 
 ##### **`usecases/guest-webapp-sample/pipeline/blea-ecsapp-sample-pipeline-stack.ts`**
 
@@ -134,8 +134,6 @@ CDK Pipelines では、Tools アカウントの CodeBuild において、 `cdk s
 
 > **Note** synth コマンドをパイプライン内部で実行する際は、オプションとして `--profile` を指定する必要はありません。CodeBuild の実行ロールを参照するためです。
 > ローカルで実行する場合は、 `npx cdk synth -c environment=dev --profile xxxxxx` のような形で Profile を指定することで実行することができます。
-
-デフォルトの設定値は `dev` となっていますが、デプロイ先の環境を変更したい場合は適宜 Context の環境名を指定してください。
 
 ##### **`usecases/guest-webapp-sample/bin/blea-guest-ecsapp-sample-pipeline.ts`**
 

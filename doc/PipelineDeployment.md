@@ -20,7 +20,7 @@ Configure some settings for CodePipeline to access the source code
 
 ### Architecture Pattern A - Deploy pipeline and application in the same account
 
-![BLEA-Deploy-Tools](images/BLEA-DeployECS-02-Tool.png
+![BLEA-Deploy-Tools](images/BLEA-DeployECS-02-Tool.png)
 
 You can deploy both pipelines and applications in the same account. When CodePipeline detects a push to a Git repository, application update is triggered by the pipeline. It is possible to verify this architecture when you have executed steps shown below.
 
@@ -171,8 +171,6 @@ how to execute cross account deployment to different account (Prod account (ID: 
 - Production account is registered to Organizations
 - Credential can be get via SSO
 - Private Git repository that no third party can access to. The account information will be listed in the pipeline stack or `cdk.json`.
-
-<!-- TODO: -->
 
 > **Note**
 > In this usecase, Git repository must be manageed as **PRIVATE**. This is because the account information about application deployment by the pipeline is required in the repository.
