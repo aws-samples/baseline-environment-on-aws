@@ -2351,7 +2351,7 @@ Object {
     },
     "UnauthorizedAttemptsA72B9105": Object {
       "Properties": Object {
-        "FilterPattern": "{($.errorCode=AccessDenied)||($.errorCode=UnauthorizedOperation)}",
+        "FilterPattern": "{($.errorCode = \\"*UnauthorizedOperation\\" || $.errorCode = \\"AccessDenied*\\") && ($.eventName != \\"Decrypt\\" || $.userIdentity.invokedBy != \\"config.amazonaws.com\\" )}",
         "LogGroupName": Object {
           "Fn::ImportValue": "BLEA-Trail:ExportsOutputRefCloudTrailLogGroup343A29D62364BB0C",
         },
