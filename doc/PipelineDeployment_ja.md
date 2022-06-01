@@ -155,7 +155,6 @@ const prodStack = new BLEAPipeline.BLEAPipelineStack(app, `${pjPrefix}-Prod-Pipe
 ```sh
 npm ci
 cd usecase/guest-webapp-sample/
-npm run build
 npx cdk bootstrap -c environment=dev --profile blea-pipeline-tool-exec  # If you haven't bootstrapped target account
 
 npx cdk deploy -c environment=dev --profile blea-pipeline-tool-exec

@@ -142,7 +142,6 @@ You can deploy sample pipeline to Tools account by using these commmands from yo
 ```sh
 npm ci
 cd usecase/guest-webapp-sample/
-npm run build
 npx cdk bootstrap -c environment=prodpipeline --profile your_profile_name  # If you haven't bootstrapped target account
 npx cdk deploy -c environment=prodpipeline --profile your_profile_name
 ```
