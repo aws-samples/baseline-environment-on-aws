@@ -3,7 +3,7 @@ import {
   aws_cloudtrail as trail,
   aws_config as config,
   aws_iam as iam,
-  aws_kms as kms,
+  // aws_kms as kms,
   aws_logs as cwl,
   aws_s3 as s3,
 } from 'aws-cdk-lib';
@@ -52,62 +52,63 @@ export class Logging extends Construct {
     addBaseBucketPolicy(cloudTrailBucket);
 
     // CMK for CloudTrail
-    const cloudTrailKey = new kms.Key(this, 'CloudTrailKey', {
-      enableKeyRotation: true,
-      description: 'BLEA Governance Base: CMK for CloudTrail',
-      alias: cdk.Names.uniqueResourceName(this, {}),
-    });
-    cloudTrailKey.addToResourcePolicy(
-      new iam.PolicyStatement({
-        actions: ['kms:GenerateDataKey*'],
-        principals: [new iam.ServicePrincipal('cloudtrail.amazonaws.com')],
-        resources: ['*'],
-        conditions: {
-          StringLike: {
-            'kms:EncryptionContext:aws:cloudtrail:arn': [`arn:aws:cloudtrail:*:${cdk.Stack.of(this).account}:trail/*`],
-          },
-        },
-      }),
-    );
-    cloudTrailKey.addToResourcePolicy(
-      new iam.PolicyStatement({
-        actions: ['kms:DescribeKey'],
-        principals: [new iam.ServicePrincipal('cloudtrail.amazonaws.com')],
-        resources: ['*'],
-      }),
-    );
-    cloudTrailKey.addToResourcePolicy(
-      new iam.PolicyStatement({
-        actions: ['kms:Decrypt', 'kms:ReEncryptFrom'],
-        principals: [new iam.AnyPrincipal()],
-        resources: ['*'],
-        conditions: {
-          StringEquals: { 'kms:CallerAccount': `${cdk.Stack.of(this).account}` },
-          StringLike: {
-            'kms:EncryptionContext:aws:cloudtrail:arn': [`arn:aws:cloudtrail:*:${cdk.Stack.of(this).account}:trail/*`],
-          },
-        },
-      }),
-    );
-    cloudTrailKey.addToResourcePolicy(
-      new iam.PolicyStatement({
-        actions: ['kms:Encrypt*', 'kms:Decrypt*', 'kms:ReEncrypt*', 'kms:GenerateDataKey*', 'kms:Describe*'],
-        principals: [new iam.ServicePrincipal('logs.amazonaws.com')],
-        resources: ['*'],
-        conditions: {
-          ArnEquals: {
-            'kms:EncryptionContext:aws:logs:arn': `arn:aws:logs:${cdk.Stack.of(this).region}:${
-              cdk.Stack.of(this).account
-            }:log-group:*`,
-          },
-        },
-      }),
-    );
+    // コストカットのため無効化
+    // const cloudTrailKey = new kms.Key(this, 'CloudTrailKey', {
+    //   enableKeyRotation: true,
+    //   description: 'BLEA Governance Base: CMK for CloudTrail',
+    //   alias: cdk.Names.uniqueResourceName(this, {}),
+    // });
+    // cloudTrailKey.addToResourcePolicy(
+    //   new iam.PolicyStatement({
+    //     actions: ['kms:GenerateDataKey*'],
+    //     principals: [new iam.ServicePrincipal('cloudtrail.amazonaws.com')],
+    //     resources: ['*'],
+    //     conditions: {
+    //       StringLike: {
+    //         'kms:EncryptionContext:aws:cloudtrail:arn': [`arn:aws:cloudtrail:*:${cdk.Stack.of(this).account}:trail/*`],
+    //       },
+    //     },
+    //   }),
+    // );
+    // cloudTrailKey.addToResourcePolicy(
+    //   new iam.PolicyStatement({
+    //     actions: ['kms:DescribeKey'],
+    //     principals: [new iam.ServicePrincipal('cloudtrail.amazonaws.com')],
+    //     resources: ['*'],
+    //   }),
+    // );
+    // cloudTrailKey.addToResourcePolicy(
+    //   new iam.PolicyStatement({
+    //     actions: ['kms:Decrypt', 'kms:ReEncryptFrom'],
+    //     principals: [new iam.AnyPrincipal()],
+    //     resources: ['*'],
+    //     conditions: {
+    //       StringEquals: { 'kms:CallerAccount': `${cdk.Stack.of(this).account}` },
+    //       StringLike: {
+    //         'kms:EncryptionContext:aws:cloudtrail:arn': [`arn:aws:cloudtrail:*:${cdk.Stack.of(this).account}:trail/*`],
+    //       },
+    //     },
+    //   }),
+    // );
+    // cloudTrailKey.addToResourcePolicy(
+    //   new iam.PolicyStatement({
+    //     actions: ['kms:Encrypt*', 'kms:Decrypt*', 'kms:ReEncrypt*', 'kms:GenerateDataKey*', 'kms:Describe*'],
+    //     principals: [new iam.ServicePrincipal('logs.amazonaws.com')],
+    //     resources: ['*'],
+    //     conditions: {
+    //       ArnEquals: {
+    //         'kms:EncryptionContext:aws:logs:arn': `arn:aws:logs:${cdk.Stack.of(this).region}:${
+    //           cdk.Stack.of(this).account
+    //         }:log-group:*`,
+    //       },
+    //     },
+    //   }),
+    // );
 
     // CloudWatch Logs Group for CloudTrail
     const cloudTrailLogGroup = new cwl.LogGroup(this, 'CloudTrailLogGroup', {
       retention: cwl.RetentionDays.THREE_MONTHS,
-      encryptionKey: cloudTrailKey,
+      // encryptionKey: cloudTrailKey,
     });
     this.trailLogGroup = cloudTrailLogGroup;
 
@@ -117,7 +118,7 @@ export class Logging extends Construct {
       enableFileValidation: true,
       includeGlobalServiceEvents: true,
       cloudWatchLogGroup: cloudTrailLogGroup,
-      encryptionKey: cloudTrailKey,
+      // encryptionKey: cloudTrailKey,
       sendToCloudWatchLogs: true,
     });
 

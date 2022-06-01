@@ -1,8 +1,8 @@
 import * as cdk from 'aws-cdk-lib';
-import { aws_guardduty as guardduty, aws_iam as iam, aws_securityhub as hub } from 'aws-cdk-lib';
+import { aws_guardduty as guardduty, aws_iam as iam } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { cloudformation_include as cfn_inc } from 'aws-cdk-lib';
-import { aws_config as config } from 'aws-cdk-lib';
+// import { cloudformation_include as cfn_inc } from 'aws-cdk-lib';
+// import { aws_config as config } from 'aws-cdk-lib';
 import { aws_sns as sns } from 'aws-cdk-lib';
 import { aws_cloudwatch as cw } from 'aws-cdk-lib';
 import { aws_cloudwatch_actions as cwa } from 'aws-cdk-lib';
@@ -27,82 +27,83 @@ export class Detection extends Construct {
       enable: true,
     });
 
-    // === AWS Security Hub ===
-    new iam.CfnServiceLinkedRole(this, 'SecurityHubRole', {
-      awsServiceName: 'securityhub.amazonaws.com',
-    });
+    // コスト圧縮
+    // // === AWS Security Hub ===
+    // new iam.CfnServiceLinkedRole(this, 'SecurityHubRole', {
+    //   awsServiceName: 'securityhub.amazonaws.com',
+    // });
 
-    new hub.CfnHub(this, 'SecurityHub');
+    // new hub.CfnHub(this, 'SecurityHub');
 
     // === AWS Config Conformance Pack ===
     // https://github.com/awslabs/aws-config-rules/tree/master/aws-config-conformance-packs
-    new cfn_inc.CfnInclude(this, 'CfnControlTowerGuardralis', {
-      templateFile: 'cfn/AWS-Control-Tower-Detective-Guardrails.yaml',
-    });
+    // new cfn_inc.CfnInclude(this, 'CfnControlTowerGuardralis', {
+    //   templateFile: 'cfn/AWS-Control-Tower-Detective-Guardrails.yaml',
+    // });
 
     // === AWS Config Rules ===
     // ConfigRule for Default Security Group is closed  (Same as SecurityHub - need this for auto remediation)
     //
     // See: https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-cis-controls-4.3
     // See: https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html
-    const defaultSgClosedRule = new config.ManagedRule(this, 'DefaultSgClosedRule', {
-      identifier: config.ManagedRuleIdentifiers.VPC_DEFAULT_SECURITY_GROUP_CLOSED,
-      ruleScope: config.RuleScope.fromResources([config.ResourceType.EC2_SECURITY_GROUP]),
-      configRuleName: 'bb-default-security-group-closed',
-      description:
-        'Checks that the default security group of any Amazon Virtual Private Cloud (VPC) does not allow inbound or outbound traffic. The rule is non-compliant if the default security group has one or more inbound or outbound traffic.',
-    });
+    // const defaultSgClosedRule = new config.ManagedRule(this, 'DefaultSgClosedRule', {
+    //   identifier: config.ManagedRuleIdentifiers.VPC_DEFAULT_SECURITY_GROUP_CLOSED,
+    //   ruleScope: config.RuleScope.fromResources([config.ResourceType.EC2_SECURITY_GROUP]),
+    //   configRuleName: 'bb-default-security-group-closed',
+    //   description:
+    //     'Checks that the default security group of any Amazon Virtual Private Cloud (VPC) does not allow inbound or outbound traffic. The rule is non-compliant if the default security group has one or more inbound or outbound traffic.',
+    // });
 
     // Role for auto remediation
-    const defaultSgRemediationRole = new iam.Role(this, 'DefaultSgRemediationRole', {
-      assumedBy: new iam.ServicePrincipal('ssm.amazonaws.com'),
-      path: '/',
-      managedPolicies: [{ managedPolicyArn: 'arn:aws:iam::aws:policy/service-role/AmazonSSMAutomationRole' }],
-    });
-    defaultSgRemediationRole.addToPolicy(
-      new iam.PolicyStatement({
-        effect: iam.Effect.ALLOW,
-        actions: ['ec2:RevokeSecurityGroupIngress', 'ec2:RevokeSecurityGroupEgress', 'ec2:DescribeSecurityGroups'],
-        resources: ['*'],
-      }),
-    );
-    defaultSgRemediationRole.addToPolicy(
-      new iam.PolicyStatement({
-        effect: iam.Effect.ALLOW,
-        actions: ['iam:PassRole'],
-        resources: [defaultSgRemediationRole.roleArn],
-      }),
-    );
-    defaultSgRemediationRole.addToPolicy(
-      new iam.PolicyStatement({
-        effect: iam.Effect.ALLOW,
-        actions: ['ssm:StartAutomationExecution'],
-        resources: ['arn:aws:ssm:::automation-definition/AWSConfigRemediation-RemoveVPCDefaultSecurityGroupRules'],
-      }),
-    );
+    // const defaultSgRemediationRole = new iam.Role(this, 'DefaultSgRemediationRole', {
+    //   assumedBy: new iam.ServicePrincipal('ssm.amazonaws.com'),
+    //   path: '/',
+    //   managedPolicies: [{ managedPolicyArn: 'arn:aws:iam::aws:policy/service-role/AmazonSSMAutomationRole' }],
+    // });
+    // defaultSgRemediationRole.addToPolicy(
+    //   new iam.PolicyStatement({
+    //     effect: iam.Effect.ALLOW,
+    //     actions: ['ec2:RevokeSecurityGroupIngress', 'ec2:RevokeSecurityGroupEgress', 'ec2:DescribeSecurityGroups'],
+    //     resources: ['*'],
+    //   }),
+    // );
+    // defaultSgRemediationRole.addToPolicy(
+    //   new iam.PolicyStatement({
+    //     effect: iam.Effect.ALLOW,
+    //     actions: ['iam:PassRole'],
+    //     resources: [defaultSgRemediationRole.roleArn],
+    //   }),
+    // );
+    // defaultSgRemediationRole.addToPolicy(
+    //   new iam.PolicyStatement({
+    //     effect: iam.Effect.ALLOW,
+    //     actions: ['ssm:StartAutomationExecution'],
+    //     resources: ['arn:aws:ssm:::automation-definition/AWSConfigRemediation-RemoveVPCDefaultSecurityGroupRules'],
+    //   }),
+    // );
 
     // Remediation for Remove VPC Default SecurityGroup Rules  by  SSM Automation
-    new config.CfnRemediationConfiguration(this, 'DefaultSgRemediation', {
-      configRuleName: defaultSgClosedRule.configRuleName,
-      targetType: 'SSM_DOCUMENT',
-      targetId: 'AWSConfigRemediation-RemoveVPCDefaultSecurityGroupRules',
-      targetVersion: '1',
-      parameters: {
-        AutomationAssumeRole: {
-          StaticValue: {
-            Values: [defaultSgRemediationRole.roleArn],
-          },
-        },
-        GroupId: {
-          ResourceValue: {
-            Value: 'RESOURCE_ID',
-          },
-        },
-      },
-      automatic: true,
-      maximumAutomaticAttempts: 5,
-      retryAttemptSeconds: 60,
-    });
+    // new config.CfnRemediationConfiguration(this, 'DefaultSgRemediation', {
+    //   configRuleName: defaultSgClosedRule.configRuleName,
+    //   targetType: 'SSM_DOCUMENT',
+    //   targetId: 'AWSConfigRemediation-RemoveVPCDefaultSecurityGroupRules',
+    //   targetVersion: '1',
+    //   parameters: {
+    //     AutomationAssumeRole: {
+    //       StaticValue: {
+    //         Values: [defaultSgRemediationRole.roleArn],
+    //       },
+    //     },
+    //     GroupId: {
+    //       ResourceValue: {
+    //         Value: 'RESOURCE_ID',
+    //       },
+    //     },
+    //   },
+    //   automatic: true,
+    //   maximumAutomaticAttempts: 5,
+    //   retryAttemptSeconds: 60,
+    // });
 
     // SNS Topic for Security Alarm
     const topic = new sns.Topic(this, 'AlarmTopic');
@@ -130,21 +131,21 @@ export class Detection extends Construct {
     //  See: https://aws.amazon.com/premiumsupport/knowledge-center/config-resource-non-compliant/?nc1=h_ls
     //  If you want to add rules to notify, add rule name text string to "configRuleName" array.
     //  Sample Rule 'bb-default-security-group-closed' is defined at lib/blea-config-rules-stack.ts
-    new cwe.Rule(this, 'DefaultSgClosedEventRule', {
-      description: 'CloudWatch Event Rule to send notification on Config Rule compliance changes.',
-      enabled: true,
-      eventPattern: {
-        source: ['aws.config'],
-        detailType: ['Config Rules Compliance Change'],
-        detail: {
-          configRuleName: ['bb-default-security-group-closed'],
-          newEvaluationResult: {
-            complianceType: ['NON_COMPLIANT'],
-          },
-        },
-      },
-      targets: [new cwet.SnsTopic(topic)],
-    });
+    // new cwe.Rule(this, 'DefaultSgClosedEventRule', {
+    //   description: 'CloudWatch Event Rule to send notification on Config Rule compliance changes.',
+    //   enabled: true,
+    //   eventPattern: {
+    //     source: ['aws.config'],
+    //     detailType: ['Config Rules Compliance Change'],
+    //     detail: {
+    //       configRuleName: ['bb-default-security-group-closed'],
+    //       newEvaluationResult: {
+    //         complianceType: ['NON_COMPLIANT'],
+    //       },
+    //     },
+    //   },
+    //   targets: [new cwet.SnsTopic(topic)],
+    // });
 
     // ------------------------ AWS Health Notification ---------------------------
 
