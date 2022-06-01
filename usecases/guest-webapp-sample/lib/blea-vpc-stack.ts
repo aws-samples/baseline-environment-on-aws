@@ -63,6 +63,7 @@ export class BLEAVpcStack extends cdk.Stack {
       encryption: s3.BucketEncryption.KMS,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       removalPolicy: cdk.RemovalPolicy.RETAIN,
+      enforceSSL: true,
     });
 
     myVpc.addFlowLog('FlowLogs', {

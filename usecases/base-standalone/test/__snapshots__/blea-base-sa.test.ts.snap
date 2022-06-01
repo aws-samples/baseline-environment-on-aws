@@ -168,28 +168,35 @@ Object {
               "Action": "s3:*",
               "Condition": Object {
                 "Bool": Object {
-                  "aws:SecureTransport": false,
+                  "aws:SecureTransport": "false",
                 },
               },
               "Effect": "Deny",
               "Principal": Object {
                 "AWS": "*",
               },
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    Object {
-                      "Fn::GetAtt": Array [
-                        "ArchiveLogsBucketBC7EE643",
-                        "Arn",
-                      ],
-                    },
-                    "/*",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "ArchiveLogsBucketBC7EE643",
+                    "Arn",
                   ],
-                ],
-              },
-              "Sid": "Enforce HTTPS Connections",
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "ArchiveLogsBucketBC7EE643",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
             },
             Object {
               "Action": "s3:Delete*",
@@ -289,28 +296,35 @@ Object {
               "Action": "s3:*",
               "Condition": Object {
                 "Bool": Object {
-                  "aws:SecureTransport": false,
+                  "aws:SecureTransport": "false",
                 },
               },
               "Effect": "Deny",
               "Principal": Object {
                 "AWS": "*",
               },
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    Object {
-                      "Fn::GetAtt": Array [
-                        "CloudTrailBucket98B0BFE1",
-                        "Arn",
-                      ],
-                    },
-                    "/*",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "CloudTrailBucket98B0BFE1",
+                    "Arn",
                   ],
-                ],
-              },
-              "Sid": "Enforce HTTPS Connections",
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "CloudTrailBucket98B0BFE1",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
             },
             Object {
               "Action": "s3:Delete*",
@@ -1123,6 +1137,40 @@ Object {
         },
         "PolicyDocument": Object {
           "Statement": Array [
+            Object {
+              "Action": "s3:*",
+              "Condition": Object {
+                "Bool": Object {
+                  "aws:SecureTransport": "false",
+                },
+              },
+              "Effect": "Deny",
+              "Principal": Object {
+                "AWS": "*",
+              },
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "ConfigBucket2112C5EC",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "ConfigBucket2112C5EC",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
             Object {
               "Action": "s3:GetBucketAcl",
               "Effect": "Allow",

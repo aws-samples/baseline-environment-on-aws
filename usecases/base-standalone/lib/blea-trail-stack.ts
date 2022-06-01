@@ -19,6 +19,7 @@ export class BLEATrailStack extends cdk.Stack {
       versioned: true,
       encryption: s3.BucketEncryption.S3_MANAGED,
       removalPolicy: cdk.RemovalPolicy.RETAIN,
+      enforceSSL: true,
       lifecycleRules: [
         {
           enabled: true,
@@ -42,6 +43,7 @@ export class BLEATrailStack extends cdk.Stack {
       serverAccessLogsBucket: archiveLogsBucket,
       serverAccessLogsPrefix: 'cloudtraillogs',
       removalPolicy: cdk.RemovalPolicy.RETAIN,
+      enforceSSL: true,
     });
     this.addBaseBucketPolicy(cloudTrailBucket);
 
@@ -118,21 +120,6 @@ export class BLEATrailStack extends cdk.Stack {
 
   // Add base BucketPolicy for CloudTrail
   addBaseBucketPolicy(bucket: s3.Bucket): void {
-    bucket.addToResourcePolicy(
-      new iam.PolicyStatement({
-        sid: 'Enforce HTTPS Connections',
-        effect: iam.Effect.DENY,
-        actions: ['s3:*'],
-        principals: [new iam.AnyPrincipal()],
-        resources: [bucket.arnForObjects('*')],
-        conditions: {
-          Bool: {
-            'aws:SecureTransport': false,
-          },
-        },
-      }),
-    );
-
     bucket.addToResourcePolicy(
       new iam.PolicyStatement({
         sid: 'Restrict Delete* Actions',

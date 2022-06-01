@@ -27,6 +27,7 @@ export class BLEAConfigStack extends cdk.Stack {
       versioned: true,
       removalPolicy: cdk.RemovalPolicy.RETAIN,
       encryption: s3.BucketEncryption.S3_MANAGED,
+      enforceSSL: true,
     });
 
     // Attaches the AWSConfigBucketPermissionsCheck policy statement.
