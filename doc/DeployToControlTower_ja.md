@@ -241,7 +241,7 @@ usecases/base-ct-audit/cdk.json
 
 ```json
 {
-  "app": "npx ts-node bin/blea-base-ct-audit.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/blea-base-ct-audit.ts",
   "context": {
     "dev-audit": {
       "description": "Context samples for ControlTower Audit Account - Specific account & region",
@@ -284,13 +284,6 @@ usecases/base-ct-audit/cdk.json
 aws sso login --profile ct-management-sso
 ```
 
-BLEA をビルドします。
-
-```sh
-cd usecases/base-ct-audit
-npm run build
-```
-
 Audit アカウントに CDK 用バケットをブートストラップします(初回のみ)
 
 ```sh
@@ -301,6 +294,7 @@ npx cdk bootstrap -c environment=dev-audit --profile ct-audit-exec
 Audit アカウントにガバナンスベースをデプロイします
 
 ```sh
+cd usecases/base-ct-audit
 npx cdk deploy --all -c environment=dev-audit --profile ct-audit-exec
 ```
 
@@ -331,7 +325,7 @@ usecases/base-ct-guest/cdk.json
 
 ```json
 {
-  "app": "npx ts-node bin/blea-base-sa.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/blea-base-sa.ts",
   "context": {
     "dev": {
       "description": "Context samples for Dev - Anonymous account & region",
@@ -379,13 +373,6 @@ AWS SSO を使ってゲストアカウントにログインします。
 aws sso login --profile ct-guest-sso
 ```
 
-BLEA をビルドします。
-
-```sh
-cd usecases/base-ct-guest
-npm run build
-```
-
 CDK 用バケットをブートストラップします(初回のみ)。
 
 ```sh
@@ -401,6 +388,7 @@ npx cdk bootstrap -c environment=dev --profile ct-guest
 ゲストアカウントのガバナンスベースをデプロイします。
 
 ```sh
+cd usecases/base-ct-guest
 npx cdk deploy --all -c environment=dev --profile ct-guest
 ```
 
@@ -462,16 +450,10 @@ Standalone 版と同じ手順で Context を設定します。
 aws sso login --profile ct-guest-sso
 ```
 
-BLEA をビルドします。
-
-```sh
-cd usecases/guest-webapp-sample
-npm run build
-```
-
 ゲストアプリケーションをデプロイします。
 
 ```sh
+cd usecases/guest-webapp-sample
 npx cdk deploy --all -c environment=dev --profile ct-guest
 ```
 
@@ -483,7 +465,7 @@ npx cdk deploy --all -c environment=dev --profile ct-guest
 >
 > ```sh
 > cd usecases/guest-webapp-sample
-> npx cdk deploy "BLEA-ECSApp" --app "npx ts-node bin/blea-guest-asgapp-sample.ts" -c environment=dev --profile prof_dev
+> npx cdk deploy "BLEA-ECSApp" --app "npx ts-node --prefer-ts-exts bin/blea-guest-asgapp-sample.ts" -c environment=dev --profile prof_dev
 > ```
 >
 > NOTE:
@@ -491,7 +473,7 @@ npx cdk deploy --all -c environment=dev --profile ct-guest
 >
 > ```sh
 > cd usecases/guest-webapp-sample
-> npx cdk deploy --all --app "npx ts-node bin/blea-guest-asgapp-sample.ts" -c environment=dev --profile prof_dev
+> npx cdk deploy --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-asgapp-sample.ts" -c environment=dev --profile prof_dev
 > ```
 
 #### 7-3. 独自のアプリケーションを開発する

@@ -7,7 +7,7 @@
 
 Baseline Environment on AWS(BLEA) は 単独の AWS アカウントまたは ControlTower で管理されたマルチアカウント環境で、セキュアなベースラインを確立するための リファレンス CDK テンプレート群です。このテンプレート群は AWS のセキュリティサービスを活用して基本的かつ拡張可能なガードレールを提供します。また典型的なシステムアーキテクチャを実現するエンドツーエンドの CDK サンプルコードを提供します。この CDK テンプレートは用途に合わせてユーザが拡張して使うことを前提としており、拡張の参考となるコードやコメントを多く含んでいます。これによって AWS のアーキテクチャベストプラクティスや CDK コードのカスタマイズを習得しやすくすることを目的としています。
 
-Jump to | [Changelog](CHANGELOG.md) | [HowTo](doc/HowTo_ja.md) | [マルチアカウント環境へのデプロイ](/doc/DeployToControlTower_ja.md) | [Standalone 版からマルチアカウント版への移行](doc/Standalone2ControlTower_ja.md) | [パイプラインによるデプロイ](tools/cicd/README_ja.md) |
+Jump to | [Changelog](CHANGELOG.md) | [HowTo](doc/HowTo_ja.md) | [マルチアカウント環境へのデプロイ](/doc/DeployToControlTower_ja.md) | [Standalone 版からマルチアカウント版への移行](doc/Standalone2ControlTower_ja.md) | [パイプラインによるデプロイ](doc/PipelineDeployment_ja.md) |
 
 ## ガバナンスアーキテクチャ
 
@@ -185,7 +185,7 @@ usecases/base-standalone/cdk.json
 
 ```json
 {
-  "app": "npx ts-node bin/blea-base-sa.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/blea-base-sa.ts",
   "context": {
     "dev": {
       "description": "Environment variables for Governance base ",
@@ -217,16 +217,10 @@ usecases/base-standalone/cdk.json
 
 #### 4-2. ガバナンスベースをデプロイする
 
-BLEA をビルドします。
-
-```sh
-cd usecases/base-standalone
-npm run build
-```
-
 初めて CDK を実行する場合は、対象のユースケースディレクトリへ移動し、CDK を bootstrap します。これは対象のアカウントとリージョンの組み合わせで初めて CDK を実行するときに必要です。
 
 ```sh
+cd usecases/base-standalone
 npx cdk bootstrap -c environment=dev --profile prof_dev
 ```
 
@@ -297,7 +291,7 @@ usecases/guest-webapp-sample/cdk.json
 
 ```json
 {
-  "app": "npx ts-node bin/blea-guest-ecsapp-sample.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts",
   "context": {
     "dev": {
       "description": "Context samples for Dev - Anonymous account & region",
@@ -344,7 +338,7 @@ npx cdk deploy --all -c environment=dev --profile prof_dev
 >
 > ```sh
 > cd usecases/guest-webapp-sample
-> npx cdk deploy "BLEA-ECSApp" --app "npx ts-node bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev
+> npx cdk deploy "BLEA-ECSApp" --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev
 > ```
 >
 > NOTE:
@@ -352,8 +346,11 @@ npx cdk deploy --all -c environment=dev --profile prof_dev
 >
 > ```sh
 > cd usecases/guest-webapp-sample
-> npx cdk deploy --all --app "npx ts-node bin/blea-guest-asgapp-sample.ts" -c environment=dev --profile prof_dev
+> npx cdk deploy --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-asgapp-sample.ts" -c environment=dev --profile prof_dev
 > ```
+>
+> NOTE:
+> ECS のゲストアプリケーションをデプロイした際に Security Hub のスタンダードの１つである[CodeBuild.5](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-codebuild-5)が警告を上げる可能性があります。[CodeBuild の特権モードに関する通知のステータスを変更する](doc/HowTo_ja.md#修復方法)を参照してこの警告を抑制することができます。
 
 #### 5-3. 独自のアプリケーションを開発する
 

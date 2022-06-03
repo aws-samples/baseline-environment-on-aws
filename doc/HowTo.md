@@ -122,7 +122,7 @@ By setting `RequireApproval` and `Rollback` to cdk.json as follows, you do not n
 
 ```json
 {
-  "app": "npx ts-node bin/blea-guest-ecsapp-sample.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts",
   "requireApproval": "never",
   "rollback": false,
   "context": {
@@ -244,11 +244,14 @@ sudo npm -g install npm
 ```sh
 cd path/to/source
 npm ci
-# 全usecaseのbuild
-npm run build --workspaces
+# in the usecase directory which you want to deploy
 cd usecases/guest-webapp-sample
 npx cdk deploy --all -c environment=dev --profile prof_dev
 ```
+
+> NOTE
+>
+> ts files will be built by `npx cdk deploy` command. Because its command will call `npx ts-node --prefer-ts-exts` internally.
 
 ---
 
@@ -326,15 +329,13 @@ If your CDK code requires additional packages, install them as follows: Here we 
 > npm i -P @aws-cdk/aws-kms --workspace usecases/guest-webapp-sample
 > ```
 
-### 5. Build & test
+### 5. Test
 
 > ```sh
 > # linting
 > npm run lint
 > # formatting
 > npm run format
-> # build
-> npm run build
 > # snapshot test
 > npm run test
 > ```
@@ -348,7 +349,7 @@ If your CDK code requires additional packages, install them as follows: Here we 
 > npm run test -- -u
 > ```
 >
-> To build all use cases, run the following using workspaces:
+> To test all use cases, run the following using workspaces:
 >
 > ```sh
 > # Run in the root directory of BLEA
@@ -356,16 +357,15 @@ If your CDK code requires additional packages, install them as follows: Here we 
 > npm run lint
 > npm run format
 > npm run clean --workspaces
-> npm run build --workspaces
 > npm run test --workspaces -- -u      # update snaphosts
 > npm run test --workspaces
 > ```
 >
-> To build an individual use case using workspaces: Note the difference between workspaces and workspaces.
+> To test an individual use case using workspaces: Note the difference between workspaces and workspaces.
 >
 > ```sh
 > # Run in the root directory of BLEA
-> npm run build --workspace usecases/guest-webapp-sample
+> npm run test --workspace usecases/guest-webapp-sample
 > ```
 
 ### 6. Synth/Diff
@@ -373,8 +373,8 @@ If your CDK code requires additional packages, install them as follows: Here we 
 Create a CDK Asset and see the differences from the current environment.
 
 > ```sh
-> npx cdk synth --all --app "npx ts-node bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
-> npx cdk diff --all --app "npx ts-node bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
+> npx cdk synth --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
+> npx cdk diff --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
 > ```
 
 ### 7. Deploy
@@ -382,7 +382,7 @@ Create a CDK Asset and see the differences from the current environment.
 Deploy it. Here we have added an option to skip authorization and not roll back.
 
 > ```sh
-> npx cdk deploy --all --app "npx ts-node bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
+> npx cdk deploy --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
 > ```
 
 ---
@@ -424,5 +424,16 @@ It is recommended that you use IDMSv2 only for metadata access on EC2 instances.
 
 - [EC2.8] EC2 instances should use IMDSv2
   - [https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-ec2-8]
+
+### 3. Changing the status of notifications about CodeBuild's privileged mode
+
+CodeBuild should only enable privileged mode when building Docker images. If the following controls are out of compliance, check to see if the CodeBuild project needs to enable privileged mode, and if so, change the status of the workflow to SUPPRESSED.
+
+- [CodeBuild.5] CodeBuild project environments should not have privileged mode enabled
+  - [https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-codebuild-5]
+
+Refer to the following document how to change the status of a workflow.
+
+[https://docs.aws.amazon.com/securityhub/latest/userguide/finding-workflow-status.html]
 
 ---

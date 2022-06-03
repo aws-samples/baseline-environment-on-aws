@@ -7,7 +7,7 @@
 
 Baseline Environment on AWS(BLEA) is a set of reference CDK template to establish secure baseline on standalone-account or ControlTower based multi-account AWS environment. This solution provides basic and extensible guardrail with AWS security services and end-to-end sample CDK code for typical system architecture. This template is also useful to learn more about AWS architecting best practices and how to customize CDK code as we incorporated comments in detail so that users can know why and how to customize.
 
-Jump to | [Changelog](CHANGELOG.md) | [HowTo](doc/HowTo.md) | [Deploy to Multiaccount environment](/doc/DeployToControlTower_ja.md) | [Standalone to ControlTower](doc/Standalone2ControlTower_ja.md) | [Deployment Pipeline](tools/cicd/README_ja.md) |
+Jump to | [Changelog](CHANGELOG.md) | [HowTo](doc/HowTo.md) | [Deploy to Multiaccount environment](/doc/DeployToControlTower.md) | [Standalone to ControlTower](doc/Standalone2ControlTower.md) | [Deployment Pipeline](doc/PipelineDeployment.md) |
 
 ## Governance Architecture
 
@@ -185,7 +185,7 @@ usecases/base-standalone/cdk.json
 
 ```json
 {
-  "app": "npx ts-node bin/blea-base-sa.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/blea-base-sa.ts",
   "context": {
     "dev": {
       "description": "Environment variables for Governance base ",
@@ -218,16 +218,10 @@ The contents of this setting are as follows.
 
 #### 4-2. Deploy a governance base
 
-Build BLEA.
-
-```sh
-cd usecases/base-standalone
-npm run build
-```
-
 If you are running a CDK for the first time, navigate to the target use case directory and bootstrap the CDK. This is required when you run the CDK for the first time with that account and region combination.
 
 ```sh
+cd usecases/base-standalone
 npx cdk bootstrap -c environment=dev --profile prof_dev
 ```
 
@@ -298,7 +292,7 @@ usecases/guest-webapp-sample/cdk.json
 
 ```json
 {
-  "app": "npx ts-node bin/blea-guest-ecsapp-sample.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts",
   "context": {
     "dev": {
       "description": "Context samples for Dev - Anonymous account & region",
@@ -345,7 +339,7 @@ This completes the baseline and sample application deployment for a single accou
 >
 > ```sh
 > cd usecases/guest-webapp-sample
-> npx cdk deploy "BLEA-ECSApp" --app "npx ts-node bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev
+> npx cdk deploy "BLEA-ECSApp" --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev
 > ```
 >
 > NOTE:
@@ -353,8 +347,11 @@ This completes the baseline and sample application deployment for a single accou
 >
 > ```sh
 > cd usecases/guest-webapp-sample
-> npx cdk deploy --all --app "npx ts-node bin/blea-guest-asgapp-sample.ts" -c environment=dev --profile prof_dev
+> npx cdk deploy --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-asgapp-sample.ts" -c environment=dev --profile prof_dev
 > ```
+>
+> NOTE:
+> When deploying a guest ECS application, one of the Security Hub standards, [CodeBuild.5](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-codebuild-5), may raise an alert. You can suppress the alert by referring to [Changing the status of notifications about CodeBuild's privileged mode](doc/HowTo.md#remediate-security-issues).
 
 #### 5-3. Develop your own applications
 
