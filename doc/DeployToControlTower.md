@@ -66,7 +66,7 @@ See: [https://docs.aws.amazon.com/controltower/latest/userguide/setting-up.html]
 #### 1-4. Set up Inspector
 
 Designating a delegated administrator
-- [https://docs.aws.amazon.com/inspector/latest/user/designating-admin.html#delegated-admin-proc]
+- [https://docs.aws.amazon.com/inspector/latest/user/designating-admin.html]
 
 Enabling scans for member accounts
 - [https://docs.aws.amazon.com/inspector/latest/user/adding-member-accounts.html]
@@ -415,7 +415,13 @@ The following settings that were set up in the Standalone version are configured
 Besides setting up on a governance basis
 AWS provides several operational baseline services. Set up these services as needed.
 
-##### a. Perform AWS Systems Manager Quick Setup for EC2 Management
+##### a. Enabling Inspector and Detecting Vaulnerability
+
+Inspector checks workload vulnerabilities. It detects software vulnerabilities and unintended network exposure with continuous scanning EC2 and ECR. Detected vulnerabilities are prioritized and displayed based on a calculated risk score, giving you high visibility into the results. It could be automatically integrated with Security Hub and viewed the results centrally.
+
+Setup steps: [https://docs.aws.amazon.com/inspector/latest/user/getting_started_tutorial.html]
+
+##### b. Perform AWS Systems Manager Quick Setup for EC2 Management
 
 If you use EC2, we recommend that you use SystemsManager to manage it. You can use AWS Systems Manager Quick Setup to automate the basic setup required to manage EC2.
 Setup steps: [https://docs.aws.amazon.com/systems-manager/latest/userguide/quick-setup-host-management.html]
@@ -429,7 +435,7 @@ Quick Setup provides the following features:
 - Installing and configuring Amazon CloudWatch Agent for the first time only
 - Monthly automatic updates of the CloudWatch agent
 
-##### b. Trusted Advisor Detection Results Report
+##### c. Trusted Advisor Detection Results Report
 
 TrustedAdvisor provides advice for following AWS best practices. It is possible to receive the contents of the report regularly by e-mail. Please refer to the following document for details.
 
