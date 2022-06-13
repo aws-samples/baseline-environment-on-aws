@@ -67,6 +67,7 @@ See: [https://docs.aws.amazon.com/controltower/latest/userguide/setting-up.html]
 
 委任された管理者権限の指定
 - [https://docs.aws.amazon.com/ja_jp/inspector/latest/user/designating-admin.html]
+
 メンバーアカウントでの有効化
 - [https://docs.aws.amazon.com/inspector/latest/user/adding-member-accounts.html]
 
@@ -419,7 +420,7 @@ AWS はいくつかの運用上のベースラインサービスを提供して�
 
 ##### a. Inspector を有効化
 
-Inspector は、ワークロードをスキャンして、脆弱性を管理します。EC2 とECR を継続的にスキャンすることで、ソフトウェアの脆弱性や意図しないネットワークのエクスポージャーを検出します。検出された脆弱性は、算出されたリスクスコアに基づき優先順位づけされて表示されるため、可視性高く結果を取得できます。また、Scurity Hub とは自動で統合され、一元的に検出結果を確認することができます。
+Inspector は、ワークロードをスキャンして、脆弱性を管理します。EC2 とECR を継続的にスキャンすることで、ソフトウェアの脆弱性や意図しないネットワークのエクスポージャーを検出します。検出された脆弱性は、算出されたリスクスコアに基づき優先順位づけされて表示されるため、可視性高く結果を取得できます。また、Scurity Hub とは自動で統合され、一元的に検出結果を確認できます。
 
 セットアップ手順：[https://docs.aws.amazon.com/inspector/latest/user/getting_started_tutorial.html]
 
