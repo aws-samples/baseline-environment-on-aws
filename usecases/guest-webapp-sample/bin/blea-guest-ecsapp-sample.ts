@@ -26,7 +26,7 @@ const envVals = app.node.tryGetContext(envKey);
 if (envVals == undefined) throw new Error('Invalid environment.');
 
 // ----------------------- Environment variables for stack ------------------------------
-// Default enviroment
+// Default environment
 const procEnvDefault = {
   account: process.env.CDK_DEFAULT_ACCOUNT,
   region: process.env.CDK_DEFAULT_REGION,
