@@ -29,12 +29,12 @@ export class BLEAVpcStack extends cdk.Stack {
         {
           cidrMask: 22,
           name: 'Private',
-          subnetType: ec2.SubnetType.PRIVATE,
+          subnetType: ec2.SubnetType.PRIVATE_WITH_NAT,
         },
         {
           cidrMask: 22,
           name: 'Protected',
-          subnetType: ec2.SubnetType.ISOLATED,
+          subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
         },
       ],
     });
@@ -101,7 +101,7 @@ export class BLEAVpcStack extends cdk.Stack {
     // NACL for Private Subnets
     const naclPrivate = new ec2.NetworkAcl(this, 'NaclPrivate', {
       vpc: myVpc,
-      subnetSelection: { subnetType: ec2.SubnetType.PRIVATE },
+      subnetSelection: { subnetType: ec2.SubnetType.PRIVATE_WITH_NAT },
     });
 
     // Egress Rules for Private Subnets
@@ -125,39 +125,39 @@ export class BLEAVpcStack extends cdk.Stack {
     // VPC Endpoint for S3
     myVpc.addGatewayEndpoint('S3EndpointForPrivate', {
       service: ec2.GatewayVpcEndpointAwsService.S3,
-      subnets: [{ subnetType: ec2.SubnetType.PRIVATE }, { subnetType: ec2.SubnetType.ISOLATED }],
+      subnets: [{ subnetType: ec2.SubnetType.PRIVATE_WITH_NAT }, { subnetType: ec2.SubnetType.PRIVATE_ISOLATED }],
     });
 
     // VPC Endpoint for SSM
     myVpc.addInterfaceEndpoint('SsmEndpointForPrivate', {
       service: ec2.InterfaceVpcEndpointAwsService.SSM,
-      subnets: { subnetType: ec2.SubnetType.ISOLATED },
+      subnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
     });
     myVpc.addInterfaceEndpoint('SsmMessagesEndpointForPrivate', {
       service: ec2.InterfaceVpcEndpointAwsService.SSM_MESSAGES,
-      subnets: { subnetType: ec2.SubnetType.ISOLATED },
+      subnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
     });
     myVpc.addInterfaceEndpoint('Ec2EndpointForPrivate', {
       service: ec2.InterfaceVpcEndpointAwsService.EC2,
-      subnets: { subnetType: ec2.SubnetType.ISOLATED },
+      subnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
     });
     myVpc.addInterfaceEndpoint('Ec2MessagesEndpointForPrivate', {
       service: ec2.InterfaceVpcEndpointAwsService.EC2_MESSAGES,
-      subnets: { subnetType: ec2.SubnetType.ISOLATED },
+      subnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
     });
 
     // VPC Endpoint for Fargate
     myVpc.addInterfaceEndpoint('EcrDkrEndpointForPrivate', {
       service: ec2.InterfaceVpcEndpointAwsService.ECR_DOCKER,
-      subnets: { subnetType: ec2.SubnetType.ISOLATED },
+      subnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
     });
     myVpc.addInterfaceEndpoint('EcrEndpointForPrivate', {
       service: ec2.InterfaceVpcEndpointAwsService.ECR,
-      subnets: { subnetType: ec2.SubnetType.ISOLATED },
+      subnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
     });
     myVpc.addInterfaceEndpoint('LogsEndpointForPrivate', {
       service: ec2.InterfaceVpcEndpointAwsService.CLOUDWATCH_LOGS,
-      subnets: { subnetType: ec2.SubnetType.ISOLATED },
+      subnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
     });
   }
 }
