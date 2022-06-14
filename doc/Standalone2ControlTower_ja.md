@@ -27,6 +27,10 @@ Baseline Environment on AWS の Standalone 版でセットアップしたアカ�
 
    参照: https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_organizations.html
 
+5. Amazon Inspectorで新しい組織アカウントが自動有効化されている
+
+   参照: https://docs.aws.amazon.com/inspector/latest/user/adding-member-accounts.html
+
 # 1. ターゲットアカウントを マネジメントアカウントの Organizations へ招待する
 
 ターゲットアカウントを マネジメントアカウントの Organizations へ招待します。

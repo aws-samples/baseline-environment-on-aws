@@ -47,7 +47,7 @@ This example explains how to deploy a sample application as a guest system with 
 
 By using ControlTower, some governance-based features are automatically configured. Security services that are not supported by ControlTower can be bulk-enabled for Organizations so that they are automatically configured when new accounts are created It will be.
 
-Here we set up ControlTower, SecurityHub, GuardDuty and IAM Access for the entire Organizations Provides step-by-step instructions on how to enable Analyzer. Specify the Audit account as these delegate accounts.
+Here we set up ControlTower, SecurityHub, GuardDuty, Inspector and IAM Access for the entire Organizations Provides step-by-step instructions on how to enable Analyzer. Specify the Audit account as these delegate accounts.
 
 #### 1-1. ControlTower setup
 
@@ -63,11 +63,19 @@ See: [https://docs.aws.amazon.com/controltower/latest/userguide/setting-up.html]
 
 - [https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_organizations.html]
 
-#### 1-4. Setting Up the IAM Access Analyzer
+#### 1-4. Set up Inspector
+
+Designating a delegated administrator
+- [https://docs.aws.amazon.com/inspector/latest/user/designating-admin.html]
+
+Enabling scans for member accounts
+- [https://docs.aws.amazon.com/inspector/latest/user/adding-member-accounts.html]
+
+#### 1-5. Setting Up the IAM Access Analyzer
 
 - [https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-settings.html#access-analyzer-delegated-administrator]
 
-#### 1-5. Set up Trusted Advisor
+#### 1-6. Set up Trusted Advisor
 
 - [https://docs.aws.amazon.com/awssupport/latest/user/organizational-view.html]
 
@@ -214,6 +222,10 @@ Only setting up AWS Chatbot is done in the management console, and any further w
 > NOTE:
 >
 > You don't need to set this baseline if you don't need AWS Config notifications. It does not affect the behavior of other accounts.
+
+> NOTE:
+>
+> You are not notified of the vulnerabilities detected by Amazon Inspector with Slack. You can check it on Security Hub Console.
 
 #### 5-1. Slack setup for AWS Chatbot
 
@@ -398,6 +410,7 @@ The following settings that were set up in the Standalone version are configured
 
 - API logging with CloudTrail
 - Recording configuration changes with AWS Config
+- Detecting vulnerability with Inspector
 - Detect abnormal behavior with GuardDuty
 - Detecting Deviations from Best Practices with SecurityHub (AWS Foundational Security Best Practice, CIS benchmark)
 
@@ -406,7 +419,14 @@ The following settings that were set up in the Standalone version are configured
 Besides setting up on a governance basis
 AWS provides several operational baseline services. Set up these services as needed.
 
-##### a. Perform AWS Systems Manager Quick Setup for EC2 Management
+##### a. Enabling Inspector and Detecting Vaulnerability
+
+Inspector checks workload vulnerabilities. It detects software vulnerabilities and unintended network exposure with continuous scanning EC2 and ECR. Detected vulnerabilities are prioritized and displayed based on a calculated risk score, giving you high visibility into the results. It could be automatically integrated with Security Hub and viewed the results centrally.
+
+Setup steps: [https://docs.aws.amazon.com/inspector/latest/user/getting_started_tutorial.html]
+
+##### b. Perform AWS Systems Manager Quick Setup for EC2 Management
+
 
 If you use EC2, we recommend that you use SystemsManager to manage it. You can use AWS Systems Manager Quick Setup to automate the basic setup required to manage EC2.
 Setup steps: [https://docs.aws.amazon.com/systems-manager/latest/userguide/quick-setup-host-management.html]
@@ -420,7 +440,7 @@ Quick Setup provides the following features:
 - Installing and configuring Amazon CloudWatch Agent for the first time only
 - Monthly automatic updates of the CloudWatch agent
 
-##### b. Trusted Advisor Detection Results Report
+##### c. Trusted Advisor Detection Results Report
 
 TrustedAdvisor provides advice for following AWS best practices. It is possible to receive the contents of the report regularly by e-mail. Please refer to the following document for details.
 
