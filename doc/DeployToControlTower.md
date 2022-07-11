@@ -21,7 +21,7 @@ The steps to deploy are as follows: If you're just deploying, you don't need to 
 
 We recommend that you set up a development environment, even if you are not doing serious development, to ensure safe editing of CDK code. The following are the steps to set up VisualStudioCode.
 
-- [Instructions]: [VisualStudioCode Setup Instructions](doc/HowTo.md#VisualStudioCode-Setup-Instructions)
+- [Instructions]: [VisualStudioCode Setup Instructions](HowTo.md#VisualStudioCode-Setup-Instructions)
 
 ### Implementation procedure under ControlTower
 
@@ -83,7 +83,7 @@ Create a new account (guest account) using ControlTower.
 
 Configure Slack integration settings for security and monitoring event notifications for guest accounts. Create a channel in Slack for security notifications, and a channel for system monitoring notifications, and follow these steps to configure Chatbot. When you are done, make a note of the ID of the workspace (1) and the ID of the channel you want to notify (2) for later settings.
 
-- [Instructions]: [Set up Slack for AWS ChatBot](doc/HowTo.md#set-up-slack-for-aws-chatbot)
+- [Instructions]: [Set up Slack for AWS ChatBot](HowTo.md#set-up-slack-for-aws-chatbot)
 
 ### 3. Install Dependencies and Build Code (Local)
 
@@ -105,7 +105,7 @@ npm ci
 
 Registers a hook to perform checks by Linter, Formatter, and Git-Secrets when committing to Git. Follow the steps below to set it up. It is not required if you are just deploying, but we recommend a setup for more secure development.
 
-- [Instructions]: [Git pre-commit hook setup](doc/HowTo.md#Git-pre-commit-hook-setup)
+- [Instructions]: [Git pre-commit hook setup](HowTo.md#Git-pre-commit-hook-setup)
 
 ### 4. Configure AWS CLI credentials for AWS SSO (Local)
 
@@ -219,7 +219,7 @@ Only setting up AWS Chatbot is done in the management console, and any further w
 
 Log in to your Audit account in the management console and set up Slack Workspace on AWS Chatbot. We will only create one for the aggregation. Please refer to the steps below
 
-- [Instructions]: [Set up Slack for AWS ChatBot](doc/HowTo.md#set-up-slack-for-aws-chatbot)
+- [Instructions]: [Set up Slack for AWS ChatBot](HowTo.md#set-up-slack-for-aws-chatbot)
 
 #### 5-2. Set deployment information (Context)
 
@@ -263,9 +263,9 @@ The contents of this setting are as follows.
 
 > NOTE: See the following explanation for how to use Context
 >
-> - [Manage personal environment by cdk.context.json](doc/HowTo.md#Manage-personal-environment-by-cdkcontextjson)
+> - [Manage personal environment by cdk.context.json](HowTo.md#Manage-personal-environment-by-cdkcontextjson)
 >
-> - [Accessing context in application](doc/HowTo.md#accessing-context-in-application)
+> - [Accessing context in application](HowTo.md#accessing-context-in-application)
 
 #### 5-3. Deploy a baseline for the Audit account
 
@@ -297,7 +297,7 @@ You should now be notified of all AWS Config change events for accounts managed 
 >
 > - Here we are using `npx` to use a local cdk installed in the BLEA environment. If you start the command directly from `cdk`, the globally installed cdk will be used.
 >
-> - There are options that are useful when using the cdk command. See [Skip Deployment Approvals and Don't Roll Back](doc/HowTo.md#skip-deployment-approvals-and-dont-roll-back).
+> - There are options that are useful when using the cdk command. See [Skip Deployment Approvals and Don't Roll Back](HowTo.md#skip-deployment-approvals-and-dont-roll-back).
 
 ### 6. Deploy a governance base for guest accounts (Local)
 
@@ -378,7 +378,7 @@ npx cdk bootstrap -c environment=dev --profile ct-guest
 >
 > - Here we are using `npx` to use a local cdk installed in the BLEA environment. If you start the command directly from `cdk`, the globally installed cdk will be used.
 >
-> - There are options that are useful when using the cdk command. See [Skip Deployment Approvals and Don't Roll Back](doc/HowTo.md#skip-deployment-approvals-and-dont-roll-back).
+> - There are options that are useful when using the cdk command. See [Skip Deployment Approvals and Don't Roll Back](HowTo.md#skip-deployment-approvals-and-dont-roll-back).
 
 Deploy a governance base for guest accounts.
 
@@ -474,11 +474,11 @@ This completes the baseline and sample application deployment for a single accou
 
 From now on, you will use this sample code as a starting point to develop applications tailored to your use case. Indicates information necessary for general development.
 
-- [Development process](doc/HowTo.md#development-process)
-- [Update package dependencies](doc/HowTo.md#update-package-dependencies)
+- [Development process](HowTo.md#development-process)
+- [Update package dependencies](HowTo.md#update-package-dependencies)
 
 #### 7-4. Remediation of security issues
 
 Even after deploying a governance base, there are detections that are reported at a critical or high severity level in Security Hub benchmark reports . You will need to take action on these manually. If necessary, perform remediation.
 
-- [Remediate Security Issues](doc/HowTo.md#remediate-security-issues)
+- [Remediate Security Issues](HowTo.md#remediate-security-issues)

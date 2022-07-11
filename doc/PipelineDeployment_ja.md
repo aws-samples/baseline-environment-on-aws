@@ -1,6 +1,6 @@
 # CDK Pipelines を使用して guest-webapp-sample をデプロイする
 
-[In English](PipelineDeployment.md) | [リポジトリの README に戻る](../../README_ja.md)
+[In English](PipelineDeployment.md) | [リポジトリの README に戻る](../README_ja.md)
 
 CDK による CI/CD の一例として、このドキュメントでは [CDK Pipelines](https://docs.aws.amazon.com/cdk/v2/guide/cdk_pipeline.html) を用いてアプリケーションをデプロイするためのサンプルコードの使用方法を示します。
 

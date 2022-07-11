@@ -1,6 +1,6 @@
 # Deploy CDK Application via CDK Pipelines
 
-[View this page in Japanese (日本語)](README_ja.md) | [Back to Repository README](../../README.md)
+[View this page in Japanese (日本語)](PipelineDeployment_ja.md) | [Back to Repository README](../README.md)
 
 As an example of CI/CD with CDK, this document shows how to use sample to deploy CDK Application via CDK Pipelines.
 
