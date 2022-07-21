@@ -217,7 +217,7 @@ see: [https://docs.aws.amazon.com/cloudshell/latest/userguide/limits.html]
 ### 1. CloudShell を起動する
 
 - AWS マネジメントコンソールの [>_] アイコンをクリックして CloudShell を起動する (画面右上のアカウント名の隣)
-  ![OpenConsole](doc/images/CloudShell-OpenConsole.png)
+  ![OpenConsole](../doc/images/CloudShell-OpenConsole.png)
 
 ### 2. CDK の実行環境をセットアップする
 
@@ -233,7 +233,7 @@ sudo npm -g install npm
 
 1. デプロイ対象の CDK コードをダウンロードし、zip 等でアーカイブする。
 2. CloudShell の画面から [Action]-[Upload File] をクリックし、アーカイブしたファイルをアップロードする
-   ![UploadFiles](doc/images/CloudShell-UploadFiles.png)
+   ![UploadFiles](../doc/images/CloudShell-UploadFiles.png)
 
 3. アップロードしたファイルを展開する
 
