@@ -20,19 +20,13 @@ export class Logging extends Construct {
     const cloudTrailAccessLogBucket = new s3.Bucket(this, 'CloudTrailAccessLogBucket', {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       versioned: true,
-      encryption: s3.BucketEncryption.S3_MANAGED,
+      serverAccessLogsPrefix: 'cloudtraillogs',
       removalPolicy: cdk.RemovalPolicy.RETAIN,
       enforceSSL: true,
       lifecycleRules: [
         {
           enabled: true,
-          expiration: cdk.Duration.days(2555),
-          transitions: [
-            {
-              transitionAfter: cdk.Duration.days(90),
-              storageClass: s3.StorageClass.GLACIER,
-            },
-          ],
+          expiration: cdk.Duration.days(90),
         },
       ],
     });
