@@ -41,9 +41,6 @@
     "pre-commit": "npx lint-staged"
   },
   "lint-staged": {
-    "*": [
-      "git-secrets --scan"
-    ],
     "*.(ts|tsx|js|jsx)": [
       "npx eslint --fix"
     ],
