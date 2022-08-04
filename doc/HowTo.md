@@ -217,7 +217,7 @@ see: [https://docs.aws.amazon.com/cloudshell/latest/userguide/limits.html]
 ### 1. Start CloudShell
 
 - Launch CloudShell by clicking the [>_] icon in the AWS Management Console (next to your account name in the top right corner of the screen)
-  ! [OpenConsole](doc/images/CloudShell-OpenConsole.png)
+  ![OpenConsole](../doc/images/CloudShell-OpenConsole.png)
 
 ### 2. Set up the CDK execution environment
 
@@ -233,7 +233,7 @@ sudo npm -g install npm
 
 1. Download the CDK code to be deployed and archive it with zip, etc.
 2. From the CloudShell screen, click [Action]-[Upload File] to upload the archived file
-   ![UploadFiles](doc/images/CloudShell-UploadFiles.png)
+   ![UploadFiles](../doc/images/CloudShell-UploadFiles.png)
 
 3. Extract uploaded files
 
