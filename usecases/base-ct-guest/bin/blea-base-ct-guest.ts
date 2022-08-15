@@ -3,6 +3,7 @@ import { BLEAIamStack } from '../lib/blea-iam-stack';
 import { BLEAConfigRulesStack } from '../lib/blea-config-rules-stack';
 import { BLEASecurityAlarmStack } from '../lib/blea-security-alarm-stack';
 import { BLEAChatbotStack } from '../lib/blea-chatbot-stack';
+import { BLEATrailStack } from 'lib/blea-trail-stack';
 
 const pjPrefix = 'BLEA-BASE';
 
@@ -44,11 +45,11 @@ new BLEAIamStack(app, `${pjPrefix}-Iam`, { env: getProcEnv() });
 // AWS Config and CloudTrail are set up by ControlTower
 
 // CloudWatch LogGroup Name for CloudTrail - Created by ControlTower for each account
-const cloudTrailLogGroupName = 'aws-controltower/CloudTrailLogs';
+const trail = new BLEATrailStack(app, `${pjPrefix}-Trail`, { env: getProcEnv() });
 
 const secAlarm = new BLEASecurityAlarmStack(app, `${pjPrefix}-SecurityAlarm`, {
   notifyEmail: envVals['securityNotifyEmail'],
-  cloudTrailLogGroupName: cloudTrailLogGroupName,
+  cloudTrailLogGroupName: trail.cloudTrailLogGroup.logGroupName,
   env: getProcEnv(),
 });
 
