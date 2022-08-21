@@ -66,12 +66,13 @@ export class BLEAEC2AppStack extends cdk.Stack {
     //    Because logAccessLogs add wider permission to other account (PutObject*). S3 will become Noncompliant on Security Hub [S3.6]
     //    See: https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-s3-6
     //    See: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-access-logs.html#access-logging-bucket-permissions
+    const region = props.env?.region ?? 'ap-northeast-1';
     albLogBucket.addToResourcePolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         actions: ['s3:PutObject'],
         // ALB access logging needs S3 put permission from ALB service account for the region
-        principals: [new iam.AccountPrincipal(ri.RegionInfo.get(cdk.Stack.of(this).region).elbv2Account)],
+        principals: [new iam.AccountPrincipal(ri.RegionInfo.get(region).elbv2Account)],
         resources: [albLogBucket.arnForObjects(`AWSLogs/${cdk.Stack.of(this).account}/*`)],
       }),
     );
