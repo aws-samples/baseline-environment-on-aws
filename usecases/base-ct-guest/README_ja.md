@@ -30,8 +30,8 @@ BLEA では、ゲストアカウントのログ監視は、ゲストアカウン
 
 ```mermaid
 flowchart TD
-A[START] --> B{CT LZを<br>v3.0より前から利用している}
-B -->|YES| C{v3.0に上げる}
+A[START] --> B{CT LZを<br>v3.0より前から<br>利用している}
+B -->|YES| C{LZをv3.0に上げる}
 C -->|YES| D{LZのCTrailの設定を<br>有効化する}
 C -->|NO| E[ケース3: ソースコードは修正しない]
 D -->|YES| F[ケース1: ゲストアカウント上の<br>既存のリソースを利用する]
