@@ -22,18 +22,22 @@ BLEA では、ゲストアカウントのログ監視は、ゲストアカウン
 
 以下のフローチャートに従い、ご自身の環境に適した`blea-base-ct-guest.ts`のソースコードの修正方針を確認してください。
 
+図中の略語は以下の通りです。
+
+- CT: Control Tower
+- LZ: Landing Zone
+- CTrail: CloudTrail
+
 ```mermaid
 flowchart TD
 A[START] --> B{CT LZを<br>v3.0より前から利用している}
 B -->|YES| C{v3.0に上げる}
-C -->|YES| D{LZのCloudTrailの設定を<br>有効化する}
+C -->|YES| D{LZのCTrailの設定を<br>有効化する}
 C -->|NO| E[ケース3: ソースコードは修正しない]
 D -->|YES| F[ケース1: ゲストアカウント上の<br>既存のリソースを利用する]
 D -->|NO| G[ケース2: ゲストアカウント上に<br>新規でリソースを作成する]
 B -->|NO| G
 ```
-
-ControlTower: CT, Landing Zone: LZ, CloudTrail: CTrail, CloudWatch Logs: CW Logs
 
 ### ケース 1: ゲストアカウント上の既存のリソースを利用する
 
