@@ -31,9 +31,7 @@ BLEA では、ゲストアカウントのログ監視は、ゲストアカウン
 ```mermaid
 flowchart TD
 A[START] --> B{CT LZを<br>v3.0より前から<br>利用している}
-B -->|YES| C{LZをv3.0に上げる}
-C -->|YES| D{LZのCTrailの設定を<br>有効化する}
-C -->|NO| E[ケース3: ソースコードは修正しない]
+B -->|YES| D{LZのCTrailの設定を<br>有効化する}
 D -->|YES| F[ケース1: ゲストアカウント上の<br>既存のリソースを利用する]
 D -->|NO| G[ケース2: ゲストアカウント上に<br>新規でリソースを作成する]
 B -->|NO| G
@@ -57,11 +55,6 @@ const logGroupName = 'aws-controltower/CloudTrailLogs';
 const trail = new BLEATrailStack(app, `${pjPrefix}-Trail`, { env: getProcEnv() });
 const logGroupName = trail.cloudTrailLogGroup.logGroupName;
 ```
-
-### ケース 3: ソースは修正しない
-
-LandingZone のバージョンを上げないのであれば、対応は不要になります。
-バージョンを上げる際に、再度本ドキュメントを参照してください。
 
 ## 備考
 
