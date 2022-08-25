@@ -40,7 +40,7 @@ B -->|NO| G
 ### ケース 1: ゲストアカウント上の既存のリソースを利用する
 
 `blea-base-ct-guest.ts`の 51 行目にあるコードをそのままご利用ください。
-過去の AWS Control Tower landing zone が作成したリソースが存在するため、Baseline の構成を変更する必要がないためです。
+過去の AWS Control Tower landing zone が作成したリソースが存在するため、Baseline の構成を変更する必要がありません。
 
 ```
 const logGroupName = 'aws-controltower/CloudTrailLogs';
