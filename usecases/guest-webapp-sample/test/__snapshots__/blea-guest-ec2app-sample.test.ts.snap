@@ -1441,6 +1441,10 @@ Object {
       "Type": "AWS::EC2::EIP",
     },
     "VpcPublicSubnet1NATGateway4D7517AA": Object {
+      "DependsOn": Array [
+        "VpcPublicSubnet1DefaultRoute3DA9E72A",
+        "VpcPublicSubnet1RouteTableAssociation97140677",
+      ],
       "Properties": Object {
         "AllocationId": Object {
           "Fn::GetAtt": Array [

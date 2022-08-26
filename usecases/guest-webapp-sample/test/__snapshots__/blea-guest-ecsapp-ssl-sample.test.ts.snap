@@ -1482,6 +1482,10 @@ Object {
       "Type": "AWS::EC2::EIP",
     },
     "VpcPublicSubnet1NATGateway4D7517AA": Object {
+      "DependsOn": Array [
+        "VpcPublicSubnet1DefaultRoute3DA9E72A",
+        "VpcPublicSubnet1RouteTableAssociation97140677",
+      ],
       "Properties": Object {
         "AllocationId": Object {
           "Fn::GetAtt": Array [
@@ -2744,7 +2748,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
-          "S3Key": "8ddf29ab619460567d3cda58de2ff1bf0f6e95d8822ff630ec58a4d52ed1fa67.zip",
+          "S3Key": "e85f10a8bf0e7f4f7931fce24b29d4faf6874948090a2b568b2da33a7116cf84.zip",
         },
         "Handler": "index.certificateRequestHandler",
         "Role": Object {
@@ -2877,7 +2881,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
-          "S3Key": "8ddf29ab619460567d3cda58de2ff1bf0f6e95d8822ff630ec58a4d52ed1fa67.zip",
+          "S3Key": "e85f10a8bf0e7f4f7931fce24b29d4faf6874948090a2b568b2da33a7116cf84.zip",
         },
         "Handler": "index.certificateRequestHandler",
         "Role": Object {
