@@ -285,11 +285,7 @@ Object {
                     "Fn::Join": Array [
                       "",
                       Array [
-                        "arn:aws:logs:",
-                        Object {
-                          "Ref": "AWS::Region",
-                        },
-                        ":",
+                        "arn:aws:logs:ap-northeast-1:",
                         Object {
                           "Ref": "AWS::AccountId",
                         },
@@ -301,18 +297,7 @@ Object {
               },
               "Effect": "Allow",
               "Principal": Object {
-                "Service": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "logs.",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
-                      ".amazonaws.com",
-                    ],
-                  ],
-                },
+                "Service": "logs.ap-northeast-1.amazonaws.com",
               },
               "Resource": "*",
             },
@@ -745,18 +730,7 @@ Object {
             ],
           },
         ],
-        "ServiceName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "com.amazonaws.",
-              Object {
-                "Ref": "AWS::Region",
-              },
-              ".ec2",
-            ],
-          ],
-        },
+        "ServiceName": "com.amazonaws.ap-northeast-1.ec2",
         "SubnetIds": Array [
           Object {
             "Ref": "VpcProtectedSubnet1Subnet38ECE18A",
@@ -837,18 +811,7 @@ Object {
             ],
           },
         ],
-        "ServiceName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "com.amazonaws.",
-              Object {
-                "Ref": "AWS::Region",
-              },
-              ".ec2messages",
-            ],
-          ],
-        },
+        "ServiceName": "com.amazonaws.ap-northeast-1.ec2messages",
         "SubnetIds": Array [
           Object {
             "Ref": "VpcProtectedSubnet1Subnet38ECE18A",
@@ -929,18 +892,7 @@ Object {
             ],
           },
         ],
-        "ServiceName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "com.amazonaws.",
-              Object {
-                "Ref": "AWS::Region",
-              },
-              ".ecr.dkr",
-            ],
-          ],
-        },
+        "ServiceName": "com.amazonaws.ap-northeast-1.ecr.dkr",
         "SubnetIds": Array [
           Object {
             "Ref": "VpcProtectedSubnet1Subnet38ECE18A",
@@ -1021,18 +973,7 @@ Object {
             ],
           },
         ],
-        "ServiceName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "com.amazonaws.",
-              Object {
-                "Ref": "AWS::Region",
-              },
-              ".ecr.api",
-            ],
-          ],
-        },
+        "ServiceName": "com.amazonaws.ap-northeast-1.ecr.api",
         "SubnetIds": Array [
           Object {
             "Ref": "VpcProtectedSubnet1Subnet38ECE18A",
@@ -1155,18 +1096,7 @@ Object {
             ],
           },
         ],
-        "ServiceName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "com.amazonaws.",
-              Object {
-                "Ref": "AWS::Region",
-              },
-              ".logs",
-            ],
-          ],
-        },
+        "ServiceName": "com.amazonaws.ap-northeast-1.logs",
         "SubnetIds": Array [
           Object {
             "Ref": "VpcProtectedSubnet1Subnet38ECE18A",
@@ -1766,18 +1696,7 @@ Object {
             ],
           },
         ],
-        "ServiceName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "com.amazonaws.",
-              Object {
-                "Ref": "AWS::Region",
-              },
-              ".ssm",
-            ],
-          ],
-        },
+        "ServiceName": "com.amazonaws.ap-northeast-1.ssm",
         "SubnetIds": Array [
           Object {
             "Ref": "VpcProtectedSubnet1Subnet38ECE18A",
@@ -1858,18 +1777,7 @@ Object {
             ],
           },
         ],
-        "ServiceName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "com.amazonaws.",
-              Object {
-                "Ref": "AWS::Region",
-              },
-              ".ssmmessages",
-            ],
-          ],
-        },
+        "ServiceName": "com.amazonaws.ap-northeast-1.ssmmessages",
         "SubnetIds": Array [
           Object {
             "Ref": "VpcProtectedSubnet1Subnet38ECE18A",
@@ -2834,7 +2742,7 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
           "S3Key": "8ddf29ab619460567d3cda58de2ff1bf0f6e95d8822ff630ec58a4d52ed1fa67.zip",
         },
@@ -2945,9 +2853,7 @@ Object {
       "Properties": Object {
         "DomainName": "www.example.com",
         "HostedZoneId": "Z0123456789",
-        "Region": Object {
-          "Ref": "AWS::Region",
-        },
+        "Region": "ap-northeast-1",
         "ServiceToken": Object {
           "Fn::GetAtt": Array [
             "apiCertificateCertificateRequestorFunctionF3A49B43",
@@ -2969,7 +2875,7 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
           "S3Key": "8ddf29ab619460567d3cda58de2ff1bf0f6e95d8822ff630ec58a4d52ed1fa67.zip",
         },
@@ -3277,7 +3183,7 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
           "S3Key": "6dbd112fe448437b3438da4382c72fccbb7d2ee1543db222620d7447fffebc50.zip",
         },
@@ -3351,9 +3257,7 @@ Object {
             Object {
               "Name": "AWS_DEFAULT_REGION",
               "Type": "PLAINTEXT",
-              "Value": Object {
-                "Ref": "AWS::Region",
-              },
+              "Value": "ap-northeast-1",
             },
             Object {
               "Name": "AWS_ACCOUNT_ID",
@@ -3392,7 +3296,7 @@ Object {
               "",
               Array [
                 Object {
-                  "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+                  "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
                 },
                 "/80f730532f1195ed4fede75fbf8191acdfc52e6721de3b612c0c6a7eab1dbbc1.zip",
               ],
@@ -3454,7 +3358,7 @@ Object {
                       },
                       ":s3:::",
                       Object {
-                        "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+                        "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
                       },
                     ],
                   ],
@@ -3469,7 +3373,7 @@ Object {
                       },
                       ":s3:::",
                       Object {
-                        "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+                        "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
                       },
                       "/80f730532f1195ed4fede75fbf8191acdfc52e6721de3b612c0c6a7eab1dbbc1.zip",
                     ],
@@ -3493,11 +3397,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":logs:",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
-                      ":",
+                      ":logs:ap-northeast-1:",
                       Object {
                         "Ref": "AWS::AccountId",
                       },
@@ -3516,11 +3416,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":logs:",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
-                      ":",
+                      ":logs:ap-northeast-1:",
                       Object {
                         "Ref": "AWS::AccountId",
                       },
@@ -3551,11 +3447,7 @@ Object {
                     Object {
                       "Ref": "AWS::Partition",
                     },
-                    ":codebuild:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
+                    ":codebuild:ap-northeast-1:",
                     Object {
                       "Ref": "AWS::AccountId",
                     },
@@ -3586,11 +3478,7 @@ Object {
                 "Fn::Join": Array [
                   "",
                   Array [
-                    "arn:aws:ecr:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
+                    "arn:aws:ecr:ap-northeast-1:",
                     Object {
                       "Ref": "AWS::AccountId",
                     },
@@ -4163,9 +4051,7 @@ Object {
                 "awslogs-group": Object {
                   "Ref": "FargateLogGroupA4B4CA79",
                 },
-                "awslogs-region": Object {
-                  "Ref": "AWS::Region",
-                },
+                "awslogs-region": "ap-northeast-1",
                 "awslogs-stream-prefix": "BLEA-ECSApp-",
               },
             },
@@ -4899,7 +4785,7 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
           "S3Key": "eb5b005c858404ea0c8f68098ed5dcdf5340e02461f149751d10f59c210d5ef8.zip",
         },
@@ -5109,7 +4995,7 @@ Object {
         "Code": Object {
           "Handler": "index.handler",
           "S3Bucket": Object {
-            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
           "S3Key": "1e64e462d93160eb5230b00e665705bfaf2299d9c302ab56dd093bccbe387c4f.zip",
         },
@@ -5217,11 +5103,7 @@ Object {
                         Object {
                           "Ref": "AWS::Partition",
                         },
-                        ":logs:",
-                        Object {
-                          "Ref": "AWS::Region",
-                        },
-                        ":",
+                        ":logs:ap-northeast-1:",
                         Object {
                           "Ref": "AWS::AccountId",
                         },

@@ -95,19 +95,12 @@ export class BLEAFrontendSimpleStack extends cdk.Stack implements IBLEAFrontend 
     //    Because logAccessLogs add wider permission to other account (PutObject*). S3 will become Noncompliant on Security Hub [S3.6]
     //    See: https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-s3-6
     //    See: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-access-logs.html#access-logging-bucket-permissions
-
-    // Quick hack for test:
-    //  cdk.process.env.* and cdk.Stack.of(this).* returns undefined / ${Token[Region.4]} respectively at test time.
-    //  RegionInfo.get(region) returns error when it passed illegal value.
-    //  So we add quick hack to pass 'ap-northeast-1' when region value is illegal.
-    const region = cdk.Stack.of(this).region.startsWith('${Token') ? 'ap-northeast-1' : cdk.Stack.of(this).region;
-
     albLogBucket.addToResourcePolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         actions: ['s3:PutObject'],
         // ALB access logging needs S3 put permission from ALB service account for the region
-        principals: [new iam.AccountPrincipal(ri.RegionInfo.get(region).elbv2Account)],
+        principals: [new iam.AccountPrincipal(ri.RegionInfo.get(cdk.Stack.of(this).region).elbv2Account)],
         resources: [albLogBucket.arnForObjects(`AWSLogs/${cdk.Stack.of(this).account}/*`)],
       }),
     );

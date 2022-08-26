@@ -50,11 +50,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":logs:",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
-                      ":",
+                      ":logs:ap-northeast-1:",
                       Object {
                         "Ref": "AWS::AccountId",
                       },
@@ -73,11 +69,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":logs:",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
-                      ":",
+                      ":logs:ap-northeast-1:",
                       Object {
                         "Ref": "AWS::AccountId",
                       },
@@ -108,11 +100,7 @@ Object {
                     Object {
                       "Ref": "AWS::Partition",
                     },
-                    ":codebuild:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
+                    ":codebuild:ap-northeast-1:",
                     Object {
                       "Ref": "AWS::AccountId",
                     },
@@ -208,7 +196,7 @@ Object {
     },
     \\"build\\": {
       \\"commands\\": [
-        \\"cdk-assets --path \\\\\\"assembly-BLEA-Prod-Stage/BLEAProdStageBLEAContainerImage0D8D1EEB.assets.json\\\\\\" --verbose publish \\\\\\"80f730532f1195ed4fede75fbf8191acdfc52e6721de3b612c0c6a7eab1dbbc1:current_account-current_region\\\\\\"\\"
+        \\"cdk-assets --path \\\\\\"assembly-BLEA-Prod-Stage/BLEAProdStageBLEAContainerImage0D8D1EEB.assets.json\\\\\\" --verbose publish \\\\\\"80f730532f1195ed4fede75fbf8191acdfc52e6721de3b612c0c6a7eab1dbbc1:current_account-ap-northeast-1\\\\\\"\\"
       ]
     }
   }
@@ -252,7 +240,7 @@ Object {
     },
     \\"build\\": {
       \\"commands\\": [
-        \\"cdk-assets --path \\\\\\"assembly-BLEA-Prod-Stage/BLEAProdStageBLEAContainerImage0D8D1EEB.assets.json\\\\\\" --verbose publish \\\\\\"6dbd112fe448437b3438da4382c72fccbb7d2ee1543db222620d7447fffebc50:current_account-current_region\\\\\\"\\"
+        \\"cdk-assets --path \\\\\\"assembly-BLEA-Prod-Stage/BLEAProdStageBLEAContainerImage0D8D1EEB.assets.json\\\\\\" --verbose publish \\\\\\"6dbd112fe448437b3438da4382c72fccbb7d2ee1543db222620d7447fffebc50:current_account-ap-northeast-1\\\\\\"\\"
       ]
     }
   }
@@ -296,7 +284,7 @@ Object {
     },
     \\"build\\": {
       \\"commands\\": [
-        \\"cdk-assets --path \\\\\\"assembly-BLEA-Prod-Stage/BLEAProdStageBLEAECSAppCanary23394634.assets.json\\\\\\" --verbose publish \\\\\\"1e64e462d93160eb5230b00e665705bfaf2299d9c302ab56dd093bccbe387c4f:current_account-current_region\\\\\\"\\"
+        \\"cdk-assets --path \\\\\\"assembly-BLEA-Prod-Stage/BLEAProdStageBLEAECSAppCanary23394634.assets.json\\\\\\" --verbose publish \\\\\\"1e64e462d93160eb5230b00e665705bfaf2299d9c302ab56dd093bccbe387c4f:current_account-ap-northeast-1\\\\\\"\\"
       ]
     }
   }
@@ -340,7 +328,7 @@ Object {
     },
     \\"build\\": {
       \\"commands\\": [
-        \\"cdk-assets --path \\\\\\"assembly-BLEA-Prod-Stage/BLEAProdStageBLEADBAuroraPg1F6BF089.assets.json\\\\\\" --verbose publish \\\\\\"eb5b005c858404ea0c8f68098ed5dcdf5340e02461f149751d10f59c210d5ef8:current_account-current_region\\\\\\"\\"
+        \\"cdk-assets --path \\\\\\"assembly-BLEA-Prod-Stage/BLEAProdStageBLEADBAuroraPg1F6BF089.assets.json\\\\\\" --verbose publish \\\\\\"eb5b005c858404ea0c8f68098ed5dcdf5340e02461f149751d10f59c210d5ef8:current_account-ap-northeast-1\\\\\\"\\"
       ]
     }
   }
@@ -408,11 +396,7 @@ Object {
                     Object {
                       "Ref": "AWS::Partition",
                     },
-                    ":logs:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
+                    ":logs:ap-northeast-1:",
                     Object {
                       "Ref": "AWS::AccountId",
                     },
@@ -438,11 +422,7 @@ Object {
                     Object {
                       "Ref": "AWS::Partition",
                     },
-                    ":codebuild:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
+                    ":codebuild:ap-northeast-1:",
                     Object {
                       "Ref": "AWS::AccountId",
                     },
@@ -464,7 +444,7 @@ Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
               "Resource": Object {
-                "Fn::Sub": "arn:\${AWS::Partition}:iam::\${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-\${AWS::AccountId}-\${AWS::Region}",
+                "Fn::Sub": "arn:\${AWS::Partition}:iam::\${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-\${AWS::AccountId}-ap-northeast-1",
               },
             },
             Object {
@@ -904,10 +884,7 @@ Object {
                         Object {
                           "Ref": "AWS::AccountId",
                         },
-                        "-",
-                        Object {
-                          "Ref": "AWS::Region",
-                        },
+                        "-ap-northeast-1",
                       ],
                     ],
                   },
@@ -936,10 +913,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -972,10 +946,7 @@ Object {
                         Object {
                           "Ref": "AWS::AccountId",
                         },
-                        "-",
-                        Object {
-                          "Ref": "AWS::Region",
-                        },
+                        "-ap-northeast-1",
                       ],
                     ],
                   },
@@ -1004,10 +975,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1040,10 +1008,7 @@ Object {
                         Object {
                           "Ref": "AWS::AccountId",
                         },
-                        "-",
-                        Object {
-                          "Ref": "AWS::Region",
-                        },
+                        "-ap-northeast-1",
                       ],
                     ],
                   },
@@ -1072,10 +1037,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1108,10 +1070,7 @@ Object {
                         Object {
                           "Ref": "AWS::AccountId",
                         },
-                        "-",
-                        Object {
-                          "Ref": "AWS::Region",
-                        },
+                        "-ap-northeast-1",
                       ],
                     ],
                   },
@@ -1140,10 +1099,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1178,10 +1134,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1216,10 +1169,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1254,10 +1204,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1292,10 +1239,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1328,10 +1272,7 @@ Object {
                         Object {
                           "Ref": "AWS::AccountId",
                         },
-                        "-",
-                        Object {
-                          "Ref": "AWS::Region",
-                        },
+                        "-ap-northeast-1",
                       ],
                     ],
                   },
@@ -1360,10 +1301,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1396,10 +1334,7 @@ Object {
                         Object {
                           "Ref": "AWS::AccountId",
                         },
-                        "-",
-                        Object {
-                          "Ref": "AWS::Region",
-                        },
+                        "-ap-northeast-1",
                       ],
                     ],
                   },
@@ -1428,10 +1363,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1464,10 +1396,7 @@ Object {
                         Object {
                           "Ref": "AWS::AccountId",
                         },
-                        "-",
-                        Object {
-                          "Ref": "AWS::Region",
-                        },
+                        "-ap-northeast-1",
                       ],
                     ],
                   },
@@ -1496,10 +1425,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1534,10 +1460,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1572,10 +1495,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1610,10 +1530,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1646,10 +1563,7 @@ Object {
                         Object {
                           "Ref": "AWS::AccountId",
                         },
-                        "-",
-                        Object {
-                          "Ref": "AWS::Region",
-                        },
+                        "-ap-northeast-1",
                       ],
                     ],
                   },
@@ -1678,10 +1592,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1714,10 +1625,7 @@ Object {
                         Object {
                           "Ref": "AWS::AccountId",
                         },
-                        "-",
-                        Object {
-                          "Ref": "AWS::Region",
-                        },
+                        "-ap-northeast-1",
                       ],
                     ],
                   },
@@ -1746,10 +1654,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1784,10 +1689,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1822,10 +1724,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1858,10 +1757,7 @@ Object {
                         Object {
                           "Ref": "AWS::AccountId",
                         },
-                        "-",
-                        Object {
-                          "Ref": "AWS::Region",
-                        },
+                        "-ap-northeast-1",
                       ],
                     ],
                   },
@@ -1890,10 +1786,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1928,10 +1821,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1964,10 +1854,7 @@ Object {
                         Object {
                           "Ref": "AWS::AccountId",
                         },
-                        "-",
-                        Object {
-                          "Ref": "AWS::Region",
-                        },
+                        "-ap-northeast-1",
                       ],
                     ],
                   },
@@ -1996,10 +1883,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -2034,10 +1918,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -2070,10 +1951,7 @@ Object {
                         Object {
                           "Ref": "AWS::AccountId",
                         },
-                        "-",
-                        Object {
-                          "Ref": "AWS::Region",
-                        },
+                        "-ap-northeast-1",
                       ],
                     ],
                   },
@@ -2102,10 +1980,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -2140,10 +2015,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -2243,10 +2115,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -2436,10 +2305,7 @@ Object {
                     Object {
                       "Ref": "AWS::AccountId",
                     },
-                    "-",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
+                    "-ap-northeast-1",
                   ],
                 ],
               },
@@ -2648,11 +2514,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":logs:",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
-                      ":",
+                      ":logs:ap-northeast-1:",
                       Object {
                         "Ref": "AWS::AccountId",
                       },
@@ -2671,11 +2533,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":logs:",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
-                      ":",
+                      ":logs:ap-northeast-1:",
                       Object {
                         "Ref": "AWS::AccountId",
                       },
@@ -2706,11 +2564,7 @@ Object {
                     Object {
                       "Ref": "AWS::Partition",
                     },
-                    ":codebuild:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
+                    ":codebuild:ap-northeast-1:",
                     Object {
                       "Ref": "AWS::AccountId",
                     },
