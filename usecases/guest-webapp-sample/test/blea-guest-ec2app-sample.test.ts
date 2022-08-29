@@ -12,9 +12,13 @@ import { BLEADbAuroraPgStack } from '../lib/blea-db-aurora-pg-stack';
 import { BLEAInvestigationInstanceStack } from '../lib/blea-investigation-instance-stack';
 import { BLEAEC2AppStack } from '../lib/blea-ec2app-stack';
 
+// Account and Region on test
+//  cdk.process.env.* returns undefined, and cdk.Stack.of(this).* returns ${Token[Region.4]} at test time.
+//  In such case, RegionInfo.get(cdk.Stack.of(this).region) returns error and test will fail.
+//  So we pass 'ap-northeast-1' as region code.
 const procEnv = {
   account: process.env.CDK_DEFAULT_ACCOUNT,
-  region: process.env.CDK_DEFAULT_REGION,
+  region: process.env.CDK_DEFAULT_REGION ?? 'ap-northeast-1',
 };
 
 const pjPrefix = 'BLEA';

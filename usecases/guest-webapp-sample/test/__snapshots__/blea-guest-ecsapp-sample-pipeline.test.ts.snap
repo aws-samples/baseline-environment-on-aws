@@ -50,11 +50,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":logs:",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
-                      ":",
+                      ":logs:ap-northeast-1:",
                       Object {
                         "Ref": "AWS::AccountId",
                       },
@@ -73,11 +69,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":logs:",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
-                      ":",
+                      ":logs:ap-northeast-1:",
                       Object {
                         "Ref": "AWS::AccountId",
                       },
@@ -108,11 +100,7 @@ Object {
                     Object {
                       "Ref": "AWS::Partition",
                     },
-                    ":codebuild:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
+                    ":codebuild:ap-northeast-1:",
                     Object {
                       "Ref": "AWS::AccountId",
                     },
@@ -132,6 +120,10 @@ Object {
                 "s3:List*",
                 "s3:DeleteObject*",
                 "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
                 "s3:Abort*",
               ],
               "Effect": "Allow",
@@ -178,6 +170,7 @@ Object {
         "Cache": Object {
           "Type": "NO_CACHE",
         },
+        "Description": "Pipeline step BLEA-Prod-Pipeline/Pipeline/Assets/FileAsset1",
         "EncryptionKey": "alias/aws/s3",
         "Environment": Object {
           "ComputeType": "BUILD_GENERAL1_SMALL",
@@ -198,12 +191,12 @@ Object {
   \\"phases\\": {
     \\"install\\": {
       \\"commands\\": [
-        \\"npm install -g cdk-assets\\"
+        \\"npm install -g cdk-assets@2\\"
       ]
     },
     \\"build\\": {
       \\"commands\\": [
-        \\"cdk-assets --path \\\\\\"assembly-BLEA-Prod-Stage/BLEAProdStageBLEAContainerImage0D8D1EEB.assets.json\\\\\\" --verbose publish \\\\\\"80f730532f1195ed4fede75fbf8191acdfc52e6721de3b612c0c6a7eab1dbbc1:current_account-current_region\\\\\\"\\"
+        \\"cdk-assets --path \\\\\\"assembly-BLEA-Prod-Stage/BLEAProdStageBLEAContainerImage0D8D1EEB.assets.json\\\\\\" --verbose publish \\\\\\"80f730532f1195ed4fede75fbf8191acdfc52e6721de3b612c0c6a7eab1dbbc1:current_account-ap-northeast-1\\\\\\"\\"
       ]
     }
   }
@@ -221,6 +214,7 @@ Object {
         "Cache": Object {
           "Type": "NO_CACHE",
         },
+        "Description": "Pipeline step BLEA-Prod-Pipeline/Pipeline/Assets/FileAsset2",
         "EncryptionKey": "alias/aws/s3",
         "Environment": Object {
           "ComputeType": "BUILD_GENERAL1_SMALL",
@@ -241,12 +235,12 @@ Object {
   \\"phases\\": {
     \\"install\\": {
       \\"commands\\": [
-        \\"npm install -g cdk-assets\\"
+        \\"npm install -g cdk-assets@2\\"
       ]
     },
     \\"build\\": {
       \\"commands\\": [
-        \\"cdk-assets --path \\\\\\"assembly-BLEA-Prod-Stage/BLEAProdStageBLEAContainerImage0D8D1EEB.assets.json\\\\\\" --verbose publish \\\\\\"4a575666d1c2c6412590d2a56f328e040a81ad1ef59aecee31ae9b393d05f659:current_account-current_region\\\\\\"\\"
+        \\"cdk-assets --path \\\\\\"assembly-BLEA-Prod-Stage/BLEAProdStageBLEAContainerImage0D8D1EEB.assets.json\\\\\\" --verbose publish \\\\\\"6dbd112fe448437b3438da4382c72fccbb7d2ee1543db222620d7447fffebc50:current_account-ap-northeast-1\\\\\\"\\"
       ]
     }
   }
@@ -264,6 +258,7 @@ Object {
         "Cache": Object {
           "Type": "NO_CACHE",
         },
+        "Description": "Pipeline step BLEA-Prod-Pipeline/Pipeline/Assets/FileAsset3",
         "EncryptionKey": "alias/aws/s3",
         "Environment": Object {
           "ComputeType": "BUILD_GENERAL1_SMALL",
@@ -284,12 +279,12 @@ Object {
   \\"phases\\": {
     \\"install\\": {
       \\"commands\\": [
-        \\"npm install -g cdk-assets\\"
+        \\"npm install -g cdk-assets@2\\"
       ]
     },
     \\"build\\": {
       \\"commands\\": [
-        \\"cdk-assets --path \\\\\\"assembly-BLEA-Prod-Stage/BLEAProdStageBLEAECSAppCanary23394634.assets.json\\\\\\" --verbose publish \\\\\\"1e64e462d93160eb5230b00e665705bfaf2299d9c302ab56dd093bccbe387c4f:current_account-current_region\\\\\\"\\"
+        \\"cdk-assets --path \\\\\\"assembly-BLEA-Prod-Stage/BLEAProdStageBLEAECSAppCanary23394634.assets.json\\\\\\" --verbose publish \\\\\\"1e64e462d93160eb5230b00e665705bfaf2299d9c302ab56dd093bccbe387c4f:current_account-ap-northeast-1\\\\\\"\\"
       ]
     }
   }
@@ -307,6 +302,7 @@ Object {
         "Cache": Object {
           "Type": "NO_CACHE",
         },
+        "Description": "Pipeline step BLEA-Prod-Pipeline/Pipeline/Assets/FileAsset4",
         "EncryptionKey": "alias/aws/s3",
         "Environment": Object {
           "ComputeType": "BUILD_GENERAL1_SMALL",
@@ -327,12 +323,12 @@ Object {
   \\"phases\\": {
     \\"install\\": {
       \\"commands\\": [
-        \\"npm install -g cdk-assets\\"
+        \\"npm install -g cdk-assets@2\\"
       ]
     },
     \\"build\\": {
       \\"commands\\": [
-        \\"cdk-assets --path \\\\\\"assembly-BLEA-Prod-Stage/BLEAProdStageBLEADBAuroraPg1F6BF089.assets.json\\\\\\" --verbose publish \\\\\\"6c0316fef24d0df8a9a705c77052001217d864f49af386539d01df54618cd131:current_account-current_region\\\\\\"\\"
+        \\"cdk-assets --path \\\\\\"assembly-BLEA-Prod-Stage/BLEAProdStageBLEADBAuroraPg1F6BF089.assets.json\\\\\\" --verbose publish \\\\\\"eb5b005c858404ea0c8f68098ed5dcdf5340e02461f149751d10f59c210d5ef8:current_account-ap-northeast-1\\\\\\"\\"
       ]
     }
   }
@@ -400,11 +396,7 @@ Object {
                     Object {
                       "Ref": "AWS::Partition",
                     },
-                    ":logs:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
+                    ":logs:ap-northeast-1:",
                     Object {
                       "Ref": "AWS::AccountId",
                     },
@@ -430,11 +422,7 @@ Object {
                     Object {
                       "Ref": "AWS::Partition",
                     },
-                    ":codebuild:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
+                    ":codebuild:ap-northeast-1:",
                     Object {
                       "Ref": "AWS::AccountId",
                     },
@@ -455,11 +443,9 @@ Object {
             Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::Sub": "arn:\${AWS::Partition}:iam::\${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-\${AWS::AccountId}-\${AWS::Region}",
-                },
-              ],
+              "Resource": Object {
+                "Fn::Sub": "arn:\${AWS::Partition}:iam::\${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-\${AWS::AccountId}-ap-northeast-1",
+              },
             },
             Object {
               "Action": Array [
@@ -498,6 +484,143 @@ Object {
         "Roles": Array [
           Object {
             "Ref": "BLEAProdPipelinepipelineAssetsFileRoleC7F735E9",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "BLEAProdPipelinepipelineCodeBuildActionRole7FD4A92B": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Condition": Object {
+                "Bool": Object {
+                  "aws:ViaAWSService": "codepipeline.amazonaws.com",
+                },
+              },
+              "Effect": "Allow",
+              "Principal": Object {
+                "AWS": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":root",
+                    ],
+                  ],
+                },
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "BLEAProdPipelinepipelineCodeBuildActionRoleDefaultPolicyAE093EB2": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "BLEAProdPipelinepipelinePipelineBuildSynthStepCdkBuildProject2E3BBE1A",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": Array [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "BLEAProdPipelinepipelineUpdatePipelineSelfMutation359507DE",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": Array [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "BLEAProdPipelinepipelineAssetsFileAsset1E8FBE3A4",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": Array [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "BLEAProdPipelinepipelineAssetsFileAsset2DFC013E7",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": Array [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "BLEAProdPipelinepipelineAssetsFileAsset397ED5D36",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": Array [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "BLEAProdPipelinepipelineAssetsFileAsset4DF5F9FC3",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "BLEAProdPipelinepipelineCodeBuildActionRoleDefaultPolicyAE093EB2",
+        "Roles": Array [
+          Object {
+            "Ref": "BLEAProdPipelinepipelineCodeBuildActionRole7FD4A92B",
           },
         ],
       },
@@ -582,7 +705,7 @@ Object {
                 ],
                 "RoleArn": Object {
                   "Fn::GetAtt": Array [
-                    "BLEAProdPipelinepipelinePipelineBuildSynthStepCodePipelineActionRoleCE042576",
+                    "BLEAProdPipelinepipelineCodeBuildActionRole7FD4A92B",
                     "Arn",
                   ],
                 },
@@ -601,7 +724,7 @@ Object {
                   "Version": "1",
                 },
                 "Configuration": Object {
-                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"3fec166019be648330518b8b398c6a4e157296743b25720082061acb497bed1d\\"}]",
+                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"ca610ba4cccf198efb418613de09fdc3b7959e4eccf576ff33226aabde65f0c0\\"}]",
                   "ProjectName": Object {
                     "Ref": "BLEAProdPipelinepipelineUpdatePipelineSelfMutation359507DE",
                   },
@@ -614,7 +737,7 @@ Object {
                 "Name": "SelfMutate",
                 "RoleArn": Object {
                   "Fn::GetAtt": Array [
-                    "BLEAProdPipelinepipelinePipelineUpdatePipelineSelfMutateCodePipelineActionRole6882D888",
+                    "BLEAProdPipelinepipelineCodeBuildActionRole7FD4A92B",
                     "Arn",
                   ],
                 },
@@ -645,7 +768,7 @@ Object {
                 "Name": "FileAsset1",
                 "RoleArn": Object {
                   "Fn::GetAtt": Array [
-                    "BLEAProdPipelinepipelinePipelineAssetsFileAsset1CodePipelineActionRoleA924B461",
+                    "BLEAProdPipelinepipelineCodeBuildActionRole7FD4A92B",
                     "Arn",
                   ],
                 },
@@ -671,7 +794,7 @@ Object {
                 "Name": "FileAsset2",
                 "RoleArn": Object {
                   "Fn::GetAtt": Array [
-                    "BLEAProdPipelinepipelinePipelineAssetsFileAsset2CodePipelineActionRoleE5C3D2D7",
+                    "BLEAProdPipelinepipelineCodeBuildActionRole7FD4A92B",
                     "Arn",
                   ],
                 },
@@ -697,7 +820,7 @@ Object {
                 "Name": "FileAsset3",
                 "RoleArn": Object {
                   "Fn::GetAtt": Array [
-                    "BLEAProdPipelinepipelinePipelineAssetsFileAsset3CodePipelineActionRole1A08B470",
+                    "BLEAProdPipelinepipelineCodeBuildActionRole7FD4A92B",
                     "Arn",
                   ],
                 },
@@ -723,7 +846,7 @@ Object {
                 "Name": "FileAsset4",
                 "RoleArn": Object {
                   "Fn::GetAtt": Array [
-                    "BLEAProdPipelinepipelinePipelineAssetsFileAsset4CodePipelineActionRole45427CC6",
+                    "BLEAProdPipelinepipelineCodeBuildActionRole7FD4A92B",
                     "Arn",
                   ],
                 },
@@ -761,10 +884,7 @@ Object {
                         Object {
                           "Ref": "AWS::AccountId",
                         },
-                        "-",
-                        Object {
-                          "Ref": "AWS::Region",
-                        },
+                        "-ap-northeast-1",
                       ],
                     ],
                   },
@@ -793,10 +913,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -829,10 +946,7 @@ Object {
                         Object {
                           "Ref": "AWS::AccountId",
                         },
-                        "-",
-                        Object {
-                          "Ref": "AWS::Region",
-                        },
+                        "-ap-northeast-1",
                       ],
                     ],
                   },
@@ -861,10 +975,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -897,10 +1008,7 @@ Object {
                         Object {
                           "Ref": "AWS::AccountId",
                         },
-                        "-",
-                        Object {
-                          "Ref": "AWS::Region",
-                        },
+                        "-ap-northeast-1",
                       ],
                     ],
                   },
@@ -929,10 +1037,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -965,10 +1070,7 @@ Object {
                         Object {
                           "Ref": "AWS::AccountId",
                         },
-                        "-",
-                        Object {
-                          "Ref": "AWS::Region",
-                        },
+                        "-ap-northeast-1",
                       ],
                     ],
                   },
@@ -997,10 +1099,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1035,10 +1134,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1073,10 +1169,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1111,10 +1204,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1149,10 +1239,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1185,10 +1272,7 @@ Object {
                         Object {
                           "Ref": "AWS::AccountId",
                         },
-                        "-",
-                        Object {
-                          "Ref": "AWS::Region",
-                        },
+                        "-ap-northeast-1",
                       ],
                     ],
                   },
@@ -1217,10 +1301,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1253,10 +1334,7 @@ Object {
                         Object {
                           "Ref": "AWS::AccountId",
                         },
-                        "-",
-                        Object {
-                          "Ref": "AWS::Region",
-                        },
+                        "-ap-northeast-1",
                       ],
                     ],
                   },
@@ -1285,10 +1363,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1321,10 +1396,7 @@ Object {
                         Object {
                           "Ref": "AWS::AccountId",
                         },
-                        "-",
-                        Object {
-                          "Ref": "AWS::Region",
-                        },
+                        "-ap-northeast-1",
                       ],
                     ],
                   },
@@ -1353,10 +1425,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1391,10 +1460,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1429,10 +1495,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1467,10 +1530,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1503,10 +1563,7 @@ Object {
                         Object {
                           "Ref": "AWS::AccountId",
                         },
-                        "-",
-                        Object {
-                          "Ref": "AWS::Region",
-                        },
+                        "-ap-northeast-1",
                       ],
                     ],
                   },
@@ -1535,10 +1592,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1571,10 +1625,7 @@ Object {
                         Object {
                           "Ref": "AWS::AccountId",
                         },
-                        "-",
-                        Object {
-                          "Ref": "AWS::Region",
-                        },
+                        "-ap-northeast-1",
                       ],
                     ],
                   },
@@ -1603,10 +1654,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1641,10 +1689,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1679,10 +1724,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1715,10 +1757,7 @@ Object {
                         Object {
                           "Ref": "AWS::AccountId",
                         },
-                        "-",
-                        Object {
-                          "Ref": "AWS::Region",
-                        },
+                        "-ap-northeast-1",
                       ],
                     ],
                   },
@@ -1747,10 +1786,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1785,10 +1821,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1821,10 +1854,7 @@ Object {
                         Object {
                           "Ref": "AWS::AccountId",
                         },
-                        "-",
-                        Object {
-                          "Ref": "AWS::Region",
-                        },
+                        "-ap-northeast-1",
                       ],
                     ],
                   },
@@ -1853,10 +1883,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1891,10 +1918,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1927,10 +1951,7 @@ Object {
                         Object {
                           "Ref": "AWS::AccountId",
                         },
-                        "-",
-                        Object {
-                          "Ref": "AWS::Region",
-                        },
+                        "-ap-northeast-1",
                       ],
                     ],
                   },
@@ -1959,10 +1980,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -1997,10 +2015,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -2100,10 +2115,7 @@ Object {
                       Object {
                         "Ref": "AWS::AccountId",
                       },
-                      "-",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
+                      "-ap-northeast-1",
                     ],
                   ],
                 },
@@ -2137,254 +2149,6 @@ Object {
       },
       "Type": "AWS::S3::BucketPolicy",
     },
-    "BLEAProdPipelinepipelinePipelineAssetsFileAsset1CodePipelineActionRoleA924B461": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "AWS": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":iam::",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":root",
-                    ],
-                  ],
-                },
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "BLEAProdPipelinepipelinePipelineAssetsFileAsset1CodePipelineActionRoleDefaultPolicy2171446D": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
-                "codebuild:BatchGetBuilds",
-                "codebuild:StartBuild",
-                "codebuild:StopBuild",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "BLEAProdPipelinepipelineAssetsFileAsset1E8FBE3A4",
-                  "Arn",
-                ],
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "BLEAProdPipelinepipelinePipelineAssetsFileAsset1CodePipelineActionRoleDefaultPolicy2171446D",
-        "Roles": Array [
-          Object {
-            "Ref": "BLEAProdPipelinepipelinePipelineAssetsFileAsset1CodePipelineActionRoleA924B461",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
-    "BLEAProdPipelinepipelinePipelineAssetsFileAsset2CodePipelineActionRoleDefaultPolicyFCCDC815": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
-                "codebuild:BatchGetBuilds",
-                "codebuild:StartBuild",
-                "codebuild:StopBuild",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "BLEAProdPipelinepipelineAssetsFileAsset2DFC013E7",
-                  "Arn",
-                ],
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "BLEAProdPipelinepipelinePipelineAssetsFileAsset2CodePipelineActionRoleDefaultPolicyFCCDC815",
-        "Roles": Array [
-          Object {
-            "Ref": "BLEAProdPipelinepipelinePipelineAssetsFileAsset2CodePipelineActionRoleE5C3D2D7",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
-    "BLEAProdPipelinepipelinePipelineAssetsFileAsset2CodePipelineActionRoleE5C3D2D7": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "AWS": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":iam::",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":root",
-                    ],
-                  ],
-                },
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "BLEAProdPipelinepipelinePipelineAssetsFileAsset3CodePipelineActionRole1A08B470": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "AWS": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":iam::",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":root",
-                    ],
-                  ],
-                },
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "BLEAProdPipelinepipelinePipelineAssetsFileAsset3CodePipelineActionRoleDefaultPolicy7E7C26D3": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
-                "codebuild:BatchGetBuilds",
-                "codebuild:StartBuild",
-                "codebuild:StopBuild",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "BLEAProdPipelinepipelineAssetsFileAsset397ED5D36",
-                  "Arn",
-                ],
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "BLEAProdPipelinepipelinePipelineAssetsFileAsset3CodePipelineActionRoleDefaultPolicy7E7C26D3",
-        "Roles": Array [
-          Object {
-            "Ref": "BLEAProdPipelinepipelinePipelineAssetsFileAsset3CodePipelineActionRole1A08B470",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
-    "BLEAProdPipelinepipelinePipelineAssetsFileAsset4CodePipelineActionRole45427CC6": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "AWS": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":iam::",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":root",
-                    ],
-                  ],
-                },
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "BLEAProdPipelinepipelinePipelineAssetsFileAsset4CodePipelineActionRoleDefaultPolicyCD2F0B41": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
-                "codebuild:BatchGetBuilds",
-                "codebuild:StartBuild",
-                "codebuild:StopBuild",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "BLEAProdPipelinepipelineAssetsFileAsset4DF5F9FC3",
-                  "Arn",
-                ],
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "BLEAProdPipelinepipelinePipelineAssetsFileAsset4CodePipelineActionRoleDefaultPolicyCD2F0B41",
-        "Roles": Array [
-          Object {
-            "Ref": "BLEAProdPipelinepipelinePipelineAssetsFileAsset4CodePipelineActionRole45427CC6",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
     "BLEAProdPipelinepipelinePipelineBuildSynthStepCdkBuildProject2E3BBE1A": Object {
       "Properties": Object {
         "Artifacts": Object {
@@ -2393,6 +2157,7 @@ Object {
         "Cache": Object {
           "Type": "NO_CACHE",
         },
+        "Description": "Pipeline step BLEA-Prod-Pipeline/Pipeline/Build/SynthStep",
         "EncryptionKey": "alias/aws/s3",
         "Environment": Object {
           "ComputeType": "BUILD_GENERAL1_SMALL",
@@ -2443,68 +2208,6 @@ Object {
       },
       "Type": "AWS::CodeBuild::Project",
     },
-    "BLEAProdPipelinepipelinePipelineBuildSynthStepCodePipelineActionRoleCE042576": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "AWS": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":iam::",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":root",
-                    ],
-                  ],
-                },
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "BLEAProdPipelinepipelinePipelineBuildSynthStepCodePipelineActionRoleDefaultPolicy812404AE": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
-                "codebuild:BatchGetBuilds",
-                "codebuild:StartBuild",
-                "codebuild:StopBuild",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "BLEAProdPipelinepipelinePipelineBuildSynthStepCdkBuildProject2E3BBE1A",
-                  "Arn",
-                ],
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "BLEAProdPipelinepipelinePipelineBuildSynthStepCodePipelineActionRoleDefaultPolicy812404AE",
-        "Roles": Array [
-          Object {
-            "Ref": "BLEAProdPipelinepipelinePipelineBuildSynthStepCodePipelineActionRoleCE042576",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
     "BLEAProdPipelinepipelinePipelineRoleD8651A93": Object {
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
@@ -2533,6 +2236,10 @@ Object {
                 "s3:List*",
                 "s3:DeleteObject*",
                 "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
                 "s3:Abort*",
               ],
               "Effect": "Allow",
@@ -2574,57 +2281,7 @@ Object {
               "Effect": "Allow",
               "Resource": Object {
                 "Fn::GetAtt": Array [
-                  "BLEAProdPipelinepipelinePipelineBuildSynthStepCodePipelineActionRoleCE042576",
-                  "Arn",
-                ],
-              },
-            },
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "BLEAProdPipelinepipelinePipelineUpdatePipelineSelfMutateCodePipelineActionRole6882D888",
-                  "Arn",
-                ],
-              },
-            },
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "BLEAProdPipelinepipelinePipelineAssetsFileAsset1CodePipelineActionRoleA924B461",
-                  "Arn",
-                ],
-              },
-            },
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "BLEAProdPipelinepipelinePipelineAssetsFileAsset2CodePipelineActionRoleE5C3D2D7",
-                  "Arn",
-                ],
-              },
-            },
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "BLEAProdPipelinepipelinePipelineAssetsFileAsset3CodePipelineActionRole1A08B470",
-                  "Arn",
-                ],
-              },
-            },
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "BLEAProdPipelinepipelinePipelineAssetsFileAsset4CodePipelineActionRole45427CC6",
+                  "BLEAProdPipelinepipelineCodeBuildActionRole7FD4A92B",
                   "Arn",
                 ],
               },
@@ -2648,10 +2305,7 @@ Object {
                     Object {
                       "Ref": "AWS::AccountId",
                     },
-                    "-",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
+                    "-ap-northeast-1",
                   ],
                 ],
               },
@@ -2716,6 +2370,10 @@ Object {
                 "s3:List*",
                 "s3:DeleteObject*",
                 "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
                 "s3:Abort*",
               ],
               "Effect": "Allow",
@@ -2743,7 +2401,10 @@ Object {
               ],
             },
             Object {
-              "Action": "s3:PutObjectAcl",
+              "Action": Array [
+                "s3:PutObjectAcl",
+                "s3:PutObjectVersionAcl",
+              ],
               "Effect": "Allow",
               "Resource": Object {
                 "Fn::Join": Array [
@@ -2772,68 +2433,6 @@ Object {
       },
       "Type": "AWS::IAM::Policy",
     },
-    "BLEAProdPipelinepipelinePipelineUpdatePipelineSelfMutateCodePipelineActionRole6882D888": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "AWS": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":iam::",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":root",
-                    ],
-                  ],
-                },
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "BLEAProdPipelinepipelinePipelineUpdatePipelineSelfMutateCodePipelineActionRoleDefaultPolicyB2563550": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
-                "codebuild:BatchGetBuilds",
-                "codebuild:StartBuild",
-                "codebuild:StopBuild",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "BLEAProdPipelinepipelineUpdatePipelineSelfMutation359507DE",
-                  "Arn",
-                ],
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "BLEAProdPipelinepipelinePipelineUpdatePipelineSelfMutateCodePipelineActionRoleDefaultPolicyB2563550",
-        "Roles": Array [
-          Object {
-            "Ref": "BLEAProdPipelinepipelinePipelineUpdatePipelineSelfMutateCodePipelineActionRole6882D888",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
     "BLEAProdPipelinepipelineUpdatePipelineSelfMutation359507DE": Object {
       "Properties": Object {
         "Artifacts": Object {
@@ -2842,6 +2441,7 @@ Object {
         "Cache": Object {
           "Type": "NO_CACHE",
         },
+        "Description": "Pipeline step BLEA-Prod-Pipeline/Pipeline/UpdatePipeline/SelfMutate",
         "EncryptionKey": "alias/aws/s3",
         "Environment": Object {
           "ComputeType": "BUILD_GENERAL1_SMALL",
@@ -2862,7 +2462,7 @@ Object {
   \\"phases\\": {
     \\"install\\": {
       \\"commands\\": [
-        \\"npm install -g aws-cdk\\"
+        \\"npm install -g aws-cdk@2\\"
       ]
     },
     \\"build\\": {
@@ -2914,11 +2514,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":logs:",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
-                      ":",
+                      ":logs:ap-northeast-1:",
                       Object {
                         "Ref": "AWS::AccountId",
                       },
@@ -2937,11 +2533,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":logs:",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
-                      ":",
+                      ":logs:ap-northeast-1:",
                       Object {
                         "Ref": "AWS::AccountId",
                       },
@@ -2972,11 +2564,7 @@ Object {
                     Object {
                       "Ref": "AWS::Partition",
                     },
-                    ":codebuild:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
+                    ":codebuild:ap-northeast-1:",
                     Object {
                       "Ref": "AWS::AccountId",
                     },

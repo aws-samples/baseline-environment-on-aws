@@ -503,70 +503,70 @@ Object {
   "Mappings": Object {
     "CloudwatchlambdainsightsversionMap": Object {
       "af-south-1": Object {
-        "1_0_98_0_x86_64": "arn:aws:lambda:af-south-1:012438385374:layer:LambdaInsightsExtension:8",
+        "1x0x98x0xx86x64": "arn:aws:lambda:af-south-1:012438385374:layer:LambdaInsightsExtension:8",
       },
       "ap-east-1": Object {
-        "1_0_98_0_x86_64": "arn:aws:lambda:ap-east-1:519774774795:layer:LambdaInsightsExtension:8",
+        "1x0x98x0xx86x64": "arn:aws:lambda:ap-east-1:519774774795:layer:LambdaInsightsExtension:8",
       },
       "ap-northeast-1": Object {
-        "1_0_98_0_x86_64": "arn:aws:lambda:ap-northeast-1:580247275435:layer:LambdaInsightsExtension:14",
+        "1x0x98x0xx86x64": "arn:aws:lambda:ap-northeast-1:580247275435:layer:LambdaInsightsExtension:14",
       },
       "ap-northeast-2": Object {
-        "1_0_98_0_x86_64": "arn:aws:lambda:ap-northeast-2:580247275435:layer:LambdaInsightsExtension:14",
+        "1x0x98x0xx86x64": "arn:aws:lambda:ap-northeast-2:580247275435:layer:LambdaInsightsExtension:14",
       },
       "ap-south-1": Object {
-        "1_0_98_0_x86_64": "arn:aws:lambda:ap-south-1:580247275435:layer:LambdaInsightsExtension:14",
+        "1x0x98x0xx86x64": "arn:aws:lambda:ap-south-1:580247275435:layer:LambdaInsightsExtension:14",
       },
       "ap-southeast-1": Object {
-        "1_0_98_0_x86_64": "arn:aws:lambda:ap-southeast-1:580247275435:layer:LambdaInsightsExtension:14",
+        "1x0x98x0xx86x64": "arn:aws:lambda:ap-southeast-1:580247275435:layer:LambdaInsightsExtension:14",
       },
       "ap-southeast-2": Object {
-        "1_0_98_0_x86_64": "arn:aws:lambda:ap-southeast-2:580247275435:layer:LambdaInsightsExtension:14",
+        "1x0x98x0xx86x64": "arn:aws:lambda:ap-southeast-2:580247275435:layer:LambdaInsightsExtension:14",
       },
       "ca-central-1": Object {
-        "1_0_98_0_x86_64": "arn:aws:lambda:ca-central-1:580247275435:layer:LambdaInsightsExtension:14",
+        "1x0x98x0xx86x64": "arn:aws:lambda:ca-central-1:580247275435:layer:LambdaInsightsExtension:14",
       },
       "cn-north-1": Object {
-        "1_0_98_0_x86_64": "arn:aws-cn:lambda:cn-north-1:488211338238:layer:LambdaInsightsExtension:8",
+        "1x0x98x0xx86x64": "arn:aws-cn:lambda:cn-north-1:488211338238:layer:LambdaInsightsExtension:8",
       },
       "cn-northwest-1": Object {
-        "1_0_98_0_x86_64": "arn:aws-cn:lambda:cn-northwest-1:488211338238:layer:LambdaInsightsExtension:8",
+        "1x0x98x0xx86x64": "arn:aws-cn:lambda:cn-northwest-1:488211338238:layer:LambdaInsightsExtension:8",
       },
       "eu-central-1": Object {
-        "1_0_98_0_x86_64": "arn:aws:lambda:eu-central-1:580247275435:layer:LambdaInsightsExtension:14",
+        "1x0x98x0xx86x64": "arn:aws:lambda:eu-central-1:580247275435:layer:LambdaInsightsExtension:14",
       },
       "eu-north-1": Object {
-        "1_0_98_0_x86_64": "arn:aws:lambda:eu-north-1:580247275435:layer:LambdaInsightsExtension:14",
+        "1x0x98x0xx86x64": "arn:aws:lambda:eu-north-1:580247275435:layer:LambdaInsightsExtension:14",
       },
       "eu-south-1": Object {
-        "1_0_98_0_x86_64": "arn:aws:lambda:eu-south-1:339249233099:layer:LambdaInsightsExtension:8",
+        "1x0x98x0xx86x64": "arn:aws:lambda:eu-south-1:339249233099:layer:LambdaInsightsExtension:8",
       },
       "eu-west-1": Object {
-        "1_0_98_0_x86_64": "arn:aws:lambda:eu-west-1:580247275435:layer:LambdaInsightsExtension:14",
+        "1x0x98x0xx86x64": "arn:aws:lambda:eu-west-1:580247275435:layer:LambdaInsightsExtension:14",
       },
       "eu-west-2": Object {
-        "1_0_98_0_x86_64": "arn:aws:lambda:eu-west-2:580247275435:layer:LambdaInsightsExtension:14",
+        "1x0x98x0xx86x64": "arn:aws:lambda:eu-west-2:580247275435:layer:LambdaInsightsExtension:14",
       },
       "eu-west-3": Object {
-        "1_0_98_0_x86_64": "arn:aws:lambda:eu-west-3:580247275435:layer:LambdaInsightsExtension:14",
+        "1x0x98x0xx86x64": "arn:aws:lambda:eu-west-3:580247275435:layer:LambdaInsightsExtension:14",
       },
       "me-south-1": Object {
-        "1_0_98_0_x86_64": "arn:aws:lambda:me-south-1:285320876703:layer:LambdaInsightsExtension:8",
+        "1x0x98x0xx86x64": "arn:aws:lambda:me-south-1:285320876703:layer:LambdaInsightsExtension:8",
       },
       "sa-east-1": Object {
-        "1_0_98_0_x86_64": "arn:aws:lambda:sa-east-1:580247275435:layer:LambdaInsightsExtension:14",
+        "1x0x98x0xx86x64": "arn:aws:lambda:sa-east-1:580247275435:layer:LambdaInsightsExtension:14",
       },
       "us-east-1": Object {
-        "1_0_98_0_x86_64": "arn:aws:lambda:us-east-1:580247275435:layer:LambdaInsightsExtension:14",
+        "1x0x98x0xx86x64": "arn:aws:lambda:us-east-1:580247275435:layer:LambdaInsightsExtension:14",
       },
       "us-east-2": Object {
-        "1_0_98_0_x86_64": "arn:aws:lambda:us-east-2:580247275435:layer:LambdaInsightsExtension:14",
+        "1x0x98x0xx86x64": "arn:aws:lambda:us-east-2:580247275435:layer:LambdaInsightsExtension:14",
       },
       "us-west-1": Object {
-        "1_0_98_0_x86_64": "arn:aws:lambda:us-west-1:580247275435:layer:LambdaInsightsExtension:14",
+        "1x0x98x0xx86x64": "arn:aws:lambda:us-west-1:580247275435:layer:LambdaInsightsExtension:14",
       },
       "us-west-2": Object {
-        "1_0_98_0_x86_64": "arn:aws:lambda:us-west-2:580247275435:layer:LambdaInsightsExtension:14",
+        "1x0x98x0xx86x64": "arn:aws:lambda:us-west-2:580247275435:layer:LambdaInsightsExtension:14",
       },
     },
   },
@@ -623,7 +623,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "6c0316fef24d0df8a9a705c77052001217d864f49af386539d01df54618cd131.zip",
+          "S3Key": "eb5b005c858404ea0c8f68098ed5dcdf5340e02461f149751d10f59c210d5ef8.zip",
         },
         "Handler": "index.handler",
         "Role": Object {
@@ -713,7 +713,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "1a1e6be7d1f001bc2e328d5e7ca7f6c71599ca6aacf8e39648c11335a8f62745.zip",
+          "S3Key": "2395c414c4dcbf3aa809bf925be234da00916efc924f4b2897fea6d92283cdfe.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -734,7 +734,7 @@ Object {
               Object {
                 "Ref": "AWS::Region",
               },
-              "1_0_98_0_x86_64",
+              "1x0x98x0xx86x64",
             ],
           },
         ],
@@ -1090,7 +1090,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "eb0b9fbb7d2fa397314124b3f1fa8085af1812e5c0c8911d3d2fe2ac036db8ee.zip",
+          "S3Key": "aedd86733a20c6ebadc8925955ed4323ac79f8c266cb4c55bfb575c851501550.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -1111,7 +1111,7 @@ Object {
               Object {
                 "Ref": "AWS::Region",
               },
-              "1_0_98_0_x86_64",
+              "1x0x98x0xx86x64",
             ],
           },
         ],
@@ -1359,7 +1359,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "fb95756c3410ec836c1d5d2e84bfe1d8ed6edfade2b881a23860048dd40cc127.zip",
+          "S3Key": "77dc2bdee76406f180ede4ecd7db5f73b177ce0c685361616f33c0282bf27205.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -1380,7 +1380,7 @@ Object {
               Object {
                 "Ref": "AWS::Region",
               },
-              "1_0_98_0_x86_64",
+              "1x0x98x0xx86x64",
             ],
           },
         ],
@@ -1709,6 +1709,7 @@ Object {
       "Type": "AWS::ApiGateway::RestApi",
     },
     "RestApiAccount7C83CF5A": Object {
+      "DeletionPolicy": "Retain",
       "DependsOn": Array [
         "RestApi0C43BF4B",
       ],
@@ -1721,8 +1722,10 @@ Object {
         },
       },
       "Type": "AWS::ApiGateway::Account",
+      "UpdateReplacePolicy": "Retain",
     },
     "RestApiCloudWatchRoleE3ED6605": Object {
+      "DeletionPolicy": "Retain",
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -1758,6 +1761,7 @@ Object {
         ],
       },
       "Type": "AWS::IAM::Role",
+      "UpdateReplacePolicy": "Retain",
     },
     "RestApiDeployment180EC503f39295634a49e357a9a5301a97f5823d": Object {
       "DependsOn": Array [

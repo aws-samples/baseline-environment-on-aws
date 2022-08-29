@@ -689,18 +689,7 @@ Object {
             ],
           },
         ],
-        "ServiceName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "com.amazonaws.",
-              Object {
-                "Ref": "AWS::Region",
-              },
-              ".ec2",
-            ],
-          ],
-        },
+        "ServiceName": "com.amazonaws.ap-northeast-1.ec2",
         "SubnetIds": Array [
           Object {
             "Ref": "VpcProtectedSubnet1Subnet38ECE18A",
@@ -781,18 +770,7 @@ Object {
             ],
           },
         ],
-        "ServiceName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "com.amazonaws.",
-              Object {
-                "Ref": "AWS::Region",
-              },
-              ".ec2messages",
-            ],
-          ],
-        },
+        "ServiceName": "com.amazonaws.ap-northeast-1.ec2messages",
         "SubnetIds": Array [
           Object {
             "Ref": "VpcProtectedSubnet1Subnet38ECE18A",
@@ -873,18 +851,7 @@ Object {
             ],
           },
         ],
-        "ServiceName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "com.amazonaws.",
-              Object {
-                "Ref": "AWS::Region",
-              },
-              ".ecr.dkr",
-            ],
-          ],
-        },
+        "ServiceName": "com.amazonaws.ap-northeast-1.ecr.dkr",
         "SubnetIds": Array [
           Object {
             "Ref": "VpcProtectedSubnet1Subnet38ECE18A",
@@ -965,18 +932,7 @@ Object {
             ],
           },
         ],
-        "ServiceName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "com.amazonaws.",
-              Object {
-                "Ref": "AWS::Region",
-              },
-              ".ecr.api",
-            ],
-          ],
-        },
+        "ServiceName": "com.amazonaws.ap-northeast-1.ecr.api",
         "SubnetIds": Array [
           Object {
             "Ref": "VpcProtectedSubnet1Subnet38ECE18A",
@@ -1099,18 +1055,7 @@ Object {
             ],
           },
         ],
-        "ServiceName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "com.amazonaws.",
-              Object {
-                "Ref": "AWS::Region",
-              },
-              ".logs",
-            ],
-          ],
-        },
+        "ServiceName": "com.amazonaws.ap-northeast-1.logs",
         "SubnetIds": Array [
           Object {
             "Ref": "VpcProtectedSubnet1Subnet38ECE18A",
@@ -1496,6 +1441,10 @@ Object {
       "Type": "AWS::EC2::EIP",
     },
     "VpcPublicSubnet1NATGateway4D7517AA": Object {
+      "DependsOn": Array [
+        "VpcPublicSubnet1DefaultRoute3DA9E72A",
+        "VpcPublicSubnet1RouteTableAssociation97140677",
+      ],
       "Properties": Object {
         "AllocationId": Object {
           "Fn::GetAtt": Array [
@@ -1710,18 +1659,7 @@ Object {
             ],
           },
         ],
-        "ServiceName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "com.amazonaws.",
-              Object {
-                "Ref": "AWS::Region",
-              },
-              ".ssm",
-            ],
-          ],
-        },
+        "ServiceName": "com.amazonaws.ap-northeast-1.ssm",
         "SubnetIds": Array [
           Object {
             "Ref": "VpcProtectedSubnet1Subnet38ECE18A",
@@ -1802,18 +1740,7 @@ Object {
             ],
           },
         ],
-        "ServiceName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "com.amazonaws.",
-              Object {
-                "Ref": "AWS::Region",
-              },
-              ".ssmmessages",
-            ],
-          ],
-        },
+        "ServiceName": "com.amazonaws.ap-northeast-1.ssmmessages",
         "SubnetIds": Array [
           Object {
             "Ref": "VpcProtectedSubnet1Subnet38ECE18A",
@@ -2337,7 +2264,7 @@ chown apache.apache /var/www/html/index.html",
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::undefined:root",
+                      ":iam::582318560864:root",
                     ],
                   ],
                 },
@@ -2418,17 +2345,7 @@ chown apache.apache /var/www/html/index.html",
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
               "Principal": Object {
-                "Service": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "ec2.",
-                      Object {
-                        "Ref": "AWS::URLSuffix",
-                      },
-                    ],
-                  ],
-                },
+                "Service": "ec2.amazonaws.com",
               },
             },
           ],
@@ -2796,9 +2713,9 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
-          "S3Key": "6c0316fef24d0df8a9a705c77052001217d864f49af386539d01df54618cd131.zip",
+          "S3Key": "eb5b005c858404ea0c8f68098ed5dcdf5340e02461f149751d10f59c210d5ef8.zip",
         },
         "Handler": "index.handler",
         "Role": Object {
@@ -2890,6 +2807,12 @@ Object {
           "Fn::ImportValue": "BLEA-MonitorAlarm:ExportsOutputRefMonitorAlarmTopic9C746E8C5F969821",
         },
         "SourceType": "db-cluster",
+        "Tags": Array [
+          Object {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+        ],
       },
       "Type": "AWS::RDS::EventSubscription",
     },
@@ -2910,6 +2833,12 @@ Object {
           "Fn::ImportValue": "BLEA-MonitorAlarm:ExportsOutputRefMonitorAlarmTopic9C746E8C5F969821",
         },
         "SourceType": "db-instance",
+        "Tags": Array [
+          Object {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+        ],
       },
       "Type": "AWS::RDS::EventSubscription",
     },

@@ -38,6 +38,12 @@ export class BLEACanaryStack extends cdk.Stack {
     });
 
     // Create canary
+
+    // ToDo:
+    //  We got error here on testing with Jest 28.x.x, so we downgrade jest to 27.x.x.
+    //    "Cannot find module 'aws-cdk-lib/.warnings.jsii.js' from '../../node_modules/@aws-cdk/aws-synthetics-alpha/.warnings.jsii.js"
+    //    See: https://github.com/aws/aws-cdk/issues/20622
+    //  After fix this issue, we will upgrade Jest to 28.x.x.
     const appCanary = new synthetics.Canary(this, 'BLEACanaryApp', {
       schedule: synthetics.Schedule.rate(cdk.Duration.minutes(1)),
       test: synthetics.Test.custom({
