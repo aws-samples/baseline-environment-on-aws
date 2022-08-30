@@ -42,11 +42,11 @@ new BLEAIamStack(app, `${pjPrefix}-Iam`, { env: getProcEnv() });
 
 // AWS CloudTrail configuration in Control Tower Landing Zone v3.0 will not create CloudWatch Logs LogGroup in each Guest Accounts.
 // And it will delete these LogGroups when AWS CloudTrial Configuration is disabled in case of updating Landing Zone version from older one.
-// BLEA should notify their alarms continuously. So, If there is no CloudTrail and CloudWatch Logs in Guest Account, BLEA creates them to notify the Alarms.
+// BLEA should notify their alarms continuously. So, if there is no CloudTrail and CloudWatch Logs in Guest Account, BLEA creates them to notify the Alarms.
 
 // You should use this code if you match the below condition.
 // - You have been using ControlTower Landing Zone before v3.0 and update Landing Zone to v3.0.
-//   In addition, AWS CloudTrail configuration is enable.
+//   In addition, AWS CloudTrail configuration will be enable.
 // -----
 const logGroupName = 'aws-controltower/CloudTrailLogs';
 // -----
