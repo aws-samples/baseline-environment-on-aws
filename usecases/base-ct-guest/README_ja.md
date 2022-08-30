@@ -30,17 +30,20 @@ BLEA では、ゲストアカウントのログ監視は、ゲストアカウン
 
 ```mermaid
 flowchart TD
-A[START] --> B{CT LZを<br>v3.0より前から<br>利用している}
-B -->|YES| D{LZのCTrailの設定を<br>有効化する}
-D -->|YES| F[ケース1: ゲストアカウント上の<br>既存のリソースを利用する]
-D -->|NO| G[ケース2: ゲストアカウント上に<br>新規でリソースを作成する]
-B -->|NO| G
+A[START] --> B{現在CTを利用している}
+B -->|利用している| C{現在のCT LZを<br>v3.0に上げる予定}
+C -->|v3.0に上げる| D{LZのCTrailの設定を<br>有効化する}
+C -->|v2.9以下のまま| F
+D -->|有効にする| F[ケース1: ゲストアカウント上の<br>既存のリソースを利用する]
+D -->|有効にしない| G[ケース2: ゲストアカウント上に<br>新規でリソースを作成する]
+B -->|利用していない| G
 ```
 
 ### ケース 1: ゲストアカウント上の既存のリソースを利用する
 
 `blea-base-ct-guest.ts`の 51 行目にあるコードをそのままご利用ください。
 過去の AWS Control Tower landing zone が作成したリソースが存在するため、Baseline の構成を変更する必要がありません。
+念のため、ゲストアカウント内の CloudWatch Logs のロググループに`aws-controltower/CloudTrailLogs`という名前のロググループがあることを確認してください。
 
 ```
 const logGroupName = 'aws-controltower/CloudTrailLogs';
@@ -50,6 +53,7 @@ const logGroupName = 'aws-controltower/CloudTrailLogs';
 
 `blea-base-ct-guest.ts`の 6 行目の import 文と、58, 59 行目にあるコードのコメントを外し、51 行目のコードをコメントアウトしてください。
 ゲストアカウント上に AWS CloudTrail と AWS CloudWatch Logs のリソースが存在しないため、`blea-trail-stack.ts`で定義される`BLEATrailStack`によって必要なリソースを作成します。
+念のため、ゲストアカウント内の CloudWatch Logs のロググループに`aws-controltower/CloudTrailLogs`という名前のロググループが **_ ない _** ことを確認してください。
 
 ```
 const trail = new BLEATrailStack(app, `${pjPrefix}-Trail`, { env: getProcEnv() });

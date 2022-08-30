@@ -30,11 +30,13 @@ Abbreviations in the figure are as follows:
 
 ```mermaid
 flowchart TD
-A[START] --> B{Using CT LZ<br>since before v3.0}
-B -->|YES| D{Turn on <br />the configuration <br />of CTrail in LZ}
-D -->|YES| F[CASE1: Use existing resource <br />on the guest account]
-D -->|NO| G[CASE2: Create a new resource <br />on the guest account]
-B -->|NO| G
+A[START] --> B{Whether CT LZ <br />is using or not?}
+B -->|Using| C{Will CT LZ <br/>be updated to v3.0?}
+C -->|YES, will update to v3.0| D{Turn on <br />the configuration <br />of CTrail in LZ}
+C -->|NO, continue to use current ver.| F
+D -->|YES, turn on CloudTrail| F[CASE1: Use existing resource <br />on the guest account]
+D -->|NO, turn off the CloudTrail| G[CASE2: Create a new resource <br />on the guest account]
+B -->|Not using| G
 ```
 
 ### CASE1: Use existing resource on the guest account
@@ -45,6 +47,8 @@ You continue to use the code of `blea-base-ct-guest.ts` like below.
 const logGroupName = 'aws-controltower/CloudTrailLogs';
 ```
 
+Please check if `aws-controltower/CloudTrailLogs` LogGroup exists in your GuestAccount.
+
 ### CASE2: Create a new resource on the guest account
 
 You uncomment the import statement on line 6 of `blea-base-ct-guest.ts` and the code on lines 58 and 59, and comment out the code on line 51.
@@ -54,6 +58,8 @@ The code on lines 58 and 59 is below.
 const trail = new BLEATrailStack(app, `${pjPrefix}-Trail`, { env: getProcEnv() });
 const logGroupName = trail.cloudTrailLogGroup.logGroupName;
 ```
+
+Please check if `aws-controltower/CloudTrailLogs` LogGroup **_ doesn't exists _** in your GuestAccount.
 
 ## Note
 
