@@ -10,7 +10,7 @@ export class BLEAConfigStack extends cdk.Stack {
 
     const role = new iam.Role(this, 'ConfigRole', {
       assumedBy: new iam.ServicePrincipal('config.amazonaws.com'),
-      managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSConfigRole')],
+      managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWS_ConfigRole')],
     });
 
     new config.CfnConfigurationRecorder(this, 'ConfigRecorder', {
@@ -27,6 +27,7 @@ export class BLEAConfigStack extends cdk.Stack {
       versioned: true,
       removalPolicy: cdk.RemovalPolicy.RETAIN,
       encryption: s3.BucketEncryption.S3_MANAGED,
+      enforceSSL: true,
     });
 
     // Attaches the AWSConfigBucketPermissionsCheck policy statement.

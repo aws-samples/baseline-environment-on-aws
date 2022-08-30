@@ -217,7 +217,7 @@ see: [https://docs.aws.amazon.com/cloudshell/latest/userguide/limits.html]
 ### 1. Start CloudShell
 
 - Launch CloudShell by clicking the [>_] icon in the AWS Management Console (next to your account name in the top right corner of the screen)
-  ! [OpenConsole](doc/images/CloudShell-OpenConsole.png)
+  ![OpenConsole](../doc/images/CloudShell-OpenConsole.png)
 
 ### 2. Set up the CDK execution environment
 
@@ -233,7 +233,7 @@ sudo npm -g install npm
 
 1. Download the CDK code to be deployed and archive it with zip, etc.
 2. From the CloudShell screen, click [Action]-[Upload File] to upload the archived file
-   ![UploadFiles](doc/images/CloudShell-UploadFiles.png)
+   ![UploadFiles](../doc/images/CloudShell-UploadFiles.png)
 
 3. Extract uploaded files
 
@@ -424,5 +424,16 @@ It is recommended that you use IDMSv2 only for metadata access on EC2 instances.
 
 - [EC2.8] EC2 instances should use IMDSv2
   - [https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-ec2-8]
+
+### 3. Changing the status of notifications about CodeBuild's privileged mode
+
+CodeBuild should only enable privileged mode when building Docker images. If the following controls are out of compliance, check to see if the CodeBuild project needs to enable privileged mode, and if so, change the status of the workflow to SUPPRESSED.
+
+- [CodeBuild.5] CodeBuild project environments should not have privileged mode enabled
+  - [https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-codebuild-5]
+
+Refer to the following document how to change the status of a workflow.
+
+[https://docs.aws.amazon.com/securityhub/latest/userguide/finding-workflow-status.html]
 
 ---

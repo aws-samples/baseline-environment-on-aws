@@ -1195,7 +1195,7 @@ Object {
     },
     "UnauthorizedAttemptsA72B9105": Object {
       "Properties": Object {
-        "FilterPattern": "{($.errorCode=AccessDenied)||($.errorCode=UnauthorizedOperation)}",
+        "FilterPattern": "{($.errorCode = \\"*UnauthorizedOperation\\" || $.errorCode = \\"AccessDenied*\\") && ($.eventName != \\"Decrypt\\" || $.userIdentity.invokedBy != \\"config.amazonaws.com\\" )}",
         "LogGroupName": "aws-controltower/CloudTrailLogs",
         "MetricTransformations": Array [
           Object {

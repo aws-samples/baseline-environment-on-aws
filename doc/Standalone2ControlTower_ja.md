@@ -51,7 +51,7 @@ Baseline Environment on AWS の Standalone 版でセットアップしたアカ�
 ## 2.1. AWS Config delivery channel を削除する
 
 1. ターゲットアカウントのマネジメントコンソールにログインし、CloudShell を起動します。
-   ![OpenConsole](/doc/images/OpenConsole.png)
+   ![OpenConsole](../doc/images/CloudShell-OpenConsole.png)
 2. AWS Config の Delivery channel 名 と Configuration recorder 名を取得します
 
 ```

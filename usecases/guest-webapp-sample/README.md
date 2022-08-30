@@ -6,6 +6,9 @@
 
 - bin/blea-guest-ecsapp-sample.ts
   - ECS/Fargate + AuroraPostgreSQL
+- bin/blea-guest-ecsapp-sample-pipeline.ts
+  - CI/CD of this system by CDK Pipelines.
+  - [How to deploy](../../doc/PipelineDeployment.md)
 
 ## Sample Web application (ECS+SSL)
 

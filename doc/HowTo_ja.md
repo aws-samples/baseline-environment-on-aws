@@ -217,7 +217,7 @@ see: [https://docs.aws.amazon.com/cloudshell/latest/userguide/limits.html]
 ### 1. CloudShell を起動する
 
 - AWS マネジメントコンソールの [>_] アイコンをクリックして CloudShell を起動する (画面右上のアカウント名の隣)
-  ![OpenConsole](doc/images/CloudShell-OpenConsole.png)
+  ![OpenConsole](../doc/images/CloudShell-OpenConsole.png)
 
 ### 2. CDK の実行環境をセットアップする
 
@@ -233,7 +233,7 @@ sudo npm -g install npm
 
 1. デプロイ対象の CDK コードをダウンロードし、zip 等でアーカイブする。
 2. CloudShell の画面から [Action]-[Upload File] をクリックし、アーカイブしたファイルをアップロードする
-   ![UploadFiles](doc/images/CloudShell-UploadFiles.png)
+   ![UploadFiles](../doc/images/CloudShell-UploadFiles.png)
 
 3. アップロードしたファイルを展開する
 
@@ -425,5 +425,16 @@ EC2 インスタンスのメタデータアクセスには IDMSv2 のみを使�
 
 - [EC2.8] EC2 instances should use IMDSv2
   - [https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-ec2-8]
+
+### 3. CodeBuild の特権モードに関する通知のステータスを変更する
+
+CodeBuild では Docker イメージをビルドするときにのみ特権モードが有効化されるべきです。以下のコントロールがコンプライアンス違反となった場合には、その CodeBuild プロジェクトが特権モードを有効化する必要があるかを確認し、もし必要だと確認された場合にはワークフローのステータスを SUPPRESSED に変更します。
+
+- [CodeBuild.5] CodeBuild project environments should not have privileged mode enabled
+  - [https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-codebuild-5]
+
+ワークフローのステータスを変更する方法は以下のドキュメントを参照してください。
+
+[https://docs.aws.amazon.com/securityhub/latest/userguide/finding-workflow-status.html]
 
 ---
