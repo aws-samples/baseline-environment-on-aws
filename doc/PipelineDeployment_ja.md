@@ -47,7 +47,7 @@ CodePipeline がソースコードを取得するために必要な設定を実�
 ### 前提条件
 
 - パイプラインのデプロイ先のアカウント（以下、 Tools アカウント（ID: `222222222222`））およびリージョンで CDK をブートストラップ済みであること
-- Tools アカウントに Administrator 権限でアクセスする認証情報を AWS CLI プロファイルとして設定済みであること（本ドキュメントでは `blea-pipeline-tool-exec` プロファイルを使用）
+- Tools アカウントに Administrator 権限でアクセスする認証情報を AWS CLI プロファイルとして設定済みであること（本ドキュメントでは `blea-pipeline-tool` プロファイルを使用）
 
   > **Note** Administrator 権限は CDK のブートストラップを行う際と、パイプラインをデプロイする際に必要な権限となります。セキュリティの観点から、パイプラインのデプロイが完了したら Administrator 権限を外すことが推奨されます（ [CDK Pipelines のドキュメント](https://docs.aws.amazon.com/cdk/api/v1/docs/pipelines-readme.html) より）。
 
@@ -155,9 +155,9 @@ const prodStack = new BLEAPipeline.BLEAPipelineStack(app, `${pjPrefix}-Prod-Pipe
 ```sh
 npm ci
 cd usecase/guest-webapp-sample/
-npx cdk bootstrap -c environment=dev --profile blea-pipeline-tool-exec  # If you haven't bootstrapped target account
+npx cdk bootstrap -c environment=dev --profile blea-pipeline-tool  # If you haven't bootstrapped target account
 
-npx cdk deploy -c environment=dev --profile blea-pipeline-tool-exec
+npx cdk deploy -c environment=dev --profile blea-pipeline-tool
 ```
 
 ### 4. BLEA のコードを更新し変更を Push することで、デプロイを実行する
@@ -243,15 +243,11 @@ new BLEAPipelineStack(app, `${pjPrefix}-Pipeline`, {
 以下のような形で、Prod アカウントの Profile が設定されているとします。
 
 ```
-[profile blea-pipeline-prod-sso]
+[profile blea-pipeline-prod]
 sso_start_url = https://xxxxxxxxxxxx.awsapps.com/start#/
 sso_region = ap-northeast-1
 sso_account_id = 333333333333
 sso_role_name = AWSAdministratorAccess
-region = ap-northeast-1
-
-[profile blea-pipeline-prod-exec]
-credential_process = aws2-wrap --process --profile blea-pipeline-prod-sso
 region = ap-northeast-1
 ```
 
@@ -260,25 +256,25 @@ region = ap-northeast-1
 1. Prod アカウントに SSO でログインする
 
 ```sh
-aws sso login --profile blea-pipeline-prod-sso
+aws sso login --profile blea-pipeline-prod
 ```
 
 2. Prod アカウントのブートストラップを実施する
 
 ```sh
-npx cdk bootstrap --profile blea-pipeline-dev-exec --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess --trust 222222222222 aws://333333333333/ap-northeast-1 -c environment=prod
+npx cdk bootstrap --profile blea-pipeline-prod --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess --trust 222222222222 aws://333333333333/ap-northeast-1 -c environment=prod
 ```
 
 3. Tools アカウントのブートストラップを実施する
 
 ```sh
-npx cdk bootstrap -c environment=dev --profile blea-pipeline-tool-exec --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess aws://222222222222/ap-northeast-1
+npx cdk bootstrap -c environment=dev --profile blea-pipeline-tool --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess aws://222222222222/ap-northeast-1
 ```
 
 4. Tools アカウントに対してパイプラインをデプロイする
 
 ```sh
-npx cdk deploy -c environment=dev --profile blea-pipeline-tool-exec
+npx cdk deploy -c environment=dev --profile blea-pipeline-tool
 ```
 
 この Tools アカウントにデプロイされたパイプラインによりアプリケーションがビルド・デプロイされます。
@@ -308,15 +304,11 @@ npx cdk deploy -c environment=dev --profile blea-pipeline-tool-exec
 ```
 
 ```
-[profile blea-pipeline-dev-sso]
+[profile blea-pipeline-dev]
 sso_start_url = https://xxxxxxxxxxxx.awsapps.com/start#/
 sso_region = ap-northeast-1
 sso_account_id = xxxxxxxxxxxx
 sso_role_name = AWSAdministratorAccess
-region = ap-northeast-1
-
-[profile blea-pipeline-dev-exec]
-credential_process = aws2-wrap --process --profile blea-pipeline-dev-sso
 region = ap-northeast-1
 ```
 
@@ -325,7 +317,7 @@ region = ap-northeast-1
 例えば、`BLEA-Dev-Stage` 中で定義されている `BLEA-ECSApp` を指定してデプロイしたい場合は以下のコマンドによって Dev アカウントにデプロイすることができます。
 
 ```
-npx cdk deploy BLEA-Dev-Stage/BLEA-ECSApp -c environment=dev --profile=blea-pipeline-dev-exec
+npx cdk deploy BLEA-Dev-Stage/BLEA-ECSApp -c environment=dev --profile=blea-pipeline-dev
 ```
 
 なお、以下のようなコマンドによってデプロイできるスタック (上記コマンドにおける`BLEA-Dev-Stage/BLEA-ECSApp`に相当するもの) の一覧を確認することができます

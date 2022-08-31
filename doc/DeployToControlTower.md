@@ -111,6 +111,10 @@ Registers a hook to perform checks by Linter, Formatter, and Git-Secrets when co
 
 Permanent credentials are also available, but AWS SSO is recommended for ControlTower environments. AWS SSO allows you to log in to the Management Console and run the AWS CLI with SSO authentication.
 
+> NOTE:
+>
+> Starting with CDK v2.18.0, you can use AWS SSO profiles to deploy the CDK directly, eliminating the need to use wrapping in the authentication process within the profile.
+
 #### 4-1. Check the version of the AWS CLI
 
 AWS CLI - To use the AWS SSO integration, you must use AWS CLIv2.
@@ -129,82 +133,52 @@ Verify that the output is version 2 or higher
 aws-cli/2.3.0 Python/3.8.8 Darwin/20.6.0 exe/x86_64 prompt/off
 ```
 
-#### 4-2. Introduce aws2-wrap
+#### 4-2. Configure an AWS CLI Profile for Audit Account Deployment
 
-AWS CLI - To use AWS SSO integration from a CDK, an open source tool, aws2-wrap ([https://github.com/linaro-its/aws2-wrap]) to the environment where you want to run the CDK
-
-```sh
-pip3 install aws2-wrap
-```
-
-#### 4-3. Configure an AWS CLI Profile for Audit Account Deployment
-
-Next, configure a CLI profile for deploying to the Audit account in Control Tower. Here, the ID of the management account is `11111111111` and the ID of the Audit account is `2222222222`.
+Next, configure a CLI profile for deploying to the Audit account in Control Tower. Here, the ID of the Audit account is `2222222222`.
 
 ~/.aws/config
 
 ```text
-# for Management Account Login
-[profile ct-management-sso]
+# for Audit Account
+[profile ct-audit]
 sso_start_url = https://d-90xxxxxxxx.awsapps.com/start#/
 sso_region = ap-northeast-1
-sso_account_id = 1111111111111
+sso_account_id = 222222222222
 sso_role_name = AWSAdministratorAccess
-region = ap-northeast-1
-
-# Accessing with AWSControlTowerExecution Role on Audit Account
-[profile ct-audit-exec-role]
-role_arn = arn:aws:iam::222222222222:role/AWSControlTowerExecution
-source_profile = ct-management-sso
-region = ap-northeast-1
-
-# for CDK access to ct-audit-exec-role
-[profile ct-audit-exec]
-credential_process = aws2-wrap --process --profile ct-audit-exec-role
 region = ap-northeast-1
 ```
 
 > NOTE:
 >
-> According to the ControlTower specification, in order to deploy to the Audit account, you must first use the `AWSAdministratorAccess` role of the management account You must log in and switch to the `AWSControlTowerExecution` role in the Audit account to perform the action.
-> By SSO logging in with the `ct-management-sso`profile, you can use the `ct-audit-exec-role` profile to perform operations on the Audit account It's possible. To access this from the CDK, use the wrapped profile `ct-audit-exec`.
+> According to the ControlTower specification, in order to modify the resouces created by ControlTower in the Audit account, you must first use the `AWSAdministratorAccess` role of the management account You must log in and switch to the `AWSControlTowerExecution` role in the Audit account to perform the action.
+> BLEA doen't modify resources created by ControlTower, so we use AWSAdministratorAccess role in the Audit account directly.
 
-#### 4-4. Configure an AWS CLI Profile for Guest Account Deployment
+#### 4-3. Configure an AWS CLI Profile for Guest Account Deployment
 
 Configure an AWS CLI profile for deploying to the guest account. Here, the ID of the guest account is `123456789012`.
 
 ~/.aws/config
 
 ```text
-# for Guest Account Login
-[profile ct-guest-sso]
+# for Guest Account
+[profile ct-guest]
 sso_start_url = https://d-90xxxxxxxx.awsapps.com/start#/
 sso_region = ap-northeast-1
 sso_account_id = 123456789012
 sso_role_name = AWSAdministratorAccess
 region = ap-northeast-1
-
-# for CDK access to ct-guest-sso
-[profile ct-guest]
-credential_process = aws2-wrap --process --profile ct-guest-sso
-region = ap-northeast-1
 ```
 
-> NOTE:
->
-> SSO login to the guest account with the `ct-guest-sso` profile. To access this from the CDK, we use the wrapped profile `ct-guest`.
+#### 4-4. CLI login using AWS SSO
 
-#### 4-5. CLI login using AWS SSO
-
-Log in to AWS SSO with the following command: Here is an example of logging in with `ct-guest-sso`profile.
+Log in to AWS SSO with the following command: Here is an example of logging in with `ct-guest`profile.
 
 ```sh
-aws sso login --profile ct-guest-sso
+aws sso login --profile ct-guest
 ```
 
 This command launches a browser and displays the AWS SSO login screen. If you have entered the guest account administrator username (email address) and password correctly, the screen will return to the terminal, where you can use the AWS CLI to work with the guest account.
-
-> Notes: The `ct-guest` profile authenticates via aws2-warp and is used when running a CDK.
 
 ### 5. Set a baseline for notifications in the Audit account (Local)
 
@@ -238,7 +212,7 @@ usecases/base-ct-audit/cdk.json
     "dev-audit": {
       "description": "Context samples for ControlTower Audit Account - Specific account & region",
       "env": {
-        "account": "333333333333",
+        "account": "222222222222",
         "region": "ap-northeast-1"
       },
       "slackNotifier": {
@@ -271,24 +245,22 @@ The contents of this setting are as follows.
 
 Log in to your management account using AWS SSO with the following command:
 
-> Audit accounts can only be set up with the `AWSControlTowerExecution` role in the management account (ControlTower specification)
-
 ```sh
-aws sso login --profile ct-management-sso
+aws sso login --profile ct-audit
 ```
 
 Bootstrap a bucket for CDK to the Audit account (first time only)
 
 ```sh
 cd usecases/base-ct-audit
-npx cdk bootstrap -c environment=dev-audit --profile ct-audit-exec
+npx cdk bootstrap -c environment=dev-audit --profile ct-audit
 ```
 
 Deploy a governance base to the Audit account
 
 ```sh
 cd usecases/base-ct-audit
-npx cdk deploy --all -c environment=dev-audit --profile ct-audit-exec
+npx cdk deploy --all -c environment=dev-audit --profile ct-audit
 ```
 
 You should now be notified of all AWS Config change events for accounts managed by this ControlTower.
@@ -333,7 +305,7 @@ usecases/base-ct-guest/cdk.json
     "stage": {
       "description": "Context samples for Staging - Specific account & region  ",
       "env": {
-        "account": "111111111111",
+        "account": "123456789012",
         "region": "ap-northeast-1"
       },
       "envName": "Staging",
@@ -364,7 +336,7 @@ The contents of this setting are as follows.
 Log in to your guest account using AWS SSO.
 
 ```sh
-aws sso login --profile ct-guest-sso
+aws sso login --profile ct-guest
 ```
 
 Bootstrap a bucket for CDK (first time only).
@@ -441,7 +413,7 @@ Configure the Context using the same steps as in the Standalone version.
 (If you are not logged in) Log in to your guest account using AWS SSO.
 
 ```sh
-aws sso login --profile ct-guest-sso
+aws sso login --profile ct-guest
 ```
 
 Deploy a guest application.
