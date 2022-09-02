@@ -17,8 +17,6 @@ import { IBLEAFrontend } from './blea-frontend-interface';
 export interface BLEAECSAppStackProps extends cdk.StackProps {
   myVpc: ec2.Vpc;
   appKey: kms.IKey;
-  repository: ecr.Repository;
-  imageTag: string;
   alarmTopic: sns.Topic;
   webFront: IBLEAFrontend;
 }
@@ -45,6 +43,18 @@ export class BLEAECSAppStack extends cdk.Stack {
     const executionRole = new iam.Role(this, 'EcsTaskExecutionRole', {
       assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
       managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AmazonECSTaskExecutionRolePolicy')],
+      inlinePolicies: {
+        ecrPullThroughCache:
+          // https://docs.aws.amazon.com/AmazonECR/latest/userguide/pull-through-cache.html#pull-through-cache-iam
+          new iam.PolicyDocument({
+            statements: [
+              new iam.PolicyStatement({
+                actions: ['ecr:BatchImportUpstreamImage', 'ecr:CreateRepository'],
+                resources: ['*'],
+              }),
+            ],
+          }),
+      },
     });
 
     // Role for Container
@@ -105,10 +115,27 @@ export class BLEAECSAppStack extends cdk.Stack {
       memoryLimitMiB: 512,
     });
 
+    // Container Registry
+    // - Using pull through cache rules
+    //   https://docs.aws.amazon.com/AmazonECR/latest/userguide/pull-through-cache.html
+    //   ecrRepositoryPrefix must start with a letter and can only contain lowercase letters, numbers, hyphens, and underscores and max length is 20.
+    const ecrRepositoryPrefix = `ecr-${cdk.Stack.of(this).stackName.toLowerCase()}`;
+    new ecr.CfnPullThroughCacheRule(this, 'PullThroughCacheRule', {
+      ecrRepositoryPrefix: ecrRepositoryPrefix,
+      upstreamRegistryUrl: 'public.ecr.aws',
+    });
+
     // Container
+    const containerImage = 'docker/library/httpd';
     const ecsContainer = ecsTask.addContainer('EcsApp', {
+      // -- SAMPLE: if you want to use your ECR repository with pull through cache, you can use like this.
+      image: ecs.ContainerImage.fromEcrRepository(
+        ecr.Repository.fromRepositoryName(this, 'PullThrough', `${ecrRepositoryPrefix}/${containerImage}`),
+        'latest',
+      ),
+
       // -- SAMPLE: if you want to use your ECR repository, you can use like this.
-      image: ecs.ContainerImage.fromEcrRepository(props.repository, props.imageTag),
+      // image: ecs.ContainerImage.fromEcrRepository(repository, imageTag),
 
       // -- SAMPLE: if you want to use DockerHub, you can use like this.
       // image: ecs.ContainerImage.fromRegistry("amazon/amazon-ecs-sample"),

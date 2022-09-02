@@ -7,8 +7,6 @@ import * as cdk_json from '../cdk.json';
 import { BLEAMonitorAlarmStack } from '../lib/blea-monitor-alarm-stack';
 import { BLEAKeyAppStack } from '../lib/blea-key-app-stack';
 import { BLEAVpcStack } from '../lib/blea-vpc-stack';
-import { BLEAECRStack } from '../lib/blea-ecr-stack';
-import { BLEABuildContainerStack } from '../lib/blea-build-container-stack';
 import { BLEAECSAppStack } from '../lib/blea-ecsapp-stack';
 import { BLEADbAuroraPgStack } from '../lib/blea-db-aurora-pg-stack';
 import { BLEAWafStack } from '../lib/blea-waf-stack';
@@ -75,31 +73,14 @@ describe(`${pjPrefix} Guest Stacks`, () => {
       env: procEnv,
     });
 
-    // Container Repository
-    const ecr = new BLEAECRStack(app, `${pjPrefix}-ECR`, {
-      // TODO: will get "repositoryName" from parameters
-      repositoryName: 'apprepo',
-      alarmTopic: monitorAlarm.alarmTopic,
-      env: procEnv,
-    });
-
-    // Build Container Image
-    const build_container = new BLEABuildContainerStack(app, `${pjPrefix}-ContainerImage`, {
-      ecrRepository: ecr.repository,
-      env: procEnv,
-    });
-
     // Application Stack (LoadBalancer + Fargate)
     const ecsApp = new BLEAECSAppStack(app, `${pjPrefix}-ECSApp`, {
       myVpc: prodVpc.myVpc,
       appKey: appKey.kmsKey,
-      repository: ecr.repository,
-      imageTag: build_container.imageTag,
       alarmTopic: monitorAlarm.alarmTopic,
       webFront: front,
       env: procEnv,
     });
-    ecsApp.addDependency(build_container);
 
     // Aurora
     const dbCluster = new BLEADbAuroraPgStack(app, `${pjPrefix}-DBAuroraPg`, {
@@ -149,8 +130,6 @@ describe(`${pjPrefix} Guest Stacks`, () => {
     expect(Template.fromStack(prodVpc)).toMatchSnapshot();
     expect(Template.fromStack(waf)).toMatchSnapshot();
     expect(Template.fromStack(front)).toMatchSnapshot();
-    expect(Template.fromStack(ecr)).toMatchSnapshot();
-    expect(Template.fromStack(build_container)).toMatchSnapshot();
     expect(Template.fromStack(ecsApp)).toMatchSnapshot();
     expect(Template.fromStack(dbCluster)).toMatchSnapshot();
     expect(Template.fromStack(appCanary)).toMatchSnapshot();
