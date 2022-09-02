@@ -3,7 +3,7 @@ import { BLEAIamStack } from '../lib/blea-iam-stack';
 import { BLEAConfigRulesStack } from '../lib/blea-config-rules-stack';
 import { BLEASecurityAlarmStack } from '../lib/blea-security-alarm-stack';
 import { BLEAChatbotStack } from '../lib/blea-chatbot-stack';
-// import { BLEATrailStack } from '../lib/blea-trail-stack';
+import { BLEATrailStack } from '../lib/blea-trail-stack';
 
 const pjPrefix = 'BLEA-BASE';
 
@@ -44,20 +44,8 @@ new BLEAIamStack(app, `${pjPrefix}-Iam`, { env: getProcEnv() });
 // And it will delete these LogGroups when AWS CloudTrial Configuration is disabled in case of updating Landing Zone version from older one.
 // BLEA should notify their alarms continuously. So, if there is no CloudTrail and CloudWatch Logs in Guest Account, BLEA creates them to notify the Alarms.
 
-// You should use this code if you match the below condition.
-// - You have been using ControlTower Landing Zone before v3.0 and update Landing Zone to v3.0.
-//   In addition, AWS CloudTrail configuration will be enable.
-// -----
-const logGroupName = 'aws-controltower/CloudTrailLogs';
-// -----
-
-// You should use this code and import blea-trail-stack module if you match one or the other.
-// 1. You haven't used previous version. And you start to use ControlTower Landing Zone ver3.0.
-// 2. You have already been using ControlTower Landing Zone. And you update Landing Zone to v3.0, but set the AWS CloudTrail configuration disable.
-// -----
-// const trail = new BLEATrailStack(app, `${pjPrefix}-Trail`, { env: getProcEnv() });
-// const logGroupName = trail.cloudTrailLogGroup.logGroupName;
-// -----
+const trail = new BLEATrailStack(app, `${pjPrefix}-Trail`, { env: getProcEnv() });
+const logGroupName = trail.cloudTrailLogGroup.logGroupName;
 
 // Security Alarms
 // !!! Need to setup SecurityHub, GuardDuty manually on Organizations Management account

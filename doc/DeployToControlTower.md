@@ -54,6 +54,22 @@ Here we set up ControlTower, SecurityHub, GuardDuty and IAM Access for the entir
 Set up ControlTower.
 See: [https://docs.aws.amazon.com/controltower/latest/userguide/setting-up.html]
 
+> NOTE:
+>
+> From AWS Control Tower landing zone ver.3.0, when the CloudTrail configuration is enabled, the CloudTrail logs are aggregated into AWS CloudWatch Logs for your ManagementAccount.
+
+> Ref：https://docs.aws.amazon.com/controltower/latest/userguide/2022-all.html#version-3.0
+>
+> As a result of, a CloudWatch Logs logGroup to gather CloudTrail logs is no longer newly created on the guest account. So, we can no longer deploy notifications to monitor AWS CloudTrail logs.
+>
+> BLEA defines preconditions as follows and provides code.
+> For how to deal with environments other than the prerequisite environment, see [6-2. (Optional) Modify the code to match Control Tower landing zone settings](#6-2-governance-based-deployment-to-guest-accounts)
+>
+> Preconditions：
+>
+> - Start using Control Tower from landing zone ver.3.0
+> - CloudTrail will be enabled when the Control Tower Landing Zone is updated to ver.3.0.
+
 #### 1-2. Set up SecurityHub
 
 - [https://docs.aws.amazon.com/securityhub/latest/userguide/designate-orgs-admin-account.html]
@@ -359,7 +375,64 @@ The contents of this setting are as follows.
 | SlackNotifier.WorkspaceID  | ID of Slack workspace set on AWS Chatbot                                                            |
 | SlackNotifier.channelIDSec | The ID of the Slack channel that you configured on AWS Chatbot. You will be notified about security |
 
-#### 6-2. Governance-based deployment to guest accounts
+#### 6-2. (Optional) Modify the code to match Control Tower landing zone settings
+
+Skip this section if the environment matches [prerequisites in 1-1. ControlTower setup](#1-1-ControlTower-setup).
+
+First, use the following flow chart to check the appropriate way for your environment.
+Abbreviations in the figure are as follows:
+
+- CT: Control Tower
+- LZ: Landing Zone
+- CTrail: CloudTrail
+
+```mermaid
+flowchart TD
+A[START] --> B{Whether CT LZ <br />is using or not?}
+B -->|Using| C{Will CT LZ <br/>be updated to v3.0?}
+C -->|YES, will update to v3.0| D{Turn on <br />the configuration <br />of CTrail in LZ}
+C -->|NO, continue to use current ver.| F
+D -->|YES, turn on CloudTrail| F[a: Use existing resource <br />on the guest account]
+D -->|NO, turn off the CloudTrail| G[b: Create a new resource <br />on the guest account]
+B -->|Not using| G
+```
+
+Also, just in case, before modifying the source code,
+please check if there is a log group named `aws-controltower/CloudTrailLogs` in the guest account's CloudWatch Logs.
+
+##### a. Use existing resource on the guest account
+
+This is the case where exisitng of a log group named `aws-controltower/CloudTrailLogs` in the guest account's CloudWatch Logs.
+
+Please delete the following code defined in BLEA and insert the code to use the existing resource.
+
+**_ The code to delete _**
+
+Please delete the following two places.
+
+```
+import { BLEATrailStack } from '../lib/blea-trail-stack';
+```
+
+```
+const trail = new BLEATrailStack(app, `${pjPrefix}-Trail`, { env: getProcEnv() });
+const logGroupName = trail.cloudTrailLogGroup.logGroupName;
+```
+
+**_ The code to insert _**
+
+Please add settings to use an existing LogGroup.
+
+```
+const logGroupName = 'aws-controltower/CloudTrailLogs';
+```
+
+##### b. Create a new resource on the guest account
+
+Similar to the prerequisite environment, this environment requires the addition of a LogGroup.
+Please deploy without modifying the source code.
+
+#### 6-3. Governance-based deployment to guest accounts
 
 Log in to your guest account using AWS SSO.
 
@@ -401,7 +474,7 @@ The following settings that were set up in the Standalone version are configured
 - Detect abnormal behavior with GuardDuty
 - Detecting Deviations from Best Practices with SecurityHub (AWS Foundational Security Best Practice, CIS benchmark)
 
-#### 6-3. (Optional) Set up other baseline setups manually
+#### 6-4. (Optional) Set up other baseline setups manually
 
 Besides setting up on a governance basis
 AWS provides several operational baseline services. Set up these services as needed.
