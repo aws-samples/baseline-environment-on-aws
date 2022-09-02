@@ -368,22 +368,6 @@ Object {
         "Ref": "Vpc8378EB38",
       },
     },
-    "ExportsOutputRefVpcPrivateSubnet1Subnet536B997AFD4CC940": Object {
-      "Export": Object {
-        "Name": "BLEA-Vpc:ExportsOutputRefVpcPrivateSubnet1Subnet536B997AFD4CC940",
-      },
-      "Value": Object {
-        "Ref": "VpcPrivateSubnet1Subnet536B997A",
-      },
-    },
-    "ExportsOutputRefVpcPrivateSubnet2Subnet3788AAA1380949A3": Object {
-      "Export": Object {
-        "Name": "BLEA-Vpc:ExportsOutputRefVpcPrivateSubnet2Subnet3788AAA1380949A3",
-      },
-      "Value": Object {
-        "Ref": "VpcPrivateSubnet2Subnet3788AAA1",
-      },
-    },
     "ExportsOutputRefVpcProtectedSubnet1Subnet38ECE18AD245BDD6": Object {
       "Export": Object {
         "Name": "BLEA-Vpc:ExportsOutputRefVpcProtectedSubnet1Subnet38ECE18AD245BDD6",
@@ -3735,10 +3719,10 @@ Object {
             ],
             "Subnets": Array [
               Object {
-                "Fn::ImportValue": "BLEA-Vpc:ExportsOutputRefVpcPrivateSubnet1Subnet536B997AFD4CC940",
+                "Fn::ImportValue": "BLEA-Vpc:ExportsOutputRefVpcProtectedSubnet1Subnet38ECE18AD245BDD6",
               },
               Object {
-                "Fn::ImportValue": "BLEA-Vpc:ExportsOutputRefVpcPrivateSubnet2Subnet3788AAA1380949A3",
+                "Fn::ImportValue": "BLEA-Vpc:ExportsOutputRefVpcProtectedSubnet2SubnetC22C3325C694ECFB",
               },
             ],
           },

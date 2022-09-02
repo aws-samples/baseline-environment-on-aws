@@ -183,8 +183,8 @@ export class BLEAECSAppStack extends cdk.Stack {
         //},
       ],
       vpcSubnets: props.myVpc.selectSubnets({
-        subnetGroupName: 'Private', // For public DockerHub
-        //subnetGroupName: 'Protected'   // For your ECR. Need to use PrivateLinke for ECR
+        //subnetGroupName: 'Private', // For public DockerHub
+        subnetGroupName: 'Protected', // For your ECR. Need to use PrivateLinke for ECR
       }),
       securityGroups: [securityGroupForFargate],
     });
