@@ -52,7 +52,7 @@ export class BLEACanaryStack extends cdk.Stack {
       }),
       // It's recommended that use the latest runtime version.
       // See: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Library.html
-      runtime: synthetics.Runtime.SYNTHETICS_NODEJS_PUPPETEER_3_3,
+      runtime: synthetics.Runtime.SYNTHETICS_NODEJS_PUPPETEER_3_5,
       environmentVariables: {
         TARGETHOST: props.appEndpoint,
         TARGETPATH: '/',
