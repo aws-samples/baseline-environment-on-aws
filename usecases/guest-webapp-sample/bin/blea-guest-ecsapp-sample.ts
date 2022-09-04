@@ -9,6 +9,8 @@ import { BLEAWafStack } from '../lib/blea-waf-stack';
 import { BLEAFrontendSimpleStack } from '../lib/blea-frontend-simple-stack';
 import { BLEADashboardStack } from '../lib/blea-dashboard-stack';
 import { BLEACanaryStack } from '../lib/blea-canary-stack';
+// import { BLEABuildContainerStack } from '../lib/blea-build-container-stack';
+// import { BLEAECRStack } from '../lib/blea-ecr-stack';
 
 const pjPrefix = 'BLEA';
 
@@ -90,6 +92,22 @@ const front = new BLEAFrontendSimpleStack(app, `${pjPrefix}-SimpleFrontStack`, {
   env: getProcEnv(),
 });
 
+// -- SAMPLE: Create your own ECR Repository and store your own image
+//
+// // Container Repository
+// const ecr = new BLEAECRStack(app, `${pjPrefix}-ECR`, {
+//   // TODO: will get "repositoryName" from parameters
+//   repositoryName: 'apprepo',
+//   alarmTopic: monitorAlarm.alarmTopic,
+//   env: getProcEnv(),
+// });
+//
+// // Build Container Image (Don't forget add dependency to BLEAECSAppStack)
+// const build_container = new BLEABuildContainerStack(app, `${pjPrefix}-ContainerImage`, {
+//   ecrRepository: ecr.repository,
+//   env: getProcEnv(),
+// });
+
 // Application Stack (LoadBalancer + Fargate)
 const ecsApp = new BLEAECSAppStack(app, `${pjPrefix}-ECSApp`, {
   myVpc: prodVpc.myVpc,
@@ -97,7 +115,13 @@ const ecsApp = new BLEAECSAppStack(app, `${pjPrefix}-ECSApp`, {
   alarmTopic: monitorAlarm.alarmTopic,
   webFront: front,
   env: getProcEnv(),
+  // -- SAMPLE: Pass your own ECR repository and your own image
+  //  repository: ecr.repository,
+  //  imageTag: build_container.imageTag,
 });
+
+// -- SAMPLE: Need this when you use build_container
+// ecsApp.addDependency(build_container);
 
 // Aurora
 const dbCluster = new BLEADbAuroraPgStack(app, `${pjPrefix}-DBAuroraPg`, {

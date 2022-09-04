@@ -19,6 +19,9 @@ export interface BLEAECSAppStackProps extends cdk.StackProps {
   appKey: kms.IKey;
   alarmTopic: sns.Topic;
   webFront: IBLEAFrontend;
+  // -- SAMPLE: Receive your own ECR repository and your own image
+  //  repository: ecr.Repository;
+  //  imageTag: string;
 }
 
 export class BLEAECSAppStack extends cdk.Stack {
@@ -128,16 +131,19 @@ export class BLEAECSAppStack extends cdk.Stack {
     // Container
     const containerImage = 'docker/library/httpd';
     const ecsContainer = ecsTask.addContainer('EcsApp', {
-      // -- SAMPLE: if you want to use your ECR repository with pull through cache, you can use like this.
+      // -- Option 1: If you want to use your ECR repository with pull through cache, you can use like this.
       image: ecs.ContainerImage.fromEcrRepository(
         ecr.Repository.fromRepositoryName(this, 'PullThrough', `${ecrRepositoryPrefix}/${containerImage}`),
         'latest',
       ),
 
-      // -- SAMPLE: if you want to use your ECR repository, you can use like this.
-      // image: ecs.ContainerImage.fromEcrRepository(repository, imageTag),
+      // -- Option 2: If you want to use your ECR repository, you can use like this.
+      // --           You Need to create your repository and dockerimage, then pass it to this stack.
+      // image: ecs.ContainerImage.fromEcrRepository(props.repository, props.imageTag),
 
-      // -- SAMPLE: if you want to use DockerHub, you can use like this.
+      // -- Option 3: If you want to use DockerHub, you can use like this.
+      // --           You need public access route to internet for ECS Task.
+      // --           See vpcSubnets property for new ecs.FargateService().
       // image: ecs.ContainerImage.fromRegistry("amazon/amazon-ecs-sample"),
 
       environment: {
@@ -183,7 +189,7 @@ export class BLEAECSAppStack extends cdk.Stack {
         //},
       ],
       vpcSubnets: props.myVpc.selectSubnets({
-        //subnetGroupName: 'Private', // For public DockerHub
+        // subnetGroupName: 'Private', // For public DockerHub
         subnetGroupName: 'Protected', // For your ECR. Need to use PrivateLinke for ECR
       }),
       securityGroups: [securityGroupForFargate],
