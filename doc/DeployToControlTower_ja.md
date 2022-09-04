@@ -60,10 +60,10 @@ See: [https://docs.aws.amazon.com/controltower/latest/userguide/setting-up.html]
 >
 > ご参考：https://docs.aws.amazon.com/controltower/latest/userguide/2022-all.html#version-3.0
 >
-> その結果、これまでゲストアカウント上に存在していた CloudTrail のログが出力されていた CloudWatch Logs の LogGroup が新たに作成されなくなり、base-ct-guest でデプロイされていた AWS CloudTrail のログを監視する通知がデプロイできなくなりました。
+> その結果、従来ゲストアカウント上に存在していた CloudTrail のログが出力されていた CloudWatch Logs の LogGroup が無くなりました。これによって、ゲストアカウントのガバナンスベース で提供していた CloudTrail のログ監視が行えなくなっています。
 >
-> BLEA では、前提条件を以下のように定義し、コードを提供しています。
-> 前提条件の環境以外への対応方法は、[6-2. (必要に応じて)Control Tower landing zone の設定に合わせコードを修正する](<#6-2-(必要に応じて)Control-Tower-landing-zone-の設定に合わせコードを修正する>)をご参照ください
+> BLEA はデフォルトで以下の前提条件を示す LZ3.0 以降の環境を想定していますが、
+> 前提条件の環境以外へガバナンスベースを展開する場合は、[6-2. (必要に応じて)Control Tower landing zone の設定に合わせコードを修正する](<#6-2-(必要に応じて)Control-Tower-landing-zone-の設定に合わせコードを修正する>)をご覧ください
 >
 > 前提条件：
 >

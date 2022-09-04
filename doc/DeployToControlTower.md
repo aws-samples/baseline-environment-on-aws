@@ -60,10 +60,10 @@ See: [https://docs.aws.amazon.com/controltower/latest/userguide/setting-up.html]
 
 > Ref：https://docs.aws.amazon.com/controltower/latest/userguide/2022-all.html#version-3.0
 >
-> As a result of, a CloudWatch Logs logGroup to gather CloudTrail logs is no longer newly created on the guest account. So, we can no longer deploy notifications to monitor AWS CloudTrail logs.
+> As a result, there is no CloudWatch Logs LogGroup that previously existed on the guest account to which CloudTrail logs were output. So, this prevents CloudTrail log monitoring, which was provided by the guest account's governance base.
 >
-> BLEA defines preconditions as follows and provides code.
-> For how to deal with environments other than the prerequisite environment, see [6-2. (Optional) Modify the code to match Control Tower landing zone settings](#6-2-governance-based-deployment-to-guest-accounts)
+> By default, BLEA assumes an LZ3.0 or later environment with the following prerequisites:
+> If you want to deploy a governance base outside of the prerequisite environments, please refer to [6-2. (Optional) Modify the code to match Control Tower landing zone settings](#6-2-governance-based-deployment-to-guest-accounts)
 >
 > Preconditions：
 >
