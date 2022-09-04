@@ -47,7 +47,7 @@ You can also deploy applications directly from your local environment without pi
 ### Prerequisities
 
 - Bootstrapped account (Tools account (ID: `222222222222`)) and region to which the pipeline will be deployed
-- An AWS CLI profile with credentials to access the Tools account with Administrator privileges (referred to as `blea-pipeline-tool-exec` in this document)
+- An AWS CLI profile with credentials to access the Tools account with Administrator privileges (referred to as `blea-pipeline-tool` in this document)
 
 > **Note** we recommend that you use administrative credentials to an account only to bootstrap it and provision the initial pipeline. Otherwise, access to administrative credentials should be dropped as soon as possible. (Reference : [CDK Pipelines Doc](https://docs.aws.amazon.com/cdk/api/v1/docs/pipelines-readme.html))
 
@@ -232,40 +232,36 @@ When adding account information, you have to edit `cdk.json` as following
 Prerequisity: Profile of Prod Account is set like following
 
 ```
-[profile blea-pipeline-prod-sso]
+[profile blea-pipeline-prod]
 sso_start_url = https://xxxxxxxxxxxx.awsapps.com/start#/
 sso_region = ap-northeast-1
 sso_account_id = 333333333333
 sso_role_name = AWSAdministratorAccess
-region = ap-northeast-1
-
-[profile blea-pipeline-prod-exec]
-credential_process = aws2-wrap --process --profile blea-pipeline-prod-sso
 region = ap-northeast-1
 ```
 
 1. Login to Prod Account via SSO
 
 ```sh
-aws sso login --profile blea-pipeline-prod-sso
+aws sso login --profile blea-pipeline-prod
 ```
 
 2. Bootstrap Prod Account
 
 ```sh
-npx cdk bootstrap --profile blea-pipeline-prod-exec --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess --trust 222222222222 aws://333333333333/ap-northeast-1 -c environment=prod
+npx cdk bootstrap --profile blea-pipeline-prod --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess --trust 222222222222 aws://333333333333/ap-northeast-1 -c environment=prod
 ```
 
 3. Bootstrap Tools Account
 
 ```sh
-npx cdk bootstrap -c environment=dev --profile blea-pipeline-tool-exec --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess aws://222222222222/ap-northeast-1
+npx cdk bootstrap -c environment=dev --profile blea-pipeline-tool --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess aws://222222222222/ap-northeast-1
 ```
 
 4. Deploy pipeline to Tools account
 
 ```sh
-npx cdk deploy -c environment=dev --profile blea-pipeline-tool-exec
+npx cdk deploy -c environment=dev --profile blea-pipeline-tool
 ```
 
 ## Appendix B - Deploy copy of application stack to Development Account
@@ -298,15 +294,11 @@ When actually developing a system using the CDK, it is necessary to deploy the s
 ```
 
 ```
-[profile blea-pipeline-dev-sso]
+[profile blea-pipeline-dev]
 sso_start_url = https://xxxxxxxxxxxx.awsapps.com/start#/
 sso_region = ap-northeast-1
 sso_account_id = xxxxxxxxxxxx
 sso_role_name = AWSAdministratorAccess
-region = ap-northeast-1
-
-[profile blea-pipeline-dev-exec]
-credential_process = aws2-wrap --process --profile blea-pipeline-dev-sso
 region = ap-northeast-1
 ```
 
@@ -315,7 +307,7 @@ region = ap-northeast-1
 For example, if you want to deploy with `BLEA-ECSApp` defined in `BLEA-Dev-Stage`, deploy to the Dev account with the following command
 
 ```
-npx cdk deploy BLEA-Dev-Stage/BLEA-ECSApp -c environment=dev --profile=blea-pipeline-dev-exec
+npx cdk deploy BLEA-Dev-Stage/BLEA-ECSApp -c environment=dev --profile=blea-pipeline-dev
 ```
 
 In addition, you can check the list of stacks (e.g. `BLEA-Dev-Stage/BLEA-ECSApp` in the above command) that can be deployed by the following command

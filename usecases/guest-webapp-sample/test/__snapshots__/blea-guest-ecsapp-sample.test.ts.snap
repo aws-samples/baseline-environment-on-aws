@@ -4159,7 +4159,7 @@ Object {
             "TARGETPATH": "/",
           },
         },
-        "RuntimeVersion": "syn-nodejs-puppeteer-3.3",
+        "RuntimeVersion": "syn-nodejs-puppeteer-3.5",
         "Schedule": Object {
           "DurationInSeconds": "0",
           "Expression": "rate(1 minute)",
