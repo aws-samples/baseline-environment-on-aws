@@ -65,7 +65,7 @@ See: [https://docs.aws.amazon.com/controltower/latest/userguide/setting-up.html]
 > By default, BLEA assumes an LZ3.0 or later environment with the following prerequisites:
 > If you want to deploy a governance base outside of the prerequisite environments, please refer to [6-2. (Optional) Modify the code to match Control Tower landing zone settings](#6-2-governance-based-deployment-to-guest-accounts)
 >
-> Preconditions：
+> Prerequisites：
 >
 > - Start using Control Tower from landing zone ver.3.0, and being enable CloudTrail.
 
