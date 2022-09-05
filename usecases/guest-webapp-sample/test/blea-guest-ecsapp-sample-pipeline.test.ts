@@ -10,8 +10,6 @@ import { BLEAChatbotStack } from '../lib/blea-chatbot-stack';
 import { BLEAMonitorAlarmStack } from '../lib/blea-monitor-alarm-stack';
 import { BLEAKeyAppStack } from '../lib/blea-key-app-stack';
 import { BLEAVpcStack } from '../lib/blea-vpc-stack';
-import { BLEAECRStack } from '../lib/blea-ecr-stack';
-import { BLEABuildContainerStack } from '../lib/blea-build-container-stack';
 import { BLEAECSAppStack } from '../lib/blea-ecsapp-stack';
 import { BLEADbAuroraPgStack } from '../lib/blea-db-aurora-pg-stack';
 import { BLEAWafStack } from '../lib/blea-waf-stack';
@@ -87,31 +85,14 @@ describe(`${pjPrefix} Stacks`, () => {
           env: procEnv,
         });
 
-        // Container Repository
-        const ecr = new BLEAECRStack(this, `${pjPrefix}-ECR`, {
-          // TODO: will get "repositoryName" from parameters
-          repositoryName: 'apprepo',
-          alarmTopic: monitorAlarm.alarmTopic,
-          env: procEnv,
-        });
-
-        // Build Container Image
-        const build_container = new BLEABuildContainerStack(this, `${pjPrefix}-ContainerImage`, {
-          ecrRepository: ecr.repository,
-          env: procEnv,
-        });
-
         // Application Stack (LoadBalancer + Fargate)
         const ecsApp = new BLEAECSAppStack(this, `${pjPrefix}-ECSApp`, {
           myVpc: prodVpc.myVpc,
           appKey: appKey.kmsKey,
-          repository: ecr.repository,
-          imageTag: build_container.imageTag,
           alarmTopic: monitorAlarm.alarmTopic,
           webFront: front,
           env: procEnv,
         });
-        ecsApp.addDependency(build_container);
 
         // Aurora
         const dbCluster = new BLEADbAuroraPgStack(this, `${pjPrefix}-DBAuroraPg`, {

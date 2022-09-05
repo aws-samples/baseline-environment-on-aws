@@ -368,22 +368,6 @@ Object {
         "Ref": "Vpc8378EB38",
       },
     },
-    "ExportsOutputRefVpcPrivateSubnet1Subnet536B997AFD4CC940": Object {
-      "Export": Object {
-        "Name": "BLEA-Vpc:ExportsOutputRefVpcPrivateSubnet1Subnet536B997AFD4CC940",
-      },
-      "Value": Object {
-        "Ref": "VpcPrivateSubnet1Subnet536B997A",
-      },
-    },
-    "ExportsOutputRefVpcPrivateSubnet2Subnet3788AAA1380949A3": Object {
-      "Export": Object {
-        "Name": "BLEA-Vpc:ExportsOutputRefVpcPrivateSubnet2Subnet3788AAA1380949A3",
-      },
-      "Value": Object {
-        "Ref": "VpcPrivateSubnet2Subnet3788AAA1",
-      },
-    },
     "ExportsOutputRefVpcProtectedSubnet1Subnet38ECE18AD245BDD6": Object {
       "Export": Object {
         "Name": "BLEA-Vpc:ExportsOutputRefVpcProtectedSubnet1Subnet38ECE18AD245BDD6",
@@ -2749,545 +2733,6 @@ Object {
 exports[`BLEA Guest Stacks GuestAccount ECS App Stacks 7`] = `
 Object {
   "Outputs": Object {
-    "ExportsOutputFnGetAttapprepo60CBE1D0ArnCF800CDF": Object {
-      "Export": Object {
-        "Name": "BLEA-ECR:ExportsOutputFnGetAttapprepo60CBE1D0ArnCF800CDF",
-      },
-      "Value": Object {
-        "Fn::GetAtt": Array [
-          "apprepo60CBE1D0",
-          "Arn",
-        ],
-      },
-    },
-    "ExportsOutputRefapprepo60CBE1D08890BEDC": Object {
-      "Export": Object {
-        "Name": "BLEA-ECR:ExportsOutputRefapprepo60CBE1D08890BEDC",
-      },
-      "Value": Object {
-        "Ref": "apprepo60CBE1D0",
-      },
-    },
-  },
-  "Parameters": Object {
-    "BootstrapVersion": Object {
-      "Default": "/cdk-bootstrap/hnb659fds/version",
-      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
-      "Type": "AWS::SSM::Parameter::Value<String>",
-    },
-  },
-  "Resources": Object {
-    "apprepo60CBE1D0": Object {
-      "DeletionPolicy": "Retain",
-      "Properties": Object {
-        "ImageScanningConfiguration": Object {
-          "ScanOnPush": true,
-        },
-        "Tags": Array [
-          Object {
-            "Key": "Environment",
-            "Value": "Development",
-          },
-        ],
-      },
-      "Type": "AWS::ECR::Repository",
-      "UpdateReplacePolicy": "Retain",
-    },
-    "apprepoImageScanCompleteAA5AE0A9": Object {
-      "Properties": Object {
-        "EventPattern": Object {
-          "detail": Object {
-            "repository-name": Array [
-              Object {
-                "Ref": "apprepo60CBE1D0",
-              },
-            ],
-            "scan-status": Array [
-              "COMPLETE",
-            ],
-          },
-          "detail-type": Array [
-            "ECR Image Scan",
-          ],
-          "source": Array [
-            "aws.ecr",
-          ],
-        },
-        "State": "ENABLED",
-        "Targets": Array [
-          Object {
-            "Arn": Object {
-              "Fn::ImportValue": "BLEA-MonitorAlarm:ExportsOutputRefMonitorAlarmTopic9C746E8C5F969821",
-            },
-            "Id": "Target0",
-          },
-        ],
-      },
-      "Type": "AWS::Events::Rule",
-    },
-  },
-  "Rules": Object {
-    "CheckBootstrapVersion": Object {
-      "Assertions": Array [
-        Object {
-          "Assert": Object {
-            "Fn::Not": Array [
-              Object {
-                "Fn::Contains": Array [
-                  Array [
-                    "1",
-                    "2",
-                    "3",
-                    "4",
-                    "5",
-                  ],
-                  Object {
-                    "Ref": "BootstrapVersion",
-                  },
-                ],
-              },
-            ],
-          },
-          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
-        },
-      ],
-    },
-  },
-}
-`;
-
-exports[`BLEA Guest Stacks GuestAccount ECS App Stacks 8`] = `
-Object {
-  "Parameters": Object {
-    "BootstrapVersion": Object {
-      "Default": "/cdk-bootstrap/hnb659fds/version",
-      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
-      "Type": "AWS::SSM::Parameter::Value<String>",
-    },
-  },
-  "Resources": Object {
-    "AWS679f53fac002430cb0da5b7982bd22872D164C4C": Object {
-      "DependsOn": Array [
-        "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2",
-      ],
-      "Properties": Object {
-        "Code": Object {
-          "S3Bucket": Object {
-            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
-          },
-          "S3Key": "6dbd112fe448437b3438da4382c72fccbb7d2ee1543db222620d7447fffebc50.zip",
-        },
-        "Handler": "index.handler",
-        "Role": Object {
-          "Fn::GetAtt": Array [
-            "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2",
-            "Arn",
-          ],
-        },
-        "Runtime": "nodejs14.x",
-        "Tags": Array [
-          Object {
-            "Key": "Environment",
-            "Value": "Development",
-          },
-        ],
-        "Timeout": 120,
-      },
-      "Type": "AWS::Lambda::Function",
-    },
-    "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "Service": "lambda.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "arn:",
-                Object {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-              ],
-            ],
-          },
-        ],
-        "Tags": Array [
-          Object {
-            "Key": "Environment",
-            "Value": "Development",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "sampleecsappproject2FB8FB9C": Object {
-      "Properties": Object {
-        "Artifacts": Object {
-          "Type": "NO_ARTIFACTS",
-        },
-        "Cache": Object {
-          "Type": "NO_CACHE",
-        },
-        "EncryptionKey": "alias/aws/s3",
-        "Environment": Object {
-          "ComputeType": "BUILD_GENERAL1_SMALL",
-          "EnvironmentVariables": Array [
-            Object {
-              "Name": "AWS_DEFAULT_REGION",
-              "Type": "PLAINTEXT",
-              "Value": "ap-northeast-1",
-            },
-            Object {
-              "Name": "AWS_ACCOUNT_ID",
-              "Type": "PLAINTEXT",
-              "Value": Object {
-                "Ref": "AWS::AccountId",
-              },
-            },
-            Object {
-              "Name": "IMAGE_TAG",
-              "Type": "PLAINTEXT",
-              "Value": "sample-ecs-app",
-            },
-            Object {
-              "Name": "IMAGE_REPO_NAME",
-              "Type": "PLAINTEXT",
-              "Value": Object {
-                "Fn::ImportValue": "BLEA-ECR:ExportsOutputRefapprepo60CBE1D08890BEDC",
-              },
-            },
-          ],
-          "Image": "aws/codebuild/standard:4.0",
-          "ImagePullCredentialsType": "CODEBUILD",
-          "PrivilegedMode": true,
-          "Type": "LINUX_CONTAINER",
-        },
-        "ServiceRole": Object {
-          "Fn::GetAtt": Array [
-            "sampleecsappprojectRole65BC331E",
-            "Arn",
-          ],
-        },
-        "Source": Object {
-          "Location": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
-                },
-                "/80f730532f1195ed4fede75fbf8191acdfc52e6721de3b612c0c6a7eab1dbbc1.zip",
-              ],
-            ],
-          },
-          "Type": "S3",
-        },
-        "Tags": Array [
-          Object {
-            "Key": "Environment",
-            "Value": "Development",
-          },
-        ],
-      },
-      "Type": "AWS::CodeBuild::Project",
-    },
-    "sampleecsappprojectRole65BC331E": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "Service": "codebuild.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "Tags": Array [
-          Object {
-            "Key": "Environment",
-            "Value": "Development",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "sampleecsappprojectRoleDefaultPolicy539385CD": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
-                "s3:GetObject*",
-                "s3:GetBucket*",
-                "s3:List*",
-              ],
-              "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":s3:::",
-                      Object {
-                        "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
-                      },
-                    ],
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":s3:::",
-                      Object {
-                        "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
-                      },
-                      "/80f730532f1195ed4fede75fbf8191acdfc52e6721de3b612c0c6a7eab1dbbc1.zip",
-                    ],
-                  ],
-                },
-              ],
-            },
-            Object {
-              "Action": Array [
-                "logs:CreateLogGroup",
-                "logs:CreateLogStream",
-                "logs:PutLogEvents",
-              ],
-              "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":logs:ap-northeast-1:",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":log-group:/aws/codebuild/",
-                      Object {
-                        "Ref": "sampleecsappproject2FB8FB9C",
-                      },
-                    ],
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":logs:ap-northeast-1:",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":log-group:/aws/codebuild/",
-                      Object {
-                        "Ref": "sampleecsappproject2FB8FB9C",
-                      },
-                      ":*",
-                    ],
-                  ],
-                },
-              ],
-            },
-            Object {
-              "Action": Array [
-                "codebuild:CreateReportGroup",
-                "codebuild:CreateReport",
-                "codebuild:UpdateReport",
-                "codebuild:BatchPutTestCases",
-                "codebuild:BatchPutCodeCoverages",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    "arn:",
-                    Object {
-                      "Ref": "AWS::Partition",
-                    },
-                    ":codebuild:ap-northeast-1:",
-                    Object {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":report-group/",
-                    Object {
-                      "Ref": "sampleecsappproject2FB8FB9C",
-                    },
-                    "-*",
-                  ],
-                ],
-              },
-            },
-            Object {
-              "Action": "ecr:GetAuthorizationToken",
-              "Effect": "Allow",
-              "Resource": "*",
-            },
-            Object {
-              "Action": Array [
-                "ecr:BatchCheckLayerAvailability",
-                "ecr:CompleteLayerUpload",
-                "ecr:InitiateLayerUpload",
-                "ecr:PutImage",
-                "ecr:UploadLayerPart",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    "arn:aws:ecr:ap-northeast-1:",
-                    Object {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":repository/",
-                    Object {
-                      "Fn::ImportValue": "BLEA-ECR:ExportsOutputRefapprepo60CBE1D08890BEDC",
-                    },
-                  ],
-                ],
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "sampleecsappprojectRoleDefaultPolicy539385CD",
-        "Roles": Array [
-          Object {
-            "Ref": "sampleecsappprojectRole65BC331E",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
-    "startBuild2A2C3416": Object {
-      "DeletionPolicy": "Delete",
-      "DependsOn": Array [
-        "startBuildCustomResourcePolicy55D05B4A",
-      ],
-      "Properties": Object {
-        "Create": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "{\\"service\\":\\"CodeBuild\\",\\"action\\":\\"startBuild\\",\\"parameters\\":{\\"projectName\\":\\"",
-              Object {
-                "Ref": "sampleecsappproject2FB8FB9C",
-              },
-              "\\"},\\"physicalResourceId\\":{\\"id\\":\\"",
-              Object {
-                "Fn::GetAtt": Array [
-                  "sampleecsappproject2FB8FB9C",
-                  "Arn",
-                ],
-              },
-              "\\"}}",
-            ],
-          ],
-        },
-        "InstallLatestAwsSdk": true,
-        "ServiceToken": Object {
-          "Fn::GetAtt": Array [
-            "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
-            "Arn",
-          ],
-        },
-      },
-      "Type": "Custom::AWS",
-      "UpdateReplacePolicy": "Delete",
-    },
-    "startBuildCustomResourcePolicy55D05B4A": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "codebuild:StartBuild",
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "sampleecsappproject2FB8FB9C",
-                  "Arn",
-                ],
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "startBuildCustomResourcePolicy55D05B4A",
-        "Roles": Array [
-          Object {
-            "Ref": "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
-  },
-  "Rules": Object {
-    "CheckBootstrapVersion": Object {
-      "Assertions": Array [
-        Object {
-          "Assert": Object {
-            "Fn::Not": Array [
-              Object {
-                "Fn::Contains": Array [
-                  Array [
-                    "1",
-                    "2",
-                    "3",
-                    "4",
-                    "5",
-                  ],
-                  Object {
-                    "Ref": "BootstrapVersion",
-                  },
-                ],
-              },
-            ],
-          },
-          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
-        },
-      ],
-    },
-  },
-}
-`;
-
-exports[`BLEA Guest Stacks GuestAccount ECS App Stacks 9`] = `
-Object {
-  "Outputs": Object {
     "ExportsOutputFnGetAttAlbTgUnHealthyHostCountD4A96E1AArnF5DDFCE6": Object {
       "Export": Object {
         "Name": "BLEA-ECSApp:ExportsOutputFnGetAttAlbTgUnHealthyHostCountD4A96E1AArnF5DDFCE6",
@@ -3697,41 +3142,13 @@ Object {
                 "",
                 Array [
                   Object {
-                    "Fn::Select": Array [
-                      4,
-                      Object {
-                        "Fn::Split": Array [
-                          ":",
-                          Object {
-                            "Fn::ImportValue": "BLEA-ECR:ExportsOutputFnGetAttapprepo60CBE1D0ArnCF800CDF",
-                          },
-                        ],
-                      },
-                    ],
+                    "Ref": "AWS::AccountId",
                   },
-                  ".dkr.ecr.",
-                  Object {
-                    "Fn::Select": Array [
-                      3,
-                      Object {
-                        "Fn::Split": Array [
-                          ":",
-                          Object {
-                            "Fn::ImportValue": "BLEA-ECR:ExportsOutputFnGetAttapprepo60CBE1D0ArnCF800CDF",
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                  ".",
+                  ".dkr.ecr.ap-northeast-1.",
                   Object {
                     "Ref": "AWS::URLSuffix",
                   },
-                  "/",
-                  Object {
-                    "Fn::ImportValue": "BLEA-ECR:ExportsOutputRefapprepo60CBE1D08890BEDC",
-                  },
-                  ":sample-ecs-app",
+                  "/ecr-blea-ecsapp/docker/library/httpd:latest",
                 ],
               ],
             },
@@ -3810,6 +3227,24 @@ Object {
             ],
           },
         ],
+        "Policies": Array [
+          Object {
+            "PolicyDocument": Object {
+              "Statement": Array [
+                Object {
+                  "Action": Array [
+                    "ecr:BatchImportUpstreamImage",
+                    "ecr:CreateRepository",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": "*",
+                },
+              ],
+              "Version": "2012-10-17",
+            },
+            "PolicyName": "ecrPullThroughCache",
+          },
+        ],
         "Tags": Array [
           Object {
             "Key": "Environment",
@@ -3831,7 +3266,20 @@ Object {
               ],
               "Effect": "Allow",
               "Resource": Object {
-                "Fn::ImportValue": "BLEA-ECR:ExportsOutputFnGetAttapprepo60CBE1D0ArnCF800CDF",
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ecr:ap-northeast-1:",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":repository/ecr-blea-ecsapp/docker/library/httpd",
+                  ],
+                ],
               },
             },
             Object {
@@ -3957,10 +3405,10 @@ Object {
             ],
             "Subnets": Array [
               Object {
-                "Fn::ImportValue": "BLEA-Vpc:ExportsOutputRefVpcPrivateSubnet1Subnet536B997AFD4CC940",
+                "Fn::ImportValue": "BLEA-Vpc:ExportsOutputRefVpcProtectedSubnet1Subnet38ECE18AD245BDD6",
               },
               Object {
-                "Fn::ImportValue": "BLEA-Vpc:ExportsOutputRefVpcPrivateSubnet2Subnet3788AAA1380949A3",
+                "Fn::ImportValue": "BLEA-Vpc:ExportsOutputRefVpcProtectedSubnet2SubnetC22C3325C694ECFB",
               },
             ],
           },
@@ -4105,6 +3553,13 @@ Object {
       },
       "Type": "AWS::ApplicationAutoScaling::ScalingPolicy",
     },
+    "PullThroughCacheRule": Object {
+      "Properties": Object {
+        "EcrRepositoryPrefix": "ecr-blea-ecsapp",
+        "UpstreamRegistryUrl": "public.ecr.aws",
+      },
+      "Type": "AWS::ECR::PullThroughCacheRule",
+    },
     "SgFargateB5F998B7": Object {
       "Properties": Object {
         "GroupDescription": "BLEA-ECSApp/SgFargate",
@@ -4176,7 +3631,7 @@ Object {
 }
 `;
 
-exports[`BLEA Guest Stacks GuestAccount ECS App Stacks 10`] = `
+exports[`BLEA Guest Stacks GuestAccount ECS App Stacks 8`] = `
 Object {
   "Outputs": Object {
     "ExportsOutputRefAurora2CBAB212533F1A7B": Object {
@@ -4635,7 +4090,7 @@ Object {
 }
 `;
 
-exports[`BLEA Guest Stacks GuestAccount ECS App Stacks 11`] = `
+exports[`BLEA Guest Stacks GuestAccount ECS App Stacks 9`] = `
 Object {
   "Outputs": Object {
     "ExportsOutputFnGetAttcanaryDurationC40A61C8ArnEA607FBA": Object {
@@ -5007,7 +4462,7 @@ Object {
 }
 `;
 
-exports[`BLEA Guest Stacks GuestAccount ECS App Stacks 12`] = `
+exports[`BLEA Guest Stacks GuestAccount ECS App Stacks 10`] = `
 Object {
   "Parameters": Object {
     "BootstrapVersion": Object {
