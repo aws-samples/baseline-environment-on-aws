@@ -126,6 +126,10 @@ Git に Commit する際に Linter, Formatter, git-secrets によるチェック
 
 恒久的な認証情報も利用可能ですが、ControlTower 環境では AWS SSO の利用を推奨します。AWS SSO によって、マネジメントコンソールへのログインおよび SSO 認証による AWS CLI の実行が可能です。
 
+> NOTE:
+>
+> CDK v2.18.0 以降、AWS SSO のプロファイルを使って CDK を直接デプロイできるようになり、プロファイル内の認証プロセスでラッピングを使う必要がなくなりました。
+
 #### 4-1. AWS CLI のバージョンを確認する
 
 AWS CLI - AWS SSO 統合を使うためには、AWS CLIv2 を使う必要があります。
@@ -144,83 +148,51 @@ aws --version
 aws-cli/2.3.0 Python/3.8.8 Darwin/20.6.0 exe/x86_64 prompt/off
 ```
 
-#### 4-2. aws2-wrap を導入する
+#### 4-2. Audit アカウントデプロイ用の AWS CLI プロファイルを設定する
 
-AWS CLI - AWS SSO 統合を CDK から使用するため、オープンソースのツールである aws2-wrap ([https://github.com/linaro-its/aws2-wrap]) を CDK を実行する環境にインストールします
-
-```sh
-pip3 install aws2-wrap
-```
-
-#### 4-3. Audit アカウントデプロイ用の AWS CLI プロファイルを設定する
-
-次に、Control Tower の Audit アカウントにデプロイするための CLI プロファイルを設定します。ここではマネジメントアカウントの ID を `1111111111111`, Audit アカウントの ID を `222222222222` としています。
+次に、Control Tower の Audit アカウントにデプロイするための CLI プロファイルを設定します。ここでは Audit アカウントの ID を `222222222222` としています。
 
 ~/.aws/config
 
 ```text
-# for Management Account Login
-[profile ct-management-sso]
+# for Audit Account
+[profile ct-audit]
 sso_start_url = https://d-90xxxxxxxx.awsapps.com/start#/
 sso_region = ap-northeast-1
-sso_account_id = 1111111111111
+sso_account_id = 222222222222
 sso_role_name = AWSAdministratorAccess
-region = ap-northeast-1
-
-# Accessing with AWSControlTowerExecution Role on Audit Account
-[profile ct-audit-exec-role]
-role_arn = arn:aws:iam::222222222222:role/AWSControlTowerExecution
-source_profile = ct-management-sso
-region = ap-northeast-1
-
-# for CDK access to ct-audit-exec-role
-[profile ct-audit-exec]
-credential_process = aws2-wrap --process --profile ct-audit-exec-role
 region = ap-northeast-1
 ```
 
 > NOTE:
 >
-> ControlTower の仕様により、Audit アカウントにデプロイするためには、まずマネジメントアカウントの `AWSAdministratorAccess` ロールでログインし、Audit アカウントの`AWSControlTowerExecution`ロールにスイッチして処理を実行する必要があります。
->
-> `ct-management-sso`プロファイルで SSO ログインすることで、`ct-audit-exec-role`プロファイルを使って Audit アカウント上での操作が可能です。これに CDK からアクセスするため、ラッピングされたプロファイルである `ct-audit-exec` を使用します。
+> ControlTower の仕様により、ControlTower が Audit アカウントにデプロイしたリソースを変更する場合は、まずマネジメントアカウントの `AWSAdministratorAccess` ロールでログインし、Audit アカウントの`AWSControlTowerExecution` ロールにスイッチして処理を実行する必要があります。BLEA は ControlTower が作成したリソースを変更しないため、直接 Audit アカウントの AWSAdministratorAccess ロールを使用しています
 
-#### 4-4. ゲストアカウントデプロイ用の AWS CLI プロファイルを設定する
+#### 4-3. ゲストアカウントデプロイ用の AWS CLI プロファイルを設定する
 
 ゲストアカウントにデプロイするための AWS CLI プロファイルを設定します。ここではゲストアカウントの ID を`123456789012`としています。
 
 ~/.aws/config
 
 ```text
-# for Guest Account Login
-[profile ct-guest-sso]
+# for Guest Account
+[profile ct-guest]
 sso_start_url = https://d-90xxxxxxxx.awsapps.com/start#/
 sso_region = ap-northeast-1
 sso_account_id = 123456789012
 sso_role_name = AWSAdministratorAccess
 region = ap-northeast-1
-
-# for CDK access to ct-guest-sso
-[profile ct-guest]
-credential_process = aws2-wrap --process --profile ct-guest-sso
-region = ap-northeast-1
 ```
 
-> NOTE:
->
-> `ct-guest-sso`プロファイルで ゲストアカウントに SSO ログインします。これに CDK からアクセスするため、ラッピングされたプロファイルである `ct-guest` を使用します。
+#### 4-4. AWS SSO を使った CLI ログイン
 
-#### 4-5. AWS SSO を使った CLI ログイン
-
-次のコマンドで AWS SSO にログインします。ここでは`ct-guest-sso`プロファイルでログインする例を示します。
+次のコマンドで AWS SSO にログインします。ここでは`ct-guest`プロファイルでログインする例を示します。
 
 ```sh
-aws sso login --profile ct-guest-sso
+aws sso login --profile ct-guest
 ```
 
 このコマンドによって ブラウザが起動し、AWS SSO のログイン画面が表示されます。ゲストアカウントの管理者ユーザー名（メールアドレス）とパスワードを正しく入力すると画面がターミナルに戻り、 AWS CLI で ゲストアカウントでの作業が可能になります。
-
-> Notes: `ct-guest`プロファイルは aws2-warp を経由した認証を行なっており、CDK を実行する場合に使用します。
 
 ### 5. Audit アカウントに通知用のベースラインを設定する(Local)
 
@@ -254,7 +226,7 @@ usecases/base-ct-audit/cdk.json
     "dev-audit": {
       "description": "Context samples for ControlTower Audit Account - Specific account & region",
       "env": {
-        "account": "333333333333",
+        "account": "222222222222",
         "region": "ap-northeast-1"
       },
       "slackNotifier": {
@@ -286,24 +258,22 @@ usecases/base-ct-audit/cdk.json
 
 以下のコマンドで AWS SSO を使ってマネジメントアカウントにログインします。
 
-> Audit アカウントは マネジメントアカウントの `AWSControlTowerExecution` ロールでのみセットアップが可能です（ControlTower の仕様）
-
 ```sh
-aws sso login --profile ct-management-sso
+aws sso login --profile ct-audit
 ```
 
 Audit アカウントに CDK 用バケットをブートストラップします(初回のみ)
 
 ```sh
 cd usecases/base-ct-audit
-npx cdk bootstrap -c environment=dev-audit --profile ct-audit-exec
+npx cdk bootstrap -c environment=dev-audit --profile ct-audit
 ```
 
 Audit アカウントにガバナンスベースをデプロイします
 
 ```sh
 cd usecases/base-ct-audit
-npx cdk deploy --all -c environment=dev-audit --profile ct-audit-exec
+npx cdk deploy --all -c environment=dev-audit --profile ct-audit
 ```
 
 以上で、この ControlTower 管理下にあるアカウントのすべての AWS Config 変更イベントが通知されるようになります。
@@ -347,7 +317,7 @@ usecases/base-ct-guest/cdk.json
     "stage": {
       "description": "Context samples for Staging - Specific account & region  ",
       "env": {
-        "account": "111111111111",
+        "account": "123456789012",
         "region": "ap-northeast-1"
       },
       "envName": "Staging",
@@ -435,7 +405,7 @@ const logGroupName = 'aws-controltower/CloudTrailLogs';
 AWS SSO を使ってゲストアカウントにログインします。
 
 ```sh
-aws sso login --profile ct-guest-sso
+aws sso login --profile ct-guest
 ```
 
 CDK 用バケットをブートストラップします(初回のみ)。
@@ -511,7 +481,7 @@ Standalone 版と同じ手順で Context を設定します。
 （ログインしていない場合）AWS SSO を使ってゲストアカウントにログインします。
 
 ```sh
-aws sso login --profile ct-guest-sso
+aws sso login --profile ct-guest
 ```
 
 ゲストアプリケーションをデプロイします。

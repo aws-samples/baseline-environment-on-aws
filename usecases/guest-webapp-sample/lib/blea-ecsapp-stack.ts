@@ -17,10 +17,11 @@ import { IBLEAFrontend } from './blea-frontend-interface';
 export interface BLEAECSAppStackProps extends cdk.StackProps {
   myVpc: ec2.Vpc;
   appKey: kms.IKey;
-  repository: ecr.Repository;
-  imageTag: string;
   alarmTopic: sns.Topic;
   webFront: IBLEAFrontend;
+  // -- SAMPLE: Receive your own ECR repository and your own image
+  //  repository: ecr.Repository;
+  //  imageTag: string;
 }
 
 export class BLEAECSAppStack extends cdk.Stack {
@@ -45,6 +46,18 @@ export class BLEAECSAppStack extends cdk.Stack {
     const executionRole = new iam.Role(this, 'EcsTaskExecutionRole', {
       assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
       managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AmazonECSTaskExecutionRolePolicy')],
+      inlinePolicies: {
+        ecrPullThroughCache:
+          // https://docs.aws.amazon.com/AmazonECR/latest/userguide/pull-through-cache.html#pull-through-cache-iam
+          new iam.PolicyDocument({
+            statements: [
+              new iam.PolicyStatement({
+                actions: ['ecr:BatchImportUpstreamImage', 'ecr:CreateRepository'],
+                resources: ['*'],
+              }),
+            ],
+          }),
+      },
     });
 
     // Role for Container
@@ -105,12 +118,32 @@ export class BLEAECSAppStack extends cdk.Stack {
       memoryLimitMiB: 512,
     });
 
-    // Container
-    const ecsContainer = ecsTask.addContainer('EcsApp', {
-      // -- SAMPLE: if you want to use your ECR repository, you can use like this.
-      image: ecs.ContainerImage.fromEcrRepository(props.repository, props.imageTag),
+    // Container Registry
+    // - Using pull through cache rules
+    //   https://docs.aws.amazon.com/AmazonECR/latest/userguide/pull-through-cache.html
+    //   ecrRepositoryPrefix must start with a letter and can only contain lowercase letters, numbers, hyphens, and underscores and max length is 20.
+    const ecrRepositoryPrefix = `ecr-${cdk.Stack.of(this).stackName.toLowerCase()}`;
+    new ecr.CfnPullThroughCacheRule(this, 'PullThroughCacheRule', {
+      ecrRepositoryPrefix: ecrRepositoryPrefix,
+      upstreamRegistryUrl: 'public.ecr.aws',
+    });
 
-      // -- SAMPLE: if you want to use DockerHub, you can use like this.
+    // Container
+    const containerImage = 'docker/library/httpd';
+    const ecsContainer = ecsTask.addContainer('EcsApp', {
+      // -- Option 1: If you want to use your ECR repository with pull through cache, you can use like this.
+      image: ecs.ContainerImage.fromEcrRepository(
+        ecr.Repository.fromRepositoryName(this, 'PullThrough', `${ecrRepositoryPrefix}/${containerImage}`),
+        'latest',
+      ),
+
+      // -- Option 2: If you want to use your ECR repository, you can use like this.
+      // --           You Need to create your repository and dockerimage, then pass it to this stack.
+      // image: ecs.ContainerImage.fromEcrRepository(props.repository, props.imageTag),
+
+      // -- Option 3: If you want to use DockerHub, you can use like this.
+      // --           You need public access route to internet for ECS Task.
+      // --           See vpcSubnets property for new ecs.FargateService().
       // image: ecs.ContainerImage.fromRegistry("amazon/amazon-ecs-sample"),
 
       environment: {
@@ -156,8 +189,8 @@ export class BLEAECSAppStack extends cdk.Stack {
         //},
       ],
       vpcSubnets: props.myVpc.selectSubnets({
-        subnetGroupName: 'Private', // For public DockerHub
-        //subnetGroupName: 'Protected'   // For your ECR. Need to use PrivateLinke for ECR
+        // subnetGroupName: 'Private', // For public DockerHub
+        subnetGroupName: 'Protected', // For your ECR. Need to use PrivateLinke for ECR
       }),
       securityGroups: [securityGroupForFargate],
     });
