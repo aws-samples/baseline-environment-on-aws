@@ -67,8 +67,7 @@ See: [https://docs.aws.amazon.com/controltower/latest/userguide/setting-up.html]
 >
 > 前提条件：
 >
-> - Control Tower landing zone ver.3.0 から新規に Control Tower を利用する
-> - Control Tower landing zone ver.3.0 の設定時に CloudTrail を有効化している
+> - Control Tower landing zone ver.3.0 から Control Tower を利用し、組織レベルの CloudTrail を有効化している
 
 #### 1-2. SecurityHub のセットアップ
 

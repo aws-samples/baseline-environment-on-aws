@@ -67,8 +67,7 @@ See: [https://docs.aws.amazon.com/controltower/latest/userguide/setting-up.html]
 >
 > Preconditions：
 >
-> - Start using Control Tower from landing zone ver.3.0
-> - CloudTrail will be enabled when the Control Tower Landing Zone is updated to ver.3.0.
+> - Start using Control Tower from landing zone ver.3.0, and being enable CloudTrail.
 
 #### 1-2. Set up SecurityHub
 
