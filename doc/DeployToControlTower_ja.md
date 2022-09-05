@@ -54,6 +54,21 @@ ControlTower を利用することで、ガバナンスベースの一部の機�
 ControlTower をセットアップします。
 See: [https://docs.aws.amazon.com/controltower/latest/userguide/setting-up.html]
 
+> NOTE:
+>
+> AWS Control Tower landing zone ver.3.0 より、CloudTrail の設定を有効化した場合の CloudTrail のログは、ManagementAccount の AWS CloudWatch Logs に集約されるようになりました。
+>
+> ご参考：https://docs.aws.amazon.com/controltower/latest/userguide/2022-all.html#version-3.0
+>
+> その結果、従来ゲストアカウント上に存在していた CloudTrail のログが出力されていた CloudWatch Logs の LogGroup が無くなりました。これによって、ゲストアカウントのガバナンスベース で提供していた CloudTrail のログ監視が行えなくなっています。
+>
+> BLEA はデフォルトで以下の前提条件を示す LZ3.0 以降の環境を想定していますが、
+> 前提条件の環境以外へガバナンスベースを展開する場合は、[6-2. (必要に応じて)Control Tower landing zone の設定に合わせコードを修正する](<#6-2-(必要に応じて)Control-Tower-landing-zone-の設定に合わせコードを修正する>)をご覧ください
+>
+> 前提条件：
+>
+> - Control Tower landing zone ver.3.0 から Control Tower を利用し、組織レベルの CloudTrail を有効化している
+
 #### 1-2. SecurityHub のセットアップ
 
 - [https://docs.aws.amazon.com/securityhub/latest/userguide/designate-orgs-admin-account.html]
@@ -328,7 +343,64 @@ usecases/base-ct-guest/cdk.json
 | slackNotifier.workspaceId  | AWS Chatbot に設定した Slack workspace の ID                                                 |
 | slackNotifier.channelIdSec | AWS Chatbot に設定した Slack channel の ID。セキュリティに関する通知が行われます             |
 
-#### 6-2. ゲストアカウントにガバナンスベースデプロイする
+#### 6-2. (必要に応じて)Control Tower landing zone の設定に合わせコードを修正する
+
+本項は[1-1. ControlTower のセットアップ内に記載の前提条件](#1-1-ControlTower-のセットアップ)に合致した環境の場合、スキップしてください。
+
+まず、次のフローチャートを利用し、ご自身の環境に適した対応方法をご確認ください。
+図中の略語は以下の通りです。
+
+- CT: Control Tower
+- LZ: Landing Zone
+- CTrail: CloudTrail
+
+```mermaid
+flowchart TD
+A[START] --> B{現在CTを利用している}
+B -->|利用している| C{現在のCT LZを<br>v3.0に更新する予定}
+C -->|v3.0に上げる| D{LZのCTrailの設定を<br>有効化する}
+C -->|v2.9以下のまま| F
+D -->|有効にする| F[a: ゲストアカウント上の<br>既存のリソースを利用する]
+D -->|有効にしない| G[b: ゲストアカウント上に<br>新規でリソースを作成する]
+B -->|利用していない| G
+```
+
+また、念のため、ソースコードを修正する前に、
+ゲストアカウント内の CloudWatch Logs に`aws-controltower/CloudTrailLogs`という名前のロググループの有無を確認してください。
+
+##### a. ゲストアカウント上の既存のリソースを利用する
+
+CloudWatch Logs に`aws-controltower/CloudTrailLogs`という名前のロググループが残っているケースになります。
+
+BLEA で定義されている以下の箇所のコードを削除し、既存のリソースを利用するためのコードを挿入してください。
+
+**_ 削除する箇所（２箇所） _**
+
+以下の２箇所を削除してください。
+
+```
+import { BLEATrailStack } from '../lib/blea-trail-stack';
+```
+
+```
+const trail = new BLEATrailStack(app, `${pjPrefix}-Trail`, { env: getProcEnv() });
+const logGroupName = trail.cloudTrailLogGroup.logGroupName;
+```
+
+**_ 挿入するコード _**
+
+既存の LogGroup を利用するための設定を追加します。
+
+```
+const logGroupName = 'aws-controltower/CloudTrailLogs';
+```
+
+##### b. ゲストアカウント上に新規でリソースを作成する
+
+前提条件の環境と同様に、LogGroup の追加が必要な環境となります。
+ソースコードを修正せずに、デプロイを実施してください。
+
+#### 6-3. ゲストアカウントにガバナンスベースデプロイする
 
 AWS SSO を使ってゲストアカウントにログインします。
 
@@ -369,7 +441,7 @@ Standalone 版でセットアップされていた以下の内容は ControlTowe
 - GuardDuty による異常なふるまいの検知
 - SecurityHub によるベストプラクティスからの逸脱検知 (AWS Foundational Security Best Practice, CIS benchmark)
 
-#### 6-3. (オプション) 他のベースラインセットアップを手動でセットアップする
+#### 6-4. (オプション) 他のベースラインセットアップを手動でセットアップする
 
 ガバナンスベースでセットアップする他に
 AWS はいくつかの運用上のベースラインサービスを提供しています。必要に応じてこれらのサービスのセットアップを行なってください。

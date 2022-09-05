@@ -3,6 +3,7 @@ import { BLEAIamStack } from '../lib/blea-iam-stack';
 import { BLEAConfigRulesStack } from '../lib/blea-config-rules-stack';
 import { BLEASecurityAlarmStack } from '../lib/blea-security-alarm-stack';
 import { BLEAChatbotStack } from '../lib/blea-chatbot-stack';
+import { BLEATrailStack } from '../lib/blea-trail-stack';
 
 const pjPrefix = 'BLEA-BASE';
 
@@ -39,16 +40,19 @@ function getProcEnv() {
 new BLEAConfigRulesStack(app, `${pjPrefix}-ConfigRule`, { env: getProcEnv() });
 new BLEAIamStack(app, `${pjPrefix}-Iam`, { env: getProcEnv() });
 
+// AWS CloudTrail configuration in Control Tower Landing Zone v3.0 will not create CloudWatch Logs LogGroup in each Guest Accounts.
+// And it will delete these LogGroups when AWS CloudTrial Configuration is disabled in case of updating Landing Zone version from older one.
+// BLEA should notify their alarms continuously. So, if there is no CloudTrail and CloudWatch Logs in Guest Account, BLEA creates them to notify the Alarms.
+
+const trail = new BLEATrailStack(app, `${pjPrefix}-Trail`, { env: getProcEnv() });
+const logGroupName = trail.cloudTrailLogGroup.logGroupName;
+
 // Security Alarms
 // !!! Need to setup SecurityHub, GuardDuty manually on Organizations Management account
 // AWS Config and CloudTrail are set up by ControlTower
-
-// CloudWatch LogGroup Name for CloudTrail - Created by ControlTower for each account
-const cloudTrailLogGroupName = 'aws-controltower/CloudTrailLogs';
-
 const secAlarm = new BLEASecurityAlarmStack(app, `${pjPrefix}-SecurityAlarm`, {
   notifyEmail: envVals['securityNotifyEmail'],
-  cloudTrailLogGroupName: cloudTrailLogGroupName,
+  cloudTrailLogGroupName: logGroupName,
   env: getProcEnv(),
 });
 
