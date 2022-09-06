@@ -2,12 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [2.1.0](https://github.com/aws-samples/baseline-environment-on-aws/compare/v1.3.0...v2.1.0) (2022-09-06)
+## [2.1.0](https://github.com/aws-samples/baseline-environment-on-aws/compare/v2.0.0...v2.1.0) (2022-09-06)
 
-
-### ⚠ BREAKING CHANGES
-
-* Update to CDKv2 (#23)
 
 ### Features
 
@@ -16,7 +12,7 @@ All notable changes to this project will be documented in this file. See [standa
 * Update to CDKv2 ([#23](https://github.com/aws-samples/baseline-environment-on-aws/issues/23)) ([74fe43c](https://github.com/aws-samples/baseline-environment-on-aws/commit/74fe43c84d37c57438c23e56cf9ba89233cc6179))
 * upgrade synthetics runtime to 3.3 ([#29](https://github.com/aws-samples/baseline-environment-on-aws/issues/29)) ([0eb09e9](https://github.com/aws-samples/baseline-environment-on-aws/commit/0eb09e97060ca24f6583f7d313cc28768bb204a6))
 * upgrade synthetics runtime to 3.5 ([#74](https://github.com/aws-samples/baseline-environment-on-aws/issues/74)) ([f9f382c](https://github.com/aws-samples/baseline-environment-on-aws/commit/f9f382cc3908d239d947d8ac7bf1728cd1727519))
-
+* **guest-webapp-sample:** Change container repository to ECR with pull through cache. ([#72](https://github.com/aws-samples/baseline-environment-on-aws/issues/72)) ([eb33947](https://github.com/aws-samples/baseline-environment-on-aws/commit/eb339476f91f5c96419353889dbabb958a96b688))
 
 ### Bug Fixes
 
