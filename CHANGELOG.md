@@ -9,7 +9,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 * refactor cicd sample and update to CDK Pipelines ([#50](https://github.com/aws-samples/baseline-environment-on-aws/issues/50)) ([fa0949a](https://github.com/aws-samples/baseline-environment-on-aws/commit/fa0949a760d6028bc745b725e899fe2861428084))
 * Revise metrics filter for UnauthorizedAttemptsAlarm. ([#51](https://github.com/aws-samples/baseline-environment-on-aws/issues/51)) ([6dd30b4](https://github.com/aws-samples/baseline-environment-on-aws/commit/6dd30b4c41c8e512af2ab609cbfb141a88c0f801))
-* Update to CDKv2 ([#23](https://github.com/aws-samples/baseline-environment-on-aws/issues/23)) ([74fe43c](https://github.com/aws-samples/baseline-environment-on-aws/commit/74fe43c84d37c57438c23e56cf9ba89233cc6179))
 * upgrade synthetics runtime to 3.3 ([#29](https://github.com/aws-samples/baseline-environment-on-aws/issues/29)) ([0eb09e9](https://github.com/aws-samples/baseline-environment-on-aws/commit/0eb09e97060ca24f6583f7d313cc28768bb204a6))
 * upgrade synthetics runtime to 3.5 ([#74](https://github.com/aws-samples/baseline-environment-on-aws/issues/74)) ([f9f382c](https://github.com/aws-samples/baseline-environment-on-aws/commit/f9f382cc3908d239d947d8ac7bf1728cd1727519))
 * **guest-webapp-sample:** Change container repository to ECR with pull through cache. ([#72](https://github.com/aws-samples/baseline-environment-on-aws/issues/72)) ([eb33947](https://github.com/aws-samples/baseline-environment-on-aws/commit/eb339476f91f5c96419353889dbabb958a96b688))
