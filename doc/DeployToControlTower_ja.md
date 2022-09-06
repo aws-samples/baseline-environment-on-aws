@@ -47,7 +47,7 @@ ControlTower の配下にマルチアカウント版のガバナンスベース�
 
 ControlTower を利用することで、ガバナンスベースの一部の機能は自動的に設定されます。ControlTower が対応していないセキュリティサービスは Organizations に対して一括有効化を行うことで、以後新しいアカウントが作られると自動的に設定されるようになります。
 
-ここでは ControlTower をセットアップし、Organizations 全体に対して SecurityHub, GuardDuty そして IAM Access Analyzer を有効化する手順を示します。これらの委任アカウントとして Audit アカウントを指定します。
+ここでは ControlTower をセットアップし、Organizations 全体に対して SecurityHub, GuardDuty, Inspector そして IAM Access Analyzer を有効化する手順を示します。これらの委任アカウントとして Audit アカウントを指定します。
 
 #### 1-1. ControlTower のセットアップ
 
@@ -78,11 +78,21 @@ See: [https://docs.aws.amazon.com/controltower/latest/userguide/setting-up.html]
 
 - [https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_organizations.html]
 
-#### 1-4. IAM Access Analyzer のセットアップ
+#### 1-4. Inspector のセットアップ
+
+委任された管理者権限の指定
+
+- [https://docs.aws.amazon.com/ja_jp/inspector/latest/user/designating-admin.html]
+
+メンバーアカウントでの有効化
+
+- [https://docs.aws.amazon.com/inspector/latest/user/adding-member-accounts.html]
+
+#### 1-5. IAM Access Analyzer のセットアップ
 
 - [https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-settings.html#access-analyzer-delegated-administrator]
 
-#### 1-5. Trusted Advisor のセットアップ
+#### 1-6. Trusted Advisor のセットアップ
 
 - [https://docs.aws.amazon.com/awssupport/latest/user/organizational-view.html]
 
@@ -202,6 +212,10 @@ AWS Chatbot のセットアップのみマネジメントコンソールで行�
 > NOTE:
 >
 > AWS Config の通知が不要である場合はこのベースラインは設定しなくても構いません。他のアカウントの挙動には影響しません。
+
+> NOTE:
+>
+> Amazon Inspector の脆弱性検出結果は Slack に通知されません。AWS Security Hub のコンソール上で結果を確認できます。
 
 #### 5-1. AWS Chatbot 用の Slack セットアップ
 
@@ -438,6 +452,7 @@ Standalone 版でセットアップされていた以下の内容は ControlTowe
 
 - CloudTrail による API のロギング
 - AWS Config による構成変更の記録
+- Inspector による脆弱性の検出
 - GuardDuty による異常なふるまいの検知
 - SecurityHub によるベストプラクティスからの逸脱検知 (AWS Foundational Security Best Practice, CIS benchmark)
 
@@ -446,7 +461,13 @@ Standalone 版でセットアップされていた以下の内容は ControlTowe
 ガバナンスベースでセットアップする他に
 AWS はいくつかの運用上のベースラインサービスを提供しています。必要に応じてこれらのサービスのセットアップを行なってください。
 
-##### a. EC2 管理のため AWS Systems Manager Quick Setup を実施する
+##### a. Amazon Inspector を有効化
+
+Amazon Inspector は、ワークロードをスキャンして、脆弱性を管理します。EC2 と ECR を継続的にスキャンすることで、ソフトウェアの脆弱性や意図しないネットワークの露出を検出します。検出された脆弱性は、算出されたリスクスコアに基づき優先順位づけされて表示されるため、可視性高く結果を取得できます。また、Security Hub とは自動で統合され、一元的に検出結果を確認できます。
+
+セットアップ手順：[https://docs.aws.amazon.com/inspector/latest/user/getting_started_tutorial.html]
+
+##### b. EC2 管理のため AWS Systems Manager Quick Setup を実施する
 
 EC2 を利用する場合は SystemsManager を利用して管理することをお勧めします。AWS Systems Manager Quick Setup を使うことで、EC2 の管理に必要な基本的なセットアップを自動化できます。
 セットアップ手順: [https://docs.aws.amazon.com/systems-manager/latest/userguide/quick-setup-host-management.html]
@@ -460,7 +481,7 @@ Quick Setup は以下の機能を提供します:
 - 初回のみの、Amazon CloudWatch agent のインストールと設定
 - CloudWatch agent の月次自動アップデート
 
-##### b. Trusted Advisor の検知結果レポート
+##### c. Trusted Advisor の検知結果レポート
 
 TrustedAdvisor は AWS のベストプラクティスをフォローするためのアドバイスを提供します。レポート内容を定期的にメールで受け取ることが可能です。詳細は下記ドキュメントを参照してください。
 
