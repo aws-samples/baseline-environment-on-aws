@@ -158,7 +158,7 @@ cdk.context.json の例
 
 ---
 
-## AWSChatbot 用に Slack を設定する
+## AWS Chatbot 用に Slack を設定する
 
 アラームを Slack に送るためには BLEA-ChatbotSecurity および BLEA-ChatbotMonitor stack をデプロイします。これらのスタックをデプロイする前に、AWS Chatbot に対してチャットクライアントのセットアップが必要です。この作業を行なっていないとスタックのデプロイに失敗します。
 AWS Chatbot の設定手順は以下の通りです。
@@ -170,11 +170,15 @@ AWS Chatbot の設定手順は以下の通りです。
 
 ### 2. AWS Chatbot でチャットクライアントをセットアップする
 
-以下の手順の "Setting up AWS Chatbot with Slack" の 1〜4 にしたがって、Slack workspace を AWS Chatbot に作成してください。
+以下の手順の "Step 1: Setting up AWS Chatbot with Slack" の 1〜5 にしたがって、Slack workspace を AWS Chatbot に作成してください。
 
-- See: [https://docs.aws.amazon.com/chatbot/latest/adminguide/getting-started.html]
+- See: https://docs.aws.amazon.com/chatbot/latest/adminguide/slack-setup.html
 
 作成した Workspace の ID をメモしてください。`T8XXXXXXX`のようになります。
+
+> Note
+>
+> Slack のプライベートチャネルを利用する場合は、そのチャネルで `/invite @AWS` コマンドを実行しておく必要があります。
 
 ### 3. Context file に workspace ID と channel ID を設定する
 
