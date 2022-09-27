@@ -43,6 +43,13 @@ GitHub provides additional document on [forking a repository](https://help.githu
 ## Finding contributions to work on
 Looking at the existing issues is a great way to find something to contribute on. As our projects, by default, use the default GitHub issue labels (enhancement/bug/duplicate/help wanted/invalid/question/wontfix), looking at any 'help wanted' issues is a great place to start.
 
+## Exclude cdk.context.json
+
+This repository is intended to be used as a sample, so don't commit cdk.context.json. You can ignore cdk.context.json without editing .gitignore, run:
+
+```sh
+echo cdk.context.json >> .git/info/exclude
+```
 
 ## Code of Conduct
 This project has adopted the [Amazon Open Source Code of Conduct](https://aws.github.io/code-of-conduct).

@@ -23,7 +23,7 @@ const envKey = app.node.tryGetContext(argContext);
 if (envKey == undefined)
   throw new Error(`Please specify environment with context option. ex) cdk deploy -c ${argContext}=dev`);
 
-// Array of envrionment variables. These values hould be defined in cdk.json or cdk.context.json
+// Array of envrionment variables. These values hould be defined in cdk.json
 const envVals = app.node.tryGetContext(envKey);
 if (envVals == undefined) throw new Error('Invalid environment.');
 

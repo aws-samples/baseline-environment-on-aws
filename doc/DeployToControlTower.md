@@ -266,7 +266,7 @@ The contents of this setting are as follows.
 
 > NOTE: See the following explanation for how to use Context
 >
-> - [Manage personal environment by cdk.context.json](HowTo.md#Manage-personal-environment-by-cdkcontextjson)
+> - [Managing different values (parameter) between environment](HowTo.md#Managing-different-values-parameter-between-environment)
 >
 > - [Accessing context in application](HowTo.md#accessing-context-in-application)
 

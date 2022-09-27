@@ -7,7 +7,7 @@
 - [VisualStudioCode のセットアップ](#VisualStudioCode-のセットアップ)
 - [Git の pre-commit hook のセットアップ](#Git-の-pre-commit-hook-のセットアップ)
 - [デプロイ時の承認をスキップしロールバックさせない](#デプロイ時の承認をスキップしロールバックさせない)
-- [cdk.context.json による個人環境の管理](#cdkcontextjson-による個人環境の管理)
+- [環境ごとに異なる値（パラメータ）を管理する](#環境ごとに異なる値パラメータを管理する)
 - [AWSChatbot 用に Slack を設定する](#AWSChatbot-用に-Slack-を設定する)
 - [CloudShell によるデプロイメント](#CloudShell-によるデプロイメント)
 - [依存パッケージの最新化](#依存パッケージの最新化)
@@ -131,30 +131,28 @@ CDK は CloudFormation を使ってデプロイしますが、通常デプロイ
 
 ---
 
-## cdk.context.json による個人環境の管理
+## 環境ごとに異なる値（パラメータ）を管理する
 
-cdk.json と同じディレクトリに cdk.context.json を置くことで、自分の開発環境のパラメータを指定することができます。このファイルはリポジトリにはコミットされません。このファイルは CDK によって自動的に作成されている場合があります。その場合は既存の設定を残したまま自分自身の Context 定義を追加してください。
+CDK 管理外のリソースの ARN や外部 API の URL など、環境ごとに異なる値を CDK に注入する方法は以下が考えられます。
 
-cdk.context.json の例
+- **Git リポジトリ内の CDK の設定ファイル（cdk.json）**
+- Git リポジトリ内の独自の設定ファイル（JSON, YAML などをプログラムから読み込み）
+- **Git リポジトリ内のソースコードに書き込み**
+- AWS SSM Parameter Store または AWS Secrets Manager
+- 環境変数
+- コマンドラインオプション（`-c`, `--context` によるコンテキストの上書き）
 
-```json
-{
-  "@aws-cdk/core:enableStackNameDuplicates": "true",
-  "aws-cdk:enableDiffNoFail": "true",
-  "@aws-cdk/core:stackRelativeExports": "true",
-  "my": {
-    "description": "Personal Environment variables for blea-guest-*-samples.ts",
-    "envName": "Personal",
-    "vpcCidr": "10.100.0.0/16",
-    "monitoringNotifyEmail": "zzz@example.com",
-    "dbUser": "personaluser",
-    "slackNotifier": {
-      "workspaceId": "T8XXXXXXXXX",
-      "channelIdMon": "C02YYYYYYYY"
-    }
-  }
-}
-```
+Infrastructure as Code の原則として、チームが決定可能な値や静的な値は Git リポジトリで一元的に管理することを推奨します。BLEA では cdk.json に値を書き込む方式を採用していますが、多数の値を型やコード補完の機能を利用しながら管理するには TypeScript コードに直接値を埋め込む手段も有用です。
+
+また、cdk.json と cdk.context.json は Git リポジトリにコミットすることが推奨されています。特に cdk.context.json はデプロイの一貫性を維持するために環境固有の情報（AMI ID やアベイラビリティーゾーン名など）をキャッシュします。このため、Infrastructure as Code のソースコードはプライベートリポジトリで管理することを推奨します。
+
+See: https://docs.aws.amazon.com/cdk/v2/guide/context.html
+
+> Note
+>
+> GitHub でパブリックリポジトリを fork したリポジトリは、プライベートリポジトリにすることができません。このため、BLEA を修正してデプロイする場合は `git clone` と `git push` によりリポジトリを複製してください。
+>
+> See: https://docs.github.com/en/repositories/creating-and-managing-repositories/duplicating-a-repository
 
 ---
 
@@ -182,7 +180,7 @@ AWS Chatbot の設定手順は以下の通りです。
 
 ### 3. Context file に workspace ID と channel ID を設定する
 
-cdk.json または cdk.context.json に次のように Slack workspace ID と Channel ID を設定します。セキュリティ用とモニタリング用で Channel は異なるものを指定してください:
+cdk.json に次のように Slack workspace ID と Channel ID を設定します。セキュリティ用とモニタリング用で Channel は異なるものを指定してください:
 
 セキュリティ用（ガバナンスベース）:
 
@@ -276,7 +274,7 @@ npm update --workspaces
 
 ## アプリケーション内で Context にアクセスする仕組み
 
-cdk.json や cdk.context.json で指定した Context は CDK コード（bin/\*.ts）の中で次のようにアクセスしています。
+cdk.json で指定した Context は CDK コード（bin/\*.ts）の中で次のようにアクセスしています。
 
 ```ts
 const envKey = app.node.tryGetContext('environment');

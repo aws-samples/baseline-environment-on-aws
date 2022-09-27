@@ -212,7 +212,7 @@ usecases/base-standalone/cdk.json
 
 > NOTE: Context の使い方については以下の解説を参照してください
 >
-> - [cdk.context.json による個人環境の管理](doc/HowTo_ja.md#cdkcontextjson-による個人環境の管理)
+> - [環境ごとに異なる値（パラメータ）を管理する](doc/HowTo_ja.md#環境ごとに異なる値パラメータを管理する)
 > - [アプリケーション内で Context にアクセスする仕組み](doc/HowTo_ja.md#アプリケーション内で-Context-にアクセスする仕組み)
 
 #### 4-2. ガバナンスベースをデプロイする

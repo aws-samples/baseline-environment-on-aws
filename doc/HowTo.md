@@ -7,7 +7,7 @@ Here we will describe howTo for various settings.
 - [VisualStudioCode Setup Instructions](#VisualStudioCode-Setup-Instructions)
 - [Git pre-commit hook setup](#Git-pre-commit-hook-setup)
 - [Skip Deployment Approvals and Don't Roll Back](#skip-deployment-approvals-and-dont-roll-back)
-- [Manage personal environment by cdk.context.json](#Manage-personal-environment-by-cdkcontextjson)
+- [Managing different values (parameter) between environment](#Managing-different-values-parameter-between-environment)
 - [Set up Slack for AWS ChatBot](#set-up-slack-for-aws-chatbot)
 - [Deployment with CloudShell](#deployment-with-cloudshell)
 - [Update package dependencies](#update-package-dependencies)
@@ -131,30 +131,28 @@ By setting `RequireApproval` and `Rollback` to cdk.json as follows, you do not n
 
 ---
 
-## Manage personal environment by cdk.context.json
+## Managing different values (parameter) between environment
 
-You can specify parameters for your development environment by placing cdk.context.json in the same directory as cdk.json. This file will not be committed to the repository. This file may have been created automatically by the CDK. In this case, keep the existing configuration and add your own Context definition.
+Here are some ways to inject different values into the CDK from environment to environment, such as ARNs for resources not managed by the CDK or URLs for external APIs.
 
-cdk.context.json example
+- **Configuration files of CDK (cdk.json) in the Git repository**
+- Your own configuration file in the Git repository Git (loaded by code)
+- **Source code in the Git repository**
+- AWS SSM Parameter Store or AWS Secrets Manager
+- Environment variables
+- Command line options （overriding contexts with `-c` or `--context`）
 
-```json
-{
-  "@aws-cdk/core:enableStackNameDuplicates": "true",
-  "aws-cdk:enableDiffNoFail": "true",
-  "@aws-cdk/core:stackRelativeExports": "true",
-  "my": {
-    "description": "Personal Environment variables for blea-guest-*-samples.ts",
-    "envName": "Personal",
-    "vpcCidr": "10.100.0.0/16",
-    "monitoringNotifyEmail": "zzz@example.com",
-    "dbUser": "personaluser",
-    "slackNotifier": {
-      "workspaceId": "T8XXXXXXXXX",
-      "channelIdMon": "C02YYYYYYYY"
-    }
-  }
-}
-```
+As a general rule of Infrastructure as Code, it is recommended that values which a team can decide and static values are managed centrally in a Git repository. BLEA uses a method of writing values to cdk.json, but in order to manage a large number of values while using types and code completion functions, it is a good practice to embed values directly into TypeScript code.
+
+Also, it is recommended that cdk.json and cdk.context.json be committed to a Git repository. In particular, cdk.context.json caches environment-specific information (such as AMI IDs and availability zone names) to keep deployments consistent. For this reason, it is recommended that Infrastructure as Code source be managed in a private repository.
+
+See: https://docs.aws.amazon.com/cdk/v2/guide/context.html
+
+> Note
+>
+> If you've forked a public repository on GitHub, you can't make it private. Therefore, if you want to modify and deploy BLEA, duplicate the repository using `git clone` and `git push`.
+>
+> See: https://docs.github.com/en/repositories/creating-and-managing-repositories/duplicating-a-repository
 
 ---
 
@@ -182,7 +180,7 @@ Make a note of the ID of the Workspace you created. It looks like `T8XXXXXXX`.
 
 ### 3. Set the workspace ID and channel ID in the Context file
 
-Set the Slack workspace ID and Channel ID for cdk.json or cdk.context.json as follows: Specify a different channel for security and monitoring:
+Set the Slack workspace ID and Channel ID for cdk.json as follows: Specify a different channel for security and monitoring:
 
 For security (governance baseline):
 
@@ -276,7 +274,7 @@ npm update --workspaces
 
 ## Accessing context in application
 
-Context specified in cdk.json or cdk.context.json is accessed as follows in CDK code (bin/\*.ts).
+Context specified in cdk.json is accessed as follows in CDK code (bin/\*.ts).
 
 ```ts
 const envKey = app.node.tryGetContext('environment');
