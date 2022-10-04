@@ -3944,6 +3944,23 @@ Object {
       },
       "Type": "AWS::EC2::SecurityGroupIngress",
     },
+    "enableScanning7E3D4D91": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "ImageScanningConfiguration": Object {
+          "ScanOnPush": true,
+        },
+        "RepositoryName": "ecr-blea-ecsapp/docker/library/httpd",
+        "Tags": Array [
+          Object {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+        ],
+      },
+      "Type": "AWS::ECR::Repository",
+      "UpdateReplacePolicy": "Retain",
+    },
   },
   "Rules": Object {
     "CheckBootstrapVersion": Object {
