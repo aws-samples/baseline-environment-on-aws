@@ -29,7 +29,7 @@ export class BLEAVpcStack extends cdk.Stack {
         {
           cidrMask: 22,
           name: 'Private',
-          subnetType: ec2.SubnetType.PRIVATE_WITH_NAT,
+          subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
         },
         {
           cidrMask: 22,
@@ -101,7 +101,7 @@ export class BLEAVpcStack extends cdk.Stack {
     // NACL for Private Subnets
     const naclPrivate = new ec2.NetworkAcl(this, 'NaclPrivate', {
       vpc: myVpc,
-      subnetSelection: { subnetType: ec2.SubnetType.PRIVATE_WITH_NAT },
+      subnetSelection: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
     });
 
     // Egress Rules for Private Subnets
@@ -125,7 +125,7 @@ export class BLEAVpcStack extends cdk.Stack {
     // VPC Endpoint for S3
     myVpc.addGatewayEndpoint('S3EndpointForPrivate', {
       service: ec2.GatewayVpcEndpointAwsService.S3,
-      subnets: [{ subnetType: ec2.SubnetType.PRIVATE_WITH_NAT }, { subnetType: ec2.SubnetType.PRIVATE_ISOLATED }],
+      subnets: [{ subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS }, { subnetType: ec2.SubnetType.PRIVATE_ISOLATED }],
     });
 
     // VPC Endpoint for SSM
