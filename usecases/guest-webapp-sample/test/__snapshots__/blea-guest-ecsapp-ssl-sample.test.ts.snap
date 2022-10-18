@@ -2732,7 +2732,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
-          "S3Key": "e85f10a8bf0e7f4f7931fce24b29d4faf6874948090a2b568b2da33a7116cf84.zip",
+          "S3Key": "0affa35a9d750381b76be83ff9cedeb2e455e8903fcf4d7db4d1c1e2c9c7cd54.zip",
         },
         "Handler": "index.certificateRequestHandler",
         "Role": Object {
@@ -2810,6 +2810,21 @@ Object {
             },
             Object {
               "Action": "route53:changeResourceRecordSets",
+              "Condition": Object {
+                "ForAllValues:StringEquals": Object {
+                  "route53:ChangeResourceRecordSetsActions": Array [
+                    "UPSERT",
+                  ],
+                  "route53:ChangeResourceRecordSetsRecordTypes": Array [
+                    "CNAME",
+                  ],
+                },
+                "ForAllValues:StringLike": Object {
+                  "route53:ChangeResourceRecordSetsNormalizedRecordNames": Array [
+                    "*.www.example.com",
+                  ],
+                },
+              },
               "Effect": "Allow",
               "Resource": Object {
                 "Fn::Join": Array [
@@ -2865,7 +2880,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
-          "S3Key": "e85f10a8bf0e7f4f7931fce24b29d4faf6874948090a2b568b2da33a7116cf84.zip",
+          "S3Key": "0affa35a9d750381b76be83ff9cedeb2e455e8903fcf4d7db4d1c1e2c9c7cd54.zip",
         },
         "Handler": "index.certificateRequestHandler",
         "Role": Object {
@@ -2943,6 +2958,21 @@ Object {
             },
             Object {
               "Action": "route53:changeResourceRecordSets",
+              "Condition": Object {
+                "ForAllValues:StringEquals": Object {
+                  "route53:ChangeResourceRecordSetsActions": Array [
+                    "UPSERT",
+                  ],
+                  "route53:ChangeResourceRecordSetsRecordTypes": Array [
+                    "CNAME",
+                  ],
+                },
+                "ForAllValues:StringLike": Object {
+                  "route53:ChangeResourceRecordSetsNormalizedRecordNames": Array [
+                    "*.www.example.com",
+                  ],
+                },
+              },
               "Effect": "Allow",
               "Resource": Object {
                 "Fn::Join": Array [
@@ -4055,7 +4085,6 @@ Object {
         },
         "EnablePerformanceInsights": true,
         "Engine": "aurora-postgresql",
-        "EngineVersion": "11.9",
         "PerformanceInsightsKMSKeyId": Object {
           "Fn::ImportValue": "BLEA-AppKey:ExportsOutputFnGetAttKey961B73FDArn5A860C43",
         },
@@ -4084,7 +4113,6 @@ Object {
         },
         "EnablePerformanceInsights": true,
         "Engine": "aurora-postgresql",
-        "EngineVersion": "11.9",
         "PerformanceInsightsKMSKeyId": Object {
           "Fn::ImportValue": "BLEA-AppKey:ExportsOutputFnGetAttKey961B73FDArn5A860C43",
         },
