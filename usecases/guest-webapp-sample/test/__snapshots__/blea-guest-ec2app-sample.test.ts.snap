@@ -2525,7 +2525,6 @@ Object {
         },
         "EnablePerformanceInsights": true,
         "Engine": "aurora-postgresql",
-        "EngineVersion": "11.9",
         "PerformanceInsightsKMSKeyId": Object {
           "Fn::ImportValue": "BLEA-AppKey:ExportsOutputFnGetAttKey961B73FDArn5A860C43",
         },
@@ -2554,7 +2553,6 @@ Object {
         },
         "EnablePerformanceInsights": true,
         "Engine": "aurora-postgresql",
-        "EngineVersion": "11.9",
         "PerformanceInsightsKMSKeyId": Object {
           "Fn::ImportValue": "BLEA-AppKey:ExportsOutputFnGetAttKey961B73FDArn5A860C43",
         },
