@@ -170,11 +170,15 @@ The channel ID of that channel.
 
 ### 2. Set up a chat client with AWS Chatbot
 
-Create a Slack workspace on AWS Chatbot by following steps 1-4 in Setting up AWS Chatbot with Slack in the following procedure Please
+Create a Slack workspace on AWS Chatbot by following steps 1-3 in Setting up AWS Chatbot with Slack in the following procedure Please
 
-- See: [https://docs.aws.amazon.com/chatbot/latest/adminguide/getting-started.html]
+- See: https://docs.aws.amazon.com/chatbot/latest/adminguide/slack-setup.html
 
 Make a note of the ID of the Workspace you created. It looks like `T8XXXXXXX`.
+
+> Note
+>
+> If you configure a private Slack channel, run the `/invite @AWS` command in Slack to invite the AWS Chatbot to the chat room.
 
 ### 3. Set the workspace ID and channel ID in the Context file
 

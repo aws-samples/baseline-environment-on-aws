@@ -130,12 +130,21 @@ export class BLEAECSAppStack extends cdk.Stack {
 
     // Container
     const containerImage = 'docker/library/httpd';
+    const containerRepository = ecr.Repository.fromRepositoryName(
+      this,
+      'PullThrough',
+      `${ecrRepositoryPrefix}/${containerImage}`,
+    );
+
+    // The repository is automatically created by pull through cache, but you must specify it explicitly to enable ImageScanonPush.
+    new ecr.Repository(this, 'enableScanning', {
+      repositoryName: containerRepository.repositoryName,
+      imageScanOnPush: true,
+    });
+
     const ecsContainer = ecsTask.addContainer('EcsApp', {
       // -- Option 1: If you want to use your ECR repository with pull through cache, you can use like this.
-      image: ecs.ContainerImage.fromEcrRepository(
-        ecr.Repository.fromRepositoryName(this, 'PullThrough', `${ecrRepositoryPrefix}/${containerImage}`),
-        'latest',
-      ),
+      image: ecs.ContainerImage.fromEcrRepository(containerRepository, 'latest'),
 
       // -- Option 2: If you want to use your ECR repository, you can use like this.
       // --           You Need to create your repository and dockerimage, then pass it to this stack.

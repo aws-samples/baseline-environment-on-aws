@@ -3944,6 +3944,23 @@ Object {
       },
       "Type": "AWS::EC2::SecurityGroupIngress",
     },
+    "enableScanning7E3D4D91": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "ImageScanningConfiguration": Object {
+          "ScanOnPush": true,
+        },
+        "RepositoryName": "ecr-blea-ecsapp/docker/library/httpd",
+        "Tags": Array [
+          Object {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+        ],
+      },
+      "Type": "AWS::ECR::Repository",
+      "UpdateReplacePolicy": "Retain",
+    },
   },
   "Rules": Object {
     "CheckBootstrapVersion": Object {
@@ -4079,7 +4096,7 @@ Object {
           "Ref": "Aurora2CBAB212",
         },
         "DBInstanceClass": "db.t3.medium",
-        "DBInstanceIdentifier": "instance1",
+        "DBInstanceIdentifier": "BLEA-DBAuroraPg1",
         "DBSubnetGroupName": Object {
           "Ref": "AuroraSubnetsC4DF45C9",
         },
@@ -4107,7 +4124,7 @@ Object {
           "Ref": "Aurora2CBAB212",
         },
         "DBInstanceClass": "db.t3.medium",
-        "DBInstanceIdentifier": "instance2",
+        "DBInstanceIdentifier": "BLEA-DBAuroraPg2",
         "DBSubnetGroupName": Object {
           "Ref": "AuroraSubnetsC4DF45C9",
         },

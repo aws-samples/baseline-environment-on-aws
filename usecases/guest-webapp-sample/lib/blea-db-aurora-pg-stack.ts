@@ -51,7 +51,7 @@ export class BLEADbAuroraPgStack extends cdk.Stack {
       //      cloudwatchLogsExports: ['error', 'general', 'slowquery', 'audit'],  // For Aurora MySQL
       cloudwatchLogsExports: ['postgresql'], // For Aurora PostgreSQL
       cloudwatchLogsRetention: logs.RetentionDays.THREE_MONTHS,
-      instanceIdentifierBase: 'instance',
+      instanceIdentifierBase: id,
     });
     cluster.connections.allowDefaultPortFrom(props.appServerSecurityGroup);
     this.dbClusterName = cluster.clusterIdentifier;
