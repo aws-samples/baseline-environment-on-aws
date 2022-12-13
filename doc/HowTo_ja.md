@@ -135,24 +135,28 @@ CDK は CloudFormation を使ってデプロイしますが、通常デプロイ
 
 CDK 管理外のリソースの ARN や外部 API の URL など、環境ごとに異なる値を CDK に注入する方法は以下が考えられます。
 
-- **Git リポジトリ内の CDK の設定ファイル（cdk.json）**
-- Git リポジトリ内の独自の設定ファイル（JSON, YAML などをプログラムから読み込み）
-- **Git リポジトリ内のソースコードに書き込み**
-- AWS SSM Parameter Store または AWS Secrets Manager
-- 環境変数
-- コマンドラインオプション（`-c`, `--context` によるコンテキストの上書き）
+1. **Git リポジトリ内の CDK の設定ファイル（cdk.json）** ※ BLEA における標準
+1. **Git リポジトリ内のソースコード（TypeScript）に書き込み**
+1. Git リポジトリ内の独自の設定ファイル（JSON, YAML などをプログラムから読み込み）
+1. AWS SSM Parameter Store または AWS Secrets Manager
+1. 環境変数
+1. コマンドラインオプション（`-c`, `--context` によるコンテキストの上書き）
 
-Infrastructure as Code の原則として、チームが決定可能な値や静的な値は Git リポジトリで一元的に管理することを推奨します。BLEA では cdk.json に値を書き込む方式を採用していますが、多数の値を型やコード補完の機能を利用しながら管理するには TypeScript コードに直接値を埋め込む手段も有用です。
+Infrastructure as Code の原則として、チームが決定可能な値や静的な値は Git リポジトリで一元的に管理することを推奨します。BLEA では上記 **1. Git リポジトリ内の CDK の設定ファイル（cdk.json）** に書き込む方式を採用しています。開発者ごとにローカルな設定値を持ちたい場合は cdk.json にすべての値を記載し、 `-c environment=john-dev` のようにコンテキストを使用して環境を切り替えることを検討してください。See: [アプリケーション内で Context にアクセスする仕組み](#アプリケーション内で-Context-にアクセスする仕組み)
 
-また、cdk.json と cdk.context.json は Git リポジトリにコミットすることが推奨されています。特に cdk.context.json はデプロイの一貫性を維持するために環境固有の情報（AMI ID やアベイラビリティーゾーン名など）をキャッシュします。このため、Infrastructure as Code のソースコードはプライベートリポジトリで管理することを推奨します。
+cdk.json と cdk.context.json は Git リポジトリにコミットすることが推奨されています。特に cdk.context.json はデプロイの一貫性を維持するために環境固有の情報（AMI ID やアベイラビリティーゾーン名など）をキャッシュします。このため、Infrastructure as Code のソースコードはプライベートリポジトリで管理することを推奨します。
 
 See: https://docs.aws.amazon.com/cdk/v2/guide/context.html
+
+なお、 **2. Git リポジトリ内のソースコード（TypeScript）に書き込み** も多数の値を型やコード補完の機能を利用しながら管理する手段として有用です。
 
 > Note
 >
 > GitHub でパブリックリポジトリを fork したリポジトリは、プライベートリポジトリにすることができません。このため、BLEA を修正してデプロイする場合は `git clone` と `git push` によりリポジトリを複製してください。
 >
 > See: https://docs.github.com/en/repositories/creating-and-managing-repositories/duplicating-a-repository
+
+![Git repository and forks](images/BLEA-Git-Forking.jpg)
 
 ---
 

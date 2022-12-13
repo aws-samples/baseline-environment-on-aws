@@ -135,24 +135,28 @@ By setting `RequireApproval` and `Rollback` to cdk.json as follows, you do not n
 
 Here are some ways to inject different values into the CDK from environment to environment, such as ARNs for resources not managed by the CDK or URLs for external APIs.
 
-- **Configuration files of CDK (cdk.json) in the Git repository**
-- Your own configuration file in the Git repository Git (loaded by code)
-- **Source code in the Git repository**
-- AWS SSM Parameter Store or AWS Secrets Manager
-- Environment variables
-- Command line options （overriding contexts with `-c` or `--context`）
+1. **Configuration files of CDK (cdk.json) in the Git repository** (default in BLEA)
+1. **Source code (TypeScript) in the Git repository**
+1. Your own configuration file in the Git repository Git (loaded by code)
+1. AWS SSM Parameter Store or AWS Secrets Manager
+1. Environment variables
+1. Command line options （overriding contexts with `-c` or `--context`）
 
-As a general rule of Infrastructure as Code, it is recommended that values which a team can decide and static values are managed centrally in a Git repository. BLEA uses a method of writing values to cdk.json, but in order to manage a large number of values while using types and code completion functions, it is a good practice to embed values directly into TypeScript code.
+As a general rule of Infrastructure as Code, it is recommended that values which a team can decide and static values are managed centrally in a Git repository. BLEA uses 1st method of above: **1. Configuration files of CDK (cdk.json) in the Git repository**. If you want to manage values for each developers, you may consider write them into cdk.json, and switch context with `-c environment=joh-dev`. See: [Accessing context in application](#accessing-context-in-application)
 
-Also, it is recommended that cdk.json and cdk.context.json be committed to a Git repository. In particular, cdk.context.json caches environment-specific information (such as AMI IDs and availability zone names) to keep deployments consistent. For this reason, it is recommended that Infrastructure as Code source be managed in a private repository.
+It is recommended that cdk.json and cdk.context.json be committed to a Git repository. In particular, cdk.context.json caches environment-specific information (such as AMI IDs and availability zone names) to keep deployments consistent. For this reason, it is recommended that Infrastructure as Code source be managed in a private repository.
 
 See: https://docs.aws.amazon.com/cdk/v2/guide/context.html
+
+In order to manage a large number of values while using types and code completion functions, **2. Source code (TypeScript) in the Git repository** is also a good practice.
 
 > Note
 >
 > If you've forked a public repository on GitHub, you can't make it private. Therefore, if you want to modify and deploy BLEA, duplicate the repository using `git clone` and `git push`.
 >
 > See: https://docs.github.com/en/repositories/creating-and-managing-repositories/duplicating-a-repository
+
+![Git repository and forks](images/BLEA-Git-Forking.jpg)
 
 ---
 
