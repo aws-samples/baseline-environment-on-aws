@@ -1,15 +1,15 @@
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { SecurityDetection } from './construct/blea-security-detection';
-import { SecurityIAM } from './construct/blea-security-iam';
-import { SecurityLogging } from './construct/blea-security-logging';
+import { SecurityDetection } from '../construct/security-detection';
+import { SecurityIAM } from '../construct/security-iam';
+import { SecurityLogging } from '../construct/security-logging';
 
-export interface BLEABaseSAProps extends StackProps {
+export interface BLEABaseStandaloneProps extends StackProps {
   securityNotifyEmail: string;
 }
 
-export class BLEABaseSAStack extends Stack {
-  constructor(scope: Construct, id: string, props: BLEABaseSAProps) {
+export class BLEABaseStandaloneStack extends Stack {
+  constructor(scope: Construct, id: string, props: BLEABaseStandaloneProps) {
     super(scope, id, props);
 
     new SecurityIAM(this, 'SecurityIAM');

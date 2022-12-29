@@ -5,7 +5,7 @@
   "description": "Baseline for standalone accounts",
   "license": "MIT-0",
   "bin": {
-    "blea-base-sa": "bin/blea-base-sa.js"
+    "blea-base-standalone": "bin/blea-base-standalone.js"
   },
   "scripts": {
     "synth:dev": "npx cdk synth -c environment=dev",
