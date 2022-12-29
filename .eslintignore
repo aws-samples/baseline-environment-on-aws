@@ -2,3 +2,4 @@
 **/cdk.out/**
 *.js
 *.d.ts
+*.json
