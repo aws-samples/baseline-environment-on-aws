@@ -30,7 +30,7 @@
     "@typescript-eslint/parser": "^5.47.1",
     "eslint": "^8.30.0",
     "eslint-config-prettier": "^8.5.0",
-    "lint-staged": "^13.0.4",
+    "lint-staged": "^13.1.0",
     "prettier": "^2.8.1",
     "simple-git-hooks": "^2.8.1",
     "standard-version": "^9.5.0",
