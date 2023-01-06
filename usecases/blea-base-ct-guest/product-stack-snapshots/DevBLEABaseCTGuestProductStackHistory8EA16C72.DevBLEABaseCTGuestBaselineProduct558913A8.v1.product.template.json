@@ -1,0 +1,1638 @@
+{
+  "Resources": {
+    "SecurityIAMSysAdminPolicyD135619D": {
+      "Type": "AWS::IAM::ManagedPolicy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "NotAction": "iam:*",
+              "Condition": {
+                "Bool": {
+                  "aws:MultiFactorAuthPresent": "true"
+                }
+              },
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "aws-portal:*Billing",
+              "Effect": "Deny",
+              "Resource": "*"
+            },
+            {
+              "Action": ["cloudtrail:DeleteTrail", "cloudtrail:StopLogging", "cloudtrail:UpdateTrail"],
+              "Effect": "Deny",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "kms:Create*",
+                "kms:Revoke*",
+                "kms:Enable*",
+                "kms:Get*",
+                "kms:Disable*",
+                "kms:Delete*",
+                "kms:Put*",
+                "kms:Update*"
+              ],
+              "Effect": "Deny",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Description": "",
+        "Path": "/"
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityIAM/SysAdminPolicy/Resource"
+      }
+    },
+    "SecurityIAMSysAdminRole1364D43F": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Ref": "SecurityIAMSysAdminPolicyD135619D"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityIAM/SysAdminRole/Resource"
+      }
+    },
+    "SecurityIAMSysAdminGroup9E455B30": {
+      "Type": "AWS::IAM::Group",
+      "Properties": {
+        "ManagedPolicyArns": [
+          {
+            "Ref": "SecurityIAMSysAdminPolicyD135619D"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityIAM/SysAdminGroup/Resource"
+      }
+    },
+    "SecurityIAMIamAdminPolicyC00BE926": {
+      "Type": "AWS::IAM::ManagedPolicy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "iam:*",
+              "Condition": {
+                "Bool": {
+                  "aws:MultiFactorAuthPresent": "true"
+                }
+              },
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "aws-portal:*Billing",
+              "Effect": "Deny",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Description": "",
+        "Path": "/"
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityIAM/IamAdminPolicy/Resource"
+      }
+    },
+    "SecurityIAMIamAdminRole888CC210": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Ref": "SecurityIAMIamAdminPolicyC00BE926"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityIAM/IamAdminRole/Resource"
+      }
+    },
+    "SecurityIAMIamAdminGroupC7D49CAD": {
+      "Type": "AWS::IAM::Group",
+      "Properties": {
+        "ManagedPolicyArns": [
+          {
+            "Ref": "SecurityIAMIamAdminPolicyC00BE926"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityIAM/IamAdminGroup/Resource"
+      }
+    },
+    "SecurityIAMInstanceOpsPolicyA0D8046D": {
+      "Type": "AWS::IAM::ManagedPolicy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "ec2:*",
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "elasticloadbalancing:*",
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "cloudwatch:*",
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "autoscaling:*",
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "ec2:CreateVpc*",
+                "ec2:DeleteVpc*",
+                "ec2:ModifyVpc*",
+                "ec2:CreateSubnet*",
+                "ec2:DeleteSubnet*",
+                "ec2:ModifySubnet*",
+                "ec2:Create*Route*",
+                "ec2:DeleteRoute*",
+                "ec2:AssociateRoute*",
+                "ec2:ReplaceRoute*",
+                "ec2:CreateVpn*",
+                "ec2:DeleteVpn*",
+                "ec2:AttachVpn*",
+                "ec2:DetachVpn*",
+                "ec2:CreateNetworkAcl*",
+                "ec2:DeleteNetworkAcl*",
+                "ec2:ReplaceNetworkAcl*",
+                "ec2:*Gateway*",
+                "ec2:*PeeringConnection*"
+              ],
+              "Effect": "Deny",
+              "Resource": "*"
+            },
+            {
+              "Action": "aws-portal:*Billing",
+              "Effect": "Deny",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "kms:Create*",
+                "kms:Revoke*",
+                "kms:Enable*",
+                "kms:Get*",
+                "kms:Disable*",
+                "kms:Delete*",
+                "kms:Put*",
+                "kms:Update*"
+              ],
+              "Effect": "Deny",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Description": "",
+        "Path": "/"
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityIAM/InstanceOpsPolicy/Resource"
+      }
+    },
+    "SecurityIAMInstanceOpsRoleFCACEAC5": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Ref": "SecurityIAMInstanceOpsPolicyA0D8046D"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityIAM/InstanceOpsRole/Resource"
+      }
+    },
+    "SecurityIAMInstanceOpsGroup448CF394": {
+      "Type": "AWS::IAM::Group",
+      "Properties": {
+        "ManagedPolicyArns": [
+          {
+            "Ref": "SecurityIAMInstanceOpsPolicyA0D8046D"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityIAM/InstanceOpsGroup/Resource"
+      }
+    },
+    "SecurityIAMReadOnlyAdminPolicy74EC1E53": {
+      "Type": "AWS::IAM::ManagedPolicy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "appstream:Get*",
+                "autoscaling:Describe*",
+                "cloudformation:DescribeStacks",
+                "cloudformation:DescribeStackEvents",
+                "cloudformation:DescribeStackResource",
+                "cloudformation:DescribeStackResources",
+                "cloudformation:GetTemplate",
+                "cloudformation:List*",
+                "cloudfront:Get*",
+                "cloudfront:List*",
+                "cloudtrail:DescribeTrails",
+                "cloudtrail:GetTrailStatus",
+                "cloudwatch:Describe*",
+                "cloudwatch:Get*",
+                "cloudwatch:List*",
+                "directconnect:Describe*",
+                "dynamodb:GetItem",
+                "dynamodb:BatchGetItem",
+                "dynamodb:Query",
+                "dynamodb:Scan",
+                "dynamodb:DescribeTable",
+                "dynamodb:ListTables",
+                "ec2:Describe*",
+                "elasticache:Describe*",
+                "elasticbeanstalk:Check*",
+                "elasticbeanstalk:Describe*",
+                "elasticbeanstalk:List*",
+                "elasticbeanstalk:RequestEnvironmentInfo",
+                "elasticbeanstalk:RetrieveEnvironmentInfo",
+                "elasticloadbalancing:Describe*",
+                "elastictranscoder:Read*",
+                "elastictranscoder:List*",
+                "iam:List*",
+                "iam:Get*",
+                "kinesis:Describe*",
+                "kinesis:Get*",
+                "kinesis:List*",
+                "opsworks:Describe*",
+                "opsworks:Get*",
+                "route53:Get*",
+                "route53:List*",
+                "redshift:Describe*",
+                "redshift:ViewQueriesInConsole",
+                "rds:Describe*",
+                "rds:ListTagsForResource",
+                "s3:Get*",
+                "s3:List*",
+                "sdb:GetAttributes",
+                "sdb:List*",
+                "sdb:Select*",
+                "ses:Get*",
+                "ses:List*",
+                "sns:Get*",
+                "sns:List*",
+                "sqs:GetQueueAttributes",
+                "sqs:ListQueues",
+                "sqs:ReceiveMessage",
+                "storagegateway:List*",
+                "storagegateway:Describe*",
+                "trustedadvisor:Describe*"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "aws-portal:*Billing",
+              "Effect": "Deny",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Description": "",
+        "Path": "/"
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityIAM/ReadOnlyAdminPolicy/Resource"
+      }
+    },
+    "SecurityIAMReadOnlyAdminRole345126B1": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Ref": "SecurityIAMReadOnlyAdminPolicy74EC1E53"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityIAM/ReadOnlyAdminRole/Resource"
+      }
+    },
+    "SecurityIAMReadOnlyAdminGroup767E8967": {
+      "Type": "AWS::IAM::Group",
+      "Properties": {
+        "ManagedPolicyArns": [
+          {
+            "Ref": "SecurityIAMReadOnlyAdminPolicy74EC1E53"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityIAM/ReadOnlyAdminGroup/Resource"
+      }
+    },
+    "SecurityLoggingArchiveLogsBucketCF4A9196": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "AccessControl": "LogDeliveryWrite",
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256"
+              }
+            }
+          ]
+        },
+        "LifecycleConfiguration": {
+          "Rules": [
+            {
+              "ExpirationInDays": 2555,
+              "Status": "Enabled",
+              "Transitions": [
+                {
+                  "StorageClass": "GLACIER",
+                  "TransitionInDays": 90
+                }
+              ]
+            }
+          ]
+        },
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true
+        },
+        "VersioningConfiguration": {
+          "Status": "Enabled"
+        }
+      },
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityLogging/ArchiveLogsBucket/Resource"
+      }
+    },
+    "SecurityLoggingArchiveLogsBucketPolicy8F0790AC": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "Bucket": {
+          "Ref": "SecurityLoggingArchiveLogsBucketCF4A9196"
+        },
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "s3:*",
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false"
+                }
+              },
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*"
+              },
+              "Resource": [
+                {
+                  "Fn::GetAtt": ["SecurityLoggingArchiveLogsBucketCF4A9196", "Arn"]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": ["SecurityLoggingArchiveLogsBucketCF4A9196", "Arn"]
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Action": "s3:Delete*",
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*"
+              },
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Fn::GetAtt": ["SecurityLoggingArchiveLogsBucketCF4A9196", "Arn"]
+                    },
+                    "/*"
+                  ]
+                ]
+              },
+              "Sid": "Restrict Delete* Actions"
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityLogging/ArchiveLogsBucket/Policy/Resource"
+      }
+    },
+    "SecurityLoggingCloudTrailBucketD80F2E5D": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "AccessControl": "Private",
+        "LoggingConfiguration": {
+          "DestinationBucketName": {
+            "Ref": "SecurityLoggingArchiveLogsBucketCF4A9196"
+          },
+          "LogFilePrefix": "cloudtraillogs"
+        },
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true
+        },
+        "VersioningConfiguration": {
+          "Status": "Enabled"
+        }
+      },
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityLogging/CloudTrailBucket/Resource"
+      }
+    },
+    "SecurityLoggingCloudTrailBucketPolicyD6249B0D": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "Bucket": {
+          "Ref": "SecurityLoggingCloudTrailBucketD80F2E5D"
+        },
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "s3:*",
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false"
+                }
+              },
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*"
+              },
+              "Resource": [
+                {
+                  "Fn::GetAtt": ["SecurityLoggingCloudTrailBucketD80F2E5D", "Arn"]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": ["SecurityLoggingCloudTrailBucketD80F2E5D", "Arn"]
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Action": "s3:Delete*",
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*"
+              },
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Fn::GetAtt": ["SecurityLoggingCloudTrailBucketD80F2E5D", "Arn"]
+                    },
+                    "/*"
+                  ]
+                ]
+              },
+              "Sid": "Restrict Delete* Actions"
+            },
+            {
+              "Action": "s3:GetBucketAcl",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "cloudtrail.amazonaws.com"
+              },
+              "Resource": {
+                "Fn::GetAtt": ["SecurityLoggingCloudTrailBucketD80F2E5D", "Arn"]
+              }
+            },
+            {
+              "Action": "s3:PutObject",
+              "Condition": {
+                "StringEquals": {
+                  "s3:x-amz-acl": "bucket-owner-full-control"
+                }
+              },
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "cloudtrail.amazonaws.com"
+              },
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Fn::GetAtt": ["SecurityLoggingCloudTrailBucketD80F2E5D", "Arn"]
+                    },
+                    "/AWSLogs/",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    "/*"
+                  ]
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityLogging/CloudTrailBucket/Policy/Resource"
+      }
+    },
+    "SecurityLoggingCloudTrailKey630079DC": {
+      "Type": "AWS::KMS::Key",
+      "Properties": {
+        "KeyPolicy": {
+          "Statement": [
+            {
+              "Action": "kms:*",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":root"
+                    ]
+                  ]
+                }
+              },
+              "Resource": "*"
+            },
+            {
+              "Action": "kms:GenerateDataKey*",
+              "Condition": {
+                "StringLike": {
+                  "kms:EncryptionContext:aws:cloudtrail:arn": [
+                    {
+                      "Fn::Join": [
+                        "",
+                        [
+                          "arn:aws:cloudtrail:*:",
+                          {
+                            "Ref": "AWS::AccountId"
+                          },
+                          ":trail/*"
+                        ]
+                      ]
+                    }
+                  ]
+                }
+              },
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "cloudtrail.amazonaws.com"
+              },
+              "Resource": "*"
+            },
+            {
+              "Action": "kms:DescribeKey",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "cloudtrail.amazonaws.com"
+              },
+              "Resource": "*"
+            },
+            {
+              "Action": ["kms:Decrypt", "kms:ReEncryptFrom"],
+              "Condition": {
+                "StringEquals": {
+                  "kms:CallerAccount": {
+                    "Ref": "AWS::AccountId"
+                  }
+                },
+                "StringLike": {
+                  "kms:EncryptionContext:aws:cloudtrail:arn": [
+                    {
+                      "Fn::Join": [
+                        "",
+                        [
+                          "arn:aws:cloudtrail:*:",
+                          {
+                            "Ref": "AWS::AccountId"
+                          },
+                          ":trail/*"
+                        ]
+                      ]
+                    }
+                  ]
+                }
+              },
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": "*"
+              },
+              "Resource": "*"
+            },
+            {
+              "Action": ["kms:Encrypt*", "kms:Decrypt*", "kms:ReEncrypt*", "kms:GenerateDataKey*", "kms:Describe*"],
+              "Condition": {
+                "ArnEquals": {
+                  "kms:EncryptionContext:aws:logs:arn": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:aws:logs:",
+                        {
+                          "Ref": "AWS::Region"
+                        },
+                        ":",
+                        {
+                          "Ref": "AWS::AccountId"
+                        },
+                        ":log-group:*"
+                      ]
+                    ]
+                  }
+                }
+              },
+              "Effect": "Allow",
+              "Principal": {
+                "Service": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "logs.",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ".",
+                      {
+                        "Ref": "AWS::URLSuffix"
+                      }
+                    ]
+                  ]
+                }
+              },
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Description": "for CloudTrail",
+        "EnableKeyRotation": true
+      },
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityLogging/CloudTrailKey/Resource"
+      }
+    },
+    "SecurityLoggingCloudTrailKeyAlias1DFC6E11": {
+      "Type": "AWS::KMS::Alias",
+      "Properties": {
+        "AliasName": "alias/for-cloudtrail",
+        "TargetKeyId": {
+          "Fn::GetAtt": ["SecurityLoggingCloudTrailKey630079DC", "Arn"]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityLogging/CloudTrailKey/Alias/Resource"
+      }
+    },
+    "SecurityLoggingCloudTrailLogGroup2001EC25": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "KmsKeyId": {
+          "Fn::GetAtt": ["SecurityLoggingCloudTrailKey630079DC", "Arn"]
+        },
+        "RetentionInDays": 90
+      },
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityLogging/CloudTrailLogGroup/Resource"
+      }
+    },
+    "SecurityLoggingCloudTrailLogsRoleDEA5CB8E": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "cloudtrail.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityLogging/CloudTrail/LogsRole/Resource"
+      }
+    },
+    "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": ["logs:PutLogEvents", "logs:CreateLogStream"],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": ["SecurityLoggingCloudTrailLogGroup2001EC25", "Arn"]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
+        "Roles": [
+          {
+            "Ref": "SecurityLoggingCloudTrailLogsRoleDEA5CB8E"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityLogging/CloudTrail/LogsRole/DefaultPolicy/Resource"
+      }
+    },
+    "SecurityLoggingCloudTrail309100DF": {
+      "Type": "AWS::CloudTrail::Trail",
+      "Properties": {
+        "IsLogging": true,
+        "S3BucketName": {
+          "Ref": "SecurityLoggingCloudTrailBucketD80F2E5D"
+        },
+        "CloudWatchLogsLogGroupArn": {
+          "Fn::GetAtt": ["SecurityLoggingCloudTrailLogGroup2001EC25", "Arn"]
+        },
+        "CloudWatchLogsRoleArn": {
+          "Fn::GetAtt": ["SecurityLoggingCloudTrailLogsRoleDEA5CB8E", "Arn"]
+        },
+        "EnableLogFileValidation": true,
+        "EventSelectors": [],
+        "IncludeGlobalServiceEvents": true,
+        "IsMultiRegionTrail": true,
+        "KMSKeyId": {
+          "Fn::GetAtt": ["SecurityLoggingCloudTrailKey630079DC", "Arn"]
+        }
+      },
+      "DependsOn": [
+        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
+        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
+        "SecurityLoggingCloudTrailBucketPolicyD6249B0D"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityLogging/CloudTrail/Resource"
+      }
+    },
+    "SecurityDetectionBLEARuleDefaultSecurityGroupClosedCB9A9E5E": {
+      "Type": "AWS::Config::ConfigRule",
+      "Properties": {
+        "Source": {
+          "Owner": "AWS",
+          "SourceIdentifier": "VPC_DEFAULT_SECURITY_GROUP_CLOSED"
+        },
+        "ConfigRuleName": "bb-default-security-group-closed",
+        "Description": "Checks that the default security group of any Amazon Virtual Private Cloud (VPC) does not allow inbound or outbound traffic. The rule is non-compliant if the default security group has one or more inbound or outbound traffic.",
+        "Scope": {
+          "ComplianceResourceTypes": ["AWS::EC2::SecurityGroup"]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityDetection/BLEARuleDefaultSecurityGroupClosed/Resource"
+      }
+    },
+    "SecurityDetectionRemoveSecGroupRemediationRole60C6D4DB": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ssm.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": ["arn:aws:iam::aws:policy/service-role/AmazonSSMAutomationRole"],
+        "Path": "/"
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityDetection/RemoveSecGroupRemediationRole/Resource"
+      }
+    },
+    "SecurityDetectionRemoveSecGroupRemediationRoleDefaultPolicy23EC39C7": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ec2:RevokeSecurityGroupIngress",
+                "ec2:RevokeSecurityGroupEgress",
+                "ec2:DescribeSecurityGroups"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "iam:PassRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": ["SecurityDetectionRemoveSecGroupRemediationRole60C6D4DB", "Arn"]
+              }
+            },
+            {
+              "Action": "ssm:StartAutomationExecution",
+              "Effect": "Allow",
+              "Resource": "arn:aws:ssm:::automation-definition/AWSConfigRemediation-RemoveVPCDefaultSecurityGroupRules"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "SecurityDetectionRemoveSecGroupRemediationRoleDefaultPolicy23EC39C7",
+        "Roles": [
+          {
+            "Ref": "SecurityDetectionRemoveSecGroupRemediationRole60C6D4DB"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityDetection/RemoveSecGroupRemediationRole/DefaultPolicy/Resource"
+      }
+    },
+    "SecurityDetectionRmDefaultSg63CF6F40": {
+      "Type": "AWS::Config::RemediationConfiguration",
+      "Properties": {
+        "ConfigRuleName": {
+          "Ref": "SecurityDetectionBLEARuleDefaultSecurityGroupClosedCB9A9E5E"
+        },
+        "TargetId": "AWSConfigRemediation-RemoveVPCDefaultSecurityGroupRules",
+        "TargetType": "SSM_DOCUMENT",
+        "Automatic": true,
+        "MaximumAutomaticAttempts": 5,
+        "Parameters": {
+          "AutomationAssumeRole": {
+            "StaticValue": {
+              "Values": [
+                {
+                  "Fn::GetAtt": ["SecurityDetectionRemoveSecGroupRemediationRole60C6D4DB", "Arn"]
+                }
+              ]
+            }
+          },
+          "GroupId": {
+            "ResourceValue": {
+              "Value": "RESOURCE_ID"
+            }
+          }
+        },
+        "RetryAttemptSeconds": 60,
+        "TargetVersion": "1"
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityDetection/RmDefaultSg"
+      }
+    },
+    "SecurityDetectionSecurityAlarmTopic5A3FE39A": {
+      "Type": "AWS::SNS::Topic",
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityDetection/SecurityAlarmTopic/Resource"
+      }
+    },
+    "SecurityDetectionSecurityAlarmTopicPolicyDD8FAE10": {
+      "Type": "AWS::SNS::TopicPolicy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "cloudwatch.amazonaws.com"
+              },
+              "Resource": {
+                "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A"
+              },
+              "Sid": "0"
+            },
+            {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "events.amazonaws.com"
+              },
+              "Resource": {
+                "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A"
+              },
+              "Sid": "1"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Topics": [
+          {
+            "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityDetection/SecurityAlarmTopic/Policy/Resource"
+      }
+    },
+    "SecurityDetectionSecurityAlarmEmailC07A1EA9": {
+      "Type": "AWS::SNS::Subscription",
+      "Properties": {
+        "Protocol": "email",
+        "TopicArn": {
+          "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A"
+        },
+        "Endpoint": "notify-security@example.com"
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityDetection/SecurityAlarmEmail/Resource"
+      }
+    },
+    "SecurityDetectionBLEARuleConfigRules122710F3": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "Description": "CloudWatch Event Rule to send notification on Config Rule compliance changes.",
+        "EventPattern": {
+          "source": ["aws.config"],
+          "detail-type": ["Config Rules Compliance Change"],
+          "detail": {
+            "configRuleName": ["bb-default-security-group-closed"],
+            "newEvaluationResult": {
+              "complianceType": ["NON_COMPLIANT"]
+            }
+          }
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A"
+            },
+            "Id": "Target0"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityDetection/BLEARuleConfigRules/Resource"
+      }
+    },
+    "SecurityDetectionBLEARuleAwsHealth8AC44EF7": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "Description": "Notify AWS Health event",
+        "EventPattern": {
+          "source": ["aws.health"],
+          "detail-type": ["AWS Health Event"]
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A"
+            },
+            "Id": "Target0"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityDetection/BLEARuleAwsHealth/Resource"
+      }
+    },
+    "SecurityDetectionBLEARuleSecurityGroupChange4869588A": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "Description": "Notify to create, update or delete a Security Group.",
+        "EventPattern": {
+          "source": ["aws.ec2"],
+          "detail-type": ["AWS API Call via CloudTrail"],
+          "detail": {
+            "eventSource": ["ec2.amazonaws.com"],
+            "eventName": [
+              "AuthorizeSecurityGroupIngress",
+              "AuthorizeSecurityGroupEgress",
+              "RevokeSecurityGroupIngress",
+              "RevokeSecurityGroupEgress"
+            ]
+          }
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A"
+            },
+            "Id": "Target0"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityDetection/BLEARuleSecurityGroupChange/Resource"
+      }
+    },
+    "SecurityDetectionBLEARuleNetworkAclChange79C52705": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "Description": "Notify to create, update or delete a Network ACL.",
+        "EventPattern": {
+          "source": ["aws.ec2"],
+          "detail-type": ["AWS API Call via CloudTrail"],
+          "detail": {
+            "eventSource": ["ec2.amazonaws.com"],
+            "eventName": [
+              "CreateNetworkAcl",
+              "CreateNetworkAclEntry",
+              "DeleteNetworkAcl",
+              "DeleteNetworkAclEntry",
+              "ReplaceNetworkAclEntry",
+              "ReplaceNetworkAclAssociation"
+            ]
+          }
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A"
+            },
+            "Id": "Target0"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityDetection/BLEARuleNetworkAclChange/Resource"
+      }
+    },
+    "SecurityDetectionBLEARuleCloudTrailChangeD1A78FC5": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "Description": "Notify to change on CloudTrail log configuration",
+        "EventPattern": {
+          "detail-type": ["AWS API Call via CloudTrail"],
+          "detail": {
+            "eventSource": ["cloudtrail.amazonaws.com"],
+            "eventName": ["StopLogging", "DeleteTrail", "UpdateTrail"]
+          }
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A"
+            },
+            "Id": "Target0"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityDetection/BLEARuleCloudTrailChange/Resource"
+      }
+    },
+    "SecurityDetectionIAMPolicyChangeC64AA441": {
+      "Type": "AWS::Logs::MetricFilter",
+      "Properties": {
+        "FilterPattern": "{($.eventName=DeleteGroupPolicy)||($.eventName=DeleteRolePolicy)||($.eventName=DeleteUserPolicy)||($.eventName=PutGroupPolicy)||($.eventName=PutRolePolicy)||($.eventName=PutUserPolicy)||($.eventName=CreatePolicy)||($.eventName=DeletePolicy)||($.eventName=CreatePolicyVersion)||($.eventName=DeletePolicyVersion)||($.eventName=AttachRolePolicy)||($.eventName=DetachRolePolicy)||($.eventName=AttachUserPolicy)||($.eventName=DetachUserPolicy)||($.eventName=AttachGroupPolicy)||($.eventName=DetachGroupPolicy)}",
+        "LogGroupName": {
+          "Ref": "SecurityLoggingCloudTrailLogGroup2001EC25"
+        },
+        "MetricTransformations": [
+          {
+            "MetricName": "IAMPolicyEventCount",
+            "MetricNamespace": "CloudTrailMetrics",
+            "MetricValue": "1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityDetection/IAMPolicyChange/Resource"
+      }
+    },
+    "SecurityDetectionIAMPolicyChangeAlarm755AA536": {
+      "Type": "AWS::CloudWatch::Alarm",
+      "Properties": {
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "EvaluationPeriods": 1,
+        "ActionsEnabled": true,
+        "AlarmActions": [
+          {
+            "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A"
+          }
+        ],
+        "AlarmDescription": "IAM Configuration changes detected!",
+        "DatapointsToAlarm": 1,
+        "MetricName": "IAMPolicyEventCount",
+        "Namespace": "CloudTrailMetrics",
+        "Period": 300,
+        "Statistic": "Sum",
+        "Threshold": 1
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityDetection/IAMPolicyChangeAlarm/Resource"
+      }
+    },
+    "SecurityDetectionUnauthorizedAttemptsDBB4E71C": {
+      "Type": "AWS::Logs::MetricFilter",
+      "Properties": {
+        "FilterPattern": "{($.errorCode = \"*UnauthorizedOperation\" || $.errorCode = \"AccessDenied*\") && ($.eventName != \"Decrypt\" || $.userIdentity.invokedBy != \"config.amazonaws.com\" )}",
+        "LogGroupName": {
+          "Ref": "SecurityLoggingCloudTrailLogGroup2001EC25"
+        },
+        "MetricTransformations": [
+          {
+            "MetricName": "UnauthorizedAttemptsEventCount",
+            "MetricNamespace": "CloudTrailMetrics",
+            "MetricValue": "1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityDetection/UnauthorizedAttempts/Resource"
+      }
+    },
+    "SecurityDetectionUnauthorizedAttemptsAlarm7B3A56F5": {
+      "Type": "AWS::CloudWatch::Alarm",
+      "Properties": {
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "EvaluationPeriods": 1,
+        "ActionsEnabled": true,
+        "AlarmActions": [
+          {
+            "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A"
+          }
+        ],
+        "AlarmDescription": "Multiple unauthorized actions or logins attempted!",
+        "DatapointsToAlarm": 1,
+        "MetricName": "UnauthorizedAttemptsEventCount",
+        "Namespace": "CloudTrailMetrics",
+        "Period": 300,
+        "Statistic": "Sum",
+        "Threshold": 5
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityDetection/UnauthorizedAttemptsAlarm/Resource"
+      }
+    },
+    "SecurityDetectionNewAccessKeyCreatedF07DA21C": {
+      "Type": "AWS::Logs::MetricFilter",
+      "Properties": {
+        "FilterPattern": "{($.eventName=CreateAccessKey)}",
+        "LogGroupName": {
+          "Ref": "SecurityLoggingCloudTrailLogGroup2001EC25"
+        },
+        "MetricTransformations": [
+          {
+            "MetricName": "NewAccessKeyCreatedEventCount",
+            "MetricNamespace": "CloudTrailMetrics",
+            "MetricValue": "1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityDetection/NewAccessKeyCreated/Resource"
+      }
+    },
+    "SecurityDetectionNewAccessKeyCreatedAlarm474AEC07": {
+      "Type": "AWS::CloudWatch::Alarm",
+      "Properties": {
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "EvaluationPeriods": 1,
+        "ActionsEnabled": true,
+        "AlarmActions": [
+          {
+            "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A"
+          }
+        ],
+        "AlarmDescription": "Warning: New IAM access Eey was created. Please be sure this action was neccessary.",
+        "DatapointsToAlarm": 1,
+        "MetricName": "NewAccessKeyCreatedEventCount",
+        "Namespace": "CloudTrailMetrics",
+        "Period": 300,
+        "Statistic": "Sum",
+        "Threshold": 1
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityDetection/NewAccessKeyCreatedAlarm/Resource"
+      }
+    },
+    "SecurityDetectionRootUserPolicyEventCount98A12A27": {
+      "Type": "AWS::Logs::MetricFilter",
+      "Properties": {
+        "FilterPattern": "{$.userIdentity.type=\"Root\" && $.userIdentity.invokedBy NOT EXISTS && $.eventType !=\"AwsServiceEvent\"}",
+        "LogGroupName": {
+          "Ref": "SecurityLoggingCloudTrailLogGroup2001EC25"
+        },
+        "MetricTransformations": [
+          {
+            "MetricName": "RootUserPolicyEventCount",
+            "MetricNamespace": "CloudTrailMetrics",
+            "MetricValue": "1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityDetection/RootUserPolicyEventCount/Resource"
+      }
+    },
+    "SecurityDetectionRootUserPolicyEventCountAlarmB22843B2": {
+      "Type": "AWS::CloudWatch::Alarm",
+      "Properties": {
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "EvaluationPeriods": 1,
+        "ActionsEnabled": true,
+        "AlarmActions": [
+          {
+            "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A"
+          }
+        ],
+        "AlarmDescription": "Root user activity detected!",
+        "DatapointsToAlarm": 1,
+        "MetricName": "RootUserPolicyEventCount",
+        "Namespace": "CloudTrailMetrics",
+        "Period": 300,
+        "Statistic": "Sum",
+        "Threshold": 1
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityDetection/RootUserPolicyEventCountAlarm/Resource"
+      }
+    },
+    "SecurityDetectionBLEARuleSecurityHubF349343C": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "Description": "CloudWatch Event Rule to send notification on SecurityHub all new findings and all updates.",
+        "EventPattern": {
+          "source": ["aws.securityhub"],
+          "detail-type": ["Security Hub Findings - Imported"],
+          "detail": {
+            "findings": {
+              "Severity": {
+                "Label": ["CRITICAL", "HIGH"]
+              },
+              "Compliance": {
+                "Status": ["FAILED"]
+              },
+              "Workflow": {
+                "Status": ["NEW", "NOTIFIED"]
+              },
+              "RecordState": ["ACTIVE"]
+            }
+          }
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A"
+            },
+            "Id": "Target0"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityDetection/BLEARuleSecurityHub/Resource"
+      }
+    },
+    "SecurityDetectionBLEARuleGuardDuty2FF7C0DC": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "Description": "CloudWatch Event Rule to send notification on GuardDuty findings.",
+        "EventPattern": {
+          "source": ["aws.guardduty"],
+          "detail-type": ["GuardDuty Finding"],
+          "detail": {
+            "severity": [
+              4, 4, 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9, 5, 5, 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.9, 6,
+              6, 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 7, 7, 7.1, 7.2, 7.3, 7.4, 7.5, 7.6, 7.7, 7.8, 7.9, 8, 8,
+              8.1, 8.2, 8.3, 8.4, 8.5, 8.6, 8.7, 8.8, 8.9
+            ]
+          }
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A"
+            },
+            "Id": "Target0"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/SecurityDetection/BLEARuleGuardDuty/Resource"
+      }
+    },
+    "CDKMetadata": {
+      "Type": "AWS::CDK::Metadata",
+      "Properties": {
+        "Analytics": "v2:deflate64:H4sIAAAAAAAA/1VQyU7DMBD9lt5dQ6lAXEslOEBFlfaOXHsapnHsyEsrFPnf8RKScPFbZjx+4wf6+ExXC3azSy6apcQT7aP46i2YK3LgzDGpa7o3WnjuDo7xhiBrab9jitUg9loi/yHbs/pvVFpCcjO+Ge27pAqZ7hQWiF3T/sXzBlxyB1Zgap7rQJrW0v4dciXBRiKzSWQSSEwdGz50PT4+8h04g/wVpQOTk890IFxqL5xhKGl/TJBaMok1rc5Yj8tXviy5zfafqqAFgcyhHgreZBHXVDHSUXfI88xM8jktOZcHf7LcYJcup9pcBwJXUC7OG5+NOKS/Mce/ab+RzLTlSyIJgVRgtTc8t39613lX8k5uDCywzFdaAL3Yu+vqia7p/eJiEZfGK4ct0KrgL9qDN8w/AgAA"
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBLEABaseCTGuest/BaselineProduct/CDKMetadata/Default"
+      },
+      "Condition": "CDKMetadataAvailable"
+    }
+  },
+  "Outputs": {
+    "ExportsOutputRefSecurityDetectionSecurityAlarmTopic5A3FE39A786C2829": {
+      "Value": {
+        "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A"
+      },
+      "Export": {
+        "Name": "DevBLEABaseCTGuestBaselineProduct558913A8:ExportsOutputRefSecurityDetectionSecurityAlarmTopic5A3FE39A786C2829"
+      }
+    }
+  },
+  "Conditions": {
+    "CDKMetadataAvailable": {
+      "Fn::Or": [
+        {
+          "Fn::Or": [
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "af-south-1"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "ap-east-1"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "ap-northeast-1"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "ap-northeast-2"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "ap-south-1"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "ap-southeast-1"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "ap-southeast-2"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "ca-central-1"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "cn-north-1"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "cn-northwest-1"
+              ]
+            }
+          ]
+        },
+        {
+          "Fn::Or": [
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "eu-central-1"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "eu-north-1"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "eu-south-1"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "eu-west-1"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "eu-west-2"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "eu-west-3"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "me-south-1"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "sa-east-1"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "us-east-1"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "us-east-2"
+              ]
+            }
+          ]
+        },
+        {
+          "Fn::Or": [
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "us-west-1"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "us-west-2"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
