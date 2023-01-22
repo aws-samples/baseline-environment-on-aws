@@ -25,7 +25,7 @@
     "aws-cdk-lib": "^2.59.0",
     "constructs": "^10.1.213",
     "eslint": "^8.30.0",
-    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-prettier": "^8.6.0",
     "jest": "^27.5.1",
     "prettier": "^2.8.3",
     "ts-jest": "^27.1.5",
