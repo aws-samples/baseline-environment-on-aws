@@ -1946,8 +1946,16 @@ Object {
       "Properties": Object {
         "HealthCheckGracePeriod": 60,
         "HealthCheckType": "ELB",
-        "LaunchConfigurationName": Object {
-          "Ref": "AsgAppLaunchConfig341A9477",
+        "LaunchTemplate": Object {
+          "LaunchTemplateId": Object {
+            "Ref": "LaunchTemplate04EC5460",
+          },
+          "Version": Object {
+            "Fn::GetAtt": Array [
+              "LaunchTemplate04EC5460",
+              "LatestVersionNumber",
+            ],
+          },
         },
         "MaxSize": "4",
         "MinSize": "2",
@@ -1989,56 +1997,6 @@ Object {
         },
       },
     },
-    "AsgAppInstanceProfile21D0A966": Object {
-      "Properties": Object {
-        "Roles": Array [
-          Object {
-            "Ref": "ssminstancerole0E7D791C",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::InstanceProfile",
-    },
-    "AsgAppLaunchConfig341A9477": Object {
-      "DependsOn": Array [
-        "ssminstancerole0E7D791C",
-      ],
-      "Properties": Object {
-        "BlockDeviceMappings": Array [
-          Object {
-            "DeviceName": "/dev/xvda",
-            "Ebs": Object {
-              "Encrypted": true,
-              "VolumeSize": 10,
-            },
-          },
-        ],
-        "IamInstanceProfile": Object {
-          "Ref": "AsgAppInstanceProfile21D0A966",
-        },
-        "ImageId": Object {
-          "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter",
-        },
-        "InstanceType": "t3.micro",
-        "SecurityGroups": Array [
-          Object {
-            "Fn::GetAtt": Array [
-              "SgApp7DE78E7E",
-              "GroupId",
-            ],
-          },
-        ],
-        "UserData": Object {
-          "Fn::Base64": "#!/bin/bash
-sudo yum -y install httpd
-sudo systemctl enable httpd
-sudo systemctl start httpd
-touch /var/www/html/index.html
-chown apache.apache /var/www/html/index.html",
-        },
-      },
-      "Type": "AWS::AutoScaling::LaunchConfiguration",
-    },
     "AsgAppScalingPolicykeepSpareCPU63DAB833": Object {
       "Properties": Object {
         "AutoScalingGroupName": Object {
@@ -2053,6 +2011,103 @@ chown apache.apache /var/www/html/index.html",
         },
       },
       "Type": "AWS::AutoScaling::ScalingPolicy",
+    },
+    "LaunchTemplate04EC5460": Object {
+      "Properties": Object {
+        "LaunchTemplateData": Object {
+          "BlockDeviceMappings": Array [
+            Object {
+              "DeviceName": "/dev/xvda",
+              "Ebs": Object {
+                "Encrypted": true,
+                "VolumeSize": 10,
+              },
+            },
+          ],
+          "IamInstanceProfile": Object {
+            "Arn": Object {
+              "Fn::GetAtt": Array [
+                "LaunchTemplateProfile94AA77CE",
+                "Arn",
+              ],
+            },
+          },
+          "ImageId": Object {
+            "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter",
+          },
+          "InstanceType": "t3.micro",
+          "SecurityGroupIds": Array [
+            Object {
+              "Fn::GetAtt": Array [
+                "SgApp7DE78E7E",
+                "GroupId",
+              ],
+            },
+          ],
+          "TagSpecifications": Array [
+            Object {
+              "ResourceType": "instance",
+              "Tags": Array [
+                Object {
+                  "Key": "Environment",
+                  "Value": "Development",
+                },
+                Object {
+                  "Key": "Name",
+                  "Value": "BLEA-ASGApp/LaunchTemplate",
+                },
+              ],
+            },
+            Object {
+              "ResourceType": "volume",
+              "Tags": Array [
+                Object {
+                  "Key": "Environment",
+                  "Value": "Development",
+                },
+                Object {
+                  "Key": "Name",
+                  "Value": "BLEA-ASGApp/LaunchTemplate",
+                },
+              ],
+            },
+          ],
+          "UserData": Object {
+            "Fn::Base64": "#!/bin/bash
+sudo yum -y install httpd
+sudo systemctl enable httpd
+sudo systemctl start httpd
+touch /var/www/html/index.html
+chown apache.apache /var/www/html/index.html",
+          },
+        },
+        "TagSpecifications": Array [
+          Object {
+            "ResourceType": "launch-template",
+            "Tags": Array [
+              Object {
+                "Key": "Environment",
+                "Value": "Development",
+              },
+              Object {
+                "Key": "Name",
+                "Value": "BLEA-ASGApp/LaunchTemplate",
+              },
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::EC2::LaunchTemplate",
+    },
+    "LaunchTemplateProfile94AA77CE": Object {
+      "Properties": Object {
+        "Roles": Array [
+          Object {
+            "Ref": "ssminstancerole0E7D791C",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::InstanceProfile",
     },
     "SgAlbEA3AC417": Object {
       "Properties": Object {
