@@ -21,7 +21,7 @@
     "@types/jest": "^27.5.2",
     "@types/node": "18.11.18",
     "@typescript-eslint/eslint-plugin": "^5.49.0",
-    "@typescript-eslint/parser": "^5.48.1",
+    "@typescript-eslint/parser": "^5.52.0",
     "aws-cdk-lib": "^2.61.1",
     "constructs": "^10.1.255",
     "eslint": "^8.34.0",
