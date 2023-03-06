@@ -240,7 +240,7 @@ Object {
     },
     \\"build\\": {
       \\"commands\\": [
-        \\"cdk-assets --path \\\\\\"assembly-BLEA-Prod-Stage/BLEAProdStageBLEADBAuroraPg1F6BF089.assets.json\\\\\\" --verbose publish \\\\\\"eb5b005c858404ea0c8f68098ed5dcdf5340e02461f149751d10f59c210d5ef8:current_account-ap-northeast-1\\\\\\"\\"
+        \\"cdk-assets --path \\\\\\"assembly-BLEA-Prod-Stage/BLEAProdStageBLEADBAuroraPg1F6BF089.assets.json\\\\\\" --verbose publish \\\\\\"e45ee2082d227db1b6f0292696ce5ce2b061c105d15efb341925ca040d1feb68:current_account-ap-northeast-1\\\\\\"\\"
       ]
     }
   }
