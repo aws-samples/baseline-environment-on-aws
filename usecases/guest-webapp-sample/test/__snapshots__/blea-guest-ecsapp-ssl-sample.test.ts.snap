@@ -1028,6 +1028,9 @@ Object {
       "Type": "AWS::EC2::SecurityGroup",
     },
     "VpcFlowLogsFlowLogBB096F0F": Object {
+      "DependsOn": Array [
+        "FlowLogBucketPolicyD22C263C",
+      ],
       "Properties": Object {
         "LogDestination": Object {
           "Fn::GetAtt": Array [
@@ -2732,7 +2735,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
-          "S3Key": "0affa35a9d750381b76be83ff9cedeb2e455e8903fcf4d7db4d1c1e2c9c7cd54.zip",
+          "S3Key": "861509f9607aa6bb9fd7034fb10fe6f0c60d91dfd7f010b9ef666869dec9bbd9.zip",
         },
         "Handler": "index.certificateRequestHandler",
         "Role": Object {
@@ -2880,7 +2883,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
-          "S3Key": "0affa35a9d750381b76be83ff9cedeb2e455e8903fcf4d7db4d1c1e2c9c7cd54.zip",
+          "S3Key": "861509f9607aa6bb9fd7034fb10fe6f0c60d91dfd7f010b9ef666869dec9bbd9.zip",
         },
         "Handler": "index.certificateRequestHandler",
         "Role": Object {
@@ -4291,7 +4294,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
-          "S3Key": "eb5b005c858404ea0c8f68098ed5dcdf5340e02461f149751d10f59c210d5ef8.zip",
+          "S3Key": "e45ee2082d227db1b6f0292696ce5ce2b061c105d15efb341925ca040d1feb68.zip",
         },
         "Handler": "index.handler",
         "Role": Object {
