@@ -36,6 +36,6 @@
     "@aws-cdk/aws-synthetics-alpha": "^2.38.1-alpha.0",
     "aws-cdk-lib": "^2.68.0",
     "cdk": "^2.68.0",
-    "constructs": "^10.1.277"
+    "constructs": "^10.1.278"
   }
 }
