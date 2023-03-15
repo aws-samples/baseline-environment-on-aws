@@ -67,21 +67,23 @@ export class BLEAASGAppStack extends cdk.Stack {
       vpcSubnets: props.myVpc.selectSubnets({
         subnetGroupName: 'Private',
       }),
-      instanceType: ec2.InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.MICRO),
-      machineImage: new ec2.AmazonLinuxImage({
-        generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2,
+      launchTemplate: new ec2.LaunchTemplate(this, 'LaunchTemplate', {
+        instanceType: ec2.InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.MICRO),
+        machineImage: new ec2.AmazonLinuxImage({
+          generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2,
+        }),
+        userData: userDataForApp,
+        role: ssmInstanceRole,
+        blockDevices: [
+          {
+            deviceName: '/dev/xvda',
+            volume: autoscaling.BlockDeviceVolume.ebs(10, {
+              encrypted: true,
+            }),
+          },
+        ],
+        securityGroup: securityGroupForApp,
       }),
-      blockDevices: [
-        {
-          deviceName: '/dev/xvda',
-          volume: autoscaling.BlockDeviceVolume.ebs(10, {
-            encrypted: true,
-          }),
-        },
-      ],
-      securityGroup: securityGroupForApp,
-      role: ssmInstanceRole,
-      userData: userDataForApp,
       healthCheck: autoscaling.HealthCheck.elb({
         grace: cdk.Duration.seconds(60),
       }),
