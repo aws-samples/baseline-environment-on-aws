@@ -7,6 +7,7 @@ version: 2
 updates:
   - package-ecosystem: 'npm' # See documentation for possible values
     directory: '/' # Location of package manifests
+    open-pull-requests-limit: 30
     schedule:
       interval: 'weekly'
       day: 'monday'
@@ -17,6 +18,7 @@ updates:
         versions: '>=28'
   - package-ecosystem: 'docker' # See documentation for possible values
     directory: '/' # Location of package manifests
+    open-pull-requests-limit: 30
     schedule:
       interval: 'weekly'
       day: 'monday'
