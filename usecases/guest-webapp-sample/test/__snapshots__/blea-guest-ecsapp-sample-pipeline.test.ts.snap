@@ -174,7 +174,7 @@ Object {
         "EncryptionKey": "alias/aws/s3",
         "Environment": Object {
           "ComputeType": "BUILD_GENERAL1_SMALL",
-          "Image": "aws/codebuild/standard:5.0",
+          "Image": "aws/codebuild/standard:6.0",
           "ImagePullCredentialsType": "CODEBUILD",
           "PrivilegedMode": false,
           "Type": "LINUX_CONTAINER",
@@ -218,7 +218,7 @@ Object {
         "EncryptionKey": "alias/aws/s3",
         "Environment": Object {
           "ComputeType": "BUILD_GENERAL1_SMALL",
-          "Image": "aws/codebuild/standard:5.0",
+          "Image": "aws/codebuild/standard:6.0",
           "ImagePullCredentialsType": "CODEBUILD",
           "PrivilegedMode": false,
           "Type": "LINUX_CONTAINER",
@@ -240,7 +240,7 @@ Object {
     },
     \\"build\\": {
       \\"commands\\": [
-        \\"cdk-assets --path \\\\\\"assembly-BLEA-Prod-Stage/BLEAProdStageBLEADBAuroraPg1F6BF089.assets.json\\\\\\" --verbose publish \\\\\\"e45ee2082d227db1b6f0292696ce5ce2b061c105d15efb341925ca040d1feb68:current_account-ap-northeast-1\\\\\\"\\"
+        \\"cdk-assets --path \\\\\\"assembly-BLEA-Prod-Stage/BLEAProdStageBLEADBAuroraPg1F6BF089.assets.json\\\\\\" --verbose publish \\\\\\"5fa1330271b8967d9254ba2d4a07144f8acefe8b77e6d6bba38261373a50d5f8:current_account-ap-northeast-1\\\\\\"\\"
       ]
     }
   }
@@ -571,7 +571,7 @@ Object {
                   "Version": "1",
                 },
                 "Configuration": Object {
-                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"9f610b88a06977a00a6cc1c1c194ce24263d06c353b7e796932b1f6a7ab83d0e\\"}]",
+                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"834d474b45f591bb352e6abb9509f7aacee9b241749612f68fd697939bd3fa2c\\"}]",
                   "ProjectName": Object {
                     "Ref": "BLEAProdPipelinepipelinePipelineBuildSynthStepCdkBuildProject2E3BBE1A",
                   },
@@ -608,7 +608,7 @@ Object {
                   "Version": "1",
                 },
                 "Configuration": Object {
-                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"ca610ba4cccf198efb418613de09fdc3b7959e4eccf576ff33226aabde65f0c0\\"}]",
+                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"44696e564a66607bdd109c992acada5821918454efab13da0611d9726d7671bf\\"}]",
                   "ProjectName": Object {
                     "Ref": "BLEAProdPipelinepipelineUpdatePipelineSelfMutation359507DE",
                   },
@@ -1799,7 +1799,7 @@ Object {
         "EncryptionKey": "alias/aws/s3",
         "Environment": Object {
           "ComputeType": "BUILD_GENERAL1_SMALL",
-          "Image": "aws/codebuild/standard:5.0",
+          "Image": "aws/codebuild/standard:6.0",
           "ImagePullCredentialsType": "CODEBUILD",
           "PrivilegedMode": false,
           "Type": "LINUX_CONTAINER",
@@ -2083,7 +2083,7 @@ Object {
         "EncryptionKey": "alias/aws/s3",
         "Environment": Object {
           "ComputeType": "BUILD_GENERAL1_SMALL",
-          "Image": "aws/codebuild/standard:5.0",
+          "Image": "aws/codebuild/standard:6.0",
           "ImagePullCredentialsType": "CODEBUILD",
           "PrivilegedMode": false,
           "Type": "LINUX_CONTAINER",
