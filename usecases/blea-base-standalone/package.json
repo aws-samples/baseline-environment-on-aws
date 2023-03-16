@@ -5,17 +5,15 @@
   "description": "Baseline for standalone accounts",
   "license": "MIT-0",
   "bin": {
-    "blea-base-sa": "bin/blea-base-sa.js"
+    "blea-base-standalone": "bin/blea-base-standalone.js"
   },
   "scripts": {
-    "synth:dev": "npx cdk synth -c environment=dev",
+    "synth:dev": "npx cdk synth",
     "depcheck": "npx depcheck --ignore-dirs cdk.out",
     "build": "tsc --build",
     "clean": "tsc --build --clean && rm -rf cdk.out",
     "watch": "tsc -w",
-    "test": "jest",
-    "lint": "eslint --fix .",
-    "format": "prettier --write ."
+    "test": "jest"
   },
   "devDependencies": {
     "@types/jest": "^27.5.2",
