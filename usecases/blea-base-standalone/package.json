@@ -1,28 +1,27 @@
 {
   "private": true,
-  "name": "blea-base-ct-audit",
+  "name": "blea-base-standalone",
   "version": "1.0.0",
-  "description": "Baseline for AWS Control Tower audit account",
+  "description": "Baseline for standalone accounts",
   "license": "MIT-0",
   "bin": {
-    "blea-base-ct-audit": "bin/blea-base-ct-audit.js"
+    "blea-base-standalone": "bin/blea-base-standalone.js"
   },
   "scripts": {
-    "synth:dev": "npx cdk synth -c environment=dev-audit",
+    "synth:dev": "npx cdk synth",
     "depcheck": "npx depcheck --ignore-dirs cdk.out",
     "build": "tsc --build",
     "clean": "tsc --build --clean && rm -rf cdk.out",
     "watch": "tsc -w",
-    "test": "jest",
-    "lint": "eslint --fix .",
-    "format": "prettier --write ."
+    "test": "jest"
   },
   "devDependencies": {
     "@types/jest": "^27.5.2",
     "@types/node": "18.15.3",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
-    "aws-cdk": "^2.69.0",
+    "aws-cdk-lib": "^2.69.0",
+    "constructs": "^10.1.278",
     "eslint": "^8.36.0",
     "eslint-config-prettier": "^8.7.0",
     "jest": "^27.5.1",

@@ -1,17 +1,21 @@
 import * as cdk from 'aws-cdk-lib';
+import {
+  aws_cloudtrail as trail,
+  aws_config as config,
+  aws_iam as iam,
+  aws_kms as kms,
+  aws_logs as cwl,
+  aws_s3 as s3,
+} from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { aws_s3 as s3 } from 'aws-cdk-lib';
-import { aws_cloudtrail as trail } from 'aws-cdk-lib';
-import { aws_logs as cwl } from 'aws-cdk-lib';
-import { aws_iam as iam } from 'aws-cdk-lib';
-import { aws_kms as kms } from 'aws-cdk-lib';
 
-export class BLEATrailStack extends cdk.Stack {
-  public readonly cloudTrailLogGroup: cwl.LogGroup;
+export class SecurityLogging extends Construct {
+  public readonly trailLogGroup: cwl.LogGroup;
 
-  constructor(scope: Construct, id: string, props: cdk.StackProps) {
-    super(scope, id, props);
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
 
+    // === AWS CloudTrail ===
     // Archive Bucket for CloudTrail
     const archiveLogsBucket = new s3.Bucket(this, 'ArchiveLogsBucket', {
       accessControl: s3.BucketAccessControl.LOG_DELIVERY_WRITE,
@@ -33,7 +37,7 @@ export class BLEATrailStack extends cdk.Stack {
         },
       ],
     });
-    this.addBaseBucketPolicy(archiveLogsBucket);
+    addBaseBucketPolicy(archiveLogsBucket);
 
     // Bucket for CloudTrail
     const cloudTrailBucket = new s3.Bucket(this, 'CloudTrailBucket', {
@@ -45,7 +49,8 @@ export class BLEATrailStack extends cdk.Stack {
       removalPolicy: cdk.RemovalPolicy.RETAIN,
       enforceSSL: true,
     });
-    this.addBaseBucketPolicy(cloudTrailBucket);
+    cloudTrailBucket.node.addDependency();
+    addBaseBucketPolicy(cloudTrailBucket);
 
     // CMK for CloudTrail
     const cloudTrailKey = new kms.Key(this, 'CloudTrailKey', {
@@ -92,7 +97,7 @@ export class BLEATrailStack extends cdk.Stack {
         resources: ['*'],
         conditions: {
           ArnEquals: {
-            'kms:EncryptionContext:aws:logs:arn': `arn:aws:logs:${props?.env?.region}:${
+            'kms:EncryptionContext:aws:logs:arn': `arn:aws:logs:${cdk.Stack.of(this).region}:${
               cdk.Stack.of(this).account
             }:log-group:*`,
           },
@@ -105,7 +110,7 @@ export class BLEATrailStack extends cdk.Stack {
       retention: cwl.RetentionDays.THREE_MONTHS,
       encryptionKey: cloudTrailKey,
     });
-    this.cloudTrailLogGroup = cloudTrailLogGroup;
+    this.trailLogGroup = cloudTrailLogGroup;
 
     // CloudTrail
     new trail.Trail(this, 'CloudTrail', {
@@ -116,18 +121,70 @@ export class BLEATrailStack extends cdk.Stack {
       encryptionKey: cloudTrailKey,
       sendToCloudWatchLogs: true,
     });
-  }
 
-  // Add base BucketPolicy for CloudTrail
-  addBaseBucketPolicy(bucket: s3.Bucket): void {
+    // === AWS Config ===
+    const role = new iam.Role(this, 'ConfigRole', {
+      assumedBy: new iam.ServicePrincipal('config.amazonaws.com'),
+      managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWS_ConfigRole')],
+    });
+
+    new config.CfnConfigurationRecorder(this, 'ConfigRecorder', {
+      roleArn: role.roleArn,
+      recordingGroup: {
+        allSupported: true,
+        includeGlobalResourceTypes: true,
+      },
+    });
+
+    const bucket = new s3.Bucket(this, 'ConfigBucket', {
+      accessControl: s3.BucketAccessControl.PRIVATE,
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      versioned: true,
+      removalPolicy: cdk.RemovalPolicy.RETAIN,
+      encryption: s3.BucketEncryption.S3_MANAGED,
+      enforceSSL: true,
+    });
+
+    // Attaches the AWSConfigBucketPermissionsCheck policy statement.
     bucket.addToResourcePolicy(
       new iam.PolicyStatement({
-        sid: 'Restrict Delete* Actions',
-        effect: iam.Effect.DENY,
-        actions: ['s3:Delete*'],
-        principals: [new iam.AnyPrincipal()],
-        resources: [bucket.arnForObjects('*')],
+        effect: iam.Effect.ALLOW,
+        principals: [role],
+        resources: [bucket.bucketArn],
+        actions: ['s3:GetBucketAcl'],
       }),
     );
+
+    // Attaches the AWSConfigBucketDelivery policy statement.
+    bucket.addToResourcePolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        principals: [role],
+        resources: [bucket.arnForObjects(`AWSLogs/${cdk.Stack.of(this).account}/Config/*`)],
+        actions: ['s3:PutObject'],
+        conditions: {
+          StringEquals: {
+            's3:x-amz-acl': 'bucket-owner-full-control',
+          },
+        },
+      }),
+    );
+
+    new config.CfnDeliveryChannel(this, 'ConfigDeliveryChannel', {
+      s3BucketName: bucket.bucketName,
+    });
   }
+}
+
+// Add base BucketPolicy for CloudTrail
+function addBaseBucketPolicy(bucket: s3.Bucket): void {
+  bucket.addToResourcePolicy(
+    new iam.PolicyStatement({
+      sid: 'Restrict Delete* Actions',
+      effect: iam.Effect.DENY,
+      actions: ['s3:Delete*'],
+      principals: [new iam.AnyPrincipal()],
+      resources: [bucket.arnForObjects('*')],
+    }),
+  );
 }
