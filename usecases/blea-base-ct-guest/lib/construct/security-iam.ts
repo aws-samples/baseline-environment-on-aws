@@ -1,10 +1,9 @@
-import * as cdk from 'aws-cdk-lib';
-import { Construct } from 'constructs';
 import { aws_iam as iam } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
 
-export class BLEAIamStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
-    super(scope, id, props);
+export class SecurityIAM extends Construct {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
 
     // SysAdmin
     const sysAdminPolicyJSON = {

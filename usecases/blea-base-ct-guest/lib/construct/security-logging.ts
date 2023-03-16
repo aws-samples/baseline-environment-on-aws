@@ -1,17 +1,21 @@
 import * as cdk from 'aws-cdk-lib';
+import {
+  aws_cloudtrail as trail,
+  aws_config as config,
+  aws_iam as iam,
+  aws_kms as kms,
+  aws_logs as cwl,
+  aws_s3 as s3,
+} from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { aws_s3 as s3 } from 'aws-cdk-lib';
-import { aws_cloudtrail as trail } from 'aws-cdk-lib';
-import { aws_logs as cwl } from 'aws-cdk-lib';
-import { aws_iam as iam } from 'aws-cdk-lib';
-import { aws_kms as kms } from 'aws-cdk-lib';
 
-export class BLEATrailStack extends cdk.Stack {
-  public readonly cloudTrailLogGroup: cwl.LogGroup;
+export class SecurityLogging extends Construct {
+  public readonly trailLogGroup: cwl.LogGroup;
 
-  constructor(scope: Construct, id: string, props: cdk.StackProps) {
-    super(scope, id, props);
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
 
+    // === AWS CloudTrail ===
     // Archive Bucket for CloudTrail
     const archiveLogsBucket = new s3.Bucket(this, 'ArchiveLogsBucket', {
       accessControl: s3.BucketAccessControl.LOG_DELIVERY_WRITE,
@@ -19,6 +23,7 @@ export class BLEATrailStack extends cdk.Stack {
       versioned: true,
       encryption: s3.BucketEncryption.S3_MANAGED,
       removalPolicy: cdk.RemovalPolicy.RETAIN,
+      enforceSSL: true,
       lifecycleRules: [
         {
           enabled: true,
@@ -32,7 +37,7 @@ export class BLEATrailStack extends cdk.Stack {
         },
       ],
     });
-    this.addBaseBucketPolicy(archiveLogsBucket);
+    addBaseBucketPolicy(archiveLogsBucket);
 
     // Bucket for CloudTrail
     const cloudTrailBucket = new s3.Bucket(this, 'CloudTrailBucket', {
@@ -42,8 +47,10 @@ export class BLEATrailStack extends cdk.Stack {
       serverAccessLogsBucket: archiveLogsBucket,
       serverAccessLogsPrefix: 'cloudtraillogs',
       removalPolicy: cdk.RemovalPolicy.RETAIN,
+      enforceSSL: true,
     });
-    this.addBaseBucketPolicy(cloudTrailBucket);
+    cloudTrailBucket.node.addDependency();
+    addBaseBucketPolicy(cloudTrailBucket);
 
     // CMK for CloudTrail
     const cloudTrailKey = new kms.Key(this, 'CloudTrailKey', {
@@ -90,7 +97,7 @@ export class BLEATrailStack extends cdk.Stack {
         resources: ['*'],
         conditions: {
           ArnEquals: {
-            'kms:EncryptionContext:aws:logs:arn': `arn:aws:logs:${props?.env?.region}:${
+            'kms:EncryptionContext:aws:logs:arn': `arn:aws:logs:${cdk.Stack.of(this).region}:${
               cdk.Stack.of(this).account
             }:log-group:*`,
           },
@@ -103,7 +110,7 @@ export class BLEATrailStack extends cdk.Stack {
       retention: cwl.RetentionDays.THREE_MONTHS,
       encryptionKey: cloudTrailKey,
     });
-    this.cloudTrailLogGroup = cloudTrailLogGroup;
+    this.trailLogGroup = cloudTrailLogGroup;
 
     // CloudTrail
     new trail.Trail(this, 'CloudTrail', {
@@ -115,32 +122,17 @@ export class BLEATrailStack extends cdk.Stack {
       sendToCloudWatchLogs: true,
     });
   }
+}
 
-  // Add base BucketPolicy for CloudTrail
-  addBaseBucketPolicy(bucket: s3.Bucket): void {
-    bucket.addToResourcePolicy(
-      new iam.PolicyStatement({
-        sid: 'Enforce HTTPS Connections',
-        effect: iam.Effect.DENY,
-        actions: ['s3:*'],
-        principals: [new iam.AnyPrincipal()],
-        resources: [bucket.arnForObjects('*')],
-        conditions: {
-          Bool: {
-            'aws:SecureTransport': false,
-          },
-        },
-      }),
-    );
-
-    bucket.addToResourcePolicy(
-      new iam.PolicyStatement({
-        sid: 'Restrict Delete* Actions',
-        effect: iam.Effect.DENY,
-        actions: ['s3:Delete*'],
-        principals: [new iam.AnyPrincipal()],
-        resources: [bucket.arnForObjects('*')],
-      }),
-    );
-  }
+// Add base BucketPolicy for CloudTrail
+function addBaseBucketPolicy(bucket: s3.Bucket): void {
+  bucket.addToResourcePolicy(
+    new iam.PolicyStatement({
+      sid: 'Restrict Delete* Actions',
+      effect: iam.Effect.DENY,
+      actions: ['s3:Delete*'],
+      principals: [new iam.AnyPrincipal()],
+      resources: [bucket.arnForObjects('*')],
+    }),
+  );
 }

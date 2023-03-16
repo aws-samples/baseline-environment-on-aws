@@ -1,0 +1,1510 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BLEABaseCTGuest App Snapshot test for BLEABaseCTGuest Stack 1`] = `
+Object {
+  "Outputs": Object {
+    "ExportsOutputRefSecurityDetectionSecurityAlarmTopic5A3FE39A786C2829": Object {
+      "Export": Object {
+        "Name": "DevBLEABaseCTGuest:ExportsOutputRefSecurityDetectionSecurityAlarmTopic5A3FE39A786C2829",
+      },
+      "Value": Object {
+        "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A",
+      },
+    },
+  },
+  "Parameters": Object {
+    "BootstrapVersion": Object {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": Object {
+    "SecurityDetectionBLEARuleAwsHealth8AC44EF7": Object {
+      "Properties": Object {
+        "Description": "Notify AWS Health event",
+        "EventPattern": Object {
+          "detail-type": Array [
+            "AWS Health Event",
+          ],
+          "source": Array [
+            "aws.health",
+          ],
+        },
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A",
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "SecurityDetectionBLEARuleCloudTrailChangeD1A78FC5": Object {
+      "Properties": Object {
+        "Description": "Notify to change on CloudTrail log configuration",
+        "EventPattern": Object {
+          "detail": Object {
+            "eventName": Array [
+              "StopLogging",
+              "DeleteTrail",
+              "UpdateTrail",
+            ],
+            "eventSource": Array [
+              "cloudtrail.amazonaws.com",
+            ],
+          },
+          "detail-type": Array [
+            "AWS API Call via CloudTrail",
+          ],
+        },
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A",
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "SecurityDetectionBLEARuleConfigRules122710F3": Object {
+      "Properties": Object {
+        "Description": "CloudWatch Event Rule to send notification on Config Rule compliance changes.",
+        "EventPattern": Object {
+          "detail": Object {
+            "configRuleName": Array [
+              "bb-default-security-group-closed",
+            ],
+            "newEvaluationResult": Object {
+              "complianceType": Array [
+                "NON_COMPLIANT",
+              ],
+            },
+          },
+          "detail-type": Array [
+            "Config Rules Compliance Change",
+          ],
+          "source": Array [
+            "aws.config",
+          ],
+        },
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A",
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "SecurityDetectionBLEARuleDefaultSecurityGroupClosedCB9A9E5E": Object {
+      "Properties": Object {
+        "ConfigRuleName": "bb-default-security-group-closed",
+        "Description": "Checks that the default security group of any Amazon Virtual Private Cloud (VPC) does not allow inbound or outbound traffic. The rule is non-compliant if the default security group has one or more inbound or outbound traffic.",
+        "Scope": Object {
+          "ComplianceResourceTypes": Array [
+            "AWS::EC2::SecurityGroup",
+          ],
+        },
+        "Source": Object {
+          "Owner": "AWS",
+          "SourceIdentifier": "VPC_DEFAULT_SECURITY_GROUP_CLOSED",
+        },
+      },
+      "Type": "AWS::Config::ConfigRule",
+    },
+    "SecurityDetectionBLEARuleGuardDuty2FF7C0DC": Object {
+      "Properties": Object {
+        "Description": "CloudWatch Event Rule to send notification on GuardDuty findings.",
+        "EventPattern": Object {
+          "detail": Object {
+            "severity": Array [
+              4,
+              4,
+              4.1,
+              4.2,
+              4.3,
+              4.4,
+              4.5,
+              4.6,
+              4.7,
+              4.8,
+              4.9,
+              5,
+              5,
+              5.1,
+              5.2,
+              5.3,
+              5.4,
+              5.5,
+              5.6,
+              5.7,
+              5.8,
+              5.9,
+              6,
+              6,
+              6.1,
+              6.2,
+              6.3,
+              6.4,
+              6.5,
+              6.6,
+              6.7,
+              6.8,
+              6.9,
+              7,
+              7,
+              7.1,
+              7.2,
+              7.3,
+              7.4,
+              7.5,
+              7.6,
+              7.7,
+              7.8,
+              7.9,
+              8,
+              8,
+              8.1,
+              8.2,
+              8.3,
+              8.4,
+              8.5,
+              8.6,
+              8.7,
+              8.8,
+              8.9,
+            ],
+          },
+          "detail-type": Array [
+            "GuardDuty Finding",
+          ],
+          "source": Array [
+            "aws.guardduty",
+          ],
+        },
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A",
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "SecurityDetectionBLEARuleNetworkAclChange79C52705": Object {
+      "Properties": Object {
+        "Description": "Notify to create, update or delete a Network ACL.",
+        "EventPattern": Object {
+          "detail": Object {
+            "eventName": Array [
+              "CreateNetworkAcl",
+              "CreateNetworkAclEntry",
+              "DeleteNetworkAcl",
+              "DeleteNetworkAclEntry",
+              "ReplaceNetworkAclEntry",
+              "ReplaceNetworkAclAssociation",
+            ],
+            "eventSource": Array [
+              "ec2.amazonaws.com",
+            ],
+          },
+          "detail-type": Array [
+            "AWS API Call via CloudTrail",
+          ],
+          "source": Array [
+            "aws.ec2",
+          ],
+        },
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A",
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "SecurityDetectionBLEARuleSecurityGroupChange4869588A": Object {
+      "Properties": Object {
+        "Description": "Notify to create, update or delete a Security Group.",
+        "EventPattern": Object {
+          "detail": Object {
+            "eventName": Array [
+              "AuthorizeSecurityGroupIngress",
+              "AuthorizeSecurityGroupEgress",
+              "RevokeSecurityGroupIngress",
+              "RevokeSecurityGroupEgress",
+            ],
+            "eventSource": Array [
+              "ec2.amazonaws.com",
+            ],
+          },
+          "detail-type": Array [
+            "AWS API Call via CloudTrail",
+          ],
+          "source": Array [
+            "aws.ec2",
+          ],
+        },
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A",
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "SecurityDetectionBLEARuleSecurityHubF349343C": Object {
+      "Properties": Object {
+        "Description": "CloudWatch Event Rule to send notification on SecurityHub all new findings and all updates.",
+        "EventPattern": Object {
+          "detail": Object {
+            "findings": Object {
+              "Compliance": Object {
+                "Status": Array [
+                  "FAILED",
+                ],
+              },
+              "RecordState": Array [
+                "ACTIVE",
+              ],
+              "Severity": Object {
+                "Label": Array [
+                  "CRITICAL",
+                  "HIGH",
+                ],
+              },
+              "Workflow": Object {
+                "Status": Array [
+                  "NEW",
+                  "NOTIFIED",
+                ],
+              },
+            },
+          },
+          "detail-type": Array [
+            "Security Hub Findings - Imported",
+          ],
+          "source": Array [
+            "aws.securityhub",
+          ],
+        },
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A",
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "SecurityDetectionIAMPolicyChangeAlarm755AA536": Object {
+      "Properties": Object {
+        "ActionsEnabled": true,
+        "AlarmActions": Array [
+          Object {
+            "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A",
+          },
+        ],
+        "AlarmDescription": "IAM Configuration changes detected!",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "DatapointsToAlarm": 1,
+        "EvaluationPeriods": 1,
+        "MetricName": "IAMPolicyEventCount",
+        "Namespace": "CloudTrailMetrics",
+        "Period": 300,
+        "Statistic": "Sum",
+        "Threshold": 1,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "SecurityDetectionIAMPolicyChangeC64AA441": Object {
+      "Properties": Object {
+        "FilterPattern": "{($.eventName=DeleteGroupPolicy)||($.eventName=DeleteRolePolicy)||($.eventName=DeleteUserPolicy)||($.eventName=PutGroupPolicy)||($.eventName=PutRolePolicy)||($.eventName=PutUserPolicy)||($.eventName=CreatePolicy)||($.eventName=DeletePolicy)||($.eventName=CreatePolicyVersion)||($.eventName=DeletePolicyVersion)||($.eventName=AttachRolePolicy)||($.eventName=DetachRolePolicy)||($.eventName=AttachUserPolicy)||($.eventName=DetachUserPolicy)||($.eventName=AttachGroupPolicy)||($.eventName=DetachGroupPolicy)}",
+        "LogGroupName": Object {
+          "Ref": "SecurityLoggingCloudTrailLogGroup2001EC25",
+        },
+        "MetricTransformations": Array [
+          Object {
+            "MetricName": "IAMPolicyEventCount",
+            "MetricNamespace": "CloudTrailMetrics",
+            "MetricValue": "1",
+          },
+        ],
+      },
+      "Type": "AWS::Logs::MetricFilter",
+    },
+    "SecurityDetectionNewAccessKeyCreatedAlarm474AEC07": Object {
+      "Properties": Object {
+        "ActionsEnabled": true,
+        "AlarmActions": Array [
+          Object {
+            "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A",
+          },
+        ],
+        "AlarmDescription": "Warning: New IAM access Eey was created. Please be sure this action was neccessary.",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "DatapointsToAlarm": 1,
+        "EvaluationPeriods": 1,
+        "MetricName": "NewAccessKeyCreatedEventCount",
+        "Namespace": "CloudTrailMetrics",
+        "Period": 300,
+        "Statistic": "Sum",
+        "Threshold": 1,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "SecurityDetectionNewAccessKeyCreatedF07DA21C": Object {
+      "Properties": Object {
+        "FilterPattern": "{($.eventName=CreateAccessKey)}",
+        "LogGroupName": Object {
+          "Ref": "SecurityLoggingCloudTrailLogGroup2001EC25",
+        },
+        "MetricTransformations": Array [
+          Object {
+            "MetricName": "NewAccessKeyCreatedEventCount",
+            "MetricNamespace": "CloudTrailMetrics",
+            "MetricValue": "1",
+          },
+        ],
+      },
+      "Type": "AWS::Logs::MetricFilter",
+    },
+    "SecurityDetectionRemoveSecGroupRemediationRole60C6D4DB": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "ssm.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          "arn:aws:iam::aws:policy/service-role/AmazonSSMAutomationRole",
+        ],
+        "Path": "/",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "SecurityDetectionRemoveSecGroupRemediationRoleDefaultPolicy23EC39C7": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "ec2:RevokeSecurityGroupIngress",
+                "ec2:RevokeSecurityGroupEgress",
+                "ec2:DescribeSecurityGroups",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "iam:PassRole",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "SecurityDetectionRemoveSecGroupRemediationRole60C6D4DB",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": "ssm:StartAutomationExecution",
+              "Effect": "Allow",
+              "Resource": "arn:aws:ssm:::automation-definition/AWSConfigRemediation-RemoveVPCDefaultSecurityGroupRules",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "SecurityDetectionRemoveSecGroupRemediationRoleDefaultPolicy23EC39C7",
+        "Roles": Array [
+          Object {
+            "Ref": "SecurityDetectionRemoveSecGroupRemediationRole60C6D4DB",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "SecurityDetectionRmDefaultSg63CF6F40": Object {
+      "Properties": Object {
+        "Automatic": true,
+        "ConfigRuleName": Object {
+          "Ref": "SecurityDetectionBLEARuleDefaultSecurityGroupClosedCB9A9E5E",
+        },
+        "MaximumAutomaticAttempts": 5,
+        "Parameters": Object {
+          "AutomationAssumeRole": Object {
+            "StaticValue": Object {
+              "Values": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "SecurityDetectionRemoveSecGroupRemediationRole60C6D4DB",
+                    "Arn",
+                  ],
+                },
+              ],
+            },
+          },
+          "GroupId": Object {
+            "ResourceValue": Object {
+              "Value": "RESOURCE_ID",
+            },
+          },
+        },
+        "RetryAttemptSeconds": 60,
+        "TargetId": "AWSConfigRemediation-RemoveVPCDefaultSecurityGroupRules",
+        "TargetType": "SSM_DOCUMENT",
+        "TargetVersion": "1",
+      },
+      "Type": "AWS::Config::RemediationConfiguration",
+    },
+    "SecurityDetectionRootUserPolicyEventCount98A12A27": Object {
+      "Properties": Object {
+        "FilterPattern": "{$.userIdentity.type=\\"Root\\" && $.userIdentity.invokedBy NOT EXISTS && $.eventType !=\\"AwsServiceEvent\\"}",
+        "LogGroupName": Object {
+          "Ref": "SecurityLoggingCloudTrailLogGroup2001EC25",
+        },
+        "MetricTransformations": Array [
+          Object {
+            "MetricName": "RootUserPolicyEventCount",
+            "MetricNamespace": "CloudTrailMetrics",
+            "MetricValue": "1",
+          },
+        ],
+      },
+      "Type": "AWS::Logs::MetricFilter",
+    },
+    "SecurityDetectionRootUserPolicyEventCountAlarmB22843B2": Object {
+      "Properties": Object {
+        "ActionsEnabled": true,
+        "AlarmActions": Array [
+          Object {
+            "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A",
+          },
+        ],
+        "AlarmDescription": "Root user activity detected!",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "DatapointsToAlarm": 1,
+        "EvaluationPeriods": 1,
+        "MetricName": "RootUserPolicyEventCount",
+        "Namespace": "CloudTrailMetrics",
+        "Period": 300,
+        "Statistic": "Sum",
+        "Threshold": 1,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "SecurityDetectionSecurityAlarmEmailC07A1EA9": Object {
+      "Properties": Object {
+        "Endpoint": "notify-security@example.com",
+        "Protocol": "email",
+        "TopicArn": Object {
+          "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A",
+        },
+      },
+      "Type": "AWS::SNS::Subscription",
+    },
+    "SecurityDetectionSecurityAlarmTopic5A3FE39A": Object {
+      "Type": "AWS::SNS::Topic",
+    },
+    "SecurityDetectionSecurityAlarmTopicPolicyDD8FAE10": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "cloudwatch.amazonaws.com",
+              },
+              "Resource": Object {
+                "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A",
+              },
+              "Sid": "0",
+            },
+            Object {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "events.amazonaws.com",
+              },
+              "Resource": Object {
+                "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A",
+              },
+              "Sid": "1",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Topics": Array [
+          Object {
+            "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A",
+          },
+        ],
+      },
+      "Type": "AWS::SNS::TopicPolicy",
+    },
+    "SecurityDetectionUnauthorizedAttemptsAlarm7B3A56F5": Object {
+      "Properties": Object {
+        "ActionsEnabled": true,
+        "AlarmActions": Array [
+          Object {
+            "Ref": "SecurityDetectionSecurityAlarmTopic5A3FE39A",
+          },
+        ],
+        "AlarmDescription": "Multiple unauthorized actions or logins attempted!",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "DatapointsToAlarm": 1,
+        "EvaluationPeriods": 1,
+        "MetricName": "UnauthorizedAttemptsEventCount",
+        "Namespace": "CloudTrailMetrics",
+        "Period": 300,
+        "Statistic": "Sum",
+        "Threshold": 5,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "SecurityDetectionUnauthorizedAttemptsDBB4E71C": Object {
+      "Properties": Object {
+        "FilterPattern": "{($.errorCode = \\"*UnauthorizedOperation\\" || $.errorCode = \\"AccessDenied*\\") && ($.eventName != \\"Decrypt\\" || $.userIdentity.invokedBy != \\"config.amazonaws.com\\" )}",
+        "LogGroupName": Object {
+          "Ref": "SecurityLoggingCloudTrailLogGroup2001EC25",
+        },
+        "MetricTransformations": Array [
+          Object {
+            "MetricName": "UnauthorizedAttemptsEventCount",
+            "MetricNamespace": "CloudTrailMetrics",
+            "MetricValue": "1",
+          },
+        ],
+      },
+      "Type": "AWS::Logs::MetricFilter",
+    },
+    "SecurityIAMIamAdminGroupC7D49CAD": Object {
+      "Properties": Object {
+        "ManagedPolicyArns": Array [
+          Object {
+            "Ref": "SecurityIAMIamAdminPolicyC00BE926",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Group",
+    },
+    "SecurityIAMIamAdminPolicyC00BE926": Object {
+      "Properties": Object {
+        "Description": "",
+        "Path": "/",
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "iam:*",
+              "Condition": Object {
+                "Bool": Object {
+                  "aws:MultiFactorAuthPresent": "true",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "aws-portal:*Billing",
+              "Effect": "Deny",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "SecurityIAMIamAdminRole888CC210": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "ec2.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Ref": "SecurityIAMIamAdminPolicyC00BE926",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "SecurityIAMInstanceOpsGroup448CF394": Object {
+      "Properties": Object {
+        "ManagedPolicyArns": Array [
+          Object {
+            "Ref": "SecurityIAMInstanceOpsPolicyA0D8046D",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Group",
+    },
+    "SecurityIAMInstanceOpsPolicyA0D8046D": Object {
+      "Properties": Object {
+        "Description": "",
+        "Path": "/",
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "ec2:*",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "elasticloadbalancing:*",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "cloudwatch:*",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "autoscaling:*",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
+                "ec2:CreateVpc*",
+                "ec2:DeleteVpc*",
+                "ec2:ModifyVpc*",
+                "ec2:CreateSubnet*",
+                "ec2:DeleteSubnet*",
+                "ec2:ModifySubnet*",
+                "ec2:Create*Route*",
+                "ec2:DeleteRoute*",
+                "ec2:AssociateRoute*",
+                "ec2:ReplaceRoute*",
+                "ec2:CreateVpn*",
+                "ec2:DeleteVpn*",
+                "ec2:AttachVpn*",
+                "ec2:DetachVpn*",
+                "ec2:CreateNetworkAcl*",
+                "ec2:DeleteNetworkAcl*",
+                "ec2:ReplaceNetworkAcl*",
+                "ec2:*Gateway*",
+                "ec2:*PeeringConnection*",
+              ],
+              "Effect": "Deny",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "aws-portal:*Billing",
+              "Effect": "Deny",
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
+                "kms:Create*",
+                "kms:Revoke*",
+                "kms:Enable*",
+                "kms:Get*",
+                "kms:Disable*",
+                "kms:Delete*",
+                "kms:Put*",
+                "kms:Update*",
+              ],
+              "Effect": "Deny",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "SecurityIAMInstanceOpsRoleFCACEAC5": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "ec2.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Ref": "SecurityIAMInstanceOpsPolicyA0D8046D",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "SecurityIAMReadOnlyAdminGroup767E8967": Object {
+      "Properties": Object {
+        "ManagedPolicyArns": Array [
+          Object {
+            "Ref": "SecurityIAMReadOnlyAdminPolicy74EC1E53",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Group",
+    },
+    "SecurityIAMReadOnlyAdminPolicy74EC1E53": Object {
+      "Properties": Object {
+        "Description": "",
+        "Path": "/",
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "appstream:Get*",
+                "autoscaling:Describe*",
+                "cloudformation:DescribeStacks",
+                "cloudformation:DescribeStackEvents",
+                "cloudformation:DescribeStackResource",
+                "cloudformation:DescribeStackResources",
+                "cloudformation:GetTemplate",
+                "cloudformation:List*",
+                "cloudfront:Get*",
+                "cloudfront:List*",
+                "cloudtrail:DescribeTrails",
+                "cloudtrail:GetTrailStatus",
+                "cloudwatch:Describe*",
+                "cloudwatch:Get*",
+                "cloudwatch:List*",
+                "directconnect:Describe*",
+                "dynamodb:GetItem",
+                "dynamodb:BatchGetItem",
+                "dynamodb:Query",
+                "dynamodb:Scan",
+                "dynamodb:DescribeTable",
+                "dynamodb:ListTables",
+                "ec2:Describe*",
+                "elasticache:Describe*",
+                "elasticbeanstalk:Check*",
+                "elasticbeanstalk:Describe*",
+                "elasticbeanstalk:List*",
+                "elasticbeanstalk:RequestEnvironmentInfo",
+                "elasticbeanstalk:RetrieveEnvironmentInfo",
+                "elasticloadbalancing:Describe*",
+                "elastictranscoder:Read*",
+                "elastictranscoder:List*",
+                "iam:List*",
+                "iam:Get*",
+                "kinesis:Describe*",
+                "kinesis:Get*",
+                "kinesis:List*",
+                "opsworks:Describe*",
+                "opsworks:Get*",
+                "route53:Get*",
+                "route53:List*",
+                "redshift:Describe*",
+                "redshift:ViewQueriesInConsole",
+                "rds:Describe*",
+                "rds:ListTagsForResource",
+                "s3:Get*",
+                "s3:List*",
+                "sdb:GetAttributes",
+                "sdb:List*",
+                "sdb:Select*",
+                "ses:Get*",
+                "ses:List*",
+                "sns:Get*",
+                "sns:List*",
+                "sqs:GetQueueAttributes",
+                "sqs:ListQueues",
+                "sqs:ReceiveMessage",
+                "storagegateway:List*",
+                "storagegateway:Describe*",
+                "trustedadvisor:Describe*",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "aws-portal:*Billing",
+              "Effect": "Deny",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "SecurityIAMReadOnlyAdminRole345126B1": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "ec2.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Ref": "SecurityIAMReadOnlyAdminPolicy74EC1E53",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "SecurityIAMSysAdminGroup9E455B30": Object {
+      "Properties": Object {
+        "ManagedPolicyArns": Array [
+          Object {
+            "Ref": "SecurityIAMSysAdminPolicyD135619D",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Group",
+    },
+    "SecurityIAMSysAdminPolicyD135619D": Object {
+      "Properties": Object {
+        "Description": "",
+        "Path": "/",
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Condition": Object {
+                "Bool": Object {
+                  "aws:MultiFactorAuthPresent": "true",
+                },
+              },
+              "Effect": "Allow",
+              "NotAction": "iam:*",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "aws-portal:*Billing",
+              "Effect": "Deny",
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
+                "cloudtrail:DeleteTrail",
+                "cloudtrail:StopLogging",
+                "cloudtrail:UpdateTrail",
+              ],
+              "Effect": "Deny",
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
+                "kms:Create*",
+                "kms:Revoke*",
+                "kms:Enable*",
+                "kms:Get*",
+                "kms:Disable*",
+                "kms:Delete*",
+                "kms:Put*",
+                "kms:Update*",
+              ],
+              "Effect": "Deny",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "SecurityIAMSysAdminRole1364D43F": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "ec2.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Ref": "SecurityIAMSysAdminPolicyD135619D",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "SecurityLoggingArchiveLogsBucketCF4A9196": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "AccessControl": "LogDeliveryWrite",
+        "BucketEncryption": Object {
+          "ServerSideEncryptionConfiguration": Array [
+            Object {
+              "ServerSideEncryptionByDefault": Object {
+                "SSEAlgorithm": "AES256",
+              },
+            },
+          ],
+        },
+        "LifecycleConfiguration": Object {
+          "Rules": Array [
+            Object {
+              "ExpirationInDays": 2555,
+              "Status": "Enabled",
+              "Transitions": Array [
+                Object {
+                  "StorageClass": "GLACIER",
+                  "TransitionInDays": 90,
+                },
+              ],
+            },
+          ],
+        },
+        "PublicAccessBlockConfiguration": Object {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true,
+        },
+        "VersioningConfiguration": Object {
+          "Status": "Enabled",
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "SecurityLoggingArchiveLogsBucketPolicy8F0790AC": Object {
+      "Properties": Object {
+        "Bucket": Object {
+          "Ref": "SecurityLoggingArchiveLogsBucketCF4A9196",
+        },
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "s3:*",
+              "Condition": Object {
+                "Bool": Object {
+                  "aws:SecureTransport": "false",
+                },
+              },
+              "Effect": "Deny",
+              "Principal": Object {
+                "AWS": "*",
+              },
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "SecurityLoggingArchiveLogsBucketCF4A9196",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "SecurityLoggingArchiveLogsBucketCF4A9196",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": "s3:Delete*",
+              "Effect": "Deny",
+              "Principal": Object {
+                "AWS": "*",
+              },
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    Object {
+                      "Fn::GetAtt": Array [
+                        "SecurityLoggingArchiveLogsBucketCF4A9196",
+                        "Arn",
+                      ],
+                    },
+                    "/*",
+                  ],
+                ],
+              },
+              "Sid": "Restrict Delete* Actions",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::S3::BucketPolicy",
+    },
+    "SecurityLoggingCloudTrail309100DF": Object {
+      "DependsOn": Array [
+        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
+        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
+        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
+      ],
+      "Properties": Object {
+        "CloudWatchLogsLogGroupArn": Object {
+          "Fn::GetAtt": Array [
+            "SecurityLoggingCloudTrailLogGroup2001EC25",
+            "Arn",
+          ],
+        },
+        "CloudWatchLogsRoleArn": Object {
+          "Fn::GetAtt": Array [
+            "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
+            "Arn",
+          ],
+        },
+        "EnableLogFileValidation": true,
+        "EventSelectors": Array [],
+        "IncludeGlobalServiceEvents": true,
+        "IsLogging": true,
+        "IsMultiRegionTrail": true,
+        "KMSKeyId": Object {
+          "Fn::GetAtt": Array [
+            "SecurityLoggingCloudTrailKey630079DC",
+            "Arn",
+          ],
+        },
+        "S3BucketName": Object {
+          "Ref": "SecurityLoggingCloudTrailBucketD80F2E5D",
+        },
+      },
+      "Type": "AWS::CloudTrail::Trail",
+    },
+    "SecurityLoggingCloudTrailBucketD80F2E5D": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "AccessControl": "Private",
+        "LoggingConfiguration": Object {
+          "DestinationBucketName": Object {
+            "Ref": "SecurityLoggingArchiveLogsBucketCF4A9196",
+          },
+          "LogFilePrefix": "cloudtraillogs",
+        },
+        "PublicAccessBlockConfiguration": Object {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true,
+        },
+        "VersioningConfiguration": Object {
+          "Status": "Enabled",
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "SecurityLoggingCloudTrailBucketPolicyD6249B0D": Object {
+      "Properties": Object {
+        "Bucket": Object {
+          "Ref": "SecurityLoggingCloudTrailBucketD80F2E5D",
+        },
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "s3:*",
+              "Condition": Object {
+                "Bool": Object {
+                  "aws:SecureTransport": "false",
+                },
+              },
+              "Effect": "Deny",
+              "Principal": Object {
+                "AWS": "*",
+              },
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "SecurityLoggingCloudTrailBucketD80F2E5D",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "SecurityLoggingCloudTrailBucketD80F2E5D",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": "s3:Delete*",
+              "Effect": "Deny",
+              "Principal": Object {
+                "AWS": "*",
+              },
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    Object {
+                      "Fn::GetAtt": Array [
+                        "SecurityLoggingCloudTrailBucketD80F2E5D",
+                        "Arn",
+                      ],
+                    },
+                    "/*",
+                  ],
+                ],
+              },
+              "Sid": "Restrict Delete* Actions",
+            },
+            Object {
+              "Action": "s3:GetBucketAcl",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "cloudtrail.amazonaws.com",
+              },
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "SecurityLoggingCloudTrailBucketD80F2E5D",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": "s3:PutObject",
+              "Condition": Object {
+                "StringEquals": Object {
+                  "s3:x-amz-acl": "bucket-owner-full-control",
+                },
+              },
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "cloudtrail.amazonaws.com",
+              },
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    Object {
+                      "Fn::GetAtt": Array [
+                        "SecurityLoggingCloudTrailBucketD80F2E5D",
+                        "Arn",
+                      ],
+                    },
+                    "/AWSLogs/",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    "/*",
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::S3::BucketPolicy",
+    },
+    "SecurityLoggingCloudTrailKey630079DC": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "Description": "for CloudTrail",
+        "EnableKeyRotation": true,
+        "KeyPolicy": Object {
+          "Statement": Array [
+            Object {
+              "Action": "kms:*",
+              "Effect": "Allow",
+              "Principal": Object {
+                "AWS": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":root",
+                    ],
+                  ],
+                },
+              },
+              "Resource": "*",
+            },
+            Object {
+              "Action": "kms:GenerateDataKey*",
+              "Condition": Object {
+                "StringLike": Object {
+                  "kms:EncryptionContext:aws:cloudtrail:arn": Array [
+                    Object {
+                      "Fn::Join": Array [
+                        "",
+                        Array [
+                          "arn:aws:cloudtrail:*:",
+                          Object {
+                            "Ref": "AWS::AccountId",
+                          },
+                          ":trail/*",
+                        ],
+                      ],
+                    },
+                  ],
+                },
+              },
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "cloudtrail.amazonaws.com",
+              },
+              "Resource": "*",
+            },
+            Object {
+              "Action": "kms:DescribeKey",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "cloudtrail.amazonaws.com",
+              },
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
+                "kms:Decrypt",
+                "kms:ReEncryptFrom",
+              ],
+              "Condition": Object {
+                "StringEquals": Object {
+                  "kms:CallerAccount": Object {
+                    "Ref": "AWS::AccountId",
+                  },
+                },
+                "StringLike": Object {
+                  "kms:EncryptionContext:aws:cloudtrail:arn": Array [
+                    Object {
+                      "Fn::Join": Array [
+                        "",
+                        Array [
+                          "arn:aws:cloudtrail:*:",
+                          Object {
+                            "Ref": "AWS::AccountId",
+                          },
+                          ":trail/*",
+                        ],
+                      ],
+                    },
+                  ],
+                },
+              },
+              "Effect": "Allow",
+              "Principal": Object {
+                "AWS": "*",
+              },
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
+                "kms:Encrypt*",
+                "kms:Decrypt*",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*",
+                "kms:Describe*",
+              ],
+              "Condition": Object {
+                "ArnEquals": Object {
+                  "kms:EncryptionContext:aws:logs:arn": Object {
+                    "Fn::Join": Array [
+                      "",
+                      Array [
+                        "arn:aws:logs:",
+                        Object {
+                          "Ref": "AWS::Region",
+                        },
+                        ":",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        ":log-group:*",
+                      ],
+                    ],
+                  },
+                },
+              },
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "logs.",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
+                      ".",
+                      Object {
+                        "Ref": "AWS::URLSuffix",
+                      },
+                    ],
+                  ],
+                },
+              },
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::KMS::Key",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "SecurityLoggingCloudTrailKeyAlias1DFC6E11": Object {
+      "Properties": Object {
+        "AliasName": "alias/for-cloudtrail",
+        "TargetKeyId": Object {
+          "Fn::GetAtt": Array [
+            "SecurityLoggingCloudTrailKey630079DC",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::KMS::Alias",
+    },
+    "SecurityLoggingCloudTrailLogGroup2001EC25": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "KmsKeyId": Object {
+          "Fn::GetAtt": Array [
+            "SecurityLoggingCloudTrailKey630079DC",
+            "Arn",
+          ],
+        },
+        "RetentionInDays": 90,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "SecurityLoggingCloudTrailLogsRoleDEA5CB8E": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "cloudtrail.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "logs:PutLogEvents",
+                "logs:CreateLogStream",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "SecurityLoggingCloudTrailLogGroup2001EC25",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
+        "Roles": Array [
+          Object {
+            "Ref": "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+  },
+  "Rules": Object {
+    "CheckBootstrapVersion": Object {
+      "Assertions": Array [
+        Object {
+          "Assert": Object {
+            "Fn::Not": Array [
+              Object {
+                "Fn::Contains": Array [
+                  Array [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  Object {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
