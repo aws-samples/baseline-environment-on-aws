@@ -1,19 +1,21 @@
 import * as cdk from 'aws-cdk-lib';
+import {
+  aws_cloudwatch as cw,
+  aws_cloudwatch_actions as cw_actions,
+  aws_dynamodb as dynamodb,
+  aws_kms as kms,
+  aws_sns as sns,
+} from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { aws_dynamodb as dynamodb } from 'aws-cdk-lib';
-import { aws_sns as sns } from 'aws-cdk-lib';
-import { aws_kms as kms } from 'aws-cdk-lib';
-import { aws_cloudwatch as cw } from 'aws-cdk-lib';
-import { aws_cloudwatch_actions as cw_actions } from 'aws-cdk-lib';
 
-export interface BLEADbDynamoDbStackProps extends cdk.StackProps {
-  alarmTopic: sns.Topic;
-  appKey: kms.Key;
+export interface DatastoreProps {
+  alarmTopic: sns.ITopic;
+  appKey: kms.IKey;
 }
-export class BLEADbDynamoDbStack extends cdk.Stack {
+export class Datastore extends Construct {
   public readonly table: dynamodb.Table;
-  constructor(scope: Construct, id: string, props: BLEADbDynamoDbStackProps) {
-    super(scope, id, props);
+  constructor(scope: Construct, id: string, props: DatastoreProps) {
+    super(scope, id);
 
     // Create table
     const table = new dynamodb.Table(this, 'DynamoDB', {

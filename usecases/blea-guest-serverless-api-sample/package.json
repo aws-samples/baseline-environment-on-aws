@@ -1,14 +1,14 @@
 {
   "private": true,
-  "name": "blea-guest-apiapp-sample",
+  "name": "blea-guest-serverless-api-sample",
   "version": "1.0.0",
   "description": "Sample servlerless application with BLEA",
   "license": "MIT-0",
   "bin": {
-    "blea-guest-apiapp-nodejs-sample": "bin/blea-guest-apiapp-nodejs-sample.js"
+    "blea-guest-serverless-api-sample": "bin/blea-guest-serverless-api-sample.js"
   },
   "scripts": {
-    "synth:dev": "npx cdk synth -c environment=dev && npx cdk synth --app \"npx ts-node --prefer-ts-exts bin/blea-guest-apiapp-python-sample.ts\" -c environment=dev",
+    "synth:dev": "npx cdk synth -q",
     "depcheck": "npx depcheck --ignore-dirs cdk.out",
     "build": "tsc --build",
     "clean": "tsc --build --clean && rm -rf cdk.out",
