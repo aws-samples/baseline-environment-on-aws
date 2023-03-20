@@ -1,22 +1,26 @@
 import * as cdk from 'aws-cdk-lib';
+import {
+  aws_apigateway as apigateway,
+  aws_cloudwatch as cw,
+  aws_cloudwatch_actions as cw_actions,
+  aws_logs as cw_logs,
+  aws_sns as sns,
+} from 'aws-cdk-lib';
+import { ITable } from 'aws-cdk-lib/aws-dynamodb';
+import { IKey } from 'aws-cdk-lib/aws-kms';
 import { Construct } from 'constructs';
-import { aws_lambda as lambda } from 'aws-cdk-lib';
-import { aws_apigateway as apigateway } from 'aws-cdk-lib';
-import { aws_sns as sns } from 'aws-cdk-lib';
-import { aws_cloudwatch as cw } from 'aws-cdk-lib';
-import { aws_logs as cw_logs } from 'aws-cdk-lib';
-import { aws_cloudwatch_actions as cw_actions } from 'aws-cdk-lib';
+import { LambdaNodejs } from './lambda-nodejs';
+import { LambdaPython } from './lambda-python';
 
-export interface BLEARestApiStackProps extends cdk.StackProps {
-  alarmTopic: sns.Topic;
-  getItemFunction: lambda.Function;
-  listItemsFunction: lambda.Function;
-  putItemFunction: lambda.Function;
+export interface ApiProps {
+  alarmTopic: sns.ITopic;
+  appKey: IKey;
+  table: ITable;
 }
 
-export class BLEARestApiStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props: BLEARestApiStackProps) {
-    super(scope, id, props);
+export class Api extends Construct {
+  constructor(scope: Construct, id: string, props: ApiProps) {
+    super(scope, id);
 
     // Sample log group for API Gateway
     const apiGatewayLogGroup = new cw_logs.LogGroup(this, 'ApiGatewayLogGroup', {
@@ -68,14 +72,36 @@ export class BLEARestApiStack extends cdk.Stack {
 
     // Defining Lambda-backed APIs
     // See: https://docs.aws.amazon.com/cdk/api/latest/docs/aws-apigateway-readme.html#aws-lambda-backed-apis
-    //
-    const lists = restApi.root.addResource('list');
-    lists.addMethod('GET', new apigateway.LambdaIntegration(props.listItemsFunction));
+    // Nodejs
+    const nodejsFunc = new LambdaNodejs(this, 'LambdaNodejs', {
+      alarmTopic: props.alarmTopic,
+      appKey: props.appKey,
+      table: props.table,
+    });
+    const nodejs = restApi.root.addResource('nodejs');
+    const nodejsList = nodejs.addResource('list');
+    nodejsList.addMethod('GET', new apigateway.LambdaIntegration(nodejsFunc.listItemsFunction));
 
-    const items = restApi.root.addResource('item');
-    items.addMethod('POST', new apigateway.LambdaIntegration(props.putItemFunction));
+    const nodejsItem = nodejs.addResource('item');
+    nodejsItem.addMethod('POST', new apigateway.LambdaIntegration(nodejsFunc.putItemFunction));
 
-    const titles = items.addResource('{title}');
-    titles.addMethod('GET', new apigateway.LambdaIntegration(props.getItemFunction));
+    const nodejsTitle = nodejsItem.addResource('{title}');
+    nodejsTitle.addMethod('GET', new apigateway.LambdaIntegration(nodejsFunc.getItemFunction));
+
+    // Python
+    const pythonFunc = new LambdaPython(this, 'LambdaPython', {
+      alarmTopic: props.alarmTopic,
+      appKey: props.appKey,
+      table: props.table,
+    });
+    const python = restApi.root.addResource('python');
+    const pythonList = python.addResource('list');
+    pythonList.addMethod('GET', new apigateway.LambdaIntegration(pythonFunc.listItemsFunction));
+
+    const pythonItem = python.addResource('item');
+    pythonItem.addMethod('POST', new apigateway.LambdaIntegration(pythonFunc.putItemFunction));
+
+    const pythonTitle = pythonItem.addResource('{title}');
+    pythonTitle.addMethod('GET', new apigateway.LambdaIntegration(pythonFunc.getItemFunction));
   }
 }
