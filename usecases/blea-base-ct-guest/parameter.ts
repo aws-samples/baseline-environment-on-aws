@@ -30,11 +30,7 @@ export const StgParameter: BaselineParameter = {
 export const DevPipelineParameter: BaselineParameter = {
   envName: 'DevPipeline',
   securityNotifyEmail: 'notify-security@example.com',
-  sourceRepository: 'ohmurayu/blea-pipeline',
+  sourceRepository: 'aws-samples/baseline-environment-on-aws',
   sourceBranch: 'main',
-  sourceConnectionArn:
-    'arn:aws:codestar-connections:ap-northeast-1:388375043318:connection/67dd8072-1cc7-45d2-aad8-46f6b81c6edd',
-  //  sourceRepository: 'aws-samples/baseline-environment-on-aws',
-  //  sourceBranch: 'main',
-  //  sourceConnectionArn: 'arn:aws:codestar-connections:ap-northeast-1:xxxxxxxxxxxx:connection/example',
+  sourceConnectionArn: 'arn:aws:codestar-connections:ap-northeast-1:xxxxxxxxxxxx:connection/example',
 };
