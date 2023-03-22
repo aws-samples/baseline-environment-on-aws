@@ -46,7 +46,7 @@ export class Datastore extends Construct {
     // Sample metrics and alarm
     table.metricSystemErrorsForOperations({
       period: cdk.Duration.minutes(5),
-      statistic: cw.Statistic.AVERAGE,
+      statistic: cw.Stats.AVERAGE,
       dimensionsMap: {
         Operation: 'GetItem',
       },
@@ -54,7 +54,7 @@ export class Datastore extends Construct {
     table
       .metricConsumedReadCapacityUnits({
         period: cdk.Duration.minutes(5),
-        statistic: cw.Statistic.AVERAGE,
+        statistic: cw.Stats.AVERAGE,
       })
       .createAlarm(this, 'DynamoConsumedReadCapacityUnit', {
         evaluationPeriods: 3,

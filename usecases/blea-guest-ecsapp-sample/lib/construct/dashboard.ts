@@ -39,7 +39,7 @@ export class Dashboard extends Construct {
         DistributionId: props.distributionId,
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.SUM,
+      statistic: cw.Stats.SUM,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.NONE,
       region: 'us-east-1', // cloudfront defined on us-east-1
@@ -52,7 +52,7 @@ export class Dashboard extends Construct {
         DistributionId: props.distributionId,
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.AVERAGE,
+      statistic: cw.Stats.AVERAGE,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.PERCENT,
       region: 'us-east-1', // cloudfront defined on us-east-1
@@ -65,7 +65,7 @@ export class Dashboard extends Construct {
         DistributionId: props.distributionId,
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.AVERAGE,
+      statistic: cw.Stats.AVERAGE,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.PERCENT,
       region: 'us-east-1', // cloudfront defined on us-east-1
@@ -78,7 +78,7 @@ export class Dashboard extends Construct {
         DistributionId: props.distributionId,
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.AVERAGE,
+      statistic: cw.Stats.AVERAGE,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.PERCENT,
       region: 'us-east-1', // cloudfront defined on us-east-1
@@ -93,7 +93,7 @@ export class Dashboard extends Construct {
         LoadBalancer: props.albFullName,
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.SUM,
+      statistic: cw.Stats.SUM,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.COUNT,
     });
@@ -104,7 +104,7 @@ export class Dashboard extends Construct {
         LoadBalancer: props.albFullName,
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.SUM,
+      statistic: cw.Stats.SUM,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.COUNT,
     });
@@ -115,7 +115,7 @@ export class Dashboard extends Construct {
         LoadBalancer: props.albFullName,
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.SUM,
+      statistic: cw.Stats.SUM,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.COUNT,
     });
@@ -126,7 +126,7 @@ export class Dashboard extends Construct {
         LoadBalancer: props.albFullName,
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.SUM,
+      statistic: cw.Stats.SUM,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.COUNT,
     });
@@ -137,7 +137,7 @@ export class Dashboard extends Construct {
         LoadBalancer: props.albFullName,
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.SUM,
+      statistic: cw.Stats.SUM,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.COUNT,
     });
@@ -148,7 +148,7 @@ export class Dashboard extends Construct {
         LoadBalancer: props.albFullName,
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.SUM,
+      statistic: cw.Stats.SUM,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.COUNT,
     });
@@ -162,7 +162,7 @@ export class Dashboard extends Construct {
         LoadBalancer: props.albFullName,
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.SUM,
+      statistic: cw.Stats.SUM,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.COUNT,
     });
@@ -173,7 +173,7 @@ export class Dashboard extends Construct {
         LoadBalancer: props.albFullName,
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.SUM,
+      statistic: cw.Stats.SUM,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.COUNT,
     });
@@ -184,7 +184,7 @@ export class Dashboard extends Construct {
         LoadBalancer: props.albFullName,
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.SUM,
+      statistic: cw.Stats.SUM,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.COUNT,
     });
@@ -195,7 +195,7 @@ export class Dashboard extends Construct {
         LoadBalancer: props.albFullName,
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.SUM,
+      statistic: cw.Stats.SUM,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.COUNT,
     });
@@ -206,7 +206,7 @@ export class Dashboard extends Construct {
         LoadBalancer: props.albFullName,
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.SUM,
+      statistic: cw.Stats.SUM,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.COUNT,
     });
@@ -217,7 +217,7 @@ export class Dashboard extends Construct {
         LoadBalancer: props.albFullName,
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.AVERAGE,
+      statistic: cw.Stats.AVERAGE,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.SECONDS,
     });
@@ -229,7 +229,7 @@ export class Dashboard extends Construct {
         TargetGroup: props.albTargetGroupName,
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.SUM,
+      statistic: cw.Stats.SUM,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.COUNT,
     });
@@ -246,7 +246,7 @@ export class Dashboard extends Construct {
         ServiceName: props.ecsServiceName,
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.AVERAGE,
+      statistic: cw.Stats.AVERAGE,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.PERCENT,
     });
@@ -258,7 +258,7 @@ export class Dashboard extends Construct {
         ServiceName: props.ecsServiceName,
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.AVERAGE,
+      statistic: cw.Stats.AVERAGE,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.PERCENT,
     });
@@ -270,7 +270,7 @@ export class Dashboard extends Construct {
         ServiceName: props.ecsServiceName,
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.AVERAGE,
+      statistic: cw.Stats.AVERAGE,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.COUNT,
     });
@@ -282,7 +282,7 @@ export class Dashboard extends Construct {
         ServiceName: props.ecsServiceName,
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.AVERAGE,
+      statistic: cw.Stats.AVERAGE,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.COUNT,
     });
@@ -294,7 +294,7 @@ export class Dashboard extends Construct {
         ServiceName: props.ecsServiceName,
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.AVERAGE,
+      statistic: cw.Stats.AVERAGE,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.COUNT,
     });
@@ -310,7 +310,7 @@ export class Dashboard extends Construct {
         Role: 'WRITER',
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.SUM,
+      statistic: cw.Stats.SUM,
       label: "Writer: ${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.COUNT,
     });
@@ -322,7 +322,7 @@ export class Dashboard extends Construct {
         Role: 'READER',
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.SUM,
+      statistic: cw.Stats.SUM,
       label: "Reader: ${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.COUNT,
     });
@@ -334,7 +334,7 @@ export class Dashboard extends Construct {
         Role: 'WRITER',
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.AVERAGE,
+      statistic: cw.Stats.AVERAGE,
       label: "Writer: ${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.PERCENT,
     });
@@ -346,7 +346,7 @@ export class Dashboard extends Construct {
         Role: 'READER',
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.AVERAGE,
+      statistic: cw.Stats.AVERAGE,
       label: "Reader: ${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.PERCENT,
     });
@@ -358,7 +358,7 @@ export class Dashboard extends Construct {
         Role: 'WRITER',
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.AVERAGE,
+      statistic: cw.Stats.AVERAGE,
       label: "Writer: ${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.MEGABITS,
     });
@@ -370,7 +370,7 @@ export class Dashboard extends Construct {
         Role: 'READER',
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.AVERAGE,
+      statistic: cw.Stats.AVERAGE,
       label: "Reader: ${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.MEGABITS,
     });
@@ -382,7 +382,7 @@ export class Dashboard extends Construct {
         Role: 'WRITER',
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.AVERAGE,
+      statistic: cw.Stats.AVERAGE,
       label: "Writer: ${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.MEGABITS,
     });
@@ -394,7 +394,7 @@ export class Dashboard extends Construct {
         Role: 'READER',
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.AVERAGE,
+      statistic: cw.Stats.AVERAGE,
       label: "Reader: ${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.MEGABITS,
     });
@@ -408,7 +408,7 @@ export class Dashboard extends Construct {
         Role: 'WRITER',
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.AVERAGE,
+      statistic: cw.Stats.AVERAGE,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.MILLISECONDS,
     });
@@ -420,7 +420,7 @@ export class Dashboard extends Construct {
         Role: 'WRITER',
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.AVERAGE,
+      statistic: cw.Stats.AVERAGE,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.MILLISECONDS,
     });
@@ -432,7 +432,7 @@ export class Dashboard extends Construct {
         Role: 'WRITER',
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.AVERAGE,
+      statistic: cw.Stats.AVERAGE,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.MILLISECONDS,
     });
@@ -444,7 +444,7 @@ export class Dashboard extends Construct {
         Role: 'WRITER',
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.AVERAGE,
+      statistic: cw.Stats.AVERAGE,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.MILLISECONDS,
     });
@@ -456,7 +456,7 @@ export class Dashboard extends Construct {
         Role: 'WRITER',
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.AVERAGE,
+      statistic: cw.Stats.AVERAGE,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.MILLISECONDS,
     });
@@ -468,7 +468,7 @@ export class Dashboard extends Construct {
         Role: 'WRITER',
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.AVERAGE,
+      statistic: cw.Stats.AVERAGE,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.MILLISECONDS,
     });
@@ -480,7 +480,7 @@ export class Dashboard extends Construct {
         Role: 'WRITER',
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.AVERAGE,
+      statistic: cw.Stats.AVERAGE,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.MILLISECONDS,
     });
@@ -492,7 +492,7 @@ export class Dashboard extends Construct {
         Role: 'WRITER',
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.AVERAGE,
+      statistic: cw.Stats.AVERAGE,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.SECONDS,
     });
@@ -504,7 +504,7 @@ export class Dashboard extends Construct {
         Role: 'WRITER',
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.AVERAGE,
+      statistic: cw.Stats.AVERAGE,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.SECONDS,
     });
@@ -518,7 +518,7 @@ export class Dashboard extends Construct {
         Role: 'READER',
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.AVERAGE,
+      statistic: cw.Stats.AVERAGE,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.MILLISECONDS,
     });
@@ -530,7 +530,7 @@ export class Dashboard extends Construct {
         Role: 'READER',
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.AVERAGE,
+      statistic: cw.Stats.AVERAGE,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.SECONDS,
     });
@@ -542,7 +542,7 @@ export class Dashboard extends Construct {
         Role: 'READER',
       },
       period: cdk.Duration.minutes(1),
-      statistic: cw.Statistic.AVERAGE,
+      statistic: cw.Stats.AVERAGE,
       label: "${PROP('MetricName')} /${PROP('Period')}sec",
       unit: cw.Unit.SECONDS,
     });

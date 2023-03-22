@@ -363,7 +363,7 @@ export class EcsApp extends Construct {
     ecsService
       .metricCpuUtilization({
         period: cdk.Duration.minutes(1),
-        statistic: cw.Statistic.AVERAGE,
+        statistic: cw.Stats.AVERAGE,
       })
       .createAlarm(this, 'FargateCpuUtil', {
         evaluationPeriods: 3,
@@ -386,7 +386,7 @@ export class EcsApp extends Construct {
     //     ServiceName: ecsService.serviceName,
     //   },
     //   period: cdk.Duration.minutes(1),
-    //   statistic: cw.Statistic.AVERAGE,
+    //   statistic: cw.Stats.AVERAGE,
     // })
     //   .createAlarm(this, 'RunningTaskCount', {
     //     evaluationPeriods: 3,
@@ -400,10 +400,10 @@ export class EcsApp extends Construct {
     // ----------------------- Alarms for ALB -----------------------------
 
     // Alarm for ALB - ResponseTime
-    lbForApp
-      .metricTargetResponseTime({
+    lbForApp.metrics
+      .targetResponseTime({
         period: cdk.Duration.minutes(1),
-        statistic: cw.Statistic.AVERAGE,
+        statistic: cw.Stats.AVERAGE,
       })
       .createAlarm(this, 'AlbResponseTime', {
         evaluationPeriods: 3,
@@ -414,10 +414,10 @@ export class EcsApp extends Construct {
       .addAlarmAction(new cw_actions.SnsAction(props.alarmTopic));
 
     // Alarm for ALB - HTTP 4XX Count
-    lbForApp
-      .metricHttpCodeElb(elbv2.HttpCodeElb.ELB_4XX_COUNT, {
+    lbForApp.metrics
+      .httpCodeElb(elbv2.HttpCodeElb.ELB_4XX_COUNT, {
         period: cdk.Duration.minutes(1),
-        statistic: cw.Statistic.SUM,
+        statistic: cw.Stats.SUM,
       })
       .createAlarm(this, 'AlbHttp4xx', {
         evaluationPeriods: 3,
@@ -428,10 +428,10 @@ export class EcsApp extends Construct {
       .addAlarmAction(new cw_actions.SnsAction(props.alarmTopic));
 
     // Alarm for ALB - HTTP 5XX Count
-    lbForApp
-      .metricHttpCodeElb(elbv2.HttpCodeElb.ELB_5XX_COUNT, {
+    lbForApp.metrics
+      .httpCodeElb(elbv2.HttpCodeElb.ELB_5XX_COUNT, {
         period: cdk.Duration.minutes(1),
-        statistic: cw.Statistic.SUM,
+        statistic: cw.Stats.SUM,
       })
       .createAlarm(this, 'AlbHttp5xx', {
         evaluationPeriods: 3,
@@ -442,10 +442,10 @@ export class EcsApp extends Construct {
       .addAlarmAction(new cw_actions.SnsAction(props.alarmTopic));
 
     // Alarm for ALB TargetGroup - HealthyHostCount
-    lbForAppTargetGroup
-      .metricHealthyHostCount({
+    lbForAppTargetGroup.metrics
+      .healthyHostCount({
         period: cdk.Duration.minutes(1),
-        statistic: cw.Statistic.AVERAGE,
+        statistic: cw.Stats.AVERAGE,
       })
       .createAlarm(this, 'AlbTgHealthyHostCount', {
         evaluationPeriods: 3,
@@ -457,10 +457,10 @@ export class EcsApp extends Construct {
 
     // Alarm for ALB TargetGroup - UnHealthyHostCount
     // This alarm will be used on Dashbaord
-    const albTargetGroupUnhealthyHostCountAlarm = lbForAppTargetGroup
-      .metricUnhealthyHostCount({
+    const albTargetGroupUnhealthyHostCountAlarm = lbForAppTargetGroup.metrics
+      .unhealthyHostCount({
         period: cdk.Duration.minutes(1),
-        statistic: cw.Statistic.AVERAGE,
+        statistic: cw.Stats.AVERAGE,
       })
       .createAlarm(this, 'AlbTgUnHealthyHostCount', {
         evaluationPeriods: 3,

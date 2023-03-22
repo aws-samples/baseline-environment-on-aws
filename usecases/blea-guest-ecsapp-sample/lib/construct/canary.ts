@@ -76,7 +76,7 @@ export class Canary extends Construct {
     const canaryDurationAlarm = appCanary
       .metricDuration({
         period: cdk.Duration.minutes(1),
-        statistic: cw.Statistic.AVERAGE,
+        statistic: cw.Stats.AVERAGE,
       })
       .createAlarm(this, 'canaryDuration', {
         evaluationPeriods: 2,
@@ -92,7 +92,7 @@ export class Canary extends Construct {
     const canaryFailedAlarm = appCanary
       .metricFailed({
         period: cdk.Duration.minutes(1),
-        statistic: cw.Statistic.AVERAGE,
+        statistic: cw.Stats.AVERAGE,
       })
       .createAlarm(this, 'canaryFailed', {
         evaluationPeriods: 3,

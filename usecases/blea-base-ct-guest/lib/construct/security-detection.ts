@@ -229,7 +229,7 @@ export class SecurityDetection extends Construct {
     new cw.Alarm(this, 'IAMPolicyChangeAlarm', {
       metric: mfIAMPolicyChange.metric({
         period: cdk.Duration.seconds(300),
-        statistic: cw.Statistic.SUM,
+        statistic: cw.Stats.SUM,
       }),
       evaluationPeriods: 1,
       datapointsToAlarm: 1,
@@ -257,7 +257,7 @@ export class SecurityDetection extends Construct {
     new cw.Alarm(this, 'UnauthorizedAttemptsAlarm', {
       metric: mfUnauthorizedAttempts.metric({
         period: cdk.Duration.seconds(300),
-        statistic: cw.Statistic.SUM,
+        statistic: cw.Stats.SUM,
       }),
       evaluationPeriods: 1,
       datapointsToAlarm: 1,
@@ -282,7 +282,7 @@ export class SecurityDetection extends Construct {
     new cw.Alarm(this, 'NewAccessKeyCreatedAlarm', {
       metric: mfNewAccessKeyCreated.metric({
         period: cdk.Duration.seconds(300),
-        statistic: cw.Statistic.SUM,
+        statistic: cw.Stats.SUM,
       }),
       evaluationPeriods: 1,
       datapointsToAlarm: 1,
@@ -309,7 +309,7 @@ export class SecurityDetection extends Construct {
     new cw.Alarm(this, 'RootUserPolicyEventCountAlarm', {
       metric: mfRooUserPolicy.metric({
         period: cdk.Duration.seconds(300),
-        statistic: cw.Statistic.SUM,
+        statistic: cw.Stats.SUM,
       }),
       evaluationPeriods: 1,
       datapointsToAlarm: 1,

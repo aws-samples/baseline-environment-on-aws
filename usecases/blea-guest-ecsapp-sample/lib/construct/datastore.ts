@@ -62,7 +62,7 @@ export class Datastore extends Construct {
     cluster
       .metricCPUUtilization({
         period: Duration.minutes(1),
-        statistic: cw.Statistic.AVERAGE,
+        statistic: cw.Stats.AVERAGE,
       })
       .createAlarm(this, 'AuroraCPUUtil', {
         evaluationPeriods: 3,
@@ -84,7 +84,7 @@ export class Datastore extends Construct {
     //       DBInstanceIdentifier: instance
     //     },
     //     period: cdk.Duration.minutes(1),
-    //     statistic: cw.Statistic.AVERAGE,
+    //     statistic: cw.Stats.AVERAGE,
     //   }).createAlarm(this, 'CPUUtilization', {
     //     evaluationPeriods: 3,
     //     datapointsToAlarm: 2,

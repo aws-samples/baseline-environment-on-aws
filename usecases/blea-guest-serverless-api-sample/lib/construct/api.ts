@@ -59,7 +59,7 @@ export class Api extends Construct {
     restApi
       .metricCount({
         period: cdk.Duration.minutes(1),
-        statistic: cw.Statistic.AVERAGE,
+        statistic: cw.Stats.AVERAGE,
       })
       .createAlarm(this, 'APIGatewayInvocationCount', {
         evaluationPeriods: 3,

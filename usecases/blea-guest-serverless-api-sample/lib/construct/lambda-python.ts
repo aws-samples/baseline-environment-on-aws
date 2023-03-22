@@ -99,7 +99,7 @@ export class LambdaPython extends Construct {
     getItemFunction
       .metricErrors({
         period: cdk.Duration.minutes(1),
-        statistic: cw.Statistic.AVERAGE,
+        statistic: cw.Stats.AVERAGE,
       })
       .createAlarm(this, 'getItemErrorsAlarm', {
         evaluationPeriods: 3,
@@ -113,7 +113,7 @@ export class LambdaPython extends Construct {
     getItemFunction
       .metricDuration({
         period: cdk.Duration.minutes(1),
-        statistic: cw.Statistic.AVERAGE,
+        statistic: cw.Stats.AVERAGE,
       })
       .createAlarm(this, 'getItemDurationAlarm', {
         evaluationPeriods: 3,
@@ -128,7 +128,7 @@ export class LambdaPython extends Construct {
       namespace: 'AWS/Lambda',
       metricName: 'ConcurrentExecutions',
       period: cdk.Duration.minutes(5),
-      statistic: cw.Statistic.MAXIMUM,
+      statistic: cw.Stats.MAXIMUM,
       dimensionsMap: {
         FunctionName: getItemFunction.functionName,
       },
@@ -145,7 +145,7 @@ export class LambdaPython extends Construct {
     getItemFunction
       .metricThrottles({
         period: cdk.Duration.minutes(1),
-        statistic: cw.Statistic.AVERAGE,
+        statistic: cw.Stats.AVERAGE,
       })
       .createAlarm(this, 'getItemThrottlesAlarm', {
         evaluationPeriods: 3,
@@ -187,7 +187,7 @@ export class LambdaPython extends Construct {
     listItemsFunction
       .metricErrors({
         period: cdk.Duration.minutes(1),
-        statistic: cw.Statistic.AVERAGE,
+        statistic: cw.Stats.AVERAGE,
       })
       .createAlarm(this, 'listItemsErrorsExecutionsAlarm', {
         evaluationPeriods: 3,
@@ -201,7 +201,7 @@ export class LambdaPython extends Construct {
     listItemsFunction
       .metricDuration({
         period: cdk.Duration.minutes(1),
-        statistic: cw.Statistic.AVERAGE,
+        statistic: cw.Stats.AVERAGE,
       })
       .createAlarm(this, 'listItemsDurationAlarm', {
         evaluationPeriods: 3,
@@ -216,7 +216,7 @@ export class LambdaPython extends Construct {
       namespace: 'AWS/Lambda',
       metricName: 'ConcurrentExecutions',
       period: cdk.Duration.minutes(5),
-      statistic: cw.Statistic.MAXIMUM,
+      statistic: cw.Stats.MAXIMUM,
       dimensionsMap: {
         FunctionName: listItemsFunction.functionName,
       },
@@ -233,7 +233,7 @@ export class LambdaPython extends Construct {
     listItemsFunction
       .metricThrottles({
         period: cdk.Duration.minutes(1),
-        statistic: cw.Statistic.AVERAGE,
+        statistic: cw.Stats.AVERAGE,
       })
       .createAlarm(this, 'listItemsThrottlesAlarm', {
         evaluationPeriods: 3,
@@ -275,7 +275,7 @@ export class LambdaPython extends Construct {
     putItemFunction
       .metricErrors({
         period: cdk.Duration.minutes(1),
-        statistic: cw.Statistic.AVERAGE,
+        statistic: cw.Stats.AVERAGE,
       })
       .createAlarm(this, 'putItemErrorsAlarm', {
         evaluationPeriods: 3,
@@ -289,7 +289,7 @@ export class LambdaPython extends Construct {
     putItemFunction
       .metricDuration({
         period: cdk.Duration.minutes(1),
-        statistic: cw.Statistic.AVERAGE,
+        statistic: cw.Stats.AVERAGE,
       })
       .createAlarm(this, 'putItemDurationAlarm', {
         evaluationPeriods: 3,
@@ -304,7 +304,7 @@ export class LambdaPython extends Construct {
       namespace: 'AWS/Lambda',
       metricName: 'ConcurrentExecutions',
       period: cdk.Duration.minutes(5),
-      statistic: cw.Statistic.MAXIMUM,
+      statistic: cw.Stats.MAXIMUM,
       dimensionsMap: {
         FunctionName: putItemFunction.functionName,
       },
@@ -321,7 +321,7 @@ export class LambdaPython extends Construct {
     putItemFunction
       .metricThrottles({
         period: cdk.Duration.minutes(1),
-        statistic: cw.Statistic.AVERAGE,
+        statistic: cw.Stats.AVERAGE,
       })
       .createAlarm(this, 'putItemThrottlesAlarm', {
         evaluationPeriods: 3,
