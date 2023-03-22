@@ -15,4 +15,5 @@ export const devParameter: AppParameter = {
   monitoringNotifyEmail: 'notify-security@example.com',
   monitoringSlackWorkspaceId: 'TXXXXXXXXXX',
   monitoringSlackChannelId: 'CYYYYYYYYYY',
+  // env: { account: '123456789012', region: 'ap-northeast-1' },
 };

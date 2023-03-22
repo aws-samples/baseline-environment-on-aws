@@ -6,9 +6,14 @@ CDK による CI/CD の一例として、このドキュメントでは [CDK Pip
 
 CDK Pipelines は、AWS CodePipeline によって CDK アプリケーションの継続的なデプロイパイプラインを簡単にセットアップできる高レベルのコンストラクトライブラリです。CDK pipelines で迅速にパイプラインを構築することで、お客様はアプリケーション開発を簡素化し、より関心の高い部分に注力することができます。
 
-`guest-webapp-sample/bin/blea-guest-ecsapp-sample.ts` と同等の構成を `guest-webapp-sample/bin/blea-guest-ecsapp-sample-pipeline.ts` で Stage (CDK Pipelines におけるデプロイ単位を定義するクラス) として定義し、パイプラインからデプロイするサンプルが実装されています。
+現状、以下のサンプルを提供しています。
 
-すでにユースケース `guest-webapp-sample/bin/blea-guest-ecsapp-sample.ts` をデプロイ済みの場合、以下の手順に従って CDK Pipelines によるデプロイを行うと、同じアプリケーションを異なるスタック名でデプロイすることになります。課金の重複やデプロイの失敗を回避するため、`npx cdk destroy` を実行してすでにデプロイ済みのスタックを削除してください。
+- `blea-base-ct-guest`（マルチアカウント版 ベースライン）をデプロイするパイプライン
+- `blea-guest-ecsapp-sample`（独自ドメインの SSL 通信を CloudFront を受け付ける ECS アプリケーションのサンプル）をデプロイするパイプライン
+
+稼働環境自体のデプロイはパイプラインが行います。ご自身でデプロイするのはパイプラインです。
+
+すでにそれぞれのユースケース をデプロイ済みの場合、CDK Pipelines によるデプロイを行うと、同じアプリケーションを異なるスタック名でデプロイすることになります。課金の重複やデプロイの失敗を回避するため、すでにデプロイ済みのスタックは`npx cdk destroy` を実行して削除することをお勧めします。
 
 ## パイプラインの構成
 
@@ -36,24 +41,22 @@ CodePipeline がソースコードを取得するために必要な設定を実�
 
 複数アカウントにアプリケーションをデプロイする方法の一例として、各アカウントごとにパイプラインを作成している例を示しています。この構成は、各アカウントごとに構成 B で要求される作業を実施することで検証可能です。
 
-### （Appendix）開発時にパイプラインを経由せず直接アプリケーションをデプロイする
+## 1. 構成パターン A （同一アカウント内）の ガバナンスベースデプロイ手順
 
-![BLEA-Deploy-Multi](images/BLEA-DeployECS-05-Multi.png)
+### 構築する環境の概要
 
-パイプライン構築後の開発時にパイプラインの完了を待たずにデプロイ結果を確認したい場合、Appendix B の手順で直接デプロイを実行することができます。ただし、この手順は本番環境では使用しないでください。
+- ここでは、マルチアカウント用ガバナンスベース（`usecases/blea-base-ct-guest`）をパイプラインでデプロイする手順を紹介します
+- パイプラインと、そこからデプロイするガバナンスベースは同じアカウント `Dev` アカウント ID `123456789012` に作成します。
+- パイプラインのパラメータは `DevPipelineParameter`、ガバナンスベースのパラメータは `DevParameter`とします
 
-## デプロイ手順
+### 1-1. GitHub リポジトリに BLEA のコードを登録する
 
-### 前提条件
+Git リポジトリに BLEA のコードを登録してください。
+パイプラインは Git リポジトリを監視し、対象ブランチが更新されたらパイプラインをキックします。
 
-- パイプラインのデプロイ先のアカウント（以下、 Tools アカウント（ID: `222222222222`））およびリージョンで CDK をブートストラップ済みであること
-- Tools アカウントに Administrator 権限でアクセスする認証情報を AWS CLI プロファイルとして設定済みであること（本ドキュメントでは `blea-pipeline-tool` プロファイルを使用）
+### 1-2. AWS CodeStar Connections を使用して GitHub を接続する
 
-  > **Note** Administrator 権限は CDK のブートストラップを行う際と、パイプラインをデプロイする際に必要な権限となります。セキュリティの観点から、パイプラインのデプロイが完了したら Administrator 権限を外すことが推奨されます（ [CDK Pipelines のドキュメント](https://docs.aws.amazon.com/cdk/api/v1/docs/pipelines-readme.html) より）。
-
-### 1. AWS CodeStar Connections を使用して GitHub を接続する
-
-はじめに、パイプラインによってデプロイを行う Git リポジトリに対する Connection を作成する必要があります。既に対象の Git リポジトリにアクセスできる Connection を作成済みの場合は手順 1-7 までスキップすることができます。
+パイプラインが対象 Git リポジトリにアクセスするための Connection を作成します。
 
 1. Tools アカウントの AWS マネジメントコンソールにログインします
 2. [CodePipeline] サービスを開きます
@@ -81,247 +84,187 @@ CodePipeline がソースコードを取得するために必要な設定を実�
 
 ![BLEA-Deploy-6-Finished](images/BLEA-Deploy-6-Finished.png)
 
-### 2. `cdk.json` に Connection の情報を設定する
+### 1-3. AWS CLI 認証情報の設定
 
-デプロイするアプリケーションの `cdk.json` ファイル（今回の場合、`usecases/guest-webapp-sample/cdk.json`）を編集することで、CDK がコンテキスト情報を CodePipeline に引き渡せるように設定します。
+ゲストアカウント `Dev` にデプロイするための AWS CLI プロファイルを設定します。ここではゲストアカウントの ID を`123456789012`としています。
 
-```json
-    "dev": {
-      "envName": "Production",
+~/.aws/config
 
-      ~~~~~ (Your App Context) ~~~~~
-
-      "repository": "ownername/repositoryname",
-      "branch": "main",
-      "connectionArn": "arn:aws:codestar-connections:ap-northeast-1:xxxxxxxxxxxx:connection/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-    },
+```text
+# for Guest Account
+[profile ct-guest]
+sso_start_url = https://d-90xxxxxxxx.awsapps.com/start#/
+sso_region = ap-northeast-1
+sso_account_id = 123456789012
+sso_role_name = AWSAdministratorAccess
+region = ap-northeast-1
 ```
 
-- `dev`: CDK コマンドの実行時にコンテキストで指定する環境名。例：`npx cdk deploy -c environment=dev`
+> **Note** Administrator 権限は CDK のブートストラップを行う際と、パイプラインをデプロイする際に必要な権限となります。セキュリティの観点から、パイプラインのデプロイが完了したら Administrator 権限を外すことが推奨されます（ [CDK Pipelines のドキュメント](https://docs.aws.amazon.com/cdk/api/v1/docs/pipelines-readme.html) より）。
+
+### 1-4. パイプラインのパラメータを設定する
+
+対象のアプリケーションの `parameter.ts` ファイル（今回の場合、`usecases/blea-base-ct-guest/parameters.ts`）を編集して必要な情報を指定します。ここでは CLI の認証情報で指定したゲストアカウントにデプロイすることを想定して、env は明示的に指定しない方法としています。
+
+```typescript
+// Parameter for Governance base in Dev account
+export const DevParameter: MyParameter = {
+  envName: 'Development',
+  securityNotifyEmail: 'notify-security@example.com',
+  // env: { account: '123456789012', region: 'ap-northeast-1' },
+};
+
+// Parameter for Pipeline in Dev account
+export const DevPipelineParameter: MyParameter = {
+  envName: 'Development',
+  securityNotifyEmail: 'notify-security@example.com',
+  sourceRepository: 'aws-samples/baseline-environment-on-aws',
+  sourceBranch: 'main',
+  sourceConnectionArn: 'arn:aws:codestar-connections:ap-northeast-1:xxxxxxxxxxxx:connection/example',
+  // env: { account: '123456789012', region: 'ap-northeast-1' },
+};
+```
+
+パイプライン特有のパラメータは以下の通りです。
+
 - `repository`: GitHub リポジトリの名前。自身のリポジトリ URL が 'https://github.com/ownername/repositoryname.git' である場合、`ownername/repositoryname` を指定する
 - `branch`: パイプラインが参照するブランチ名
 - `connectionArn`: 先のセクションで取得した GitHub Connection の ARN
 
-### 3. パイプラインをデプロイする
+### 1-5. パイプラインをデプロイする
 
-#### 3.1. ビルド対象のアプリケーションを `cdk.json` から確認する
-
-`cdk synth` または `cdk deploy` 実行時に参照されるアプリケーションの初期値は、 `cdk.json` の `app` キーに指定されています。各コマンドを実行する際に `--app` オプションを渡すことでオーバーライドすることもできます。パイプラインを使って今後継続的にデプロイを行う場合、以下のように `cdk.json` の設定を書き換えることを推奨します。
-
-##### **`usecases/guest-webapp-sample/cdk.json`**
-
-```ts
-{
-  "app": "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample-pipeline.ts",
-  // ...
-```
-
-#### 3.A （Optional）デプロイ先の環境を変更する場合
-
-CDK Pipelines では、Tools アカウントの CodeBuild において、 `cdk synth` コマンドを実施します。以下は、サンプル実装における Synth コマンドの実装になります。Pipeline Stack の Props の `environment` にデプロイする環境を渡すことができます（デフォルトの設定値は `dev`）。
-
-##### **`usecases/guest-webapp-sample/pipeline/blea-ecsapp-sample-pipeline-stack.ts`**
-
-```ts
-        // ...
-        commands: [
-        ~~~ (Your Build Commands) ~~~
-          `npx cdk synth --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample-pipeline.ts" -c environment=${environment}`,
-          `npx cdk ls -c environment=${environment}`,
-        ],
-        // ...
-```
-
-> **Note** synth コマンドをパイプライン内部で実行する際は、オプションとして `--profile` を指定する必要はありません。CodeBuild の実行ロールを参照するためです。
-> ローカルで実行する場合は、 `npx cdk synth -c environment=dev --profile xxxxxx` のような形で Profile を指定することで実行することができます。
-
-##### **`usecases/guest-webapp-sample/bin/blea-guest-ecsapp-sample-pipeline.ts`**
-
-```ts
-const prodStack = new BLEAPipeline.BLEAPipelineStack(app, `${pjPrefix}-Prod-Pipeline`, {
-  repository: envVals['repository'],
-  branch: envVals['branch'],
-  connectionArn: envVals['connectionArn'],
-  env: procEnv,
-  environment: 'prod', // you can change context env.
-  deployStage: new BLEAPipelineStage(app, `${pjPrefix}-Prod-Stage`),
-});
-```
-
-#### 3.2. アカウントをブートストラップし、パイプラインを Tools アカウントにデプロイする
-
-以下のコマンドをローカル環境から実行することで、パイプラインを Tools アカウントにデプロイすることができます。
+以下のコマンドをローカル環境から実行することで、パイプラインを 対象アカウントにデプロイします。
 
 ```sh
 npm ci
-cd usecase/guest-webapp-sample/
-npx cdk bootstrap -c environment=dev --profile blea-pipeline-tool  # If you haven't bootstrapped target account
-
-npx cdk deploy -c environment=dev --profile blea-pipeline-tool
+cd usecase/blea-base-ct-guest/
+npx aws-cdk bootstrap --profile ct-guest  # If you haven't bootstrapped target account
+npx aws-cdk deploy --profile ct-guest --app "npx ts-node --prefer-ts-exts bin/blea-base-ct-guest-via-cdk-pipelines.ts"
 ```
 
-### 4. BLEA のコードを更新し変更を Push することで、デプロイを実行する
+作成されたパイプラインを確認するには、対象アカウントのマネジメントコンソールにアクセスして、CodePipeline の画面をご確認ください。
 
-パイプラインのデプロイが完了したら、BLEA のコードの変更を継続的にデプロイすることが可能になります。
-BLEA のコードを変更して、commit し、対象ブランチへの Push を実行します。
+### 1-6. アプリケーションのコードを更新し変更を Push して、デプロイを実行する
 
-GitHub に変更が push されたら、CodePipeline が起動して Git リポジトリからソースコードを取得します。CodePipeline 内部では CodeBuild が実行されており、 Cloud Assembly を synth した後に、デプロイします。
+パイプラインのデプロイが完了したら、アプリケーション（ガバナンスベース）のコードを変更して、commit / push します。これによってパイプラインが稼働し、アプリケーション（ガバナンスベース）をデプロイします。
 
-以上でユースケース `guest-webapp-sample/bin/blea-guest-ecsapp-sample-pipeline.ts` の Stage で定義された CDK アプリケーションがパイプラインを通じてデプロイされました。
+パイプラインの稼働状況は Tools アカウントにアクセスしてご確認ください。
 
 > **Note** CDK Pipelines では、 [SelfMutation](https://aws.amazon.com/jp/blogs/news/deploying-a-cdk-application-using-the-cdk-pipelines-modern-api/) という機能を使用することで、デプロイパイプラインもリポジトリの更新に応じて継続的にデプロイすることが可能です。これにより、Tools アカウントを介して定義されたスタックを全てデプロイすることが可能です。
 
 ---
 
-## Appendix A - クロスアカウントに対するデプロイ
+## 2. 構成パターン B クロスアカウントの ECS アプリケーションサンプル（マルチリージョン）デプロイ手順
 
-CDK Pipelines は、アカウント間にまたがるアプリケーションをデプロイするパイプラインを手軽に実現することが可能です。
-本項目では、Tools アカウントから CDK アプリケーションをデプロイする先のアカウント（以下、Prod アカウント（ID： `333333333333` ））に対してクロスアカウントなアプリケーションのデプロイを実施する手順を示します。
+CDK Pipelines は、アカウントやリージョン間にまたがるアプリケーションをデプロイするパイプラインを手軽に実現することが可能です。
+本リポジトリの `usecase/blea-guest-ecsapp-sample` は us-east-1 に CloudFront を、利用者が指定するリージョンに ALB や ECS 等のアプリケーション実行環境をデプロイする、マルチリージョン構成です。
+
+ここでは、クロスアカウントデプロイを行うパイプライン `bin/blea-guest-ecsapp-sample-via-cdk-pipelines.ts` を使用してデプロイする手順を紹介します。
+パイプラインを `Pipeline` アカウント `222222222222` に構成し、 ECS アプリケーションサンプルを `Dev` アカウント（ID： `111111111111` にデプロイします。
 
 ### 前提条件
 
-- Prod アカウントが Organization に登録されていて、SSO を用いて Credential を取得することができること
-- パイプラインをデプロイする Git リポジトリがプライベートリポジトリとして管理され、第三者が `cdk.json` またはパイプラインのスタック等に記載されているアカウント情報にアクセスできないこと
+- Dev および Pipeline アカウントが Organization に登録されていて、SSO を用いて Credential を取得することができること
+- パイプラインをデプロイする Git リポジトリがプライベートリポジトリとして管理され、第三者が `paramter.ts` またはパイプラインのスタック等に記載されているアカウント情報にアクセスできないこと
+- Pipeline アカウントにて上記手順 1-1, 1-2 の実施が完了していること
 
-  > **Note** 本サンプルでは、パイプラインがデプロイするスタックのデプロイ先となるアカウントの接続情報を記載する必要があるため、当該情報を管理する Git リポジトリは Private である必要があります。例えば GitHub 上で開発を行う場合、公開されている本リポジトリを Clone して Push することで Private なリポジトリを作成する必要があります。この際本リポジトリを Fork するとプライベートリポジトリとして管理することができないので、注意が必要です。
+  > **Note** 本サンプルでは、パイプラインがデプロイするスタックのデプロイ先となるアカウントの接続情報を記載する必要があるため、当該情報を管理する Git リポジトリは Private である必要があります。例えば GitHub 上で開発を行う場合、公開されている本リポジトリを Clone して Push することで Private なリポジトリを作成する必要があります。aws-samples のリポジトリを直接 Fork するとプライベートリポジトリとして管理することができないので、注意してください。
 
-### コードの変更
+### 2-1. パラメータの設定
 
-1. CDK Pipelines の `crossAccountKeys` を `true` に設定して有効化する
+クロスアカウントデプロイでは対象のアカウントとリージョンを明示的に指定する必要があります。
+`usecase/blea-guest-ecsapp-sample/parameter.ts` のコメントアウトされているアカウント ID を適切に設定します。
 
-##### **`usecases/guest-webapp-sample/pipeline/blea-ecsapp-sample-pipeline-stack.ts`**
+注意：このアプリケーションのデプロイにあたっては、事前に独自ドメインを Route53 に登録して Hosted Zone ID を取得する必要があります。A レコードや SSL 証明書はサンプルアプリケーション内で作成します。
 
-```ts
-const pipeline = new pipelines.CodePipeline(this, `${id}-pipeline`, {
-    crossAccountKeys: true,
-    synth: new pipelines.CodeBuildStep('SynthStep', {
-        input: pipelines.CodePipelineSource.connection(props.repository, props.branch, {
+```typescript
+// Parameters for Dev Account
+export const devParameter: AppParameter = {
+  env: {
+    account: '111111111111', // ここを指定する
+    region: 'ap-northeast-1',
+  },
+  envName: 'Development',
+  monitoringNotifyEmail: 'notify-security@example.com',
+  monitoringSlackWorkspaceId: 'TXXXXXXXXXX',
+  monitoringSlackChannelId: 'CYYYYYYYYYY',
+  vpcCidr: '10.100.0.0/16',
+  hostedZoneId: 'Z00000000000000000000',
+  domainName: 'example.com',
+  cloudFrontHostName: 'www',
+  albHostName: 'alb',
+  dashboardName: 'BLEA-ECS-App-Sample',
+};
+
+// Parameters for Pipeline Account
+export const devPipelineParameter: PipelineParameter = {
+  env: {
+    account: '222222222222', // ここを指定する
+    region: 'ap-northeast-1',
+  },
+  sourceRepository: 'aws-samples/baseline-environment-on-aws',
+  sourceBranch: 'main',
+  sourceConnectionArn:
+    'arn:aws:codestar-connections:us-west-2:222222222222:connection/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+};
 ```
 
-> **Note** `crossAccountKeys` を `true`　にすると、テスト時のアカウント情報に関する評価がより厳密になります。具体的には、パイプラインスタックにおいて明示的に（環境情報を介さずに）アカウント情報を渡す必要があります。このためには `cdk.json` の設定値を介してアカウント情報を渡す、などといった手段が考えられます。
+> **Note** CodePipeline のコンストラクタで `crossAccountKeys` を `true`　にすると、テスト時のアカウント情報に関する評価がより厳密になります。具体的には、パイプラインスタックにおいて明示的に（環境情報を介さずに）アカウント情報を渡す必要があります。
 
-2. Pipeline がデプロイする Stage をインスタンスかする際に、デプロイ先のアカウント情報を　`env` に渡す。
+### 2-2. Dev および Pipeline アカウントのセットアップを行う
 
-##### **`usecases/guest-webapp-sample/bin/blea-guest-ecsapp-sample-pipeline.ts`**
+Pipeline アカウントから Dev アカウントの us-east-1 と ap-northeast-1 へデプロイできるよう、ブートストラップを行います。
 
-```ts
-new BLEAPipelineStack(app, `${pjPrefix}-Pipeline`, {
-  repository: envVals['repository'],
-  branch: envVals['branch'],
-  connectionArn: envVals['connectionArn'],
-  env: getProcEnv(),
-
-  deployStage: new BLEAPipelineStage(app, `${pjPrefix}-Pipeline-Deployment`, {
-    env: {
-      account: envVals['prodEnv']['account'],
-      region: envVals['prodEnv']['region'],
-    }, // you can change deploy account by changing this value.
-  }),
-});
-```
-
-アカウント情報を記載する際は、`cdk.json` に接続情報を以下のような形で追記する必要があります。
-
-```json
-    "dev": {
-      "envName": "Production",
-
-      ~~~~~ (Your App Context) ~~~~~
-
-      "repository": "ownername/repositoryname",
-      "branch": "main",
-      "connectionArn": "arn:aws:codestar-connections:ap-northeast-1:xxxxxxxxxxxx:connection/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-      "prodEnv": {
-        "account": "333333333333",
-        "region": "ap-northeast-1"
-      }
-    },
-```
-
-### Prod アカウントのセットアップを行う
-
-以下のような形で、Prod アカウントの Profile が設定されているとします。
-
-```
-[profile blea-pipeline-prod]
-sso_start_url = https://xxxxxxxxxxxx.awsapps.com/start#/
-sso_region = ap-northeast-1
-sso_account_id = 333333333333
-sso_role_name = AWSAdministratorAccess
-region = ap-northeast-1
-```
-
-次のとおり手順を実施することで、Tools アカウントから Prod アカウントに対してクロスアカウントなアプリケーションのデプロイを実施することが可能になります。
-
-1. Prod アカウントに SSO でログインする
-
-```sh
-aws sso login --profile blea-pipeline-prod
-```
-
-2. Prod アカウントのブートストラップを実施する
-
-```sh
-npx cdk bootstrap --profile blea-pipeline-prod --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess --trust 222222222222 aws://333333333333/ap-northeast-1 -c environment=prod
-```
-
-3. Tools アカウントのブートストラップを実施する
-
-```sh
-npx cdk bootstrap -c environment=dev --profile blea-pipeline-tool --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess aws://222222222222/ap-northeast-1
-```
-
-4. Tools アカウントに対してパイプラインをデプロイする
-
-```sh
-npx cdk deploy -c environment=dev --profile blea-pipeline-tool
-```
-
-この Tools アカウントにデプロイされたパイプラインによりアプリケーションがビルド・デプロイされます。
-
-参考情報：https://aws.amazon.com/jp/blogs/news/deploying-a-cdk-application-using-the-cdk-pipelines-modern-api/
-
-## Appendix B - 開発環境へのアプリケーションスタックのデプロイ
-
-実際にシステムを CDK を用いて開発する際には、パイプラインを介さずにスタックをデプロイして検証サイクルを短くすることが必要になることがあります。そのような場合は開発環境用のアカウントに向けて、パイプライン経由ではなく、特定のスタックを直接デプロイすることも可能です。ただし、デプロイ元のコードと実際構成されるシステムの構成を一致させるため、本番環境ではこのような直接的なデプロイは避けるようにしてください。
-
-前提：以下に示されているような形で開発環境用に払い出されたアカウント（以下、Dev アカウント（ID: `xxxxxxxxxxxx`））が、Organization に登録されていて、SSO 経由で Credential を取得できること
-
-```json
-    "dev": {
-      "env": {
-        "account": "xxxxxxxxxxxx",
-        "region": "ap-northeast-1"
-      },
-      "envName": "Development",
-
-      ~~~~~ (Your App Context) ~~~~~
-
-      "githubRepository": "ownername/repositoryname",
-      "githubTargetBranch": "main",
-      "codestarConnectionArn": "arn:aws:codestar-connections:ap-northeast-1:xxxxxxxxxxxx:connection/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-    },
-```
+1. AWS CLI 認証情報の設定
+   Dev および Pipeline アカウントにアクセスできるよう、 ~/.aws/config に Profile を設定します。
 
 ```
 [profile blea-pipeline-dev]
 sso_start_url = https://xxxxxxxxxxxx.awsapps.com/start#/
 sso_region = ap-northeast-1
-sso_account_id = xxxxxxxxxxxx
+sso_account_id = 111111111111
+sso_role_name = AWSAdministratorAccess
+region = ap-northeast-1
+
+[profile blea-pipeline-tools]
+sso_start_url = https://xxxxxxxxxxxx.awsapps.com/start#/
+sso_region = ap-northeast-1
+sso_account_id = 222222222222
 sso_role_name = AWSAdministratorAccess
 region = ap-northeast-1
 ```
 
-### 開発環境にスタックを直接デプロイする
+> **Note** Administrator 権限は CDK のブートストラップを行う際と、パイプラインをデプロイする際に必要な権限となります。セキュリティの観点から、パイプラインのデプロイが完了したら Administrator 権限を外すことが推奨されます（ [CDK Pipelines のドキュメント](https://docs.aws.amazon.com/cdk/api/v1/docs/pipelines-readme.html) より）。
 
-例えば、`BLEA-Dev-Stage` 中で定義されている `BLEA-ECSApp` を指定してデプロイしたい場合は以下のコマンドによって Dev アカウントにデプロイすることができます。
+2. Dev アカウントに SSO でログインし、ブートストラップを実施する
 
-```
-npx cdk deploy BLEA-Dev-Stage/BLEA-ECSApp -c environment=dev --profile=blea-pipeline-dev
+```sh
+aws sso login --profile blea-pipeline-dev
+npx aws-cdk bootstrap aws://111111111111/ap-northeast-1 aws://111111111111/us-east-1 --trust 222222222222 --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess --profile blea-pipeline-dev
 ```
 
-なお、以下のようなコマンドによってデプロイできるスタック (上記コマンドにおける`BLEA-Dev-Stage/BLEA-ECSApp`に相当するもの) の一覧を確認することができます
+3. Pipeline アカウントに SSO でログインし、ブートストラップを実施する
 
+```sh
+aws sso login --profile blea-pipeline-tools
+npx aws-cdk bootstrap aws://222222222222/ap-northeast-1 --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess --profile blea-pipeline-tools
 ```
-npx cdk ls -c environment=dev
+
+### 2-3. パイプラインをデプロイする
+
+Pipeline アカウントに対してパイプラインをデプロイする
+
+```sh
+cd usecase/blea-guest-ecsapp-sample
+npx aws-cdk deploy --profile blea-pipeline-tools --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample-via-cdk-pipelines.ts"
 ```
+
+この Pipeline アカウントにデプロイされたパイプラインによりアプリケーションがビルド・デプロイされます。
+
+### 2-4. アプリケーションのコードを更新し変更を Push して、デプロイを実行する
+
+パイプラインのデプロイが完了したら、アプリケーション（ガバナンスベース）のコードを変更して、commit / push します。これによってパイプラインが稼働し、アプリケーション（ガバナンスベース）をデプロイします。
+
+パイプラインの稼働状況は Tools アカウントにアクセスしてご確認ください。
+
+参考情報：https://aws.amazon.com/jp/blogs/news/deploying-a-cdk-application-using-the-cdk-pipelines-modern-api/

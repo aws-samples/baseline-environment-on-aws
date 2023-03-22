@@ -26,7 +26,7 @@ export interface PipelineParameter {
   sourceConnectionArn: string;
 }
 
-// Example
+// Parameters for Dev Account
 export const devParameter: AppParameter = {
   env: {
     // account: '111111111111',
@@ -44,6 +44,7 @@ export const devParameter: AppParameter = {
   dashboardName: 'BLEA-ECS-App-Sample',
 };
 
+// Parameters for Pipeline Account
 export const devPipelineParameter: PipelineParameter = {
   env: {
     account: '222222222222',

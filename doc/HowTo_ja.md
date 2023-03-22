@@ -7,11 +7,9 @@
 - [VisualStudioCode のセットアップ](#VisualStudioCode-のセットアップ)
 - [Git の pre-commit hook のセットアップ](#Git-の-pre-commit-hook-のセットアップ)
 - [デプロイ時の承認をスキップしロールバックさせない](#デプロイ時の承認をスキップしロールバックさせない)
-- [cdk.context.json による個人環境の管理](#cdkcontextjson-による個人環境の管理)
 - [AWSChatbot 用に Slack を設定する](#AWSChatbot-用に-Slack-を設定する)
 - [CloudShell によるデプロイメント](#CloudShell-によるデプロイメント)
 - [依存パッケージの最新化](#依存パッケージの最新化)
-- [アプリケーション内で Context にアクセスする仕組み](#アプリケーション内で-Context-にアクセスする仕組み)
 - [通常の開発の流れ](#通常の開発の流れ)
 - [セキュリティ指摘事項の修復](#セキュリティ指摘事項の修復)
 
@@ -125,35 +123,6 @@ CDK は CloudFormation を使ってデプロイしますが、通常デプロイ
   "app": "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts",
   "requireApproval": "never",
   "rollback": false,
-  "context": {
-    "dev": {
-```
-
----
-
-## cdk.context.json による個人環境の管理
-
-cdk.json と同じディレクトリに cdk.context.json を置くことで、自分の開発環境のパラメータを指定することができます。このファイルはリポジトリにはコミットされません。このファイルは CDK によって自動的に作成されている場合があります。その場合は既存の設定を残したまま自分自身の Context 定義を追加してください。
-
-cdk.context.json の例
-
-```json
-{
-  "@aws-cdk/core:enableStackNameDuplicates": "true",
-  "aws-cdk:enableDiffNoFail": "true",
-  "@aws-cdk/core:stackRelativeExports": "true",
-  "my": {
-    "description": "Personal Environment variables for blea-guest-*-samples.ts",
-    "envName": "Personal",
-    "vpcCidr": "10.100.0.0/16",
-    "monitoringNotifyEmail": "zzz@example.com",
-    "dbUser": "personaluser",
-    "slackNotifier": {
-      "workspaceId": "T8XXXXXXXXX",
-      "channelIdMon": "C02YYYYYYYY"
-    }
-  }
-}
 ```
 
 ---
@@ -271,36 +240,6 @@ npm update --workspaces
 > NOTE
 >
 > ここで依存パッケージのバージョン不整合が発生した場合、適宜 package.json を修正します。例えば、`jest` はこのプロジェクトのテストツールとして使用されているため、 package.json に `devDependencies` として記載されています。`aws-cdk` も同様に `jest` に依存しており、 `ncu -u` によって package.json に記載された `jest` のバージョンが `aws-cdk` が必要とするバージョンと一致しなくなるおそれがあります。
-
----
-
-## アプリケーション内で Context にアクセスする仕組み
-
-cdk.json や cdk.context.json で指定した Context は CDK コード（bin/\*.ts）の中で次のようにアクセスしています。
-
-```ts
-const envKey = app.node.tryGetContext('environment');
-const valArray = app.node.tryGetContext(envKey);
-const environment_name = valArray['envName'];
-```
-
-Context パラメータを使ったデプロイメントの方法の例。
-
-```sh
-cdk deploy --all --profile prof_dev  -c environment=dev
-cdk deploy --all --profile prof_prod -c environment=prod
-```
-
-- `--app` を指定しない場合は cdk.json の `app` で指定している Application がデプロイされます。
-
-- デプロイする際のプロファイル（認証情報）を指定するには `--profile xxxxx` を指定します
-
-- cdk.json で定義した Context パラメータを指定するには `-c envrionment=xxxx` を指定します。
-- profile で指定する認証情報のアカウントおよびリージョンと、 Context の env で指定する、アカウントおよびリージョンは一致している必要があります。これによって誤ったアカウントへデプロイすることを防ぐほか、どのアカウントにどの context でデプロイしたのかを記録しておくことにもなります。できるだけ context には`env`を指定することをお勧めします。
-- 開発環境のように開発者ごとに利用するアカウントが違う場合は、context で`env`を指定しない方法があります。`env`が設定されていない場合は、profile で指定する認証情報のアカウントおよびリージョンにデプロイされます。
-
-- See: [https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/context.html]
-- See: [https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/get_context_var.html]
 
 ---
 
