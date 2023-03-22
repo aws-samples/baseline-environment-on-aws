@@ -1,9 +1,11 @@
+import * as cdk from 'aws-cdk-lib';
 import { pipelines, Stack } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { BLEABaseCTGuestStage } from '../stage/blea-base-ct-guest-stage';
-import { BLEABaseCTGuestProps } from './blea-base-ct-guest-stack';
+import { BaselineParameter } from '../../parameter';
 
-export interface BLEABaseCTGuestPipelinesStackProps extends BLEABaseCTGuestProps {
+export interface BLEABaseCTGuestPipelinesStackProps extends cdk.StackProps {
+  targetParameters: BaselineParameter[];
   sourceRepository: string;
   sourceBranch: string;
   sourceConnectionArn: string;
@@ -28,10 +30,8 @@ export class BLEABaseCTGuestPipelinesStack extends Stack {
       }),
     });
 
-    pipeline.addStage(
-      new BLEABaseCTGuestStage(this, 'Dev', {
-        securityNotifyEmail: props.securityNotifyEmail,
-      }),
-    );
+    props.targetParameters.forEach((params) => {
+      pipeline.addStage(new BLEABaseCTGuestStage(this, 'Dev', params));
+    });
   }
 }
