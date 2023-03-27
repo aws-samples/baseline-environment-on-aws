@@ -1699,12 +1699,12 @@ Object {
     },
   },
   "Resources": Object {
-    "ChatbotChannel": Object {
+    "ChatbotChannel0C037C2E": Object {
       "Properties": Object {
         "ConfigurationName": "BLEA-ChatbotSecurity-T8XXXXXXX",
         "IamRoleArn": Object {
           "Fn::GetAtt": Array [
-            "ChatbotRole8A87AA1F",
+            "ChatbotChannelConfigurationRoleFD7AD2E3",
             "Arn",
           ],
         },
@@ -1718,7 +1718,7 @@ Object {
       },
       "Type": "AWS::Chatbot::SlackChannelConfiguration",
     },
-    "ChatbotRole8A87AA1F": Object {
+    "ChatbotChannelConfigurationRoleFD7AD2E3": Object {
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -1742,18 +1742,6 @@ Object {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/ReadOnlyAccess",
-              ],
-            ],
-          },
-          Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "arn:",
-                Object {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/CloudWatchReadOnlyAccess",
               ],
             ],
           },
