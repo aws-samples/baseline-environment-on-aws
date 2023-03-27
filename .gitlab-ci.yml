@@ -38,3 +38,9 @@ build-node16:
   image: node:16
   script:
     - *node-build
+
+build-node18:
+  stage: build
+  image: node:18
+  script:
+    - *node-build
