@@ -6,9 +6,7 @@ on:
       - main
       - 'dev.*'
   pull_request:
-    branches:
-      - main
-      - 'dev.*'
+  merge_group:
 
 jobs:
   build:
