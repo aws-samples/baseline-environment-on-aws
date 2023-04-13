@@ -2,7 +2,7 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { aws_iam as iam, Environment } from 'aws-cdk-lib';
 import { pipelines } from 'aws-cdk-lib';
-import { BLEAEcsAppSampletStage } from '../stage/blea-guest-ecsapp-sample-stage';
+import { BLEAEcsAppStage } from '../stage/blea-guest-ecsapp-sample-stage';
 import { AppParameter } from '../../parameter';
 
 export interface BLEAEcsAppPipelineStackProps extends cdk.StackProps {
@@ -17,7 +17,7 @@ export class BLEAEcsAppPipelineStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: BLEAEcsAppPipelineStackProps) {
     super(scope, id, props);
 
-    const deployRole = new iam.Role(this, `${id}-CodeBuildDeployRole`, {
+    const deployRole = new iam.Role(this, 'CodeBuildDeployRole', {
       assumedBy: new iam.ServicePrincipal('codebuild.amazonaws.com'),
       managedPolicies: [
         {
@@ -28,7 +28,7 @@ export class BLEAEcsAppPipelineStack extends cdk.Stack {
 
     // You just have to select GitHub as the source when creating the connection in the console
     // basic pipeline declaration. This sets the initial structure of our pipeline
-    const pipeline = new pipelines.CodePipeline(this, `${id}-pipeline`, {
+    const pipeline = new pipelines.CodePipeline(this, 'Pipeline', {
       crossAccountKeys: true,
       synth: new pipelines.CodeBuildStep('SynthStep', {
         input: pipelines.CodePipelineSource.connection(props.sourceRepository, props.sourceBranch, {
@@ -46,7 +46,7 @@ export class BLEAEcsAppPipelineStack extends cdk.Stack {
     });
 
     props.targetParameters.forEach((params) => {
-      pipeline.addStage(new BLEAEcsAppSampletStage(this, 'Dev', params));
+      pipeline.addStage(new BLEAEcsAppStage(this, 'Dev', params));
     });
   }
 }

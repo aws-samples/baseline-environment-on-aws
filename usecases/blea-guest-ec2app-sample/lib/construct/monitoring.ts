@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import { aws_iam as iam } from 'aws-cdk-lib';
+import { Names, aws_iam as iam } from 'aws-cdk-lib';
 import { aws_chatbot as cb } from 'aws-cdk-lib';
 import { aws_sns as sns } from 'aws-cdk-lib';
 
@@ -16,8 +16,8 @@ export class Monitoring extends Construct {
     super(scope, id);
 
     // SNS Topic for Monitoring Alarm
-    const topic = new sns.Topic(this, 'MonitorAlarmTopic');
-    new sns.Subscription(this, 'MonitorAlarmEmail', {
+    const topic = new sns.Topic(this, 'AlarmTopic');
+    new sns.Subscription(this, 'EmailSubsc', {
       endpoint: props.monitoringNotifyEmail,
       protocol: sns.SubscriptionProtocol.EMAIL,
       topic: topic,
@@ -45,7 +45,7 @@ export class Monitoring extends Construct {
 
     // !!! Create SlackChannel and add aws chatbot app to the room
     new cb.CfnSlackChannelConfiguration(this, 'ChatbotChannel', {
-      configurationName: `${id}-${props.monitoringSlackWorkspaceId}`,
+      configurationName: Names.uniqueResourceName(this, {}),
       slackChannelId: props.monitoringSlackChannelId,
       iamRoleArn: chatbotRole.roleArn,
       slackWorkspaceId: props.monitoringSlackWorkspaceId,

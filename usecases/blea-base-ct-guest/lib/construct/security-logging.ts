@@ -16,8 +16,8 @@ export class SecurityLogging extends Construct {
     super(scope, id);
 
     // === AWS CloudTrail ===
-    // Archive Bucket for CloudTrail
-    const archiveLogsBucket = new s3.Bucket(this, 'ArchiveLogsBucket', {
+    // Server Access Log Bucket for CloudTrail
+    const cloudTrailAccessLogBucket = new s3.Bucket(this, 'CloudTrailAccessLogBucket', {
       accessControl: s3.BucketAccessControl.LOG_DELIVERY_WRITE,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       versioned: true,
@@ -37,14 +37,14 @@ export class SecurityLogging extends Construct {
         },
       ],
     });
-    addBaseBucketPolicy(archiveLogsBucket);
+    addBaseBucketPolicy(cloudTrailAccessLogBucket);
 
     // Bucket for CloudTrail
     const cloudTrailBucket = new s3.Bucket(this, 'CloudTrailBucket', {
       accessControl: s3.BucketAccessControl.PRIVATE,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       versioned: true,
-      serverAccessLogsBucket: archiveLogsBucket,
+      serverAccessLogsBucket: cloudTrailAccessLogBucket,
       serverAccessLogsPrefix: 'cloudtraillogs',
       removalPolicy: cdk.RemovalPolicy.RETAIN,
       enforceSSL: true,
@@ -55,8 +55,8 @@ export class SecurityLogging extends Construct {
     // CMK for CloudTrail
     const cloudTrailKey = new kms.Key(this, 'CloudTrailKey', {
       enableKeyRotation: true,
-      description: 'for CloudTrail',
-      alias: 'for-cloudtrail',
+      description: 'BLEA Governance Base: CMK for CloudTrail',
+      alias: cdk.Names.uniqueResourceName(this, {}),
     });
     cloudTrailKey.addToResourcePolicy(
       new iam.PolicyStatement({

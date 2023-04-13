@@ -16,8 +16,8 @@ export class SecurityLogging extends Construct {
     super(scope, id);
 
     // === AWS CloudTrail ===
-    // Archive Bucket for CloudTrail
-    const archiveLogsBucket = new s3.Bucket(this, 'ArchiveLogsBucket', {
+    // Server Access Log Bucket for CloudTrail
+    const cloudTrailAccessLogBucket = new s3.Bucket(this, 'CloudTrailAccessLogBucket', {
       accessControl: s3.BucketAccessControl.LOG_DELIVERY_WRITE,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       versioned: true,
@@ -37,14 +37,14 @@ export class SecurityLogging extends Construct {
         },
       ],
     });
-    addBaseBucketPolicy(archiveLogsBucket);
+    addBaseBucketPolicy(cloudTrailAccessLogBucket);
 
     // Bucket for CloudTrail
     const cloudTrailBucket = new s3.Bucket(this, 'CloudTrailBucket', {
       accessControl: s3.BucketAccessControl.PRIVATE,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       versioned: true,
-      serverAccessLogsBucket: archiveLogsBucket,
+      serverAccessLogsBucket: cloudTrailAccessLogBucket,
       serverAccessLogsPrefix: 'cloudtraillogs',
       removalPolicy: cdk.RemovalPolicy.RETAIN,
       enforceSSL: true,
@@ -55,8 +55,8 @@ export class SecurityLogging extends Construct {
     // CMK for CloudTrail
     const cloudTrailKey = new kms.Key(this, 'CloudTrailKey', {
       enableKeyRotation: true,
-      description: 'for CloudTrail',
-      alias: 'for-cloudtrail',
+      description: 'BLEA Governance Base: CMK for CloudTrail',
+      alias: cdk.Names.uniqueResourceName(this, {}),
     });
     cloudTrailKey.addToResourcePolicy(
       new iam.PolicyStatement({
@@ -123,20 +123,20 @@ export class SecurityLogging extends Construct {
     });
 
     // === AWS Config ===
-    const role = new iam.Role(this, 'ConfigRole', {
+    const configRole = new iam.Role(this, 'ConfigRole', {
       assumedBy: new iam.ServicePrincipal('config.amazonaws.com'),
       managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWS_ConfigRole')],
     });
 
     new config.CfnConfigurationRecorder(this, 'ConfigRecorder', {
-      roleArn: role.roleArn,
+      roleArn: configRole.roleArn,
       recordingGroup: {
         allSupported: true,
         includeGlobalResourceTypes: true,
       },
     });
 
-    const bucket = new s3.Bucket(this, 'ConfigBucket', {
+    const configBucket = new s3.Bucket(this, 'ConfigBucket', {
       accessControl: s3.BucketAccessControl.PRIVATE,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       versioned: true,
@@ -146,21 +146,21 @@ export class SecurityLogging extends Construct {
     });
 
     // Attaches the AWSConfigBucketPermissionsCheck policy statement.
-    bucket.addToResourcePolicy(
+    configBucket.addToResourcePolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
-        principals: [role],
-        resources: [bucket.bucketArn],
+        principals: [configRole],
+        resources: [configBucket.bucketArn],
         actions: ['s3:GetBucketAcl'],
       }),
     );
 
     // Attaches the AWSConfigBucketDelivery policy statement.
-    bucket.addToResourcePolicy(
+    configBucket.addToResourcePolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
-        principals: [role],
-        resources: [bucket.arnForObjects(`AWSLogs/${cdk.Stack.of(this).account}/Config/*`)],
+        principals: [configRole],
+        resources: [configBucket.arnForObjects(`AWSLogs/${cdk.Stack.of(this).account}/Config/*`)],
         actions: ['s3:PutObject'],
         conditions: {
           StringEquals: {
@@ -171,7 +171,7 @@ export class SecurityLogging extends Construct {
     );
 
     new config.CfnDeliveryChannel(this, 'ConfigDeliveryChannel', {
-      s3BucketName: bucket.bucketName,
+      s3BucketName: configBucket.bucketName,
     });
   }
 }

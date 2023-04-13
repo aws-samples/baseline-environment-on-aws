@@ -1,10 +1,10 @@
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
-import { BLEAEc2AppSampleStack } from '../lib/stack/blea-guest-ec2app-sample-stack';
+import { BLEAEc2AppStack } from '../lib/stack/blea-guest-ec2app-sample-stack';
 import { devParameter } from '../parameter';
 const app = new cdk.App();
 
-new BLEAEc2AppSampleStack(app, 'BLEAEc2AppSampleDev', {
+new BLEAEc2AppStack(app, 'Dev-BLEAEc2App', {
   monitoringNotifyEmail: devParameter.monitoringNotifyEmail,
   monitoringSlackWorkspaceId: devParameter.monitoringSlackWorkspaceId,
   monitoringSlackChannelId: devParameter.monitoringSlackChannelId,

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Snapshot test for BLEA ECS App Sample Stacks 1`] = `
+exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
 Object {
   "Parameters": Object {
     "BootstrapVersion": Object {
@@ -10,7 +10,7 @@ Object {
     },
   },
   "Resources": Object {
-    "BLEAEcsAppSamplePipelineCodeBuildDeployRole64B36CFA": Object {
+    "CodeBuildDeployRoleCA9DFA4F": Object {
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -30,7 +30,7 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "BLEAEcsAppSamplePipelineCodeBuildDeployRoleDefaultPolicy11468733": Object {
+    "CodeBuildDeployRoleDefaultPolicyCE41B84A": Object {
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
@@ -52,7 +52,7 @@ Object {
                       },
                       ":logs:ap-northeast-1:222222222222:log-group:/aws/codebuild/",
                       Object {
-                        "Ref": "BLEAEcsAppSamplePipelinepipelinePipelineBuildSynthStepCdkBuildProject98632594",
+                        "Ref": "PipelineBuildSynthStepCdkBuildProject7FBB5116",
                       },
                     ],
                   ],
@@ -67,7 +67,7 @@ Object {
                       },
                       ":logs:ap-northeast-1:222222222222:log-group:/aws/codebuild/",
                       Object {
-                        "Ref": "BLEAEcsAppSamplePipelinepipelinePipelineBuildSynthStepCdkBuildProject98632594",
+                        "Ref": "PipelineBuildSynthStepCdkBuildProject7FBB5116",
                       },
                       ":*",
                     ],
@@ -94,7 +94,7 @@ Object {
                     },
                     ":codebuild:ap-northeast-1:222222222222:report-group/",
                     Object {
-                      "Ref": "BLEAEcsAppSamplePipelinepipelinePipelineBuildSynthStepCdkBuildProject98632594",
+                      "Ref": "PipelineBuildSynthStepCdkBuildProject7FBB5116",
                     },
                     "-*",
                   ],
@@ -118,7 +118,7 @@ Object {
               "Resource": Array [
                 Object {
                   "Fn::GetAtt": Array [
-                    "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucket731A0B01",
+                    "PipelineArtifactsBucketAEA9A052",
                     "Arn",
                   ],
                 },
@@ -128,7 +128,7 @@ Object {
                     Array [
                       Object {
                         "Fn::GetAtt": Array [
-                          "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucket731A0B01",
+                          "PipelineArtifactsBucketAEA9A052",
                           "Arn",
                         ],
                       },
@@ -149,7 +149,7 @@ Object {
               "Effect": "Allow",
               "Resource": Object {
                 "Fn::GetAtt": Array [
-                  "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucketEncryptionKeyCDE38825",
+                  "PipelineArtifactsBucketEncryptionKeyF5BF0670",
                   "Arn",
                 ],
               },
@@ -164,7 +164,7 @@ Object {
               "Effect": "Allow",
               "Resource": Object {
                 "Fn::GetAtt": Array [
-                  "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucketEncryptionKeyCDE38825",
+                  "PipelineArtifactsBucketEncryptionKeyF5BF0670",
                   "Arn",
                 ],
               },
@@ -172,16 +172,786 @@ Object {
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "BLEAEcsAppSamplePipelineCodeBuildDeployRoleDefaultPolicy11468733",
+        "PolicyName": "CodeBuildDeployRoleDefaultPolicyCE41B84A",
         "Roles": Array [
           Object {
-            "Ref": "BLEAEcsAppSamplePipelineCodeBuildDeployRole64B36CFA",
+            "Ref": "CodeBuildDeployRoleCA9DFA4F",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "BLEAEcsAppSamplePipelinepipelineAssetsFileAsset1FA171BA5": Object {
+    "Pipeline9850B417": Object {
+      "DependsOn": Array [
+        "PipelineRoleDefaultPolicy7BDC1ABB",
+        "PipelineRoleB27FAA37",
+      ],
+      "Properties": Object {
+        "ArtifactStores": Array [
+          Object {
+            "ArtifactStore": Object {
+              "EncryptionKey": Object {
+                "Id": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":kms:us-east-1:222222222222:alias/eline-sutencryptionalias6670304b85daeb0cbccc",
+                    ],
+                  ],
+                },
+                "Type": "KMS",
+              },
+              "Location": "dev-bleaecsapppipeline-sueplicationbucket7976a269ef4f86825ade",
+              "Type": "S3",
+            },
+            "Region": "us-east-1",
+          },
+          Object {
+            "ArtifactStore": Object {
+              "EncryptionKey": Object {
+                "Id": Object {
+                  "Fn::GetAtt": Array [
+                    "PipelineArtifactsBucketEncryptionKeyF5BF0670",
+                    "Arn",
+                  ],
+                },
+                "Type": "KMS",
+              },
+              "Location": Object {
+                "Ref": "PipelineArtifactsBucketAEA9A052",
+              },
+              "Type": "S3",
+            },
+            "Region": "ap-northeast-1",
+          },
+        ],
+        "RestartExecutionOnUpdate": true,
+        "RoleArn": Object {
+          "Fn::GetAtt": Array [
+            "PipelineRoleB27FAA37",
+            "Arn",
+          ],
+        },
+        "Stages": Array [
+          Object {
+            "Actions": Array [
+              Object {
+                "ActionTypeId": Object {
+                  "Category": "Source",
+                  "Owner": "AWS",
+                  "Provider": "CodeStarSourceConnection",
+                  "Version": "1",
+                },
+                "Configuration": Object {
+                  "BranchName": "main",
+                  "ConnectionArn": "arn:aws:codestar-connections:us-west-2:222222222222:connection/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "FullRepositoryId": "aws-samples/baseline-environment-on-aws",
+                },
+                "Name": "aws-samples_baseline-environment-on-aws",
+                "OutputArtifacts": Array [
+                  Object {
+                    "Name": "aws_samples_baseline_environment_on_aws_Source",
+                  },
+                ],
+                "RoleArn": Object {
+                  "Fn::GetAtt": Array [
+                    "PipelineSourceawssamplesbaselineenvironmentonawsCodePipelineActionRole1BD37B19",
+                    "Arn",
+                  ],
+                },
+                "RunOrder": 1,
+              },
+            ],
+            "Name": "Source",
+          },
+          Object {
+            "Actions": Array [
+              Object {
+                "ActionTypeId": Object {
+                  "Category": "Build",
+                  "Owner": "AWS",
+                  "Provider": "CodeBuild",
+                  "Version": "1",
+                },
+                "Configuration": Object {
+                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"3894fd9b3dbef16a055f48343e7c13d83b816411adcb820579f4fd20febf7a51\\"}]",
+                  "ProjectName": Object {
+                    "Ref": "PipelineBuildSynthStepCdkBuildProject7FBB5116",
+                  },
+                },
+                "InputArtifacts": Array [
+                  Object {
+                    "Name": "aws_samples_baseline_environment_on_aws_Source",
+                  },
+                ],
+                "Name": "SynthStep",
+                "OutputArtifacts": Array [
+                  Object {
+                    "Name": "SynthStep_Output",
+                  },
+                ],
+                "RoleArn": Object {
+                  "Fn::GetAtt": Array [
+                    "PipelineCodeBuildActionRole226DB0CB",
+                    "Arn",
+                  ],
+                },
+                "RunOrder": 1,
+              },
+            ],
+            "Name": "Build",
+          },
+          Object {
+            "Actions": Array [
+              Object {
+                "ActionTypeId": Object {
+                  "Category": "Build",
+                  "Owner": "AWS",
+                  "Provider": "CodeBuild",
+                  "Version": "1",
+                },
+                "Configuration": Object {
+                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"83848a019681c5e401d8f01b033e1999a74508787e3f354a829c6437dce3fc1b\\"}]",
+                  "ProjectName": Object {
+                    "Ref": "PipelineUpdatePipelineSelfMutationDAA41400",
+                  },
+                },
+                "InputArtifacts": Array [
+                  Object {
+                    "Name": "SynthStep_Output",
+                  },
+                ],
+                "Name": "SelfMutate",
+                "RoleArn": Object {
+                  "Fn::GetAtt": Array [
+                    "PipelineCodeBuildActionRole226DB0CB",
+                    "Arn",
+                  ],
+                },
+                "RunOrder": 1,
+              },
+            ],
+            "Name": "UpdatePipeline",
+          },
+          Object {
+            "Actions": Array [
+              Object {
+                "ActionTypeId": Object {
+                  "Category": "Build",
+                  "Owner": "AWS",
+                  "Provider": "CodeBuild",
+                  "Version": "1",
+                },
+                "Configuration": Object {
+                  "ProjectName": Object {
+                    "Ref": "PipelineAssetsFileAsset185A67CB4",
+                  },
+                },
+                "InputArtifacts": Array [
+                  Object {
+                    "Name": "SynthStep_Output",
+                  },
+                ],
+                "Name": "FileAsset1",
+                "RoleArn": Object {
+                  "Fn::GetAtt": Array [
+                    "PipelineCodeBuildActionRole226DB0CB",
+                    "Arn",
+                  ],
+                },
+                "RunOrder": 1,
+              },
+              Object {
+                "ActionTypeId": Object {
+                  "Category": "Build",
+                  "Owner": "AWS",
+                  "Provider": "CodeBuild",
+                  "Version": "1",
+                },
+                "Configuration": Object {
+                  "ProjectName": Object {
+                    "Ref": "PipelineAssetsFileAsset24D2D639B",
+                  },
+                },
+                "InputArtifacts": Array [
+                  Object {
+                    "Name": "SynthStep_Output",
+                  },
+                ],
+                "Name": "FileAsset2",
+                "RoleArn": Object {
+                  "Fn::GetAtt": Array [
+                    "PipelineCodeBuildActionRole226DB0CB",
+                    "Arn",
+                  ],
+                },
+                "RunOrder": 1,
+              },
+              Object {
+                "ActionTypeId": Object {
+                  "Category": "Build",
+                  "Owner": "AWS",
+                  "Provider": "CodeBuild",
+                  "Version": "1",
+                },
+                "Configuration": Object {
+                  "ProjectName": Object {
+                    "Ref": "PipelineAssetsFileAsset3FE71B523",
+                  },
+                },
+                "InputArtifacts": Array [
+                  Object {
+                    "Name": "SynthStep_Output",
+                  },
+                ],
+                "Name": "FileAsset3",
+                "RoleArn": Object {
+                  "Fn::GetAtt": Array [
+                    "PipelineCodeBuildActionRole226DB0CB",
+                    "Arn",
+                  ],
+                },
+                "RunOrder": 1,
+              },
+              Object {
+                "ActionTypeId": Object {
+                  "Category": "Build",
+                  "Owner": "AWS",
+                  "Provider": "CodeBuild",
+                  "Version": "1",
+                },
+                "Configuration": Object {
+                  "ProjectName": Object {
+                    "Ref": "PipelineAssetsFileAsset474303B7D",
+                  },
+                },
+                "InputArtifacts": Array [
+                  Object {
+                    "Name": "SynthStep_Output",
+                  },
+                ],
+                "Name": "FileAsset4",
+                "RoleArn": Object {
+                  "Fn::GetAtt": Array [
+                    "PipelineCodeBuildActionRole226DB0CB",
+                    "Arn",
+                  ],
+                },
+                "RunOrder": 1,
+              },
+            ],
+            "Name": "Assets",
+          },
+          Object {
+            "Actions": Array [
+              Object {
+                "ActionTypeId": Object {
+                  "Category": "Deploy",
+                  "Owner": "AWS",
+                  "Provider": "CloudFormation",
+                  "Version": "1",
+                },
+                "Configuration": Object {
+                  "ActionMode": "CHANGE_SET_REPLACE",
+                  "Capabilities": "CAPABILITY_NAMED_IAM,CAPABILITY_AUTO_EXPAND",
+                  "ChangeSetName": "PipelineChange",
+                  "RoleArn": Object {
+                    "Fn::Join": Array [
+                      "",
+                      Array [
+                        "arn:",
+                        Object {
+                          "Ref": "AWS::Partition",
+                        },
+                        ":iam::",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        ":role/cdk-hnb659fds-cfn-exec-role-",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        "-ap-northeast-1",
+                      ],
+                    ],
+                  },
+                  "StackName": "Dev-BLEAEcsApp",
+                  "TemplateConfiguration": "SynthStep_Output::assembly-Dev-BLEAEcsAppPipeline-Dev/DevBLEAEcsAppPipelineDevBLEAEcsApp6C10F018.template.json.config.json",
+                  "TemplatePath": "SynthStep_Output::assembly-Dev-BLEAEcsAppPipeline-Dev/DevBLEAEcsAppPipelineDevBLEAEcsApp6C10F018.template.json",
+                },
+                "InputArtifacts": Array [
+                  Object {
+                    "Name": "SynthStep_Output",
+                  },
+                ],
+                "Name": "BLEAEcsApp.Prepare",
+                "RoleArn": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-ap-northeast-1",
+                    ],
+                  ],
+                },
+                "RunOrder": 1,
+              },
+              Object {
+                "ActionTypeId": Object {
+                  "Category": "Deploy",
+                  "Owner": "AWS",
+                  "Provider": "CloudFormation",
+                  "Version": "1",
+                },
+                "Configuration": Object {
+                  "ActionMode": "CHANGE_SET_REPLACE",
+                  "Capabilities": "CAPABILITY_NAMED_IAM,CAPABILITY_AUTO_EXPAND",
+                  "ChangeSetName": "PipelineChange",
+                  "RoleArn": Object {
+                    "Fn::Join": Array [
+                      "",
+                      Array [
+                        "arn:",
+                        Object {
+                          "Ref": "AWS::Partition",
+                        },
+                        ":iam::",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        ":role/cdk-hnb659fds-cfn-exec-role-",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        "-us-east-1",
+                      ],
+                    ],
+                  },
+                  "StackName": "Dev-BLEAEcsFrontend",
+                  "TemplatePath": "SynthStep_Output::assembly-Dev-BLEAEcsAppPipeline-Dev/DevBLEAEcsAppPipelineDevBLEAEcsFrontendDCC2248E.template.json",
+                },
+                "InputArtifacts": Array [
+                  Object {
+                    "Name": "SynthStep_Output",
+                  },
+                ],
+                "Name": "BLEAEcsFrontend.Prepare",
+                "Region": "us-east-1",
+                "RoleArn": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-us-east-1",
+                    ],
+                  ],
+                },
+                "RunOrder": 1,
+              },
+              Object {
+                "ActionTypeId": Object {
+                  "Category": "Deploy",
+                  "Owner": "AWS",
+                  "Provider": "CloudFormation",
+                  "Version": "1",
+                },
+                "Configuration": Object {
+                  "ActionMode": "CHANGE_SET_EXECUTE",
+                  "ChangeSetName": "PipelineChange",
+                  "StackName": "Dev-BLEAEcsApp",
+                },
+                "Name": "BLEAEcsApp.Deploy",
+                "RoleArn": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-ap-northeast-1",
+                    ],
+                  ],
+                },
+                "RunOrder": 2,
+              },
+              Object {
+                "ActionTypeId": Object {
+                  "Category": "Deploy",
+                  "Owner": "AWS",
+                  "Provider": "CloudFormation",
+                  "Version": "1",
+                },
+                "Configuration": Object {
+                  "ActionMode": "CHANGE_SET_EXECUTE",
+                  "ChangeSetName": "PipelineChange",
+                  "StackName": "Dev-BLEAEcsFrontend",
+                },
+                "Name": "BLEAEcsFrontend.Deploy",
+                "Region": "us-east-1",
+                "RoleArn": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-us-east-1",
+                    ],
+                  ],
+                },
+                "RunOrder": 2,
+              },
+              Object {
+                "ActionTypeId": Object {
+                  "Category": "Deploy",
+                  "Owner": "AWS",
+                  "Provider": "CloudFormation",
+                  "Version": "1",
+                },
+                "Configuration": Object {
+                  "ActionMode": "CHANGE_SET_REPLACE",
+                  "Capabilities": "CAPABILITY_NAMED_IAM,CAPABILITY_AUTO_EXPAND",
+                  "ChangeSetName": "PipelineChange",
+                  "RoleArn": Object {
+                    "Fn::Join": Array [
+                      "",
+                      Array [
+                        "arn:",
+                        Object {
+                          "Ref": "AWS::Partition",
+                        },
+                        ":iam::",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        ":role/cdk-hnb659fds-cfn-exec-role-",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        "-ap-northeast-1",
+                      ],
+                    ],
+                  },
+                  "StackName": "Dev-BLEAEcsMonitoring",
+                  "TemplatePath": "SynthStep_Output::assembly-Dev-BLEAEcsAppPipeline-Dev/DevBLEAEcsAppPipelineDevBLEAEcsMonitoring44B2C767.template.json",
+                },
+                "InputArtifacts": Array [
+                  Object {
+                    "Name": "SynthStep_Output",
+                  },
+                ],
+                "Name": "BLEAEcsMonitoring.Prepare",
+                "RoleArn": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-ap-northeast-1",
+                    ],
+                  ],
+                },
+                "RunOrder": 3,
+              },
+              Object {
+                "ActionTypeId": Object {
+                  "Category": "Deploy",
+                  "Owner": "AWS",
+                  "Provider": "CloudFormation",
+                  "Version": "1",
+                },
+                "Configuration": Object {
+                  "ActionMode": "CHANGE_SET_EXECUTE",
+                  "ChangeSetName": "PipelineChange",
+                  "StackName": "Dev-BLEAEcsMonitoring",
+                },
+                "Name": "BLEAEcsMonitoring.Deploy",
+                "RoleArn": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-ap-northeast-1",
+                    ],
+                  ],
+                },
+                "RunOrder": 4,
+              },
+            ],
+            "Name": "Dev",
+          },
+        ],
+      },
+      "Type": "AWS::CodePipeline::Pipeline",
+    },
+    "PipelineArtifactsBucketAEA9A052": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "BucketEncryption": Object {
+          "ServerSideEncryptionConfiguration": Array [
+            Object {
+              "ServerSideEncryptionByDefault": Object {
+                "KMSMasterKeyID": Object {
+                  "Fn::GetAtt": Array [
+                    "PipelineArtifactsBucketEncryptionKeyF5BF0670",
+                    "Arn",
+                  ],
+                },
+                "SSEAlgorithm": "aws:kms",
+              },
+            },
+          ],
+        },
+        "PublicAccessBlockConfiguration": Object {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true,
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "PipelineArtifactsBucketEncryptionKeyAlias94A07392": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "AliasName": "alias/codepipeline-devbleaecsapppipelined4fa7e7e",
+        "TargetKeyId": Object {
+          "Fn::GetAtt": Array [
+            "PipelineArtifactsBucketEncryptionKeyF5BF0670",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::KMS::Alias",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "PipelineArtifactsBucketEncryptionKeyF5BF0670": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "KeyPolicy": Object {
+          "Statement": Array [
+            Object {
+              "Action": "kms:*",
+              "Effect": "Allow",
+              "Principal": Object {
+                "AWS": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::222222222222:root",
+                    ],
+                  ],
+                },
+              },
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
+                "kms:Decrypt",
+                "kms:DescribeKey",
+              ],
+              "Effect": "Allow",
+              "Principal": Object {
+                "AWS": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-ap-northeast-1",
+                    ],
+                  ],
+                },
+              },
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::KMS::Key",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "PipelineArtifactsBucketPolicyF53CCC52": Object {
+      "Properties": Object {
+        "Bucket": Object {
+          "Ref": "PipelineArtifactsBucketAEA9A052",
+        },
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "s3:*",
+              "Condition": Object {
+                "Bool": Object {
+                  "aws:SecureTransport": "false",
+                },
+              },
+              "Effect": "Deny",
+              "Principal": Object {
+                "AWS": "*",
+              },
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "PipelineArtifactsBucketAEA9A052",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "PipelineArtifactsBucketAEA9A052",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": Array [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+              ],
+              "Effect": "Allow",
+              "Principal": Object {
+                "AWS": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-deploy-role-",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-ap-northeast-1",
+                    ],
+                  ],
+                },
+              },
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "PipelineArtifactsBucketAEA9A052",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "PipelineArtifactsBucketAEA9A052",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::S3::BucketPolicy",
+    },
+    "PipelineAssetsFileAsset185A67CB4": Object {
       "Properties": Object {
         "Artifacts": Object {
           "Type": "CODEPIPELINE",
@@ -189,10 +959,10 @@ Object {
         "Cache": Object {
           "Type": "NO_CACHE",
         },
-        "Description": "Pipeline step BLEAEcsAppSamplePipeline/Pipeline/Assets/FileAsset1",
+        "Description": "Pipeline step Dev-BLEAEcsAppPipeline/Pipeline/Assets/FileAsset1",
         "EncryptionKey": Object {
           "Fn::GetAtt": Array [
-            "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucketEncryptionKeyCDE38825",
+            "PipelineArtifactsBucketEncryptionKeyF5BF0670",
             "Arn",
           ],
         },
@@ -205,7 +975,7 @@ Object {
         },
         "ServiceRole": Object {
           "Fn::GetAtt": Array [
-            "BLEAEcsAppSamplePipelinepipelineAssetsFileRole843DDCB3",
+            "PipelineAssetsFileRole59943A77",
             "Arn",
           ],
         },
@@ -220,7 +990,7 @@ Object {
     },
     \\"build\\": {
       \\"commands\\": [
-        \\"cdk-assets --path \\\\\\"assembly-BLEAEcsAppSamplePipeline-Dev/BLEAEcsAppSamplePipelineDevBLEAEcsAppSampleDev2619A7B2.assets.json\\\\\\" --verbose publish \\\\\\"5fa1330271b8967d9254ba2d4a07144f8acefe8b77e6d6bba38261373a50d5f8:current_account-ap-northeast-1\\\\\\"\\"
+        \\"cdk-assets --path \\\\\\"assembly-Dev-BLEAEcsAppPipeline-Dev/DevBLEAEcsAppPipelineDevBLEAEcsApp6C10F018.assets.json\\\\\\" --verbose publish \\\\\\"5fa1330271b8967d9254ba2d4a07144f8acefe8b77e6d6bba38261373a50d5f8:current_account-ap-northeast-1\\\\\\"\\"
       ]
     }
   }
@@ -230,7 +1000,7 @@ Object {
       },
       "Type": "AWS::CodeBuild::Project",
     },
-    "BLEAEcsAppSamplePipelinepipelineAssetsFileAsset2809D5D20": Object {
+    "PipelineAssetsFileAsset24D2D639B": Object {
       "Properties": Object {
         "Artifacts": Object {
           "Type": "CODEPIPELINE",
@@ -238,10 +1008,10 @@ Object {
         "Cache": Object {
           "Type": "NO_CACHE",
         },
-        "Description": "Pipeline step BLEAEcsAppSamplePipeline/Pipeline/Assets/FileAsset2",
+        "Description": "Pipeline step Dev-BLEAEcsAppPipeline/Pipeline/Assets/FileAsset2",
         "EncryptionKey": Object {
           "Fn::GetAtt": Array [
-            "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucketEncryptionKeyCDE38825",
+            "PipelineArtifactsBucketEncryptionKeyF5BF0670",
             "Arn",
           ],
         },
@@ -254,7 +1024,7 @@ Object {
         },
         "ServiceRole": Object {
           "Fn::GetAtt": Array [
-            "BLEAEcsAppSamplePipelinepipelineAssetsFileRole843DDCB3",
+            "PipelineAssetsFileRole59943A77",
             "Arn",
           ],
         },
@@ -269,7 +1039,7 @@ Object {
     },
     \\"build\\": {
       \\"commands\\": [
-        \\"cdk-assets --path \\\\\\"assembly-BLEAEcsAppSamplePipeline-Dev/BLEAEcsAppSamplePipelineDevBLEAEcsFrontendSampleDev9567ADAD.assets.json\\\\\\" --verbose publish \\\\\\"d03a1e3909f7dea25696e7cc8c98e4f045bfc5c0717679fad2ffa98fccadcf81:current_account-us-east-1\\\\\\"\\"
+        \\"cdk-assets --path \\\\\\"assembly-Dev-BLEAEcsAppPipeline-Dev/DevBLEAEcsAppPipelineDevBLEAEcsFrontendDCC2248E.assets.json\\\\\\" --verbose publish \\\\\\"d03a1e3909f7dea25696e7cc8c98e4f045bfc5c0717679fad2ffa98fccadcf81:current_account-us-east-1\\\\\\"\\"
       ]
     }
   }
@@ -279,7 +1049,7 @@ Object {
       },
       "Type": "AWS::CodeBuild::Project",
     },
-    "BLEAEcsAppSamplePipelinepipelineAssetsFileAsset3595D5179": Object {
+    "PipelineAssetsFileAsset3FE71B523": Object {
       "Properties": Object {
         "Artifacts": Object {
           "Type": "CODEPIPELINE",
@@ -287,10 +1057,10 @@ Object {
         "Cache": Object {
           "Type": "NO_CACHE",
         },
-        "Description": "Pipeline step BLEAEcsAppSamplePipeline/Pipeline/Assets/FileAsset3",
+        "Description": "Pipeline step Dev-BLEAEcsAppPipeline/Pipeline/Assets/FileAsset3",
         "EncryptionKey": Object {
           "Fn::GetAtt": Array [
-            "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucketEncryptionKeyCDE38825",
+            "PipelineArtifactsBucketEncryptionKeyF5BF0670",
             "Arn",
           ],
         },
@@ -303,7 +1073,7 @@ Object {
         },
         "ServiceRole": Object {
           "Fn::GetAtt": Array [
-            "BLEAEcsAppSamplePipelinepipelineAssetsFileRole843DDCB3",
+            "PipelineAssetsFileRole59943A77",
             "Arn",
           ],
         },
@@ -318,7 +1088,7 @@ Object {
     },
     \\"build\\": {
       \\"commands\\": [
-        \\"cdk-assets --path \\\\\\"assembly-BLEAEcsAppSamplePipeline-Dev/BLEAEcsAppSamplePipelineDevBLEAEcsMonitoringSampleDevD25944EE.assets.json\\\\\\" --verbose publish \\\\\\"1e64e462d93160eb5230b00e665705bfaf2299d9c302ab56dd093bccbe387c4f:current_account-ap-northeast-1\\\\\\"\\"
+        \\"cdk-assets --path \\\\\\"assembly-Dev-BLEAEcsAppPipeline-Dev/DevBLEAEcsAppPipelineDevBLEAEcsMonitoring44B2C767.assets.json\\\\\\" --verbose publish \\\\\\"1e64e462d93160eb5230b00e665705bfaf2299d9c302ab56dd093bccbe387c4f:current_account-ap-northeast-1\\\\\\"\\"
       ]
     }
   }
@@ -328,7 +1098,7 @@ Object {
       },
       "Type": "AWS::CodeBuild::Project",
     },
-    "BLEAEcsAppSamplePipelinepipelineAssetsFileAsset43AC1A646": Object {
+    "PipelineAssetsFileAsset474303B7D": Object {
       "Properties": Object {
         "Artifacts": Object {
           "Type": "CODEPIPELINE",
@@ -336,10 +1106,10 @@ Object {
         "Cache": Object {
           "Type": "NO_CACHE",
         },
-        "Description": "Pipeline step BLEAEcsAppSamplePipeline/Pipeline/Assets/FileAsset4",
+        "Description": "Pipeline step Dev-BLEAEcsAppPipeline/Pipeline/Assets/FileAsset4",
         "EncryptionKey": Object {
           "Fn::GetAtt": Array [
-            "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucketEncryptionKeyCDE38825",
+            "PipelineArtifactsBucketEncryptionKeyF5BF0670",
             "Arn",
           ],
         },
@@ -352,7 +1122,7 @@ Object {
         },
         "ServiceRole": Object {
           "Fn::GetAtt": Array [
-            "BLEAEcsAppSamplePipelinepipelineAssetsFileRole843DDCB3",
+            "PipelineAssetsFileRole59943A77",
             "Arn",
           ],
         },
@@ -367,7 +1137,7 @@ Object {
     },
     \\"build\\": {
       \\"commands\\": [
-        \\"cdk-assets --path \\\\\\"assembly-BLEAEcsAppSamplePipeline-Dev/BLEAEcsAppSamplePipelineDevBLEAEcsMonitoringSampleDevD25944EE.assets.json\\\\\\" --verbose publish \\\\\\"06287b159ddc42f3d70d8ea52e034430d7a63d9263991d2579b1370203cfee4e:current_account-ap-northeast-1\\\\\\"\\"
+        \\"cdk-assets --path \\\\\\"assembly-Dev-BLEAEcsAppPipeline-Dev/DevBLEAEcsAppPipelineDevBLEAEcsMonitoring44B2C767.assets.json\\\\\\" --verbose publish \\\\\\"06287b159ddc42f3d70d8ea52e034430d7a63d9263991d2579b1370203cfee4e:current_account-ap-northeast-1\\\\\\"\\"
       ]
     }
   }
@@ -377,7 +1147,7 @@ Object {
       },
       "Type": "AWS::CodeBuild::Project",
     },
-    "BLEAEcsAppSamplePipelinepipelineAssetsFileRole843DDCB3": Object {
+    "PipelineAssetsFileRole59943A77": Object {
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -412,7 +1182,7 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "BLEAEcsAppSamplePipelinepipelineAssetsFileRoleDefaultPolicyD96086B7": Object {
+    "PipelineAssetsFileRoleDefaultPolicy14DB8755": Object {
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
@@ -489,7 +1259,7 @@ Object {
               "Resource": Array [
                 Object {
                   "Fn::GetAtt": Array [
-                    "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucket731A0B01",
+                    "PipelineArtifactsBucketAEA9A052",
                     "Arn",
                   ],
                 },
@@ -499,7 +1269,7 @@ Object {
                     Array [
                       Object {
                         "Fn::GetAtt": Array [
-                          "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucket731A0B01",
+                          "PipelineArtifactsBucketAEA9A052",
                           "Arn",
                         ],
                       },
@@ -517,7 +1287,7 @@ Object {
               "Effect": "Allow",
               "Resource": Object {
                 "Fn::GetAtt": Array [
-                  "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucketEncryptionKeyCDE38825",
+                  "PipelineArtifactsBucketEncryptionKeyF5BF0670",
                   "Arn",
                 ],
               },
@@ -525,919 +1295,16 @@ Object {
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "BLEAEcsAppSamplePipelinepipelineAssetsFileRoleDefaultPolicyD96086B7",
+        "PolicyName": "PipelineAssetsFileRoleDefaultPolicy14DB8755",
         "Roles": Array [
           Object {
-            "Ref": "BLEAEcsAppSamplePipelinepipelineAssetsFileRole843DDCB3",
+            "Ref": "PipelineAssetsFileRole59943A77",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "BLEAEcsAppSamplePipelinepipelineCodeBuildActionRole6A9DEC89": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Condition": Object {
-                "Bool": Object {
-                  "aws:ViaAWSService": "codepipeline.amazonaws.com",
-                },
-              },
-              "Effect": "Allow",
-              "Principal": Object {
-                "AWS": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":iam::222222222222:root",
-                    ],
-                  ],
-                },
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "BLEAEcsAppSamplePipelinepipelineCodeBuildActionRoleDefaultPolicy8D59A6F1": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
-                "codebuild:BatchGetBuilds",
-                "codebuild:StartBuild",
-                "codebuild:StopBuild",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "BLEAEcsAppSamplePipelinepipelinePipelineBuildSynthStepCdkBuildProject98632594",
-                  "Arn",
-                ],
-              },
-            },
-            Object {
-              "Action": Array [
-                "codebuild:BatchGetBuilds",
-                "codebuild:StartBuild",
-                "codebuild:StopBuild",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "BLEAEcsAppSamplePipelinepipelineUpdatePipelineSelfMutationE368BCAF",
-                  "Arn",
-                ],
-              },
-            },
-            Object {
-              "Action": Array [
-                "codebuild:BatchGetBuilds",
-                "codebuild:StartBuild",
-                "codebuild:StopBuild",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "BLEAEcsAppSamplePipelinepipelineAssetsFileAsset1FA171BA5",
-                  "Arn",
-                ],
-              },
-            },
-            Object {
-              "Action": Array [
-                "codebuild:BatchGetBuilds",
-                "codebuild:StartBuild",
-                "codebuild:StopBuild",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "BLEAEcsAppSamplePipelinepipelineAssetsFileAsset2809D5D20",
-                  "Arn",
-                ],
-              },
-            },
-            Object {
-              "Action": Array [
-                "codebuild:BatchGetBuilds",
-                "codebuild:StartBuild",
-                "codebuild:StopBuild",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "BLEAEcsAppSamplePipelinepipelineAssetsFileAsset3595D5179",
-                  "Arn",
-                ],
-              },
-            },
-            Object {
-              "Action": Array [
-                "codebuild:BatchGetBuilds",
-                "codebuild:StartBuild",
-                "codebuild:StopBuild",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "BLEAEcsAppSamplePipelinepipelineAssetsFileAsset43AC1A646",
-                  "Arn",
-                ],
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "BLEAEcsAppSamplePipelinepipelineCodeBuildActionRoleDefaultPolicy8D59A6F1",
-        "Roles": Array [
-          Object {
-            "Ref": "BLEAEcsAppSamplePipelinepipelineCodeBuildActionRole6A9DEC89",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
-    "BLEAEcsAppSamplePipelinepipelinePipeline02FD47B3": Object {
-      "DependsOn": Array [
-        "BLEAEcsAppSamplePipelinepipelinePipelineRoleDefaultPolicy5365737B",
-        "BLEAEcsAppSamplePipelinepipelinePipelineRole02561C6E",
-      ],
-      "Properties": Object {
-        "ArtifactStores": Array [
-          Object {
-            "ArtifactStore": Object {
-              "EncryptionKey": Object {
-                "Id": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":kms:us-east-1:222222222222:alias/ipeline-tencryptionalias6670304bd02097132dac",
-                    ],
-                  ],
-                },
-                "Type": "KMS",
-              },
-              "Location": "bleaecsappsamplepipeline-eplicationbucket7976a2694c4ad7807927",
-              "Type": "S3",
-            },
-            "Region": "us-east-1",
-          },
-          Object {
-            "ArtifactStore": Object {
-              "EncryptionKey": Object {
-                "Id": Object {
-                  "Fn::GetAtt": Array [
-                    "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucketEncryptionKeyCDE38825",
-                    "Arn",
-                  ],
-                },
-                "Type": "KMS",
-              },
-              "Location": Object {
-                "Ref": "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucket731A0B01",
-              },
-              "Type": "S3",
-            },
-            "Region": "ap-northeast-1",
-          },
-        ],
-        "RestartExecutionOnUpdate": true,
-        "RoleArn": Object {
-          "Fn::GetAtt": Array [
-            "BLEAEcsAppSamplePipelinepipelinePipelineRole02561C6E",
-            "Arn",
-          ],
-        },
-        "Stages": Array [
-          Object {
-            "Actions": Array [
-              Object {
-                "ActionTypeId": Object {
-                  "Category": "Source",
-                  "Owner": "AWS",
-                  "Provider": "CodeStarSourceConnection",
-                  "Version": "1",
-                },
-                "Configuration": Object {
-                  "BranchName": "main",
-                  "ConnectionArn": "arn:aws:codestar-connections:us-west-2:222222222222:connection/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-                  "FullRepositoryId": "aws-samples/baseline-environment-on-aws",
-                },
-                "Name": "aws-samples_baseline-environment-on-aws",
-                "OutputArtifacts": Array [
-                  Object {
-                    "Name": "aws_samples_baseline_environment_on_aws_Source",
-                  },
-                ],
-                "RoleArn": Object {
-                  "Fn::GetAtt": Array [
-                    "BLEAEcsAppSamplePipelinepipelinePipelineSourceawssamplesbaselineenvironmentonawsCodePipelineActionRoleFAE0779D",
-                    "Arn",
-                  ],
-                },
-                "RunOrder": 1,
-              },
-            ],
-            "Name": "Source",
-          },
-          Object {
-            "Actions": Array [
-              Object {
-                "ActionTypeId": Object {
-                  "Category": "Build",
-                  "Owner": "AWS",
-                  "Provider": "CodeBuild",
-                  "Version": "1",
-                },
-                "Configuration": Object {
-                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"3894fd9b3dbef16a055f48343e7c13d83b816411adcb820579f4fd20febf7a51\\"}]",
-                  "ProjectName": Object {
-                    "Ref": "BLEAEcsAppSamplePipelinepipelinePipelineBuildSynthStepCdkBuildProject98632594",
-                  },
-                },
-                "InputArtifacts": Array [
-                  Object {
-                    "Name": "aws_samples_baseline_environment_on_aws_Source",
-                  },
-                ],
-                "Name": "SynthStep",
-                "OutputArtifacts": Array [
-                  Object {
-                    "Name": "SynthStep_Output",
-                  },
-                ],
-                "RoleArn": Object {
-                  "Fn::GetAtt": Array [
-                    "BLEAEcsAppSamplePipelinepipelineCodeBuildActionRole6A9DEC89",
-                    "Arn",
-                  ],
-                },
-                "RunOrder": 1,
-              },
-            ],
-            "Name": "Build",
-          },
-          Object {
-            "Actions": Array [
-              Object {
-                "ActionTypeId": Object {
-                  "Category": "Build",
-                  "Owner": "AWS",
-                  "Provider": "CodeBuild",
-                  "Version": "1",
-                },
-                "Configuration": Object {
-                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"827a3e818a4f5b805a69931ff3dd38f51442b14d490b895f11f9124bc3adb025\\"}]",
-                  "ProjectName": Object {
-                    "Ref": "BLEAEcsAppSamplePipelinepipelineUpdatePipelineSelfMutationE368BCAF",
-                  },
-                },
-                "InputArtifacts": Array [
-                  Object {
-                    "Name": "SynthStep_Output",
-                  },
-                ],
-                "Name": "SelfMutate",
-                "RoleArn": Object {
-                  "Fn::GetAtt": Array [
-                    "BLEAEcsAppSamplePipelinepipelineCodeBuildActionRole6A9DEC89",
-                    "Arn",
-                  ],
-                },
-                "RunOrder": 1,
-              },
-            ],
-            "Name": "UpdatePipeline",
-          },
-          Object {
-            "Actions": Array [
-              Object {
-                "ActionTypeId": Object {
-                  "Category": "Build",
-                  "Owner": "AWS",
-                  "Provider": "CodeBuild",
-                  "Version": "1",
-                },
-                "Configuration": Object {
-                  "ProjectName": Object {
-                    "Ref": "BLEAEcsAppSamplePipelinepipelineAssetsFileAsset1FA171BA5",
-                  },
-                },
-                "InputArtifacts": Array [
-                  Object {
-                    "Name": "SynthStep_Output",
-                  },
-                ],
-                "Name": "FileAsset1",
-                "RoleArn": Object {
-                  "Fn::GetAtt": Array [
-                    "BLEAEcsAppSamplePipelinepipelineCodeBuildActionRole6A9DEC89",
-                    "Arn",
-                  ],
-                },
-                "RunOrder": 1,
-              },
-              Object {
-                "ActionTypeId": Object {
-                  "Category": "Build",
-                  "Owner": "AWS",
-                  "Provider": "CodeBuild",
-                  "Version": "1",
-                },
-                "Configuration": Object {
-                  "ProjectName": Object {
-                    "Ref": "BLEAEcsAppSamplePipelinepipelineAssetsFileAsset2809D5D20",
-                  },
-                },
-                "InputArtifacts": Array [
-                  Object {
-                    "Name": "SynthStep_Output",
-                  },
-                ],
-                "Name": "FileAsset2",
-                "RoleArn": Object {
-                  "Fn::GetAtt": Array [
-                    "BLEAEcsAppSamplePipelinepipelineCodeBuildActionRole6A9DEC89",
-                    "Arn",
-                  ],
-                },
-                "RunOrder": 1,
-              },
-              Object {
-                "ActionTypeId": Object {
-                  "Category": "Build",
-                  "Owner": "AWS",
-                  "Provider": "CodeBuild",
-                  "Version": "1",
-                },
-                "Configuration": Object {
-                  "ProjectName": Object {
-                    "Ref": "BLEAEcsAppSamplePipelinepipelineAssetsFileAsset3595D5179",
-                  },
-                },
-                "InputArtifacts": Array [
-                  Object {
-                    "Name": "SynthStep_Output",
-                  },
-                ],
-                "Name": "FileAsset3",
-                "RoleArn": Object {
-                  "Fn::GetAtt": Array [
-                    "BLEAEcsAppSamplePipelinepipelineCodeBuildActionRole6A9DEC89",
-                    "Arn",
-                  ],
-                },
-                "RunOrder": 1,
-              },
-              Object {
-                "ActionTypeId": Object {
-                  "Category": "Build",
-                  "Owner": "AWS",
-                  "Provider": "CodeBuild",
-                  "Version": "1",
-                },
-                "Configuration": Object {
-                  "ProjectName": Object {
-                    "Ref": "BLEAEcsAppSamplePipelinepipelineAssetsFileAsset43AC1A646",
-                  },
-                },
-                "InputArtifacts": Array [
-                  Object {
-                    "Name": "SynthStep_Output",
-                  },
-                ],
-                "Name": "FileAsset4",
-                "RoleArn": Object {
-                  "Fn::GetAtt": Array [
-                    "BLEAEcsAppSamplePipelinepipelineCodeBuildActionRole6A9DEC89",
-                    "Arn",
-                  ],
-                },
-                "RunOrder": 1,
-              },
-            ],
-            "Name": "Assets",
-          },
-          Object {
-            "Actions": Array [
-              Object {
-                "ActionTypeId": Object {
-                  "Category": "Deploy",
-                  "Owner": "AWS",
-                  "Provider": "CloudFormation",
-                  "Version": "1",
-                },
-                "Configuration": Object {
-                  "ActionMode": "CHANGE_SET_REPLACE",
-                  "Capabilities": "CAPABILITY_NAMED_IAM,CAPABILITY_AUTO_EXPAND",
-                  "ChangeSetName": "PipelineChange",
-                  "RoleArn": Object {
-                    "Fn::Join": Array [
-                      "",
-                      Array [
-                        "arn:",
-                        Object {
-                          "Ref": "AWS::Partition",
-                        },
-                        ":iam::",
-                        Object {
-                          "Ref": "AWS::AccountId",
-                        },
-                        ":role/cdk-hnb659fds-cfn-exec-role-",
-                        Object {
-                          "Ref": "AWS::AccountId",
-                        },
-                        "-ap-northeast-1",
-                      ],
-                    ],
-                  },
-                  "StackName": "Dev-BLEAEcsAppSampleDev",
-                  "TemplateConfiguration": "SynthStep_Output::assembly-BLEAEcsAppSamplePipeline-Dev/BLEAEcsAppSamplePipelineDevBLEAEcsAppSampleDev2619A7B2.template.json.config.json",
-                  "TemplatePath": "SynthStep_Output::assembly-BLEAEcsAppSamplePipeline-Dev/BLEAEcsAppSamplePipelineDevBLEAEcsAppSampleDev2619A7B2.template.json",
-                },
-                "InputArtifacts": Array [
-                  Object {
-                    "Name": "SynthStep_Output",
-                  },
-                ],
-                "Name": "BLEAEcsAppSampleDev.Prepare",
-                "RoleArn": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":iam::",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":role/cdk-hnb659fds-deploy-role-",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      "-ap-northeast-1",
-                    ],
-                  ],
-                },
-                "RunOrder": 1,
-              },
-              Object {
-                "ActionTypeId": Object {
-                  "Category": "Deploy",
-                  "Owner": "AWS",
-                  "Provider": "CloudFormation",
-                  "Version": "1",
-                },
-                "Configuration": Object {
-                  "ActionMode": "CHANGE_SET_REPLACE",
-                  "Capabilities": "CAPABILITY_NAMED_IAM,CAPABILITY_AUTO_EXPAND",
-                  "ChangeSetName": "PipelineChange",
-                  "RoleArn": Object {
-                    "Fn::Join": Array [
-                      "",
-                      Array [
-                        "arn:",
-                        Object {
-                          "Ref": "AWS::Partition",
-                        },
-                        ":iam::",
-                        Object {
-                          "Ref": "AWS::AccountId",
-                        },
-                        ":role/cdk-hnb659fds-cfn-exec-role-",
-                        Object {
-                          "Ref": "AWS::AccountId",
-                        },
-                        "-us-east-1",
-                      ],
-                    ],
-                  },
-                  "StackName": "Dev-BLEAEcsFrontendSampleDev",
-                  "TemplatePath": "SynthStep_Output::assembly-BLEAEcsAppSamplePipeline-Dev/BLEAEcsAppSamplePipelineDevBLEAEcsFrontendSampleDev9567ADAD.template.json",
-                },
-                "InputArtifacts": Array [
-                  Object {
-                    "Name": "SynthStep_Output",
-                  },
-                ],
-                "Name": "BLEAEcsFrontendSampleDev.Prepare",
-                "Region": "us-east-1",
-                "RoleArn": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":iam::",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":role/cdk-hnb659fds-deploy-role-",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      "-us-east-1",
-                    ],
-                  ],
-                },
-                "RunOrder": 1,
-              },
-              Object {
-                "ActionTypeId": Object {
-                  "Category": "Deploy",
-                  "Owner": "AWS",
-                  "Provider": "CloudFormation",
-                  "Version": "1",
-                },
-                "Configuration": Object {
-                  "ActionMode": "CHANGE_SET_EXECUTE",
-                  "ChangeSetName": "PipelineChange",
-                  "StackName": "Dev-BLEAEcsAppSampleDev",
-                },
-                "Name": "BLEAEcsAppSampleDev.Deploy",
-                "RoleArn": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":iam::",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":role/cdk-hnb659fds-deploy-role-",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      "-ap-northeast-1",
-                    ],
-                  ],
-                },
-                "RunOrder": 2,
-              },
-              Object {
-                "ActionTypeId": Object {
-                  "Category": "Deploy",
-                  "Owner": "AWS",
-                  "Provider": "CloudFormation",
-                  "Version": "1",
-                },
-                "Configuration": Object {
-                  "ActionMode": "CHANGE_SET_EXECUTE",
-                  "ChangeSetName": "PipelineChange",
-                  "StackName": "Dev-BLEAEcsFrontendSampleDev",
-                },
-                "Name": "BLEAEcsFrontendSampleDev.Deploy",
-                "Region": "us-east-1",
-                "RoleArn": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":iam::",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":role/cdk-hnb659fds-deploy-role-",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      "-us-east-1",
-                    ],
-                  ],
-                },
-                "RunOrder": 2,
-              },
-              Object {
-                "ActionTypeId": Object {
-                  "Category": "Deploy",
-                  "Owner": "AWS",
-                  "Provider": "CloudFormation",
-                  "Version": "1",
-                },
-                "Configuration": Object {
-                  "ActionMode": "CHANGE_SET_REPLACE",
-                  "Capabilities": "CAPABILITY_NAMED_IAM,CAPABILITY_AUTO_EXPAND",
-                  "ChangeSetName": "PipelineChange",
-                  "RoleArn": Object {
-                    "Fn::Join": Array [
-                      "",
-                      Array [
-                        "arn:",
-                        Object {
-                          "Ref": "AWS::Partition",
-                        },
-                        ":iam::",
-                        Object {
-                          "Ref": "AWS::AccountId",
-                        },
-                        ":role/cdk-hnb659fds-cfn-exec-role-",
-                        Object {
-                          "Ref": "AWS::AccountId",
-                        },
-                        "-ap-northeast-1",
-                      ],
-                    ],
-                  },
-                  "StackName": "Dev-BLEAEcsMonitoringSampleDev",
-                  "TemplatePath": "SynthStep_Output::assembly-BLEAEcsAppSamplePipeline-Dev/BLEAEcsAppSamplePipelineDevBLEAEcsMonitoringSampleDevD25944EE.template.json",
-                },
-                "InputArtifacts": Array [
-                  Object {
-                    "Name": "SynthStep_Output",
-                  },
-                ],
-                "Name": "BLEAEcsMonitoringSampleDev.Prepare",
-                "RoleArn": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":iam::",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":role/cdk-hnb659fds-deploy-role-",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      "-ap-northeast-1",
-                    ],
-                  ],
-                },
-                "RunOrder": 3,
-              },
-              Object {
-                "ActionTypeId": Object {
-                  "Category": "Deploy",
-                  "Owner": "AWS",
-                  "Provider": "CloudFormation",
-                  "Version": "1",
-                },
-                "Configuration": Object {
-                  "ActionMode": "CHANGE_SET_EXECUTE",
-                  "ChangeSetName": "PipelineChange",
-                  "StackName": "Dev-BLEAEcsMonitoringSampleDev",
-                },
-                "Name": "BLEAEcsMonitoringSampleDev.Deploy",
-                "RoleArn": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":iam::",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":role/cdk-hnb659fds-deploy-role-",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      "-ap-northeast-1",
-                    ],
-                  ],
-                },
-                "RunOrder": 4,
-              },
-            ],
-            "Name": "Dev",
-          },
-        ],
-      },
-      "Type": "AWS::CodePipeline::Pipeline",
-    },
-    "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucket731A0B01": Object {
-      "DeletionPolicy": "Retain",
-      "Properties": Object {
-        "BucketEncryption": Object {
-          "ServerSideEncryptionConfiguration": Array [
-            Object {
-              "ServerSideEncryptionByDefault": Object {
-                "KMSMasterKeyID": Object {
-                  "Fn::GetAtt": Array [
-                    "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucketEncryptionKeyCDE38825",
-                    "Arn",
-                  ],
-                },
-                "SSEAlgorithm": "aws:kms",
-              },
-            },
-          ],
-        },
-        "PublicAccessBlockConfiguration": Object {
-          "BlockPublicAcls": true,
-          "BlockPublicPolicy": true,
-          "IgnorePublicAcls": true,
-          "RestrictPublicBuckets": true,
-        },
-      },
-      "Type": "AWS::S3::Bucket",
-      "UpdateReplacePolicy": "Retain",
-    },
-    "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucketEncryptionKeyAliasAC81AF02": Object {
-      "DeletionPolicy": "Delete",
-      "Properties": Object {
-        "AliasName": "alias/codepipeline-bleaecsappsamplepipelinebleaecsappsamplepipelinepipelinepipeline2ca90c4a",
-        "TargetKeyId": Object {
-          "Fn::GetAtt": Array [
-            "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucketEncryptionKeyCDE38825",
-            "Arn",
-          ],
-        },
-      },
-      "Type": "AWS::KMS::Alias",
-      "UpdateReplacePolicy": "Delete",
-    },
-    "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucketEncryptionKeyCDE38825": Object {
-      "DeletionPolicy": "Delete",
-      "Properties": Object {
-        "KeyPolicy": Object {
-          "Statement": Array [
-            Object {
-              "Action": "kms:*",
-              "Effect": "Allow",
-              "Principal": Object {
-                "AWS": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":iam::222222222222:root",
-                    ],
-                  ],
-                },
-              },
-              "Resource": "*",
-            },
-            Object {
-              "Action": Array [
-                "kms:Decrypt",
-                "kms:DescribeKey",
-              ],
-              "Effect": "Allow",
-              "Principal": Object {
-                "AWS": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":iam::",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":role/cdk-hnb659fds-deploy-role-",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      "-ap-northeast-1",
-                    ],
-                  ],
-                },
-              },
-              "Resource": "*",
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-      },
-      "Type": "AWS::KMS::Key",
-      "UpdateReplacePolicy": "Delete",
-    },
-    "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucketPolicy9CE13C5E": Object {
-      "Properties": Object {
-        "Bucket": Object {
-          "Ref": "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucket731A0B01",
-        },
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "s3:*",
-              "Condition": Object {
-                "Bool": Object {
-                  "aws:SecureTransport": "false",
-                },
-              },
-              "Effect": "Deny",
-              "Principal": Object {
-                "AWS": "*",
-              },
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
-                    "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucket731A0B01",
-                    "Arn",
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
-                          "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucket731A0B01",
-                          "Arn",
-                        ],
-                      },
-                      "/*",
-                    ],
-                  ],
-                },
-              ],
-            },
-            Object {
-              "Action": Array [
-                "s3:GetObject*",
-                "s3:GetBucket*",
-                "s3:List*",
-              ],
-              "Effect": "Allow",
-              "Principal": Object {
-                "AWS": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":iam::",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":role/cdk-hnb659fds-deploy-role-",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      "-ap-northeast-1",
-                    ],
-                  ],
-                },
-              },
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
-                    "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucket731A0B01",
-                    "Arn",
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
-                          "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucket731A0B01",
-                          "Arn",
-                        ],
-                      },
-                      "/*",
-                    ],
-                  ],
-                },
-              ],
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-      },
-      "Type": "AWS::S3::BucketPolicy",
-    },
-    "BLEAEcsAppSamplePipelinepipelinePipelineBuildSynthStepCdkBuildProject98632594": Object {
+    "PipelineBuildSynthStepCdkBuildProject7FBB5116": Object {
       "Properties": Object {
         "Artifacts": Object {
           "Type": "CODEPIPELINE",
@@ -1445,10 +1312,10 @@ Object {
         "Cache": Object {
           "Type": "NO_CACHE",
         },
-        "Description": "Pipeline step BLEAEcsAppSamplePipeline/Pipeline/Build/SynthStep",
+        "Description": "Pipeline step Dev-BLEAEcsAppPipeline/Pipeline/Build/SynthStep",
         "EncryptionKey": Object {
           "Fn::GetAtt": Array [
-            "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucketEncryptionKeyCDE38825",
+            "PipelineArtifactsBucketEncryptionKeyF5BF0670",
             "Arn",
           ],
         },
@@ -1461,7 +1328,7 @@ Object {
         },
         "ServiceRole": Object {
           "Fn::GetAtt": Array [
-            "BLEAEcsAppSamplePipelineCodeBuildDeployRole64B36CFA",
+            "CodeBuildDeployRoleCA9DFA4F",
             "Arn",
           ],
         },
@@ -1495,7 +1362,140 @@ Object {
       },
       "Type": "AWS::CodeBuild::Project",
     },
-    "BLEAEcsAppSamplePipelinepipelinePipelineRole02561C6E": Object {
+    "PipelineCodeBuildActionRole226DB0CB": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Condition": Object {
+                "Bool": Object {
+                  "aws:ViaAWSService": "codepipeline.amazonaws.com",
+                },
+              },
+              "Effect": "Allow",
+              "Principal": Object {
+                "AWS": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::222222222222:root",
+                    ],
+                  ],
+                },
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "PipelineCodeBuildActionRoleDefaultPolicy1D62A6FE": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "PipelineBuildSynthStepCdkBuildProject7FBB5116",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": Array [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "PipelineUpdatePipelineSelfMutationDAA41400",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": Array [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "PipelineAssetsFileAsset185A67CB4",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": Array [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "PipelineAssetsFileAsset24D2D639B",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": Array [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "PipelineAssetsFileAsset3FE71B523",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": Array [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "PipelineAssetsFileAsset474303B7D",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "PipelineCodeBuildActionRoleDefaultPolicy1D62A6FE",
+        "Roles": Array [
+          Object {
+            "Ref": "PipelineCodeBuildActionRole226DB0CB",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "PipelineRoleB27FAA37": Object {
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -1512,7 +1512,7 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "BLEAEcsAppSamplePipelinepipelinePipelineRoleDefaultPolicy5365737B": Object {
+    "PipelineRoleDefaultPolicy7BDC1ABB": Object {
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
@@ -1533,7 +1533,7 @@ Object {
               "Resource": Array [
                 Object {
                   "Fn::GetAtt": Array [
-                    "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucket731A0B01",
+                    "PipelineArtifactsBucketAEA9A052",
                     "Arn",
                   ],
                 },
@@ -1543,7 +1543,7 @@ Object {
                     Array [
                       Object {
                         "Fn::GetAtt": Array [
-                          "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucket731A0B01",
+                          "PipelineArtifactsBucketAEA9A052",
                           "Arn",
                         ],
                       },
@@ -1564,7 +1564,7 @@ Object {
               "Effect": "Allow",
               "Resource": Object {
                 "Fn::GetAtt": Array [
-                  "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucketEncryptionKeyCDE38825",
+                  "PipelineArtifactsBucketEncryptionKeyF5BF0670",
                   "Arn",
                 ],
               },
@@ -1574,7 +1574,7 @@ Object {
               "Effect": "Allow",
               "Resource": Object {
                 "Fn::GetAtt": Array [
-                  "BLEAEcsAppSamplePipelinepipelinePipelineSourceawssamplesbaselineenvironmentonawsCodePipelineActionRoleFAE0779D",
+                  "PipelineSourceawssamplesbaselineenvironmentonawsCodePipelineActionRole1BD37B19",
                   "Arn",
                 ],
               },
@@ -1584,7 +1584,7 @@ Object {
               "Effect": "Allow",
               "Resource": Object {
                 "Fn::GetAtt": Array [
-                  "BLEAEcsAppSamplePipelinepipelineCodeBuildActionRole6A9DEC89",
+                  "PipelineCodeBuildActionRole226DB0CB",
                   "Arn",
                 ],
               },
@@ -1636,7 +1636,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":s3:::bleaecsappsamplepipeline-eplicationbucket7976a2694c4ad7807927",
+                      ":s3:::dev-bleaecsapppipeline-sueplicationbucket7976a269ef4f86825ade",
                     ],
                   ],
                 },
@@ -1648,7 +1648,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":s3:::bleaecsappsamplepipeline-eplicationbucket7976a2694c4ad7807927/*",
+                      ":s3:::dev-bleaecsapppipeline-sueplicationbucket7976a269ef4f86825ade/*",
                     ],
                   ],
                 },
@@ -1692,111 +1692,16 @@ Object {
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "BLEAEcsAppSamplePipelinepipelinePipelineRoleDefaultPolicy5365737B",
+        "PolicyName": "PipelineRoleDefaultPolicy7BDC1ABB",
         "Roles": Array [
           Object {
-            "Ref": "BLEAEcsAppSamplePipelinepipelinePipelineRole02561C6E",
+            "Ref": "PipelineRoleB27FAA37",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "BLEAEcsAppSamplePipelinepipelinePipelineSourceawssamplesbaselineenvironmentonawsCodePipelineActionRoleDefaultPolicy88A47783": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "codestar-connections:UseConnection",
-              "Effect": "Allow",
-              "Resource": "arn:aws:codestar-connections:us-west-2:222222222222:connection/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-            },
-            Object {
-              "Action": Array [
-                "s3:GetObject*",
-                "s3:GetBucket*",
-                "s3:List*",
-                "s3:DeleteObject*",
-                "s3:PutObject",
-                "s3:PutObjectLegalHold",
-                "s3:PutObjectRetention",
-                "s3:PutObjectTagging",
-                "s3:PutObjectVersionTagging",
-                "s3:Abort*",
-              ],
-              "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
-                    "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucket731A0B01",
-                    "Arn",
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
-                          "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucket731A0B01",
-                          "Arn",
-                        ],
-                      },
-                      "/*",
-                    ],
-                  ],
-                },
-              ],
-            },
-            Object {
-              "Action": Array [
-                "kms:Decrypt",
-                "kms:DescribeKey",
-                "kms:Encrypt",
-                "kms:ReEncrypt*",
-                "kms:GenerateDataKey*",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucketEncryptionKeyCDE38825",
-                  "Arn",
-                ],
-              },
-            },
-            Object {
-              "Action": Array [
-                "s3:PutObjectAcl",
-                "s3:PutObjectVersionAcl",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    Object {
-                      "Fn::GetAtt": Array [
-                        "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucket731A0B01",
-                        "Arn",
-                      ],
-                    },
-                    "/*",
-                  ],
-                ],
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "BLEAEcsAppSamplePipelinepipelinePipelineSourceawssamplesbaselineenvironmentonawsCodePipelineActionRoleDefaultPolicy88A47783",
-        "Roles": Array [
-          Object {
-            "Ref": "BLEAEcsAppSamplePipelinepipelinePipelineSourceawssamplesbaselineenvironmentonawsCodePipelineActionRoleFAE0779D",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
-    "BLEAEcsAppSamplePipelinepipelinePipelineSourceawssamplesbaselineenvironmentonawsCodePipelineActionRoleFAE0779D": Object {
+    "PipelineSourceawssamplesbaselineenvironmentonawsCodePipelineActionRole1BD37B19": Object {
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -1824,7 +1729,102 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "BLEAEcsAppSamplePipelinepipelineUpdatePipelineSelfMutationE368BCAF": Object {
+    "PipelineSourceawssamplesbaselineenvironmentonawsCodePipelineActionRoleDefaultPolicy51E7124E": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "codestar-connections:UseConnection",
+              "Effect": "Allow",
+              "Resource": "arn:aws:codestar-connections:us-west-2:222222222222:connection/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+            },
+            Object {
+              "Action": Array [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+                "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
+                "s3:Abort*",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "PipelineArtifactsBucketAEA9A052",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "PipelineArtifactsBucketAEA9A052",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": Array [
+                "kms:Decrypt",
+                "kms:DescribeKey",
+                "kms:Encrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "PipelineArtifactsBucketEncryptionKeyF5BF0670",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": Array [
+                "s3:PutObjectAcl",
+                "s3:PutObjectVersionAcl",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    Object {
+                      "Fn::GetAtt": Array [
+                        "PipelineArtifactsBucketAEA9A052",
+                        "Arn",
+                      ],
+                    },
+                    "/*",
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "PipelineSourceawssamplesbaselineenvironmentonawsCodePipelineActionRoleDefaultPolicy51E7124E",
+        "Roles": Array [
+          Object {
+            "Ref": "PipelineSourceawssamplesbaselineenvironmentonawsCodePipelineActionRole1BD37B19",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "PipelineUpdatePipelineSelfMutationDAA41400": Object {
       "Properties": Object {
         "Artifacts": Object {
           "Type": "CODEPIPELINE",
@@ -1832,10 +1832,10 @@ Object {
         "Cache": Object {
           "Type": "NO_CACHE",
         },
-        "Description": "Pipeline step BLEAEcsAppSamplePipeline/Pipeline/UpdatePipeline/SelfMutate",
+        "Description": "Pipeline step Dev-BLEAEcsAppPipeline/Pipeline/UpdatePipeline/SelfMutate",
         "EncryptionKey": Object {
           "Fn::GetAtt": Array [
-            "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucketEncryptionKeyCDE38825",
+            "PipelineArtifactsBucketEncryptionKeyF5BF0670",
             "Arn",
           ],
         },
@@ -1848,7 +1848,7 @@ Object {
         },
         "ServiceRole": Object {
           "Fn::GetAtt": Array [
-            "BLEAEcsAppSamplePipelinepipelineUpdatePipelineSelfMutationRole0D6142DD",
+            "PipelineUpdatePipelineSelfMutationRole57E559E8",
             "Arn",
           ],
         },
@@ -1863,7 +1863,7 @@ Object {
     },
     \\"build\\": {
       \\"commands\\": [
-        \\"cdk -a . deploy BLEAEcsAppSamplePipeline --require-approval=never --verbose\\"
+        \\"cdk -a . deploy Dev-BLEAEcsAppPipeline --require-approval=never --verbose\\"
       ]
     }
   }
@@ -1873,7 +1873,7 @@ Object {
       },
       "Type": "AWS::CodeBuild::Project",
     },
-    "BLEAEcsAppSamplePipelinepipelineUpdatePipelineSelfMutationRole0D6142DD": Object {
+    "PipelineUpdatePipelineSelfMutationRole57E559E8": Object {
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -1890,7 +1890,7 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "BLEAEcsAppSamplePipelinepipelineUpdatePipelineSelfMutationRoleDefaultPolicy7A9F6E10": Object {
+    "PipelineUpdatePipelineSelfMutationRoleDefaultPolicyA225DA4E": Object {
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
@@ -1912,7 +1912,7 @@ Object {
                       },
                       ":logs:ap-northeast-1:222222222222:log-group:/aws/codebuild/",
                       Object {
-                        "Ref": "BLEAEcsAppSamplePipelinepipelineUpdatePipelineSelfMutationE368BCAF",
+                        "Ref": "PipelineUpdatePipelineSelfMutationDAA41400",
                       },
                     ],
                   ],
@@ -1927,7 +1927,7 @@ Object {
                       },
                       ":logs:ap-northeast-1:222222222222:log-group:/aws/codebuild/",
                       Object {
-                        "Ref": "BLEAEcsAppSamplePipelinepipelineUpdatePipelineSelfMutationE368BCAF",
+                        "Ref": "PipelineUpdatePipelineSelfMutationDAA41400",
                       },
                       ":*",
                     ],
@@ -1954,7 +1954,7 @@ Object {
                     },
                     ":codebuild:ap-northeast-1:222222222222:report-group/",
                     Object {
-                      "Ref": "BLEAEcsAppSamplePipelinepipelineUpdatePipelineSelfMutationE368BCAF",
+                      "Ref": "PipelineUpdatePipelineSelfMutationDAA41400",
                     },
                     "-*",
                   ],
@@ -1995,7 +1995,7 @@ Object {
               "Resource": Array [
                 Object {
                   "Fn::GetAtt": Array [
-                    "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucket731A0B01",
+                    "PipelineArtifactsBucketAEA9A052",
                     "Arn",
                   ],
                 },
@@ -2005,7 +2005,7 @@ Object {
                     Array [
                       Object {
                         "Fn::GetAtt": Array [
-                          "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucket731A0B01",
+                          "PipelineArtifactsBucketAEA9A052",
                           "Arn",
                         ],
                       },
@@ -2023,7 +2023,7 @@ Object {
               "Effect": "Allow",
               "Resource": Object {
                 "Fn::GetAtt": Array [
-                  "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucketEncryptionKeyCDE38825",
+                  "PipelineArtifactsBucketEncryptionKeyF5BF0670",
                   "Arn",
                 ],
               },
@@ -2038,7 +2038,7 @@ Object {
               "Effect": "Allow",
               "Resource": Object {
                 "Fn::GetAtt": Array [
-                  "BLEAEcsAppSamplePipelinepipelinePipelineArtifactsBucketEncryptionKeyCDE38825",
+                  "PipelineArtifactsBucketEncryptionKeyF5BF0670",
                   "Arn",
                 ],
               },
@@ -2046,10 +2046,10 @@ Object {
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "BLEAEcsAppSamplePipelinepipelineUpdatePipelineSelfMutationRoleDefaultPolicy7A9F6E10",
+        "PolicyName": "PipelineUpdatePipelineSelfMutationRoleDefaultPolicyA225DA4E",
         "Roles": Array [
           Object {
-            "Ref": "BLEAEcsAppSamplePipelinepipelineUpdatePipelineSelfMutationRole0D6142DD",
+            "Ref": "PipelineUpdatePipelineSelfMutationRole57E559E8",
           },
         ],
       },

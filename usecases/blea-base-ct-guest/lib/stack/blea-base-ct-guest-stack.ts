@@ -4,12 +4,12 @@ import { SecurityIAM } from '../construct/security-iam';
 import { SecurityLogging } from '../construct/security-logging';
 import { SecurityDetection } from '../construct/security-detection';
 
-export interface BLEABaseCTGuestProps extends StackProps {
+export interface BLEAGovBaseStackProps extends StackProps {
   securityNotifyEmail: string;
 }
 
-export class BLEABaseCTGuestStack extends Stack {
-  constructor(scope: Construct, id: string, props: BLEABaseCTGuestProps) {
+export class BLEAGovBaseStack extends Stack {
+  constructor(scope: Construct, id: string, props: BLEAGovBaseStackProps) {
     super(scope, id, props);
 
     new SecurityIAM(this, 'SecurityIAM');

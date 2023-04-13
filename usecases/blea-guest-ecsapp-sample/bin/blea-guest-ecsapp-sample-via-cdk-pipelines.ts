@@ -8,7 +8,7 @@ const app = new cdk.App();
 
 // Create stack for "Dev" environment.
 // If you have multiple environments, instantiate stacks with its parameters.
-new BLEAEcsAppPipelineStack(app, 'BLEAEcsAppSamplePipeline', {
+new BLEAEcsAppPipelineStack(app, 'Dev-BLEAEcsAppPipeline', {
   targetParameters: [devParameter],
   env: devPipelineParameter.env,
   sourceRepository: devPipelineParameter.sourceRepository,

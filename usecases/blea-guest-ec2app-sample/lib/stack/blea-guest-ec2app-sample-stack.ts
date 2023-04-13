@@ -1,4 +1,4 @@
-import { Stack, StackProps } from 'aws-cdk-lib';
+import { Names, Stack, StackProps } from 'aws-cdk-lib';
 import { Key } from 'aws-cdk-lib/aws-kms';
 import { Construct } from 'constructs';
 import { Ec2App } from '../construct/ec2app';
@@ -6,15 +6,15 @@ import { Monitoring } from '../construct/monitoring';
 import { Networking } from '../construct/networking';
 import { InvestigationInstance } from '../construct/investigation-instance';
 
-export interface BLEAEc2AppSampleStackProps extends StackProps {
+export interface BLEAEc2AppStackProps extends StackProps {
   monitoringNotifyEmail: string;
   monitoringSlackWorkspaceId: string;
   monitoringSlackChannelId: string;
   vpcCidr: string;
 }
 
-export class BLEAEc2AppSampleStack extends Stack {
-  constructor(scope: Construct, id: string, props: BLEAEc2AppSampleStackProps) {
+export class BLEAEc2AppStack extends Stack {
+  constructor(scope: Construct, id: string, props: BLEAEc2AppStackProps) {
     super(scope, id, props);
 
     new Monitoring(this, 'Monitoring', {
@@ -25,8 +25,8 @@ export class BLEAEc2AppSampleStack extends Stack {
 
     const cmk = new Key(this, 'CMK', {
       enableKeyRotation: true,
-      description: 'guest-ec2app-key',
-      alias: 'guest-ec2app-key',
+      description: 'BLEA Guest Sample: CMK for Ec2App',
+      alias: Names.uniqueResourceName(this, {}),
     });
 
     const networking = new Networking(this, 'Networking', {
@@ -35,11 +35,11 @@ export class BLEAEc2AppSampleStack extends Stack {
 
     new Ec2App(this, 'Ec2App', {
       cmk: cmk,
-      vpc: networking.myVpc,
+      vpc: networking.vpc,
     });
 
     new InvestigationInstance(this, 'InvestigationInstance', {
-      vpc: networking.myVpc,
+      vpc: networking.vpc,
     });
   }
 }

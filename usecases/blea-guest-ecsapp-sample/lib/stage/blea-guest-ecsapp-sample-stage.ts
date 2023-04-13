@@ -1,15 +1,15 @@
 import { Stage } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { AppParameter } from '../../parameter';
-import { BLEAEcsFrontendSampleStack } from '../stack/blea-guest-ecsapp-frontend-stack';
-import { BLEAEcsAppMonitoringSampleStack } from '../stack/blea-guest-ecsapp-monitoring-stack';
-import { BLEAEcsAppSampleStack } from '../stack/blea-guest-ecsapp-sample-stack';
+import { BLEAEcsFrontendStack } from '../stack/blea-guest-ecsapp-frontend-stack';
+import { BLEAEcsAppMonitoringStack } from '../stack/blea-guest-ecsapp-monitoring-stack';
+import { BLEAEcsAppStack } from '../stack/blea-guest-ecsapp-sample-stack';
 
-export class BLEAEcsAppSampletStage extends Stage {
+export class BLEAEcsAppStage extends Stage {
   constructor(scope: Construct, id: string, props: AppParameter) {
     super(scope, id, props);
 
-    const ecsapp = new BLEAEcsAppSampleStack(this, 'BLEAEcsAppSampleDev', {
+    const ecsapp = new BLEAEcsAppStack(this, 'BLEAEcsApp', {
       // from parameter.ts
       monitoringNotifyEmail: props.monitoringNotifyEmail,
       monitoringSlackWorkspaceId: props.monitoringSlackWorkspaceId,
@@ -31,7 +31,7 @@ export class BLEAEcsAppSampletStage extends Stage {
       crossRegionReferences: true,
     });
 
-    const frontend = new BLEAEcsFrontendSampleStack(this, 'BLEAEcsFrontendSampleDev', {
+    const frontend = new BLEAEcsFrontendStack(this, 'BLEAEcsFrontend', {
       // from parameter.ts
       hostedZoneId: props.hostedZoneId,
       domainName: props.domainName,
@@ -49,7 +49,7 @@ export class BLEAEcsAppSampletStage extends Stage {
       crossRegionReferences: true,
     });
 
-    new BLEAEcsAppMonitoringSampleStack(this, 'BLEAEcsMonitoringSampleDev', {
+    new BLEAEcsAppMonitoringStack(this, 'BLEAEcsMonitoring', {
       // from parameter.ts
       appEndpoint: `${props.cloudFrontHostName}.${props.domainName}`,
       dashboardName: props.dashboardName,

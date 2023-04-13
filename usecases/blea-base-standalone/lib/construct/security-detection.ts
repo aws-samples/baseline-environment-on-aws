@@ -25,7 +25,7 @@ export class SecurityDetection extends Construct {
     });
 
     // === AWS Security Hub ===
-    new iam.CfnServiceLinkedRole(this, 'RoleForSecurityHub', {
+    new iam.CfnServiceLinkedRole(this, 'SecurityHubRole', {
       awsServiceName: 'securityhub.amazonaws.com',
     });
 
@@ -33,7 +33,7 @@ export class SecurityDetection extends Construct {
 
     // === AWS Config Conformance Pack ===
     // https://github.com/awslabs/aws-config-rules/tree/master/aws-config-conformance-packs
-    new cfn_inc.CfnInclude(this, 'ConfigCtGr', {
+    new cfn_inc.CfnInclude(this, 'CfnControlTowerGuardralis', {
       templateFile: 'cfn/AWS-Control-Tower-Detective-Guardrails.yaml',
     });
 
@@ -42,7 +42,7 @@ export class SecurityDetection extends Construct {
     //
     // See: https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-cis-controls-4.3
     // See: https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html
-    const ruleDefaultSgClosed = new config.ManagedRule(this, 'BLEARuleDefaultSecurityGroupClosed', {
+    const defaultSgClosedRule = new config.ManagedRule(this, 'DefaultSgClosedRule', {
       identifier: config.ManagedRuleIdentifiers.VPC_DEFAULT_SECURITY_GROUP_CLOSED,
       ruleScope: config.RuleScope.fromResources([config.ResourceType.EC2_SECURITY_GROUP]),
       configRuleName: 'bb-default-security-group-closed',
@@ -51,26 +51,26 @@ export class SecurityDetection extends Construct {
     });
 
     // Role for auto remediation
-    const rmDefaultSgRole = new iam.Role(this, 'RemoveSecGroupRemediationRole', {
+    const defaultSgRemediationRole = new iam.Role(this, 'DefaultSgRemediationRole', {
       assumedBy: new iam.ServicePrincipal('ssm.amazonaws.com'),
       path: '/',
       managedPolicies: [{ managedPolicyArn: 'arn:aws:iam::aws:policy/service-role/AmazonSSMAutomationRole' }],
     });
-    rmDefaultSgRole.addToPolicy(
+    defaultSgRemediationRole.addToPolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         actions: ['ec2:RevokeSecurityGroupIngress', 'ec2:RevokeSecurityGroupEgress', 'ec2:DescribeSecurityGroups'],
         resources: ['*'],
       }),
     );
-    rmDefaultSgRole.addToPolicy(
+    defaultSgRemediationRole.addToPolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         actions: ['iam:PassRole'],
-        resources: [rmDefaultSgRole.roleArn],
+        resources: [defaultSgRemediationRole.roleArn],
       }),
     );
-    rmDefaultSgRole.addToPolicy(
+    defaultSgRemediationRole.addToPolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         actions: ['ssm:StartAutomationExecution'],
@@ -79,15 +79,15 @@ export class SecurityDetection extends Construct {
     );
 
     // Remediation for Remove VPC Default SecurityGroup Rules  by  SSM Automation
-    new config.CfnRemediationConfiguration(this, 'RmDefaultSg', {
-      configRuleName: ruleDefaultSgClosed.configRuleName,
+    new config.CfnRemediationConfiguration(this, 'DefaultSgRemediation', {
+      configRuleName: defaultSgClosedRule.configRuleName,
       targetType: 'SSM_DOCUMENT',
       targetId: 'AWSConfigRemediation-RemoveVPCDefaultSecurityGroupRules',
       targetVersion: '1',
       parameters: {
         AutomationAssumeRole: {
           StaticValue: {
-            Values: [rmDefaultSgRole.roleArn],
+            Values: [defaultSgRemediationRole.roleArn],
           },
         },
         GroupId: {
@@ -102,21 +102,21 @@ export class SecurityDetection extends Construct {
     });
 
     // SNS Topic for Security Alarm
-    const secTopic = new sns.Topic(this, 'SecurityAlarmTopic');
+    const topic = new sns.Topic(this, 'AlarmTopic');
     new sns.Subscription(this, 'SecurityAlarmEmail', {
       endpoint: props.notifyEmail,
       protocol: sns.SubscriptionProtocol.EMAIL,
-      topic: secTopic,
+      topic: topic,
     });
-    cdk.Stack.of(this).exportValue(secTopic.topicArn);
+    cdk.Stack.of(this).exportValue(topic.topicArn);
 
     // Allow to publish message from CloudWatch
-    secTopic.addToResourcePolicy(
+    topic.addToResourcePolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         principals: [new iam.ServicePrincipal('cloudwatch.amazonaws.com')],
         actions: ['sns:Publish'],
-        resources: [secTopic.topicArn],
+        resources: [topic.topicArn],
       }),
     );
 
@@ -126,7 +126,7 @@ export class SecurityDetection extends Construct {
     //  See: https://aws.amazon.com/premiumsupport/knowledge-center/config-resource-non-compliant/?nc1=h_ls
     //  If you want to add rules to notify, add rule name text string to "configRuleName" array.
     //  Sample Rule 'bb-default-security-group-closed' is defined at lib/blea-config-rules-stack.ts
-    new cwe.Rule(this, 'BLEARuleConfigRules', {
+    new cwe.Rule(this, 'DefaultSgClosedEventRule', {
       description: 'CloudWatch Event Rule to send notification on Config Rule compliance changes.',
       enabled: true,
       eventPattern: {
@@ -139,21 +139,21 @@ export class SecurityDetection extends Construct {
           },
         },
       },
-      targets: [new cwet.SnsTopic(secTopic)],
+      targets: [new cwet.SnsTopic(topic)],
     });
 
     // ------------------------ AWS Health Notification ---------------------------
 
     // AWS Health - Notify any events on AWS Health
     // See: https://aws.amazon.com/premiumsupport/knowledge-center/cloudwatch-notification-scheduled-events/?nc1=h_ls
-    new cwe.Rule(this, 'BLEARuleAwsHealth', {
+    new cwe.Rule(this, 'AwsHealthEventRule', {
       description: 'Notify AWS Health event',
       enabled: true,
       eventPattern: {
         source: ['aws.health'],
         detailType: ['AWS Health Event'],
       },
-      targets: [new cwet.SnsTopic(secTopic)],
+      targets: [new cwet.SnsTopic(topic)],
     });
 
     // ------------ Detective guardrails from NIST standard template ----------------
@@ -162,7 +162,7 @@ export class SecurityDetection extends Construct {
     // Security Groups Change Notification
     // See: https://aws.amazon.com/premiumsupport/knowledge-center/monitor-security-group-changes-ec2/?nc1=h_ls
     //  from NIST template
-    new cwe.Rule(this, 'BLEARuleSecurityGroupChange', {
+    new cwe.Rule(this, 'SgChangedEventRule', {
       description: 'Notify to create, update or delete a Security Group.',
       enabled: true,
       eventPattern: {
@@ -178,12 +178,12 @@ export class SecurityDetection extends Construct {
           ],
         },
       },
-      targets: [new cwet.SnsTopic(secTopic)],
+      targets: [new cwet.SnsTopic(topic)],
     });
 
     // Network ACL Change Notification
     //  from NIST template
-    new cwe.Rule(this, 'BLEARuleNetworkAclChange', {
+    new cwe.Rule(this, 'NetworkAclChangeEventRule', {
       description: 'Notify to create, update or delete a Network ACL.',
       enabled: true,
       eventPattern: {
@@ -201,12 +201,12 @@ export class SecurityDetection extends Construct {
           ],
         },
       },
-      targets: [new cwet.SnsTopic(secTopic)],
+      targets: [new cwet.SnsTopic(topic)],
     });
 
     // CloudTrail Change
     //  from NIST template
-    new cwe.Rule(this, 'BLEARuleCloudTrailChange', {
+    new cwe.Rule(this, 'CloudTrailChangeEventRule', {
       description: 'Notify to change on CloudTrail log configuration',
       enabled: true,
       eventPattern: {
@@ -216,7 +216,7 @@ export class SecurityDetection extends Construct {
           eventName: ['StopLogging', 'DeleteTrail', 'UpdateTrail'],
         },
       },
-      targets: [new cwet.SnsTopic(secTopic)],
+      targets: [new cwet.SnsTopic(topic)],
     });
 
     // LogGroup Construct for CloudTrail
@@ -234,7 +234,7 @@ export class SecurityDetection extends Construct {
 
     // IAM Policy Change Notification
     //  from NIST template
-    const mfIAMPolicyChange = new cwl.MetricFilter(this, 'IAMPolicyChange', {
+    const mfIAMPolicyChange = new cwl.MetricFilter(this, 'IAMPolicyChangeFilter', {
       logGroup: cloudTrailLogGroup,
       filterPattern: {
         logPatternString:
@@ -256,11 +256,11 @@ export class SecurityDetection extends Construct {
       comparisonOperator: cw.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
       alarmDescription: 'IAM Configuration changes detected!',
       actionsEnabled: true,
-    }).addAlarmAction(new cwa.SnsAction(secTopic));
+    }).addAlarmAction(new cwa.SnsAction(topic));
 
     // Unauthorized Attempts
     //  from NIST template
-    const mfUnauthorizedAttempts = new cwl.MetricFilter(this, 'UnauthorizedAttempts', {
+    const unauthorizedAttemptsFilter = new cwl.MetricFilter(this, 'UnauthorizedAttemptsFilter', {
       logGroup: cloudTrailLogGroup,
       filterPattern: {
         // Exclude calls “Decrypt" event by config.amazonaws.com to ignore innocuous errors caused by AWS Config.
@@ -274,7 +274,7 @@ export class SecurityDetection extends Construct {
     });
 
     new cw.Alarm(this, 'UnauthorizedAttemptsAlarm', {
-      metric: mfUnauthorizedAttempts.metric({
+      metric: unauthorizedAttemptsFilter.metric({
         period: cdk.Duration.seconds(300),
         statistic: cw.Stats.SUM,
       }),
@@ -284,11 +284,11 @@ export class SecurityDetection extends Construct {
       comparisonOperator: cw.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
       alarmDescription: 'Multiple unauthorized actions or logins attempted!',
       actionsEnabled: true,
-    }).addAlarmAction(new cwa.SnsAction(secTopic));
+    }).addAlarmAction(new cwa.SnsAction(topic));
 
     // NewAccessKeyCreated
     //  from NIST template
-    const mfNewAccessKeyCreated = new cwl.MetricFilter(this, 'NewAccessKeyCreated', {
+    const newAccessKeyCreatedFilter = new cwl.MetricFilter(this, 'NewAccessKeyCreatedFilter', {
       logGroup: cloudTrailLogGroup,
       filterPattern: {
         logPatternString: '{($.eventName=CreateAccessKey)}',
@@ -299,7 +299,7 @@ export class SecurityDetection extends Construct {
     });
 
     new cw.Alarm(this, 'NewAccessKeyCreatedAlarm', {
-      metric: mfNewAccessKeyCreated.metric({
+      metric: newAccessKeyCreatedFilter.metric({
         period: cdk.Duration.seconds(300),
         statistic: cw.Stats.SUM,
       }),
@@ -309,12 +309,12 @@ export class SecurityDetection extends Construct {
       comparisonOperator: cw.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
       alarmDescription: 'Warning: New IAM access Eey was created. Please be sure this action was neccessary.',
       actionsEnabled: true,
-    }).addAlarmAction(new cwa.SnsAction(secTopic));
+    }).addAlarmAction(new cwa.SnsAction(topic));
 
     // Detect Root Activity from CloudTrail Log (For SecurityHub CIS 1.1)
     // See: https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-standards-cis-controls-1.1
     // See: https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudwatch-alarms-for-cloudtrail-additional-examples.html
-    const mfRooUserPolicy = new cwl.MetricFilter(this, 'RootUserPolicyEventCount', {
+    const rootUserActivityFilter = new cwl.MetricFilter(this, 'RootUserActivityFilter', {
       logGroup: cloudTrailLogGroup,
       filterPattern: {
         logPatternString:
@@ -325,8 +325,8 @@ export class SecurityDetection extends Construct {
       metricValue: '1',
     });
 
-    new cw.Alarm(this, 'RootUserPolicyEventCountAlarm', {
-      metric: mfRooUserPolicy.metric({
+    new cw.Alarm(this, 'RootUserActivityAlarm', {
+      metric: rootUserActivityFilter.metric({
         period: cdk.Duration.seconds(300),
         statistic: cw.Stats.SUM,
       }),
@@ -336,7 +336,7 @@ export class SecurityDetection extends Construct {
       comparisonOperator: cw.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
       alarmDescription: 'Root user activity detected!',
       actionsEnabled: true,
-    }).addAlarmAction(new cwa.SnsAction(secTopic));
+    }).addAlarmAction(new cwa.SnsAction(topic));
 
     // ------------------- Other security services integration ----------------------
 
@@ -346,7 +346,7 @@ export class SecurityDetection extends Construct {
     //
     //   Security Hub Finding format
     //   See: https://docs.aws.amazon.com/ja_jp/securityhub/latest/userguide/securityhub-findings-format.html
-    new cwe.Rule(this, 'BLEARuleSecurityHub', {
+    new cwe.Rule(this, 'SecurityHubEventRule', {
       description: 'CloudWatch Event Rule to send notification on SecurityHub all new findings and all updates.',
       enabled: true,
       eventPattern: {
@@ -367,13 +367,13 @@ export class SecurityDetection extends Construct {
           },
         },
       },
-      targets: [new cwet.SnsTopic(secTopic)],
+      targets: [new cwet.SnsTopic(topic)],
     });
 
     // GuardDutyFindings
     //   Will alert for any Medium to High finding.
     //   See: https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings_cloudwatch.html
-    new cwe.Rule(this, 'BLEARuleGuardDuty', {
+    new cwe.Rule(this, 'GuardDutyEventRule', {
       description: 'CloudWatch Event Rule to send notification on GuardDuty findings.',
       enabled: true,
       eventPattern: {
@@ -387,7 +387,7 @@ export class SecurityDetection extends Construct {
           ],
         },
       },
-      targets: [new cwet.SnsTopic(secTopic)],
+      targets: [new cwet.SnsTopic(topic)],
     });
   }
 }

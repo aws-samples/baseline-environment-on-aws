@@ -3,9 +3,9 @@ import { Template } from 'aws-cdk-lib/assertions';
 import { BLEAServerlessApiStack } from '../lib/stack/blea-guest-serverless-api-sample-stack';
 import { devParameter } from '../parameter';
 
-test('Snapshot test for BLEAServerlessApi Stack', () => {
+test('Snapshot test for ServerlessApi Stack', () => {
   const app = new cdk.App();
-  const stack = new BLEAServerlessApiStack(app, 'BLEAServerlessApiDev', {
+  const stack = new BLEAServerlessApiStack(app, 'Dev-BLEAServerlessApi', {
     monitoringNotifyEmail: devParameter.monitoringNotifyEmail,
     monitoringSlackWorkspaceId: devParameter.monitoringSlackWorkspaceId,
     monitoringSlackChannelId: devParameter.monitoringSlackChannelId,

@@ -14,12 +14,12 @@ export class InvestigationInstance extends Construct {
     super(scope, id);
 
     // Security Group
-    const securityGroupForEc2 = new ec2.SecurityGroup(this, 'SgEC2', {
+    const invInstanceSg = new ec2.SecurityGroup(this, 'InvInstanceSg', {
       vpc: props.vpc,
     });
 
     // InstanceProfile
-    const ssmInstanceRole = new iam.Role(this, 'ssm-instance-role', {
+    const ssmInstanceRole = new iam.Role(this, 'SsmInstanceRole', {
       assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
       path: '/',
       managedPolicies: [
@@ -29,10 +29,10 @@ export class InvestigationInstance extends Construct {
     });
 
     // UserData
-    const userData = ec2.UserData.forLinux({ shebang: '#!/bin/bash' });
-    userData.addCommands('sudo yum -y install mariadb');
+    const userdata = ec2.UserData.forLinux({ shebang: '#!/bin/bash' });
+    userdata.addCommands('sudo yum -y install mariadb');
 
-    const instance = new ec2.Instance(this, 'Investigation', {
+    const instance = new ec2.Instance(this, 'InvestigationInstance', {
       vpc: props.vpc,
       vpcSubnets: props.vpc.selectSubnets({
         subnetGroupName: 'Protected',
@@ -41,9 +41,9 @@ export class InvestigationInstance extends Construct {
       machineImage: new ec2.AmazonLinuxImage({
         generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2,
       }),
-      securityGroup: securityGroupForEc2,
+      securityGroup: invInstanceSg,
       role: ssmInstanceRole,
-      userData: userData,
+      userData: userdata,
       blockDevices: [
         {
           deviceName: '/dev/xvda',

@@ -14,8 +14,8 @@ export class Monitoring extends Construct {
     super(scope, id);
 
     // SNS Topic for Monitoring Alarm
-    const topic = new sns.Topic(this, 'MonitorAlarmTopic');
-    new sns.Subscription(this, 'MonitorAlarmEmail', {
+    const topic = new sns.Topic(this, 'AlarmTopic');
+    new sns.Subscription(this, 'EmailSubsc', {
       endpoint: props.monitoringNotifyEmail,
       protocol: sns.SubscriptionProtocol.EMAIL,
       topic: topic,

@@ -3,14 +3,14 @@ import { Construct } from 'constructs';
 import { SecurityDetection } from '../construct/security-detection';
 import { SecurityIAM } from '../construct/security-iam';
 import { SecurityLogging } from '../construct/security-logging';
-import { BLEABaseCTGuestProps } from '../stack/blea-base-ct-guest-stack';
+import { BLEAGovBaseStackProps } from '../stack/blea-base-ct-guest-stack';
 
-export class BLEABaseCTGuestStage extends Stage {
-  constructor(scope: Construct, id: string, props: BLEABaseCTGuestProps) {
+export class BLEAGovBaseStage extends Stage {
+  constructor(scope: Construct, id: string, props: BLEAGovBaseStackProps) {
     super(scope, id, props);
 
     // Define a stack and associate same constructs as normal to this.
-    const stack = new Stack(this, 'BLEABaseCTGuest');
+    const stack = new Stack(this, 'BLEAGovBase');
 
     new SecurityIAM(stack, 'SecurityIAM');
 

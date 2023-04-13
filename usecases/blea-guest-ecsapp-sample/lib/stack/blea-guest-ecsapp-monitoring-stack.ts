@@ -5,7 +5,7 @@ import { Construct } from 'constructs';
 import { Dashboard } from '../construct/dashboard';
 import { Canary } from '../construct/canary';
 
-export interface BLEAEcsAppMonitoringSampleStackProps extends StackProps {
+export interface BLEAEcsAppMonitoringStackProps extends StackProps {
   alarmTopic: ITopic;
   appEndpoint: string;
   distributionId: string;
@@ -19,8 +19,8 @@ export interface BLEAEcsAppMonitoringSampleStackProps extends StackProps {
   ecsScaleOnRequestCount: number;
   dbClusterName: string;
 }
-export class BLEAEcsAppMonitoringSampleStack extends Stack {
-  constructor(scope: Construct, id: string, props: BLEAEcsAppMonitoringSampleStackProps) {
+export class BLEAEcsAppMonitoringStack extends Stack {
+  constructor(scope: Construct, id: string, props: BLEAEcsAppMonitoringStackProps) {
     super(scope, id, props);
 
     const canary = new Canary(this, 'Canary', {

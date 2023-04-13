@@ -69,7 +69,7 @@ export class LambdaPython extends Construct {
     );
 
     // GetItem Function
-    const getItemFunction = new lambda.Function(this, 'getItem', {
+    const getItemFunction = new lambda.Function(this, 'GetItemFunction', {
       runtime: lambda.Runtime.PYTHON_3_7,
       code: lambda.Code.fromAsset('lambda/python/getItem'),
       handler: 'getItem.lambda_handler',
@@ -157,7 +157,7 @@ export class LambdaPython extends Construct {
       .addAlarmAction(new cw_actions.SnsAction(props.alarmTopic));
 
     // ListItem Function
-    const listItemsFunction = new lambda.Function(this, 'listItems', {
+    const listItemsFunction = new lambda.Function(this, 'ListItemsFunction', {
       runtime: lambda.Runtime.PYTHON_3_7,
       code: lambda.Code.fromAsset('lambda/python/listItems'),
       handler: 'listItems.lambda_handler',
@@ -245,7 +245,7 @@ export class LambdaPython extends Construct {
       .addAlarmAction(new cw_actions.SnsAction(props.alarmTopic));
 
     // PutItem Function
-    const putItemFunction = new lambda.Function(this, 'putItem', {
+    const putItemFunction = new lambda.Function(this, 'PutItemFunction', {
       runtime: lambda.Runtime.PYTHON_3_7,
       code: lambda.Code.fromAsset('lambda/python/putItem'),
       handler: 'putItem.lambda_handler',

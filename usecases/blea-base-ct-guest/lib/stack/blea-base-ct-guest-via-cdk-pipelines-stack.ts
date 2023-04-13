@@ -1,18 +1,18 @@
 import * as cdk from 'aws-cdk-lib';
 import { pipelines, Stack } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { BLEABaseCTGuestStage } from '../stage/blea-base-ct-guest-stage';
-import { BaselineParameter } from '../../parameter';
+import { BLEAGovBaseStage } from '../stage/blea-base-ct-guest-stage';
+import { AppParameter } from '../../parameter';
 
-export interface BLEABaseCTGuestPipelinesStackProps extends cdk.StackProps {
-  targetParameters: BaselineParameter[];
+export interface BLEAGovBasePipelineStackProps extends cdk.StackProps {
+  targetParameters: AppParameter[];
   sourceRepository: string;
   sourceBranch: string;
   sourceConnectionArn: string;
 }
 
-export class BLEABaseCTGuestPipelinesStack extends Stack {
-  constructor(scope: Construct, id: string, props: BLEABaseCTGuestPipelinesStackProps) {
+export class BLEAGovBasePipelineStack extends Stack {
+  constructor(scope: Construct, id: string, props: BLEAGovBasePipelineStackProps) {
     super(scope, id, props);
 
     const pipeline = new pipelines.CodePipeline(this, 'Pipeline', {
@@ -31,7 +31,7 @@ export class BLEABaseCTGuestPipelinesStack extends Stack {
     });
 
     props.targetParameters.forEach((params) => {
-      pipeline.addStage(new BLEABaseCTGuestStage(this, 'Dev', params));
+      pipeline.addStage(new BLEAGovBaseStage(this, 'Dev', params));
     });
   }
 }

@@ -1,19 +1,19 @@
 import * as cdk from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 
-import { BLEABaseCTGuestStack } from '../lib/stack/blea-base-ct-guest-stack';
-import { DevParameter } from '../parameter';
+import { BLEAGovBaseStack } from '../lib/stack/blea-base-ct-guest-stack';
+import { devParameter } from '../parameter';
 
 const app = new cdk.App();
 
-describe(`BLEABaseCTGuest App`, () => {
-  test('Snapshot test for BLEABaseCTGuest Stack', () => {
-    const bleaBaseCTGuestStack = new BLEABaseCTGuestStack(app, 'DevBLEABaseCTGuest', {
-      securityNotifyEmail: DevParameter.securityNotifyEmail,
-      tags: { Environment: DevParameter.envName },
+describe(`BLEGovABase App`, () => {
+  test('Snapshot test for BLEGovABase Stack', () => {
+    const bleaGovBaseStack = new BLEAGovBaseStack(app, 'Dev-BLEAGovBase', {
+      securityNotifyEmail: devParameter.securityNotifyEmail,
+      tags: { Environment: devParameter.envName },
     });
 
     // test with snapshot
-    expect(Template.fromStack(bleaBaseCTGuestStack)).toMatchSnapshot();
+    expect(Template.fromStack(bleaGovBaseStack)).toMatchSnapshot();
   });
 });

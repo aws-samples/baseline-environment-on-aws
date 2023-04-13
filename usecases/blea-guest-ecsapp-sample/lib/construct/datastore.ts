@@ -25,7 +25,7 @@ export class Datastore extends Construct {
     super(scope, id);
 
     // Create RDS MySQL Instance
-    const cluster = new rds.DatabaseCluster(this, 'Aurora', {
+    const cluster = new rds.DatabaseCluster(this, 'AuroraCluster', {
       // for Aurora PostgreSQL
       engine: rds.DatabaseClusterEngine.auroraPostgres({
         version: rds.AuroraPostgresEngineVersion.VER_11_9,
@@ -64,7 +64,7 @@ export class Datastore extends Construct {
         period: Duration.minutes(1),
         statistic: cw.Stats.AVERAGE,
       })
-      .createAlarm(this, 'AuroraCPUUtil', {
+      .createAlarm(this, 'AuroraCPUUtilAlarm', {
         evaluationPeriods: 3,
         datapointsToAlarm: 3,
         threshold: 90,
@@ -103,14 +103,14 @@ export class Datastore extends Construct {
     // To specify clusters or instances, add "sourceType (sting)" and "sourceIds (list)"
     // sourceType is one of these - db-instance | db-cluster | db-parameter-group | db-security-group | db-snapshot | db-cluster-snapshot
     //
-    new rds.CfnEventSubscription(this, 'RdsEventsCluster', {
+    new rds.CfnEventSubscription(this, 'RdsClusterEventSubsc', {
       snsTopicArn: props.alarmTopic.topicArn,
       enabled: true,
       sourceType: 'db-cluster',
       eventCategories: ['failure', 'failover', 'maintenance'],
     });
 
-    new rds.CfnEventSubscription(this, 'RdsEventsInstances', {
+    new rds.CfnEventSubscription(this, 'RdsInstanceEventSubsc', {
       snsTopicArn: props.alarmTopic.topicArn,
       enabled: true,
       sourceType: 'db-instance',

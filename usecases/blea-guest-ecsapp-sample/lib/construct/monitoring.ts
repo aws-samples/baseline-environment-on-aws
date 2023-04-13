@@ -14,11 +14,11 @@ export class Monitoring extends Construct {
     super(scope, id);
 
     // SNS Topic for Monitoring Alarm
-    const topic = new sns.Topic(this, 'MonitorAlarmTopic', {
+    const topic = new sns.Topic(this, 'AlarmTopic', {
       topicName: PhysicalName.GENERATE_IF_NEEDED, // for crossRegionReference
     });
 
-    new sns.Subscription(this, 'MonitorAlarmEmail', {
+    new sns.Subscription(this, 'EmailSubsc', {
       endpoint: props.monitoringNotifyEmail,
       protocol: sns.SubscriptionProtocol.EMAIL,
       topic: topic,

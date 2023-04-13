@@ -6,12 +6,12 @@ import { SecurityLogging } from '../construct/security-logging';
 import { SecurityDetection } from '../construct/security-detection';
 import { Role } from 'aws-cdk-lib/aws-iam';
 
-export interface BLEABaseCTGuestSCProps extends StackProps {
+export interface BLEAGovBaseSCStackProps extends StackProps {
   securityNotifyEmail: string;
 }
 
-export class BLEABaseCTGuestSCStack extends Stack {
-  constructor(scope: Construct, id: string, props: BLEABaseCTGuestSCProps) {
+export class BLEAGovBaseSCStack extends Stack {
+  constructor(scope: Construct, id: string, props: BLEAGovBaseSCStackProps) {
     super(scope, id, props);
 
     class BaselineProduct extends ProductStack {

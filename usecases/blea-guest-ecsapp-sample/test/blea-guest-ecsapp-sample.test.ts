@@ -1,15 +1,15 @@
 import 'source-map-support/register';
 import { App } from 'aws-cdk-lib';
 import { devParameter } from '../parameter';
-import { BLEAEcsAppSampleStack } from '../lib/stack/blea-guest-ecsapp-sample-stack';
-import { BLEAEcsFrontendSampleStack } from '../lib/stack/blea-guest-ecsapp-frontend-stack';
-import { BLEAEcsAppMonitoringSampleStack } from '../lib/stack/blea-guest-ecsapp-monitoring-stack';
+import { BLEAEcsAppStack } from '../lib/stack/blea-guest-ecsapp-sample-stack';
+import { BLEAEcsFrontendStack } from '../lib/stack/blea-guest-ecsapp-frontend-stack';
+import { BLEAEcsAppMonitoringStack } from '../lib/stack/blea-guest-ecsapp-monitoring-stack';
 import { Template } from 'aws-cdk-lib/assertions';
 
-test(`Snapshot test for BLEA ECS App Sample Stacks`, () => {
+test(`Snapshot test for BLEA ECS App Stacks`, () => {
   const app = new App();
 
-  const ecsapp = new BLEAEcsAppSampleStack(app, 'BLEAEcsAppSampleDev', {
+  const ecsapp = new BLEAEcsAppStack(app, 'Dev-BLEAEcsApp', {
     // from parameter.ts
     monitoringNotifyEmail: devParameter.monitoringNotifyEmail,
     monitoringSlackWorkspaceId: devParameter.monitoringSlackWorkspaceId,
@@ -35,7 +35,7 @@ test(`Snapshot test for BLEA ECS App Sample Stacks`, () => {
     crossRegionReferences: true,
   });
 
-  const frontend = new BLEAEcsFrontendSampleStack(app, 'BLEAEcsFrontendSampleDev', {
+  const frontend = new BLEAEcsFrontendStack(app, 'Dev-BLEAEcsFrontend', {
     // from parameter.ts
     hostedZoneId: devParameter.hostedZoneId,
     domainName: devParameter.domainName,
@@ -53,7 +53,7 @@ test(`Snapshot test for BLEA ECS App Sample Stacks`, () => {
     crossRegionReferences: true,
   });
 
-  const monitoring = new BLEAEcsAppMonitoringSampleStack(app, 'BLEAEcsMonitoringSampleDev', {
+  const monitoring = new BLEAEcsAppMonitoringStack(app, 'Dev-BLEAEcsMonitoring', {
     // from parameter.ts
     appEndpoint: `${devParameter.cloudFrontHostName}.${devParameter.domainName}`,
     dashboardName: devParameter.dashboardName,

@@ -4,7 +4,7 @@ import { BLEAServerlessApiStack } from '../lib/stack/blea-guest-serverless-api-s
 import { devParameter } from '../parameter';
 const app = new cdk.App();
 
-new BLEAServerlessApiStack(app, 'BLEAServerlessApiDev', {
+new BLEAServerlessApiStack(app, 'Dev-BLEAServerlessApi', {
   monitoringNotifyEmail: devParameter.monitoringNotifyEmail,
   monitoringSlackWorkspaceId: devParameter.monitoringSlackWorkspaceId,
   monitoringSlackChannelId: devParameter.monitoringSlackChannelId,

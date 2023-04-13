@@ -1,4 +1,4 @@
-import { Stack, StackProps } from 'aws-cdk-lib';
+import { Names, Stack, StackProps } from 'aws-cdk-lib';
 import { IAlarm } from 'aws-cdk-lib/aws-cloudwatch';
 import { Key } from 'aws-cdk-lib/aws-kms';
 import { ITopic } from 'aws-cdk-lib/aws-sns';
@@ -8,7 +8,7 @@ import { EcsApp } from '../construct/ecsapp';
 import { Monitoring } from '../construct/monitoring';
 import { Networking } from '../construct/networking';
 
-export interface BLEAEcsAppSampleStackProps extends StackProps {
+export interface BLEAEcsAppStackProps extends StackProps {
   monitoringNotifyEmail: string;
   monitoringSlackWorkspaceId: string;
   monitoringSlackChannelId: string;
@@ -18,7 +18,7 @@ export interface BLEAEcsAppSampleStackProps extends StackProps {
   albHostName: string;
 }
 
-export class BLEAEcsAppSampleStack extends Stack {
+export class BLEAEcsAppStack extends Stack {
   public readonly alarmTopic: ITopic;
   public readonly albFullName: string;
   public readonly albTargetGroupName: string;
@@ -29,7 +29,7 @@ export class BLEAEcsAppSampleStack extends Stack {
   public readonly ecsScaleOnRequestCount: number;
   public readonly dbClusterName: string;
 
-  constructor(scope: Construct, id: string, props: BLEAEcsAppSampleStackProps) {
+  constructor(scope: Construct, id: string, props: BLEAEcsAppStackProps) {
     super(scope, id, props);
 
     const monitoring = new Monitoring(this, 'Monitoring', {
@@ -41,8 +41,8 @@ export class BLEAEcsAppSampleStack extends Stack {
 
     const cmk = new Key(this, 'CMK', {
       enableKeyRotation: true,
-      description: 'blea-guest-ecsapp-sample: encryption key for whole application',
-      alias: 'blea-guest-ecsapp-sample-app',
+      description: 'BLEA Guest Sample: CMK for EcsApp',
+      alias: Names.uniqueResourceName(this, {}),
     });
 
     const networking = new Networking(this, 'Networking', {

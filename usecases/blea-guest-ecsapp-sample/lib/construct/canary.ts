@@ -27,7 +27,7 @@ export class Canary extends Construct {
     //
 
     // Create artifact bucket and apply some security settings.
-    const canaryS3Bucket = new s3.Bucket(this, `canaryArtifact`, {
+    const canaryArtifactBucket = new s3.Bucket(this, `CanaryArtifactBucket`, {
       accessControl: s3.BucketAccessControl.PRIVATE,
       encryption: s3.BucketEncryption.S3_MANAGED,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
@@ -42,7 +42,7 @@ export class Canary extends Construct {
     //    "Cannot find module 'aws-cdk-lib/.warnings.jsii.js' from '../../node_modules/@aws-cdk/aws-synthetics-alpha/.warnings.jsii.js"
     //    See: https://github.com/aws/aws-cdk/issues/20622
     //  After fix this issue, we will upgrade Jest to 28.x.x.
-    const appCanary = new synthetics.Canary(this, 'BLEACanaryApp', {
+    const canary = new synthetics.Canary(this, 'Canary', {
       schedule: synthetics.Schedule.rate(cdk.Duration.minutes(1)),
       test: synthetics.Test.custom({
         code: synthetics.Code.fromAsset('lambda/canary-app'),
@@ -55,30 +55,30 @@ export class Canary extends Construct {
         TARGETHOST: props.appEndpoint,
         TARGETPATH: '/',
       },
-      artifactsBucketLocation: { bucket: canaryS3Bucket },
+      artifactsBucketLocation: { bucket: canaryArtifactBucket },
     });
 
     // Fixed for UnauthorizedAttemptsAlarm
     // See: https://github.com/aws/aws-cdk/issues/13572
-    appCanary.role.attachInlinePolicy(
-      new iam.Policy(this, 'appCanalyPolicyToS3', {
+    canary.role.attachInlinePolicy(
+      new iam.Policy(this, 'CanalyPolicy', {
         statements: [
           new iam.PolicyStatement({
             effect: iam.Effect.ALLOW,
             actions: ['s3:GetBucketLocation'],
-            resources: [appCanary.artifactsBucket.bucketArn],
+            resources: [canary.artifactsBucket.bucketArn],
           }),
         ],
       }),
     );
 
     // Create duration alarm
-    const canaryDurationAlarm = appCanary
+    const canaryDurationAlarm = canary
       .metricDuration({
         period: cdk.Duration.minutes(1),
         statistic: cw.Stats.AVERAGE,
       })
-      .createAlarm(this, 'canaryDuration', {
+      .createAlarm(this, 'CanaryDurationAlarm', {
         evaluationPeriods: 2,
         datapointsToAlarm: 2,
         threshold: 400,
@@ -89,12 +89,12 @@ export class Canary extends Construct {
     this.canaryDurationAlarm = canaryDurationAlarm;
 
     // Create failed run alarm
-    const canaryFailedAlarm = appCanary
+    const canaryFailedAlarm = canary
       .metricFailed({
         period: cdk.Duration.minutes(1),
         statistic: cw.Stats.AVERAGE,
       })
-      .createAlarm(this, 'canaryFailed', {
+      .createAlarm(this, 'CanaryFailedAlarm', {
         evaluationPeriods: 3,
         datapointsToAlarm: 3,
         threshold: 0.5,

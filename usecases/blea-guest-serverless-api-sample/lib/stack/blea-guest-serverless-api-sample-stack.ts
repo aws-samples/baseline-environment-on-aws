@@ -1,4 +1,4 @@
-import { Stack, StackProps } from 'aws-cdk-lib';
+import { Names, Stack, StackProps } from 'aws-cdk-lib';
 import { Key } from 'aws-cdk-lib/aws-kms';
 import { Construct } from 'constructs';
 import { Api } from '../construct/api';
@@ -22,8 +22,8 @@ export class BLEAServerlessApiStack extends Stack {
 
     const cmk = new Key(this, 'CMK', {
       enableKeyRotation: true,
-      description: 'guest-serverless-api-key',
-      alias: 'guest-serverless-api-key',
+      description: 'BLEA Guest Sample: CMK for ServerlessApi',
+      alias: Names.uniqueResourceName(this, {}),
     });
 
     const datastore = new Datastore(this, 'Datastore', {

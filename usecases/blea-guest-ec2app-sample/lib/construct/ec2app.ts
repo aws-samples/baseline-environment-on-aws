@@ -23,40 +23,40 @@ export class Ec2App extends Construct {
     // --- Security Groups ---
 
     //Security Group of ALB for App
-    const securityGroupForAlb = new ec2.SecurityGroup(this, 'SgAlb', {
+    const albSg = new ec2.SecurityGroup(this, 'AlbSg', {
       vpc: props.vpc,
       allowAllOutbound: false,
     });
-    securityGroupForAlb.addEgressRule(ec2.Peer.anyIpv4(), ec2.Port.allTcp());
+    albSg.addEgressRule(ec2.Peer.anyIpv4(), ec2.Port.allTcp());
 
     //Security Group for Instance of App
-    const securityGroupForApp = new ec2.SecurityGroup(this, 'SgApp', {
+    const appSg = new ec2.SecurityGroup(this, 'AppSg', {
       vpc: props.vpc,
       allowAllOutbound: false,
     });
-    securityGroupForApp.addIngressRule(securityGroupForAlb, ec2.Port.tcp(80));
-    securityGroupForApp.addEgressRule(ec2.Peer.anyIpv4(), ec2.Port.allTcp());
-    this.appServerSecurityGroup = securityGroupForApp;
+    appSg.addIngressRule(albSg, ec2.Port.tcp(80));
+    appSg.addEgressRule(ec2.Peer.anyIpv4(), ec2.Port.allTcp());
+    this.appServerSecurityGroup = appSg;
 
     // ------------ Application LoadBalancer ---------------
 
     // ALB for App Server
-    const lbForApp = new elbv2.ApplicationLoadBalancer(this, 'Ec2AlbApp', {
+    const alb = new elbv2.ApplicationLoadBalancer(this, 'Alb', {
       vpc: props.vpc,
       internetFacing: true,
-      securityGroup: securityGroupForAlb,
+      securityGroup: albSg,
       vpcSubnets: props.vpc.selectSubnets({
         subnetGroupName: 'Public',
       }),
     });
 
     // ALB Listener - TargetGroup
-    const listener = lbForApp.addListener('Ec2Listerner', {
+    const albListener = alb.addListener('AlbListener', {
       port: 80,
     });
 
     // Enable ALB Access Logging
-    const albLogBucket = new s3.Bucket(this, 'alb-log-bucket', {
+    const albLogBucket = new s3.Bucket(this, 'AlbLogBucket', {
       accessControl: s3.BucketAccessControl.PRIVATE,
       encryption: s3.BucketEncryption.S3_MANAGED,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
@@ -64,8 +64,8 @@ export class Ec2App extends Construct {
       enforceSSL: true,
     });
 
-    lbForApp.setAttribute('access_logs.s3.enabled', 'true');
-    lbForApp.setAttribute('access_logs.s3.bucket', albLogBucket.bucketName);
+    alb.setAttribute('access_logs.s3.enabled', 'true');
+    alb.setAttribute('access_logs.s3.bucket', albLogBucket.bucketName);
 
     // Permissions for Access Logging
     //    Why don't use bForApp.logAccessLogs(albLogBucket); ?
@@ -106,7 +106,7 @@ export class Ec2App extends Construct {
     // ------------ AppServers (Ec2.Instance) ---------------
 
     // InstanceProfile for AppServers
-    const ssmInstanceRole = new iam.Role(this, 'ssm-instance-role', {
+    const ssmInstanceRole = new iam.Role(this, 'SsmInstanceRole', {
       assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
       path: '/',
       managedPolicies: [
@@ -116,8 +116,8 @@ export class Ec2App extends Construct {
     });
 
     // UserData for AppServer (setup httpd)
-    const userDataForApp = ec2.UserData.forLinux({ shebang: '#!/bin/bash' });
-    userDataForApp.addCommands(
+    const userdata = ec2.UserData.forLinux({ shebang: '#!/bin/bash' });
+    userdata.addCommands(
       'sudo yum -y install httpd',
       'sudo systemctl enable httpd',
       'sudo systemctl start httpd',
@@ -125,16 +125,15 @@ export class Ec2App extends Construct {
       'chown apache.apache /var/www/html/index.html',
     );
 
-    const subnetAzs = props.vpc.selectSubnets({
+    const privateAzs = props.vpc.selectSubnets({
       subnetGroupName: 'Private',
     }).availabilityZones;
-    const numAzs = subnetAzs.length;
 
-    const instanceTargetIds: elbv2targets.InstanceIdTarget[] = new Array(0);
+    const instanceIdTargets: elbv2targets.InstanceIdTarget[] = new Array(0);
     for (let i = 0; i < 2; i++) {
-      const instance = new ec2.Instance(this, `AppEc2${i}`, {
+      const instance = new ec2.Instance(this, `AppInstance${i}`, {
         vpc: props.vpc,
-        availabilityZone: subnetAzs[i % numAzs],
+        availabilityZone: privateAzs[i % privateAzs.length],
         vpcSubnets: props.vpc.selectSubnets({
           subnetGroupName: 'Private',
         }),
@@ -142,9 +141,9 @@ export class Ec2App extends Construct {
         machineImage: new ec2.AmazonLinuxImage({
           generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2,
         }),
-        securityGroup: securityGroupForApp,
+        securityGroup: appSg,
         role: ssmInstanceRole,
-        userData: userDataForApp,
+        userData: userdata,
         blockDevices: [
           {
             deviceName: '/dev/xvda',
@@ -156,14 +155,13 @@ export class Ec2App extends Construct {
       });
       // Tags for AppServers
       cdk.Tags.of(instance).add('Name', 'AppServer' + i, { applyToLaunchedInstances: true });
-      cdk.Tags.of(instance).add('Role', 'FRA_AppServer', { applyToLaunchedInstances: true });
-      instanceTargetIds.push(new elbv2targets.InstanceIdTarget(instance.instanceId, 80));
+      instanceIdTargets.push(new elbv2targets.InstanceIdTarget(instance.instanceId, 80));
     }
 
     // ------------ AppServers (AutoScaling) ---------------
 
     // Auto Scaling Group for AppServers
-    const fleetForApp = new autoscaling.AutoScalingGroup(this, 'AsgApp', {
+    const appAsg = new autoscaling.AutoScalingGroup(this, 'AppAsg', {
       minCapacity: 2,
       maxCapacity: 4,
       vpc: props.vpc,
@@ -182,28 +180,27 @@ export class Ec2App extends Construct {
           }),
         },
       ],
-      securityGroup: securityGroupForApp,
+      securityGroup: appSg,
       role: ssmInstanceRole,
-      userData: userDataForApp,
+      userData: userdata,
       healthCheck: autoscaling.HealthCheck.elb({
         grace: cdk.Duration.seconds(60),
       }),
     });
 
     // AutoScaling Policy
-    fleetForApp.scaleOnCpuUtilization('keepSpareCPU', {
+    appAsg.scaleOnCpuUtilization('keepSpareCPU', {
       targetUtilizationPercent: 50,
     });
 
     // Tags for AppServers
-    cdk.Tags.of(fleetForApp).add('Name', 'AppServer', { applyToLaunchedInstances: true });
-    cdk.Tags.of(fleetForApp).add('Role', 'FRA_AppServer', { applyToLaunchedInstances: true });
+    cdk.Tags.of(appAsg).add('Name', 'AppServer', { applyToLaunchedInstances: true });
 
     // Add targets from AutoScaling Group and static EC2 instances
-    listener.addTargets('AsgApp', {
+    albListener.addTargets('AppAsgTarget', {
       protocol: elbv2.ApplicationProtocol.HTTP,
       port: 80,
-      targets: [fleetForApp, ...instanceTargetIds],
+      targets: [appAsg, ...instanceIdTargets],
       deregistrationDelay: cdk.Duration.seconds(30),
     });
   }

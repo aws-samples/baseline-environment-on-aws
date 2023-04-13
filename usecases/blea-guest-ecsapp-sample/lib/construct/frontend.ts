@@ -29,7 +29,7 @@ export class Frontend extends Construct {
       zoneName: props.domainName,
     });
 
-    const cfCert = new acm.Certificate(this, 'CFCertificate', {
+    const cfCert = new acm.Certificate(this, 'CloudFrontCertificate', {
       domainName: `${props.cloudFrontHostName}.${props.domainName}`,
       validation: acm.CertificateValidation.fromDns(hostedZone),
     });
@@ -45,11 +45,11 @@ export class Frontend extends Construct {
     //
     const webAcl = new wafv2.CfnWebACL(this, 'WebAcl', {
       defaultAction: { allow: {} },
-      name: 'BLEAWebAcl',
+      name: cdk.Names.uniqueResourceName(this, {}),
       scope: 'CLOUDFRONT',
       visibilityConfig: {
         cloudWatchMetricsEnabled: true,
-        metricName: 'BLEAWebAcl',
+        metricName: cdk.Names.uniqueResourceName(this, {}),
         sampledRequestsEnabled: true,
       },
       rules: [
@@ -140,7 +140,7 @@ export class Frontend extends Construct {
     // This bucket cannot be encrypted with KMS CMK
     // See: https://aws.amazon.com/premiumsupport/knowledge-center/s3-website-cloudfront-error-403/
     //
-    const webContentBucket = new s3.Bucket(this, 'WebBucket', {
+    const webContentBucket = new s3.Bucket(this, 'WebContentBucket', {
       accessControl: s3.BucketAccessControl.PRIVATE,
       removalPolicy: cdk.RemovalPolicy.RETAIN,
       versioned: true,
@@ -150,7 +150,7 @@ export class Frontend extends Construct {
     });
 
     // --------- CloudFront Distrubution
-    const cfDistribution = new cloudfront.Distribution(this, 'Distribution', {
+    const distribution = new cloudfront.Distribution(this, 'Distribution', {
       defaultBehavior: {
         origin: new origins.HttpOrigin(`${props.albHostName}.${props.domainName}`, {
           protocolPolicy: cloudfront.OriginProtocolPolicy.HTTPS_ONLY,
@@ -196,14 +196,14 @@ export class Frontend extends Construct {
       logIncludesCookies: true,
       logFilePrefix: 'CloudFrontAccessLogs/',
     });
-    this.distributionDomainName = cfDistribution.distributionDomainName;
-    this.distributionId = cfDistribution.distributionId;
+    this.distributionDomainName = distribution.distributionDomainName;
+    this.distributionId = distribution.distributionId;
 
     // Add A Record to Route 53
-    new r53.ARecord(this, 'sampleApp', {
+    new r53.ARecord(this, 'CloudFrontARecord', {
       recordName: props.cloudFrontHostName,
       zone: hostedZone,
-      target: r53.RecordTarget.fromAlias(new r53targets.CloudFrontTarget(cfDistribution)),
+      target: r53.RecordTarget.fromAlias(new r53targets.CloudFrontTarget(distribution)),
     });
   }
 }

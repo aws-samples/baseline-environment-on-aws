@@ -1,13 +1,13 @@
 import * as cdk from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 
-import { BLEAEc2AppSampleStack } from '../lib/stack/blea-guest-ec2app-sample-stack';
+import { BLEAEc2AppStack } from '../lib/stack/blea-guest-ec2app-sample-stack';
 import { devParameter } from '../parameter';
 const app = new cdk.App();
 
-describe('BLEAEc2AppSample App', () => {
-  test('Snapshot test for BLEAEc2AppSample Stack', () => {
-    const stack = new BLEAEc2AppSampleStack(app, 'BLEAEc2AppSampleDev', {
+describe('BLEAEc2App App', () => {
+  test('Snapshot test for BLEAEc2App Stack', () => {
+    const stack = new BLEAEc2AppStack(app, 'Dev-BLEAEc2App', {
       monitoringNotifyEmail: devParameter.monitoringNotifyEmail,
       monitoringSlackWorkspaceId: devParameter.monitoringSlackWorkspaceId,
       monitoringSlackChannelId: devParameter.monitoringSlackChannelId,

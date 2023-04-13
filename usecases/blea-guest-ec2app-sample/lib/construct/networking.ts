@@ -11,12 +11,12 @@ export interface NetworkingProps {
 }
 
 export class Networking extends Construct {
-  public readonly myVpc: ec2.Vpc;
+  public readonly vpc: ec2.Vpc;
 
   constructor(scope: Construct, id: string, props: NetworkingProps) {
     super(scope, id);
 
-    const myVpc = new ec2.Vpc(this, 'Vpc', {
+    const vpc = new ec2.Vpc(this, 'Vpc', {
       ipAddresses: IpAddresses.cidr(props.vpcCidr),
       maxAzs: 2,
       natGateways: 1,
@@ -46,8 +46,8 @@ export class Networking extends Construct {
     // CMK
     const flowLogKey = new kms.Key(this, 'Key', {
       enableKeyRotation: true,
-      description: 'for VPC Flow log',
-      alias: `${id}-for-flowlog`,
+      description: 'BLEA Guest Sample: CMK for Ec2App VPC Flow Logs',
+      alias: cdk.Names.uniqueResourceName(this, {}),
     });
     flowLogKey.addToResourcePolicy(
       new iam.PolicyStatement({
@@ -67,22 +67,22 @@ export class Networking extends Construct {
       enforceSSL: true,
     });
 
-    myVpc.addFlowLog('FlowLogs', {
+    vpc.addFlowLog('FlowLogs', {
       destination: ec2.FlowLogDestination.toS3(flowLogBucket),
       trafficType: ec2.FlowLogTrafficType.ALL,
     });
-    this.myVpc = myVpc;
+    this.vpc = vpc;
 
     //  --------------------------------------------------------------
 
     // NACL for Public Subnets
-    const naclPublic = new ec2.NetworkAcl(this, 'NaclPublic', {
-      vpc: myVpc,
+    const publicNacl = new ec2.NetworkAcl(this, 'PublicNacl', {
+      vpc: vpc,
       subnetSelection: { subnetType: ec2.SubnetType.PUBLIC },
     });
 
     // Egress Rules for Public Subnets
-    naclPublic.addEntry('NaclEgressPublic', {
+    publicNacl.addEntry('PublicEgress', {
       direction: ec2.TrafficDirection.EGRESS,
       ruleNumber: 100,
       cidr: ec2.AclCidr.anyIpv4(),
@@ -91,7 +91,7 @@ export class Networking extends Construct {
     });
 
     // Ingress Rules for Public Subnets
-    naclPublic.addEntry('NaclIngressPublic', {
+    publicNacl.addEntry('PublicIngress', {
       direction: ec2.TrafficDirection.INGRESS,
       ruleNumber: 100,
       cidr: ec2.AclCidr.anyIpv4(),
@@ -100,13 +100,13 @@ export class Networking extends Construct {
     });
 
     // NACL for Private Subnets
-    const naclPrivate = new ec2.NetworkAcl(this, 'NaclPrivate', {
-      vpc: myVpc,
+    const privateNacl = new ec2.NetworkAcl(this, 'PrivateNacl', {
+      vpc: vpc,
       subnetSelection: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
     });
 
     // Egress Rules for Private Subnets
-    naclPrivate.addEntry('NaclEgressPrivate', {
+    privateNacl.addEntry('PrivateEgress', {
       direction: ec2.TrafficDirection.EGRESS,
       ruleNumber: 100,
       cidr: ec2.AclCidr.anyIpv4(),
@@ -115,7 +115,7 @@ export class Networking extends Construct {
     });
 
     // Ingress Rules for Public Subnets
-    naclPrivate.addEntry('NaclIngressPrivate', {
+    privateNacl.addEntry('PrivateIngress', {
       direction: ec2.TrafficDirection.INGRESS,
       ruleNumber: 120,
       cidr: ec2.AclCidr.anyIpv4(),
@@ -124,40 +124,26 @@ export class Networking extends Construct {
     });
 
     // VPC Endpoint for S3
-    myVpc.addGatewayEndpoint('S3EndpointForPrivate', {
+    vpc.addGatewayEndpoint('S3GWEndpoint', {
       service: ec2.GatewayVpcEndpointAwsService.S3,
       subnets: [{ subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS }, { subnetType: ec2.SubnetType.PRIVATE_ISOLATED }],
     });
 
     // VPC Endpoint for SSM
-    myVpc.addInterfaceEndpoint('SsmEndpointForPrivate', {
+    vpc.addInterfaceEndpoint('SsmEndpoint', {
       service: ec2.InterfaceVpcEndpointAwsService.SSM,
       subnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
     });
-    myVpc.addInterfaceEndpoint('SsmMessagesEndpointForPrivate', {
+    vpc.addInterfaceEndpoint('SsmMessagesEndpoint', {
       service: ec2.InterfaceVpcEndpointAwsService.SSM_MESSAGES,
       subnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
     });
-    myVpc.addInterfaceEndpoint('Ec2EndpointForPrivate', {
+    vpc.addInterfaceEndpoint('Ec2Endpoint', {
       service: ec2.InterfaceVpcEndpointAwsService.EC2,
       subnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
     });
-    myVpc.addInterfaceEndpoint('Ec2MessagesEndpointForPrivate', {
+    vpc.addInterfaceEndpoint('Ec2MessagesEndpoint', {
       service: ec2.InterfaceVpcEndpointAwsService.EC2_MESSAGES,
-      subnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
-    });
-
-    // VPC Endpoint for Fargate
-    myVpc.addInterfaceEndpoint('EcrDkrEndpointForPrivate', {
-      service: ec2.InterfaceVpcEndpointAwsService.ECR_DOCKER,
-      subnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
-    });
-    myVpc.addInterfaceEndpoint('EcrEndpointForPrivate', {
-      service: ec2.InterfaceVpcEndpointAwsService.ECR,
-      subnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
-    });
-    myVpc.addInterfaceEndpoint('LogsEndpointForPrivate', {
-      service: ec2.InterfaceVpcEndpointAwsService.CLOUDWATCH_LOGS,
       subnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
     });
   }
