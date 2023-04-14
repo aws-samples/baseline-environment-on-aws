@@ -3,12 +3,12 @@
 exports[`BLEAGovBase App Snapshot test for BLEAGovBase Stack 1`] = `
 Object {
   "Outputs": Object {
-    "ExportsOutputRefSecurityDetectionAlarmTopic6C37E7F73C3010A8": Object {
+    "ExportsOutputRefDetectionAlarmTopic36C4BB557D18D152": Object {
       "Export": Object {
-        "Name": "Dev-BLEABaseStandalone:ExportsOutputRefSecurityDetectionAlarmTopic6C37E7F73C3010A8",
+        "Name": "Dev-BLEABaseStandalone:ExportsOutputRefDetectionAlarmTopic36C4BB557D18D152",
       },
       "Value": Object {
-        "Ref": "SecurityDetectionAlarmTopic6C37E7F7",
+        "Ref": "DetectionAlarmTopic36C4BB55",
       },
     },
   },
@@ -22,21 +22,21 @@ Object {
   "Resources": Object {
     "CheckForEbsOptimizedInstance": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "ConfigRuleName": "CheckForEbsOptimizedInstance",
@@ -55,21 +55,21 @@ Object {
     },
     "CheckForEc2VolumesInUse": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "ConfigRuleName": "CheckForEc2VolumesInUs",
@@ -91,21 +91,21 @@ Object {
     },
     "CheckForEncryptedVolumes": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "ConfigRuleName": "CheckForEncryptedVolumes",
@@ -124,21 +124,21 @@ Object {
     },
     "CheckForIAMUserConsoleMFA": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "ConfigRuleName": "CheckForIAMUserConsoleMFA",
@@ -153,21 +153,21 @@ Object {
     },
     "CheckForIAMUserMFA": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "ConfigRuleName": "CheckForIAMUserMFA",
@@ -182,21 +182,21 @@ Object {
     },
     "CheckForPublicRdsSnapshots": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "ConfigRuleName": "CheckForPublicRdsSnapshots",
@@ -215,21 +215,21 @@ Object {
     },
     "CheckForRdsPublicAccess": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "ConfigRuleName": "CheckForRdsPublicAccess",
@@ -248,21 +248,21 @@ Object {
     },
     "CheckForRdsStorageEncryption": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "ConfigRuleName": "CheckForRdsStorageEncryption",
@@ -281,21 +281,21 @@ Object {
     },
     "CheckForRestrictedCommonPortsPolicy": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "ConfigRuleName": "CheckForRestrictedCommonPortsPolicy",
@@ -321,21 +321,21 @@ Object {
     },
     "CheckForRestrictedSshPolicy": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "ConfigRuleName": "CheckForRestrictedSshPolicy",
@@ -354,21 +354,21 @@ Object {
     },
     "CheckForRootMfa": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "ConfigRuleName": "CheckForRootMfa",
@@ -383,21 +383,21 @@ Object {
     },
     "CheckForS3PublicRead": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "ConfigRuleName": "CheckForS3PublicRead",
@@ -416,21 +416,21 @@ Object {
     },
     "CheckForS3PublicWrite": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "ConfigRuleName": "CheckForS3PublicWrite",
@@ -449,21 +449,21 @@ Object {
     },
     "CheckForS3VersioningEnabled": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "ConfigRuleName": "CheckForS3VersioningEnabled",
@@ -480,43 +480,43 @@ Object {
       },
       "Type": "AWS::Config::ConfigRule",
     },
-    "SecurityDetectionAlarmTopic6C37E7F7": Object {
+    "DetectionAlarmTopic36C4BB55": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Type": "AWS::SNS::Topic",
     },
-    "SecurityDetectionAlarmTopicPolicy432D1A37": Object {
+    "DetectionAlarmTopicPolicyDEB08BF4": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "PolicyDocument": Object {
@@ -528,7 +528,7 @@ Object {
                 "Service": "cloudwatch.amazonaws.com",
               },
               "Resource": Object {
-                "Ref": "SecurityDetectionAlarmTopic6C37E7F7",
+                "Ref": "DetectionAlarmTopic36C4BB55",
               },
               "Sid": "0",
             },
@@ -539,7 +539,7 @@ Object {
                 "Service": "events.amazonaws.com",
               },
               "Resource": Object {
-                "Ref": "SecurityDetectionAlarmTopic6C37E7F7",
+                "Ref": "DetectionAlarmTopic36C4BB55",
               },
               "Sid": "1",
             },
@@ -548,29 +548,29 @@ Object {
         },
         "Topics": Array [
           Object {
-            "Ref": "SecurityDetectionAlarmTopic6C37E7F7",
+            "Ref": "DetectionAlarmTopic36C4BB55",
           },
         ],
       },
       "Type": "AWS::SNS::TopicPolicy",
     },
-    "SecurityDetectionAwsHealthEventRule179BA398": Object {
+    "DetectionAwsHealthEventRule6825AFCC": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "Description": "Notify AWS Health event",
@@ -586,7 +586,7 @@ Object {
         "Targets": Array [
           Object {
             "Arn": Object {
-              "Ref": "SecurityDetectionAlarmTopic6C37E7F7",
+              "Ref": "DetectionAlarmTopic36C4BB55",
             },
             "Id": "Target0",
           },
@@ -594,23 +594,23 @@ Object {
       },
       "Type": "AWS::Events::Rule",
     },
-    "SecurityDetectionCloudTrailChangeEventRule7398615B": Object {
+    "DetectionCloudTrailChangeEventRuleA526075C": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "Description": "Notify to change on CloudTrail log configuration",
@@ -633,7 +633,7 @@ Object {
         "Targets": Array [
           Object {
             "Arn": Object {
-              "Ref": "SecurityDetectionAlarmTopic6C37E7F7",
+              "Ref": "DetectionAlarmTopic36C4BB55",
             },
             "Id": "Target0",
           },
@@ -641,23 +641,23 @@ Object {
       },
       "Type": "AWS::Events::Rule",
     },
-    "SecurityDetectionDefaultSgClosedEventRuleC21CA966": Object {
+    "DetectionDefaultSgClosedEventRuleFB96D536": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "Description": "CloudWatch Event Rule to send notification on Config Rule compliance changes.",
@@ -683,7 +683,7 @@ Object {
         "Targets": Array [
           Object {
             "Arn": Object {
-              "Ref": "SecurityDetectionAlarmTopic6C37E7F7",
+              "Ref": "DetectionAlarmTopic36C4BB55",
             },
             "Id": "Target0",
           },
@@ -691,23 +691,23 @@ Object {
       },
       "Type": "AWS::Events::Rule",
     },
-    "SecurityDetectionDefaultSgClosedRule67917FE2": Object {
+    "DetectionDefaultSgClosedRuleFED7310D": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "ConfigRuleName": "bb-default-security-group-closed",
@@ -724,28 +724,28 @@ Object {
       },
       "Type": "AWS::Config::ConfigRule",
     },
-    "SecurityDetectionDefaultSgRemediationEB59FF8A": Object {
+    "DetectionDefaultSgRemediation21C0DB33": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "Automatic": true,
         "ConfigRuleName": Object {
-          "Ref": "SecurityDetectionDefaultSgClosedRule67917FE2",
+          "Ref": "DetectionDefaultSgClosedRuleFED7310D",
         },
         "MaximumAutomaticAttempts": 5,
         "Parameters": Object {
@@ -754,7 +754,7 @@ Object {
               "Values": Array [
                 Object {
                   "Fn::GetAtt": Array [
-                    "SecurityDetectionDefaultSgRemediationRole53D29F05",
+                    "DetectionDefaultSgRemediationRoleAEF5626C",
                     "Arn",
                   ],
                 },
@@ -774,23 +774,23 @@ Object {
       },
       "Type": "AWS::Config::RemediationConfiguration",
     },
-    "SecurityDetectionDefaultSgRemediationRole53D29F05": Object {
+    "DetectionDefaultSgRemediationRoleAEF5626C": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
@@ -812,23 +812,23 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "SecurityDetectionDefaultSgRemediationRoleDefaultPolicy3DDB6F83": Object {
+    "DetectionDefaultSgRemediationRoleDefaultPolicy87C90FDE": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "PolicyDocument": Object {
@@ -847,7 +847,7 @@ Object {
               "Effect": "Allow",
               "Resource": Object {
                 "Fn::GetAtt": Array [
-                  "SecurityDetectionDefaultSgRemediationRole53D29F05",
+                  "DetectionDefaultSgRemediationRoleAEF5626C",
                   "Arn",
                 ],
               },
@@ -860,55 +860,55 @@ Object {
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "SecurityDetectionDefaultSgRemediationRoleDefaultPolicy3DDB6F83",
+        "PolicyName": "DetectionDefaultSgRemediationRoleDefaultPolicy87C90FDE",
         "Roles": Array [
           Object {
-            "Ref": "SecurityDetectionDefaultSgRemediationRole53D29F05",
+            "Ref": "DetectionDefaultSgRemediationRoleAEF5626C",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "SecurityDetectionGuardDutyDetector730EE35C": Object {
+    "DetectionGuardDutyDetector43B5BAA7": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "Enable": true,
       },
       "Type": "AWS::GuardDuty::Detector",
     },
-    "SecurityDetectionGuardDutyEventRule7BE1A993": Object {
+    "DetectionGuardDutyEventRule60AAD2D7": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "Description": "CloudWatch Event Rule to send notification on GuardDuty findings.",
@@ -983,7 +983,7 @@ Object {
         "Targets": Array [
           Object {
             "Arn": Object {
-              "Ref": "SecurityDetectionAlarmTopic6C37E7F7",
+              "Ref": "DetectionAlarmTopic36C4BB55",
             },
             "Id": "Target0",
           },
@@ -991,29 +991,29 @@ Object {
       },
       "Type": "AWS::Events::Rule",
     },
-    "SecurityDetectionIAMPolicyChangeAlarm755AA536": Object {
+    "DetectionIAMPolicyChangeAlarm7DBC7A65": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "ActionsEnabled": true,
         "AlarmActions": Array [
           Object {
-            "Ref": "SecurityDetectionAlarmTopic6C37E7F7",
+            "Ref": "DetectionAlarmTopic36C4BB55",
           },
         ],
         "AlarmDescription": "IAM Configuration changes detected!",
@@ -1028,28 +1028,28 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "SecurityDetectionIAMPolicyChangeFilterE783816F": Object {
+    "DetectionIAMPolicyChangeFilterA31FCC40": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "FilterPattern": "{($.eventName=DeleteGroupPolicy)||($.eventName=DeleteRolePolicy)||($.eventName=DeleteUserPolicy)||($.eventName=PutGroupPolicy)||($.eventName=PutRolePolicy)||($.eventName=PutUserPolicy)||($.eventName=CreatePolicy)||($.eventName=DeletePolicy)||($.eventName=CreatePolicyVersion)||($.eventName=DeletePolicyVersion)||($.eventName=AttachRolePolicy)||($.eventName=DetachRolePolicy)||($.eventName=AttachUserPolicy)||($.eventName=DetachUserPolicy)||($.eventName=AttachGroupPolicy)||($.eventName=DetachGroupPolicy)}",
         "LogGroupName": Object {
-          "Ref": "SecurityLoggingCloudTrailLogGroup2001EC25",
+          "Ref": "LoggingCloudTrailLogGroupEFC12822",
         },
         "MetricTransformations": Array [
           Object {
@@ -1061,23 +1061,23 @@ Object {
       },
       "Type": "AWS::Logs::MetricFilter",
     },
-    "SecurityDetectionNetworkAclChangeEventRule2A7C89E5": Object {
+    "DetectionNetworkAclChangeEventRuleE99FF49F": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "Description": "Notify to create, update or delete a Network ACL.",
@@ -1106,7 +1106,7 @@ Object {
         "Targets": Array [
           Object {
             "Arn": Object {
-              "Ref": "SecurityDetectionAlarmTopic6C37E7F7",
+              "Ref": "DetectionAlarmTopic36C4BB55",
             },
             "Id": "Target0",
           },
@@ -1114,29 +1114,29 @@ Object {
       },
       "Type": "AWS::Events::Rule",
     },
-    "SecurityDetectionNewAccessKeyCreatedAlarm474AEC07": Object {
+    "DetectionNewAccessKeyCreatedAlarm00969636": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "ActionsEnabled": true,
         "AlarmActions": Array [
           Object {
-            "Ref": "SecurityDetectionAlarmTopic6C37E7F7",
+            "Ref": "DetectionAlarmTopic36C4BB55",
           },
         ],
         "AlarmDescription": "Warning: New IAM access Eey was created. Please be sure this action was neccessary.",
@@ -1151,28 +1151,28 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "SecurityDetectionNewAccessKeyCreatedFilter7B6DD110": Object {
+    "DetectionNewAccessKeyCreatedFilter011F7D99": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "FilterPattern": "{($.eventName=CreateAccessKey)}",
         "LogGroupName": Object {
-          "Ref": "SecurityLoggingCloudTrailLogGroup2001EC25",
+          "Ref": "LoggingCloudTrailLogGroupEFC12822",
         },
         "MetricTransformations": Array [
           Object {
@@ -1184,29 +1184,29 @@ Object {
       },
       "Type": "AWS::Logs::MetricFilter",
     },
-    "SecurityDetectionRootUserActivityAlarmA1DE9B08": Object {
+    "DetectionRootUserActivityAlarm4B9356FC": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "ActionsEnabled": true,
         "AlarmActions": Array [
           Object {
-            "Ref": "SecurityDetectionAlarmTopic6C37E7F7",
+            "Ref": "DetectionAlarmTopic36C4BB55",
           },
         ],
         "AlarmDescription": "Root user activity detected!",
@@ -1221,28 +1221,28 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "SecurityDetectionRootUserActivityFilterEA654493": Object {
+    "DetectionRootUserActivityFilter5C9C4989": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "FilterPattern": "{$.userIdentity.type=\\"Root\\" && $.userIdentity.invokedBy NOT EXISTS && $.eventType !=\\"AwsServiceEvent\\"}",
         "LogGroupName": Object {
-          "Ref": "SecurityLoggingCloudTrailLogGroup2001EC25",
+          "Ref": "LoggingCloudTrailLogGroupEFC12822",
         },
         "MetricTransformations": Array [
           Object {
@@ -1254,70 +1254,70 @@ Object {
       },
       "Type": "AWS::Logs::MetricFilter",
     },
-    "SecurityDetectionSecurityAlarmEmailC07A1EA9": Object {
+    "DetectionSecurityAlarmEmail872B09F1": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "Endpoint": "notify-security@example.com",
         "Protocol": "email",
         "TopicArn": Object {
-          "Ref": "SecurityDetectionAlarmTopic6C37E7F7",
+          "Ref": "DetectionAlarmTopic36C4BB55",
         },
       },
       "Type": "AWS::SNS::Subscription",
     },
-    "SecurityDetectionSecurityHub2A954098": Object {
+    "DetectionSecurityHub0FF05D88": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Type": "AWS::SecurityHub::Hub",
     },
-    "SecurityDetectionSecurityHubEventRule4C7CCEA4": Object {
+    "DetectionSecurityHubEventRule95BEBD4F": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "Description": "CloudWatch Event Rule to send notification on SecurityHub all new findings and all updates.",
@@ -1357,7 +1357,7 @@ Object {
         "Targets": Array [
           Object {
             "Arn": Object {
-              "Ref": "SecurityDetectionAlarmTopic6C37E7F7",
+              "Ref": "DetectionAlarmTopic36C4BB55",
             },
             "Id": "Target0",
           },
@@ -1365,46 +1365,46 @@ Object {
       },
       "Type": "AWS::Events::Rule",
     },
-    "SecurityDetectionSecurityHubRole3881CAC5": Object {
+    "DetectionSecurityHubRoleDBC68A4D": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "AWSServiceName": "securityhub.amazonaws.com",
       },
       "Type": "AWS::IAM::ServiceLinkedRole",
     },
-    "SecurityDetectionSgChangedEventRule198B681C": Object {
+    "DetectionSgChangedEventRule80666B19": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "Description": "Notify to create, update or delete a Security Group.",
@@ -1431,7 +1431,7 @@ Object {
         "Targets": Array [
           Object {
             "Arn": Object {
-              "Ref": "SecurityDetectionAlarmTopic6C37E7F7",
+              "Ref": "DetectionAlarmTopic36C4BB55",
             },
             "Id": "Target0",
           },
@@ -1439,29 +1439,29 @@ Object {
       },
       "Type": "AWS::Events::Rule",
     },
-    "SecurityDetectionUnauthorizedAttemptsAlarm7B3A56F5": Object {
+    "DetectionUnauthorizedAttemptsAlarmB897676B": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "ActionsEnabled": true,
         "AlarmActions": Array [
           Object {
-            "Ref": "SecurityDetectionAlarmTopic6C37E7F7",
+            "Ref": "DetectionAlarmTopic36C4BB55",
           },
         ],
         "AlarmDescription": "Multiple unauthorized actions or logins attempted!",
@@ -1476,28 +1476,28 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "SecurityDetectionUnauthorizedAttemptsFilter84FD5ECD": Object {
+    "DetectionUnauthorizedAttemptsFilterCA20EEAA": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrail309100DF",
-        "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD",
-        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
-        "SecurityLoggingCloudTrailBucketD80F2E5D",
-        "SecurityLoggingCloudTrailKeyAlias1DFC6E11",
-        "SecurityLoggingCloudTrailKey630079DC",
-        "SecurityLoggingCloudTrailLogGroup2001EC25",
-        "SecurityLoggingConfigBucketPolicyD355CCA6",
-        "SecurityLoggingConfigBucketD6F56ABD",
-        "SecurityLoggingConfigDeliveryChannel5231A0C2",
-        "SecurityLoggingConfigRecorder0B89C34B",
-        "SecurityLoggingConfigRoleA80B6096",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrail44E92DB9",
+        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
+        "LoggingCloudTrailAccessLogBucketA7B773C8",
+        "LoggingCloudTrailBucketPolicy4004472F",
+        "LoggingCloudTrailBucket7560781D",
+        "LoggingCloudTrailKeyAlias65A5FEEA",
+        "LoggingCloudTrailKey43327553",
+        "LoggingCloudTrailLogGroupEFC12822",
+        "LoggingConfigBucketPolicy66A7F5E7",
+        "LoggingConfigBucket139B5174",
+        "LoggingConfigDeliveryChannel44B4762B",
+        "LoggingConfigRecorderFC55B19F",
+        "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
         "FilterPattern": "{($.errorCode = \\"*UnauthorizedOperation\\" || $.errorCode = \\"AccessDenied*\\") && ($.eventName != \\"Decrypt\\" || $.userIdentity.invokedBy != \\"config.amazonaws.com\\" )}",
         "LogGroupName": Object {
-          "Ref": "SecurityLoggingCloudTrailLogGroup2001EC25",
+          "Ref": "LoggingCloudTrailLogGroupEFC12822",
         },
         "MetricTransformations": Array [
           Object {
@@ -1509,17 +1509,17 @@ Object {
       },
       "Type": "AWS::Logs::MetricFilter",
     },
-    "SecurityIAMIamAdminGroupC7D49CAD": Object {
+    "IamIamAdminGroup25000CB5": Object {
       "Properties": Object {
         "ManagedPolicyArns": Array [
           Object {
-            "Ref": "SecurityIAMIamAdminPolicyC00BE926",
+            "Ref": "IamIamAdminPolicy7A593281",
           },
         ],
       },
       "Type": "AWS::IAM::Group",
     },
-    "SecurityIAMIamAdminPolicyC00BE926": Object {
+    "IamIamAdminPolicy7A593281": Object {
       "Properties": Object {
         "Description": "",
         "Path": "/",
@@ -1546,7 +1546,7 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "SecurityIAMIamAdminRole888CC210": Object {
+    "IamIamAdminRole4B2B80CC": Object {
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -1562,23 +1562,23 @@ Object {
         },
         "ManagedPolicyArns": Array [
           Object {
-            "Ref": "SecurityIAMIamAdminPolicyC00BE926",
+            "Ref": "IamIamAdminPolicy7A593281",
           },
         ],
       },
       "Type": "AWS::IAM::Role",
     },
-    "SecurityIAMInstanceOpsGroup448CF394": Object {
+    "IamInstanceOpsGroup05587F7C": Object {
       "Properties": Object {
         "ManagedPolicyArns": Array [
           Object {
-            "Ref": "SecurityIAMInstanceOpsPolicyA0D8046D",
+            "Ref": "IamInstanceOpsPolicy3A664659",
           },
         ],
       },
       "Type": "AWS::IAM::Group",
     },
-    "SecurityIAMInstanceOpsPolicyA0D8046D": Object {
+    "IamInstanceOpsPolicy3A664659": Object {
       "Properties": Object {
         "Description": "",
         "Path": "/",
@@ -1654,7 +1654,7 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "SecurityIAMInstanceOpsRoleFCACEAC5": Object {
+    "IamInstanceOpsRole580371E4": Object {
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -1670,23 +1670,23 @@ Object {
         },
         "ManagedPolicyArns": Array [
           Object {
-            "Ref": "SecurityIAMInstanceOpsPolicyA0D8046D",
+            "Ref": "IamInstanceOpsPolicy3A664659",
           },
         ],
       },
       "Type": "AWS::IAM::Role",
     },
-    "SecurityIAMReadOnlyAdminGroup767E8967": Object {
+    "IamReadOnlyAdminGroupEA35CD95": Object {
       "Properties": Object {
         "ManagedPolicyArns": Array [
           Object {
-            "Ref": "SecurityIAMReadOnlyAdminPolicy74EC1E53",
+            "Ref": "IamReadOnlyAdminPolicyB7107EA2",
           },
         ],
       },
       "Type": "AWS::IAM::Group",
     },
-    "SecurityIAMReadOnlyAdminPolicy74EC1E53": Object {
+    "IamReadOnlyAdminPolicyB7107EA2": Object {
       "Properties": Object {
         "Description": "",
         "Path": "/",
@@ -1769,7 +1769,7 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "SecurityIAMReadOnlyAdminRole345126B1": Object {
+    "IamReadOnlyAdminRoleD519CCF3": Object {
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -1785,23 +1785,23 @@ Object {
         },
         "ManagedPolicyArns": Array [
           Object {
-            "Ref": "SecurityIAMReadOnlyAdminPolicy74EC1E53",
+            "Ref": "IamReadOnlyAdminPolicyB7107EA2",
           },
         ],
       },
       "Type": "AWS::IAM::Role",
     },
-    "SecurityIAMSysAdminGroup9E455B30": Object {
+    "IamSysAdminGroup3543FAD1": Object {
       "Properties": Object {
         "ManagedPolicyArns": Array [
           Object {
-            "Ref": "SecurityIAMSysAdminPolicyD135619D",
+            "Ref": "IamSysAdminPolicy03754AB3",
           },
         ],
       },
       "Type": "AWS::IAM::Group",
     },
-    "SecurityIAMSysAdminPolicyD135619D": Object {
+    "IamSysAdminPolicy03754AB3": Object {
       "Properties": Object {
         "Description": "",
         "Path": "/",
@@ -1851,7 +1851,7 @@ Object {
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "SecurityIAMSysAdminRole1364D43F": Object {
+    "IamSysAdminRoleB0EE4AA6": Object {
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -1867,28 +1867,28 @@ Object {
         },
         "ManagedPolicyArns": Array [
           Object {
-            "Ref": "SecurityIAMSysAdminPolicyD135619D",
+            "Ref": "IamSysAdminPolicy03754AB3",
           },
         ],
       },
       "Type": "AWS::IAM::Role",
     },
-    "SecurityLoggingCloudTrail309100DF": Object {
+    "LoggingCloudTrail44E92DB9": Object {
       "DependsOn": Array [
-        "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-        "SecurityLoggingCloudTrailBucketPolicyD6249B0D",
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrailBucketPolicy4004472F",
       ],
       "Properties": Object {
         "CloudWatchLogsLogGroupArn": Object {
           "Fn::GetAtt": Array [
-            "SecurityLoggingCloudTrailLogGroup2001EC25",
+            "LoggingCloudTrailLogGroupEFC12822",
             "Arn",
           ],
         },
         "CloudWatchLogsRoleArn": Object {
           "Fn::GetAtt": Array [
-            "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
+            "LoggingCloudTrailLogsRoleE1DD6030",
             "Arn",
           ],
         },
@@ -1899,17 +1899,17 @@ Object {
         "IsMultiRegionTrail": true,
         "KMSKeyId": Object {
           "Fn::GetAtt": Array [
-            "SecurityLoggingCloudTrailKey630079DC",
+            "LoggingCloudTrailKey43327553",
             "Arn",
           ],
         },
         "S3BucketName": Object {
-          "Ref": "SecurityLoggingCloudTrailBucketD80F2E5D",
+          "Ref": "LoggingCloudTrailBucket7560781D",
         },
       },
       "Type": "AWS::CloudTrail::Trail",
     },
-    "SecurityLoggingCloudTrailAccessLogBucketC7F415D6": Object {
+    "LoggingCloudTrailAccessLogBucketA7B773C8": Object {
       "DeletionPolicy": "Retain",
       "Properties": Object {
         "AccessControl": "LogDeliveryWrite",
@@ -1949,10 +1949,10 @@ Object {
       "Type": "AWS::S3::Bucket",
       "UpdateReplacePolicy": "Retain",
     },
-    "SecurityLoggingCloudTrailAccessLogBucketPolicy6DB460BD": Object {
+    "LoggingCloudTrailAccessLogBucketPolicyE58866E2": Object {
       "Properties": Object {
         "Bucket": Object {
-          "Ref": "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
+          "Ref": "LoggingCloudTrailAccessLogBucketA7B773C8",
         },
         "PolicyDocument": Object {
           "Statement": Array [
@@ -1970,7 +1970,7 @@ Object {
               "Resource": Array [
                 Object {
                   "Fn::GetAtt": Array [
-                    "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
+                    "LoggingCloudTrailAccessLogBucketA7B773C8",
                     "Arn",
                   ],
                 },
@@ -1980,7 +1980,7 @@ Object {
                     Array [
                       Object {
                         "Fn::GetAtt": Array [
-                          "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
+                          "LoggingCloudTrailAccessLogBucketA7B773C8",
                           "Arn",
                         ],
                       },
@@ -2002,7 +2002,7 @@ Object {
                   Array [
                     Object {
                       "Fn::GetAtt": Array [
-                        "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
+                        "LoggingCloudTrailAccessLogBucketA7B773C8",
                         "Arn",
                       ],
                     },
@@ -2018,13 +2018,13 @@ Object {
       },
       "Type": "AWS::S3::BucketPolicy",
     },
-    "SecurityLoggingCloudTrailBucketD80F2E5D": Object {
+    "LoggingCloudTrailBucket7560781D": Object {
       "DeletionPolicy": "Retain",
       "Properties": Object {
         "AccessControl": "Private",
         "LoggingConfiguration": Object {
           "DestinationBucketName": Object {
-            "Ref": "SecurityLoggingCloudTrailAccessLogBucketC7F415D6",
+            "Ref": "LoggingCloudTrailAccessLogBucketA7B773C8",
           },
           "LogFilePrefix": "cloudtraillogs",
         },
@@ -2041,10 +2041,10 @@ Object {
       "Type": "AWS::S3::Bucket",
       "UpdateReplacePolicy": "Retain",
     },
-    "SecurityLoggingCloudTrailBucketPolicyD6249B0D": Object {
+    "LoggingCloudTrailBucketPolicy4004472F": Object {
       "Properties": Object {
         "Bucket": Object {
-          "Ref": "SecurityLoggingCloudTrailBucketD80F2E5D",
+          "Ref": "LoggingCloudTrailBucket7560781D",
         },
         "PolicyDocument": Object {
           "Statement": Array [
@@ -2062,7 +2062,7 @@ Object {
               "Resource": Array [
                 Object {
                   "Fn::GetAtt": Array [
-                    "SecurityLoggingCloudTrailBucketD80F2E5D",
+                    "LoggingCloudTrailBucket7560781D",
                     "Arn",
                   ],
                 },
@@ -2072,7 +2072,7 @@ Object {
                     Array [
                       Object {
                         "Fn::GetAtt": Array [
-                          "SecurityLoggingCloudTrailBucketD80F2E5D",
+                          "LoggingCloudTrailBucket7560781D",
                           "Arn",
                         ],
                       },
@@ -2094,7 +2094,7 @@ Object {
                   Array [
                     Object {
                       "Fn::GetAtt": Array [
-                        "SecurityLoggingCloudTrailBucketD80F2E5D",
+                        "LoggingCloudTrailBucket7560781D",
                         "Arn",
                       ],
                     },
@@ -2112,7 +2112,7 @@ Object {
               },
               "Resource": Object {
                 "Fn::GetAtt": Array [
-                  "SecurityLoggingCloudTrailBucketD80F2E5D",
+                  "LoggingCloudTrailBucket7560781D",
                   "Arn",
                 ],
               },
@@ -2134,7 +2134,7 @@ Object {
                   Array [
                     Object {
                       "Fn::GetAtt": Array [
-                        "SecurityLoggingCloudTrailBucketD80F2E5D",
+                        "LoggingCloudTrailBucket7560781D",
                         "Arn",
                       ],
                     },
@@ -2153,7 +2153,7 @@ Object {
       },
       "Type": "AWS::S3::BucketPolicy",
     },
-    "SecurityLoggingCloudTrailKey630079DC": Object {
+    "LoggingCloudTrailKey43327553": Object {
       "DeletionPolicy": "Retain",
       "Properties": Object {
         "Description": "BLEA Governance Base: CMK for CloudTrail",
@@ -2306,24 +2306,24 @@ Object {
       "Type": "AWS::KMS::Key",
       "UpdateReplacePolicy": "Retain",
     },
-    "SecurityLoggingCloudTrailKeyAlias1DFC6E11": Object {
+    "LoggingCloudTrailKeyAlias65A5FEEA": Object {
       "Properties": Object {
-        "AliasName": "alias/DevBLEABaseStandaloneSecurityLoggingE4CC9926",
+        "AliasName": "alias/DevBLEABaseStandaloneLogging7164FEBB",
         "TargetKeyId": Object {
           "Fn::GetAtt": Array [
-            "SecurityLoggingCloudTrailKey630079DC",
+            "LoggingCloudTrailKey43327553",
             "Arn",
           ],
         },
       },
       "Type": "AWS::KMS::Alias",
     },
-    "SecurityLoggingCloudTrailLogGroup2001EC25": Object {
+    "LoggingCloudTrailLogGroupEFC12822": Object {
       "DeletionPolicy": "Retain",
       "Properties": Object {
         "KmsKeyId": Object {
           "Fn::GetAtt": Array [
-            "SecurityLoggingCloudTrailKey630079DC",
+            "LoggingCloudTrailKey43327553",
             "Arn",
           ],
         },
@@ -2332,7 +2332,36 @@ Object {
       "Type": "AWS::Logs::LogGroup",
       "UpdateReplacePolicy": "Retain",
     },
-    "SecurityLoggingCloudTrailLogsRoleDEA5CB8E": Object {
+    "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "logs:PutLogEvents",
+                "logs:CreateLogStream",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "LoggingCloudTrailLogGroupEFC12822",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "Roles": Array [
+          Object {
+            "Ref": "LoggingCloudTrailLogsRoleE1DD6030",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "LoggingCloudTrailLogsRoleE1DD6030": Object {
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -2349,36 +2378,7 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
-                "logs:PutLogEvents",
-                "logs:CreateLogStream",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "SecurityLoggingCloudTrailLogGroup2001EC25",
-                  "Arn",
-                ],
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "SecurityLoggingCloudTrailLogsRoleDefaultPolicy32C04BF6",
-        "Roles": Array [
-          Object {
-            "Ref": "SecurityLoggingCloudTrailLogsRoleDEA5CB8E",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
-    "SecurityLoggingConfigBucketD6F56ABD": Object {
+    "LoggingConfigBucket139B5174": Object {
       "DeletionPolicy": "Retain",
       "Properties": Object {
         "AccessControl": "Private",
@@ -2404,10 +2404,10 @@ Object {
       "Type": "AWS::S3::Bucket",
       "UpdateReplacePolicy": "Retain",
     },
-    "SecurityLoggingConfigBucketPolicyD355CCA6": Object {
+    "LoggingConfigBucketPolicy66A7F5E7": Object {
       "Properties": Object {
         "Bucket": Object {
-          "Ref": "SecurityLoggingConfigBucketD6F56ABD",
+          "Ref": "LoggingConfigBucket139B5174",
         },
         "PolicyDocument": Object {
           "Statement": Array [
@@ -2425,7 +2425,7 @@ Object {
               "Resource": Array [
                 Object {
                   "Fn::GetAtt": Array [
-                    "SecurityLoggingConfigBucketD6F56ABD",
+                    "LoggingConfigBucket139B5174",
                     "Arn",
                   ],
                 },
@@ -2435,7 +2435,7 @@ Object {
                     Array [
                       Object {
                         "Fn::GetAtt": Array [
-                          "SecurityLoggingConfigBucketD6F56ABD",
+                          "LoggingConfigBucket139B5174",
                           "Arn",
                         ],
                       },
@@ -2451,14 +2451,14 @@ Object {
               "Principal": Object {
                 "AWS": Object {
                   "Fn::GetAtt": Array [
-                    "SecurityLoggingConfigRoleA80B6096",
+                    "LoggingConfigRole0E4FDF1F",
                     "Arn",
                   ],
                 },
               },
               "Resource": Object {
                 "Fn::GetAtt": Array [
-                  "SecurityLoggingConfigBucketD6F56ABD",
+                  "LoggingConfigBucket139B5174",
                   "Arn",
                 ],
               },
@@ -2474,7 +2474,7 @@ Object {
               "Principal": Object {
                 "AWS": Object {
                   "Fn::GetAtt": Array [
-                    "SecurityLoggingConfigRoleA80B6096",
+                    "LoggingConfigRole0E4FDF1F",
                     "Arn",
                   ],
                 },
@@ -2485,7 +2485,7 @@ Object {
                   Array [
                     Object {
                       "Fn::GetAtt": Array [
-                        "SecurityLoggingConfigBucketD6F56ABD",
+                        "LoggingConfigBucket139B5174",
                         "Arn",
                       ],
                     },
@@ -2504,15 +2504,15 @@ Object {
       },
       "Type": "AWS::S3::BucketPolicy",
     },
-    "SecurityLoggingConfigDeliveryChannel5231A0C2": Object {
+    "LoggingConfigDeliveryChannel44B4762B": Object {
       "Properties": Object {
         "S3BucketName": Object {
-          "Ref": "SecurityLoggingConfigBucketD6F56ABD",
+          "Ref": "LoggingConfigBucket139B5174",
         },
       },
       "Type": "AWS::Config::DeliveryChannel",
     },
-    "SecurityLoggingConfigRecorder0B89C34B": Object {
+    "LoggingConfigRecorderFC55B19F": Object {
       "Properties": Object {
         "RecordingGroup": Object {
           "AllSupported": true,
@@ -2520,14 +2520,14 @@ Object {
         },
         "RoleARN": Object {
           "Fn::GetAtt": Array [
-            "SecurityLoggingConfigRoleA80B6096",
+            "LoggingConfigRole0E4FDF1F",
             "Arn",
           ],
         },
       },
       "Type": "AWS::Config::ConfigurationRecorder",
     },
-    "SecurityLoggingConfigRoleA80B6096": Object {
+    "LoggingConfigRole0E4FDF1F": Object {
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [

@@ -1,7 +1,7 @@
 import { aws_iam as iam } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
-export class SecurityIAM extends Construct {
+export class Iam extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 

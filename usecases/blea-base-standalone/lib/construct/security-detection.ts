@@ -10,13 +10,13 @@ import { aws_events as cwe } from 'aws-cdk-lib';
 import { aws_logs as cwl } from 'aws-cdk-lib';
 import { aws_events_targets as cwet } from 'aws-cdk-lib';
 
-export interface SecurityDetectionProps {
+export interface DetectionProps {
   notifyEmail: string;
   cloudTrailLogGroupName: string;
 }
 
-export class SecurityDetection extends Construct {
-  constructor(scope: Construct, id: string, props: SecurityDetectionProps) {
+export class Detection extends Construct {
+  constructor(scope: Construct, id: string, props: DetectionProps) {
     super(scope, id);
 
     // === Amazon GuardDuty ===

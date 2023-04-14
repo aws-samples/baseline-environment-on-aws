@@ -9,7 +9,7 @@ import {
 } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
-export class SecurityLogging extends Construct {
+export class Logging extends Construct {
   public readonly trailLogGroup: cwl.LogGroup;
 
   constructor(scope: Construct, id: string) {
