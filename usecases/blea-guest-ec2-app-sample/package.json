@@ -8,14 +8,13 @@
     "blea-guest-ec2-app-sample": "bin/blea-guest-ec2-app-sample.js"
   },
   "scripts": {
-    "synth:dev": "npx cdk synth -q",
-    "depcheck": "npx depcheck --ignore-dirs cdk.out",
+    "synth": "cdk synth -q",
+    "depcheck": "depcheck",
     "build": "tsc --build",
     "clean": "tsc --build --clean && rm -rf cdk.out",
     "watch": "tsc -w",
     "test": "jest",
-    "lint": "eslint --fix .",
-    "format": "prettier --write ."
+    "cdk": "cdk"
   },
   "devDependencies": {
     "@types/jest": "^27.5.2",
@@ -23,6 +22,7 @@
     "@typescript-eslint/eslint-plugin": "^5.47.0",
     "@typescript-eslint/parser": "^5.45.0",
     "aws-cdk": "^2.52.0",
+    "depcheck": "^1.4.3",
     "eslint": "^8.30.0",
     "eslint-config-prettier": "^8.5.0",
     "jest": "^27.5.1",
@@ -32,9 +32,8 @@
     "typescript": "~4.9.4"
   },
   "dependencies": {
-    "@aws-cdk/aws-synthetics-alpha": "^2.38.1-alpha.0",
     "aws-cdk-lib": "^2.49.0",
-    "cdk": "^2.54.0",
-    "constructs": "^10.1.186"
+    "constructs": "^10.1.186",
+    "source-map-support": "^0.5.21"
   }
 }

@@ -8,20 +8,21 @@
     "blea-gov-base-standalone": "bin/blea-gov-base-standalone.js"
   },
   "scripts": {
-    "synth:dev": "npx cdk synth",
-    "depcheck": "npx depcheck --ignore-dirs cdk.out",
+    "synth": "cdk synth -q",
+    "depcheck": "depcheck",
     "build": "tsc --build",
     "clean": "tsc --build --clean && rm -rf cdk.out",
     "watch": "tsc -w",
-    "test": "jest"
+    "test": "jest",
+    "cdk": "cdk"
   },
   "devDependencies": {
     "@types/jest": "^27.5.2",
     "@types/node": "18.15.3",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
-    "aws-cdk-lib": "^2.69.0",
-    "constructs": "^10.1.278",
+    "aws-cdk": "^2.69.0",
+    "depcheck": "^1.4.3",
     "eslint": "^8.36.0",
     "eslint-config-prettier": "^8.7.0",
     "jest": "^27.5.1",
@@ -32,7 +33,7 @@
   },
   "dependencies": {
     "aws-cdk-lib": "^2.69.0",
-    "cdk": "^2.69.0",
-    "constructs": "^10.1.278"
+    "constructs": "^10.1.278",
+    "source-map-support": "^0.5.21"
   }
 }

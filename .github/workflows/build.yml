@@ -37,8 +37,9 @@ jobs:
           echo "node: $(node --version)"
           echo "npm: $(npm --version)"
       - run: npm ci
+      - run: npm run depcheck && npm run depcheck --workspaces
       - run: npm run lint:ci
       - run: npm run format:ci
       - run: npm run build --workspaces
       - run: npm run test --workspaces
-      - run: npm run synth:dev --workspaces
+      - run: npm run synth --workspaces

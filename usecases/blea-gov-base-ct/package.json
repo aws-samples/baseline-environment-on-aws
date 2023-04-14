@@ -8,12 +8,15 @@
     "blea-gov-base-ct": "bin/blea-gov-base-ct.js"
   },
   "scripts": {
-    "synth:dev": "npx cdk synth -c environment=dev",
-    "depcheck": "npx depcheck --ignore-dirs cdk.out",
+    "synth": "cdk synth -q && npm run synth:pipelines && npm run synth:sc",
+    "synth:pipelines": "cdk synth -q --app 'npx ts-node --prefer-ts-exts bin/blea-gov-base-ct-via-cdk-pipelines.ts'",
+    "synth:sc": "cdk synth -q --app 'npx ts-node --prefer-ts-exts bin/blea-gov-base-ct-via-service-catalog.ts'",
+    "depcheck": "depcheck",
     "build": "tsc --build",
     "clean": "tsc --build --clean && rm -rf cdk.out",
     "watch": "tsc -w",
-    "test": "jest"
+    "test": "jest",
+    "cdk": "cdk"
   },
   "devDependencies": {
     "@types/jest": "^27.5.2",
@@ -21,6 +24,7 @@
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
     "aws-cdk": "^2.69.0",
+    "depcheck": "^1.4.3",
     "eslint": "^8.36.0",
     "eslint-config-prettier": "^8.7.0",
     "jest": "^27.5.1",
@@ -31,7 +35,7 @@
   },
   "dependencies": {
     "aws-cdk-lib": "^2.69.0",
-    "cdk": "^2.69.0",
-    "constructs": "^10.1.278"
+    "constructs": "^10.1.278",
+    "source-map-support": "^0.5.21"
   }
 }
