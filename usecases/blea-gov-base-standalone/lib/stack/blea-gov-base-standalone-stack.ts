@@ -1,8 +1,8 @@
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { Detection } from '../construct/security-detection';
-import { Iam } from '../construct/security-iam';
-import { Logging } from '../construct/security-logging';
+import { Detection } from '../construct/detection';
+import { Iam } from '../construct/iam';
+import { Logging } from '../construct/logging';
 
 export interface BLEAGovBaseStandaloneProps extends StackProps {
   securityNotifyEmail: string;

@@ -1,8 +1,8 @@
 import { Stack, Stage } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { Detection } from '../construct/security-detection';
-import { Iam } from '../construct/security-iam';
-import { Logging } from '../construct/security-logging';
+import { Detection } from '../construct/detection';
+import { Iam } from '../construct/iam';
+import { Logging } from '../construct/logging';
 import { BLEAGovBaseCtStackProps } from '../stack/blea-gov-base-ct-stack';
 
 export class BLEAGovBaseCtStage extends Stage {
