@@ -229,10 +229,10 @@ Log in to your Audit account in the management console and set up Slack Workspac
 Specify the parameters in the CDK Context (cdk.json) of the use case for the Audit account in ControlTower. The configuration file is here. By default, a context named dev-audit is set.
 
 ```sh
-usecases/base-ct-audit/cdk.json
+usecases/blea-gov-base-ct-audit/cdk.json
 ```
 
-usecases/base-ct-audit/cdk.json
+usecases/blea-gov-base-ct-audit/cdk.json
 
 ```json
 {
@@ -281,14 +281,14 @@ aws sso login --profile ct-audit
 Bootstrap a bucket for CDK to the Audit account (first time only)
 
 ```sh
-cd usecases/base-ct-audit
+cd usecases/blea-gov-base-ct-audit
 npx cdk bootstrap -c environment=dev-audit --profile ct-audit
 ```
 
 Deploy a governance base to the Audit account
 
 ```sh
-cd usecases/base-ct-audit
+cd usecases/blea-gov-base-ct-audit
 npx cdk deploy --all -c environment=dev-audit --profile ct-audit
 ```
 
@@ -307,7 +307,7 @@ You should now be notified of all AWS Config change events for accounts managed 
 You must specify parameters in the CDK Context (cdk.json) for deployment. Here is the configuration file for the guest account governance base for ControlTower.
 
 ```sh
-usecases/base-ct-guest/cdk.json
+usecases/blea-gov-base-ct/cdk.json
 ```
 
 This example shows an example of defining Contexts called `dev` and `staging`. To verify the same configuration and deploy it to a production account, prepare a Context such as `staging` or `prod`.
@@ -316,7 +316,7 @@ This example shows an example of defining Contexts called `dev` and `staging`. T
 >
 > If you want to explicitly specify the account to be deployed, specify `env`. This makes it impossible to deploy if the account-region specified in the CLI Profile does not match the one specified in `env`. You can ensure that you manage the parameters you set for your account and prevent them from deploying to the wrong account. It is recommended to also specify `env` as much as possible.
 
-usecases/base-ct-guest/cdk.json
+usecases/blea-gov-base-ct/cdk.json
 
 ```json
 {
@@ -428,7 +428,7 @@ aws sso login --profile ct-guest
 Bootstrap a bucket for CDK (first time only).
 
 ```sh
-cd usecases/base-ct-guest
+cd usecases/blea-gov-base-ct
 npx cdk bootstrap -c environment=dev --profile ct-guest
 ```
 
@@ -441,7 +441,7 @@ npx cdk bootstrap -c environment=dev --profile ct-guest
 Deploy a governance base for guest accounts.
 
 ```sh
-cd usecases/base-ct-guest
+cd usecases/blea-gov-base-ct
 npx cdk deploy --all -c environment=dev --profile ct-guest
 ```
 
@@ -520,7 +520,7 @@ This completes the baseline and sample application deployment for a single accou
 
 > NOTE:
 >
-> It takes about 30 minutes to complete the deployment of all resources, including Aurora. If you want to deploy only some resources, specify the target stack name explicitly. The stack name is expressed in the application code (here bin/blea-guest-ecsapp-sample.ts) as `${pjPrefix}-ecsApp` .
+> It takes about 30 minutes to complete the deployment of all resources, including Aurora. If you want to deploy only some resources, specify the target stack name explicitly. The stack name is expressed in the application code (here bin/blea-guest-ecs-app-sample.ts) as `${pjPrefix}-ecsApp` .
 >
 > ```sh
 > cd usecases/guest-webapp-sample
@@ -528,7 +528,7 @@ This completes the baseline and sample application deployment for a single accou
 > ```
 >
 > NOTE:
-> guest-webapp-sample provides several variations under the bin directory. By default, the application specified in `app` in cdk.json (blea-guest-ecsapp-sample.ts) is deployed. If you want to deploy another application, you can do so by explicitly specifying `---app` in the cdk argument as follows: All contexts in cdk.json work with the same content within the same use case.
+> guest-webapp-sample provides several variations under the bin directory. By default, the application specified in `app` in cdk.json (blea-guest-ecs-app-sample.ts) is deployed. If you want to deploy another application, you can do so by explicitly specifying `---app` in the cdk argument as follows: All contexts in cdk.json work with the same content within the same use case.
 >
 > ```sh
 > cd usecases/guest-webapp-sample

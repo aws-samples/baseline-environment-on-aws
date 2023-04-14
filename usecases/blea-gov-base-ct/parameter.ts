@@ -1,0 +1,40 @@
+import { Environment } from 'aws-cdk-lib';
+
+export interface AppParameter {
+  env?: Environment;
+  envName: string;
+  securityNotifyEmail: string;
+}
+
+export interface PipelineParameter {
+  env?: Environment;
+  envName: string;
+
+  // AWS CodeStar Connections parameters for CDK Pipelines.
+  // Only used in bin/blea-gov-base-ct-via-cdk-pipelines.ts
+  sourceRepository: string;
+  sourceBranch: string;
+  sourceConnectionArn: string;
+}
+
+// Example for Development
+export const devParameter: AppParameter = {
+  envName: 'Development',
+  securityNotifyEmail: 'notify-security@example.com',
+  // env: { account: '123456789012', region: 'ap-northeast-1' },
+};
+
+// Example for Staging
+export const stagingParameter: AppParameter = {
+  envName: 'Staging',
+  securityNotifyEmail: 'notify-security@example.com',
+  env: { account: '123456789012', region: 'ap-northeast-1' },
+};
+
+// Example for Pipeline Deployment
+export const devPipelineParameter: PipelineParameter = {
+  envName: 'DevPipeline',
+  sourceRepository: 'aws-samples/baseline-environment-on-aws',
+  sourceBranch: 'main',
+  sourceConnectionArn: 'arn:aws:codestar-connections:ap-northeast-1:xxxxxxxxxxxx:connection/example',
+};

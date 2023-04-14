@@ -120,7 +120,7 @@ CDK は CloudFormation を使ってデプロイしますが、通常デプロイ
 
 ```json
 {
-  "app": "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/blea-guest-ecs-app-sample.ts",
   "requireApproval": "never",
   "rollback": false,
 ```
@@ -309,7 +309,7 @@ CDK コードで追加のパッケージが必要になった場合は、以下�
 >
 > ```sh
 > # BLEAのルートディレクトリで実行
-> npm run test --workspace usecases/base-standalone
+> npm run test --workspace usecases/blea-gov-base-standalone
 > ```
 
 ### 6. Synth/Diff する
@@ -317,8 +317,8 @@ CDK コードで追加のパッケージが必要になった場合は、以下�
 CDK Asset を作成し、現在の環境との差分を確認します。
 
 > ```sh
-> npx cdk synth --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
-> npx cdk diff --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
+> npx cdk synth --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecs-app-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
+> npx cdk diff --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecs-app-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
 > ```
 
 ### 7. Deploy する
@@ -326,7 +326,7 @@ CDK Asset を作成し、現在の環境との差分を確認します。
 デプロイします。ここでは承認をスキップし、ロールバックさせないオプションを追加しています。
 
 > ```sh
-> npx cdk deploy --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
+> npx cdk deploy --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecs-app-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
 > ```
 
 ---

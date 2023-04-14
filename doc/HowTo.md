@@ -122,7 +122,7 @@ By setting `RequireApproval` and `Rollback` to cdk.json as follows, you do not n
 
 ```json
 {
-  "app": "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/blea-guest-ecs-app-sample.ts",
   "requireApproval": "never",
   "rollback": false,
   "context": {
@@ -377,8 +377,8 @@ If your CDK code requires additional packages, install them as follows: Here we 
 Create a CDK Asset and see the differences from the current environment.
 
 > ```sh
-> npx cdk synth --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
-> npx cdk diff --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
+> npx cdk synth --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecs-app-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
+> npx cdk diff --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecs-app-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
 > ```
 
 ### 7. Deploy
@@ -386,7 +386,7 @@ Create a CDK Asset and see the differences from the current environment.
 Deploy it. Here we have added an option to skip authorization and not roll back.
 
 > ```sh
-> npx cdk deploy --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
+> npx cdk deploy --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecs-app-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
 > ```
 
 ---

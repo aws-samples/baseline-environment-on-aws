@@ -6,9 +6,9 @@ As an example of CI/CD with CDK, this document shows how to use sample to deploy
 
 CDK Pipelines is a high-level construct library that makes it easy to set up a continuous deployment pipeline for your CDK applications, powered by AWS CodePipeline. By building pipelines quickly with CDK pipelines, you can simplify application development and focus on areas of greater interest.
 
-A sample has been implemented in `blea-guest-ecsapp-sample-pipeline.ts` that defines the configuration (equivalent to `guest-webapp-sample/bin/blea-guest-ecsapp-sample.ts` ) as Stage (class that defines deployment units in CDK Pipelines) and deploys from the pipeline.
+A sample has been implemented in `blea-guest-ecs-app-sample-pipeline.ts` that defines the configuration (equivalent to `guest-webapp-sample/bin/blea-guest-ecs-app-sample.ts` ) as Stage (class that defines deployment units in CDK Pipelines) and deploys from the pipeline.
 
-In case you have already deployed the use case `guest-webapp-sample/bin/blea-guest-ecsapp-sample.ts`, you will deploy the same application with a different stack name by following steps below to complete the CDK Pipelines deployment. To avoid duplicate billing and failed deployments, run `npx cdk destroy` to delete stacks that have already been deployed.
+In case you have already deployed the use case `guest-webapp-sample/bin/blea-guest-ecs-app-sample.ts`, you will deploy the same application with a different stack name by following steps below to complete the CDK Pipelines deployment. To avoid duplicate billing and failed deployments, run `npx cdk destroy` to delete stacks that have already been deployed.
 
 ## Overview
 
@@ -99,7 +99,7 @@ The target file of `cdk synth` or `cdk deploy` is selected by `-a` option or `ap
 
 ```ts
 {
-  "app": "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample-pipeline.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/blea-guest-ecs-app-sample-pipeline.ts",
   // ...
 ```
 
@@ -107,13 +107,13 @@ The target file of `cdk synth` or `cdk deploy` is selected by `-a` option or `ap
 
 In CDK Pipeline , `cdk synth` command is executed in CodeBuild in Tools Account. Here is a example implementation of synth command. You can change deployment environment by Pipeline Stack Prop `environment` (`dev` is set to default).
 
-##### **`usecases/guest-webapp-sample/blea-ecsapp-sample-pipeline-stack.ts`**
+##### **`usecases/guest-webapp-sample/blea-ecs-app-sample-pipeline-stack.ts`**
 
 ```ts
 // ...
         commands: [
         ~~~ (Your Build Commands) ~~~
-          `npx cdk synth --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample-pipeline.ts" -c environment=${environment}`,
+          `npx cdk synth --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecs-app-sample-pipeline.ts" -c environment=${environment}`,
           `npx cdk ls -c environment=${environment}`,
         ],
         // ...
@@ -122,7 +122,7 @@ In CDK Pipeline , `cdk synth` command is executed in CodeBuild in Tools Account.
 > **Note**
 > You don't have to select `--profile` option in executing synth command in CodeBuild Project. This is because CodeBuild has enough privileges in its execution role. If you want to run it locally, you can execute it by specifying Profile like `npx cdk synth -c environment=dev --profile xxxxxx`.
 
-##### **`usecases/guest-webapp-sample/bin/blea-guest-ecsapp-sample-pipeline.ts`**
+##### **`usecases/guest-webapp-sample/bin/blea-guest-ecs-app-sample-pipeline.ts`**
 
 ```ts
 const prodStack = new BLEAPipeline.BLEAPipelineStack(app, `${pjPrefix}-Prod-Pipeline`, {
@@ -150,7 +150,7 @@ npx cdk deploy -c environment=prodpipeline --profile your_profile_name
 
 Once your pipeline is deployed, you can continue to deploy code changes for BLEA. When the changes are pushed to GitHub, CodePipeline is triggered and retrieves the source code from the Git repository. Inside CodePipeline, CodeBuild synthesizes Cloud Assembly, and then deploy them.
 
-Now, you have deploy CDK Application defined in Stage in `guest-webapp-sample/bin/blea-guest-ecsapp-sample-pipeline.ts` through a pipeline.
+Now, you have deploy CDK Application defined in Stage in `guest-webapp-sample/bin/blea-guest-ecs-app-sample-pipeline.ts` through a pipeline.
 
 > **Note**
 > In CDK Pipelines, you can continuously deploy your deployment pipeline as target repository updates by using `SelfMutation`. You can also deploying all stack you define via Tools Account by using it.
@@ -177,7 +177,7 @@ how to execute cross account deployment to different account (Prod account (ID: 
 
 1.Enable cross account deployment by setting `crossAccountKey` to `true`.
 
-**`usecases/guest-webapp-sample/pipeline/blea-ecsapp-sample-pipeline-stack.ts`**
+**`usecases/guest-webapp-sample/pipeline/blea-ecs-app-sample-pipeline-stack.ts`**
 
 ```ts
 const pipeline = new pipelines.CodePipeline(this, `${id}-pipeline`, {
@@ -191,7 +191,7 @@ const pipeline = new pipelines.CodePipeline(this, `${id}-pipeline`, {
 
 ### Passing account information in Stage instantiation that is deployed by the pipeline
 
-**`usecases/guest-webapp-sample/bin/blea-guest-ecsapp-sample-pipeline.ts`**
+**`usecases/guest-webapp-sample/bin/blea-guest-ecs-app-sample-pipeline.ts`**
 
 ```ts
 new BLEAPipelineStack(app, `${pjPrefix}-Pipeline`, {

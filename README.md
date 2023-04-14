@@ -39,11 +39,11 @@ Jump to | [Changelog](CHANGELOG.md) | [HowTo](doc/HowTo.md) | [Deploy to Multiac
 
 ## Governance baselines
 
-| Use Cases                                         | Folders                    |
-| ------------------------------------------------- | -------------------------- |
-| Standalone Governance Base                        | `usecases/base-standalone` |
-| ControlTower governance base (for guest accounts) | `usecases/base-ct-guest`   |
-| ControlTower governance base for Audit accounts   | `usecases/base-ct-audit`   |
+| Use Cases                                         | Folders                             |
+| ------------------------------------------------- | ----------------------------------- |
+| Standalone Governance Base                        | `usecases/blea-gov-base-standalone` |
+| ControlTower governance base (for guest accounts) | `usecases/blea-gov-base-ct`         |
+| ControlTower governance base for Audit accounts   | `usecases/blea-gov-base-ct-audit`   |
 
 ## Sample applications for Guest systems
 
@@ -176,12 +176,12 @@ When you are done, make a note of the ID of one workspace and the ID of two chan
 You must specify parameters in the CDK Context (cdk.json) for each use case for deployment. Here is the configuration file for the Standalone version of the governance base.
 
 ```sh
-usecases/base-standalone/cdk.json
+usecases/blea-gov-base-standalone/cdk.json
 ```
 
 This example shows an example of defining a Context called `dev`. To verify the same configuration and deploy it to a production account, prepare a Context such as `staging` or `prod`. The Context name can be any alphabet.
 
-usecases/base-standalone/cdk.json
+usecases/blea-gov-base-standalone/cdk.json
 
 ```json
 {
@@ -221,7 +221,7 @@ The contents of this setting are as follows.
 If you are running a CDK for the first time, navigate to the target use case directory and bootstrap the CDK. This is required when you run the CDK for the first time with that account and region combination.
 
 ```sh
-cd usecases/base-standalone
+cd usecases/blea-gov-base-standalone
 npx cdk bootstrap -c environment=dev --profile prof_dev
 ```
 
@@ -292,7 +292,7 @@ usecases/guest-webapp-sample/cdk.json
 
 ```json
 {
-  "app": "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/blea-guest-ecs-app-sample.ts",
   "context": {
     "dev": {
       "description": "Context samples for Dev - Anonymous account & region",
@@ -335,15 +335,15 @@ This completes the baseline and sample application deployment for a single accou
 
 > NOTE:
 >
-> It takes about 30 minutes to complete the deployment of all resources, including Aurora. If you want to deploy only some resources, specify the target stack name explicitly. The stack name is expressed in the application code (here bin/blea-guest-ecsapp-sample.ts) as `$ {pjPrefix} -ecsApp` .
+> It takes about 30 minutes to complete the deployment of all resources, including Aurora. If you want to deploy only some resources, specify the target stack name explicitly. The stack name is expressed in the application code (here bin/blea-guest-ecs-app-sample.ts) as `$ {pjPrefix} -ecsApp` .
 >
 > ```sh
 > cd usecases/guest-webapp-sample
-> npx cdk deploy "BLEA-ECSApp" --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev
+> npx cdk deploy "BLEA-ECSApp" --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecs-app-sample.ts" -c environment=dev --profile prof_dev
 > ```
 >
 > NOTE:
-> guest-webapp-sample provides several variations under the bin directory. By default, the application specified in `app` in cdk.json (blea-guest-ecsapp-sample.ts) is deployed. If you want to deploy another application, you can do so by explicitly specifying `—app` in the cdk argument as follows: All contexts in cdk.json work with the same content within the same use case.
+> guest-webapp-sample provides several variations under the bin directory. By default, the application specified in `app` in cdk.json (blea-guest-ecs-app-sample.ts) is deployed. If you want to deploy another application, you can do so by explicitly specifying `—app` in the cdk argument as follows: All contexts in cdk.json work with the same content within the same use case.
 >
 > ```sh
 > cd usecases/guest-webapp-sample
