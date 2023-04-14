@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`BLEAGovBase App Snapshot test for BLEAGovBase Stack 1`] = `
+exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
 Object {
   "Outputs": Object {
     "ExportsOutputRefDetectionAlarmTopic36C4BB557D18D152": Object {

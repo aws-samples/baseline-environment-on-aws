@@ -8,7 +8,6 @@ import { Template } from 'aws-cdk-lib/assertions';
 
 test(`Snapshot test for BLEA ECS App Stacks`, () => {
   const app = new App();
-
   const ecsapp = new BLEAEcsAppStack(app, 'Dev-BLEAEcsApp', {
     // from parameter.ts
     monitoringNotifyEmail: devParameter.monitoringNotifyEmail,

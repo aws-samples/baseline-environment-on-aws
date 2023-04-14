@@ -1,11 +1,11 @@
 import * as cdk from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
-import { BLEAGovBaseStandaloneStack } from '../lib/stack/blea-gov-base-standalone-stack';
 import { devParameter } from '../parameter';
+import { BLEAGovBaseCtScStack } from '../lib/stack/blea-gov-base-ct-via-service-catalog-stack';
 
-test('Snapshot test for BLEAGovBaseStandalone Stack', () => {
+test('Snapshot test for BLEGovABase Stack', () => {
   const app = new cdk.App();
-  const stack = new BLEAGovBaseStandaloneStack(app, 'Dev-BLEABaseStandalone', {
+  const stack = new BLEAGovBaseCtScStack(app, 'Dev-BLEAGovBaseCtSc', {
     securityNotifyEmail: devParameter.securityNotifyEmail,
     tags: { Environment: devParameter.envName },
   });

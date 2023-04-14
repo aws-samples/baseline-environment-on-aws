@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`BLEGovABase App Snapshot test for BLEGovABase Stack 1`] = `
+exports[`Snapshot test for BLEGovABaseCt Stack 1`] = `
 Object {
   "Outputs": Object {
     "ExportsOutputRefDetectionAlarmTopic36C4BB557D18D152": Object {
       "Export": Object {
-        "Name": "Dev-BLEAGovBase:ExportsOutputRefDetectionAlarmTopic36C4BB557D18D152",
+        "Name": "Dev-BLEAGovBaseCt:ExportsOutputRefDetectionAlarmTopic36C4BB557D18D152",
       },
       "Value": Object {
         "Ref": "DetectionAlarmTopic36C4BB55",
@@ -1408,7 +1408,7 @@ Object {
     },
     "LoggingCloudTrailKeyAlias65A5FEEA": Object {
       "Properties": Object {
-        "AliasName": "alias/DevBLEAGovBaseLoggingC99D402D",
+        "AliasName": "alias/DevBLEAGovBaseCtLogging339675FD",
         "TargetKeyId": Object {
           "Fn::GetAtt": Array [
             "LoggingCloudTrailKey43327553",

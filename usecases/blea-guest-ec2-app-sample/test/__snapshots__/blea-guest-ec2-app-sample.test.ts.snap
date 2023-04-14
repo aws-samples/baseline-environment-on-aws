@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`BLEAEc2App App Snapshot test for BLEAEc2App Stack 1`] = `
+exports[`Snapshot test for BLEAEc2App Stack 1`] = `
 Object {
   "Parameters": Object {
     "BootstrapVersion": Object {
