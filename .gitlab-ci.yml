@@ -26,6 +26,9 @@ variables:
   - npm run format:ci
   - npm run build --workspaces
   - npm run test --workspaces
+  # Delete product-stack-snapshots which is created by test.
+  # Without this step, synth fails.
+  - npm run clean:product --workspace usecases/blea-gov-base-ct
   - npm run synth --workspaces
 
 build-node14:

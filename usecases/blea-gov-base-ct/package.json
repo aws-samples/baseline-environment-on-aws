@@ -14,6 +14,7 @@
     "depcheck": "depcheck",
     "build": "tsc --build",
     "clean": "tsc --build --clean && rm -rf cdk.out",
+    "clean:product": "rm -rf product-stack-snapshots/",
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk"

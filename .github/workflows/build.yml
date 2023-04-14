@@ -42,4 +42,7 @@ jobs:
       - run: npm run format:ci
       - run: npm run build --workspaces
       - run: npm run test --workspaces
+      # Delete product-stack-snapshots which is created by test.
+      # Without this step, synth fails.
+      - run: npm run clean:product --workspace usecases/blea-gov-base-ct
       - run: npm run synth --workspaces
