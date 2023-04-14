@@ -9,7 +9,7 @@
   },
   "scripts": {
     "synth": "cdk synth -q && npm run synth:pipelines",
-    "synth:pipelines": "cdk synth -q --app 'npx ts-node --prefer-ts-exts bin/blea-guest-ecs-app-sample-via-cdk-pipelines.ts'",
+    "synth:pipelines": "cdk synth -q --app \"npx ts-node --prefer-ts-exts bin/blea-guest-ecs-app-sample-via-cdk-pipelines.ts\"",
     "depcheck": "depcheck",
     "build": "tsc --build",
     "clean": "tsc --build --clean && rm -rf cdk.out",
