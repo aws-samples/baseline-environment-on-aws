@@ -1,7 +1,7 @@
 import { Stage } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { AppParameter } from '../../parameter';
-import { BLEAEcsFrontendStack } from '../stack/blea-guest-ecs-app-frontend-stack';
+import { BLEAEcsAppFrontendStack } from '../stack/blea-guest-ecs-app-frontend-stack';
 import { BLEAEcsAppMonitoringStack } from '../stack/blea-guest-ecs-app-monitoring-stack';
 import { BLEAEcsAppStack } from '../stack/blea-guest-ecs-app-sample-stack';
 
@@ -31,7 +31,7 @@ export class BLEAEcsAppStage extends Stage {
       crossRegionReferences: true,
     });
 
-    const frontend = new BLEAEcsFrontendStack(this, 'BLEAEcsFrontend', {
+    const frontend = new BLEAEcsAppFrontendStack(this, 'BLEAEcsFrontend', {
       // from parameter.ts
       hostedZoneId: props.hostedZoneId,
       domainName: props.domainName,
@@ -49,7 +49,7 @@ export class BLEAEcsAppStage extends Stage {
       crossRegionReferences: true,
     });
 
-    new BLEAEcsAppMonitoringStack(this, 'BLEAEcsMonitoring', {
+    new BLEAEcsAppMonitoringStack(this, 'BLEAEcsAppMonitoring', {
       // from parameter.ts
       appEndpoint: `${props.cloudFrontHostName}.${props.domainName}`,
       dashboardName: props.dashboardName,

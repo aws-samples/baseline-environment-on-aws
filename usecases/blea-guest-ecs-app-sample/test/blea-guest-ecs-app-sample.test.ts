@@ -2,7 +2,7 @@ import 'source-map-support/register';
 import { App } from 'aws-cdk-lib';
 import { devParameter } from '../parameter';
 import { BLEAEcsAppStack } from '../lib/stack/blea-guest-ecs-app-sample-stack';
-import { BLEAEcsFrontendStack } from '../lib/stack/blea-guest-ecs-app-frontend-stack';
+import { BLEAEcsAppFrontendStack } from '../lib/stack/blea-guest-ecs-app-frontend-stack';
 import { BLEAEcsAppMonitoringStack } from '../lib/stack/blea-guest-ecs-app-monitoring-stack';
 import { Template } from 'aws-cdk-lib/assertions';
 
@@ -34,7 +34,7 @@ test(`Snapshot test for BLEA ECS App Stacks`, () => {
     crossRegionReferences: true,
   });
 
-  const frontend = new BLEAEcsFrontendStack(app, 'Dev-BLEAEcsFrontend', {
+  const frontend = new BLEAEcsAppFrontendStack(app, 'Dev-BLEAEcsAppFrontend', {
     // from parameter.ts
     hostedZoneId: devParameter.hostedZoneId,
     domainName: devParameter.domainName,
@@ -52,7 +52,7 @@ test(`Snapshot test for BLEA ECS App Stacks`, () => {
     crossRegionReferences: true,
   });
 
-  const monitoring = new BLEAEcsAppMonitoringStack(app, 'Dev-BLEAEcsMonitoring', {
+  const monitoring = new BLEAEcsAppMonitoringStack(app, 'Dev-BLEAEcsAppMonitoring', {
     // from parameter.ts
     appEndpoint: `${devParameter.cloudFrontHostName}.${devParameter.domainName}`,
     dashboardName: devParameter.dashboardName,

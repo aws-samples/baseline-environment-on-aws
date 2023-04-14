@@ -2,7 +2,7 @@ import 'source-map-support/register';
 import { App } from 'aws-cdk-lib';
 import { devParameter } from '../parameter';
 import { BLEAEcsAppStack } from '../lib/stack/blea-guest-ecs-app-sample-stack';
-import { BLEAEcsFrontendStack } from '../lib/stack/blea-guest-ecs-app-frontend-stack';
+import { BLEAEcsAppFrontendStack } from '../lib/stack/blea-guest-ecs-app-frontend-stack';
 import { BLEAEcsAppMonitoringStack } from '../lib/stack/blea-guest-ecs-app-monitoring-stack';
 
 const app = new App();
@@ -29,7 +29,7 @@ const ecsapp = new BLEAEcsAppStack(app, 'Dev-BLEAEcsApp', {
   crossRegionReferences: true,
 });
 
-const frontend = new BLEAEcsFrontendStack(app, 'BLEAEcsFrontendSampleDev', {
+const frontend = new BLEAEcsAppFrontendStack(app, 'Dev-BLEAEcsAppFrontend', {
   // from parameter.ts
   hostedZoneId: devParameter.hostedZoneId,
   domainName: devParameter.domainName,
@@ -47,7 +47,7 @@ const frontend = new BLEAEcsFrontendStack(app, 'BLEAEcsFrontendSampleDev', {
   crossRegionReferences: true,
 });
 
-new BLEAEcsAppMonitoringStack(app, 'BLEAEcsMonitoringSampleDev', {
+new BLEAEcsAppMonitoringStack(app, 'Dev-BLEAEcsAppMonitoring', {
   // from parameter.ts
   appEndpoint: `${devParameter.cloudFrontHostName}.${devParameter.domainName}`,
   dashboardName: devParameter.dashboardName,

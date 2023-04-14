@@ -3,7 +3,7 @@ import { ITopic } from 'aws-cdk-lib/aws-sns';
 import { Construct } from 'constructs';
 import { Frontend } from '../construct/frontend';
 
-export interface BLEAEcsFrontendStackProps extends StackProps {
+export interface BLEAEcsAppFrontendStackProps extends StackProps {
   alarmTopic: ITopic;
   hostedZoneId: string;
   domainName: string;
@@ -11,9 +11,9 @@ export interface BLEAEcsFrontendStackProps extends StackProps {
   cloudFrontHostName: string;
 }
 
-export class BLEAEcsFrontendStack extends Stack {
+export class BLEAEcsAppFrontendStack extends Stack {
   public readonly distributionId: string;
-  constructor(scope: Construct, id: string, props: BLEAEcsFrontendStackProps) {
+  constructor(scope: Construct, id: string, props: BLEAEcsAppFrontendStackProps) {
     super(scope, id, props);
 
     const frontend = new Frontend(this, 'Frontend', {
