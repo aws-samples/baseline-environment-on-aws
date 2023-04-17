@@ -51,6 +51,7 @@ export const devPipelineParameter: PipelineParameter = {
     account: '222222222222',
     region: 'ap-northeast-1',
   },
+  envName: 'DevPipeline',
   sourceRepository: 'aws-samples/baseline-environment-on-aws',
   sourceBranch: 'main',
   sourceConnectionArn:

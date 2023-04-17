@@ -33,6 +33,7 @@ export const stagingParameter: AppParameter = {
 
 // Example for Pipeline Deployment
 export const devPipelineParameter: PipelineParameter = {
+  env: { account: '123456789012', region: 'ap-northeast-1' },
   envName: 'DevPipeline',
   sourceRepository: 'aws-samples/baseline-environment-on-aws',
   sourceBranch: 'main',
