@@ -2558,6 +2558,68 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
+    "NotificationChatbotChannel053BCEF2": Object {
+      "Properties": Object {
+        "ConfigurationName": "DevBLEABaseStandaloneNotificationC6359BD8",
+        "IamRoleArn": Object {
+          "Fn::GetAtt": Array [
+            "NotificationChatbotRole9B60F7B3",
+            "Arn",
+          ],
+        },
+        "SlackChannelId": "C00XXXXXXXX",
+        "SlackWorkspaceId": "T8XXXXXXX",
+        "SnsTopicArns": Array [
+          Object {
+            "Ref": "DetectionAlarmTopic36C4BB55",
+          },
+        ],
+      },
+      "Type": "AWS::Chatbot::SlackChannelConfiguration",
+    },
+    "NotificationChatbotRole9B60F7B3": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "chatbot.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/ReadOnlyAccess",
+              ],
+            ],
+          },
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/CloudWatchReadOnlyAccess",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
   },
   "Rules": Object {
     "CheckBootstrapVersion": Object {

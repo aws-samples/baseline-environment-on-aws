@@ -4,8 +4,8 @@ export interface AppParameter {
   env?: Environment;
   envName: string;
   securityNotifyEmail: string;
-  securitySlackWorkspaceId?: string; // required if deploy via CLI
-  securitySlackChannelId?: string; // required if deploy via CLI
+  securitySlackWorkspaceId: string; // required if deploy via CLI
+  securitySlackChannelId: string; // required if deploy via CLI
 }
 
 // Example
