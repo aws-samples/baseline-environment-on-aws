@@ -460,15 +460,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":logs:",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
-                      ":",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":log-group:/aws/codebuild/",
+                      ":logs:ap-northeast-1:123456789012:log-group:/aws/codebuild/",
                       Object {
                         "Ref": "PipelineBuildSynthCdkBuildProject6BEFA8E6",
                       },
@@ -483,15 +475,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":logs:",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
-                      ":",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":log-group:/aws/codebuild/",
+                      ":logs:ap-northeast-1:123456789012:log-group:/aws/codebuild/",
                       Object {
                         "Ref": "PipelineBuildSynthCdkBuildProject6BEFA8E6",
                       },
@@ -518,15 +502,7 @@ Object {
                     Object {
                       "Ref": "AWS::Partition",
                     },
-                    ":codebuild:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
-                    Object {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":report-group/",
+                    ":codebuild:ap-northeast-1:123456789012:report-group/",
                     Object {
                       "Ref": "PipelineBuildSynthCdkBuildProject6BEFA8E6",
                     },
@@ -605,11 +581,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":root",
+                      ":iam::123456789012:root",
                     ],
                   ],
                 },
@@ -798,11 +770,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":root",
+                      ":iam::123456789012:root",
                     ],
                   ],
                 },
@@ -974,15 +942,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":logs:",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
-                      ":",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":log-group:/aws/codebuild/",
+                      ":logs:ap-northeast-1:123456789012:log-group:/aws/codebuild/",
                       Object {
                         "Ref": "PipelineUpdatePipelineSelfMutationDAA41400",
                       },
@@ -997,15 +957,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":logs:",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
-                      ":",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":log-group:/aws/codebuild/",
+                      ":logs:ap-northeast-1:123456789012:log-group:/aws/codebuild/",
                       Object {
                         "Ref": "PipelineUpdatePipelineSelfMutationDAA41400",
                       },
@@ -1032,15 +984,7 @@ Object {
                     Object {
                       "Ref": "AWS::Partition",
                     },
-                    ":codebuild:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
-                    Object {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":report-group/",
+                    ":codebuild:ap-northeast-1:123456789012:report-group/",
                     Object {
                       "Ref": "PipelineUpdatePipelineSelfMutationDAA41400",
                     },
@@ -1061,18 +1005,7 @@ Object {
                 },
               },
               "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    "arn:*:iam::",
-                    Object {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":role/*",
-                  ],
-                ],
-              },
+              "Resource": "arn:*:iam::123456789012:role/*",
             },
             Object {
               "Action": "cloudformation:DescribeStacks",

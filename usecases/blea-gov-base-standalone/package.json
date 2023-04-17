@@ -11,7 +11,7 @@
     "synth": "cdk synth -q",
     "depcheck": "depcheck",
     "build": "tsc --build",
-    "clean": "tsc --build --clean && rm -rf cdk.out",
+    "clean": "tsc --build --clean && rm -f parameter.js parameter.d.ts && rm -rf cdk.out",
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk"
