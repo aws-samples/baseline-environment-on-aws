@@ -166,8 +166,9 @@ Object {
                       ],
                     ],
                   },
-                  "StackName": "Dev-BLEAGovBase",
-                  "TemplatePath": "Synth_Output::assembly-Dev-BLEAGovBaseCtPipeilne-Dev/DevBLEAGovBaseCtPipeilneDevBLEAGovBase2EE05E10.template.json",
+                  "StackName": "Dev-BLEAGovBaseCt",
+                  "TemplateConfiguration": "Synth_Output::assembly-Dev-BLEAGovBaseCtPipeilne-Dev/DevBLEAGovBaseCtPipeilneDevBLEAGovBaseCt843AF7BA.template.json.config.json",
+                  "TemplatePath": "Synth_Output::assembly-Dev-BLEAGovBaseCtPipeilne-Dev/DevBLEAGovBaseCtPipeilneDevBLEAGovBaseCt843AF7BA.template.json",
                 },
                 "InputArtifacts": Array [
                   Object {
@@ -210,7 +211,7 @@ Object {
                 "Configuration": Object {
                   "ActionMode": "CHANGE_SET_EXECUTE",
                   "ChangeSetName": "PipelineChange",
-                  "StackName": "Dev-BLEAGovBase",
+                  "StackName": "Dev-BLEAGovBaseCt",
                 },
                 "Name": "Deploy",
                 "RoleArn": Object {

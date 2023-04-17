@@ -3240,7 +3240,7 @@ Object {
         },
         "WriterProps": Object {
           "exports": Object {
-            "/cdk/exports/Dev-BLEAEcsMonitoring/DevBLEAEcsFrontenduseast1RefFrontendDistributionC0C8962753CB4C7B": Object {
+            "/cdk/exports/Dev-BLEAEcsAppMonitoring/DevBLEAEcsAppFrontenduseast1RefFrontendDistributionC0C89627E26C774F": Object {
               "Ref": "FrontendDistributionC0C89627",
             },
           },
@@ -3287,7 +3287,7 @@ Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "Dev-BLEAEcsFrontend/Frontend/CloudFrontCertificate",
+            "Value": "Dev-BLEAEcsAppFrontend/Frontend/CloudFrontCertificate",
           },
         ],
         "ValidationMethod": "DNS",
@@ -3375,7 +3375,7 @@ Object {
               "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
               "Compress": true,
               "PathPattern": "/static/*",
-              "TargetOriginId": "DevBLEAEcsFrontendDistributionOrigin2E38ACB6D",
+              "TargetOriginId": "DevBLEAEcsAppFrontendDistributionOrigin2FA686FE7",
               "ViewerProtocolPolicy": "redirect-to-https",
             },
           ],
@@ -3400,7 +3400,7 @@ Object {
             "CachePolicyId": "4135ea2d-6df8-44a3-9df3-4b5a84be39ad",
             "Compress": true,
             "OriginRequestPolicyId": "216adef6-5c7f-47e4-b989-5492eafa07d3",
-            "TargetOriginId": "DevBLEAEcsFrontendDistributionOrigin114D3964E",
+            "TargetOriginId": "DevBLEAEcsAppFrontendDistributionOrigin1B126A7CF",
             "ViewerProtocolPolicy": "https-only",
           },
           "DefaultRootObject": "/",
@@ -3426,7 +3426,7 @@ Object {
                 ],
               },
               "DomainName": "alb.example.com",
-              "Id": "DevBLEAEcsFrontendDistributionOrigin114D3964E",
+              "Id": "DevBLEAEcsAppFrontendDistributionOrigin1B126A7CF",
             },
             Object {
               "DomainName": Object {
@@ -3435,7 +3435,7 @@ Object {
                   "RegionalDomainName",
                 ],
               },
-              "Id": "DevBLEAEcsFrontendDistributionOrigin2E38ACB6D",
+              "Id": "DevBLEAEcsAppFrontendDistributionOrigin2FA686FE7",
               "S3OriginConfig": Object {
                 "OriginAccessIdentity": Object {
                   "Fn::Join": Array [
@@ -3471,7 +3471,7 @@ Object {
     "FrontendDistributionOrigin2S3OriginFE05A78D": Object {
       "Properties": Object {
         "CloudFrontOriginAccessIdentityConfig": Object {
-          "Comment": "Identity for DevBLEAEcsFrontendDistributionOrigin2E38ACB6D",
+          "Comment": "Identity for DevBLEAEcsAppFrontendDistributionOrigin2FA686FE7",
         },
       },
       "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
@@ -3481,7 +3481,7 @@ Object {
         "DefaultAction": Object {
           "Allow": Object {},
         },
-        "Name": "DevBLEAEcsFrontend30634BBF",
+        "Name": "DevBLEAEcsAppFrontend07EAA01E",
         "Rules": Array [
           Object {
             "Name": "AWSManagedRulesCommonRuleSet",
@@ -3577,7 +3577,7 @@ Object {
         "Scope": "CLOUDFRONT",
         "VisibilityConfig": Object {
           "CloudWatchMetricsEnabled": true,
-          "MetricName": "DevBLEAEcsFrontend30634BBF",
+          "MetricName": "DevBLEAEcsAppFrontend07EAA01E",
           "SampledRequestsEnabled": true,
         },
       },
@@ -3900,7 +3900,7 @@ Object {
             "Arn",
           ],
         },
-        "Name": "devbleaecsmonita8edac",
+        "Name": "devbleaecsappmo8d5431",
         "RunConfig": Object {
           "EnvironmentVariables": Object {
             "TARGETHOST": "www.example.com",
@@ -4076,7 +4076,7 @@ Object {
                         Object {
                           "Ref": "AWS::AccountId",
                         },
-                        ":parameter/cdk/exports/Dev-BLEAEcsMonitoring/*",
+                        ":parameter/cdk/exports/Dev-BLEAEcsAppMonitoring/*",
                       ],
                     ],
                   },
@@ -4126,7 +4126,7 @@ Object {
               Object {
                 "Fn::GetAtt": Array [
                   "ExportsReader8B249524",
-                  "/cdk/exports/Dev-BLEAEcsMonitoring/DevBLEAEcsFrontenduseast1RefFrontendDistributionC0C8962753CB4C7B",
+                  "/cdk/exports/Dev-BLEAEcsAppMonitoring/DevBLEAEcsAppFrontenduseast1RefFrontendDistributionC0C89627E26C774F",
                 ],
               },
               "\\",\\"Region\\",\\"Global\\",{\\"label\\":\\"\${PROP('MetricName')} /\${PROP('Period')}sec\\",\\"region\\":\\"us-east-1\\",\\"period\\":60,\\"stat\\":\\"Sum\\"}]],\\"yAxis\\":{}}},{\\"type\\":\\"metric\\",\\"width\\":6,\\"height\\":6,\\"x\\":6,\\"y\\":8,\\"properties\\":{\\"view\\":\\"timeSeries\\",\\"title\\":\\"ALB Requests\\",\\"region\\":\\"",
@@ -4233,14 +4233,14 @@ Object {
               Object {
                 "Fn::GetAtt": Array [
                   "ExportsReader8B249524",
-                  "/cdk/exports/Dev-BLEAEcsMonitoring/DevBLEAEcsFrontenduseast1RefFrontendDistributionC0C8962753CB4C7B",
+                  "/cdk/exports/Dev-BLEAEcsAppMonitoring/DevBLEAEcsAppFrontenduseast1RefFrontendDistributionC0C89627E26C774F",
                 ],
               },
               "\\",\\"Region\\",\\"Global\\",{\\"label\\":\\"\${PROP('MetricName')} /\${PROP('Period')}sec\\",\\"region\\":\\"us-east-1\\",\\"period\\":60}],[\\"AWS/CloudFront\\",\\"4xxErrorRate\\",\\"DistributionId\\",\\"",
               Object {
                 "Fn::GetAtt": Array [
                   "ExportsReader8B249524",
-                  "/cdk/exports/Dev-BLEAEcsMonitoring/DevBLEAEcsFrontenduseast1RefFrontendDistributionC0C8962753CB4C7B",
+                  "/cdk/exports/Dev-BLEAEcsAppMonitoring/DevBLEAEcsAppFrontenduseast1RefFrontendDistributionC0C89627E26C774F",
                 ],
               },
               "\\",\\"Region\\",\\"Global\\",{\\"label\\":\\"\${PROP('MetricName')} /\${PROP('Period')}sec\\",\\"region\\":\\"us-east-1\\",\\"period\\":60}]],\\"yAxis\\":{}}},{\\"type\\":\\"metric\\",\\"width\\":6,\\"height\\":6,\\"x\\":6,\\"y\\":22,\\"properties\\":{\\"view\\":\\"timeSeries\\",\\"title\\":\\"ALB Errors\\",\\"region\\":\\"",
@@ -4444,9 +4444,9 @@ Object {
       "Properties": Object {
         "ReaderProps": Object {
           "imports": Object {
-            "/cdk/exports/Dev-BLEAEcsMonitoring/DevBLEAEcsFrontenduseast1RefFrontendDistributionC0C8962753CB4C7B": "{{resolve:ssm:/cdk/exports/Dev-BLEAEcsMonitoring/DevBLEAEcsFrontenduseast1RefFrontendDistributionC0C8962753CB4C7B}}",
+            "/cdk/exports/Dev-BLEAEcsAppMonitoring/DevBLEAEcsAppFrontenduseast1RefFrontendDistributionC0C89627E26C774F": "{{resolve:ssm:/cdk/exports/Dev-BLEAEcsAppMonitoring/DevBLEAEcsAppFrontenduseast1RefFrontendDistributionC0C89627E26C774F}}",
           },
-          "prefix": "Dev-BLEAEcsMonitoring",
+          "prefix": "Dev-BLEAEcsAppMonitoring",
           "region": "ap-northeast-1",
         },
         "ServiceToken": Object {
