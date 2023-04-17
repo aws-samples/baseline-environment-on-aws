@@ -9,6 +9,11 @@ const app = new cdk.App();
 // Create stack for "Dev" environment.
 // If you have multiple environments, instantiate stacks with its parameters.
 new BLEAGovBaseCtScStack(app, 'Dev-BLEAGovBaseCtSc', {
+  env: devParameter.env,
+  tags: {
+    Repository: 'aws-samples/baseline-environment-on-aws',
+    Environment: devParameter.envName,
+  },
+
   securityNotifyEmail: devParameter.securityNotifyEmail,
-  tags: { Environment: devParameter.envName },
 });

@@ -10,6 +10,16 @@ export class BLEAEcsAppStage extends Stage {
     super(scope, id, props);
 
     const ecsapp = new BLEAEcsAppStack(this, 'BLEAEcsApp', {
+      env: {
+        account: props.env?.account || process.env.CDK_DEFAULT_ACCOUNT,
+        region: props.env?.region || process.env.CDK_DEFAULT_REGION || 'ap-northeast-1',
+      },
+      crossRegionReferences: true,
+      tags: {
+        Repository: 'aws-samples/baseline-environment-on-aws',
+        Environment: props.envName,
+      },
+
       // from parameter.ts
       monitoringNotifyEmail: props.monitoringNotifyEmail,
       monitoringSlackWorkspaceId: props.monitoringSlackWorkspaceId,
@@ -18,20 +28,19 @@ export class BLEAEcsAppStage extends Stage {
       hostedZoneId: props.hostedZoneId,
       domainName: props.domainName,
       albHostName: props.albHostName,
+    });
 
-      // props of cdk.Stack
+    const frontend = new BLEAEcsAppFrontendStack(this, 'BLEAEcsFrontend', {
+      env: {
+        account: props.env?.account || process.env.CDK_DEFAULT_ACCOUNT,
+        region: 'us-east-1',
+      },
+      crossRegionReferences: true,
       tags: {
         Repository: 'aws-samples/baseline-environment-on-aws',
         Environment: props.envName,
       },
-      env: {
-        account: props.env?.account || process.env.CDK_DEFAULT_ACCOUNT,
-        region: props.env?.region || process.env.CDK_DEFAULT_REGION || 'ap-northeast-1',
-      },
-      crossRegionReferences: true,
-    });
 
-    const frontend = new BLEAEcsAppFrontendStack(this, 'BLEAEcsFrontend', {
       // from parameter.ts
       hostedZoneId: props.hostedZoneId,
       domainName: props.domainName,
@@ -40,16 +49,19 @@ export class BLEAEcsAppStage extends Stage {
 
       // from EcsApp stack
       alarmTopic: ecsapp.alarmTopic,
-
-      // props of cdk.Stack
-      env: {
-        account: props.env?.account || process.env.CDK_DEFAULT_ACCOUNT,
-        region: 'us-east-1',
-      },
-      crossRegionReferences: true,
     });
 
     new BLEAEcsAppMonitoringStack(this, 'BLEAEcsAppMonitoring', {
+      env: {
+        account: props.env?.account || process.env.CDK_DEFAULT_ACCOUNT,
+        region: props.env?.region || process.env.CDK_DEFAULT_REGION || 'ap-northeast-1',
+      },
+      crossRegionReferences: true,
+      tags: {
+        Repository: 'aws-samples/baseline-environment-on-aws',
+        Environment: props.envName,
+      },
+
       // from parameter.ts
       appEndpoint: `${props.cloudFrontHostName}.${props.domainName}`,
       dashboardName: props.dashboardName,
@@ -67,13 +79,6 @@ export class BLEAEcsAppStage extends Stage {
 
       // from Frontend stack
       distributionId: frontend.distributionId,
-
-      // props of cdk.Stack
-      env: {
-        account: props.env?.account || process.env.CDK_DEFAULT_ACCOUNT,
-        region: props.env?.region || process.env.CDK_DEFAULT_REGION || 'ap-northeast-1',
-      },
-      crossRegionReferences: true,
     });
   }
 }

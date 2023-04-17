@@ -9,20 +9,6 @@ import { Template } from 'aws-cdk-lib/assertions';
 test(`Snapshot test for BLEA ECS App Stacks`, () => {
   const app = new App();
   const ecsapp = new BLEAEcsAppStack(app, 'Dev-BLEAEcsApp', {
-    // from parameter.ts
-    monitoringNotifyEmail: devParameter.monitoringNotifyEmail,
-    monitoringSlackWorkspaceId: devParameter.monitoringSlackWorkspaceId,
-    monitoringSlackChannelId: devParameter.monitoringSlackChannelId,
-    vpcCidr: devParameter.vpcCidr,
-    hostedZoneId: devParameter.hostedZoneId,
-    domainName: devParameter.domainName,
-    albHostName: devParameter.albHostName,
-
-    // props of cdk.Stack
-    tags: {
-      Repository: 'aws-samples/baseline-environment-on-aws',
-      Environment: devParameter.envName,
-    },
     // Account and Region on test
     //  cdk.process.env.* returns undefined, and cdk.Stack.of(this).* returns ${Token[Region.4]} at test time.
     //  In such case, RegionInfo.get(cdk.Stack.of(this).region) returns error and test will fail.
@@ -32,9 +18,32 @@ test(`Snapshot test for BLEA ECS App Stacks`, () => {
       region: process.env.CDK_DEFAULT_REGION || 'ap-northeast-1',
     },
     crossRegionReferences: true,
+    tags: {
+      Repository: 'aws-samples/baseline-environment-on-aws',
+      Environment: devParameter.envName,
+    },
+
+    // from parameter.ts
+    monitoringNotifyEmail: devParameter.monitoringNotifyEmail,
+    monitoringSlackWorkspaceId: devParameter.monitoringSlackWorkspaceId,
+    monitoringSlackChannelId: devParameter.monitoringSlackChannelId,
+    vpcCidr: devParameter.vpcCidr,
+    hostedZoneId: devParameter.hostedZoneId,
+    domainName: devParameter.domainName,
+    albHostName: devParameter.albHostName,
   });
 
   const frontend = new BLEAEcsAppFrontendStack(app, 'Dev-BLEAEcsAppFrontend', {
+    env: {
+      account: process.env.CDK_DEFAULT_ACCOUNT,
+      region: 'us-east-1',
+    },
+    crossRegionReferences: true,
+    tags: {
+      Repository: 'aws-samples/baseline-environment-on-aws',
+      Environment: devParameter.envName,
+    },
+
     // from parameter.ts
     hostedZoneId: devParameter.hostedZoneId,
     domainName: devParameter.domainName,
@@ -43,16 +52,19 @@ test(`Snapshot test for BLEA ECS App Stacks`, () => {
 
     // from EcsApp stack
     alarmTopic: ecsapp.alarmTopic,
-
-    // props of cdk.Stack
-    env: {
-      account: process.env.CDK_DEFAULT_ACCOUNT,
-      region: 'us-east-1',
-    },
-    crossRegionReferences: true,
   });
 
   const monitoring = new BLEAEcsAppMonitoringStack(app, 'Dev-BLEAEcsAppMonitoring', {
+    env: {
+      account: process.env.CDK_DEFAULT_ACCOUNT,
+      region: process.env.CDK_DEFAULT_REGION || 'ap-northeast-1',
+    },
+    crossRegionReferences: true,
+    tags: {
+      Repository: 'aws-samples/baseline-environment-on-aws',
+      Environment: devParameter.envName,
+    },
+
     // from parameter.ts
     appEndpoint: `${devParameter.cloudFrontHostName}.${devParameter.domainName}`,
     dashboardName: devParameter.dashboardName,
@@ -70,13 +82,6 @@ test(`Snapshot test for BLEA ECS App Stacks`, () => {
 
     // from Frontend stack
     distributionId: frontend.distributionId,
-
-    // props of cdk.Stack
-    env: {
-      account: process.env.CDK_DEFAULT_ACCOUNT,
-      region: process.env.CDK_DEFAULT_REGION || 'ap-northeast-1',
-    },
-    crossRegionReferences: true,
   });
 
   expect(Template.fromStack(ecsapp)).toMatchSnapshot();

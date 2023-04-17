@@ -7,8 +7,13 @@ import { BLEAEcsAppPipelineStack } from '../lib/stack/blea-guest-ecs-app-sample-
 test(`Snapshot test for BLEA ECS App Stacks`, () => {
   const app = new App();
   const pipeline = new BLEAEcsAppPipelineStack(app, 'Dev-BLEAEcsAppPipeline', {
-    targetParameters: [devParameter],
     env: devPipelineParameter.env,
+    tags: {
+      Repository: 'aws-samples/baseline-environment-on-aws',
+      Environment: devPipelineParameter.envName,
+    },
+
+    targetParameters: [devParameter],
     sourceRepository: devPipelineParameter.sourceRepository,
     sourceBranch: devPipelineParameter.sourceBranch,
     sourceConnectionArn: devPipelineParameter.sourceConnectionArn,

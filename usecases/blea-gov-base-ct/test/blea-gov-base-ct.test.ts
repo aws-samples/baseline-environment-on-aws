@@ -6,8 +6,13 @@ import { devParameter } from '../parameter';
 test('Snapshot test for BLEGovABaseCt Stack', () => {
   const app = new cdk.App();
   const stack = new BLEAGovBaseCtStack(app, 'Dev-BLEAGovBaseCt', {
+    env: devParameter.env,
+    tags: {
+      Repository: 'aws-samples/baseline-environment-on-aws',
+      Environment: devParameter.envName,
+    },
+
     securityNotifyEmail: devParameter.securityNotifyEmail,
-    tags: { Environment: devParameter.envName },
   });
 
   // test with snapshot

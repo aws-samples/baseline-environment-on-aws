@@ -6,13 +6,6 @@ import { devParameter } from '../parameter';
 test('Snapshot test for ServerlessApi Stack', () => {
   const app = new cdk.App();
   const stack = new BLEAServerlessApiStack(app, 'Dev-BLEAServerlessApi', {
-    monitoringNotifyEmail: devParameter.monitoringNotifyEmail,
-    monitoringSlackWorkspaceId: devParameter.monitoringSlackWorkspaceId,
-    monitoringSlackChannelId: devParameter.monitoringSlackChannelId,
-    tags: {
-      Repository: 'aws-samples/baseline-environment-on-aws',
-      Environment: devParameter.envName,
-    },
     // Account and Region on test
     //  cdk.process.env.* returns undefined, and cdk.Stack.of(this).* returns ${Token[Region.4]} at test time.
     //  In such case, RegionInfo.get(cdk.Stack.of(this).region) returns error and test will fail.
@@ -21,6 +14,14 @@ test('Snapshot test for ServerlessApi Stack', () => {
       account: process.env.CDK_DEFAULT_ACCOUNT,
       region: process.env.CDK_DEFAULT_REGION ?? 'ap-northeast-1',
     },
+    tags: {
+      Repository: 'aws-samples/baseline-environment-on-aws',
+      Environment: devParameter.envName,
+    },
+
+    monitoringNotifyEmail: devParameter.monitoringNotifyEmail,
+    monitoringSlackWorkspaceId: devParameter.monitoringSlackWorkspaceId,
+    monitoringSlackChannelId: devParameter.monitoringSlackChannelId,
   });
   expect(Template.fromStack(stack)).toMatchSnapshot();
 });

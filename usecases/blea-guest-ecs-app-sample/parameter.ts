@@ -21,6 +21,7 @@ export interface AppParameter {
 // See: https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping.html
 export interface PipelineParameter {
   env: Environment; // required
+  envName: string;
   sourceRepository: string;
   sourceBranch: string;
   sourceConnectionArn: string;

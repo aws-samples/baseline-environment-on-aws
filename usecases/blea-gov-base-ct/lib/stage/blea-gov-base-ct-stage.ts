@@ -10,7 +10,11 @@ export class BLEAGovBaseCtStage extends Stage {
     super(scope, id, props);
 
     // Define a stack and associate same constructs as normal to this.
-    const stack = new Stack(this, 'BLEAGovBase');
+    const stack = new Stack(this, 'BLEAGovBaseCt', {
+      tags: {
+        Repository: 'aws-samples/baseline-environment-on-aws',
+      },
+    });
 
     new Iam(stack, 'Iam');
 

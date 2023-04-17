@@ -7,7 +7,7 @@ export interface AppParameter {
 }
 
 export interface PipelineParameter {
-  env?: Environment;
+  env: Environment;
   envName: string;
 
   // AWS CodeStar Connections parameters for CDK Pipelines.

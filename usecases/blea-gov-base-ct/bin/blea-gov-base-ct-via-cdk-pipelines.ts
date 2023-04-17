@@ -9,6 +9,12 @@ const app = new cdk.App();
 // Create stack for "Dev" environment.
 // If you have multiple environments, instantiate stacks with its parameters.
 new BLEAGovBaseCtPipelineStack(app, 'Dev-BLEAGovBaseCtPipeilne', {
+  env: devPipelineParameter.env,
+  tags: {
+    Repository: 'aws-samples/baseline-environment-on-aws',
+    Environment: devPipelineParameter.envName,
+  },
+
   targetParameters: [devParameter],
   sourceRepository: devPipelineParameter.sourceRepository,
   sourceBranch: devPipelineParameter.sourceBranch,

@@ -8,6 +8,13 @@ import { BLEAEcsAppMonitoringStack } from '../lib/stack/blea-guest-ecs-app-monit
 const app = new App();
 
 const ecsapp = new BLEAEcsAppStack(app, 'Dev-BLEAEcsApp', {
+  env: devParameter.env,
+  crossRegionReferences: true,
+  tags: {
+    Repository: 'aws-samples/baseline-environment-on-aws',
+    Environment: devParameter.envName,
+  },
+
   // from parameter.ts
   monitoringNotifyEmail: devParameter.monitoringNotifyEmail,
   monitoringSlackWorkspaceId: devParameter.monitoringSlackWorkspaceId,
@@ -16,20 +23,19 @@ const ecsapp = new BLEAEcsAppStack(app, 'Dev-BLEAEcsApp', {
   hostedZoneId: devParameter.hostedZoneId,
   domainName: devParameter.domainName,
   albHostName: devParameter.albHostName,
+});
 
-  // props of cdk.Stack
+const frontend = new BLEAEcsAppFrontendStack(app, 'Dev-BLEAEcsAppFrontend', {
+  env: {
+    account: devParameter.env?.account || process.env.CDK_DEFAULT_ACCOUNT,
+    region: 'us-east-1',
+  },
+  crossRegionReferences: true,
   tags: {
     Repository: 'aws-samples/baseline-environment-on-aws',
     Environment: devParameter.envName,
   },
-  env: {
-    account: process.env.CDK_DEFAULT_ACCOUNT,
-    region: process.env.CDK_DEFAULT_REGION,
-  },
-  crossRegionReferences: true,
-});
 
-const frontend = new BLEAEcsAppFrontendStack(app, 'Dev-BLEAEcsAppFrontend', {
   // from parameter.ts
   hostedZoneId: devParameter.hostedZoneId,
   domainName: devParameter.domainName,
@@ -38,16 +44,16 @@ const frontend = new BLEAEcsAppFrontendStack(app, 'Dev-BLEAEcsAppFrontend', {
 
   // from EcsApp stack
   alarmTopic: ecsapp.alarmTopic,
-
-  // props of cdk.Stack
-  env: {
-    account: process.env.CDK_DEFAULT_ACCOUNT,
-    region: 'us-east-1',
-  },
-  crossRegionReferences: true,
 });
 
 new BLEAEcsAppMonitoringStack(app, 'Dev-BLEAEcsAppMonitoring', {
+  env: devParameter.env,
+  crossRegionReferences: true,
+  tags: {
+    Repository: 'aws-samples/baseline-environment-on-aws',
+    Environment: devParameter.envName,
+  },
+
   // from parameter.ts
   appEndpoint: `${devParameter.cloudFrontHostName}.${devParameter.domainName}`,
   dashboardName: devParameter.dashboardName,
@@ -65,11 +71,4 @@ new BLEAEcsAppMonitoringStack(app, 'Dev-BLEAEcsAppMonitoring', {
 
   // from Frontend stack
   distributionId: frontend.distributionId,
-
-  // props of cdk.Stack
-  env: {
-    account: process.env.CDK_DEFAULT_ACCOUNT,
-    region: process.env.CDK_DEFAULT_REGION,
-  },
-  crossRegionReferences: true,
 });

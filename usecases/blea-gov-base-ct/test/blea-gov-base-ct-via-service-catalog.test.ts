@@ -6,8 +6,13 @@ import { BLEAGovBaseCtScStack } from '../lib/stack/blea-gov-base-ct-via-service-
 test('Snapshot test for BLEGovABase Stack', () => {
   const app = new cdk.App();
   const stack = new BLEAGovBaseCtScStack(app, 'Dev-BLEAGovBaseCtSc', {
+    env: devParameter.env,
+    tags: {
+      Repository: 'aws-samples/baseline-environment-on-aws',
+      Environment: devParameter.envName,
+    },
+
     securityNotifyEmail: devParameter.securityNotifyEmail,
-    tags: { Environment: devParameter.envName },
   });
 
   // test with snapshot
