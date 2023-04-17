@@ -3,9 +3,12 @@ import { Construct } from 'constructs';
 import { Iam } from '../construct/iam';
 import { Logging } from '../construct/logging';
 import { Detection } from '../construct/detection';
+import { Notification } from '../construct/notification';
 
 export interface BLEAGovBaseCtStackProps extends StackProps {
   securityNotifyEmail: string;
+  securitySlackWorkspaceId?: string;
+  securitySlackChannelId?: string;
 }
 
 export class BLEAGovBaseCtStack extends Stack {
@@ -22,9 +25,19 @@ export class BLEAGovBaseCtStack extends Stack {
     // Security Alarms
     // !!! Need to setup SecurityHub, GuardDuty manually on Organizations Management account
     // AWS Config and CloudTrail are set up by ControlTower
-    new Detection(this, 'Detection', {
+    const detection = new Detection(this, 'Detection', {
       notifyEmail: props.securityNotifyEmail,
       cloudTrailLogGroupName: logging.trailLogGroup.logGroupName,
+    });
+
+    if (!props.securitySlackWorkspaceId || !props.securitySlackChannelId) {
+      throw new Error('securitySlackWorkspaceId and securitySlackChannelId are required');
+    }
+
+    new Notification(this, 'Notification', {
+      topicArn: detection.topic.topicArn,
+      workspaceId: props.securitySlackWorkspaceId,
+      channelId: props.securitySlackChannelId,
     });
   }
 }
