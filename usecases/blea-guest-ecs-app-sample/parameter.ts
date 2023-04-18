@@ -8,10 +8,6 @@ export interface AppParameter {
   monitoringSlackWorkspaceId: string;
   monitoringSlackChannelId: string;
   vpcCidr: string;
-  hostedZoneId: string;
-  domainName: string;
-  cloudFrontHostName: string;
-  albHostName: string;
   dashboardName: string;
 }
 
@@ -38,10 +34,6 @@ export const devParameter: AppParameter = {
   monitoringSlackWorkspaceId: 'TXXXXXXXXXX',
   monitoringSlackChannelId: 'CYYYYYYYYYY',
   vpcCidr: '10.100.0.0/16',
-  hostedZoneId: 'Z00000000000000000000',
-  domainName: 'example.com',
-  cloudFrontHostName: 'www',
-  albHostName: 'alb',
   dashboardName: 'BLEA-ECS-App-Sample',
 };
 

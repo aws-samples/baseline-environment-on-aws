@@ -25,9 +25,6 @@ export class BLEAEcsAppStage extends Stage {
       monitoringSlackWorkspaceId: props.monitoringSlackWorkspaceId,
       monitoringSlackChannelId: props.monitoringSlackChannelId,
       vpcCidr: props.vpcCidr,
-      hostedZoneId: props.hostedZoneId,
-      domainName: props.domainName,
-      albHostName: props.albHostName,
     });
 
     const frontend = new BLEAEcsAppFrontendStack(this, 'BLEAEcsFrontend', {
@@ -41,14 +38,9 @@ export class BLEAEcsAppStage extends Stage {
         Environment: props.envName,
       },
 
-      // from parameter.ts
-      hostedZoneId: props.hostedZoneId,
-      domainName: props.domainName,
-      albHostName: props.albHostName,
-      cloudFrontHostName: props.cloudFrontHostName,
-
       // from EcsApp stack
       alarmTopic: ecsapp.alarmTopic,
+      alb: ecsapp.alb,
     });
 
     new BLEAEcsAppMonitoringStack(this, 'BLEAEcsAppMonitoring', {
@@ -63,7 +55,7 @@ export class BLEAEcsAppStage extends Stage {
       },
 
       // from parameter.ts
-      appEndpoint: `${props.cloudFrontHostName}.${props.domainName}`,
+      appEndpoint: frontend.distributionDomainName,
       dashboardName: props.dashboardName,
 
       // from EcsApp stack

@@ -28,9 +28,6 @@ test(`Snapshot test for BLEA ECS App Stacks`, () => {
     monitoringSlackWorkspaceId: devParameter.monitoringSlackWorkspaceId,
     monitoringSlackChannelId: devParameter.monitoringSlackChannelId,
     vpcCidr: devParameter.vpcCidr,
-    hostedZoneId: devParameter.hostedZoneId,
-    domainName: devParameter.domainName,
-    albHostName: devParameter.albHostName,
   });
 
   const frontend = new BLEAEcsAppFrontendStack(app, 'Dev-BLEAEcsAppFrontend', {
@@ -44,14 +41,9 @@ test(`Snapshot test for BLEA ECS App Stacks`, () => {
       Environment: devParameter.envName,
     },
 
-    // from parameter.ts
-    hostedZoneId: devParameter.hostedZoneId,
-    domainName: devParameter.domainName,
-    albHostName: devParameter.albHostName,
-    cloudFrontHostName: devParameter.cloudFrontHostName,
-
     // from EcsApp stack
     alarmTopic: ecsapp.alarmTopic,
+    alb: ecsapp.alb,
   });
 
   const monitoring = new BLEAEcsAppMonitoringStack(app, 'Dev-BLEAEcsAppMonitoring', {
@@ -66,7 +58,7 @@ test(`Snapshot test for BLEA ECS App Stacks`, () => {
     },
 
     // from parameter.ts
-    appEndpoint: `${devParameter.cloudFrontHostName}.${devParameter.domainName}`,
+    appEndpoint: frontend.distributionDomainName,
     dashboardName: devParameter.dashboardName,
 
     // from EcsApp stack

@@ -20,9 +20,6 @@ const ecsapp = new BLEAEcsAppStack(app, 'Dev-BLEAEcsApp', {
   monitoringSlackWorkspaceId: devParameter.monitoringSlackWorkspaceId,
   monitoringSlackChannelId: devParameter.monitoringSlackChannelId,
   vpcCidr: devParameter.vpcCidr,
-  hostedZoneId: devParameter.hostedZoneId,
-  domainName: devParameter.domainName,
-  albHostName: devParameter.albHostName,
 });
 
 const frontend = new BLEAEcsAppFrontendStack(app, 'Dev-BLEAEcsAppFrontend', {
@@ -36,14 +33,9 @@ const frontend = new BLEAEcsAppFrontendStack(app, 'Dev-BLEAEcsAppFrontend', {
     Environment: devParameter.envName,
   },
 
-  // from parameter.ts
-  hostedZoneId: devParameter.hostedZoneId,
-  domainName: devParameter.domainName,
-  albHostName: devParameter.albHostName,
-  cloudFrontHostName: devParameter.cloudFrontHostName,
-
   // from EcsApp stack
   alarmTopic: ecsapp.alarmTopic,
+  alb: ecsapp.alb,
 });
 
 new BLEAEcsAppMonitoringStack(app, 'Dev-BLEAEcsAppMonitoring', {
@@ -55,7 +47,7 @@ new BLEAEcsAppMonitoringStack(app, 'Dev-BLEAEcsAppMonitoring', {
   },
 
   // from parameter.ts
-  appEndpoint: `${devParameter.cloudFrontHostName}.${devParameter.domainName}`,
+  appEndpoint: frontend.distributionDomainName,
   dashboardName: devParameter.dashboardName,
 
   // from EcsApp stack
