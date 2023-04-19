@@ -1487,8 +1487,8 @@ Object {
             "Arn",
           ],
         },
-        "SlackChannelId": "C01T6JUQNKH",
-        "SlackWorkspaceId": "T8T1EF88P",
+        "SlackChannelId": "C00XXXXXXXX",
+        "SlackWorkspaceId": "T8XXXXXXX",
         "SnsTopicArns": Array [
           Object {
             "Ref": "DetectionAlarmTopic36C4BB55",
