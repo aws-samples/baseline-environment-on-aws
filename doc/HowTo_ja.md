@@ -149,34 +149,37 @@ AWS Chatbot の設定手順は以下の通りです。
 >
 > Slack のプライベートチャネルを利用する場合は、そのチャネルで `/invite @AWS` コマンドを実行しておく必要があります。
 
-### 3. Context file に workspace ID と channel ID を設定する
+### 3. パラメータファイル (parameter.ts) に workspace ID と channel ID を設定する
 
-cdk.json または cdk.context.json に次のように Slack workspace ID と Channel ID を設定します。セキュリティ用とモニタリング用で Channel は異なるものを指定してください:
+各ユースケースにあるパラメータファイル (parameter.ts) に、次のように Slack workspace ID と Channel ID を設定します。セキュリティ用とモニタリング用で Channel は異なるものを指定してください:
 
 セキュリティ用（ガバナンスベース）:
 
-```json
-      "slackNotifier": {
-        "workspaceId": "T8XXXXXXX",
-        "channelIdSec": "C01XXXXXXXX",
-      }
+```typescript
+export const devParameter: AppParameter = {
+  // ...
+  securitySlackWorkspaceId: 'T8XXXXXXX',
+  securitySlackChannelId: 'C00XXXXXXXX',
+  // ...
+};
 ```
 
 モニタリング用（サンプルアプリケーション）:
 
-```json
-      "slackNotifier": {
-        "workspaceId": "T8XXXXXXX",
-        "channelIdMon": "C01YYYYYYYY"
-      }
+```typescript
+export const devParameter: AppParameter = {
+  // ...
+  monitoringSlackWorkspaceId: 'T8XXXXXXX',
+  monitoringSlackChannelId: 'C00XXXXXYYY',
+  // ...
 ```
 
-| 設定項目     | 値の取得元                                                                |
-| ------------ | ------------------------------------------------------------------------- |
-| workspaceId  | AWS Chatbot の Workspace details からコピー                               |
-| channelIdSec | Slack App からコピー - セキュリティアラーム用                             |
-| channelIdMon | Slack App からコピー - モニタリングアラーム用                             |
-| channelIdAgg | Slack App からコピー - Audit アカウントで集約された情報に対するアラーム用 |
+| 設定項目                   | 値の取得元                                                                                                                                          |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| securitySlackWorkspaceId   | workSpace ID: AWS Chatbot の Workspace details からコピー - セキュリティアラーム用                                                                  |
+| securitySlackChannelId     | Slack App の対象チャネルのリンクから取得 - セキュリティアラーム用                                                                                   |
+| monitoringSlackWorkspaceId | workSpace ID: AWS Chatbot の Workspace details からコピー - モニタリングアラーム用（通常はセキュリティ用と同じ workspace を使うことが多いでしょう） |
+| monitoringSlackChannelId   | Slack App の対象チャネルのリンクから取得 - モニタリングアラーム用                                                                                   |
 
 ---
 
@@ -218,13 +221,9 @@ sudo npm -g install npm
 cd path/to/source
 npm ci
 # デプロイしたいusecaseのディレクトリに移動する
-cd usecases/guest-webapp-sample
-npx cdk deploy --all -c environment=dev --profile prof_dev
+cd usecases/blea-uest-serverless-api-sample
+npx aws-cdk deploy --all --profile prof_dev
 ```
-
-> NOTE
->
-> ビルドは cdk.json に記載されている`"app": "npx ts-node --prefer-ts-exts bin/bleadeploy.ts"`によって、`npx cdk deploy`実行時に行われる
 
 ---
 
@@ -245,46 +244,49 @@ npm update --workspaces
 
 ## 通常の開発の流れ
 
-一度デプロイしたあと、 CDK コードを編集してビルド、デプロイする流れは次のようになります。
+コードをチェックアウトしたあと、CDK コードを編集してビルド、デプロイする流れは次のようになります。
 
-### 1. ユースケースディレクトリに移動する
+### 1. コードをチェックアウトし、必要なライブラリをインストールする
 
 > ```sh
-> cd usecases/guest-webapp-sample
+> git clone https://github.com/aws-samples/baseline-environment-on-aws.git
+> cd baseline-environment-on-aws
+> npm ci
 > ```
 
-### 2. 手元の環境をクリーンナップする
+### 2. 単一のユースケースをデプロイ、変更、テストする
 
 > ```sh
-> npm run clean
-> ```
-
-### 3. CDK コードを編集する
-
-任意のエディタで CDK コードを編集します。（Visutal Studio Code を推奨します）
-
-### 4. 必要なら追加パッケージをインストールする
-
-CDK コードで追加のパッケージが必要になった場合は、以下のようにインストールします。ここでは `@aws-cdk/aws-kms` をインストールしています。
-
-> ```sh
-> # BLEAのルートディレクトリで実行
-> npm i -P @aws-cdk/aws-kms --workspace usecases/guest-webapp-sample
-> ```
-
-### 5. テストする
-
-> ```sh
-> # linting
+> cd usecases/blea-guest-web-app-sample
+>
+> # 差分を確認する
+> npx aws-cdk diff --all --profile prof_dev
+>
+> # 任意のエディタで CDK コードを編集する（Visutal Studio Code を推奨します）
+> # ....
+>
+> # linting (体裁を確認)
 > npm run lint
-> # formatting
+>
+> # formatting (整形)
 > npm run format
-> # snapshot test (see NOTE)
+>
+> # snapshot testを実行する (see NOTE)
 > npm run test
 > ```
-
-> NOTE:
 >
+> # デプロイ（作業迅速化のため、承認を求めず、またロールバックを実行しないオプションを指定しています）
+>
+> npx aws-cdk deploy --all --profile prof_dev --require-approval never --no-rollback
+>
+> # 以下、確認、変更、テスト、デプロイを繰り返す
+>
+> ```
+>
+> ```
+
+NOTE:
+
 > CDK コードを変更した場合、以前とは異なるテンプレートが生成されるため、スナップショットテスト (npm run test) が失敗します
 > テンプレートが正しく生成されているならば、次のようにスナップショットの更新が必要です。
 >
@@ -292,9 +294,11 @@ CDK コードで追加のパッケージが必要になった場合は、以下�
 > # Update snapshot
 > npm run test -- -u
 > ```
->
-> 全てのユースケースをテストするには workspaces を使用して次のように実行します。
->
+
+### 3. BLEA の全ユースケースをまとめて操作する
+
+全てのユースケースを検証、テストするには `workspaces` を使用して次のように実行します。
+
 > ```sh
 > # BLEAのルートディレクトリで実行
 > npm ci
@@ -304,7 +308,9 @@ CDK コードで追加のパッケージが必要になった場合は、以下�
 > npm run test --workspaces -- -u      # update snaphosts
 > npm run test --workspaces
 > ```
->
+
+NOTE:
+
 > 個別のユースケースを workspaces を使用してテストするには次のように実行します。workspaces と workspace の違いに注意してください。
 >
 > ```sh
@@ -312,21 +318,13 @@ CDK コードで追加のパッケージが必要になった場合は、以下�
 > npm run test --workspace usecases/blea-gov-base-standalone
 > ```
 
-### 6. Synth/Diff する
+### 4. 追加パッケージをインストールする
 
-CDK Asset を作成し、現在の環境との差分を確認します。
-
-> ```sh
-> npx cdk synth --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecs-app-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
-> npx cdk diff --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecs-app-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
-> ```
-
-### 7. Deploy する
-
-デプロイします。ここでは承認をスキップし、ロールバックさせないオプションを追加しています。
+CDK コードで追加のパッケージが必要になった場合は、以下のようにインストールします。ここでは `@aws-cdk/aws-kms` をインストールしています。
 
 > ```sh
-> npx cdk deploy --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecs-app-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
+> # BLEAのルートディレクトリで実行
+> npm i -P @aws-cdk/aws-kms --workspace usecases/guest-webapp-sample
 > ```
 
 ---

@@ -183,28 +183,32 @@ BLEA ではセキュリティイベントおよびモニタリングイベント
 usecases/blea-gov-base-standalone/parameter.ts
 ```
 
-このサンプルは `DevParameter` というパラメータセットを定義する例です。同様の設定を検証、本番アカウントにもデプロイできるようにするには、`StgParameter`や`ProdParameter`といったパラメータセットを定義し、App （こここでは `bin/blea-gov-base-standalone.ts`）でそれぞれの環境のスタックを作成します。
+このサンプルは `devParameter` というパラメータセットを定義する例です。同様の設定を検証、本番アカウントにもデプロイできるようにするには、`stagingParameter`や`prodParameter`といったパラメータセットを定義し、App （こここでは `bin/blea-gov-base-standalone.ts`）でそれぞれの環境のスタックを作成します。
 
 usecases/blea-gov-base-standalone/parameter.ts
 
 ```typescript
 // Example for Development
-export const DevParameter: MyParameter = {
+export const devParameter: AppParameter = {
   envName: 'Development',
   securityNotifyEmail: 'notify-security@example.com',
+  securitySlackWorkspaceId: 'T8XXXXXXX',
+  securitySlackChannelId: 'C00XXXXXXXX',
   // env: { account: '123456789012', region: 'ap-northeast-1' },
 };
 ```
 
 この設定内容は以下の通りです。
 
-| key                 | value                                                                             |
-| ------------------- | --------------------------------------------------------------------------------- |
-| envName             | 環境名。これが各々のリソースタグに設定されます                                    |
-| securityNotifyEmail | セキュリティに関する通知が送られるメールアドレス。内容は Slack と同様です         |
-| env                 | デプロイ対象のアカウントとリージョン（指定しない場合は CLI の認証情報に従います） |
+| key                      | value                                                                                                    |
+| ------------------------ | -------------------------------------------------------------------------------------------------------- |
+| envName                  | 環境名。これが各々のリソースタグに設定されます                                                           |
+| securityNotifyEmail      | セキュリティに関する通知が送られるメールアドレス。内容は Slack と同様です                                |
+| securitySlackWorkspaceId | AWS Chatbot に設定した Slack workspace の ID                                                             |
+| securitySlackChannelId   | AWS Chatbot に設定した Slack channel の ID。ガバナンスベースによってセキュリティに関する通知が行われます |
+| env                      | デプロイ対象のアカウントとリージョン（指定しない場合は CLI の認証情報に従います）                        |
 
-> NOTE: BLEA v2.x までは Context (cdk.json) を使っていましたが、v3.0 以降は parameter.ts を使用します。
+> NOTE: BLEA v2.x までは パラメータの設定に Context (cdk.json) を使っていましたが、v3.0 以降は parameter.ts を使用します。
 
 #### 4-2. ガバナンスベースをデプロイする
 
@@ -217,8 +221,8 @@ npx aws-cdk bootstrap --profile prof_dev
 
 > NOTE:
 >
-> - ここでは BLEA 環境にインストールしたローカルの cdk を利用するため、`npx aws-cdk`を使用しています。直接`cdk`からコマンドを始めた場合は、グローバルインストールされた cdk が利用されます。
-> - cdk コマンドを利用するときに便利なオプションがあります。[デプロイ時の承認をスキップしロールバックさせない](doc/HowTo_ja.md#デプロイ時の承認をスキップしロールバックさせない)を参照してください。
+> - ここでは BLEA 環境にインストールしたローカルの cdk を利用するため、`npx aws-cdk` を使用しています。`npx` を使わず直接 `cdk` からコマンドを始めた場合は、グローバルインストールされた cdk が利用されます。
+> - cdk を実行するときに便利なオプションがあります。[デプロイ時の承認をスキップしロールバックさせない](doc/HowTo_ja.md#デプロイ時の承認をスキップしロールバックさせない)を参照してください。
 
 ガバナンスベースをデプロイします。
 
@@ -235,18 +239,10 @@ npx aws-cdk deploy --all --profile prof_dev
 - デフォルトセキュリティグループの閉塞 （逸脱した場合自動修復）
 - AWS Health イベントの通知
 - セキュリティに影響する変更操作の通知（一部）
-- セキュリティイベントを通知する SNS トピック (SecurityAlarmTopic) と、メールへの送信
+- セキュリティイベントを通知する SNS トピック (SecurityAlarmTopic) の作成
+- 上記 SNS トピックを経由した、メールの送信と Slack のセキュリティチャネルへの通知
 
-#### 4-3. セキュリティイベントの Slack への通知
-
-セキュリティイベントの検知と対応を集中管理するため、前のステップで作られた SecurityAlarmTopic のイベントを Slack に通知することをお勧めします。
-
-すでに Slack Workspace を 3-2 で作成済みですので、以下の手順を参照して、SecurityAlarmTopic のイベントをご自身で作成した Slack チャネルに流すよう設定してください。セキュリティイベントのみを迅速に把握するため、このチャネルはこの用途に対してのみ使用し、他のアカウントやシステムモニタリング等と共用しないことをお勧めします。
-Security AlarmTopic は実際には`DevBLEABaseCTGuest-SecurityDetectionSecurityAlarmTopic....`のような名前になっています。
-
-Slack セットアップ手順: [https://docs.aws.amazon.com/ja_jp/chatbot/latest/adminguide/slack-setup.html]
-
-#### 4-4. (オプション) 他のベースラインセットアップを手動でセットアップする
+#### 4-3. (オプション) 他のベースラインセットアップを手動でセットアップする
 
 ガバナンスベースでセットアップする他に AWS はいくつかの運用上のベースラインサービスを提供しています。必要に応じてこれらのサービスのセットアップを行なってください。
 

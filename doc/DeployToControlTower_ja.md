@@ -24,19 +24,19 @@ CDK コードを安全に編集するため、本格的な開発を行わない�
 
 ### ControlTower 配下への導入手順
 
-ControlTower の配下にマルチアカウント版のガバナンスベースを導入して、ゲストシステムとしてサンプルアプリケーションを導入する手順を例にとって解説します。ここで`MC`はマネジメントコンソールでの作業を、`Local`は手元環境での作業を示します。
+ControlTower の配下にマルチアカウント版のガバナンスベースを導入して、ゲストシステムとしてサンプルアプリケーションを導入する手順を例にとって解説します。ここで `MC` はマネジメントコンソールでの作業を、`Local` は手元環境での作業を示します。
 
-1. ControlTower およびセキュリティサービスのセットアップ(MC)
+1. ControlTower およびセキュリティサービスのセットアップ (MC)
 
-2. デプロイ対象のゲストアカウントを ControlTower で作成する(MC)
+2. デプロイ対象のゲストアカウントを ControlTower で作成する (MC)
 
-3. 依存パッケージのインストールとコードのビルド(Local)
+3. 依存パッケージのインストールとコードのビル ド(Local)
 
-4. AWS SSO に合わせて AWS CLI の認証情報を設定する(Local)
+4. AWS SSO に合わせて AWS CLI の認証情報を設定する (Local)
 
-5. ゲストアカウント用ガバナンスベースをデプロイする(Local)
+5. ゲストアカウント用ガバナンスベースをデプロイする (Local)
 
-6. ゲストアプリケーションサンプルをデプロイする(Local)
+6. ゲストアプリケーションサンプルをデプロイする (Local)
 
 ## 導入手順
 
@@ -58,8 +58,6 @@ See: [https://docs.aws.amazon.com/controltower/latest/userguide/setting-up.html]
 > ご参考：https://docs.aws.amazon.com/controltower/latest/userguide/2022-all.html#version-3.0
 >
 > BLEA はデフォルトで LZ3.0 以降の環境を想定していますが、ゲストアカウントで CloudTrail のログ監視を行うために Cloud Trail が必要であるため、Organization Trail に重複して 各ゲストアカウントにも CloudTrail を作成します。
->
-> 以下の前提条件ではない環境へガバナンスベースを展開する場合は、[5-2. (必要に応じて)Control Tower landing zone の設定に合わせコードを修正する](<#5-2-(必要に応じて)Control-Tower-landing-zone-の設定に合わせコードを修正する>)をご覧ください
 >
 > 前提条件：
 >
@@ -192,39 +190,45 @@ Control Tower 用ベースラインのパラメータはこちらで指定しま
 usecases/blea-gov-base-ct/parameter.ts
 ```
 
-このサンプルは `DevParameter` というパラメータセットを定義する例です。同様の設定を検証、本番アカウントにもデプロイできるようにするには、`StgParameter`や`ProdParameter`といったパラメータセットを定義し、App （こここでは `bin/blea-gov-base-standalone.ts`）でそれぞれの環境のスタックを作成します。
+このサンプルは `devParameter` というパラメータセットを定義する例です。同様の設定を検証、本番アカウントにもデプロイできるようにするには、`stagingParameter`や`prodParameter`といったパラメータセットを定義し、App （こここでは `bin/blea-gov-base-standalone.ts`）でそれぞれの環境のスタックを作成します。
 
 usecases/blea-gov-base-ct/parameter.ts
 
 ```typescript
 // Example for Development
-export const DevParameter: MyParameter = {
+export const devParameter: AppParameter = {
   envName: 'Development',
   securityNotifyEmail: 'notify-security@example.com',
+  securitySlackWorkspaceId: 'T8XXXXXXX',
+  securitySlackChannelId: 'C00XXXXXXXX',
   // env: { account: '123456789012', region: 'ap-northeast-1' },
 };
 
 // Example for Staging
-export const StgParameter: MyParameter = {
+export const stagingParameter: AppParameter = {
   envName: 'Staging',
   securityNotifyEmail: 'notify-security@example.com',
+  securitySlackWorkspaceId: 'T8XXXXXXX',
+  securitySlackChannelId: 'C00XXXXXYYY',
   env: { account: '123456789012', region: 'ap-northeast-1' },
 };
 ```
 
 この設定内容は以下の通りです。
 
-| key                 | value                                                                             |
-| ------------------- | --------------------------------------------------------------------------------- |
-| envName             | 環境名。これが各々のリソースタグに設定されます                                    |
-| securityNotifyEmail | セキュリティに関する通知が送られるメールアドレス。内容は Slack と同様です         |
-| env                 | デプロイ対象のアカウントとリージョン（指定しない場合は CLI の認証情報に従います） |
+| key                      | value                                                                                                    |
+| ------------------------ | -------------------------------------------------------------------------------------------------------- |
+| envName                  | 環境名。これが各々のリソースタグに設定されます                                                           |
+| securityNotifyEmail      | セキュリティに関する通知が送られるメールアドレス。内容は Slack と同様です                                |
+| securitySlackWorkspaceId | AWS Chatbot に設定した Slack workspace の ID                                                             |
+| securitySlackChannelId   | AWS Chatbot に設定した Slack channel の ID。ガバナンスベースによってセキュリティに関する通知が行われます |
+| env                      | デプロイ対象のアカウントとリージョン（指定しない場合は CLI の認証情報に従います）                        |
 
 > NOTE:
 >
 > デプロイ対象のアカウントを明示的に指定したい場合は`env`を指定してください。これによって CLI Profile で指定するアカウント-リージョンと、`env`で指定するものが一致していないとデプロイできなくなります。アカウントに設定したパラメータを確実に管理し、誤ったアカウントにデプロイすることを防ぐことができます。できるだけ`env`も指定することをお勧めします。
 
-> NOTE: BLEA v2.x までは Context (cdk.json) を使っていましたが、v3.0 以降は parameter.ts を使用します。
+> NOTE: BLEA v2.x までは パラメータの設定に Context (cdk.json) を使っていましたが、v3.0 以降は parameter.ts を使用します。
 
 #### 5-2. ゲストアカウントにガバナンスベースデプロイする
 
@@ -243,8 +247,8 @@ npx aws-cdk bootstrap --profile ct-guest
 
 > NOTE:
 >
-> - ここでは BLEA 環境にインストールしたローカルの cdk を利用するため、`npx aws-cdk`を使用しています。直接`cdk`からコマンドを始めた場合は、グローバルインストールされた cdk が利用されます。
-> - cdk コマンドを利用するときに便利なオプションがあります。[デプロイ時の承認をスキップしロールバックさせない](doc/HowTo_ja.md#デプロイ時の承認をスキップしロールバックさせない)を参照してください。
+> - ここでは BLEA 環境にインストールしたローカルの cdk を利用するため、`npx aws-cdk`を使用しています。`npx` を使わず直接`cdk`からコマンドを始めた場合は、グローバルインストールされた cdk が利用されます。
+> - cdk を実行するときに便利なオプションがあります。[デプロイ時の承認をスキップしロールバックさせない](doc/HowTo_ja.md#デプロイ時の承認をスキップしロールバックさせない)を参照してください。
 
 ゲストアカウントのガバナンスベースをデプロイします。
 
@@ -258,9 +262,10 @@ npx aws-cdk deploy --all --profile ct-guest
 - デフォルトセキュリティグループの閉塞 （逸脱した場合自動修復）
 - AWS Health イベントの通知
 - セキュリティに影響する変更操作の通知（一部）
-- セキュリティイベントを通知する SNS トピック (SecurityAlarmTopic) と、メールへの送信
+- セキュリティイベントを通知する SNS トピック (SecurityAlarmTopic) の作成
+- 上記 SNS トピックを経由した、メールの送信と Slack のセキュリティチャネルへの通知
 
-Standalone 版でセットアップされていた以下の内容は ControlTower およびセキュリティサービスの Organizations 対応により設定されます。
+Standalone 版でセットアップされていた以下の内容は ControlTower およびセキュリティサービスの Organizations 対応により設定されます。したがって、マルチアカウント版の BLEA も Standalone 版の BLEA も、設定されるセキュリティサービス群は同等になるように設計されています。
 
 - CloudTrail による API のロギング
 - AWS Config による構成変更の記録
@@ -268,16 +273,7 @@ Standalone 版でセットアップされていた以下の内容は ControlTowe
 - GuardDuty による異常なふるまいの検知
 - SecurityHub によるベストプラクティスからの逸脱検知 (AWS Foundational Security Best Practice, CIS benchmark)
 
-#### 5-3. セキュリティイベントの Slack への通知
-
-セキュリティイベントの検知と対応を集中管理するため、前のステップで作られた SecurityAlarmTopic のイベントを Slack に通知することをお勧めします。
-
-すでに Slack Workspace を 3-2 で作成済みですので、以下の手順を参照して、SecurityAlarmTopic のイベントをご自身で作成した Slack チャネルに流すよう設定してください。セキュリティイベントのみを迅速に把握するため、このチャネルはこの用途に対してのみ使用し、他のアカウントやシステムモニタリング等と共用しないことをお勧めします。
-Security AlarmTopic は実際には`DevBLEABaseCTGuest-SecurityDetectionSecurityAlarmTopic....`のような名前になっています。
-
-Slack セットアップ手順: [https://docs.aws.amazon.com/ja_jp/chatbot/latest/adminguide/slack-setup.html]
-
-#### 5-4. (オプション) 他のベースラインセットアップを手動でセットアップする
+#### 5-3. (オプション) 他のベースラインセットアップを手動でセットアップする
 
 ガバナンスベースでセットアップする他に
 AWS はいくつかの運用上のベースラインサービスを提供しています。必要に応じてこれらのサービスのセットアップを行なってください。

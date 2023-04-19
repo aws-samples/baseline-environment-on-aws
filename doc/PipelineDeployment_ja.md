@@ -4,7 +4,7 @@
 
 CDK による CI/CD の一例として、このドキュメントでは [CDK Pipelines](https://docs.aws.amazon.com/cdk/v2/guide/cdk_pipeline.html) を用いてアプリケーションをデプロイするためのサンプルコードの使用方法を示します。
 
-CDK Pipelines は、AWS CodePipeline によって CDK アプリケーションの継続的なデプロイパイプラインを簡単にセットアップできる高レベルのコンストラクトライブラリです。CDK pipelines で迅速にパイプラインを構築することで、お客様はアプリケーション開発を簡素化し、より関心の高い部分に注力することができます。
+CDK Pipelines は、AWS CodePipeline によって CDK アプリケーションの継続的なデプロイパイプラインを簡単にセットアップできる高レベルのコンストラクトライブラリです。CDK pipelines で迅速にパイプラインを構築することで、アプリケーション開発を簡素化し、より関心の高い部分に注力することができます。
 
 現状、以下のサンプルを提供しています。
 
@@ -47,7 +47,7 @@ CodePipeline がソースコードを取得するために必要な設定を実�
 
 - ここでは、マルチアカウント用ガバナンスベース（`usecases/blea-gov-base-ct`）をパイプラインでデプロイする手順を紹介します
 - パイプラインと、そこからデプロイするガバナンスベースは同じアカウント `Dev` アカウント ID `123456789012` に作成します。
-- パイプラインのパラメータは `DevPipelineParameter`、ガバナンスベースのパラメータは `DevParameter`とします
+- パイプラインのパラメータは `devPipelineParameter`、ガバナンスベースのパラメータは `devParameter`とします
 
 ### 1-1. GitHub リポジトリに BLEA のコードを登録する
 
@@ -108,28 +108,29 @@ region = ap-northeast-1
 
 ```typescript
 // Parameter for Governance base in Dev account
-export const DevParameter: MyParameter = {
+export const devParameter: AppParameter = {
   envName: 'Development',
   securityNotifyEmail: 'notify-security@example.com',
+  securitySlackWorkspaceId: 'T8XXXXXXX',
+  securitySlackChannelId: 'C00XXXXXXXX',
   // env: { account: '123456789012', region: 'ap-northeast-1' },
 };
 
 // Parameter for Pipeline in Dev account
-export const DevPipelineParameter: MyParameter = {
-  envName: 'Development',
-  securityNotifyEmail: 'notify-security@example.com',
+export const devPipelineParameter: PipelineParameter = {
+  env: { account: '123456789012', region: 'ap-northeast-1' },
+  envName: 'DevPipeline',
   sourceRepository: 'aws-samples/baseline-environment-on-aws',
   sourceBranch: 'main',
   sourceConnectionArn: 'arn:aws:codestar-connections:ap-northeast-1:xxxxxxxxxxxx:connection/example',
-  // env: { account: '123456789012', region: 'ap-northeast-1' },
 };
 ```
 
 パイプライン特有のパラメータは以下の通りです。
 
-- `repository`: GitHub リポジトリの名前。自身のリポジトリ URL が 'https://github.com/ownername/repositoryname.git' である場合、`ownername/repositoryname` を指定する
-- `branch`: パイプラインが参照するブランチ名
-- `connectionArn`: 先のセクションで取得した GitHub Connection の ARN
+- `sourceRepository`: GitHub リポジトリの名前。自身のリポジトリ URL が 'https://github.com/ownername/repositoryname.git' である場合、`ownername/repositoryname` を指定する
+- `sourceBranch`: パイプラインが参照するブランチ名
+- `sourceConnectionArn`: 先のセクションで取得した GitHub Connection の ARN
 
 ### 1-5. パイプラインをデプロイする
 
@@ -168,14 +169,12 @@ CDK Pipelines は、アカウントやリージョン間にまたがるアプリ
 - パイプラインをデプロイする Git リポジトリがプライベートリポジトリとして管理され、第三者が `paramter.ts` またはパイプラインのスタック等に記載されているアカウント情報にアクセスできないこと
 - Pipeline アカウントにて上記手順 1-1, 1-2 の実施が完了していること
 
-  > **Note** 本サンプルでは、パイプラインがデプロイするスタックのデプロイ先となるアカウントの接続情報を記載する必要があるため、当該情報を管理する Git リポジトリは Private である必要があります。例えば GitHub 上で開発を行う場合、公開されている本リポジトリを Clone して Push することで Private なリポジトリを作成する必要があります。aws-samples のリポジトリを直接 Fork するとプライベートリポジトリとして管理することができないので、注意してください。
+  > **Note** 本サンプルでは、パイプラインがデプロイする際に必要とする、デプロイ先アカウントへの接続情報を、パイプラインのパラメータファイルに記載する必要があります。当該情報を管理する Git リポジトリは セキュリティのため プライベートリポジトリとすることをお勧めします。aws-samples のリポジトリを直接 Fork するとプライベートリポジトリとして管理することができないので、注意してください。例えば GitHub 上で開発を行う場合、公開されている本リポジトリを Clone して Push することで Private なリポジトリを作成する必要があります。
 
 ### 2-1. パラメータの設定
 
 クロスアカウントデプロイでは対象のアカウントとリージョンを明示的に指定する必要があります。
 `usecase/blea-guest-ecs-app-sample/parameter.ts` のコメントアウトされているアカウント ID を適切に設定します。
-
-注意：このアプリケーションのデプロイにあたっては、事前に独自ドメインを Route53 に登録して Hosted Zone ID を取得する必要があります。A レコードや SSL 証明書はサンプルアプリケーション内で作成します。
 
 ```typescript
 // Parameters for Dev Account
@@ -189,10 +188,6 @@ export const devParameter: AppParameter = {
   monitoringSlackWorkspaceId: 'TXXXXXXXXXX',
   monitoringSlackChannelId: 'CYYYYYYYYYY',
   vpcCidr: '10.100.0.0/16',
-  hostedZoneId: 'Z00000000000000000000',
-  domainName: 'example.com',
-  cloudFrontHostName: 'www',
-  albHostName: 'alb',
   dashboardName: 'BLEA-ECS-App-Sample',
 };
 
@@ -259,7 +254,7 @@ cd usecase/blea-guest-ecs-app-sample
 npx aws-cdk deploy --profile blea-pipeline-tools --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecs-app-sample-via-cdk-pipelines.ts"
 ```
 
-この Pipeline アカウントにデプロイされたパイプラインによりアプリケーションがビルド・デプロイされます。
+この Pipeline アカウントにデプロイされたパイプラインによって、次のステップでアプリケーションがビルド・デプロイされます。
 
 ### 2-4. アプリケーションのコードを更新し変更を Push して、デプロイを実行する
 
