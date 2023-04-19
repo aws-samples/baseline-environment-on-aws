@@ -7,11 +7,9 @@ Here we will describe howTo for various settings.
 - [VisualStudioCode Setup Instructions](#VisualStudioCode-Setup-Instructions)
 - [Git pre-commit hook setup](#Git-pre-commit-hook-setup)
 - [Skip Deployment Approvals and Don't Roll Back](#skip-deployment-approvals-and-dont-roll-back)
-- [Manage personal environment by cdk.context.json](#Manage-personal-environment-by-cdkcontextjson)
 - [Set up Slack for AWS ChatBot](#set-up-slack-for-aws-chatbot)
 - [Deployment with CloudShell](#deployment-with-cloudshell)
 - [Update package dependencies](#update-package-dependencies)
-- [Accessing context in application](#accessing-context-in-application)
 - [Development process](#development-process)
 - [Remediate Security Issues](#remediate-security-issues)
 
@@ -125,35 +123,6 @@ By setting `RequireApproval` and `Rollback` to cdk.json as follows, you do not n
   "app": "npx ts-node --prefer-ts-exts bin/blea-guest-ecs-app-sample.ts",
   "requireApproval": "never",
   "rollback": false,
-  "context": {
-    "dev": {
-```
-
----
-
-## Manage personal environment by cdk.context.json
-
-You can specify parameters for your development environment by placing cdk.context.json in the same directory as cdk.json. This file will not be committed to the repository. This file may have been created automatically by the CDK. In this case, keep the existing configuration and add your own Context definition.
-
-cdk.context.json example
-
-```json
-{
-  "@aws-cdk/core:enableStackNameDuplicates": "true",
-  "aws-cdk:enableDiffNoFail": "true",
-  "@aws-cdk/core:stackRelativeExports": "true",
-  "my": {
-    "description": "Personal Environment variables for blea-guest-*-samples.ts",
-    "envName": "Personal",
-    "vpcCidr": "10.100.0.0/16",
-    "monitoringNotifyEmail": "zzz@example.com",
-    "dbUser": "personaluser",
-    "slackNotifier": {
-      "workspaceId": "T8XXXXXXXXX",
-      "channelIdMon": "C02YYYYYYYY"
-    }
-  }
-}
 ```
 
 ---
@@ -180,34 +149,37 @@ Make a note of the ID of the Workspace you created. It looks like `T8XXXXXXX`.
 >
 > If you configure a private Slack channel, run the `/invite @AWS` command in Slack to invite the AWS Chatbot to the chat room.
 
-### 3. Set the workspace ID and channel ID in the Context file
+### 3. Set the workspace ID and channel ID in the parameter file (parameter.ts)
 
-Set the Slack workspace ID and Channel ID for cdk.json or cdk.context.json as follows: Specify a different channel for security and monitoring:
+Set the Slack workspace ID and channel ID in the parameter file (parameter.ts) for each use case as follows. Please specify different channels for security and monitoring:
 
-For security (governance baseline):
+For security (governance base):
 
-```json
-      "slackNotifier": {
-        "workspaceId": "T8XXXXXXX",
-        "channelIdSec": "C01XXXXXXXX",
-      }
+```typescript
+export const devParameter: AppParameter = {
+  // ...
+  securitySlackWorkspaceId: 'T8XXXXXXX',
+  securitySlackChannelId: 'C00XXXXXXXX',
+  // ...
+};
 ```
 
 For monitoring (sample application):
 
-```json
-      "slackNotifier": {
-        "workspaceId": "T8XXXXXXX",
-        "channelIdMon": "C01YYYYYYYY"
-      }
+```typescript
+export const devParameter: AppParameter = {
+  // ...
+  monitoringSlackWorkspaceId: 'T8XXXXXXX',
+  monitoringSlackChannelId: 'C00XXXXXYYY',
+  // ...
 ```
 
-| key          | value                                                                             |
-| ------------ | --------------------------------------------------------------------------------- |
-| WorkspaceID  | Copy from Workspace details in AWS Chatbot                                        |
-| ChannelIDSec | Copy from Slack App - For Security Alarms                                         |
-| ChannelIdMon | Copy from Slack App - For Monitoring Alarms                                       |
-| ChannelidaGG | Copy from Slack App - For alarms for aggregated information in your Audit account |
+| Setting Item                | Value Retrieval Source                                                                                                               |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| securitySlackWorkspaceID    | Workspace ID: Copy from Workspace Details in AWS Chatbot - for security alarms                                                       |
+| securitySlackChannelID      | Retrieved from the target channel link in the Slack App - for security alarms                                                        |
+| MonitoringSlack WorkspaceID | Workspace ID: Copied from AWS Chatbot Workspace Details - for monitoring alarms (you'll usually use the same workspace for security) |
+| MonitoringSlack ChannelID   | Retrieved from the target channel link in the Slack App - for monitoring alarms                                                      |
 
 ---
 
@@ -249,13 +221,9 @@ sudo npm -g install npm
 cd path/to/source
 npm ci
 # in the usecase directory which you want to deploy
-cd usecases/guest-webapp-sample
-npx cdk deploy --all -c environment=dev --profile prof_dev
+cd usecases/blea-uest-serverless-api-sample
+npx aws-cdk deploy --all --profile prof_dev
 ```
-
-> NOTE
->
-> ts files will be built by `npx cdk deploy` command. Because its command will call `npx ts-node --prefer-ts-exts` internally.
 
 ---
 
@@ -274,119 +242,86 @@ npm update --workspaces
 
 ---
 
-## Accessing context in application
-
-Context specified in cdk.json or cdk.context.json is accessed as follows in CDK code (bin/\*.ts).
-
-```ts
-const envKey = app.node.tryGetContext('environment');
-const valArray = app.node.tryGetContext(envKey);
-const environment_name = valArray['envName'];
-```
-
-An example of how to deploy using the Context parameter.
-
-```sh
-cdk deploy --all --profile prof_dev  -c environment=dev
-cdk deploy --all --profile prof_prod -c environment=prod
-```
-
-- If `—-app` is not specified, the Application specified in `app` of cdk.json will be deployed.
-
-- Specify `—-profile xxxxx` to specify a profile (credentials) for deployment
-
-- Specify `-c envrionment=xxxx` to specify the Context parameter defined in cdk.json.
-- The account and region for the credentials specified in profile must match the account and region specified in env in the Context. This prevents you from deploying to the wrong account, and also keeps a record of which account you deployed with which context. It is recommended to specify `env` as much as possible in context.
-- If the account used by each developer is different, such as in the development environment, there is a way to not specify `env` in context. If `env` is not set, it will be deployed to the account and region of the credentials specified in profile.
-
-- See: [https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/context.html]
-- See: [https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/get_context_var.html]
-
----
-
 ## Development process
 
-Once deployed, the flow of editing, building, and deploying the CDK code looks like this:
+After checking out the code, the flow for editing, building, and deploying the CDK code is as follows.
 
-### 1. Go to the use case directory
+### 1. Check out the code and install the required libraries
 
 > ```sh
-> cd usecases/guest-webapp-sample
+> git clone https://github.com/aws-samples/baseline-environment-on-aws.git
+> cd baseline-environment-on-aws
+> npm ci
 > ```
 
-### 2. Clean up your environment
+### 2. Deploy, modify, and test a single use case
 
 > ```sh
-> npm run clean
-> ```
-
-### 3. Edit CDK code
-
-Edit the CDK code in any editor. (Visutal Studio Code is recommended)
-
-### 4. Install additional packages if needed
-
-If your CDK code requires additional packages, install them as follows: Here we have `@aws -cdk/aws-kms` installed.
-
-> ```sh
-> # Run in root directory on BLEA
-> npm i -P @aws-cdk/aws-kms --workspace usecases/guest-webapp-sample
-> ```
-
-### 5. Test
-
-> ```sh
-> # linting
+> cd usecases/blea-guest-web-app-sample
+>
+> # Check the differences
+> npx aws-cdk diff --all --profile prof_dev
+>
+> # Edit the CDK code with an editor of your choice (Visutal Studio Code is recommended)
+> #...
+>
+> # linting (check the appearance)
 > npm run lint
-> # formatting
+>
+> # Orthopedic
 > npm run format
-> # snapshot test
+>
+> # Run snapshot test (see NOTE)
 > npm run test
+>
+> # Deploy (to speed up the process, we have specified an option not to ask for approval and not perform a rollback)
+>
+> npx aws-cdk deploy --all --profile prof_dev --require-approval never --no-rollback
+>
+> # Again diff, modify, test, and deploy ...
+>
 > ```
 
-> NOTE:
-> When you update a CDK source code, your snap shot test (npm run test) will be failed because a generated template is differ from previous one.
-> If your CDK code is correct, you need to update a snapshot using command below.
+NOTE:
+
+> If you change the CDK code, the snapshot test (npm run test) will fail because a different template is generated than before
+> If the template has been generated correctly, the snapshot needs to be updated as follows:
 >
 > ```sh
 > # Update snapshot
 > npm run test -- -u
 > ```
->
-> To test all use cases, run the following using workspaces:
->
+
+### 3. Manipulate all BLEA use cases together
+
+To verify and test all use cases, use `workspaces` and run the following:
+
 > ```sh
-> # Run in the root directory of BLEA
+> # Run in BLEA root directory
 > npm ci
 > npm run lint
 > npm run format
 > npm run clean --workspaces
-> npm run test --workspaces -- -u      # update snaphosts
+> npm run test --workspaces -- -u # updatesnaphosts
 > npm run test --workspaces
 > ```
->
-> To test an individual use case using workspaces: Note the difference between workspaces and workspaces.
+
+NOTE:
+
+> To test individual use cases using workspaces, run the following: Note the difference between workspaces and workspaces.
 >
 > ```sh
-> # Run in the root directory of BLEA
-> npm run test --workspace usecases/guest-webapp-sample
+> # Run in BLEA root directory
+> npm run test --workspace usecases/blea-gov-base-standalone
 > ```
 
-### 6. Synth/Diff
+### 4. install additional packages
 
-Create a CDK Asset and see the differences from the current environment.
-
-> ```sh
-> npx cdk synth --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecs-app-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
-> npx cdk diff --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecs-app-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
-> ```
-
-### 7. Deploy
-
-Deploy it. Here we have added an option to skip authorization and not roll back.
+If the CDK code requires additional packages, install them as follows: Here we are installing `@aws -cdk/aws-kms`
 
 > ```sh
-> npx cdk deploy --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecs-app-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
+> # Run in BLEA root directory
+> npm i-P @aws -cdk/aws-kms --workspace usecases/guest-webapp-sample
 > ```
 
 ---
