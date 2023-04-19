@@ -44,6 +44,12 @@ test(`Snapshot test for BLEA ECS App Stacks`, () => {
     // from EcsApp stack
     alarmTopic: ecsapp.alarmTopic,
     alb: ecsapp.alb,
+
+    // -- Sample to use custom domain on CloudFront
+    // -- from parameter.ts
+    // hostedZoneId: devParameter.hostedZoneId,
+    // domainName: devParameter.domainName,
+    // cloudFrontHostName: devParameter.cloudFrontHostName,
   });
 
   const monitoring = new BLEAEcsAppMonitoringStack(app, 'Dev-BLEAEcsAppMonitoring', {
@@ -59,6 +65,8 @@ test(`Snapshot test for BLEA ECS App Stacks`, () => {
 
     // from parameter.ts
     appEndpoint: frontend.distributionDomainName,
+    // -- Sample to use custom domain on CloudFront
+    // appEndpoint: `${devParameter.cloudFrontHostName}.${devParameter.domainName}`,
     dashboardName: devParameter.dashboardName,
 
     // from EcsApp stack

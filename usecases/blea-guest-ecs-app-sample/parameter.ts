@@ -9,6 +9,11 @@ export interface AppParameter {
   monitoringSlackChannelId: string;
   vpcCidr: string;
   dashboardName: string;
+
+  // -- Sample to use custom domain on CloudFront
+  // hostedZoneId: string;
+  // domainName: string;
+  // cloudFrontHostName: string;
 }
 
 // Parameters for Pipelines
@@ -35,6 +40,11 @@ export const devParameter: AppParameter = {
   monitoringSlackChannelId: 'CYYYYYYYYYY',
   vpcCidr: '10.100.0.0/16',
   dashboardName: 'BLEA-ECS-App-Sample',
+
+  // -- Sample to use custom domain on CloudFront
+  // hostedZoneId: 'Z00000000000000000000',
+  // domainName: 'example.com',
+  // cloudFrontHostName: 'www',
 };
 
 // Parameters for Pipeline Account

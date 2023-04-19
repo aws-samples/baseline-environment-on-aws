@@ -4,12 +4,20 @@ import {
   aws_cloudfront_origins as origins,
   aws_s3 as s3,
   aws_wafv2 as wafv2,
+  // -- Sample to use custom domain on CloudFront
+  // aws_certificatemanager as acm,
+  // aws_route53 as r53,
+  // aws_route53_targets as r53targets,
 } from 'aws-cdk-lib';
 import { ILoadBalancerV2 } from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 import { Construct } from 'constructs';
 
 export interface FrontendProps {
   alb: ILoadBalancerV2;
+  // -- Sample to use custom domain on CloudFront
+  // hostedZoneId: string;
+  // domainName: string;
+  // cloudFrontHostName: string;
 }
 
 export class Frontend extends Construct {
@@ -134,6 +142,17 @@ export class Frontend extends Construct {
       enforceSSL: true,
     });
 
+    // -- Sample to use custom domain on CloudFront
+    // const hostedZone = r53.HostedZone.fromHostedZoneAttributes(this, 'HostedZone', {
+    //   hostedZoneId: props.hostedZoneId,
+    //   zoneName: props.domainName,
+    // });
+
+    // const cfCert = new acm.Certificate(this, 'CloudFrontCertificate', {
+    //   domainName: `${props.cloudFrontHostName}.${props.domainName}`,
+    //   validation: acm.CertificateValidation.fromDns(hostedZone),
+    // });
+
     // --------- CloudFront Distrubution
     const distribution = new cloudfront.Distribution(this, 'Distribution', {
       defaultBehavior: {
@@ -176,8 +195,19 @@ export class Frontend extends Construct {
       }),
       logIncludesCookies: true,
       logFilePrefix: 'CloudFrontAccessLogs/',
+
+      // -- Sample to use custom domain on CloudFront
+      // domainNames: [`${props.cloudFrontHostName}.${hostedZone.zoneName}`],
+      // certificate: cfCert,
     });
     this.distributionDomainName = distribution.distributionDomainName;
     this.distributionId = distribution.distributionId;
+
+    // -- Sample to use custom domain on CloudFront
+    // new r53.ARecord(this, 'CloudFrontARecord', {
+    //   recordName: props.cloudFrontHostName,
+    //   zone: hostedZone,
+    //   target: r53.RecordTarget.fromAlias(new r53targets.CloudFrontTarget(distribution)),
+    // });
   }
 }

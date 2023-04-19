@@ -41,6 +41,11 @@ export class BLEAEcsAppStage extends Stage {
       // from EcsApp stack
       alarmTopic: ecsapp.alarmTopic,
       alb: ecsapp.alb,
+
+      // -- Sample to use custom domain on CloudFront
+      // hostedZoneId: props.hostedZoneId,
+      // domainName: props.domainName,
+      // cloudFrontHostName: props.cloudFrontHostName,
     });
 
     new BLEAEcsAppMonitoringStack(this, 'BLEAEcsAppMonitoring', {
@@ -56,6 +61,8 @@ export class BLEAEcsAppStage extends Stage {
 
       // from parameter.ts
       appEndpoint: frontend.distributionDomainName,
+      // -- Sample to use custom domain on CloudFront
+      // appEndpoint: `${props.cloudFrontHostName}.${props.domainName}`,
       dashboardName: props.dashboardName,
 
       // from EcsApp stack

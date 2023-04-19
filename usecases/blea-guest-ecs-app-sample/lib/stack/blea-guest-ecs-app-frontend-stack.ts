@@ -7,6 +7,10 @@ import { ILoadBalancerV2 } from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 export interface BLEAEcsAppFrontendStackProps extends StackProps {
   alarmTopic: ITopic;
   alb: ILoadBalancerV2;
+  // -- Sample to use custom domain on CloudFront
+  // hostedZoneId: string;
+  // domainName: string;
+  // cloudFrontHostName: string;
 }
 
 export class BLEAEcsAppFrontendStack extends Stack {
@@ -18,6 +22,10 @@ export class BLEAEcsAppFrontendStack extends Stack {
 
     const frontend = new Frontend(this, 'Frontend', {
       alb: props.alb,
+      // -- Sample to use custom domain on CloudFront
+      // hostedZoneId: props.hostedZoneId,
+      // domainName: props.domainName,
+      // cloudFrontHostName: props.cloudFrontHostName,
     });
     this.exportValue(frontend.distributionDomainName);
     this.distributionId = frontend.distributionId;
