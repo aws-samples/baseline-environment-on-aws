@@ -18,7 +18,6 @@ export class Logging extends Construct {
     // === AWS CloudTrail ===
     // Server Access Log Bucket for CloudTrail
     const cloudTrailAccessLogBucket = new s3.Bucket(this, 'CloudTrailAccessLogBucket', {
-      accessControl: s3.BucketAccessControl.LOG_DELIVERY_WRITE,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       versioned: true,
       encryption: s3.BucketEncryption.S3_MANAGED,
