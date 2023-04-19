@@ -20,9 +20,6 @@ const ecsapp = new BLEAEcsAppStack(app, 'Dev-BLEAEcsApp', {
   monitoringSlackWorkspaceId: devParameter.monitoringSlackWorkspaceId,
   monitoringSlackChannelId: devParameter.monitoringSlackChannelId,
   vpcCidr: devParameter.vpcCidr,
-  hostedZoneId: devParameter.hostedZoneId,
-  domainName: devParameter.domainName,
-  albHostName: devParameter.albHostName,
 });
 
 const frontend = new BLEAEcsAppFrontendStack(app, 'Dev-BLEAEcsAppFrontend', {
@@ -36,14 +33,15 @@ const frontend = new BLEAEcsAppFrontendStack(app, 'Dev-BLEAEcsAppFrontend', {
     Environment: devParameter.envName,
   },
 
-  // from parameter.ts
-  hostedZoneId: devParameter.hostedZoneId,
-  domainName: devParameter.domainName,
-  albHostName: devParameter.albHostName,
-  cloudFrontHostName: devParameter.cloudFrontHostName,
-
   // from EcsApp stack
   alarmTopic: ecsapp.alarmTopic,
+  alb: ecsapp.alb,
+
+  // -- Sample to use custom domain on CloudFront
+  // -- from parameter.ts
+  // hostedZoneId: devParameter.hostedZoneId,
+  // domainName: devParameter.domainName,
+  // cloudFrontHostName: devParameter.cloudFrontHostName,
 });
 
 new BLEAEcsAppMonitoringStack(app, 'Dev-BLEAEcsAppMonitoring', {
@@ -55,7 +53,9 @@ new BLEAEcsAppMonitoringStack(app, 'Dev-BLEAEcsAppMonitoring', {
   },
 
   // from parameter.ts
-  appEndpoint: `${devParameter.cloudFrontHostName}.${devParameter.domainName}`,
+  appEndpoint: frontend.distributionDomainName,
+  // -- Sample to use custom domain on CloudFront
+  // appEndpoint: `${devParameter.cloudFrontHostName}.${devParameter.domainName}`,
   dashboardName: devParameter.dashboardName,
 
   // from EcsApp stack

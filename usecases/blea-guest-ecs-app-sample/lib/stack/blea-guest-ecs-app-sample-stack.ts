@@ -7,19 +7,18 @@ import { Datastore } from '../construct/datastore';
 import { EcsApp } from '../construct/ecsapp';
 import { Monitoring } from '../construct/monitoring';
 import { Networking } from '../construct/networking';
+import { ILoadBalancerV2 } from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 
 export interface BLEAEcsAppStackProps extends StackProps {
   monitoringNotifyEmail: string;
   monitoringSlackWorkspaceId: string;
   monitoringSlackChannelId: string;
   vpcCidr: string;
-  hostedZoneId: string;
-  domainName: string;
-  albHostName: string;
 }
 
 export class BLEAEcsAppStack extends Stack {
   public readonly alarmTopic: ITopic;
+  public readonly alb: ILoadBalancerV2;
   public readonly albFullName: string;
   public readonly albTargetGroupName: string;
   public readonly albTargetGroupUnhealthyHostCountAlarm: IAlarm;
@@ -60,12 +59,10 @@ export class BLEAEcsAppStack extends Stack {
       alarmTopic: monitoring.alarmTopic,
       cmk: cmk,
       vpc: networking.vpc,
-      hostedZoneId: props.hostedZoneId,
-      domainName: props.domainName,
-      albHostName: props.albHostName,
       dbCluster: datastore.dbCluster,
     });
     this.exportValue(ecsapp.alb.loadBalancerDnsName);
+    this.alb = ecsapp.alb;
     this.albFullName = ecsapp.albFullName;
     this.albTargetGroupName = ecsapp.albTargetGroupName;
     this.albTargetGroupUnhealthyHostCountAlarm = ecsapp.albTargetGroupUnhealthyHostCountAlarm;

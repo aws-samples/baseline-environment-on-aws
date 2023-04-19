@@ -1,6 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
 import {
-  aws_certificatemanager as acm,
   aws_cloudwatch as cw,
   aws_cloudwatch_actions as cw_actions,
   aws_ec2 as ec2,
@@ -12,7 +11,6 @@ import {
   aws_iam as iam,
   aws_kms as kms,
   aws_logs as cwl,
-  aws_route53 as r53,
   aws_s3 as s3,
   aws_sns as sns,
   Names,
@@ -22,16 +20,12 @@ import {
 import { IAlarm } from 'aws-cdk-lib/aws-cloudwatch';
 import { ILoadBalancerV2 } from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 import { IDatabaseCluster } from 'aws-cdk-lib/aws-rds';
-import { LoadBalancerTarget } from 'aws-cdk-lib/aws-route53-targets';
 import { Construct } from 'constructs';
 
 export interface EcsAppProps {
   vpc: ec2.Vpc;
   cmk: kms.IKey;
   alarmTopic: sns.Topic;
-  hostedZoneId: string;
-  domainName: string;
-  albHostName: string;
   dbCluster: IDatabaseCluster;
 }
 
@@ -47,17 +41,6 @@ export class EcsApp extends Construct {
 
   constructor(scope: Construct, id: string, props: EcsAppProps) {
     super(scope, id);
-
-    // ------------ Certificate for Application LoadBalancer ---------------
-    const hostedZone = r53.HostedZone.fromHostedZoneAttributes(this, 'HostedZone', {
-      hostedZoneId: props.hostedZoneId,
-      zoneName: props.domainName,
-    });
-
-    const albCert = new acm.Certificate(this, 'ALBCertificate', {
-      domainName: `${props.albHostName}.${props.domainName}`,
-      validation: acm.CertificateValidation.fromDns(hostedZone),
-    });
 
     // ------------ Application LoadBalancer ---------------
     //Security Group of ALB for App
@@ -80,13 +63,7 @@ export class EcsApp extends Construct {
     this.albFullName = alb.loadBalancerFullName;
 
     const albListener = alb.addListener('AlbSslListener', {
-      port: 443,
-      certificates: [
-        {
-          certificateArn: albCert.certificateArn,
-        },
-      ],
-      sslPolicy: elbv2.SslPolicy.TLS12_EXT,
+      port: 80,
     });
 
     // Enable ALB Access Logging
@@ -141,12 +118,6 @@ export class EcsApp extends Construct {
       }),
     );
 
-    // Add A Record to Route 53
-    new r53.ARecord(this, 'AlbARecord', {
-      recordName: props.albHostName,
-      zone: hostedZone,
-      target: r53.RecordTarget.fromAlias(new LoadBalancerTarget(alb)),
-    });
     // --------------------- Fargate Cluster ----------------------------
 
     // ---- PreRequesties

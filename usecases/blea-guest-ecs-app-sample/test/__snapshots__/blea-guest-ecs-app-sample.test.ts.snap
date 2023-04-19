@@ -170,6 +170,87 @@ Object {
       },
       "Type": "AWS::KMS::Alias",
     },
+    "CustomCrossRegionExportWriterCustomResourceProviderHandlerD8786E8A": Object {
+      "DependsOn": Array [
+        "CustomCrossRegionExportWriterCustomResourceProviderRoleC951B1E1",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
+          },
+          "S3Key": "27f8287125ebe89b1cb7f97768a61c84b3f3221450e0a22c152addc630ab2430.zip",
+        },
+        "Handler": "__entrypoint__.handler",
+        "MemorySize": 128,
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "CustomCrossRegionExportWriterCustomResourceProviderRoleC951B1E1",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "CustomCrossRegionExportWriterCustomResourceProviderRoleC951B1E1": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Sub": "arn:\${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+          },
+        ],
+        "Policies": Array [
+          Object {
+            "PolicyDocument": Object {
+              "Statement": Array [
+                Object {
+                  "Action": Array [
+                    "ssm:DeleteParameters",
+                    "ssm:ListTagsForResource",
+                    "ssm:GetParameters",
+                    "ssm:PutParameter",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": Object {
+                    "Fn::Join": Array [
+                      "",
+                      Array [
+                        "arn:",
+                        Object {
+                          "Ref": "AWS::Partition",
+                        },
+                        ":ssm:us-east-1:",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        ":parameter/cdk/exports/*",
+                      ],
+                    ],
+                  },
+                },
+              ],
+              "Version": "2012-10-17",
+            },
+            "PolicyName": "Inline",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
     "DatastoreAuroraCPUUtilAlarm68E3EE59": Object {
       "Properties": Object {
         "ActionsEnabled": true,
@@ -458,25 +539,6 @@ Object {
       "Type": "AWS::SecretsManager::Secret",
       "UpdateReplacePolicy": "Delete",
     },
-    "EcsAppALBCertificate9F32AE15": Object {
-      "Properties": Object {
-        "DomainName": "alb.example.com",
-        "DomainValidationOptions": Array [
-          Object {
-            "DomainName": "alb.example.com",
-            "HostedZoneId": "Z00000000000000000000",
-          },
-        ],
-        "Tags": Array [
-          Object {
-            "Key": "Name",
-            "Value": "Dev-BLEAEcsApp/EcsApp/ALBCertificate",
-          },
-        ],
-        "ValidationMethod": "DNS",
-      },
-      "Type": "AWS::CertificateManager::Certificate",
-    },
     "EcsAppAlb74CC21B3": Object {
       "DependsOn": Array [
         "NetworkingVpcPublicSubnet1DefaultRoute80C01FA6",
@@ -522,45 +584,8 @@ Object {
       },
       "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
     },
-    "EcsAppAlbARecord820220F8": Object {
-      "Properties": Object {
-        "AliasTarget": Object {
-          "DNSName": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "dualstack.",
-                Object {
-                  "Fn::GetAtt": Array [
-                    "EcsAppAlb74CC21B3",
-                    "DNSName",
-                  ],
-                },
-              ],
-            ],
-          },
-          "HostedZoneId": Object {
-            "Fn::GetAtt": Array [
-              "EcsAppAlb74CC21B3",
-              "CanonicalHostedZoneID",
-            ],
-          },
-        },
-        "HostedZoneId": "Z00000000000000000000",
-        "Name": "alb.example.com.",
-        "Type": "A",
-      },
-      "Type": "AWS::Route53::RecordSet",
-    },
     "EcsAppAlbAlbSslListener056EB6C5": Object {
       "Properties": Object {
-        "Certificates": Array [
-          Object {
-            "CertificateArn": Object {
-              "Ref": "EcsAppALBCertificate9F32AE15",
-            },
-          },
-        ],
         "DefaultActions": Array [
           Object {
             "TargetGroupArn": Object {
@@ -572,9 +597,8 @@ Object {
         "LoadBalancerArn": Object {
           "Ref": "EcsAppAlb74CC21B3",
         },
-        "Port": 443,
-        "Protocol": "HTTPS",
-        "SslPolicy": "ELBSecurityPolicy-TLS-1-2-Ext-2018-06",
+        "Port": 80,
+        "Protocol": "HTTP",
       },
       "Type": "AWS::ElasticLoadBalancingV2::Listener",
     },
@@ -848,10 +872,10 @@ Object {
         "SecurityGroupIngress": Array [
           Object {
             "CidrIp": "0.0.0.0/0",
-            "Description": "Allow from anyone on port 443",
-            "FromPort": 443,
+            "Description": "Allow from anyone on port 80",
+            "FromPort": 80,
             "IpProtocol": "tcp",
-            "ToPort": 443,
+            "ToPort": 80,
           },
         ],
         "VpcId": Object {
@@ -1586,6 +1610,30 @@ Object {
         },
       },
       "Type": "AWS::ECS::TaskDefinition",
+    },
+    "ExportsWriteruseast10F67B507DDE2E818": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
+            "CustomCrossRegionExportWriterCustomResourceProviderHandlerD8786E8A",
+            "Arn",
+          ],
+        },
+        "WriterProps": Object {
+          "exports": Object {
+            "/cdk/exports/Dev-BLEAEcsAppFrontend/DevBLEAEcsAppapnortheast1FnGetAttEcsAppAlb74CC21B3DNSNameDDC2F343": Object {
+              "Fn::GetAtt": Array [
+                "EcsAppAlb74CC21B3",
+                "DNSName",
+              ],
+            },
+          },
+          "region": "us-east-1",
+        },
+      },
+      "Type": "Custom::CrossRegionExportWriter",
+      "UpdateReplacePolicy": "Delete",
     },
     "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A": Object {
       "DependsOn": Array [
@@ -3130,13 +3178,16 @@ Object {
 
 exports[`Snapshot test for BLEA ECS App Stacks 2`] = `
 Object {
-  "Mappings": Object {
-    "AWSCloudFrontPartitionHostedZoneIdMap": Object {
-      "aws": Object {
-        "zoneId": "Z2FDTNDATAQYW2",
+  "Outputs": Object {
+    "ExportsOutputFnGetAttFrontendDistributionC0C89627DomainName78150ED0": Object {
+      "Export": Object {
+        "Name": "Dev-BLEAEcsAppFrontend:ExportsOutputFnGetAttFrontendDistributionC0C89627DomainName78150ED0",
       },
-      "aws-cn": Object {
-        "zoneId": "Z3RFFRIM2A3IF5",
+      "Value": Object {
+        "Fn::GetAtt": Array [
+          "FrontendDistributionC0C89627",
+          "DomainName",
+        ],
       },
     },
   },
@@ -3148,6 +3199,86 @@ Object {
     },
   },
   "Resources": Object {
+    "CustomCrossRegionExportReaderCustomResourceProviderHandler46647B68": Object {
+      "DependsOn": Array [
+        "CustomCrossRegionExportReaderCustomResourceProviderRole10531BBD",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-us-east-1",
+          },
+          "S3Key": "4b6a500a9b63c31028b69751201d80225328cfb9df5c4a6abaac18e7d4c48a8c.zip",
+        },
+        "Handler": "__entrypoint__.handler",
+        "MemorySize": 128,
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "CustomCrossRegionExportReaderCustomResourceProviderRole10531BBD",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "CustomCrossRegionExportReaderCustomResourceProviderRole10531BBD": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Sub": "arn:\${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+          },
+        ],
+        "Policies": Array [
+          Object {
+            "PolicyDocument": Object {
+              "Statement": Array [
+                Object {
+                  "Action": Array [
+                    "ssm:AddTagsToResource",
+                    "ssm:RemoveTagsFromResource",
+                    "ssm:GetParameters",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": Object {
+                    "Fn::Join": Array [
+                      "",
+                      Array [
+                        "arn:",
+                        Object {
+                          "Ref": "AWS::Partition",
+                        },
+                        ":ssm:us-east-1:",
+                        Object {
+                          "Ref": "AWS::AccountId",
+                        },
+                        ":parameter/cdk/exports/Dev-BLEAEcsAppFrontend/*",
+                      ],
+                    ],
+                  },
+                },
+              ],
+              "Version": "2012-10-17",
+            },
+            "PolicyName": "Inline",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
     "CustomCrossRegionExportWriterCustomResourceProviderHandlerD8786E8A": Object {
       "DependsOn": Array [
         "CustomCrossRegionExportWriterCustomResourceProviderRoleC951B1E1",
@@ -3229,6 +3360,26 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
+    "ExportsReader8B249524": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "ReaderProps": Object {
+          "imports": Object {
+            "/cdk/exports/Dev-BLEAEcsAppFrontend/DevBLEAEcsAppapnortheast1FnGetAttEcsAppAlb74CC21B3DNSNameDDC2F343": "{{resolve:ssm:/cdk/exports/Dev-BLEAEcsAppFrontend/DevBLEAEcsAppapnortheast1FnGetAttEcsAppAlb74CC21B3DNSNameDDC2F343}}",
+          },
+          "prefix": "Dev-BLEAEcsAppFrontend",
+          "region": "us-east-1",
+        },
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
+            "CustomCrossRegionExportReaderCustomResourceProviderHandler46647B68",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::CrossRegionExportReader",
+      "UpdateReplacePolicy": "Delete",
+    },
     "ExportsWriterapnortheast12334E1B81D43DF3F": Object {
       "DeletionPolicy": "Delete",
       "Properties": Object {
@@ -3240,6 +3391,12 @@ Object {
         },
         "WriterProps": Object {
           "exports": Object {
+            "/cdk/exports/Dev-BLEAEcsAppMonitoring/DevBLEAEcsAppFrontenduseast1FnGetAttFrontendDistributionC0C89627DomainName34318E09": Object {
+              "Fn::GetAtt": Array [
+                "FrontendDistributionC0C89627",
+                "DomainName",
+              ],
+            },
             "/cdk/exports/Dev-BLEAEcsAppMonitoring/DevBLEAEcsAppFrontenduseast1RefFrontendDistributionC0C89627E26C774F": Object {
               "Ref": "FrontendDistributionC0C89627",
             },
@@ -3249,50 +3406,6 @@ Object {
       },
       "Type": "Custom::CrossRegionExportWriter",
       "UpdateReplacePolicy": "Delete",
-    },
-    "FrontendCloudFrontARecord83905BCE": Object {
-      "Properties": Object {
-        "AliasTarget": Object {
-          "DNSName": Object {
-            "Fn::GetAtt": Array [
-              "FrontendDistributionC0C89627",
-              "DomainName",
-            ],
-          },
-          "HostedZoneId": Object {
-            "Fn::FindInMap": Array [
-              "AWSCloudFrontPartitionHostedZoneIdMap",
-              Object {
-                "Ref": "AWS::Partition",
-              },
-              "zoneId",
-            ],
-          },
-        },
-        "HostedZoneId": "Z00000000000000000000",
-        "Name": "www.example.com.",
-        "Type": "A",
-      },
-      "Type": "AWS::Route53::RecordSet",
-    },
-    "FrontendCloudFrontCertificateC5AD1C90": Object {
-      "Properties": Object {
-        "DomainName": "www.example.com",
-        "DomainValidationOptions": Array [
-          Object {
-            "DomainName": "www.example.com",
-            "HostedZoneId": "Z00000000000000000000",
-          },
-        ],
-        "Tags": Array [
-          Object {
-            "Key": "Name",
-            "Value": "Dev-BLEAEcsAppFrontend/Frontend/CloudFrontCertificate",
-          },
-        ],
-        "ValidationMethod": "DNS",
-      },
-      "Type": "AWS::CertificateManager::Certificate",
     },
     "FrontendCloudFrontLogBucket688801AF": Object {
       "DeletionPolicy": "Retain",
@@ -3367,9 +3480,6 @@ Object {
     "FrontendDistributionC0C89627": Object {
       "Properties": Object {
         "DistributionConfig": Object {
-          "Aliases": Array [
-            "www.example.com",
-          ],
           "CacheBehaviors": Array [
             Object {
               "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
@@ -3420,12 +3530,17 @@ Object {
           "Origins": Array [
             Object {
               "CustomOriginConfig": Object {
-                "OriginProtocolPolicy": "https-only",
+                "OriginProtocolPolicy": "http-only",
                 "OriginSSLProtocols": Array [
                   "TLSv1.2",
                 ],
               },
-              "DomainName": "alb.example.com",
+              "DomainName": Object {
+                "Fn::GetAtt": Array [
+                  "ExportsReader8B249524",
+                  "/cdk/exports/Dev-BLEAEcsAppFrontend/DevBLEAEcsAppapnortheast1FnGetAttEcsAppAlb74CC21B3DNSNameDDC2F343",
+                ],
+              },
               "Id": "DevBLEAEcsAppFrontendDistributionOrigin1B126A7CF",
             },
             Object {
@@ -3451,13 +3566,6 @@ Object {
               },
             },
           ],
-          "ViewerCertificate": Object {
-            "AcmCertificateArn": Object {
-              "Ref": "FrontendCloudFrontCertificateC5AD1C90",
-            },
-            "MinimumProtocolVersion": "TLSv1.2_2021",
-            "SslSupportMethod": "sni-only",
-          },
           "WebACLId": Object {
             "Fn::GetAtt": Array [
               "FrontendWebAclFA218467",
@@ -3903,7 +4011,12 @@ Object {
         "Name": "devbleaecsappmo8d5431",
         "RunConfig": Object {
           "EnvironmentVariables": Object {
-            "TARGETHOST": "www.example.com",
+            "TARGETHOST": Object {
+              "Fn::GetAtt": Array [
+                "ExportsReader8B249524",
+                "/cdk/exports/Dev-BLEAEcsAppMonitoring/DevBLEAEcsAppFrontenduseast1FnGetAttFrontendDistributionC0C89627DomainName34318E09",
+              ],
+            },
             "TARGETPATH": "/",
           },
         },
@@ -4444,6 +4557,7 @@ Object {
       "Properties": Object {
         "ReaderProps": Object {
           "imports": Object {
+            "/cdk/exports/Dev-BLEAEcsAppMonitoring/DevBLEAEcsAppFrontenduseast1FnGetAttFrontendDistributionC0C89627DomainName34318E09": "{{resolve:ssm:/cdk/exports/Dev-BLEAEcsAppMonitoring/DevBLEAEcsAppFrontenduseast1FnGetAttFrontendDistributionC0C89627DomainName34318E09}}",
             "/cdk/exports/Dev-BLEAEcsAppMonitoring/DevBLEAEcsAppFrontenduseast1RefFrontendDistributionC0C89627E26C774F": "{{resolve:ssm:/cdk/exports/Dev-BLEAEcsAppMonitoring/DevBLEAEcsAppFrontenduseast1RefFrontendDistributionC0C89627E26C774F}}",
           },
           "prefix": "Dev-BLEAEcsAppMonitoring",
