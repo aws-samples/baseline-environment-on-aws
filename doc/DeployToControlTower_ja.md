@@ -189,12 +189,12 @@ aws sso login --profile ct-guest
 Control Tower 用ベースラインのパラメータはこちらで指定します。
 
 ```sh
-usecases/blea-base-ct-guest/parameter.ts
+usecases/blea-gov-base-ct/parameter.ts
 ```
 
-このサンプルは `DevParameter` というパラメータセットを定義する例です。同様の設定を検証、本番アカウントにもデプロイできるようにするには、`StgParameter`や`ProdParameter`といったパラメータセットを定義し、App （こここでは `bin/blea-base-standalone.ts`）でそれぞれの環境のスタックを作成します。
+このサンプルは `DevParameter` というパラメータセットを定義する例です。同様の設定を検証、本番アカウントにもデプロイできるようにするには、`StgParameter`や`ProdParameter`といったパラメータセットを定義し、App （こここでは `bin/blea-gov-base-standalone.ts`）でそれぞれの環境のスタックを作成します。
 
-usecases/blea-base-ct-guest/parameter.ts
+usecases/blea-gov-base-ct/parameter.ts
 
 ```typescript
 // Example for Development
@@ -237,7 +237,7 @@ aws sso login --profile ct-guest
 CDK 用バケットをブートストラップします(初回のみ)。
 
 ```sh
-cd usecases/blea-base-ct-guest
+cd usecases/blea-gov-base-ct
 npx aws-cdk bootstrap --profile ct-guest
 ```
 
@@ -249,7 +249,7 @@ npx aws-cdk bootstrap --profile ct-guest
 ゲストアカウントのガバナンスベースをデプロイします。
 
 ```sh
-cd usecases/blea-base-ct-guest
+cd usecases/blea-gov-base-ct
 npx aws-cdk deploy --all --profile ct-guest
 ```
 

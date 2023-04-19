@@ -39,29 +39,29 @@ Jump to | [Changelog](CHANGELOG.md) | [HowTo](doc/HowTo_ja.md) | [マルチア�
 
 ## ガバナンスベース一覧
 
-| ユースケース                                          | フォルダ                        |
-| ----------------------------------------------------- | ------------------------------- |
-| スタンドアローン版ガバナンスベース                    | `usecases/blea-base-standalone` |
-| ControlTower 版ガバナンスベース（ゲストアカウント用） | `usecases/blea-base-ct-guest`   |
+| ユースケース                                          | フォルダ                            |
+| ----------------------------------------------------- | ----------------------------------- |
+| スタンドアローン版ガバナンスベース                    | `usecases/blea-gov-base-standalone` |
+| ControlTower 版ガバナンスベース（ゲストアカウント用） | `usecases/blea-gov-base-ct`         |
 
 - ControlTower 版ガバナンスベースサンプルでは異なる 3 つのデプロイメントオプションを提供しています
 
-  - 手元環境からの直接デプロイメント (blea-base-ct-guest.ts) （デフォルト）
-  - CDKPipeline を使ったデプロイメント (blea-base-ct-guest-via-cdk-pipelines.ts)
-  - ControlTower の Account Factory Customization を使ったデプロイメント (blea-base-ct-guest-via-cdk-pipelines.ts)
+  - 手元環境からの直接デプロイメント (blea-gov-base-ct.ts) （デフォルト）
+  - CDKPipeline を使ったデプロイメント (blea-gov-base-ct-via-cdk-pipelines.ts)
+  - ControlTower の Account Factory Customization を使ったデプロイメント (blea-gov-base-ct-via-cdk-pipelines.ts)
 
 ## ゲストシステムのサンプルアーキテクチャ一覧
 
 | ユースケース                              | フォルダ                                    |
 | ----------------------------------------- | ------------------------------------------- |
-| ECS による Web アプリケーションサンプル   | `usecases/blea-guest-ecsapp-sample`         |
-| EC2 による Web アプリケーションサンプル   | `usecases/blea-guest-ec2app-sample`         |
+| ECS による Web アプリケーションサンプル   | `usecases/blea-guest-ecs-app-sample`        |
+| EC2 による Web アプリケーションサンプル   | `usecases/blea-guest-ec2-app-sample`        |
 | サーバーレス API アプリケーションサンプル | `usecases/blea-guest-serverless-api-sample` |
 
 - ECS による Web アプリケーションサンプルでは異なる 2 つのデプロイメントオプションを提供しています
 
-  - 手元環境からの直接デプロイメント (blea-guest-ecsapp-sample.ts) （デフォルト）
-  - CDKPipeline を使ったデプロイメント (blea-guest-ecsapp-sample-via-cdk-pipelines.ts)
+  - 手元環境からの直接デプロイメント (blea-guest-ecs-app-sample.ts) （デフォルト）
+  - CDKPipeline を使ったデプロイメント (blea-guest-ecs-app-sample-via-cdk-pipelines.ts)
 
 > NOTE: 各々のユースケースは独立してデプロイ可能です
 
@@ -180,19 +180,19 @@ BLEA ではセキュリティイベントおよびモニタリングイベント
 シングルアカウント用ベースラインのパラメータはこちらで指定します。
 
 ```sh
-usecases/blea-base-standalone/parameter.ts
+usecases/blea-gov-base-standalone/parameter.ts
 ```
 
-このサンプルは `DevParameter` というパラメータセットを定義する例です。同様の設定を検証、本番アカウントにもデプロイできるようにするには、`StgParameter`や`ProdParameter`といったパラメータセットを定義し、App （こここでは `bin/blea-base-standalone.ts`）でそれぞれの環境のスタックを作成します。
+このサンプルは `DevParameter` というパラメータセットを定義する例です。同様の設定を検証、本番アカウントにもデプロイできるようにするには、`StgParameter`や`ProdParameter`といったパラメータセットを定義し、App （こここでは `bin/blea-gov-base-standalone.ts`）でそれぞれの環境のスタックを作成します。
 
-usecases/blea-base-standalone/parameter.ts
+usecases/blea-gov-base-standalone/parameter.ts
 
 ```typescript
 // Example for Development
 export const DevParameter: MyParameter = {
   envName: 'Development',
   securityNotifyEmail: 'notify-security@example.com',
-  // env: { account: '210987654321', region: 'ap-northeast-1' },
+  // env: { account: '123456789012', region: 'ap-northeast-1' },
 };
 ```
 
@@ -211,7 +211,7 @@ export const DevParameter: MyParameter = {
 初めて CDK を実行する場合は、対象のユースケースディレクトリへ移動し、CDK を bootstrap します。これは対象のアカウントとリージョンの組み合わせで初めて CDK を実行するときに必要です。
 
 ```sh
-cd usecases/base-standalone
+cd usecases/blea-gov-base-standalone
 npx aws-cdk bootstrap --profile prof_dev
 ```
 
@@ -295,7 +295,7 @@ export const devParameter: AppParameter = {
   monitoringNotifyEmail: 'notify-security@example.com',
   monitoringSlackWorkspaceId: 'TXXXXXXXXXX',
   monitoringSlackChannelId: 'CYYYYYYYYYY',
-  // env: { account: '210987654321', region: 'ap-northeast-1' },
+  // env: { account: '123456789012', region: 'ap-northeast-1' },
 };
 ```
 

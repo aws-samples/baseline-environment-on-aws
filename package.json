@@ -13,10 +13,10 @@
     "npm": ">=8.1.0"
   },
   "workspaces": [
-    "usecases/*",
-    "tools/*"
+    "usecases/*"
   ],
   "scripts": {
+    "depcheck": "depcheck",
     "lint": "eslint --fix .",
     "lint:ci": "eslint .",
     "format": "prettier --write .",
@@ -28,6 +28,7 @@
     "@types/node": "18.15.3",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
+    "depcheck": "^1.4.3",
     "eslint": "^8.36.0",
     "eslint-config-prettier": "^8.7.0",
     "lint-staged": "^13.2.0",

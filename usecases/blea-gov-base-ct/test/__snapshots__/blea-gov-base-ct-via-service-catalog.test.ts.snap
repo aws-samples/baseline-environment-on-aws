@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot test for BLEGovABase Stack 1`] = `
+Object {
+  "Parameters": Object {
+    "BootstrapVersion": Object {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": Object {
+    "Portfolio856A4190": Object {
+      "Properties": Object {
+        "DisplayName": "BLEA Baselines for Guest accounts",
+        "ProviderName": "Platform team at Example Company",
+      },
+      "Type": "AWS::ServiceCatalog::Portfolio",
+    },
+    "PortfolioPortfolioProductAssociationd2b2e10d104073565C5B": Object {
+      "Properties": Object {
+        "PortfolioId": Object {
+          "Ref": "Portfolio856A4190",
+        },
+        "ProductId": Object {
+          "Ref": "Product896941B4",
+        },
+      },
+      "Type": "AWS::ServiceCatalog::PortfolioProductAssociation",
+    },
+    "PortfolioPortolioPrincipalAssociationd82fda574793DAB993CA": Object {
+      "Properties": Object {
+        "PortfolioId": Object {
+          "Ref": "Portfolio856A4190",
+        },
+        "PrincipalARN": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":iam::",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":role/AWSControlTowerExecution",
+            ],
+          ],
+        },
+        "PrincipalType": "IAM",
+      },
+      "Type": "AWS::ServiceCatalog::PortfolioPrincipalAssociation",
+    },
+    "Product896941B4": Object {
+      "Properties": Object {
+        "Name": "BLEA Baseline",
+        "Owner": "Platform team at Example Company",
+        "ProvisioningArtifactParameters": Array [
+          Object {
+            "DisableTemplateValidation": false,
+            "Info": Object {
+              "LoadTemplateFromURL": Object {
+                "Fn::Sub": "https://s3.\${AWS::Region}.\${AWS::URLSuffix}/cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}/3a88e8e3e2914a6f14598b56e788367526fd6e95a15ffa6412626b6f441bb2b0.json",
+              },
+            },
+            "Name": "v1",
+          },
+        ],
+      },
+      "Type": "AWS::ServiceCatalog::CloudFormationProduct",
+    },
+  },
+  "Rules": Object {
+    "CheckBootstrapVersion": Object {
+      "Assertions": Array [
+        Object {
+          "Assert": Object {
+            "Fn::Not": Array [
+              Object {
+                "Fn::Contains": Array [
+                  Array [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  Object {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;

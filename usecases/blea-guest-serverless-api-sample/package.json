@@ -8,14 +8,13 @@
     "blea-guest-serverless-api-sample": "bin/blea-guest-serverless-api-sample.js"
   },
   "scripts": {
-    "synth:dev": "npx cdk synth -q",
-    "depcheck": "npx depcheck --ignore-dirs cdk.out",
+    "synth": "cdk synth -q",
+    "depcheck": "depcheck",
     "build": "tsc --build",
-    "clean": "tsc --build --clean && rm -rf cdk.out",
+    "clean": "tsc --build --clean && rm -f parameter.js parameter.d.ts && rm -rf cdk.out",
     "watch": "tsc -w",
     "test": "jest",
-    "lint": "eslint --fix .",
-    "format": "prettier --write ."
+    "cdk": "cdk"
   },
   "devDependencies": {
     "@types/jest": "^27.5.2",
@@ -23,6 +22,7 @@
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
     "aws-cdk": "^2.69.0",
+    "depcheck": "^1.4.3",
     "esbuild": "^0.17.11",
     "eslint": "^8.36.0",
     "eslint-config-prettier": "^8.7.0",
@@ -34,9 +34,9 @@
   },
   "dependencies": {
     "aws-cdk-lib": "^2.69.0",
-    "cdk": "^2.69.0",
-    "constructs": "^10.1.278",
     "aws-sdk": "^2.1335.0",
-    "aws-xray-sdk": "^3.4.1"
+    "aws-xray-sdk": "^3.4.1",
+    "constructs": "^10.1.278",
+    "source-map-support": "^0.5.21"
   }
 }

@@ -1,0 +1,22 @@
+skip-missing: true
+ignore-patterns:
+  - cdk.out
+specials:
+  - eslint
+  - prettier
+  - jest
+  - lint-staged
+ignores:
+  - eslint*
+  - prettier
+  - ts-node
+  - esbuild
+  - depcheck
+  - '@types/node'
+  - '@types/jest'
+  - '@typescript-eslint/*'
+  - aws-cdk
+  - source-map-support
+  - simple-git-hooks
+  - standard-version
+  - typescript

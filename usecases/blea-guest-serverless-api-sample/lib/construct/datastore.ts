@@ -18,7 +18,7 @@ export class Datastore extends Construct {
     super(scope, id);
 
     // Create table
-    const table = new dynamodb.Table(this, 'DynamoDB', {
+    const table = new dynamodb.Table(this, 'Table', {
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       partitionKey: {
         name: 'title',
@@ -35,7 +35,7 @@ export class Datastore extends Construct {
 
     // Create LSI
     table.addLocalSecondaryIndex({
-      indexName: 'SampleIndex',
+      indexName: 'CreatedAtLSI',
       sortKey: {
         name: 'createdAt',
         type: dynamodb.AttributeType.STRING,

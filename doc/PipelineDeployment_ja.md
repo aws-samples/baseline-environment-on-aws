@@ -8,8 +8,8 @@ CDK Pipelines は、AWS CodePipeline によって CDK アプリケーション�
 
 現状、以下のサンプルを提供しています。
 
-- `blea-base-ct-guest`（マルチアカウント版 ベースライン）をデプロイするパイプライン
-- `blea-guest-ecsapp-sample`（独自ドメインの SSL 通信を CloudFront を受け付ける ECS アプリケーションのサンプル）をデプロイするパイプライン
+- `blea-gov-base-ct`（マルチアカウント版 ベースライン）をデプロイするパイプライン
+- `blea-guest-ecs-app-sample`（独自ドメインの SSL 通信を CloudFront を受け付ける ECS アプリケーションのサンプル）をデプロイするパイプライン
 
 稼働環境自体のデプロイはパイプラインが行います。ご自身でデプロイするのはパイプラインです。
 
@@ -45,7 +45,7 @@ CodePipeline がソースコードを取得するために必要な設定を実�
 
 ### 構築する環境の概要
 
-- ここでは、マルチアカウント用ガバナンスベース（`usecases/blea-base-ct-guest`）をパイプラインでデプロイする手順を紹介します
+- ここでは、マルチアカウント用ガバナンスベース（`usecases/blea-gov-base-ct`）をパイプラインでデプロイする手順を紹介します
 - パイプラインと、そこからデプロイするガバナンスベースは同じアカウント `Dev` アカウント ID `123456789012` に作成します。
 - パイプラインのパラメータは `DevPipelineParameter`、ガバナンスベースのパラメータは `DevParameter`とします
 
@@ -104,7 +104,7 @@ region = ap-northeast-1
 
 ### 1-4. パイプラインのパラメータを設定する
 
-対象のアプリケーションの `parameter.ts` ファイル（今回の場合、`usecases/blea-base-ct-guest/parameters.ts`）を編集して必要な情報を指定します。ここでは CLI の認証情報で指定したゲストアカウントにデプロイすることを想定して、env は明示的に指定しない方法としています。
+対象のアプリケーションの `parameter.ts` ファイル（今回の場合、`usecases/blea-gov-base-ct/parameters.ts`）を編集して必要な情報を指定します。ここでは CLI の認証情報で指定したゲストアカウントにデプロイすることを想定して、env は明示的に指定しない方法としています。
 
 ```typescript
 // Parameter for Governance base in Dev account
@@ -137,9 +137,9 @@ export const DevPipelineParameter: MyParameter = {
 
 ```sh
 npm ci
-cd usecase/blea-base-ct-guest/
+cd usecase/blea-gov-base-ct/
 npx aws-cdk bootstrap --profile ct-guest  # If you haven't bootstrapped target account
-npx aws-cdk deploy --profile ct-guest --app "npx ts-node --prefer-ts-exts bin/blea-base-ct-guest-via-cdk-pipelines.ts"
+npx aws-cdk deploy --profile ct-guest --app "npx ts-node --prefer-ts-exts bin/blea-gov-base-ct-via-cdk-pipelines.ts"
 ```
 
 作成されたパイプラインを確認するには、対象アカウントのマネジメントコンソールにアクセスして、CodePipeline の画面をご確認ください。
@@ -157,9 +157,9 @@ npx aws-cdk deploy --profile ct-guest --app "npx ts-node --prefer-ts-exts bin/bl
 ## 2. 構成パターン B クロスアカウントの ECS アプリケーションサンプル（マルチリージョン）デプロイ手順
 
 CDK Pipelines は、アカウントやリージョン間にまたがるアプリケーションをデプロイするパイプラインを手軽に実現することが可能です。
-本リポジトリの `usecase/blea-guest-ecsapp-sample` は us-east-1 に CloudFront を、利用者が指定するリージョンに ALB や ECS 等のアプリケーション実行環境をデプロイする、マルチリージョン構成です。
+本リポジトリの `usecase/blea-guest-ecs-app-sample` は us-east-1 に CloudFront を、利用者が指定するリージョンに ALB や ECS 等のアプリケーション実行環境をデプロイする、マルチリージョン構成です。
 
-ここでは、クロスアカウントデプロイを行うパイプライン `bin/blea-guest-ecsapp-sample-via-cdk-pipelines.ts` を使用してデプロイする手順を紹介します。
+ここでは、クロスアカウントデプロイを行うパイプライン `bin/blea-guest-ecs-app-sample-via-cdk-pipelines.ts` を使用してデプロイする手順を紹介します。
 パイプラインを `Pipeline` アカウント `222222222222` に構成し、 ECS アプリケーションサンプルを `Dev` アカウント（ID： `111111111111` にデプロイします。
 
 ### 前提条件
@@ -173,7 +173,7 @@ CDK Pipelines は、アカウントやリージョン間にまたがるアプリ
 ### 2-1. パラメータの設定
 
 クロスアカウントデプロイでは対象のアカウントとリージョンを明示的に指定する必要があります。
-`usecase/blea-guest-ecsapp-sample/parameter.ts` のコメントアウトされているアカウント ID を適切に設定します。
+`usecase/blea-guest-ecs-app-sample/parameter.ts` のコメントアウトされているアカウント ID を適切に設定します。
 
 注意：このアプリケーションのデプロイにあたっては、事前に独自ドメインを Route53 に登録して Hosted Zone ID を取得する必要があります。A レコードや SSL 証明書はサンプルアプリケーション内で作成します。
 
@@ -255,8 +255,8 @@ npx aws-cdk bootstrap aws://222222222222/ap-northeast-1 --cloudformation-executi
 Pipeline アカウントに対してパイプラインをデプロイする
 
 ```sh
-cd usecase/blea-guest-ecsapp-sample
-npx aws-cdk deploy --profile blea-pipeline-tools --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample-via-cdk-pipelines.ts"
+cd usecase/blea-guest-ecs-app-sample
+npx aws-cdk deploy --profile blea-pipeline-tools --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecs-app-sample-via-cdk-pipelines.ts"
 ```
 
 この Pipeline アカウントにデプロイされたパイプラインによりアプリケーションがビルド・デプロイされます。

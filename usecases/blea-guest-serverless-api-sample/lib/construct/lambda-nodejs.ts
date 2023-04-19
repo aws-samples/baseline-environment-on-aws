@@ -59,7 +59,7 @@ export class LambdaNodejs extends Construct {
     // See: https://docs.aws.amazon.com/cdk/api/latest/docs/aws-lambda-nodejs-readme.html
 
     // GetItem Function
-    const getItemFunction = new node_lambda.NodejsFunction(this, 'getItem', {
+    const getItemFunction = new node_lambda.NodejsFunction(this, 'GetItemFunction', {
       runtime: lambda.Runtime.NODEJS_14_X,
       entry: 'lambda/nodejs/getItem.js',
       handler: 'getItem',
@@ -146,7 +146,7 @@ export class LambdaNodejs extends Construct {
       .addAlarmAction(new cw_actions.SnsAction(props.alarmTopic));
 
     // ListItem Function
-    const listItemsFunction = new node_lambda.NodejsFunction(this, 'listItems', {
+    const listItemsFunction = new node_lambda.NodejsFunction(this, 'ListItemsFunction', {
       runtime: lambda.Runtime.NODEJS_14_X,
       entry: 'lambda/nodejs/listItems.js',
       handler: 'listItems',
@@ -232,7 +232,7 @@ export class LambdaNodejs extends Construct {
       .addAlarmAction(new cw_actions.SnsAction(props.alarmTopic));
 
     // PutItem Function
-    const putItemFunction = new node_lambda.NodejsFunction(this, 'putItem', {
+    const putItemFunction = new node_lambda.NodejsFunction(this, 'PutItemFunction', {
       runtime: lambda.Runtime.NODEJS_14_X,
       entry: 'lambda/nodejs/putItem.js',
       handler: 'putItem',
