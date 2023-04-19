@@ -68,7 +68,7 @@ All notable changes to this project will be documented in this file. See [standa
 - Update CDK version to 1.129.0 and its dependencies.
 - **guest-webapp-sample** generalize ECS sample. now we don't use aws-ecs-patterns.
 - **guest-webapp-sample** re-organize KMS keys
-- **base-ct-guest** **base-standalone** refine notification settings for SecurityHub
+- **gov-base-ct** **gov-base-standalone** refine notification settings for SecurityHub
 
 ## [1.1.1] - 2021-06-07
 

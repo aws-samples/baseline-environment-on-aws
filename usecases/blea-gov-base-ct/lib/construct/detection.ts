@@ -8,6 +8,7 @@ import { aws_cloudwatch_actions as cwa } from 'aws-cdk-lib';
 import { aws_events as cwe } from 'aws-cdk-lib';
 import { aws_logs as cwl } from 'aws-cdk-lib';
 import { aws_events_targets as cwet } from 'aws-cdk-lib';
+import { ITopic } from 'aws-cdk-lib/aws-sns';
 
 export interface DetectionProps {
   notifyEmail: string;
@@ -15,6 +16,8 @@ export interface DetectionProps {
 }
 
 export class Detection extends Construct {
+  public readonly topic: ITopic;
+
   constructor(scope: Construct, id: string, props: DetectionProps) {
     super(scope, id);
 
@@ -90,6 +93,7 @@ export class Detection extends Construct {
       topic: topic,
     });
     cdk.Stack.of(this).exportValue(topic.topicArn);
+    this.topic = topic;
 
     // Allow to publish message from CloudWatch
     topic.addToResourcePolicy(

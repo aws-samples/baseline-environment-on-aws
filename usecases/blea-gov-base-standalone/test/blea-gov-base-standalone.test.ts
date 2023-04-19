@@ -13,6 +13,8 @@ test('Snapshot test for BLEAGovBaseStandalone Stack', () => {
     },
 
     securityNotifyEmail: devParameter.securityNotifyEmail,
+    securitySlackWorkspaceId: devParameter.securitySlackWorkspaceId,
+    securitySlackChannelId: devParameter.securitySlackChannelId,
   });
 
   // test with snapshot
