@@ -7,11 +7,9 @@
 - [VisualStudioCode のセットアップ](#VisualStudioCode-のセットアップ)
 - [Git の pre-commit hook のセットアップ](#Git-の-pre-commit-hook-のセットアップ)
 - [デプロイ時の承認をスキップしロールバックさせない](#デプロイ時の承認をスキップしロールバックさせない)
-- [cdk.context.json による個人環境の管理](#cdkcontextjson-による個人環境の管理)
 - [AWSChatbot 用に Slack を設定する](#AWSChatbot-用に-Slack-を設定する)
 - [CloudShell によるデプロイメント](#CloudShell-によるデプロイメント)
 - [依存パッケージの最新化](#依存パッケージの最新化)
-- [アプリケーション内で Context にアクセスする仕組み](#アプリケーション内で-Context-にアクセスする仕組み)
 - [通常の開発の流れ](#通常の開発の流れ)
 - [セキュリティ指摘事項の修復](#セキュリティ指摘事項の修復)
 
@@ -106,7 +104,7 @@ git secrets --register-aws --global
 
 cdk コマンドにオプションを指定することで、デプロイ時の挙動をコントロールできます。ここではよく利用される便利な設定について記載します。
 
-- See: [https://docs.aws.amazon.com/cdk/latest/guide/cli.html#cli-deploy]
+- See: https://docs.aws.amazon.com/cdk/latest/guide/cli.html#cli-deploy
 
 ### デプロイ時の承認をスキップする
 
@@ -122,38 +120,9 @@ CDK は CloudFormation を使ってデプロイしますが、通常デプロイ
 
 ```json
 {
-  "app": "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/blea-guest-ecs-app-sample.ts",
   "requireApproval": "never",
   "rollback": false,
-  "context": {
-    "dev": {
-```
-
----
-
-## cdk.context.json による個人環境の管理
-
-cdk.json と同じディレクトリに cdk.context.json を置くことで、自分の開発環境のパラメータを指定することができます。このファイルはリポジトリにはコミットされません。このファイルは CDK によって自動的に作成されている場合があります。その場合は既存の設定を残したまま自分自身の Context 定義を追加してください。
-
-cdk.context.json の例
-
-```json
-{
-  "@aws-cdk/core:enableStackNameDuplicates": "true",
-  "aws-cdk:enableDiffNoFail": "true",
-  "@aws-cdk/core:stackRelativeExports": "true",
-  "my": {
-    "description": "Personal Environment variables for blea-guest-*-samples.ts",
-    "envName": "Personal",
-    "vpcCidr": "10.100.0.0/16",
-    "monitoringNotifyEmail": "zzz@example.com",
-    "dbUser": "personaluser",
-    "slackNotifier": {
-      "workspaceId": "T8XXXXXXXXX",
-      "channelIdMon": "C02YYYYYYYY"
-    }
-  }
-}
 ```
 
 ---
@@ -180,34 +149,37 @@ AWS Chatbot の設定手順は以下の通りです。
 >
 > Slack のプライベートチャネルを利用する場合は、そのチャネルで `/invite @AWS` コマンドを実行しておく必要があります。
 
-### 3. Context file に workspace ID と channel ID を設定する
+### 3. パラメータファイル (parameter.ts) に workspace ID と channel ID を設定する
 
-cdk.json または cdk.context.json に次のように Slack workspace ID と Channel ID を設定します。セキュリティ用とモニタリング用で Channel は異なるものを指定してください:
+各ユースケースにあるパラメータファイル (parameter.ts) に、次のように Slack workspace ID と Channel ID を設定します。セキュリティ用とモニタリング用で Channel は異なるものを指定してください:
 
 セキュリティ用（ガバナンスベース）:
 
-```json
-      "slackNotifier": {
-        "workspaceId": "T8XXXXXXX",
-        "channelIdSec": "C01XXXXXXXX",
-      }
+```typescript
+export const devParameter: AppParameter = {
+  // ...
+  securitySlackWorkspaceId: 'T8XXXXXXX',
+  securitySlackChannelId: 'C00XXXXXXXX',
+  // ...
+};
 ```
 
 モニタリング用（サンプルアプリケーション）:
 
-```json
-      "slackNotifier": {
-        "workspaceId": "T8XXXXXXX",
-        "channelIdMon": "C01YYYYYYYY"
-      }
+```typescript
+export const devParameter: AppParameter = {
+  // ...
+  monitoringSlackWorkspaceId: 'T8XXXXXXX',
+  monitoringSlackChannelId: 'C00XXXXXYYY',
+  // ...
 ```
 
-| 設定項目     | 値の取得元                                                                |
-| ------------ | ------------------------------------------------------------------------- |
-| workspaceId  | AWS Chatbot の Workspace details からコピー                               |
-| channelIdSec | Slack App からコピー - セキュリティアラーム用                             |
-| channelIdMon | Slack App からコピー - モニタリングアラーム用                             |
-| channelIdAgg | Slack App からコピー - Audit アカウントで集約された情報に対するアラーム用 |
+| 設定項目                   | 値の取得元                                                                                                                                          |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| securitySlackWorkspaceId   | workSpace ID: AWS Chatbot の Workspace details からコピー - セキュリティアラーム用                                                                  |
+| securitySlackChannelId     | Slack App の対象チャネルのリンクから取得 - セキュリティアラーム用                                                                                   |
+| monitoringSlackWorkspaceId | workSpace ID: AWS Chatbot の Workspace details からコピー - モニタリングアラーム用（通常はセキュリティ用と同じ workspace を使うことが多いでしょう） |
+| monitoringSlackChannelId   | Slack App の対象チャネルのリンクから取得 - モニタリングアラーム用                                                                                   |
 
 ---
 
@@ -216,7 +188,7 @@ cdk.json または cdk.context.json に次のように Slack workspace ID と Ch
 CloudShell を使い、マネジメントコンソールからこのテンプレートをデプロイすることが可能です。
 ただし ClouShell は 120 日間使用しないとセットアップした環境のデータを削除することに注意してください。
 
-see: [https://docs.aws.amazon.com/cloudshell/latest/userguide/limits.html]
+see: https://docs.aws.amazon.com/cloudshell/latest/userguide/limits.html
 
 ### 1. CloudShell を起動する
 
@@ -225,7 +197,7 @@ see: [https://docs.aws.amazon.com/cloudshell/latest/userguide/limits.html]
 
 ### 2. CDK の実行環境をセットアップする
 
-See: [https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/getting_started.html]
+See: https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/getting_started.html
 
 - npm をアップデートする
 
@@ -249,13 +221,9 @@ sudo npm -g install npm
 cd path/to/source
 npm ci
 # デプロイしたいusecaseのディレクトリに移動する
-cd usecases/guest-webapp-sample
-npx cdk deploy --all -c environment=dev --profile prof_dev
+cd usecases/blea-uest-serverless-api-sample
+npx aws-cdk deploy --all --profile prof_dev
 ```
-
-> NOTE
->
-> ビルドは cdk.json に記載されている`"app": "npx ts-node --prefer-ts-exts bin/bleadeploy.ts"`によって、`npx cdk deploy`実行時に行われる
 
 ---
 
@@ -274,121 +242,87 @@ npm update --workspaces
 
 ---
 
-## アプリケーション内で Context にアクセスする仕組み
-
-cdk.json や cdk.context.json で指定した Context は CDK コード（bin/\*.ts）の中で次のようにアクセスしています。
-
-```ts
-const envKey = app.node.tryGetContext('environment');
-const valArray = app.node.tryGetContext(envKey);
-const environment_name = valArray['envName'];
-```
-
-Context パラメータを使ったデプロイメントの方法の例。
-
-```sh
-cdk deploy --all --profile prof_dev  -c environment=dev
-cdk deploy --all --profile prof_prod -c environment=prod
-```
-
-- `--app` を指定しない場合は cdk.json の `app` で指定している Application がデプロイされます。
-
-- デプロイする際のプロファイル（認証情報）を指定するには `--profile xxxxx` を指定します
-
-- cdk.json で定義した Context パラメータを指定するには `-c envrionment=xxxx` を指定します。
-- profile で指定する認証情報のアカウントおよびリージョンと、 Context の env で指定する、アカウントおよびリージョンは一致している必要があります。これによって誤ったアカウントへデプロイすることを防ぐほか、どのアカウントにどの context でデプロイしたのかを記録しておくことにもなります。できるだけ context には`env`を指定することをお勧めします。
-- 開発環境のように開発者ごとに利用するアカウントが違う場合は、context で`env`を指定しない方法があります。`env`が設定されていない場合は、profile で指定する認証情報のアカウントおよびリージョンにデプロイされます。
-
-- See: [https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/context.html]
-- See: [https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/get_context_var.html]
-
----
-
 ## 通常の開発の流れ
 
-一度デプロイしたあと、 CDK コードを編集してビルド、デプロイする流れは次のようになります。
+コードをチェックアウトしたあと、CDK コードを編集してビルド、デプロイする流れは次のようになります。
 
-### 1. ユースケースディレクトリに移動する
-
-> ```sh
-> cd usecases/guest-webapp-sample
-> ```
-
-### 2. 手元の環境をクリーンナップする
+### 1. コードをチェックアウトし、必要なライブラリをインストールする
 
 > ```sh
-> npm run clean
+> git clone https://github.com/aws-samples/baseline-environment-on-aws.git
+> cd baseline-environment-on-aws
+> npm ci
 > ```
 
-### 3. CDK コードを編集する
+### 2. 単一のユースケースをデプロイ、変更、テストする
 
-任意のエディタで CDK コードを編集します。（Visutal Studio Code を推奨します）
+```sh
+cd usecases/blea-guest-web-app-sample
 
-### 4. 必要なら追加パッケージをインストールする
+# 差分を確認する
+npx aws-cdk diff --all --profile prof_dev
 
-CDK コードで追加のパッケージが必要になった場合は、以下のようにインストールします。ここでは `@aws-cdk/aws-kms` をインストールしています。
+# 任意のエディタで CDK コードを編集する（Visutal Studio Code を推奨します）
+# ....
 
-> ```sh
-> # BLEAのルートディレクトリで実行
-> npm i -P @aws-cdk/aws-kms --workspace usecases/guest-webapp-sample
-> ```
+# linting (体裁を確認)
+npm run lint
 
-### 5. テストする
+# formatting (整形)
+npm run format
 
-> ```sh
-> # linting
-> npm run lint
-> # formatting
-> npm run format
-> # snapshot test (see NOTE)
-> npm run test
-> ```
+# snapshot testを実行する (see NOTE)
+npm run test
 
-> NOTE:
->
+# デプロイ（作業迅速化のため、承認を求めず、またロールバックを実行しないオプションを指定しています）
+
+npx aws-cdk deploy --all --profile prof_dev --require-approval never --no-rollback
+
+# 以下、確認、変更、テスト、デプロイを繰り返す
+
+```
+
+NOTE:
+
 > CDK コードを変更した場合、以前とは異なるテンプレートが生成されるため、スナップショットテスト (npm run test) が失敗します
 > テンプレートが正しく生成されているならば、次のようにスナップショットの更新が必要です。
->
-> ```sh
-> # Update snapshot
-> npm run test -- -u
-> ```
->
-> 全てのユースケースをテストするには workspaces を使用して次のように実行します。
->
-> ```sh
-> # BLEAのルートディレクトリで実行
-> npm ci
-> npm run lint
-> npm run format
-> npm run clean --workspaces
-> npm run test --workspaces -- -u      # update snaphosts
-> npm run test --workspaces
-> ```
->
-> 個別のユースケースを workspaces を使用してテストするには次のように実行します。workspaces と workspace の違いに注意してください。
->
-> ```sh
-> # BLEAのルートディレクトリで実行
-> npm run test --workspace usecases/base-standalone
-> ```
 
-### 6. Synth/Diff する
+```sh
+# Update snapshot
+npm run test -- -u
+```
 
-CDK Asset を作成し、現在の環境との差分を確認します。
+# 3. BLEA の全ユースケースをまとめて操作する
 
-> ```sh
-> npx cdk synth --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
-> npx cdk diff --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
-> ```
+のユースケースを検証、テストするには `workspaces` を使用して次のように実行します。
 
-### 7. Deploy する
+```sh
+# BLEAのルートディレクトリで実行
+npm ci
+npm run lint
+npm run format
+npm run clean --workspaces
+npm run test --workspaces -- -u      # update snaphosts
+npm run test --workspaces
+```
 
-デプロイします。ここでは承認をスキップし、ロールバックさせないオプションを追加しています。
+NOTE:
 
-> ```sh
-> npx cdk deploy --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev --require-approval never --no-rollback
-> ```
+個別のユースケースを workspaces を使用してテストするには次のように実行します。workspaces と workspace の違いに注意してください。
+
+```sh
+# BLEAのルートディレクトリで実行
+npm run test --workspace usecases/blea-gov-base-standalone
+```
+
+# 4. 追加パッケージをインストールする
+
+K コードで追加のパッケージが必要になった場合は、以下のようにインストールします。ここでは `@aws-cdk/aws-glue-alpha` をインストールしています。
+
+```sh
+# BLEAのルートディレクトリで実行
+npm i -P @aws-cdk/aws-glue-alpha --workspace usecases/blea-guest-ecs-app-sample
+```
 
 ---
 
@@ -398,7 +332,7 @@ CDK Asset を作成し、現在の環境との差分を確認します。
 
 > オプション: Security Hub の 検出項目を無効化することもできます（推奨しません。無効化する場合はセキュリティリスクを十分に評価した上で実施して下さい）。
 
-- [https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-enable-disable-controls.html]
+https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-enable-disable-controls.html
 
 ### 1. ルートユーザに対して MFA を有効化する
 
@@ -407,38 +341,36 @@ CDK Asset を作成し、現在の環境との差分を確認します。
 MFA に関連する Security Hub コントロール（CRITICAL レベル）
 
 - [CIS.1.13] Ensure MFA is enabled for the "root" account
-  - [https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-cis-controls-1.13]
+  - https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-cis-controls-1.13
 - [CIS.1.14] Ensure hardware MFA is enabled for the "root" account
-  - [https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-cis-controls-1.14]
+  - https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-cis-controls-1.14
 - [IAM.6] Hardware MFA should be enabled for the root user
-  - [https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-iam-6]
+  - https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-iam-6
 
 #### 修復方法
 
 ##### 1. Organizations メンバアカウントのルートユーザにアクセスする
 
-- [https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_access-as-root]
+- https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_access-as-root
 
 ##### 2. ルートユーザに対してハードウェア MFA を有効化する
 
-- [https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_enable_physical.html#enable-hw-mfa-for-root]
+- https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_enable_physical.html#enable-hw-mfa-for-root
 
 ### 2. EC2 のメタデータアクセスに IMDSv2 を使う
 
 EC2 インスタンスのメタデータアクセスには IDMSv2 のみを使用することが推奨されています。修復については以下のドキュメントを参照してください。
 
 - [EC2.8] EC2 instances should use IMDSv2
-  - [https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-ec2-8]
+  - https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-ec2-8
 
 ### 3. CodeBuild の特権モードに関する通知のステータスを変更する
 
 CodeBuild では Docker イメージをビルドするときにのみ特権モードが有効化されるべきです。以下のコントロールがコンプライアンス違反となった場合には、その CodeBuild プロジェクトが特権モードを有効化する必要があるかを確認し、もし必要だと確認された場合にはワークフローのステータスを SUPPRESSED に変更します。
 
 - [CodeBuild.5] CodeBuild project environments should not have privileged mode enabled
-  - [https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-codebuild-5]
+  - https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-codebuild-5
 
 ワークフローのステータスを変更する方法は以下のドキュメントを参照してください。
 
-[https://docs.aws.amazon.com/securityhub/latest/userguide/finding-workflow-status.html]
-
----
+https://docs.aws.amazon.com/securityhub/latest/userguide/finding-workflow-status.html

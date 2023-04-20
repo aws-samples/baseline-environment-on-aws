@@ -1,8 +1,8 @@
-# Deploy to ControlTower environment
+# Deploy to Control Tower environment
 
 [View this page in Japanese (日本語)](DeployToControlTower_ja.md) | [Back to Repository README](../README.md)
 
-This section describes the procedure for deploying BLEA to ControlTower-managed accounts.
+This section describes the procedure for deploying BLEA to Control Tower-managed accounts.
 
 ## Deployment procedure
 
@@ -23,51 +23,45 @@ We recommend that you set up a development environment, even if you are not doin
 
 - [Instructions]: [VisualStudioCode Setup Instructions](HowTo.md#VisualStudioCode-Setup-Instructions)
 
-### Implementation procedure under ControlTower
+### Implementation procedure under Control Tower
 
-This example explains how to deploy a sample application as a guest system with a multi-account governance base under ControlTower. Where `MC` indicates working in the management console and `Local` is working on your laptop.
+I will explain the procedure for introducing a multi-account governance base under Control Tower and introducing a sample application as a guest system as an example. Here, `MC` indicates work in the management console, and `Local' indicates work in the local environment.
 
-1. Set up ControlTower and Security Services (MC)
+1. Control Tower and Security Services Setup (MC)
 
-2. Create a guest account for deployment in ControlTower (MC)
+2. Create a guest account for deployment in Control Tower (MC)
 
-3. Install Dependencies and Build Code (Local)
+3. Installing dependent packages and building code (Local)
 
-4. Configure AWS CLI credentials for AWS SSO (Local)
+4. Set AWS CLI credentials for AWS SSO (Local)
 
-5. Set a baseline for notifications in the Audit account (Local)
+5. Deploy a governance base for guest accounts (Local)
 
-6. Deploy a governance base for guest accounts (Local)
+6. Deploy the guest application sample (Local)
 
-7. Deploy Guest Application Samples (Local)
+## Implementation Procedure
 
-## Implementation steps
+### 1. Control Tower and Security Services Setup (MC)
 
-### 1. Set up ControlTower and Security Services (MC)
+By using Control Tower, some governance-based functions are set up automatically. Security services that Control Tower does not support can be enabled in bulk for Organizations and will be set automatically when new accounts are created thereafter.
 
-By using ControlTower, some governance-based features are automatically configured. Security services that are not supported by ControlTower can be bulk-enabled for Organizations so that they are automatically configured when new accounts are created It will be.
+Here are the steps to set up Control Tower and enable SecurityHub, GuardDuty, Inspector, and IAM Access Analyzer for the entire organization. Specify the Audit account as these delegated accounts.
 
-Here we set up ControlTower, SecurityHub, GuardDuty, Inspector and IAM Access for the entire Organizations Provides step-by-step instructions on how to enable Analyzer. Specify the Audit account as these delegate accounts.
+#### 1-1. Control Tower Setup
 
-#### 1-1. ControlTower setup
-
-Set up ControlTower.
+Set up Control Tower.
 See: [https://docs.aws.amazon.com/controltower/latest/userguide/setting-up.html]
 
 > NOTE:
+> In AWS Control Tower, it is now possible to set up an organization trail from Landing Zone ver.3.0 (LZ3.0). This is the recommended setting for Control Tower, which aggregates CloudTrail logs under Organizations into the ManagementAccount's AWS CloudWatch Logs.
 >
-> From AWS Control Tower landing zone ver.3.0, when the CloudTrail configuration is enabled, the CloudTrail logs are aggregated into AWS CloudWatch Logs for your ManagementAccount.
-
-> Ref：https://docs.aws.amazon.com/controltower/latest/userguide/2022-all.html#version-3.0
+> Refer: https://docs.aws.amazon.com/controltower/latest/userguide/2022-all.html#version-3.0
 >
-> As a result, there is no CloudWatch Logs LogGroup that previously existed on the guest account to which CloudTrail logs were output. So, this prevents CloudTrail log monitoring, which was provided by the guest account's governance base.
+> BLEA assumes an LZ3.0 or later environment by default, but since Cloud Trail is required to perform CloudTrail log monitoring on guest accounts, it will duplicate Organization Trail and create CloudTrail for each guest account as well.
 >
-> By default, BLEA assumes an LZ3.0 or later environment with the following prerequisites:
-> If you want to deploy a governance base outside of the prerequisite environments, please refer to [6-2. (Optional) Modify the code to match Control Tower landing zone settings](#6-2-governance-based-deployment-to-guest-accounts)
+> Prerequisites:
 >
-> Prerequisites：
->
-> - Start using Control Tower from landing zone ver.3.0, and being enable CloudTrail.
+> - Use Control Tower from Landing Zone ver. 3.0 or later (not ver. 2.x or earlier) and enable Organization CloudTrail
 
 #### 1-2. Set up SecurityHub
 
@@ -96,11 +90,11 @@ Enabling for member accounts
 
 - [https://docs.aws.amazon.com/awssupport/latest/user/organizational-view.html]
 
-### 2. Create a guest account for deployment in ControlTower (MC)
+### 2. Create a guest account for deployment in Control Tower (MC)
 
 #### 2-1. Create a guest account
 
-Create a new account (guest account) using ControlTower.
+Create a new account (guest account) using Control Tower.
 
 > See: [https://docs.aws.amazon.com/controltower/latest/userguide/account-factory.html#quick-account-provisioning]
 
@@ -112,7 +106,7 @@ Configure Slack integration settings for security and monitoring event notificat
 
 ### 3. Install Dependencies and Build Code (Local)
 
-#### 3-1. Retrieving repositories
+#### 3-1. Checkout repository
 
 ```sh
 git clone https://github.com/aws-samples/baseline-environment-on-aws.git
@@ -134,7 +128,7 @@ Registers a hook to perform checks by Linter, Formatter, and Git-Secrets when co
 
 ### 4. Configure AWS CLI credentials for AWS SSO (Local)
 
-Permanent credentials are also available, but AWS SSO is recommended for ControlTower environments. AWS SSO allows you to log in to the Management Console and run the AWS CLI with SSO authentication.
+Permanent credentials are also available, but AWS SSO is recommended for Control Tower environments. AWS SSO allows you to log in to the Management Console and run the AWS CLI with SSO authentication.
 
 > NOTE:
 >
@@ -158,26 +152,198 @@ Verify that the output is version 2 or higher
 aws-cli/2.3.0 Python/3.8.8 Darwin/20.6.0 exe/x86_64 prompt/off
 ```
 
-#### 4-2. Configure an AWS CLI Profile for Audit Account Deployment
+#### 4-2. Set up an AWS CLI profile for guest account deployment
 
-Next, configure a CLI profile for deploying to the Audit account in Control Tower. Here, the ID of the Audit account is `2222222222`.
+Set up an AWS CLI profile for deployment to guest accounts. Here, the guest account ID is `123456789012`.
 
 ~/.aws/config
 
 ```text
-# for Audit Account
-[profile ct-audit]
+# For Guest Account
+[profile ct-guest]
 sso_start_url = https://d-90xxxxxxxx.awsapps.com/start#/
 sso_region = ap-northeast-1
-sso_account_id = 222222222222
+sso_account_id = 123456789012
 sso_role_name = AWSAdministratorAccess
 region = ap-northeast-1
 ```
 
+#### 4-3. CLI login using AWS SSO
+
+Log in to AWS SSO with the following command. Here is an example of logging in with the `ct-guest` profile.
+
+```sh
+aws sso login --profile ct-guest
+```
+
+This command will launch a browser and display the AWS SSO login screen. If you have correctly entered the guest account's administrator username (email address) and password, the screen returns to the terminal, and you can work with the guest account using the AWS CLI.
+
+### 5. Deploy a governance base for guest accounts (Local)
+
+#### 5-1. Set deployment parameters
+
+You must specify parameters specific to each use case, such as the deployment account and notification email address required during deployment. BLEA manages parameters in a file called `parameter.ts`. The format is TypeScript.
+
+The parameters for the Control Tower baseline are specified here.
+
+```sh
+usecases/blea-gov-base-ct/parameter.ts
+```
+
+This example defines a parameter set called `devParameter`. To verify similar settings so that they can be deployed to production accounts, define parameter sets such as `stagingParameter' and `prodParameter', and create stacks for each environment with an App (here `bin/blea-gov-base-standalone.ts`).
+
+usecases/blea-gov-base-ct/parameter.ts
+
+```typescript
+//Example for Development
+export const devParameter: AppParameter = {
+  envName: 'Development',
+  securityNotifyEmail: 'notify-security@example.com',
+  securitySlackWorkspaceID: 'T8XXXXXXX',
+  securitySlackChannelID: 'C00XXXXXXXX',
+  //env: {account: '123456789012', region: 'ap-northeast-1'},
+};
+
+//Example for Staging
+export const stagingParameter: AppParameter = {
+  envName: 'Staging',
+  securityNotifyEmail: 'notify-security@example.com',
+  securitySlackWorkspaceID: 'T8XXXXXXX',
+  securitySlackChannelID: 'C00XXXXXYYY',
+  env: { account: '123456789012', region: 'ap-northeast-1' },
+};
+```
+
+The details of this setting are as follows.
+
+| key                      | value                                                                                                       |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| envName                  | Environment name. This will be set to each resource tag                                                     |
+| securityNotifyEmail      | The email address to which security notifications will be sent. The content is similar to Slack             |
+| securitySlackWorkspaceID | Slack Workspace ID set to AWS Chatbot                                                                       |
+| securitySlackChannelID   | The ID of the Slack channel set to AWS Chatbot. Security notifications are made through the governance base |
+| env                      | The account and region to be deployed (if not specified, it will follow CLI credentials)                    |
+
 > NOTE:
 >
-> According to the ControlTower specification, in order to modify the resouces created by ControlTower in the Audit account, you must first use the `AWSAdministratorAccess` role of the management account You must log in and switch to the `AWSControlTowerExecution` role in the Audit account to perform the action.
-> BLEA doen't modify resources created by ControlTower, so we use AWSAdministratorAccess role in the Audit account directly.
+> > If you want to explicitly specify the account to be deployed, specify `env`. As a result, deployment will not be possible unless the account-region specified in the CLI Profile matches the one specified in `env`. You can ensure that you control the parameters you set for your account and prevent you from deploying to the wrong account. We recommend that you also specify `env` when possible.
+
+> NOTE: BLEA used Context (cdk.json) to set parameters until v2.x, but after v3.0, parameter.ts is used.
+
+#### 5-2. Governance-based deployment to guest accounts
+
+Log in to your guest account using AWS SSO.
+
+```sh
+aws sso login --profile ct-guest
+```
+
+Bootstrap the CDK bucket (first time only).
+
+```sh
+cd usecases/blea-kov-base-ct
+npx aws-cdk bootstrap --profile ct-guest
+```
+
+> NOTE:
+>
+> > - Here, `npx aws-cdk` is used to use the local cdk installed in the BLEA environment. If you start a command directly from `cdk` without using `npx`, the globally installed cdk will be used.
+
+- There are options that are useful when using the cdk command. See [Skip Deployment Approvals and Don't Roll Back](HowTo.md#skip-deployment-approvals-and-dont-roll-back).
+
+Deploy a governance base for guest accounts.
+
+```sh
+cd usecases/blea-kov-base-ct
+npx aws-cdk deploy --all --profile ct-guest
+```
+
+This sets up the following features
+
+- Default security group blocked (automatically repaired if deviated)
+- AWS Health event notifications
+- Notification of change actions that affect security (partial)
+- Create an SNS topic (SecurityAlarmTopic) to notify security events
+- Send emails and send notifications to Slack's secure channels via the above SNS topics
+
+The following content, which was set up in the standalone version, is configured by Control Tower and the security service's Organization support. Therefore, both the multi-account version of BLEA and the standalone version of BLEA are designed to have the same set of security services.
+
+- API logging with CloudTrail
+- Record configuration changes with AWS Config
+- Vulnerability detected by Inspector
+- Detecting unusual behavior with GuardDuty
+- Deviation detection from best practices by SecurityHub (AWS Foundational Security Best Practice, CIS Benchmark)
+
+#### 5-3. (Optional) Set up other baseline setups manually
+
+In addition to setting up on a governance basis
+AWS offers several operational baseline services. Please set up these services as needed.
+
+##### a. Activate Amazon Inspector
+
+Amazon Inspector scans workloads and manages vulnerabilities. We continuously scan EC2 and ECR to detect software vulnerabilities and unintended network exposure. Detected vulnerabilities are prioritized and displayed based on calculated risk scores, so results can be obtained with high visibility. Additionally, it is automatically integrated with Security Hub, and detection results can be checked centrally.
+
+Setup instructions: [https://docs.aws.amazon.com/inspector/latest/user/getting_started_tutorial.html]
+
+##### b. Perform AWS Systems Manager Quick Setup for EC2 management
+
+If you use EC2, we recommend managing it using SystemsManager. By using the AWS Systems Manager Quick Setup, you can automate the basic setup required to manage EC2.
+Setup Instructions: [https://docs.aws.amazon.com/systems-manager/latest/userguide/quick-setup-host-management.html]
+
+Quick Setup provides the following features:
+
+- Configure the AWS Identity and Access Management (IAM) instance profile roles required by Systems Manager
+- SSM Agent automatic updates every other week
+- Inventory metadata collection every 30 minutes
+- Daily scans to detect instances running out of patches
+- First-time Amazon CloudWatch agent installation and configuration
+- Automatic monthly CloudWatch agent updates
+
+##### c. Trusted Advisor Detection Results Report
+
+TrustedAdvisor provides advice for following AWS best practices. Report details can be received by email on a regular basis. See the documentation below for more details.
+
+- See: [https://docs.aws.amazon.com/awssupport/latest/user/get-started-with-aws-trusted-advisor.html#preferences-trusted-advisor-console]
+
+### 6. Deploy the guest application sample (Local)
+
+Once the governance base has been set up, the standalone and Control Tower versions can deploy the same guest application samples using the same steps.
+
+The procedure for deploying a serverless API application sample from SSO authentication to a guest account is shown.
+
+#### 6-1. Set guest application parameters
+
+Follow the same steps to set parameters as in the standalone version.
+
+#### 7-2. Deploy a guest application
+
+(If you're not already signed in) Sign in to your guest account using AWS SSO.
+
+```sh
+aws sso login --profile ct-guest
+```
+
+Deploy the guest application.
+
+```sh
+cd usecases/blea-guest-serverless-api-sample
+npx aws-cdk deploy --all --profile ct-guest
+```
+
+This completes the deployment of the baseline and sample application to the guest account.
+
+#### 7-3. Develop your own applications
+
+After that, I will start with this sample code and develop applications tailored to my use case. It shows the information required for general development.
+
+- [Development process](HowTo.md#development-process)
+- [Update package dependencies](HowTo.md#update-package-dependencies)
+
+#### 7-4. Remediation of security issues
+
+Even after deploying a governance base, there are detections that are reported at a critical or high severity level in Security Hub benchmark reports . You will need to take action on these manually. If necessary, perform remediation.
+
+- [Remediate Security Issues](HowTo.md#remediate-security-issues)
 
 #### 4-3. Configure an AWS CLI Profile for Guest Account Deployment
 
@@ -207,7 +373,7 @@ This command launches a browser and displays the AWS SSO login screen. If you ha
 
 ### 5. Set a baseline for notifications in the Audit account (Local)
 
-The Audit account has an SNS Topic created by ControlTower that sends all AWS Config change notifications. Set a baseline to notify Slack of this content.
+The Audit account has an SNS Topic created by Control Tower that sends all AWS Config change notifications. Set a baseline to notify Slack of this content.
 Only setting up AWS Chatbot is done in the management console, and any further work is done locally.
 
 > NOTE:
@@ -226,20 +392,20 @@ Log in to your Audit account in the management console and set up Slack Workspac
 
 #### 5-2. Set deployment information (Context)
 
-Specify the parameters in the CDK Context (cdk.json) of the use case for the Audit account in ControlTower. The configuration file is here. By default, a context named dev-audit is set.
+Specify the parameters in the CDK Context (cdk.json) of the use case for the Audit account in Control Tower. The configuration file is here. By default, a context named dev-audit is set.
 
 ```sh
-usecases/base-ct-audit/cdk.json
+usecases/blea-gov-base-ct-audit/cdk.json
 ```
 
-usecases/base-ct-audit/cdk.json
+usecases/blea-gov-base-ct-audit/cdk.json
 
 ```json
 {
   "app": "npx ts-node --prefer-ts-exts bin/blea-base-ct-audit.ts",
   "context": {
     "dev-audit": {
-      "description": "Context samples for ControlTower Audit Account - Specific account & region",
+      "description": "Context samples for Control Tower Audit Account - Specific account & region",
       "env": {
         "account": "222222222222",
         "region": "ap-northeast-1"
@@ -255,14 +421,14 @@ usecases/base-ct-audit/cdk.json
 
 The contents of this setting are as follows.
 
-| key                        | value                                                                                                                               |
-| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| description                | Comment on settings                                                                                                                 |
-| envName                    | Environment name. This will be set for each resource tag                                                                            |
-| env.account                | The account ID to deploy to. Must match the account specified in CLI profile                                                        |
-| env.region                 | Region to deploy to. Must match the region specified in CLI profile                                                                 |
-| SlackNotifier.WorkspaceID  | ID of Slack workspace set on AWS Chatbot                                                                                            |
-| SlackNotifier.channelIDAGG | The ID of the Slack channel you set for AWS Chatbot. You will be notified of all AWS Config changes for accounts under ControlTower |
+| key                        | value                                                                                                                                |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| description                | Comment on settings                                                                                                                  |
+| envName                    | Environment name. This will be set for each resource tag                                                                             |
+| env.account                | The account ID to deploy to. Must match the account specified in CLI profile                                                         |
+| env.region                 | Region to deploy to. Must match the region specified in CLI profile                                                                  |
+| SlackNotifier.WorkspaceID  | ID of Slack workspace set on AWS Chatbot                                                                                             |
+| SlackNotifier.channelIDAGG | The ID of the Slack channel you set for AWS Chatbot. You will be notified of all AWS Config changes for accounts under Control Tower |
 
 > NOTE: See the following explanation for how to use Context
 >
@@ -281,18 +447,18 @@ aws sso login --profile ct-audit
 Bootstrap a bucket for CDK to the Audit account (first time only)
 
 ```sh
-cd usecases/base-ct-audit
+cd usecases/blea-gov-base-ct-audit
 npx cdk bootstrap -c environment=dev-audit --profile ct-audit
 ```
 
 Deploy a governance base to the Audit account
 
 ```sh
-cd usecases/base-ct-audit
+cd usecases/blea-gov-base-ct-audit
 npx cdk deploy --all -c environment=dev-audit --profile ct-audit
 ```
 
-You should now be notified of all AWS Config change events for accounts managed by this ControlTower.
+You should now be notified of all AWS Config change events for accounts managed by this Control Tower.
 
 > NOTE:
 >
@@ -304,10 +470,10 @@ You should now be notified of all AWS Config change events for accounts managed 
 
 #### 6-1. Set deployment information (Context)
 
-You must specify parameters in the CDK Context (cdk.json) for deployment. Here is the configuration file for the guest account governance base for ControlTower.
+You must specify parameters in the CDK Context (cdk.json) for deployment. Here is the configuration file for the guest account governance base for Control Tower.
 
 ```sh
-usecases/base-ct-guest/cdk.json
+usecases/blea-gov-base-ct/cdk.json
 ```
 
 This example shows an example of defining Contexts called `dev` and `staging`. To verify the same configuration and deploy it to a production account, prepare a Context such as `staging` or `prod`.
@@ -316,7 +482,7 @@ This example shows an example of defining Contexts called `dev` and `staging`. T
 >
 > If you want to explicitly specify the account to be deployed, specify `env`. This makes it impossible to deploy if the account-region specified in the CLI Profile does not match the one specified in `env`. You can ensure that you manage the parameters you set for your account and prevent them from deploying to the wrong account. It is recommended to also specify `env` as much as possible.
 
-usecases/base-ct-guest/cdk.json
+usecases/blea-gov-base-ct/cdk.json
 
 ```json
 {
@@ -362,7 +528,7 @@ The contents of this setting are as follows.
 
 #### 6-2. (Optional) Modify the code to match Control Tower landing zone settings
 
-Skip this section if the environment matches [prerequisites in 1-1. ControlTower setup](#1-1-ControlTower-setup).
+Skip this section if the environment matches [prerequisites in 1-1. Control Tower setup](#1-1-ControlTower-setup).
 
 First, use the following flow chart to check the appropriate way for your environment.
 Abbreviations in the figure are as follows:
@@ -428,7 +594,7 @@ aws sso login --profile ct-guest
 Bootstrap a bucket for CDK (first time only).
 
 ```sh
-cd usecases/base-ct-guest
+cd usecases/blea-gov-base-ct
 npx cdk bootstrap -c environment=dev --profile ct-guest
 ```
 
@@ -441,7 +607,7 @@ npx cdk bootstrap -c environment=dev --profile ct-guest
 Deploy a governance base for guest accounts.
 
 ```sh
-cd usecases/base-ct-guest
+cd usecases/blea-gov-base-ct
 npx cdk deploy --all -c environment=dev --profile ct-guest
 ```
 
@@ -452,7 +618,7 @@ This will set up the following features
 - Some notifications of security-impacting change actions
 - Slack notifies you of security events
 
-The following settings that were set up in the Standalone version are configured by ControlTower and Security Services Organizations support.
+The following settings that were set up in the Standalone version are configured by Control Tower and Security Services Organizations support.
 
 - API logging with CloudTrail
 - Recording configuration changes with AWS Config
@@ -493,7 +659,7 @@ TrustedAdvisor provides advice for following AWS best practices. It is possible 
 
 ### 7. Deploy Guest Application Samples (Local)
 
-Once the governance base is set, you can deploy the same guest application sample for both Standalone and ControlTower using the same steps.
+Once the governance base is set, you can deploy the same guest application sample for both Standalone and Control Tower using the same steps.
 
 Here are the deployment steps from SSO authenticating to the guest account.
 
@@ -520,7 +686,7 @@ This completes the baseline and sample application deployment for a single accou
 
 > NOTE:
 >
-> It takes about 30 minutes to complete the deployment of all resources, including Aurora. If you want to deploy only some resources, specify the target stack name explicitly. The stack name is expressed in the application code (here bin/blea-guest-ecsapp-sample.ts) as `${pjPrefix}-ecsApp` .
+> It takes about 30 minutes to complete the deployment of all resources, including Aurora. If you want to deploy only some resources, specify the target stack name explicitly. The stack name is expressed in the application code (here bin/blea-guest-ecs-app-sample.ts) as `${pjPrefix}-ecsApp` .
 >
 > ```sh
 > cd usecases/guest-webapp-sample
@@ -528,7 +694,7 @@ This completes the baseline and sample application deployment for a single accou
 > ```
 >
 > NOTE:
-> guest-webapp-sample provides several variations under the bin directory. By default, the application specified in `app` in cdk.json (blea-guest-ecsapp-sample.ts) is deployed. If you want to deploy another application, you can do so by explicitly specifying `---app` in the cdk argument as follows: All contexts in cdk.json work with the same content within the same use case.
+> guest-webapp-sample provides several variations under the bin directory. By default, the application specified in `app` in cdk.json (blea-guest-ecs-app-sample.ts) is deployed. If you want to deploy another application, you can do so by explicitly specifying `---app` in the cdk argument as follows: All contexts in cdk.json work with the same content within the same use case.
 >
 > ```sh
 > cd usecases/guest-webapp-sample

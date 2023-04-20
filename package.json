@@ -13,10 +13,10 @@
     "npm": ">=8.1.0"
   },
   "workspaces": [
-    "usecases/*",
-    "tools/*"
+    "usecases/*"
   ],
   "scripts": {
+    "depcheck": "depcheck",
     "lint": "eslint --fix .",
     "lint:ci": "eslint .",
     "format": "prettier --write .",

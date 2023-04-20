@@ -1,0 +1,1978 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot test for BLEAEc2App Stack 1`] = `
+Object {
+  "Parameters": Object {
+    "BootstrapVersion": Object {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+    "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter": Object {
+      "Default": "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2",
+      "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
+    },
+  },
+  "Resources": Object {
+    "CMK56817A4C": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "Description": "BLEA Guest Sample: CMK for Ec2App",
+        "EnableKeyRotation": true,
+        "KeyPolicy": Object {
+          "Statement": Array [
+            Object {
+              "Action": "kms:*",
+              "Effect": "Allow",
+              "Principal": Object {
+                "AWS": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":root",
+                    ],
+                  ],
+                },
+              },
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::KMS::Key",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "CMKAliasFD5A95C9": Object {
+      "Properties": Object {
+        "AliasName": "alias/DevBLEAEc2App",
+        "TargetKeyId": Object {
+          "Fn::GetAtt": Array [
+            "CMK56817A4C",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::KMS::Alias",
+    },
+    "Ec2AppAlb7DEFB31D": Object {
+      "DependsOn": Array [
+        "NetworkingVpcPublicSubnet1DefaultRoute80C01FA6",
+        "NetworkingVpcPublicSubnet1RouteTableAssociationD13830EA",
+        "NetworkingVpcPublicSubnet2DefaultRouteDF98F60F",
+        "NetworkingVpcPublicSubnet2RouteTableAssociation2D4CEA06",
+      ],
+      "Properties": Object {
+        "LoadBalancerAttributes": Array [
+          Object {
+            "Key": "deletion_protection.enabled",
+            "Value": "false",
+          },
+          Object {
+            "Key": "access_logs.s3.enabled",
+            "Value": "true",
+          },
+          Object {
+            "Key": "access_logs.s3.bucket",
+            "Value": Object {
+              "Ref": "Ec2AppAlbLogBucket1DE66F6A",
+            },
+          },
+        ],
+        "Scheme": "internet-facing",
+        "SecurityGroups": Array [
+          Object {
+            "Fn::GetAtt": Array [
+              "Ec2AppAlbSg4F64FD2A",
+              "GroupId",
+            ],
+          },
+        ],
+        "Subnets": Array [
+          Object {
+            "Ref": "NetworkingVpcPublicSubnet1Subnet918289EE",
+          },
+          Object {
+            "Ref": "NetworkingVpcPublicSubnet2Subnet9D9E5AFB",
+          },
+        ],
+        "Type": "application",
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+    },
+    "Ec2AppAlbAlbListenerAppAsgTargetGroup308E1E51": Object {
+      "Properties": Object {
+        "Port": 80,
+        "Protocol": "HTTP",
+        "TargetGroupAttributes": Array [
+          Object {
+            "Key": "deregistration_delay.timeout_seconds",
+            "Value": "30",
+          },
+          Object {
+            "Key": "stickiness.enabled",
+            "Value": "false",
+          },
+        ],
+        "TargetType": "instance",
+        "Targets": Array [
+          Object {
+            "Id": Object {
+              "Ref": "Ec2AppAppInstance07A0F86A5",
+            },
+            "Port": 80,
+          },
+          Object {
+            "Id": Object {
+              "Ref": "Ec2AppAppInstance10A28D59A",
+            },
+            "Port": 80,
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+    },
+    "Ec2AppAlbAlbListenerD30090D8": Object {
+      "Properties": Object {
+        "DefaultActions": Array [
+          Object {
+            "TargetGroupArn": Object {
+              "Ref": "Ec2AppAlbAlbListenerAppAsgTargetGroup308E1E51",
+            },
+            "Type": "forward",
+          },
+        ],
+        "LoadBalancerArn": Object {
+          "Ref": "Ec2AppAlb7DEFB31D",
+        },
+        "Port": 80,
+        "Protocol": "HTTP",
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+    },
+    "Ec2AppAlbLogBucket1DE66F6A": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "AccessControl": "Private",
+        "BucketEncryption": Object {
+          "ServerSideEncryptionConfiguration": Array [
+            Object {
+              "ServerSideEncryptionByDefault": Object {
+                "SSEAlgorithm": "AES256",
+              },
+            },
+          ],
+        },
+        "PublicAccessBlockConfiguration": Object {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true,
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "Ec2AppAlbLogBucketPolicy6C6759B4": Object {
+      "Properties": Object {
+        "Bucket": Object {
+          "Ref": "Ec2AppAlbLogBucket1DE66F6A",
+        },
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "s3:*",
+              "Condition": Object {
+                "Bool": Object {
+                  "aws:SecureTransport": "false",
+                },
+              },
+              "Effect": "Deny",
+              "Principal": Object {
+                "AWS": "*",
+              },
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "Ec2AppAlbLogBucket1DE66F6A",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "Ec2AppAlbLogBucket1DE66F6A",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": "s3:PutObject",
+              "Effect": "Allow",
+              "Principal": Object {
+                "AWS": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::582318560864:root",
+                    ],
+                  ],
+                },
+              },
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    Object {
+                      "Fn::GetAtt": Array [
+                        "Ec2AppAlbLogBucket1DE66F6A",
+                        "Arn",
+                      ],
+                    },
+                    "/AWSLogs/",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    "/*",
+                  ],
+                ],
+              },
+            },
+            Object {
+              "Action": "s3:PutObject",
+              "Condition": Object {
+                "StringEquals": Object {
+                  "s3:x-amz-acl": "bucket-owner-full-control",
+                },
+              },
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "delivery.logs.amazonaws.com",
+              },
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    Object {
+                      "Fn::GetAtt": Array [
+                        "Ec2AppAlbLogBucket1DE66F6A",
+                        "Arn",
+                      ],
+                    },
+                    "/AWSLogs/",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    "/*",
+                  ],
+                ],
+              },
+            },
+            Object {
+              "Action": "s3:GetBucketAcl",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "delivery.logs.amazonaws.com",
+              },
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "Ec2AppAlbLogBucket1DE66F6A",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::S3::BucketPolicy",
+    },
+    "Ec2AppAlbSg4F64FD2A": Object {
+      "Properties": Object {
+        "GroupDescription": "Dev-BLEAEc2App/Ec2App/AlbSg",
+        "SecurityGroupEgress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "from 0.0.0.0/0:ALL PORTS",
+            "FromPort": 0,
+            "IpProtocol": "tcp",
+            "ToPort": 65535,
+          },
+        ],
+        "SecurityGroupIngress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow from anyone on port 80",
+            "FromPort": 80,
+            "IpProtocol": "tcp",
+            "ToPort": 80,
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "Ec2AppAlbSgtoDevBLEAEc2AppAppSgB5966D8D80E8567116": Object {
+      "Properties": Object {
+        "Description": "Load balancer to target",
+        "DestinationSecurityGroupId": Object {
+          "Fn::GetAtt": Array [
+            "Ec2AppAppSgF34C625B",
+            "GroupId",
+          ],
+        },
+        "FromPort": 80,
+        "GroupId": Object {
+          "Fn::GetAtt": Array [
+            "Ec2AppAlbSg4F64FD2A",
+            "GroupId",
+          ],
+        },
+        "IpProtocol": "tcp",
+        "ToPort": 80,
+      },
+      "Type": "AWS::EC2::SecurityGroupEgress",
+    },
+    "Ec2AppAppAsgASGA1C2034A": Object {
+      "Properties": Object {
+        "HealthCheckGracePeriod": 60,
+        "HealthCheckType": "ELB",
+        "LaunchConfigurationName": Object {
+          "Ref": "Ec2AppAppAsgLaunchConfig7E072488",
+        },
+        "MaxSize": "4",
+        "MinSize": "2",
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "PropagateAtLaunch": true,
+            "Value": "AppServer",
+          },
+        ],
+        "TargetGroupARNs": Array [
+          Object {
+            "Ref": "Ec2AppAlbAlbListenerAppAsgTargetGroup308E1E51",
+          },
+        ],
+        "VPCZoneIdentifier": Array [
+          Object {
+            "Ref": "NetworkingVpcPrivateSubnet1Subnet717BCE48",
+          },
+          Object {
+            "Ref": "NetworkingVpcPrivateSubnet2Subnet4313381B",
+          },
+        ],
+      },
+      "Type": "AWS::AutoScaling::AutoScalingGroup",
+      "UpdatePolicy": Object {
+        "AutoScalingScheduledAction": Object {
+          "IgnoreUnmodifiedGroupSizeProperties": true,
+        },
+      },
+    },
+    "Ec2AppAppAsgInstanceProfile6555344A": Object {
+      "Properties": Object {
+        "Roles": Array [
+          Object {
+            "Ref": "Ec2AppSsmInstanceRole98A9FB18",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::InstanceProfile",
+    },
+    "Ec2AppAppAsgLaunchConfig7E072488": Object {
+      "DependsOn": Array [
+        "Ec2AppSsmInstanceRole98A9FB18",
+      ],
+      "Properties": Object {
+        "BlockDeviceMappings": Array [
+          Object {
+            "DeviceName": "/dev/xvda",
+            "Ebs": Object {
+              "Encrypted": true,
+              "VolumeSize": 10,
+            },
+          },
+        ],
+        "IamInstanceProfile": Object {
+          "Ref": "Ec2AppAppAsgInstanceProfile6555344A",
+        },
+        "ImageId": Object {
+          "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter",
+        },
+        "InstanceType": "t3.micro",
+        "SecurityGroups": Array [
+          Object {
+            "Fn::GetAtt": Array [
+              "Ec2AppAppSgF34C625B",
+              "GroupId",
+            ],
+          },
+        ],
+        "UserData": Object {
+          "Fn::Base64": "#!/bin/bash
+sudo yum -y install httpd
+sudo systemctl enable httpd
+sudo systemctl start httpd
+echo \\"<h1>Hello from $(hostname)</h1>\\" > /var/www/html/index.html
+chown apache.apache /var/www/html/index.html",
+        },
+      },
+      "Type": "AWS::AutoScaling::LaunchConfiguration",
+    },
+    "Ec2AppAppAsgScalingPolicykeepSpareCPUE940C04E": Object {
+      "Properties": Object {
+        "AutoScalingGroupName": Object {
+          "Ref": "Ec2AppAppAsgASGA1C2034A",
+        },
+        "PolicyType": "TargetTrackingScaling",
+        "TargetTrackingConfiguration": Object {
+          "PredefinedMetricSpecification": Object {
+            "PredefinedMetricType": "ASGAverageCPUUtilization",
+          },
+          "TargetValue": 50,
+        },
+      },
+      "Type": "AWS::AutoScaling::ScalingPolicy",
+    },
+    "Ec2AppAppInstance07A0F86A5": Object {
+      "DependsOn": Array [
+        "Ec2AppSsmInstanceRole98A9FB18",
+      ],
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            0,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "BlockDeviceMappings": Array [
+          Object {
+            "DeviceName": "/dev/xvda",
+            "Ebs": Object {
+              "Encrypted": true,
+              "VolumeSize": 10,
+            },
+          },
+        ],
+        "IamInstanceProfile": Object {
+          "Ref": "Ec2AppAppInstance0InstanceProfile5EE4D678",
+        },
+        "ImageId": Object {
+          "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter",
+        },
+        "InstanceType": "t3.micro",
+        "SecurityGroupIds": Array [
+          Object {
+            "Fn::GetAtt": Array [
+              "Ec2AppAppSgF34C625B",
+              "GroupId",
+            ],
+          },
+        ],
+        "SubnetId": Object {
+          "Ref": "NetworkingVpcPrivateSubnet1Subnet717BCE48",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "AppServer0",
+          },
+        ],
+        "UserData": Object {
+          "Fn::Base64": "#!/bin/bash
+sudo yum -y install httpd
+sudo systemctl enable httpd
+sudo systemctl start httpd
+echo \\"<h1>Hello from $(hostname)</h1>\\" > /var/www/html/index.html
+chown apache.apache /var/www/html/index.html",
+        },
+      },
+      "Type": "AWS::EC2::Instance",
+    },
+    "Ec2AppAppInstance0InstanceProfile5EE4D678": Object {
+      "Properties": Object {
+        "Roles": Array [
+          Object {
+            "Ref": "Ec2AppSsmInstanceRole98A9FB18",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::InstanceProfile",
+    },
+    "Ec2AppAppInstance10A28D59A": Object {
+      "DependsOn": Array [
+        "Ec2AppSsmInstanceRole98A9FB18",
+      ],
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            1,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "BlockDeviceMappings": Array [
+          Object {
+            "DeviceName": "/dev/xvda",
+            "Ebs": Object {
+              "Encrypted": true,
+              "VolumeSize": 10,
+            },
+          },
+        ],
+        "IamInstanceProfile": Object {
+          "Ref": "Ec2AppAppInstance1InstanceProfile1886A29D",
+        },
+        "ImageId": Object {
+          "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter",
+        },
+        "InstanceType": "t3.micro",
+        "SecurityGroupIds": Array [
+          Object {
+            "Fn::GetAtt": Array [
+              "Ec2AppAppSgF34C625B",
+              "GroupId",
+            ],
+          },
+        ],
+        "SubnetId": Object {
+          "Ref": "NetworkingVpcPrivateSubnet2Subnet4313381B",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "AppServer1",
+          },
+        ],
+        "UserData": Object {
+          "Fn::Base64": "#!/bin/bash
+sudo yum -y install httpd
+sudo systemctl enable httpd
+sudo systemctl start httpd
+echo \\"<h1>Hello from $(hostname)</h1>\\" > /var/www/html/index.html
+chown apache.apache /var/www/html/index.html",
+        },
+      },
+      "Type": "AWS::EC2::Instance",
+    },
+    "Ec2AppAppInstance1InstanceProfile1886A29D": Object {
+      "Properties": Object {
+        "Roles": Array [
+          Object {
+            "Ref": "Ec2AppSsmInstanceRole98A9FB18",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::InstanceProfile",
+    },
+    "Ec2AppAppSgF34C625B": Object {
+      "Properties": Object {
+        "GroupDescription": "Dev-BLEAEc2App/Ec2App/AppSg",
+        "SecurityGroupEgress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "from 0.0.0.0/0:ALL PORTS",
+            "FromPort": 0,
+            "IpProtocol": "tcp",
+            "ToPort": 65535,
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "Ec2AppAppSgfromDevBLEAEc2AppAlbSgB1E49274805D7F9651": Object {
+      "Properties": Object {
+        "Description": "from DevBLEAEc2AppAlbSgB1E49274:80",
+        "FromPort": 80,
+        "GroupId": Object {
+          "Fn::GetAtt": Array [
+            "Ec2AppAppSgF34C625B",
+            "GroupId",
+          ],
+        },
+        "IpProtocol": "tcp",
+        "SourceSecurityGroupId": Object {
+          "Fn::GetAtt": Array [
+            "Ec2AppAlbSg4F64FD2A",
+            "GroupId",
+          ],
+        },
+        "ToPort": 80,
+      },
+      "Type": "AWS::EC2::SecurityGroupIngress",
+    },
+    "Ec2AppSsmInstanceRole98A9FB18": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "ec2.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
+          "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
+        ],
+        "Path": "/",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "InvestigationInstance2E4D52A0": Object {
+      "DependsOn": Array [
+        "InvestigationInstanceSsmInstanceRole95F6BCCB",
+      ],
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            0,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "BlockDeviceMappings": Array [
+          Object {
+            "DeviceName": "/dev/xvda",
+            "Ebs": Object {
+              "Encrypted": true,
+              "VolumeSize": 10,
+            },
+          },
+        ],
+        "IamInstanceProfile": Object {
+          "Ref": "InvestigationInstanceInstanceProfileAF68C034",
+        },
+        "ImageId": Object {
+          "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter",
+        },
+        "InstanceType": "t3.micro",
+        "SecurityGroupIds": Array [
+          Object {
+            "Fn::GetAtt": Array [
+              "InvestigationInstanceInvInstanceSgB92E484E",
+              "GroupId",
+            ],
+          },
+        ],
+        "SubnetId": Object {
+          "Ref": "NetworkingVpcProtectedSubnet1SubnetF97DE33B",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Investigation",
+          },
+        ],
+        "UserData": Object {
+          "Fn::Base64": "#!/bin/bash
+sudo yum -y install mariadb",
+        },
+      },
+      "Type": "AWS::EC2::Instance",
+    },
+    "InvestigationInstanceInstanceProfileAF68C034": Object {
+      "Properties": Object {
+        "Roles": Array [
+          Object {
+            "Ref": "InvestigationInstanceSsmInstanceRole95F6BCCB",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::InstanceProfile",
+    },
+    "InvestigationInstanceInvInstanceSgB92E484E": Object {
+      "Properties": Object {
+        "GroupDescription": "Dev-BLEAEc2App/InvestigationInstance/InvInstanceSg",
+        "SecurityGroupEgress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "InvestigationInstanceSsmInstanceRole95F6BCCB": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "ec2.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
+          "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
+        ],
+        "Path": "/",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "MonitoringAlarmTopicAF62D4F1": Object {
+      "Type": "AWS::SNS::Topic",
+    },
+    "MonitoringAlarmTopicPolicyCB9CCFB0": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "cloudwatch.amazonaws.com",
+              },
+              "Resource": Object {
+                "Ref": "MonitoringAlarmTopicAF62D4F1",
+              },
+              "Sid": "0",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Topics": Array [
+          Object {
+            "Ref": "MonitoringAlarmTopicAF62D4F1",
+          },
+        ],
+      },
+      "Type": "AWS::SNS::TopicPolicy",
+    },
+    "MonitoringChatbotChannel3696F0E4": Object {
+      "Properties": Object {
+        "ConfigurationName": "DevBLEAEc2AppMonitoring7E28C0B1",
+        "IamRoleArn": Object {
+          "Fn::GetAtt": Array [
+            "MonitoringChatbotRoleD766A77D",
+            "Arn",
+          ],
+        },
+        "SlackChannelId": "CYYYYYYYYYY",
+        "SlackWorkspaceId": "TXXXXXXXXXX",
+        "SnsTopicArns": Array [
+          Object {
+            "Ref": "MonitoringAlarmTopicAF62D4F1",
+          },
+        ],
+      },
+      "Type": "AWS::Chatbot::SlackChannelConfiguration",
+    },
+    "MonitoringChatbotRoleD766A77D": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "chatbot.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/ReadOnlyAccess",
+              ],
+            ],
+          },
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/CloudWatchReadOnlyAccess",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "MonitoringEmailSubsc6D15C956": Object {
+      "Properties": Object {
+        "Endpoint": "notify-security@example.com",
+        "Protocol": "email",
+        "TopicArn": Object {
+          "Ref": "MonitoringAlarmTopicAF62D4F1",
+        },
+      },
+      "Type": "AWS::SNS::Subscription",
+    },
+    "NetworkingFlowLogBucket33187957": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "AccessControl": "Private",
+        "BucketEncryption": Object {
+          "ServerSideEncryptionConfiguration": Array [
+            Object {
+              "ServerSideEncryptionByDefault": Object {
+                "KMSMasterKeyID": Object {
+                  "Fn::GetAtt": Array [
+                    "NetworkingKey5DCEF7CD",
+                    "Arn",
+                  ],
+                },
+                "SSEAlgorithm": "aws:kms",
+              },
+            },
+          ],
+        },
+        "PublicAccessBlockConfiguration": Object {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true,
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "NetworkingFlowLogBucketPolicy1EE356A6": Object {
+      "Properties": Object {
+        "Bucket": Object {
+          "Ref": "NetworkingFlowLogBucket33187957",
+        },
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "s3:*",
+              "Condition": Object {
+                "Bool": Object {
+                  "aws:SecureTransport": "false",
+                },
+              },
+              "Effect": "Deny",
+              "Principal": Object {
+                "AWS": "*",
+              },
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "NetworkingFlowLogBucket33187957",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "NetworkingFlowLogBucket33187957",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::S3::BucketPolicy",
+    },
+    "NetworkingKey5DCEF7CD": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "Description": "BLEA Guest Sample: CMK for Ec2App VPC Flow Logs",
+        "EnableKeyRotation": true,
+        "KeyPolicy": Object {
+          "Statement": Array [
+            Object {
+              "Action": "kms:*",
+              "Effect": "Allow",
+              "Principal": Object {
+                "AWS": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":root",
+                    ],
+                  ],
+                },
+              },
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
+                "kms:Encrypt*",
+                "kms:Decrypt*",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*",
+                "kms:Describe*",
+              ],
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "delivery.logs.amazonaws.com",
+              },
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::KMS::Key",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "NetworkingKeyAlias2BF09FC0": Object {
+      "Properties": Object {
+        "AliasName": "alias/DevBLEAEc2AppNetworkingD87AB721",
+        "TargetKeyId": Object {
+          "Fn::GetAtt": Array [
+            "NetworkingKey5DCEF7CD",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::KMS::Alias",
+    },
+    "NetworkingPrivateNacl8E602059": Object {
+      "Properties": Object {
+        "VpcId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::NetworkAcl",
+    },
+    "NetworkingPrivateNaclDefaultAssociationDevBLEAEc2AppNetworkingVpcPrivateSubnet15B31922B8E6227D5": Object {
+      "Properties": Object {
+        "NetworkAclId": Object {
+          "Ref": "NetworkingPrivateNacl8E602059",
+        },
+        "SubnetId": Object {
+          "Ref": "NetworkingVpcPrivateSubnet1Subnet717BCE48",
+        },
+      },
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+    },
+    "NetworkingPrivateNaclDefaultAssociationDevBLEAEc2AppNetworkingVpcPrivateSubnet239B35D27D643660A": Object {
+      "Properties": Object {
+        "NetworkAclId": Object {
+          "Ref": "NetworkingPrivateNacl8E602059",
+        },
+        "SubnetId": Object {
+          "Ref": "NetworkingVpcPrivateSubnet2Subnet4313381B",
+        },
+      },
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+    },
+    "NetworkingPrivateNaclPrivateEgress8D7BEE42": Object {
+      "Properties": Object {
+        "CidrBlock": "0.0.0.0/0",
+        "Egress": true,
+        "NetworkAclId": Object {
+          "Ref": "NetworkingPrivateNacl8E602059",
+        },
+        "Protocol": -1,
+        "RuleAction": "allow",
+        "RuleNumber": 100,
+      },
+      "Type": "AWS::EC2::NetworkAclEntry",
+    },
+    "NetworkingPrivateNaclPrivateIngressA5CFFFD6": Object {
+      "Properties": Object {
+        "CidrBlock": "0.0.0.0/0",
+        "Egress": false,
+        "NetworkAclId": Object {
+          "Ref": "NetworkingPrivateNacl8E602059",
+        },
+        "Protocol": -1,
+        "RuleAction": "allow",
+        "RuleNumber": 120,
+      },
+      "Type": "AWS::EC2::NetworkAclEntry",
+    },
+    "NetworkingPublicNacl8F0D44A5": Object {
+      "Properties": Object {
+        "VpcId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::NetworkAcl",
+    },
+    "NetworkingPublicNaclDefaultAssociationDevBLEAEc2AppNetworkingVpcPublicSubnet109F200B211B5AB43": Object {
+      "Properties": Object {
+        "NetworkAclId": Object {
+          "Ref": "NetworkingPublicNacl8F0D44A5",
+        },
+        "SubnetId": Object {
+          "Ref": "NetworkingVpcPublicSubnet1Subnet918289EE",
+        },
+      },
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+    },
+    "NetworkingPublicNaclDefaultAssociationDevBLEAEc2AppNetworkingVpcPublicSubnet24591B590BD988215": Object {
+      "Properties": Object {
+        "NetworkAclId": Object {
+          "Ref": "NetworkingPublicNacl8F0D44A5",
+        },
+        "SubnetId": Object {
+          "Ref": "NetworkingVpcPublicSubnet2Subnet9D9E5AFB",
+        },
+      },
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+    },
+    "NetworkingPublicNaclPublicEgress927B5E86": Object {
+      "Properties": Object {
+        "CidrBlock": "0.0.0.0/0",
+        "Egress": true,
+        "NetworkAclId": Object {
+          "Ref": "NetworkingPublicNacl8F0D44A5",
+        },
+        "Protocol": -1,
+        "RuleAction": "allow",
+        "RuleNumber": 100,
+      },
+      "Type": "AWS::EC2::NetworkAclEntry",
+    },
+    "NetworkingPublicNaclPublicIngressAC30352B": Object {
+      "Properties": Object {
+        "CidrBlock": "0.0.0.0/0",
+        "Egress": false,
+        "NetworkAclId": Object {
+          "Ref": "NetworkingPublicNacl8F0D44A5",
+        },
+        "Protocol": -1,
+        "RuleAction": "allow",
+        "RuleNumber": 100,
+      },
+      "Type": "AWS::EC2::NetworkAclEntry",
+    },
+    "NetworkingVpc6B5E6F44": Object {
+      "Properties": Object {
+        "CidrBlock": "10.100.0.0/16",
+        "EnableDnsHostnames": true,
+        "EnableDnsSupport": true,
+        "InstanceTenancy": "default",
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/Vpc",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::VPC",
+    },
+    "NetworkingVpcEc2EndpointCDE9BE0C": Object {
+      "Properties": Object {
+        "PrivateDnsEnabled": true,
+        "SecurityGroupIds": Array [
+          Object {
+            "Fn::GetAtt": Array [
+              "NetworkingVpcEc2EndpointSecurityGroup28494A31",
+              "GroupId",
+            ],
+          },
+        ],
+        "ServiceName": "com.amazonaws.ap-northeast-1.ec2",
+        "SubnetIds": Array [
+          Object {
+            "Ref": "NetworkingVpcProtectedSubnet1SubnetF97DE33B",
+          },
+          Object {
+            "Ref": "NetworkingVpcProtectedSubnet2SubnetE110C692",
+          },
+        ],
+        "VpcEndpointType": "Interface",
+        "VpcId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::VPCEndpoint",
+    },
+    "NetworkingVpcEc2EndpointSecurityGroup28494A31": Object {
+      "Properties": Object {
+        "GroupDescription": "Dev-BLEAEc2App/Networking/Vpc/Ec2Endpoint/SecurityGroup",
+        "SecurityGroupEgress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": Array [
+          Object {
+            "CidrIp": Object {
+              "Fn::GetAtt": Array [
+                "NetworkingVpc6B5E6F44",
+                "CidrBlock",
+              ],
+            },
+            "Description": Object {
+              "Fn::Join": Array [
+                "",
+                Array [
+                  "from ",
+                  Object {
+                    "Fn::GetAtt": Array [
+                      "NetworkingVpc6B5E6F44",
+                      "CidrBlock",
+                    ],
+                  },
+                  ":443",
+                ],
+              ],
+            },
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+        ],
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/Vpc",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "NetworkingVpcEc2MessagesEndpointD64BDA68": Object {
+      "Properties": Object {
+        "PrivateDnsEnabled": true,
+        "SecurityGroupIds": Array [
+          Object {
+            "Fn::GetAtt": Array [
+              "NetworkingVpcEc2MessagesEndpointSecurityGroupA9FD1F29",
+              "GroupId",
+            ],
+          },
+        ],
+        "ServiceName": "com.amazonaws.ap-northeast-1.ec2messages",
+        "SubnetIds": Array [
+          Object {
+            "Ref": "NetworkingVpcProtectedSubnet1SubnetF97DE33B",
+          },
+          Object {
+            "Ref": "NetworkingVpcProtectedSubnet2SubnetE110C692",
+          },
+        ],
+        "VpcEndpointType": "Interface",
+        "VpcId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::VPCEndpoint",
+    },
+    "NetworkingVpcEc2MessagesEndpointSecurityGroupA9FD1F29": Object {
+      "Properties": Object {
+        "GroupDescription": "Dev-BLEAEc2App/Networking/Vpc/Ec2MessagesEndpoint/SecurityGroup",
+        "SecurityGroupEgress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": Array [
+          Object {
+            "CidrIp": Object {
+              "Fn::GetAtt": Array [
+                "NetworkingVpc6B5E6F44",
+                "CidrBlock",
+              ],
+            },
+            "Description": Object {
+              "Fn::Join": Array [
+                "",
+                Array [
+                  "from ",
+                  Object {
+                    "Fn::GetAtt": Array [
+                      "NetworkingVpc6B5E6F44",
+                      "CidrBlock",
+                    ],
+                  },
+                  ":443",
+                ],
+              ],
+            },
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+        ],
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/Vpc",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "NetworkingVpcFlowLogsFlowLog7DF32A67": Object {
+      "DependsOn": Array [
+        "NetworkingFlowLogBucketPolicy1EE356A6",
+      ],
+      "Properties": Object {
+        "LogDestination": Object {
+          "Fn::GetAtt": Array [
+            "NetworkingFlowLogBucket33187957",
+            "Arn",
+          ],
+        },
+        "LogDestinationType": "s3",
+        "ResourceId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+        "ResourceType": "VPC",
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/Vpc",
+          },
+        ],
+        "TrafficType": "ALL",
+      },
+      "Type": "AWS::EC2::FlowLog",
+    },
+    "NetworkingVpcIGW21218DAB": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/Vpc",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::InternetGateway",
+    },
+    "NetworkingVpcPrivateSubnet1DefaultRouteDE58E6A0": Object {
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": Object {
+          "Ref": "NetworkingVpcPublicSubnet1NATGateway70EEEC07",
+        },
+        "RouteTableId": Object {
+          "Ref": "NetworkingVpcPrivateSubnet1RouteTable69CC9A73",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "NetworkingVpcPrivateSubnet1RouteTable69CC9A73": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/Vpc/PrivateSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "NetworkingVpcPrivateSubnet1RouteTableAssociation761725EA": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "NetworkingVpcPrivateSubnet1RouteTable69CC9A73",
+        },
+        "SubnetId": Object {
+          "Ref": "NetworkingVpcPrivateSubnet1Subnet717BCE48",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "NetworkingVpcPrivateSubnet1Subnet717BCE48": Object {
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            0,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "CidrBlock": "10.100.4.0/22",
+        "MapPublicIpOnLaunch": false,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/Vpc/PrivateSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "NetworkingVpcPrivateSubnet2DefaultRoute5BF16047": Object {
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": Object {
+          "Ref": "NetworkingVpcPublicSubnet1NATGateway70EEEC07",
+        },
+        "RouteTableId": Object {
+          "Ref": "NetworkingVpcPrivateSubnet2RouteTableAE92CE40",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "NetworkingVpcPrivateSubnet2RouteTableAE92CE40": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/Vpc/PrivateSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "NetworkingVpcPrivateSubnet2RouteTableAssociation9EFBB61D": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "NetworkingVpcPrivateSubnet2RouteTableAE92CE40",
+        },
+        "SubnetId": Object {
+          "Ref": "NetworkingVpcPrivateSubnet2Subnet4313381B",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "NetworkingVpcPrivateSubnet2Subnet4313381B": Object {
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            1,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "CidrBlock": "10.100.8.0/22",
+        "MapPublicIpOnLaunch": false,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/Vpc/PrivateSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "NetworkingVpcProtectedSubnet1RouteTable2C1558E9": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/Vpc/ProtectedSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "NetworkingVpcProtectedSubnet1RouteTableAssociation011790AB": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "NetworkingVpcProtectedSubnet1RouteTable2C1558E9",
+        },
+        "SubnetId": Object {
+          "Ref": "NetworkingVpcProtectedSubnet1SubnetF97DE33B",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "NetworkingVpcProtectedSubnet1SubnetF97DE33B": Object {
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            0,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "CidrBlock": "10.100.12.0/22",
+        "MapPublicIpOnLaunch": false,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Protected",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Isolated",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/Vpc/ProtectedSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "NetworkingVpcProtectedSubnet2RouteTableA434E57C": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/Vpc/ProtectedSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "NetworkingVpcProtectedSubnet2RouteTableAssociation01AFDB7E": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "NetworkingVpcProtectedSubnet2RouteTableA434E57C",
+        },
+        "SubnetId": Object {
+          "Ref": "NetworkingVpcProtectedSubnet2SubnetE110C692",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "NetworkingVpcProtectedSubnet2SubnetE110C692": Object {
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            1,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "CidrBlock": "10.100.16.0/22",
+        "MapPublicIpOnLaunch": false,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Protected",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Isolated",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/Vpc/ProtectedSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "NetworkingVpcPublicSubnet1DefaultRoute80C01FA6": Object {
+      "DependsOn": Array [
+        "NetworkingVpcVPCGW12E561D8",
+      ],
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": Object {
+          "Ref": "NetworkingVpcIGW21218DAB",
+        },
+        "RouteTableId": Object {
+          "Ref": "NetworkingVpcPublicSubnet1RouteTable8FB3C18A",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "NetworkingVpcPublicSubnet1EIP7D5353EC": Object {
+      "Properties": Object {
+        "Domain": "vpc",
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/Vpc/PublicSubnet1",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::EIP",
+    },
+    "NetworkingVpcPublicSubnet1NATGateway70EEEC07": Object {
+      "DependsOn": Array [
+        "NetworkingVpcPublicSubnet1DefaultRoute80C01FA6",
+        "NetworkingVpcPublicSubnet1RouteTableAssociationD13830EA",
+      ],
+      "Properties": Object {
+        "AllocationId": Object {
+          "Fn::GetAtt": Array [
+            "NetworkingVpcPublicSubnet1EIP7D5353EC",
+            "AllocationId",
+          ],
+        },
+        "SubnetId": Object {
+          "Ref": "NetworkingVpcPublicSubnet1Subnet918289EE",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/Vpc/PublicSubnet1",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::NatGateway",
+    },
+    "NetworkingVpcPublicSubnet1RouteTable8FB3C18A": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/Vpc/PublicSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "NetworkingVpcPublicSubnet1RouteTableAssociationD13830EA": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "NetworkingVpcPublicSubnet1RouteTable8FB3C18A",
+        },
+        "SubnetId": Object {
+          "Ref": "NetworkingVpcPublicSubnet1Subnet918289EE",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "NetworkingVpcPublicSubnet1Subnet918289EE": Object {
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            0,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "CidrBlock": "10.100.0.0/24",
+        "MapPublicIpOnLaunch": true,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Public",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/Vpc/PublicSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "NetworkingVpcPublicSubnet2DefaultRouteDF98F60F": Object {
+      "DependsOn": Array [
+        "NetworkingVpcVPCGW12E561D8",
+      ],
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": Object {
+          "Ref": "NetworkingVpcIGW21218DAB",
+        },
+        "RouteTableId": Object {
+          "Ref": "NetworkingVpcPublicSubnet2RouteTable22886677",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "NetworkingVpcPublicSubnet2RouteTable22886677": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/Vpc/PublicSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "NetworkingVpcPublicSubnet2RouteTableAssociation2D4CEA06": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "NetworkingVpcPublicSubnet2RouteTable22886677",
+        },
+        "SubnetId": Object {
+          "Ref": "NetworkingVpcPublicSubnet2Subnet9D9E5AFB",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "NetworkingVpcPublicSubnet2Subnet9D9E5AFB": Object {
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            1,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "CidrBlock": "10.100.1.0/24",
+        "MapPublicIpOnLaunch": true,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Public",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/Vpc/PublicSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "NetworkingVpcS3GWEndpointA935E1AA": Object {
+      "Properties": Object {
+        "RouteTableIds": Array [
+          Object {
+            "Ref": "NetworkingVpcPrivateSubnet1RouteTable69CC9A73",
+          },
+          Object {
+            "Ref": "NetworkingVpcPrivateSubnet2RouteTableAE92CE40",
+          },
+          Object {
+            "Ref": "NetworkingVpcProtectedSubnet1RouteTable2C1558E9",
+          },
+          Object {
+            "Ref": "NetworkingVpcProtectedSubnet2RouteTableA434E57C",
+          },
+        ],
+        "ServiceName": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "com.amazonaws.",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ".s3",
+            ],
+          ],
+        },
+        "VpcEndpointType": "Gateway",
+        "VpcId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::VPCEndpoint",
+    },
+    "NetworkingVpcSsmEndpoint054488E3": Object {
+      "Properties": Object {
+        "PrivateDnsEnabled": true,
+        "SecurityGroupIds": Array [
+          Object {
+            "Fn::GetAtt": Array [
+              "NetworkingVpcSsmEndpointSecurityGroup897B24DC",
+              "GroupId",
+            ],
+          },
+        ],
+        "ServiceName": "com.amazonaws.ap-northeast-1.ssm",
+        "SubnetIds": Array [
+          Object {
+            "Ref": "NetworkingVpcProtectedSubnet1SubnetF97DE33B",
+          },
+          Object {
+            "Ref": "NetworkingVpcProtectedSubnet2SubnetE110C692",
+          },
+        ],
+        "VpcEndpointType": "Interface",
+        "VpcId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::VPCEndpoint",
+    },
+    "NetworkingVpcSsmEndpointSecurityGroup897B24DC": Object {
+      "Properties": Object {
+        "GroupDescription": "Dev-BLEAEc2App/Networking/Vpc/SsmEndpoint/SecurityGroup",
+        "SecurityGroupEgress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": Array [
+          Object {
+            "CidrIp": Object {
+              "Fn::GetAtt": Array [
+                "NetworkingVpc6B5E6F44",
+                "CidrBlock",
+              ],
+            },
+            "Description": Object {
+              "Fn::Join": Array [
+                "",
+                Array [
+                  "from ",
+                  Object {
+                    "Fn::GetAtt": Array [
+                      "NetworkingVpc6B5E6F44",
+                      "CidrBlock",
+                    ],
+                  },
+                  ":443",
+                ],
+              ],
+            },
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+        ],
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/Vpc",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "NetworkingVpcSsmMessagesEndpointDA21F821": Object {
+      "Properties": Object {
+        "PrivateDnsEnabled": true,
+        "SecurityGroupIds": Array [
+          Object {
+            "Fn::GetAtt": Array [
+              "NetworkingVpcSsmMessagesEndpointSecurityGroup4F815FEB",
+              "GroupId",
+            ],
+          },
+        ],
+        "ServiceName": "com.amazonaws.ap-northeast-1.ssmmessages",
+        "SubnetIds": Array [
+          Object {
+            "Ref": "NetworkingVpcProtectedSubnet1SubnetF97DE33B",
+          },
+          Object {
+            "Ref": "NetworkingVpcProtectedSubnet2SubnetE110C692",
+          },
+        ],
+        "VpcEndpointType": "Interface",
+        "VpcId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::VPCEndpoint",
+    },
+    "NetworkingVpcSsmMessagesEndpointSecurityGroup4F815FEB": Object {
+      "Properties": Object {
+        "GroupDescription": "Dev-BLEAEc2App/Networking/Vpc/SsmMessagesEndpoint/SecurityGroup",
+        "SecurityGroupEgress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": Array [
+          Object {
+            "CidrIp": Object {
+              "Fn::GetAtt": Array [
+                "NetworkingVpc6B5E6F44",
+                "CidrBlock",
+              ],
+            },
+            "Description": Object {
+              "Fn::Join": Array [
+                "",
+                Array [
+                  "from ",
+                  Object {
+                    "Fn::GetAtt": Array [
+                      "NetworkingVpc6B5E6F44",
+                      "CidrBlock",
+                    ],
+                  },
+                  ":443",
+                ],
+              ],
+            },
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+        ],
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/Vpc",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "NetworkingVpcVPCGW12E561D8": Object {
+      "Properties": Object {
+        "InternetGatewayId": Object {
+          "Ref": "NetworkingVpcIGW21218DAB",
+        },
+        "VpcId": Object {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+    },
+  },
+  "Rules": Object {
+    "CheckBootstrapVersion": Object {
+      "Assertions": Array [
+        Object {
+          "Assert": Object {
+            "Fn::Not": Array [
+              Object {
+                "Fn::Contains": Array [
+                  Array [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  Object {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;

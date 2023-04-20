@@ -2,316 +2,264 @@
 
 [View this page in Japanese (日本語)](PipelineDeployment_ja.md) | [Back to Repository README](../README.md)
 
-As an example of CI/CD with CDK, this document shows how to use sample to deploy CDK Application via CDK Pipelines.
+As an example of CI/CD with CDK, this document shows how to use sample code to deploy an application using [CDK Pipelines] (https://docs.aws.amazon.com/cdk/v2/guide/cdk_pipeline.html).
 
-CDK Pipelines is a high-level construct library that makes it easy to set up a continuous deployment pipeline for your CDK applications, powered by AWS CodePipeline. By building pipelines quickly with CDK pipelines, you can simplify application development and focus on areas of greater interest.
+CDK Pipelines is a high-level construct library that makes it easy to set up a continuous deployment pipeline for CDK applications with AWS CodePipeline. By quickly building pipelines with CDK pipelines, you can simplify application development and focus on the areas you care about more.
 
-A sample has been implemented in `blea-guest-ecsapp-sample-pipeline.ts` that defines the configuration (equivalent to `guest-webapp-sample/bin/blea-guest-ecsapp-sample.ts` ) as Stage (class that defines deployment units in CDK Pipelines) and deploys from the pipeline.
+Currently, we are offering the following samples.
 
-In case you have already deployed the use case `guest-webapp-sample/bin/blea-guest-ecsapp-sample.ts`, you will deploy the same application with a different stack name by following steps below to complete the CDK Pipelines deployment. To avoid duplicate billing and failed deployments, run `npx cdk destroy` to delete stacks that have already been deployed.
+- Pipeline for deploying `blea-gov-base-ct` (multi-account baseline)
+- Pipeline for deploying `blea-guest-ecs-app-sample` (sample ECS application that accepts CloudFront SSL communication for unique domains)
 
-## Overview
+The deployment of the operating environment itself is done by a pipeline. What you deploy yourself is a pipeline.
 
-### (Common) Setup Tools Account for deploying pipeline.
+If you've already deployed each use case, deploying with CDK Pipelines will deploy the same application under a different stack name. To avoid duplicate billing and deployment failures, we recommend running `npx cdk destroy` to delete stacks that have already been deployed.
 
-![BLEA-Deploy-Setup](images/BLEA-DeployECS-01-Setup.png)
+## Pipeline Configuration
 
-Configure some settings for CodePipeline to access the source code
+### Setup (common) - Set up the necessary information for the pipeline
 
-### Architecture Pattern A - Deploy pipeline and application in the same account
+![BLEA-deploy-setup](images/BLEA-DeployECS-01-Setup.png)
 
-![BLEA-Deploy-Tools](images/BLEA-DeployECS-02-Tool.png)
+Make the necessary settings for CodePipeline to retrieve the source code.
 
-How to deploy both pipelines and applications in the same account is shown. When CodePipeline detects a push to a Git repository, application update is triggered by the pipeline. you can deploy this architecture when you have executed must steps shown below.
+### Configuration pattern A: Deploy pipelines and applications within the same account
 
-### Architecture Pattern B - Deploy CDK application to the different account via pipeline
+![BLEA-deploy-tools](images/BLEA-DeployECS-02-Tool.png)
 
-![BLEA-Deploy-Dev](images/BLEA-DeployECS-03-Dev.png)
+Deploy both the pipeline and application within the same account. Applications are deployed using pipelines as an opportunity to push against a Git repository. If you perform the required steps shown below, this is the configuration.
 
-Deploy CDK application to a different account than the account that has a pipeline (Tools account). You can verify this configuration if you include Appendix A among the steps shown below.
+### Configuration Pattern B: Deploying an Application from a Pipeline to Another Account
 
-### Architecture Pattern C - Deploy CDK application to multiple account via pipelines
+![BLEA-deploy-dev](images/BLEA-DeployECS-03-Dev.png)
 
-![BLEA-Deploy-Prod](images/BLEA-DeployECS-04-Prod.png)
+Deploy the application to a different account than the account that has the pipeline (Tools account). Of the procedures shown below, when Appendix A is also carried out, this is the configuration.
 
-Here's an example of multiple accounts deployment by creating a pipeline for each account. This configuration can be verified by performing the tasks required by Configuration B for each account.
+### Configuration Pattern C: Deploying an Application to Multiple Accounts from a Pipeline
 
-### (Appendix) Deploy CDK application directly without pipeline when developing
+![BLEA-deploy-prod](images/BLEA-DeployECS-04-Prod.png)
 
-![BLEA-Deploy-Multi](images/BLEA-DeployECS-05-Multi.png)
+As an example of how to deploy an application to multiple accounts, an example of creating a pipeline for each account is shown. This configuration can be verified by performing the tasks required in configuration B for each account.
 
-You can also deploy applications directly from your local environment without pipeline. The procedure for this configuration can be verified by following the steps shown in Appendix B. DO NOT use this configuration in production.
+## 1. Governance-based deployment procedure for configuration pattern A (within the same account)
 
-## Pipeline Deployment
+### Overview of the environment to be built
 
-### Prerequisities
+- Here, we will introduce the procedure for deploying a multi-account governance base (`usecases/blea-gov-base-ct`) through a pipeline
+- The pipeline and the governance base deployed from it are created in the same account `Dev` account ID `123456789012`.
+- Pipeline parameters are `devPipelineParameter` and governance-based parameters are `devParameter'
 
-- Bootstrapped account (Tools account (ID: `222222222222`)) and region to which the pipeline will be deployed
-- An AWS CLI profile with credentials to access the Tools account with Administrator privileges (referred to as `blea-pipeline-tool` in this document)
+### 1-1. Register the BLEA code in the GitHub repository
 
-> **Note** we recommend that you use administrative credentials to an account only to bootstrap it and provision the initial pipeline. Otherwise, access to administrative credentials should be dropped as soon as possible. (Reference : [CDK Pipelines Doc](https://docs.aws.amazon.com/cdk/api/v1/docs/pipelines-readme.html))
+Please register the BLEA code in the Git repository.
+The pipeline monitors Git repositories and kicks the pipeline when the target branch is updated.
 
-### 1. Connect to GitHub using AWS CodeStar Connections
+### 1-2. Connect to GitHub using AWS CodeStar Connections
 
-1. Login to Tools account's AWS Console
-2. Open [CodePipeline] Service
-3. Click [Settings]=>[Connections] on the bottle of left navigation pane. Then click [Create connection]
-   ![BLEA-Deploy-1-Console](images/BLEA-Deploy-1-Console.png)
-4. Select [GitHub] and input [Connection name]. Click [Connect to GitHub].
-   ![BLEA-Deploy-2-ChooseGitHub](images/BLEA-Deploy-2-ChooseGitHub.png)
-5. Click [Install a new app] to setup "AWS Connector for GitHub" app
-   ![BLEA-Deploy-3-CreateConnection](images/BLEA-Deploy-3-CreateConnection.png)
-6. On [Install AWS Connector for GitHub], Choose your repository and Click [Install]. Then you return to AWS Console.
-   ![BLEA-Deploy-4-InstallApp](images/BLEA-Deploy-4-InstallApp.png)
-7. On [Connect to GitHub] page, Click [Connect]
-   ![BLEA-Deploy-5-Connect](images/BLEA-Deploy-5-Connect.png)
-8. Now you can see Arn for connection, like `arn:aws:codestar-connections:ap-northeast-1:xxxxxxxxxxxx:connection/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`. Copy it for later use.
-   ![BLEA-Deploy-6-Finished](images/BLEA-Deploy-6-Finished.png)
+The pipeline creates a connection to access the target Git repository.
 
-### 2. Setup Connections information to `cdk.json`
+1. Log into the AWS Management Console for your Tools account
+2. Open the CodePipeline service
+3. Click Settings=> Connections at the bottom left of the navigation pane, then click Create Connection.
 
-Update `cdk.json` (in this case, `usecases/guest-webapp-sample/cdk.json`) of target application so CodePipeline can access your BLEA repository and specify a target branch.
+![BLEA-deploy-1-console](images/BLEA-Deploy-1-Console.png)
 
-```json
-    "dev": {
-      "envName": "development",
+4. Choose GitHub, specify a Connection name, and then click Connect to GitHub
 
-      ~~~~~ (Your App Context) ~~~~~
+![blea-deploy-2-chooseGitHub](images/BLEA-Deploy-2-ChooseGitHub.png)
 
-      "repository": "ownername/repositoryname",
-      "branch": "main",
-      "connectionArn": "arn:aws:codestar-connections:ap-northeast-1:xxxxxxxxxxxx:connection/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-    },
-```
+5. Click “Install a new app” to install “AWS Connector for GitHub”
 
-- `dev`: Environment name to specify on CDK command line. ex) `npx cdk deploy -c environment=dev`
-- `repository`: GitHub repository name. If your reopsitory URL is 'https://github.com/ownername/repositoryname.git', you can specify `ownername/repositoryname`.
-- `branch`: Target branch (When push to this branch, CodePipeline will triggerd).
-- `connectionArn`: Connection Arn copied from the previous section.
+![blea-deploy-3-createConnection](images/BLEA-Deploy-3-CreateConnection.png)
 
-### 3. Deploy CodePipeline project
+6. On the Install AWS Connector for GitHub screen, select your own repository and click Install. After this, the screen will return to the management console
 
-#### 3.1. Setup Application to be built in `cdk.json` file
+![blea-deploy-4-installApp](images/BLEA-Deploy-4-InstallApp.png)
 
-The target file of `cdk synth` or `cdk deploy` is selected by `-a` option or `app` configuration in `cdk.json`. For example, you can deploy sample pipeline by overwrite configuration as following
+7. On the Connect to GitHub page, click Connect
 
-##### **`usecases/guest-webapp-sample/cdk.json`**
+![BLEA-deploy-5-connect](images/BLEA-Deploy-5-Connect.png)
 
-```ts
-{
-  "app": "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample-pipeline.ts",
-  // ...
-```
+8. Connection's ARN is now displayed on the screen. The format is as follows: Copy this for use after `arn:aws:codestar-connections:ap-northeast-1: xxxxxxxxxxxx: connection/xxxxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx`
 
-#### 3.A (Optional) Change deployment environment
+![BLEA-deploy-6-finished](images/BLEA-Deploy-6-Finished.png)
 
-In CDK Pipeline , `cdk synth` command is executed in CodeBuild in Tools Account. Here is a example implementation of synth command. You can change deployment environment by Pipeline Stack Prop `environment` (`dev` is set to default).
+### 1-3. Configuring AWS CLI Credentials
 
-##### **`usecases/guest-webapp-sample/blea-ecsapp-sample-pipeline-stack.ts`**
+Set up an AWS CLI profile for deployment to guest account `Dev`. Here, the guest account ID is `123456789012`
 
-```ts
-// ...
-        commands: [
-        ~~~ (Your Build Commands) ~~~
-          `npx cdk synth --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample-pipeline.ts" -c environment=${environment}`,
-          `npx cdk ls -c environment=${environment}`,
-        ],
-        // ...
-```
+~/.aws/config
 
-> **Note**
-> You don't have to select `--profile` option in executing synth command in CodeBuild Project. This is because CodeBuild has enough privileges in its execution role. If you want to run it locally, you can execute it by specifying Profile like `npx cdk synth -c environment=dev --profile xxxxxx`.
-
-##### **`usecases/guest-webapp-sample/bin/blea-guest-ecsapp-sample-pipeline.ts`**
-
-```ts
-const prodStack = new BLEAPipeline.BLEAPipelineStack(app, `${pjPrefix}-Prod-Pipeline`, {
-  repository: envVals['repository'],
-  branch: envVals['branch'],
-  connectionArn: envVals['connectionArn'],
-  env: procEnv,
-  environment: 'prod', // you can change context env.
-  deployStage: new BLEAPipelineStage(app, `${pjPrefix}-Prod-Stage`),
-});
-```
-
-#### 3.2 Deploy pipeline to Tools Account
-
-You can deploy sample pipeline to Tools account by using these commmands from your local machine.
-
-```sh
-npm ci
-cd usecase/guest-webapp-sample/
-npx cdk bootstrap -c environment=prodpipeline --profile your_profile_name  # If you haven't bootstrapped target account
-npx cdk deploy -c environment=prodpipeline --profile your_profile_name
-```
-
-### 4. Update BLEA codes, push and deploy
-
-Once your pipeline is deployed, you can continue to deploy code changes for BLEA. When the changes are pushed to GitHub, CodePipeline is triggered and retrieves the source code from the Git repository. Inside CodePipeline, CodeBuild synthesizes Cloud Assembly, and then deploy them.
-
-Now, you have deploy CDK Application defined in Stage in `guest-webapp-sample/bin/blea-guest-ecsapp-sample-pipeline.ts` through a pipeline.
-
-> **Note**
-> In CDK Pipelines, you can continuously deploy your deployment pipeline as target repository updates by using `SelfMutation`. You can also deploying all stack you define via Tools Account by using it.
-
----
-
-## Appendix A - Cross Account Deployment
-
-CDK Pipelines is easy way to implement pipelines for deploying applications to multiple accounts.
-In this appendix,
-how to execute cross account deployment to different account (Prod account (ID: `333333333333`)) from the Tools account is shown.
-
-### Prerequisities
-
-- Production account is registered to Organizations
-- Credential can be get via SSO
-- Private Git repository that no third party can access to. The account information will be listed in the pipeline stack or `cdk.json`.
-
-> **Note**
-> In this usecase, Git repository must be manageed as **PRIVATE**. This is because the account information about application deployment by the pipeline is required in the repository.
-> For example, if you are developing on GitHub, you need to create a private repository by cloning and pushing this public repository. If you fork this repository, you will not be able to manage it as a private repository.
-
-### Change in Code
-
-1.Enable cross account deployment by setting `crossAccountKey` to `true`.
-
-**`usecases/guest-webapp-sample/pipeline/blea-ecsapp-sample-pipeline-stack.ts`**
-
-```ts
-const pipeline = new pipelines.CodePipeline(this, `${id}-pipeline`, {
-    crossAccountKeys: true,
-    synth: new pipelines.CodeBuildStep('SynthStep', {
-        input: pipelines.CodePipelineSource.connection(props.repository, props.branch, {
-```
-
-> **Note**
-> When `crossAccountKey` is `true`, account information is evaluated more strictly in the test. Account information must be selected explicitly in the pipeline stack.
-
-### Passing account information in Stage instantiation that is deployed by the pipeline
-
-**`usecases/guest-webapp-sample/bin/blea-guest-ecsapp-sample-pipeline.ts`**
-
-```ts
-new BLEAPipelineStack(app, `${pjPrefix}-Pipeline`, {
-  repository: envVals['repository'],
-  branch: envVals['branch'],
-  connectionArn: envVals['connectionArn'],
-  env: getProcEnv(),
-
-  deployStage: new BLEAPipelineStage(app, `${pjPrefix}-Pipeline-Deployment`, {
-    env: {
-      account: envVals['prodEnv']['account'],
-      region: envVals['prodEnv']['region'],
-    }, // you can change deploy account by changing this value.
-  }),
-});
-```
-
-When adding account information, you have to edit `cdk.json` as following
-
-```json
-"dev": {
-    "envName": "Production",
-
-    ~~~~~ (Your App Context) ~~~~~
-
-    "repository": "ownername/repositoryname",
-    "branch": "main",
-    "connectionArn": "arn:aws:codestar-connections:ap-northeast-1:xxxxxxxxxxxx:connection/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-    "prodEnv": {
-        "account": "333333333333",
-        "region": "ap-northeast-1"
-    }
-},
-```
-
-### Setting up Prod Account
-
-Prerequisity: Profile of Prod Account is set like following
-
-```
-[profile blea-pipeline-prod]
-sso_start_url = https://xxxxxxxxxxxx.awsapps.com/start#/
+```text
+# For Guest Account
+[profile ct-guest]
+sso_start_url = https://d-90xxxxxxxx.awsapps.com/start#/
 sso_region = ap-northeast-1
-sso_account_id = 333333333333
+sso_account_id = 123456789012
 sso_role_name = AWSAdministratorAccess
 region = ap-northeast-1
 ```
 
-1. Login to Prod Account via SSO
+> **Note** Administrator rights are required when bootstrapping the CDK and when deploying pipelines. From a security standpoint, it is recommended to remove administrator privileges once pipeline deployment is complete (see [CDK Pipelines documentation](https://docs.aws.amazon.com/cdk/api/v1/docs/pipelines-readme.html)).
+
+### 1-4. Set pipeline parameters
+
+Edit the target application's `parameter.ts` file (in this case, `usecases/blea-gov-base-ct/parameters.ts`) and specify the required information. Here, we assume that it will be deployed to the guest account specified with CLI credentials, and env is not explicitly specified.
+
+```typescript
+// Parameter for Governance base in Dev account
+export const devParameter: AppParameter = {
+  envName: 'Development',
+  securityNotifyEmail: 'notify-security@example.com',
+  securitySlackWorkspaceId: 'T8XXXXXXX',
+  securitySlackChannelId: 'C00XXXXXXXX',
+  // env: { account: '123456789012', region: 'ap-northeast-1' },
+};
+
+// Parameter for Pipeline in Dev account
+export const devPipelineParameter: PipelineParameter = {
+  env: { account: '123456789012', region: 'ap-northeast-1' },
+  envName: 'DevPipeline',
+  sourceRepository: 'aws-samples/baseline-environment-on-aws',
+  sourceBranch: 'main',
+  sourceConnectionArn: 'arn:aws:codestar-connections:ap-northeast-1:xxxxxxxxxxxx:connection/example',
+};
+```
+
+Pipeline-specific parameters are as follows.
+
+- `sourceRepository`: The name of the GitHub repository. If your own repository URL is' https://github.com/ownername/repositoryname.git ', specify `ownername/repositoryname`
+- `sourceBranch`: branch name to which the pipeline refers
+- `sourceConnectionArn`: GitHub Connection ARN obtained in the previous section
+
+### 1-5. Deploy the pipeline
+
+Deploy the pipeline to the target account by running the following command from your local environment.
 
 ```sh
-aws sso login --profile blea-pipeline-prod
+npm ci
+cd usecase/blea-gov-base-ct/
+npx aws-cdk bootstrap --profile ct-guest  # If you haven't bootstrapped target account
+npx aws-cdk deploy --profile ct-guest --app "npx ts-node --prefer-ts-exts bin/blea-gov-base-ct-via-cdk-pipelines.ts"
 ```
 
-2. Bootstrap Prod Account
+To check the pipeline created, go to the target account's management console and check the CodePipeline screen.
 
-```sh
-npx cdk bootstrap --profile blea-pipeline-prod --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess --trust 222222222222 aws://333333333333/ap-northeast-1 -c environment=prod
+### 1-6. Update the application code, push the changes, and run the deployment
+
+Once the pipeline deployment is complete, change the application (governance-based) code and commit/push. This will run the pipeline and deploy the application (governance-based).
+
+Visit your Tools account to check how your pipeline is running.
+
+> **Note** In CDK Pipelines, by using a function called [SelfMutation](https://aws.amazon.com/jp/blogs/news/deploying-a-cdk-application-using-the-cdk-pipelines-modern-api/), deployment pipelines are also continuously deployed in response to repository updates It's possible. This makes it possible to deploy all stacks defined through the Tools account.
+
+---
+
+## 2. Configuration pattern B cross-account ECS application sample (multi-region) deployment instructions
+
+CDK Pipelines makes it easy to implement pipelines that deploy applications across accounts and regions.
+The `usecase/blea-guest-ecs-ecs-app-sample` of this repository is a multi-region configuration where CloudFront is deployed to us-east-1 and application execution environments such as ALB and ECS are deployed in regions specified by users.
+
+Here is the procedure for deploying using the pipeline `bin/blea-guest-ecs-app-sample-via-cdk-pipelines.ts` for cross-account deployment.
+Configure the pipeline to the `Pipeline` account `222222222222` and deploy the ECS application sample to the `Dev` account (ID: `111111111111`.
+
+### Prerequisites
+
+- Dev and Pipeline accounts must be registered to the organization and credentials can be obtained using SSO
+- The Git repository where the pipeline is deployed is managed as a private repository, and third parties cannot access account information described in `paramter.ts` or pipeline stacks, etc.
+- Execution of steps 1-1, 1-2 above has been completed in the Pipeline account
+
+> **Note** In this sample, connection information to the destination account required when the pipeline is deployed must be described in the pipeline parameter file. We recommend that the Git repository that manages this information be a private repository for security reasons. Note that if you fork the aws-samples repository directly, you cannot manage it as a private repository. For example, when developing on GitHub, it is necessary to create a private repository by cloning and pushing this public repository.
+
+### 2-1. Set parameters
+
+Cross-account deployments require you to explicitly specify the target account and region.
+Set the commented out account ID of `usecase/blea-guest-ecs-app-sample/parameter.ts` appropriately.
+
+```typescript
+// Parameters for Dev Account
+export const devParameter: AppParameter = {
+  env: {
+    account: '111111111111', // Change here
+    region: 'ap-northeast-1',
+  },
+  envName: 'Development',
+  monitoringNotifyEmail: 'notify-security@example.com',
+  monitoringSlackWorkspaceId: 'TXXXXXXXXXX',
+  monitoringSlackChannelId: 'CYYYYYYYYYY',
+  vpcCidr: '10.100.0.0/16',
+  dashboardName: 'BLEA-ECS-App-Sample',
+};
+
+// Parameters for Pipeline Account
+export const devPipelineParameter: PipelineParameter = {
+  env: {
+    account: '222222222222', // Change here
+    region: 'ap-northeast-1',
+  },
+  sourceRepository: 'aws-samples/baseline-environment-on-aws',
+  sourceBranch: 'main',
+  sourceConnectionArn:
+    'arn:aws:codestar-connections:us-west-2:222222222222:connection/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+};
 ```
 
-3. Bootstrap Tools Account
+> **Note** If `crossAccountKeys` is set to `true` in the CodePipeline constructor, the evaluation of account information during testing will be more strict. Specifically, it is necessary to explicitly pass account information (without environment information) in the pipeline stack.
 
-```sh
-npx cdk bootstrap -c environment=dev --profile blea-pipeline-tool --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess aws://222222222222/ap-northeast-1
-```
+### 2-2. Set up Dev and Pipeline accounts
 
-4. Deploy pipeline to Tools account
+We will bootstrap so that we can deploy from the Pipeline account to the Dev account us-east-1 and ap-northeast-1.
 
-```sh
-npx cdk deploy -c environment=dev --profile blea-pipeline-tool
-```
-
-## Appendix B - Deploy copy of application stack to Development Account
-
-When actually developing a system using the CDK, it is necessary to deploy the stack without pipeline to shorten the development cycle. In that case, you can also deploy the stack itself, which is deployed by the pipeline, to the development environment account, instead of the pipeline.
-
-### Prerequisities
-
-- An account is paid out for the development environment (Dev account (ID: `xxxxxxxxxxxx`)) and it is registered in the Organizations.
-- Credential can be obtained via SSO.
-
-```json
-    "dev": {
-      "env": {
-        "account": "xxxxxxxxxxxx",
-        "region": "ap-northeast-1"
-      },
-      "envName": "Development",
-
-      ~~~~~ (Your App Context) ~~~~~
-
-      "githubRepository": "ownername/repositoryname",
-      "githubTargetBranch": "main",
-      "codestarConnectionArn": "arn:aws:codestar-connections:ap-northeast-1:xxxxxxxxxxxx:connection/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-      "prodEnv": {
-            "account": "333333333333",
-            "region": "ap-northeast-1"
-        }
-    },
-```
+1. Configuring AWS CLI Credentials
+   Set a Profile to ~/.aws/config so you can access your Dev and Pipeline accounts.
 
 ```
 [profile blea-pipeline-dev]
 sso_start_url = https://xxxxxxxxxxxx.awsapps.com/start#/
 sso_region = ap-northeast-1
-sso_account_id = xxxxxxxxxxxx
+sso_account_id = 111111111111
+sso_role_name = AWSAdministratorAccess
+region = ap-northeast-1
+
+[profile blea-pipeline-tools]
+sso_start_url = https://xxxxxxxxxxxx.awsapps.com/start#/
+sso_region = ap-northeast-1
+sso_account_id = 222222222222
 sso_role_name = AWSAdministratorAccess
 region = ap-northeast-1
 ```
 
-### Deploy Stack itself directly to the Development environment
+> **Note** Administrator rights are required when bootstrapping the CDK and when deploying pipelines. From a security standpoint, it is recommended to remove administrator privileges once pipeline deployment is complete (see [CDK Pipelines documentation](https://docs.aws.amazon.com/cdk/api/v1/docs/pipelines-readme.html)).
 
-For example, if you want to deploy with `BLEA-ECSApp` defined in `BLEA-Dev-Stage`, deploy to the Dev account with the following command
+2. Log in to your Dev account with SSO and perform bootstrapping
 
-```
-npx cdk deploy BLEA-Dev-Stage/BLEA-ECSApp -c environment=dev --profile=blea-pipeline-dev
+```sh
+aws sso login --profile blea-pipeline-dev
+npx aws-cdk bootstrap aws://111111111111/ap-northeast-1 aws://111111111111/us-east-1 --trust 222222222222 --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess --profile blea-pipeline-dev
 ```
 
-In addition, you can check the list of stacks (e.g. `BLEA-Dev-Stage/BLEA-ECSApp` in the above command) that can be deployed by the following command
+3. Log in to your Pipeline account with SSO and perform bootstrapping
 
+```sh
+aws sso login --profile blea-pipeline-tools
+npx aws-cdk bootstrap aws://222222222222/ap-northeast-1 --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess --profile blea-pipeline-tools
 ```
-npx cdk ls -c environment=dev
+
+### 2-3. Deploy the pipeline
+
+Deploy a pipeline to a Pipeline account
+
+```sh
+cd usecase/blea-guest-ecs-app-sample
+npx aws-cdk deploy --profile blea-pipeline-tools --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecs-app-sample-via-cdk-pipelines.ts"
 ```
+
+The pipeline deployed to this Pipeline account will build and deploy the application in the next step.
+
+### 2-4. Update the application code, push the changes, and run the deployment
+
+Once the pipeline deployment is complete, change the application (governance-based) code and commit/push. This will run the pipeline and deploy the application (governance-based).
+
+Visit your Tools account to check how your pipeline is running.
+
+See: https://aws.amazon.com/jp/blogs/news/deploying-a-cdk-application-using-the-cdk-pipelines-modern-api/

@@ -21,11 +21,15 @@ variables:
   AWS_SECRET_ACCESS_KEY: ''
 
 .node-build: &node-build
+  - npm run depcheck && npm run depcheck --workspaces
   - npm run lint:ci
   - npm run format:ci
   - npm run build --workspaces
   - npm run test --workspaces
-  - npm run synth:dev --workspaces
+  # Delete product-stack-snapshots which is created by test.
+  # Without this step, synth fails.
+  - npm run clean:product --workspace usecases/blea-gov-base-ct
+  - npm run synth --workspaces
 
 build-node14:
   stage: build

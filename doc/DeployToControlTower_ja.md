@@ -1,8 +1,8 @@
-# Deploy to ControlTower environment
+# Deploy to Control Tower environment
 
 [In English](DeployToControlTower.md) | [リポジトリの README に戻る](../README_ja.md)
 
-ここでは ControlTower 管理下のアカウントに BLEA を導入する手順について記述します。
+ここでは Control Tower 管理下のアカウントに BLEA を導入する手順について記述します。
 
 ## デプロイの流れ
 
@@ -14,7 +14,6 @@
 
 - ランタイム等の前提条件は Standalone 版と同様です。[README](../README_ja.md) をご覧ください
 - AWS SSO を使うための前提条件
-  - `aws2-wrap` を使用するため、 [Python3](https://www.python.org/) (>= `3.8`) が必要です。
   - AWS SSO との連携のため [AWS CLI version2](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)が必要です。
 
 #### b. 開発環境
@@ -23,51 +22,46 @@ CDK コードを安全に編集するため、本格的な開発を行わない�
 
 - [手順]: [VisualStudioCode のセットアップ手順](HowTo_ja.md#VisualStudioCode-のセットアップ)
 
-### ControlTower 配下への導入手順
+### Control Tower 配下への導入手順
 
-ControlTower の配下にマルチアカウント版のガバナンスベースを導入して、ゲストシステムとしてサンプルアプリケーションを導入する手順を例にとって解説します。ここで`MC`はマネジメントコンソールでの作業を、`Local`は手元環境での作業を示します。
+Control Tower の配下にマルチアカウント版のガバナンスベースを導入して、ゲストシステムとしてサンプルアプリケーションを導入する手順を例にとって解説します。ここで `MC` はマネジメントコンソールでの作業を、`Local` は手元環境での作業を示します。
 
-1. ControlTower およびセキュリティサービスのセットアップ(MC)
+1. Control Tower およびセキュリティサービスのセットアップ (MC)
 
-2. デプロイ対象のゲストアカウントを ControlTower で作成する(MC)
+2. デプロイ対象のゲストアカウントを Control Tower で作成する (MC)
 
-3. 依存パッケージのインストールとコードのビルド(Local)
+3. 依存パッケージのインストールとコードのビル ド(Local)
 
-4. AWS SSO に合わせて AWS CLI の認証情報を設定する(Local)
+4. AWS SSO に合わせて AWS CLI の認証情報を設定する (Local)
 
-5. Audit アカウントに通知用のベースラインを設定する(Local)
+5. ゲストアカウント用ガバナンスベースをデプロイする (Local)
 
-6. ゲストアカウント用ガバナンスベースをデプロイする(Local)
-
-7. ゲストアプリケーションサンプルをデプロイする(Local)
+6. ゲストアプリケーションサンプルをデプロイする (Local)
 
 ## 導入手順
 
-### 1. ControlTower およびセキュリティサービスのセットアップ(MC)
+### 1. Control Tower およびセキュリティサービスのセットアップ(MC)
 
-ControlTower を利用することで、ガバナンスベースの一部の機能は自動的に設定されます。ControlTower が対応していないセキュリティサービスは Organizations に対して一括有効化を行うことで、以後新しいアカウントが作られると自動的に設定されるようになります。
+Control Tower を利用することで、ガバナンスベースの一部の機能は自動的に設定されます。Control Tower が対応していないセキュリティサービスは Organizations に対して一括有効化を行うことで、以後新しいアカウントが作られると自動的に設定されるようになります。
 
-ここでは ControlTower をセットアップし、Organizations 全体に対して SecurityHub, GuardDuty, Inspector そして IAM Access Analyzer を有効化する手順を示します。これらの委任アカウントとして Audit アカウントを指定します。
+ここでは Control Tower をセットアップし、Organizations 全体に対して SecurityHub, GuardDuty, Inspector そして IAM Access Analyzer を有効化する手順を示します。これらの委任アカウントとして Audit アカウントを指定します。
 
-#### 1-1. ControlTower のセットアップ
+#### 1-1. Control Tower のセットアップ
 
-ControlTower をセットアップします。
+Control Tower をセットアップします。
 See: [https://docs.aws.amazon.com/controltower/latest/userguide/setting-up.html]
 
 > NOTE:
 >
-> AWS Control Tower landing zone ver.3.0 より、CloudTrail の設定を有効化した場合の CloudTrail のログは、ManagementAccount の AWS CloudWatch Logs に集約されるようになりました。
+> AWS Control Tower では Landing Zone ver.3.0(LZ3.0) より、Organization Trail の設定が可能になりました。これは Control Tower の推奨設定であり、これによって Organizations 配下の CloudTrail ログは、ManagementAccount の AWS CloudWatch Logs に集約されます。
 >
 > ご参考：https://docs.aws.amazon.com/controltower/latest/userguide/2022-all.html#version-3.0
 >
-> その結果、従来ゲストアカウント上に存在していた CloudTrail のログが出力されていた CloudWatch Logs の LogGroup が無くなりました。これによって、ゲストアカウントのガバナンスベース で提供していた CloudTrail のログ監視が行えなくなっています。
->
-> BLEA はデフォルトで以下の前提条件を示す LZ3.0 以降の環境を想定していますが、
-> 前提条件の環境以外へガバナンスベースを展開する場合は、[6-2. (必要に応じて)Control Tower landing zone の設定に合わせコードを修正する](<#6-2-(必要に応じて)Control-Tower-landing-zone-の設定に合わせコードを修正する>)をご覧ください
+> BLEA はデフォルトで LZ3.0 以降の環境を想定していますが、ゲストアカウントで CloudTrail のログ監視を行うために Cloud Trail が必要であるため、Organization Trail に重複して 各ゲストアカウントにも CloudTrail を作成します。
 >
 > 前提条件：
 >
-> - Control Tower landing zone ver.3.0 から Control Tower を利用し、組織レベルの CloudTrail を有効化している
+> - （ver. 2.x 以前でなく）Landing zone ver. 3.0 以降から Control Tower を利用し、Organization CloudTrail を有効化している
 
 #### 1-2. SecurityHub のセットアップ
 
@@ -96,11 +90,11 @@ See: [https://docs.aws.amazon.com/controltower/latest/userguide/setting-up.html]
 
 - [https://docs.aws.amazon.com/awssupport/latest/user/organizational-view.html]
 
-### 2. デプロイ対象のゲストアカウントを ControlTower で作成する(MC)
+### 2. デプロイ対象のゲストアカウントを Control Tower で作成する(MC)
 
 #### 2-1. ゲストアカウントを作成する
 
-ControlTower を使って新しいアカウント（ゲストアカウント）を作成します。
+Control Tower を使って新しいアカウント（ゲストアカウント）を作成します。
 
 > See: [https://docs.aws.amazon.com/controltower/latest/userguide/account-factory.html#quick-account-provisioning]
 
@@ -134,7 +128,7 @@ Git に Commit する際に Linter, Formatter, git-secrets によるチェック
 
 ### 4. AWS SSO に合わせて AWS CLI の認証情報を設定する(Local)
 
-恒久的な認証情報も利用可能ですが、ControlTower 環境では AWS SSO の利用を推奨します。AWS SSO によって、マネジメントコンソールへのログインおよび SSO 認証による AWS CLI の実行が可能です。
+恒久的な認証情報も利用可能ですが、Control Tower 環境では AWS SSO の利用を推奨します。AWS SSO によって、マネジメントコンソールへのログインおよび SSO 認証による AWS CLI の実行が可能です。
 
 > NOTE:
 >
@@ -158,27 +152,7 @@ aws --version
 aws-cli/2.3.0 Python/3.8.8 Darwin/20.6.0 exe/x86_64 prompt/off
 ```
 
-#### 4-2. Audit アカウントデプロイ用の AWS CLI プロファイルを設定する
-
-次に、Control Tower の Audit アカウントにデプロイするための CLI プロファイルを設定します。ここでは Audit アカウントの ID を `222222222222` としています。
-
-~/.aws/config
-
-```text
-# for Audit Account
-[profile ct-audit]
-sso_start_url = https://d-90xxxxxxxx.awsapps.com/start#/
-sso_region = ap-northeast-1
-sso_account_id = 222222222222
-sso_role_name = AWSAdministratorAccess
-region = ap-northeast-1
-```
-
-> NOTE:
->
-> ControlTower の仕様により、ControlTower が Audit アカウントにデプロイしたリソースを変更する場合は、まずマネジメントアカウントの `AWSAdministratorAccess` ロールでログインし、Audit アカウントの`AWSControlTowerExecution` ロールにスイッチして処理を実行する必要があります。BLEA は ControlTower が作成したリソースを変更しないため、直接 Audit アカウントの AWSAdministratorAccess ロールを使用しています
-
-#### 4-3. ゲストアカウントデプロイ用の AWS CLI プロファイルを設定する
+#### 4-2. ゲストアカウントデプロイ用の AWS CLI プロファイルを設定する
 
 ゲストアカウントにデプロイするための AWS CLI プロファイルを設定します。ここではゲストアカウントの ID を`123456789012`としています。
 
@@ -194,7 +168,7 @@ sso_role_name = AWSAdministratorAccess
 region = ap-northeast-1
 ```
 
-#### 4-4. AWS SSO を使った CLI ログイン
+#### 4-3. AWS SSO を使った CLI ログイン
 
 次のコマンドで AWS SSO にログインします。ここでは`ct-guest`プロファイルでログインする例を示します。
 
@@ -204,217 +178,59 @@ aws sso login --profile ct-guest
 
 このコマンドによって ブラウザが起動し、AWS SSO のログイン画面が表示されます。ゲストアカウントの管理者ユーザー名（メールアドレス）とパスワードを正しく入力すると画面がターミナルに戻り、 AWS CLI で ゲストアカウントでの作業が可能になります。
 
-### 5. Audit アカウントに通知用のベースラインを設定する(Local)
+### 5. ゲストアカウント用ガバナンスベースをデプロイする(Local)
 
-Audit アカウントには ControlTower が作成した、すべての AWS Config の変更通知が送られる SNS Topic があります。この内容を Slack に通知するようベースラインを設定します。
-AWS Chatbot のセットアップのみマネジメントコンソールで行い、以後の作業はローカルで行います。
+#### 5-1. デプロイパラメータを設定する
 
-> NOTE:
->
-> AWS Config の通知が不要である場合はこのベースラインは設定しなくても構いません。他のアカウントの挙動には影響しません。
+デプロイの際に必要となる デプロイ先アカウントや通知先メールアドレスなど、各ユースケース固有のパラメータを指定する必要があります。 BLEA では `parameter.ts` というファイルでパラメータを管理します。書式は TypeScript です。
 
-> NOTE:
->
-> Amazon Inspector の脆弱性検出結果は Slack に通知されません。AWS Security Hub のコンソール上で結果を確認できます。
-
-#### 5-1. AWS Chatbot 用の Slack セットアップ
-
-Audit account にマネジメントコンソールでログインして、 AWS Chatbot に Slack Workspace をセットアップします。ここでは Aggregation 用の 1 つだけを作成します。以下の手順を参照してください。
-
-- [手順] [AWSChatbot 用に Slack を設定する](HowTo_ja.md#AWSChatbot-用に-Slack-を設定する)
-
-#### 5-2. デプロイ情報(Context)を設定する
-
-ControlTower の Audit アカウント用ユースケースの CDK Context (cdk.json) にパラメータを指定します。設定ファイルはこちらです。デフォルトでは dev-audit という名前の context が設定されています。
+Control Tower 用ベースラインのパラメータはこちらで指定します。
 
 ```sh
-usecases/base-ct-audit/cdk.json
+usecases/blea-gov-base-ct/parameter.ts
 ```
 
-usecases/base-ct-audit/cdk.json
+このサンプルは `devParameter` というパラメータセットを定義する例です。同様の設定を検証、本番アカウントにもデプロイできるようにするには、`stagingParameter`や`prodParameter`といったパラメータセットを定義し、App （こここでは `bin/blea-gov-base-standalone.ts`）でそれぞれの環境のスタックを作成します。
 
-```json
-{
-  "app": "npx ts-node --prefer-ts-exts bin/blea-base-ct-audit.ts",
-  "context": {
-    "dev-audit": {
-      "description": "Context samples for ControlTower Audit Account - Specific account & region",
-      "env": {
-        "account": "222222222222",
-        "region": "ap-northeast-1"
-      },
-      "slackNotifier": {
-        "workspaceId": "T8XXXXXXX",
-        "channelIdAgg": "C01ZZZZZZZZ"
-      }
-    }
-  }
-}
+usecases/blea-gov-base-ct/parameter.ts
+
+```typescript
+// Example for Development
+export const devParameter: AppParameter = {
+  envName: 'Development',
+  securityNotifyEmail: 'notify-security@example.com',
+  securitySlackWorkspaceId: 'T8XXXXXXX',
+  securitySlackChannelId: 'C00XXXXXXXX',
+  // env: { account: '123456789012', region: 'ap-northeast-1' },
+};
+
+// Example for Staging
+export const stagingParameter: AppParameter = {
+  envName: 'Staging',
+  securityNotifyEmail: 'notify-security@example.com',
+  securitySlackWorkspaceId: 'T8XXXXXXX',
+  securitySlackChannelId: 'C00XXXXXYYY',
+  env: { account: '123456789012', region: 'ap-northeast-1' },
+};
 ```
 
 この設定内容は以下の通りです。
 
-| key                        | value                                                                                                             |
-| -------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| description                | 設定についてのコメント                                                                                            |
-| envName                    | 環境名。これが各々のリソースタグに設定されます                                                                    |
-| env.account                | デプロイ対象のアカウント ID。CLI の profile で指定するアカウントと一致している必要があります                      |
-| env.region                 | デプロイ対象のリージョン。CLI の profile で指定するリージョンと一致している必要があります                         |
-| slackNotifier.workspaceId  | AWS Chatbot に設定した Slack workspace の ID                                                                      |
-| slackNotifier.channelIdAgg | AWS Chatbot に設定した Slack channel の ID。ControlTower 配下のアカウントの全ての AWS Config の変更が通知されます |
-
-> NOTE: Context の使い方については以下の解説を参照してください
->
-> - [cdk.context.json による個人環境の管理](HowTo_ja.md#cdkcontextjson-による個人環境の管理)
-> - [アプリケーション内で Context にアクセスする仕組み](HowTo_ja.md#アプリケーション内で-Context-にアクセスする仕組み)
-
-#### 5-3. Audit アカウント用のベースラインをデプロイ
-
-以下のコマンドで AWS SSO を使ってマネジメントアカウントにログインします。
-
-```sh
-aws sso login --profile ct-audit
-```
-
-Audit アカウントに CDK 用バケットをブートストラップします(初回のみ)
-
-```sh
-cd usecases/base-ct-audit
-npx cdk bootstrap -c environment=dev-audit --profile ct-audit
-```
-
-Audit アカウントにガバナンスベースをデプロイします
-
-```sh
-cd usecases/base-ct-audit
-npx cdk deploy --all -c environment=dev-audit --profile ct-audit
-```
-
-以上で、この ControlTower 管理下にあるアカウントのすべての AWS Config 変更イベントが通知されるようになります。
-
-> NOTE:
->
-> - ここでは BLEA 環境にインストールしたローカルの cdk を利用するため、`npx`を使用しています。直接`cdk`からコマンドを始めた場合は、グローバルインストールされた cdk が利用されます。
-> - cdk コマンドを利用するときに便利なオプションがあります。[デプロイ時の承認をスキップしロールバックさせない](HowTo_ja.md#デプロイ時の承認をスキップしロールバックさせない)を参照してください。
-
-### 6. ゲストアカウント用ガバナンスベースをデプロイする(Local)
-
-#### 6-1. デプロイ情報(Context)を設定する
-
-デプロイのため CDK Context (cdk.json) にパラメータを指定する必要があります。 ControlTower 版のゲストアカウント ガバナンスベースの設定ファイルはこちらです。
-
-```sh
-usecases/base-ct-guest/cdk.json
-```
-
-このサンプルは `dev`と`staging` という Context を定義する例です。同様の設定を検証、本番アカウントにもデプロイできるようにするには、`staging`や`prod`といった Context を用意します。
+| key                      | value                                                                                                    |
+| ------------------------ | -------------------------------------------------------------------------------------------------------- |
+| envName                  | 環境名。これが各々のリソースタグに設定されます                                                           |
+| securityNotifyEmail      | セキュリティに関する通知が送られるメールアドレス。内容は Slack と同様です                                |
+| securitySlackWorkspaceId | AWS Chatbot に設定した Slack workspace の ID                                                             |
+| securitySlackChannelId   | AWS Chatbot に設定した Slack channel の ID。ガバナンスベースによってセキュリティに関する通知が行われます |
+| env                      | デプロイ対象のアカウントとリージョン（指定しない場合は CLI の認証情報に従います）                        |
 
 > NOTE:
 >
 > デプロイ対象のアカウントを明示的に指定したい場合は`env`を指定してください。これによって CLI Profile で指定するアカウント-リージョンと、`env`で指定するものが一致していないとデプロイできなくなります。アカウントに設定したパラメータを確実に管理し、誤ったアカウントにデプロイすることを防ぐことができます。できるだけ`env`も指定することをお勧めします。
 
-usecases/base-ct-guest/cdk.json
+> NOTE: BLEA v2.x までは パラメータの設定に Context (cdk.json) を使っていましたが、v3.0 以降は parameter.ts を使用します。
 
-```json
-{
-  "app": "npx ts-node --prefer-ts-exts bin/blea-base-sa.ts",
-  "context": {
-    "dev": {
-      "description": "Context samples for Dev - Anonymous account & region",
-      "envName": "Development",
-      "securityNotifyEmail": "notify-security@example.com",
-      "slackNotifier": {
-        "workspaceId": "T8XXXXXXX",
-        "channelIdSec": "C00XXXXXXXX"
-      }
-    },
-    "stage": {
-      "description": "Context samples for Staging - Specific account & region  ",
-      "env": {
-        "account": "123456789012",
-        "region": "ap-northeast-1"
-      },
-      "envName": "Staging",
-      "securityNotifyEmail": "notify-security@example.com",
-      "slackNotifier": {
-        "workspaceId": "T8XXXXXXX",
-        "channelIdSec": "C01XXXXXXXX"
-      }
-    }
-  }
-}
-```
-
-この設定内容は以下の通りです。
-
-| key                        | value                                                                                        |
-| -------------------------- | -------------------------------------------------------------------------------------------- |
-| description                | 設定についてのコメント                                                                       |
-| env.account                | デプロイ対象のアカウント ID。CLI の profile で指定するアカウントと一致している必要があります |
-| env.region                 | デプロイ対象のリージョン。CLI の profile で指定するリージョンと一致している必要があります    |
-| envName                    | 環境名。これが各々のリソースタグに設定されます                                               |
-| securityNotifyEmail        | セキュリティに関する通知が送られるメールアドレス。内容は Slack と同様です                    |
-| slackNotifier.workspaceId  | AWS Chatbot に設定した Slack workspace の ID                                                 |
-| slackNotifier.channelIdSec | AWS Chatbot に設定した Slack channel の ID。セキュリティに関する通知が行われます             |
-
-#### 6-2. (必要に応じて)Control Tower landing zone の設定に合わせコードを修正する
-
-本項は[1-1. ControlTower のセットアップ内に記載の前提条件](#1-1-ControlTower-のセットアップ)に合致した環境の場合、スキップしてください。
-
-まず、次のフローチャートを利用し、ご自身の環境に適した対応方法をご確認ください。
-図中の略語は以下の通りです。
-
-- CT: Control Tower
-- LZ: Landing Zone
-- CTrail: CloudTrail
-
-```mermaid
-flowchart TD
-A[START] --> B{現在CTを利用している}
-B -->|利用している| C{現在のCT LZを<br>v3.0に更新する予定}
-C -->|v3.0に上げる| D{LZのCTrailの設定を<br>有効化する}
-C -->|v2.9以下のまま| F
-D -->|有効にする| F[a: ゲストアカウント上の<br>既存のリソースを利用する]
-D -->|有効にしない| G[b: ゲストアカウント上に<br>新規でリソースを作成する]
-B -->|利用していない| G
-```
-
-また、念のため、ソースコードを修正する前に、
-ゲストアカウント内の CloudWatch Logs に`aws-controltower/CloudTrailLogs`という名前のロググループの有無を確認してください。
-
-##### a. ゲストアカウント上の既存のリソースを利用する
-
-CloudWatch Logs に`aws-controltower/CloudTrailLogs`という名前のロググループが残っているケースになります。
-
-BLEA で定義されている以下の箇所のコードを削除し、既存のリソースを利用するためのコードを挿入してください。
-
-**_ 削除する箇所（２箇所） _**
-
-以下の２箇所を削除してください。
-
-```
-import { BLEATrailStack } from '../lib/blea-trail-stack';
-```
-
-```
-const trail = new BLEATrailStack(app, `${pjPrefix}-Trail`, { env: getProcEnv() });
-const logGroupName = trail.cloudTrailLogGroup.logGroupName;
-```
-
-**_ 挿入するコード _**
-
-既存の LogGroup を利用するための設定を追加します。
-
-```
-const logGroupName = 'aws-controltower/CloudTrailLogs';
-```
-
-##### b. ゲストアカウント上に新規でリソースを作成する
-
-前提条件の環境と同様に、LogGroup の追加が必要な環境となります。
-ソースコードを修正せずに、デプロイを実施してください。
-
-#### 6-3. ゲストアカウントにガバナンスベースデプロイする
+#### 5-2. ゲストアカウントにガバナンスベースデプロイする
 
 AWS SSO を使ってゲストアカウントにログインします。
 
@@ -425,20 +241,20 @@ aws sso login --profile ct-guest
 CDK 用バケットをブートストラップします(初回のみ)。
 
 ```sh
-cd usecases/base-ct-guest
-npx cdk bootstrap -c environment=dev --profile ct-guest
+cd usecases/blea-gov-base-ct
+npx aws-cdk bootstrap --profile ct-guest
 ```
 
 > NOTE:
 >
-> - ここでは BLEA 環境にインストールしたローカルの cdk を利用するため、`npx`を使用しています。直接`cdk`からコマンドを始めた場合は、グローバルインストールされた cdk が利用されます。
-> - cdk コマンドを利用するときに便利なオプションがあります。[デプロイ時の承認をスキップしロールバックさせない](HowTo_ja.md#デプロイ時の承認をスキップしロールバックさせない)を参照してください。
+> - ここでは BLEA 環境にインストールしたローカルの cdk を利用するため、`npx aws-cdk`を使用しています。`npx` を使わず直接`cdk`からコマンドを始めた場合は、グローバルインストールされた cdk が利用されます。
+> - cdk を実行するときに便利なオプションがあります。[デプロイ時の承認をスキップしロールバックさせない](doc/HowTo_ja.md#デプロイ時の承認をスキップしロールバックさせない)を参照してください。
 
 ゲストアカウントのガバナンスベースをデプロイします。
 
 ```sh
-cd usecases/base-ct-guest
-npx cdk deploy --all -c environment=dev --profile ct-guest
+cd usecases/blea-gov-base-ct
+npx aws-cdk deploy --all --profile ct-guest
 ```
 
 これによって以下の機能がセットアップされます
@@ -446,9 +262,10 @@ npx cdk deploy --all -c environment=dev --profile ct-guest
 - デフォルトセキュリティグループの閉塞 （逸脱した場合自動修復）
 - AWS Health イベントの通知
 - セキュリティに影響する変更操作の通知（一部）
-- Slack によるセキュリティイベントの通知
+- セキュリティイベントを通知する SNS トピック (SecurityAlarmTopic) の作成
+- 上記 SNS トピックを経由した、メールの送信と Slack のセキュリティチャネルへの通知
 
-Standalone 版でセットアップされていた以下の内容は ControlTower およびセキュリティサービスの Organizations 対応により設定されます。
+Standalone 版でセットアップされていた以下の内容は Control Tower およびセキュリティサービスの Organizations 対応により設定されます。したがって、マルチアカウント版の BLEA も Standalone 版の BLEA も、設定されるセキュリティサービス群は同等になるように設計されています。
 
 - CloudTrail による API のロギング
 - AWS Config による構成変更の記録
@@ -456,7 +273,7 @@ Standalone 版でセットアップされていた以下の内容は ControlTowe
 - GuardDuty による異常なふるまいの検知
 - SecurityHub によるベストプラクティスからの逸脱検知 (AWS Foundational Security Best Practice, CIS benchmark)
 
-#### 6-4. (オプション) 他のベースラインセットアップを手動でセットアップする
+#### 5-3. (オプション) 他のベースラインセットアップを手動でセットアップする
 
 ガバナンスベースでセットアップする他に
 AWS はいくつかの運用上のベースラインサービスを提供しています。必要に応じてこれらのサービスのセットアップを行なってください。
@@ -487,15 +304,15 @@ TrustedAdvisor は AWS のベストプラクティスをフォローするため
 
 - See: [https://docs.aws.amazon.com/awssupport/latest/user/get-started-with-aws-trusted-advisor.html#preferences-trusted-advisor-console]
 
-### 7. ゲストアプリケーションサンプルをデプロイする(Local)
+### 6. ゲストアプリケーションサンプルをデプロイする(Local)
 
-ガバナンスベースが設定された後は Standalone 版も ControlTower 版も同じ手順で同じゲストアプリケーションサンプルをデプロイできます。
+ガバナンスベースが設定された後は Standalone 版も Control Tower 版も同じ手順で同じゲストアプリケーションサンプルをデプロイできます。
 
-ゲストアカウントに SSO で認証している状態からデプロイメントの手順を示します。
+ゲストアカウントに SSO で認証している状態から、サーバーレス API アプリケーションサンプルをデプロイする手順を示します。
 
-#### 7-1. ゲストアプリケーションの Context を設定する
+#### 6-1. ゲストアプリケーションのパラメータを設定する
 
-Standalone 版と同じ手順で Context を設定します。
+Standalone 版と同じ手順でパラメータを設定します。
 
 #### 7-2. ゲストアプリケーションをデプロイする
 
@@ -508,28 +325,11 @@ aws sso login --profile ct-guest
 ゲストアプリケーションをデプロイします。
 
 ```sh
-cd usecases/guest-webapp-sample
-npx cdk deploy --all -c environment=dev --profile ct-guest
+cd usecases/blea-guest-serverless-api-sample
+npx aws-cdk deploy --all --profile ct-guest
 ```
 
-以上で単一アカウントに対するベースラインおよびサンプルアプリケーションのデプロイが完了します。
-
-> NOTE:
->
-> Aurora を含めた全てのリソースをデプロイ完了するまでには 30 分程度かかります。一部のリソースだけをデプロイしたい場合は対象のスタック名を明示的に指定してください。スタック名はアプリケーションコード(ここでは bin/blea-guest-ecsapp-sample.ts)の中で`${pjPrefix}-ECSApp`のように表現されています。
->
-> ```sh
-> cd usecases/guest-webapp-sample
-> npx cdk deploy "BLEA-ECSApp" --app "npx ts-node --prefer-ts-exts bin/blea-guest-asgapp-sample.ts" -c environment=dev --profile prof_dev
-> ```
->
-> NOTE:
-> guest-webapp-sample は bin ディレクトリ配下に複数のバリエーションを用意しています。デフォルトでは cdk.json の `app` に指定されたアプリケーション(blea-guest-ecsapp-sample.ts)がデプロイされます。 別のアプリケーションをデプロイしたい場合は、以下のように cdk の引数で明示的に `--app` を指定することで対応可能です。同一ユースケース内であれば cdk.json の Context はいずれも同じ内容で動作します。
->
-> ```sh
-> cd usecases/guest-webapp-sample
-> npx cdk deploy --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-asgapp-sample.ts" -c environment=dev --profile prof_dev
-> ```
+以上でゲストアカウントに対するベースラインおよびサンプルアプリケーションのデプロイが完了します。
 
 #### 7-3. 独自のアプリケーションを開発する
 

@@ -5,9 +5,9 @@
 
 [View this page in Japanese (日本語)](README_ja.md)
 
-Baseline Environment on AWS(BLEA) is a set of reference CDK template to establish secure baseline on standalone-account or ControlTower based multi-account AWS environment. This solution provides basic and extensible guardrail with AWS security services and end-to-end sample CDK code for typical system architecture. This template is also useful to learn more about AWS architecting best practices and how to customize CDK code as we incorporated comments in detail so that users can know why and how to customize.
+Baseline Environment on AWS(BLEA) is a set of reference CDK template to establish secure baseline on standalone-account or Control Tower based multi-account AWS environment. This solution provides basic and extensible guardrail with AWS security services and end-to-end sample CDK code for typical system architecture. This template is also useful to learn more about AWS architecting best practices and how to customize CDK code as we incorporated comments in detail so that users can know why and how to customize.
 
-Jump to | [Changelog](CHANGELOG.md) | [HowTo](doc/HowTo.md) | [Deploy to Multiaccount environment](/doc/DeployToControlTower.md) | [Standalone to ControlTower](doc/Standalone2ControlTower.md) | [Deployment Pipeline](doc/PipelineDeployment.md) |
+Jump to | [Changelog](CHANGELOG.md) | [HowTo](doc/HowTo.md) | [Deploy to Multiaccount environment](/doc/DeployToControlTower.md) | [Standalone to Control Tower](doc/Standalone2ControlTower.md) | [Deployment Pipeline](doc/PipelineDeployment.md) |
 
 ## Governance Architecture
 
@@ -15,7 +15,7 @@ Jump to | [Changelog](CHANGELOG.md) | [HowTo](doc/HowTo.md) | [Deploy to Multiac
 
 ![BLEA-OpsPatterns](doc/images/BLEA-OpsPatterns.png)
 
-### Multi-Account Governance (with ControlTower)
+### Multi-Account Governance (with Control Tower)
 
 ![BLEA-GovOverviewMultiAccount](doc/images/BLEA-GovOverviewMultiAccount.png)
 
@@ -25,7 +25,7 @@ Jump to | [Changelog](CHANGELOG.md) | [HowTo](doc/HowTo.md) | [Deploy to Multiac
 
 ## Baseline Architecture
 
-### Multi-Account (With ControlTower)
+### Multi-Account (With Control Tower)
 
 ![BLEA-ArchMultiAccount](doc/images/BLEA-ArchMultiAccount.png)
 
@@ -39,81 +39,81 @@ Jump to | [Changelog](CHANGELOG.md) | [HowTo](doc/HowTo.md) | [Deploy to Multiac
 
 ## Governance baselines
 
-| Use Cases                                         | Folders                    |
-| ------------------------------------------------- | -------------------------- |
-| Standalone Governance Base                        | `usecases/base-standalone` |
-| ControlTower governance base (for guest accounts) | `usecases/base-ct-guest`   |
-| ControlTower governance base for Audit accounts   | `usecases/base-ct-audit`   |
+| use case                                           | folder                              |
+| -------------------------------------------------- | ----------------------------------- |
+| Standalone governance base                         | `usecases/blea-gov-base-standalone` |
+| Control Tower governance base (for guest accounts) | `usecases/blea-gov-base-ct`         |
 
-## Sample applications for Guest systems
+- The Control Tower governance base sample offers 3 different deployment options
 
-| Use Cases              | Folders                        |
-| ---------------------- | ------------------------------ |
-| Web Application Sample | `usecases/guest-webapp-sample` |
-| API Application Sample | `usecases/guest-apiapp-sample` |
+- Direct deployment from the on-hand environment (blea-gov-base-ct.ts) (default)
+- Deployment using cdkPipeline (blea-gov-base-ct-via-cdk-pipelines.ts)
+- Deployment using Control Tower's Account Factory Customization (blea-giv-base-ct-via-cdk-pipelines.ts)
 
-- The web application sample provides four different options
+## Guest System Sample Architectures List
 
-  - Sample web application with ECS (default)
-  - Option: SSL-enabled sample of ECS web application
-  - Option: Sample web application with AutoScaling
-  - Option: Sample web application with EC2
+| use case                          | folder                                      |
+| --------------------------------- | ------------------------------------------- |
+| Web application sample by ECS     | `usecases/blea-guest-ecs-app-sample`        |
+| EC2 web application sample        | `usecases/blea-guest-ec2-app-sample`        |
+| Serverless API application sample | `usecases/blea-guest-serverless-api-sample` |
 
-- The API application sample provides two different options
-  - Sample serverless API application with NodeJS (default)
-  - Option: Python implementation of the same application
+- The ECS web application sample offers two different deployment options
 
-> NOTE: Each use case can be deployed independently, but other options within the same use case may share some resources. Please check the dependencies when deleting or changing them.
+- Direct deployment from the on-hand environment (blea-guest-ecs-app-sample.ts) (default)
+- Deployment using cdkPipeline (blea-guest-ecs-app-sample-via-cdk-pipelines.ts)
+
+> NOTE: Each use case can be deployed independently
 
 ## Deployment flow
 
-Describe the steps to deploy. When deploying only, it is not necessary to build a development environment, but it is recommended to have a development environment that includes an editor because it is easier to change the code and reduces mistakes.
+The steps to deploy are described. Building an editor environment is not necessarily necessary when only deploying, but it is recommended to prepare a development environment that includes an editor because code changes can be made easier and mistakes can be reduced.
 
 ### Prerequisites
 
-#### a. Runtime
+#### a. runtime
 
-Use the following runtimes: Follow the instructions for each OS to install.
+It uses the following runtimes: Please follow the instructions for each OS to install.
 
-- [Node.js](https://nodejs.org/) (>= `14.0.0`)
-  - `npm` (>= `8.1.0`)
-- [Git](https://git-scm.com/)
+- [Node.js] (https://nodejs.org/) (>= `14.0.0`)
+- `npm` (>= `8.1.0`)
+- [Git] (https://git-scm.com/)
 
-npm requires 8.1.0 or higher because it uses workspaces. Please install the latest version as follows.
+npm uses workspaces, so 8.1.0 or higher is required. Please install the latest version as follows.
 
 ```sh
 npm install -g npm
 ```
 
-#### b. Development environment
+#### b. development environment
 
-We recommend that you set up a development environment, even if you are not doing serious development, to ensure safe editing of CDK code. The following are the steps to set up VisualStudioCode.
+In order to safely edit CDK code, we recommend setting up a development environment even if you are not doing serious development. Below are instructions for setting up VisualStudioCode.
 
 - [Instructions]: [VisualStudioCode Setup Instructions](doc/HowTo.md#VisualStudioCode-Setup-Instructions)
 
-### Typical deployment steps
+### Typical Deployment Procedure
 
-The most typical deployment steps for using BLEA are as follows: Here are the steps for deploying a governance base and guest applications in a single account.
+The most typical implementation procedure when using BLEA is as follows. Here are the steps to deploy a governance base and guest applications on a single account.
 
 1. Install related libraries and build code
 
-2. Configuring AWS CLI Credentials
+2. Configuring credentials for the AWS CLI
 
 3. Create an account for deployment
 
 4. Deploy a governance base
 
-5. Deploy guest application samples
+5. Deploy the guest application sample
 
 > NOTE:
-> Here we will introduce the standalone governance base and the ECS version of the web application sample in a single account.
-> For instructions on deploying a multi-account version using ControlTower, see [Deploy to ControlTower environment](doc/DeployToControlTower.md).
+> Here, we will introduce a standalone governance base and a serverless API application sample to a single account.
+> For instructions on deploying a multi-account version using Control Tower, see [Deploy to Control Tower environment](doc/DeployToControl Tower.md).
 
-## Implementation steps
+## Implementation Procedure
 
-Here is the simplest example of deploying the Standalone version to a single account.
+Here, I will explain the simplest implementation of the standalone version to a single account as an example.
 
-### 1. Checkout a repository and initializing a project
+### 1. Checkout the repository and initialize the project
 
 #### 1-1. Checkout a repository
 
@@ -124,34 +124,36 @@ cd baseline-environment-on-aws
 
 #### 1-2. Initializing a project
 
+Install the required libraries for Node.js.
+
 ```sh
 # install dependencies
 npm ci
 ```
 
-#### 1-3. Setting up a pre-commit hook for Git
+#### 1-3. Setting up a Git pre-commit hook
 
-Registers a hook to perform checks by Linter, Formatter, and Git-Secrets when committing to Git. Follow the steps below to set it up. It is not required if you are just deploying, but we recommend a setup for more secure development.
+Register a hook to perform checks with linter, formatter, and git-secrets when committing to Git. Follow the steps below to set it up. It's not required if you're just deploying, but we recommend setting it up for more secure development.
 
 - [Instructions]: [Git pre-commit hook setup](doc/HowTo.md#Git-pre-commit-hook-setup)
 
-### 2. Set credentials for the AWS CLI
+### 2. Set your AWS CLI credentials
 
-You need your AWS credentials (API key) to deploy the CDK. Here's the simplest way to use permanent credentials.
+AWS credentials (API keys) are required to deploy the CDK. Here's the simplest way to use permanent credentials.
 
-This method is mainly used for development environments. Consider using two accounts, `prof_dev` and `prof_prod`, as an example of a profile in the AWS CLI.
+This is a method mainly used for development environments. Here, as an example of an AWS CLI profile, we will consider using two accounts, `prof_dev` and `prof_prod`.
 
 ~/.aws/credentials
 
 ```text
 [prof_dev]
 aws_access_key_id = XXXXXXXXXXXXXXX
-aws_secret_access_key = YYYYYYYYYYYYYYY
+aws_secret_access_key = YYYYYYYYYYYYYY
 region = ap-northeast-1
 
 [prof_prod]
-aws_access_key_id = ZZZZZZZZZZZZZZZZ
-aws_secret_access_key = PPPPPPPPPPPPPPPP
+aws_access_key_id = ZZZZZZZZZZZZZZZ
+aws_secret_access_key = PPPPPPPPPPPPPPPPPPPP
 region = ap-northeast-1
 ```
 
@@ -159,212 +161,178 @@ region = ap-northeast-1
 
 #### 3-1. Create a new account
 
-Create a new account using Organizations.
-It is possible to use a single account that does not use Organizations, but members under Organizations to make it easier to migrate to a multi-account management environment later It is recommended to use an account.
+Use Organizations to create new accounts.
+It is possible to use a single account without Organizations, but we recommend using member accounts under Organizations to make it easier to migrate to a multi-account management environment later.
 
-#### 3-2. Set up Slack to prepare for using AWS Chatbot
+#### 3-2. Set up Slack in preparation for using AWS Chatbot
 
-BLEA uses Slack channels for notification of security and monitoring events, respectively. Create two channels on Slack and follow the steps below to set up the default AWS Chatbot.
-When you are done, make a note of the ID of one workspace and the ID of two channels you want to notify for later settings.
+BLEA uses separate Slack channels for notification of security events and monitoring events. Create 2 channels on Slack and follow the steps below to perform the initial setup of AWS Chatbot.
+Once the settings are complete, note down the workspace ID (1) and the notification destination channel ID (2) for later settings.
 
 - [Instructions]: [Set up Slack for AWS ChatBot](doc/HowTo.md#set-up-slack-for-aws-chatbot)
 
 ### 4. Deploy a governance base
 
-#### 4-1. Set deployment information (Context)
+#### 4-1. Set deployment parameters
 
-You must specify parameters in the CDK Context (cdk.json) for each use case for deployment. Here is the configuration file for the Standalone version of the governance base.
+You must specify parameters specific to each use case, such as the deployment account and notification email address required during deployment. BLEA manages parameters in a file called `parameter.ts`. The format is TypeScript.
+
+The parameters for the single account baseline are specified here.
 
 ```sh
-usecases/base-standalone/cdk.json
+usecases/blea-gov-base-standalone/parameter.ts
 ```
 
-This example shows an example of defining a Context called `dev`. To verify the same configuration and deploy it to a production account, prepare a Context such as `staging` or `prod`. The Context name can be any alphabet.
+This example defines a parameter set called `devParameter`. To verify similar settings so that they can be deployed to production accounts, define parameter sets such as `stagingParameter' and `prodParameter', and create stacks for each environment with an App (here `bin/blea-gov-base-standalone.ts`).
 
-usecases/base-standalone/cdk.json
+usecases/blea-gov-base-standalone/parameter.ts
 
-```json
-{
-  "app": "npx ts-node --prefer-ts-exts bin/blea-base-sa.ts",
-  "context": {
-    "dev": {
-      "description": "Environment variables for Governance base ",
-      "envName": "Development",
-      "securityNotifyEmail": "notify-security@example.com",
-      "slackNotifier": {
-        "workspaceId": "T8XXXXXXX",
-        "channelIdSec": "C01XXXXXXXX"
-      }
-    }
-  }
-}
+```typescript
+//Example for Development
+export const devParameter: appParameter = {
+  envName: 'Development',
+  securityNotifyEmail: 'notify-security@example.com',
+  securitySlackWorkspaceID: 'T8XXXXXXX',
+  securitySlackChannelID: 'C00XXXXXXXX',
+  //env: {account: '123456789012', region: 'ap-northeast-1'},
+};
 ```
 
-The contents of this setting are as follows.
+The details of this setting are as follows.
 
-| key                        | value                                                                                               |
-| -------------------------- | --------------------------------------------------------------------------------------------------- |
-| description                | Comment on settings                                                                                 |
-| envName                    | Environment name. This will be set for each resource tag                                            |
-| securityNotifyEmail        | The email address to which security notifications will be sent. The content is similar to Slack     |
-| SlackNotifier.WorkspaceID  | ID of Slack workspace set on AWS Chatbot                                                            |
-| SlackNotifier.channelIDSec | The ID of the Slack channel that you configured on AWS Chatbot. You will be notified about security |
+| key                      | value                                                                                                       |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| envName                  | Environment name. This will be set to each resource tag                                                     |
+| securityNotifyEmail      | The email address to which security notifications will be sent. The content is similar to Slack             |
+| securitySlackWorkspaceID | Slack Workspace ID set to AWS Chatbot                                                                       |
+| securitySlackChannelID   | The ID of the Slack channel set to AWS Chatbot. Security notifications are made through the governance base |
+| env                      | The account and region to be deployed (if not specified, it will follow CLI credentials)                    |
 
-> NOTE: See the following explanation for how to use Context
->
-> - [Manage personal environment by cdk.context.json](doc/HowTo.md#Manage-personal-environment-by-cdkcontextjson)
->
-> - [Accessing context in application](doc/HowTo.md#accessing-context-in-application)
+> NOTE: BLEA used Context (cdk.json) to set parameters until v2.x, but after v3.0, parameter.ts is used.
 
 #### 4-2. Deploy a governance base
 
-If you are running a CDK for the first time, navigate to the target use case directory and bootstrap the CDK. This is required when you run the CDK for the first time with that account and region combination.
+If you're running the CDK for the first time, go to the target use case directory and bootstrap the CDK. This is required the first time you run the CDK with the target account and region combination.
 
 ```sh
-cd usecases/base-standalone
-npx cdk bootstrap -c environment=dev --profile prof_dev
+cd usecases/blea-gov-base-standalone
+npx aws-cdk bootstrap --profile prof_dev
 ```
 
 > NOTE:
 >
-> - Here we are using `npx` to use a local cdk installed in the BLEA environment. If you start the command directly from `cdk`, the globally installed cdk will be used.
+> > - Here, `npx aws-cdk` is used to use the local cdk installed in the BLEA environment. If you start a command directly from `cdk` without using `npx`, the globally installed cdk will be used.
 >
 > - There are options that are useful when using the cdk command. See [Skip Deployment Approvals and Don't Roll Back](doc/HowTo.md#skip-deployment-approvals-and-dont-roll-back).
 
-Deploy a governance baseline.
+Deploy a governance base.
 
 ```sh
-npx cdk deploy --all -c environment=dev --profile prof_dev
+npx aws-cdk deploy --all --profile prof_dev
 ```
 
-This will set up the following features
+This sets up the following features
 
 - API logging with CloudTrail
-- Recording configuration changes with AWS Config
-- Detect abnormal behavior with GuardDuty
-- Detecting Deviations from Best Practices with SecurityHub (AWS Foundational Security Best Practice, CIS benchmark)
-- Default security group blockage (auto repair in case of deviation)
-- Notifications for AWS Health events
-- Some notifications of security-impacting change actions
-- Slack notifies you of security events
+- Record configuration changes with AWS Config
+- Detecting unusual behavior with GuardDuty
+- Deviation detection from best practices by SecurityHub (AWS Foundational Security Best Practice, CIS Benchmark)
+- Default security group blocked (automatically repaired if deviated)
+- AWS Health event notifications
+- Notification of change actions that affect security (partial)
+- Create an SNS topic (SecurityAlarmTopic) to notify security events
+- Send emails and send notifications to Slack's secure channels via the above SNS topics
 
 #### 4-3. (Optional) Set up other baseline setups manually
 
-In addition to setting up a governance base, AWS provides several operational baseline services. Set up these services as needed.
+In addition to setting up on a governance basis, AWS provides several operational baseline services. Please set up these services as needed.
 
-##### a. Enabling Amazon Inspector and Detecting Vaulnerability
+##### a. Activate Amazon Inspector
 
-Amazon Inspector checks workload vulnerabilities. It detects software vulnerabilities and unintended network exposure with continuous scanning EC2 and ECR. Detected vulnerabilities are prioritized and displayed based on a calculated risk score, giving you high visibility into the results. It could be automatically integrated with Security Hub and viewed the results centrally.
+Amazon Inspector scans workloads and manages vulnerabilities. We continuously scan EC2 and ECR to detect software vulnerabilities and unintended network exposure. Detected vulnerabilities are prioritized and displayed based on calculated risk scores, so results can be obtained with high visibility. Additionally, it is automatically integrated with Security Hub, and detection results can be checked centrally.
 
-Setup steps: [https://docs.aws.amazon.com/inspector/latest/user/getting_started_tutorial.html]
+Setup instructions: [https://docs.aws.amazon.com/inspector/latest/user/getting_started_tutorial.html]
 
-##### b. Perform AWS Systems Manager Quick Setup for EC2 Management
+##### b. Perform AWS Systems Manager Quick Setup for EC2 management
 
-If you use EC2, we recommend that you use SystemsManager to manage it. You can use AWS Systems Manager Quick Setup to automate the basic setup required to manage EC2.
+If you use EC2, we recommend managing it using SystemsManager. By using the AWS Systems Manager Quick Setup, you can automate the basic setup required to manage EC2.
 See: [https://docs.aws.amazon.com/systems-manager/latest/userguide/quick-setup-host-management.html]
 
 Quick Setup provides the following features:
 
-- Configure AWS Identity and Access Management (IAM) Instance Profile Roles Required by Systems Manager
-- Auto-update of SSM Agent every other week
-- Collect inventory metadata every 30 minutes
-- Daily scans to detect instances that are out of patch
-- Installing and configuring Amazon CloudWatch Agent for the first time only
-- Monthly automatic updates of the CloudWatch agent
+- Configure the AWS Identity and Access Management (IAM) instance profile roles required by Systems Manager
+- SSM Agent automatic updates every other week
+- Inventory metadata collection every 30 minutes
+- Daily scans to detect instances running out of patches
+- First-time Amazon CloudWatch agent installation and configuration
+- Automatic monthly CloudWatch agent updates
 
 ##### c. Trusted Advisor Detection Results Report
 
-TrustedAdvisor provides advice for following AWS best practices. It is possible to receive the contents of the report regularly by e-mail. Please refer to the following document for details.
+TrustedAdvisor provides advice for following AWS best practices. Report details can be received by email on a regular basis. See the documentation below for more details.
 
 - See: [https://docs.aws.amazon.com/awssupport/latest/user/get-started-with-aws-trusted-advisor.html#preferences-trusted-advisor-console]
 
-### 5. Deploy a sample guest application
+### 5. Deploy the guest application sample
 
-Once the governance base is set up, deploy guest applications on top of it.
-As an example of a guest application, this section provides instructions for deploying an ECS-based web application sample.
+Once the governance-based configuration is complete, guest applications are deployed on top of it.
+Here are the steps to deploy the serverless API application sample as an example of a guest application.
 
-#### 5-1. Set the Context for the guest application
+#### 5-1. Set guest application parameters
 
-Configure guest applications before deploying.
-Navigate to `usecases/guest-webapp-sample` where the web application sample is located and edit cdk.json.
+Configure the guest application prior to deployment.
+Go to `usecases/blea-guest-serverless-api-sample` where the serverless API application sample is located and edit the parameter.ts.
 
-usecases/guest-webapp-sample/cdk.json
+usecases/blea-guest-serverless-api-sample/parameter.ts
 
-```json
-{
-  "app": "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts",
-  "context": {
-    "dev": {
-      "description": "Context samples for Dev - Anonymous account & region",
-      "envName": "Development",
-      "vpcCidr": "10.100.0.0/16",
-      "monitoringNotifyEmail": "notify-monitoring@example.com",
-      "dbUser": "dbadmin",
-      "slackNotifier": {
-        "workspaceId": "T8XXXXXXX",
-        "channelIdMon": "C01YYYYYYYY"
-      },
-      "domainName": "example.com",
-      "hostedZoneId": "Z0123456789",
-      "hostName": "www"
-    }
-  }
-}
+```typescript
+//example
+export const devParameter: appParameter = {
+ envName: 'Development',
+ monitoringNotifyEmail: 'notify-security@example.com',
+ monitoringSlack WorkspaceID: 'TXXXXXXXXXX',
+ monitoringSlackChannelID: 'CYYYYYYYYY',
+ //env: {account: '123456789012', region: 'ap-northeast-1'},
+};
 ```
 
 The settings are as follows:
 
-| key                        | value                                                                                                                                                                         |
-| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| description                | Comment on settings                                                                                                                                                           |
-| envName                    | Environment name. This is set for each resource tag.                                                                                                                          |
-| vpcCidr                    | CIDR of the VPC you want to create                                                                                                                                            |
-| monitoringNotifyEmail      | Email address to which notifications about system monitoring are sent. The content is similar to Slack.                                                                       |
-| dbuser                     | Login username to AuroraDB                                                                                                                                                    |
-| SlackNotifier.WorkspaceID  | ID of Slack workspace set on AWS Chatbot                                                                                                                                      |
-| SlackNotifier.channelIdMon | The ID of the Slack channel that you configured for AWS Chatbot. You will be notified about system monitoring. Specify a channel that is different from the security channel. |
+| key                        |                                                                                                                                                                    |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| envName                    | Environment name. This is set to each resource tag.                                                                                                                |
+| MonitoringNotifyEmail      | An email address to which notifications about system monitoring will be sent.                                                                                      |
+| SlackNotifier.workspaceID  | Slack workspace ID set to AWS Chatbot                                                                                                                              |
+| SlackNotifier.channelIdmon | The ID of the Slack channel set to AWS Chatbot. A notification about system monitoring will be sent. Please specify a different channel than the security channel. |
+| env                        | The account and region to be deployed (if not specified, it will follow CLI credentials)                                                                           |
 
 #### 5-2. Deploy a guest application
 
 ```sh
-cd usecases/guest-webapp-sample
-npx cdk deploy --all -c environment=dev --profile prof_dev
+cd usecases/blea-guest-serverless-api-sample
+npx aws-cdk deploy --all --profile prof_dev
 ```
 
-This completes the baseline and sample application deployment for a single account.
-
-> NOTE:
->
-> It takes about 30 minutes to complete the deployment of all resources, including Aurora. If you want to deploy only some resources, specify the target stack name explicitly. The stack name is expressed in the application code (here bin/blea-guest-ecsapp-sample.ts) as `$ {pjPrefix} -ecsApp` .
->
-> ```sh
-> cd usecases/guest-webapp-sample
-> npx cdk deploy "BLEA-ECSApp" --app "npx ts-node --prefer-ts-exts bin/blea-guest-ecsapp-sample.ts" -c environment=dev --profile prof_dev
-> ```
->
-> NOTE:
-> guest-webapp-sample provides several variations under the bin directory. By default, the application specified in `app` in cdk.json (blea-guest-ecsapp-sample.ts) is deployed. If you want to deploy another application, you can do so by explicitly specifying `—app` in the cdk argument as follows: All contexts in cdk.json work with the same content within the same use case.
->
-> ```sh
-> cd usecases/guest-webapp-sample
-> npx cdk deploy --all --app "npx ts-node --prefer-ts-exts bin/blea-guest-asgapp-sample.ts" -c environment=dev --profile prof_dev
-> ```
->
-> NOTE:
-> When deploying a guest ECS application, one of the Security Hub standards, [CodeBuild.5](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-codebuild-5), may raise an alert. You can suppress the alert by referring to [Changing the status of notifications about CodeBuild's privileged mode](doc/HowTo.md#remediate-security-issues).
+This completes the deployment of the baseline and sample application to a single account.
 
 #### 5-3. Develop your own applications
 
-From now on, you will use this sample code as a starting point to develop applications tailored to your use case. Indicates information necessary for general development.
+After that, I will start with this sample code and develop applications tailored to my use case. It shows the information required for general development.
 
 - [Development process](doc/HowTo.md#development-process)
 - [Update package dependencies](doc/HowTo.md#update-package-dependencies)
 
 #### 5-4. Remediation of security issues
 
-Even after deploying a governance base, there are detections that are reported at a critical or high severity level in Security Hub benchmark reports . You will need to take action on these manually. If necessary, perform remediation.
+Even after deploying the governance base, there are detections whose importance is reported at the CRITICAL or HIGH level in the Security Hub benchmark report. Manual action is required for these. If necessary, perform remediation (Remediation).
 
 - [Remediate Security Issues](doc/HowTo.md#remediate-security-issues)
+
+## Versioning Policy
+
+BLEA has adopted semantic versioning for governance bases (blea-govern-base-ct, blea-govern-base-standalone). The governance base remains backwards compatible as long as there are no major version changes. Migration guides are provided when major versions change.
+
+The guest system sample is not eligible for Semantic Versioning. They are intended to provide sample code, and disruptive changes can occur at any time. Migration guides are also not provided when major versions change.
 
 ## Security
 
@@ -372,4 +340,4 @@ See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more inform
 
 ## License
 
-This library is licensed under the MIT-0 License. See the LICENSE file.
+This library is licensed under the MIT-0 license. See the LICENSE file.
