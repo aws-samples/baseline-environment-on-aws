@@ -1,8 +1,8 @@
-# Deploy to ControlTower environment
+# Deploy to Control Tower environment
 
 [View this page in Japanese (日本語)](DeployToControlTower_ja.md) | [Back to Repository README](../README.md)
 
-This section describes the procedure for deploying BLEA to ControlTower-managed accounts.
+This section describes the procedure for deploying BLEA to Control Tower-managed accounts.
 
 ## Deployment procedure
 
@@ -23,13 +23,13 @@ We recommend that you set up a development environment, even if you are not doin
 
 - [Instructions]: [VisualStudioCode Setup Instructions](HowTo.md#VisualStudioCode-Setup-Instructions)
 
-### Implementation procedure under ControlTower
+### Implementation procedure under Control Tower
 
-I will explain the procedure for introducing a multi-account governance base under ControlTower and introducing a sample application as a guest system as an example. Here, `MC` indicates work in the management console, and `Local' indicates work in the local environment.
+I will explain the procedure for introducing a multi-account governance base under Control Tower and introducing a sample application as a guest system as an example. Here, `MC` indicates work in the management console, and `Local' indicates work in the local environment.
 
-1. ControlTower and Security Services Setup (MC)
+1. Control Tower and Security Services Setup (MC)
 
-2. Create a guest account for deployment in ControlTower (MC)
+2. Create a guest account for deployment in Control Tower (MC)
 
 3. Installing dependent packages and building code (Local)
 
@@ -41,15 +41,15 @@ I will explain the procedure for introducing a multi-account governance base und
 
 ## Implementation Procedure
 
-### 1. ControlTower and Security Services Setup (MC)
+### 1. Control Tower and Security Services Setup (MC)
 
-By using ControlTower, some governance-based functions are set up automatically. Security services that ControlTower does not support can be enabled in bulk for Organizations and will be set automatically when new accounts are created thereafter.
+By using Control Tower, some governance-based functions are set up automatically. Security services that Control Tower does not support can be enabled in bulk for Organizations and will be set automatically when new accounts are created thereafter.
 
-Here are the steps to set up ControlTower and enable SecurityHub, GuardDuty, Inspector, and IAM Access Analyzer for the entire organization. Specify the Audit account as these delegated accounts.
+Here are the steps to set up Control Tower and enable SecurityHub, GuardDuty, Inspector, and IAM Access Analyzer for the entire organization. Specify the Audit account as these delegated accounts.
 
-#### 1-1. ControlTower Setup
+#### 1-1. Control Tower Setup
 
-Set up ControlTower.
+Set up Control Tower.
 See: [https://docs.aws.amazon.com/controltower/latest/userguide/setting-up.html]
 
 > NOTE:
@@ -90,11 +90,11 @@ Enabling for member accounts
 
 - [https://docs.aws.amazon.com/awssupport/latest/user/organizational-view.html]
 
-### 2. Create a guest account for deployment in ControlTower (MC)
+### 2. Create a guest account for deployment in Control Tower (MC)
 
 #### 2-1. Create a guest account
 
-Create a new account (guest account) using ControlTower.
+Create a new account (guest account) using Control Tower.
 
 > See: [https://docs.aws.amazon.com/controltower/latest/userguide/account-factory.html#quick-account-provisioning]
 
@@ -128,7 +128,7 @@ Registers a hook to perform checks by Linter, Formatter, and Git-Secrets when co
 
 ### 4. Configure AWS CLI credentials for AWS SSO (Local)
 
-Permanent credentials are also available, but AWS SSO is recommended for ControlTower environments. AWS SSO allows you to log in to the Management Console and run the AWS CLI with SSO authentication.
+Permanent credentials are also available, but AWS SSO is recommended for Control Tower environments. AWS SSO allows you to log in to the Management Console and run the AWS CLI with SSO authentication.
 
 > NOTE:
 >
@@ -266,7 +266,7 @@ This sets up the following features
 - Create an SNS topic (SecurityAlarmTopic) to notify security events
 - Send emails and send notifications to Slack's secure channels via the above SNS topics
 
-The following content, which was set up in the standalone version, is configured by ControlTower and the security service's Organization support. Therefore, both the multi-account version of BLEA and the standalone version of BLEA are designed to have the same set of security services.
+The following content, which was set up in the standalone version, is configured by Control Tower and the security service's Organization support. Therefore, both the multi-account version of BLEA and the standalone version of BLEA are designed to have the same set of security services.
 
 - API logging with CloudTrail
 - Record configuration changes with AWS Config
@@ -307,7 +307,7 @@ TrustedAdvisor provides advice for following AWS best practices. Report details 
 
 ### 6. Deploy the guest application sample (Local)
 
-Once the governance base has been set up, the standalone and ControlTower versions can deploy the same guest application samples using the same steps.
+Once the governance base has been set up, the standalone and Control Tower versions can deploy the same guest application samples using the same steps.
 
 The procedure for deploying a serverless API application sample from SSO authentication to a guest account is shown.
 
@@ -373,7 +373,7 @@ This command launches a browser and displays the AWS SSO login screen. If you ha
 
 ### 5. Set a baseline for notifications in the Audit account (Local)
 
-The Audit account has an SNS Topic created by ControlTower that sends all AWS Config change notifications. Set a baseline to notify Slack of this content.
+The Audit account has an SNS Topic created by Control Tower that sends all AWS Config change notifications. Set a baseline to notify Slack of this content.
 Only setting up AWS Chatbot is done in the management console, and any further work is done locally.
 
 > NOTE:
@@ -392,7 +392,7 @@ Log in to your Audit account in the management console and set up Slack Workspac
 
 #### 5-2. Set deployment information (Context)
 
-Specify the parameters in the CDK Context (cdk.json) of the use case for the Audit account in ControlTower. The configuration file is here. By default, a context named dev-audit is set.
+Specify the parameters in the CDK Context (cdk.json) of the use case for the Audit account in Control Tower. The configuration file is here. By default, a context named dev-audit is set.
 
 ```sh
 usecases/blea-gov-base-ct-audit/cdk.json
@@ -405,7 +405,7 @@ usecases/blea-gov-base-ct-audit/cdk.json
   "app": "npx ts-node --prefer-ts-exts bin/blea-base-ct-audit.ts",
   "context": {
     "dev-audit": {
-      "description": "Context samples for ControlTower Audit Account - Specific account & region",
+      "description": "Context samples for Control Tower Audit Account - Specific account & region",
       "env": {
         "account": "222222222222",
         "region": "ap-northeast-1"
@@ -421,14 +421,14 @@ usecases/blea-gov-base-ct-audit/cdk.json
 
 The contents of this setting are as follows.
 
-| key                        | value                                                                                                                               |
-| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| description                | Comment on settings                                                                                                                 |
-| envName                    | Environment name. This will be set for each resource tag                                                                            |
-| env.account                | The account ID to deploy to. Must match the account specified in CLI profile                                                        |
-| env.region                 | Region to deploy to. Must match the region specified in CLI profile                                                                 |
-| SlackNotifier.WorkspaceID  | ID of Slack workspace set on AWS Chatbot                                                                                            |
-| SlackNotifier.channelIDAGG | The ID of the Slack channel you set for AWS Chatbot. You will be notified of all AWS Config changes for accounts under ControlTower |
+| key                        | value                                                                                                                                |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| description                | Comment on settings                                                                                                                  |
+| envName                    | Environment name. This will be set for each resource tag                                                                             |
+| env.account                | The account ID to deploy to. Must match the account specified in CLI profile                                                         |
+| env.region                 | Region to deploy to. Must match the region specified in CLI profile                                                                  |
+| SlackNotifier.WorkspaceID  | ID of Slack workspace set on AWS Chatbot                                                                                             |
+| SlackNotifier.channelIDAGG | The ID of the Slack channel you set for AWS Chatbot. You will be notified of all AWS Config changes for accounts under Control Tower |
 
 > NOTE: See the following explanation for how to use Context
 >
@@ -458,7 +458,7 @@ cd usecases/blea-gov-base-ct-audit
 npx cdk deploy --all -c environment=dev-audit --profile ct-audit
 ```
 
-You should now be notified of all AWS Config change events for accounts managed by this ControlTower.
+You should now be notified of all AWS Config change events for accounts managed by this Control Tower.
 
 > NOTE:
 >
@@ -470,7 +470,7 @@ You should now be notified of all AWS Config change events for accounts managed 
 
 #### 6-1. Set deployment information (Context)
 
-You must specify parameters in the CDK Context (cdk.json) for deployment. Here is the configuration file for the guest account governance base for ControlTower.
+You must specify parameters in the CDK Context (cdk.json) for deployment. Here is the configuration file for the guest account governance base for Control Tower.
 
 ```sh
 usecases/blea-gov-base-ct/cdk.json
@@ -528,7 +528,7 @@ The contents of this setting are as follows.
 
 #### 6-2. (Optional) Modify the code to match Control Tower landing zone settings
 
-Skip this section if the environment matches [prerequisites in 1-1. ControlTower setup](#1-1-ControlTower-setup).
+Skip this section if the environment matches [prerequisites in 1-1. Control Tower setup](#1-1-ControlTower-setup).
 
 First, use the following flow chart to check the appropriate way for your environment.
 Abbreviations in the figure are as follows:
@@ -618,7 +618,7 @@ This will set up the following features
 - Some notifications of security-impacting change actions
 - Slack notifies you of security events
 
-The following settings that were set up in the Standalone version are configured by ControlTower and Security Services Organizations support.
+The following settings that were set up in the Standalone version are configured by Control Tower and Security Services Organizations support.
 
 - API logging with CloudTrail
 - Recording configuration changes with AWS Config
@@ -659,7 +659,7 @@ TrustedAdvisor provides advice for following AWS best practices. It is possible 
 
 ### 7. Deploy Guest Application Samples (Local)
 
-Once the governance base is set, you can deploy the same guest application sample for both Standalone and ControlTower using the same steps.
+Once the governance base is set, you can deploy the same guest application sample for both Standalone and Control Tower using the same steps.
 
 Here are the deployment steps from SSO authenticating to the guest account.
 

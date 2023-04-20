@@ -11,7 +11,7 @@ Baseline Environment on AWS の Standalone 版でセットアップしたアカ�
 
 移行先のマネジメントアカウント（およびその Organizations）で Baseline Environment on AWS マルチアカウント版による管理が有効になっている必要があります。具体的には以下の点です。
 
-1. AWS ControlTower がセットアップ済みである
+1. AWS Control Tower がセットアップ済みである
 
    参照: https://docs.aws.amazon.com/controltower/latest/userguide/setting-up.html
 
@@ -48,9 +48,9 @@ Baseline Environment on AWS の Standalone 版でセットアップしたアカ�
 
 1. ターゲットアカウントの管理者にメールが届きます。記載の手順にしたがって招待リクエストを承認します。
 
-# 2. [ターゲットアカウント] ControlTower の管理下に入るための準備を行う
+# 2. [ターゲットアカウント] Control Tower の管理下に入るための準備を行う
 
-ターゲットアカウントには AWS Config が設定済みですが、以後 ControlTower で管理することになります。BLEA Standalone 版 でセットアップした AWS Config の設定を削除します。
+ターゲットアカウントには AWS Config が設定済みですが、以後 Control Tower で管理することになります。BLEA Standalone 版 でセットアップした AWS Config の設定を削除します。
 
 ## 2.1. AWS Config delivery channel を削除する
 
@@ -119,9 +119,9 @@ aws configservice delete-configuration-recorder --configuration-recorder-name BL
 aws configservice delete-delivery-channel --delivery-channel-name BLEA-Config-ConfigDeliveryChannel-XXXXXXXXXXX
 ```
 
-## 2.2. AWSControlTowerExecution ロールを作成する
+## 2.2. AWSControl TowerExecution ロールを作成する
 
-アカウントを ControlTower 管理下に移行するために必要な前提条件として、IAM ロールを作成します。以下の URL の「登録の前提条件」の 3 の内容です。
+アカウントを Control Tower 管理下に移行するために必要な前提条件として、IAM ロールを作成します。以下の URL の「登録の前提条件」の 3 の内容です。
 
 参照: https://docs.aws.amazon.com/controltower/latest/userguide/enroll-account.html
 
@@ -130,7 +130,7 @@ aws configservice delete-delivery-channel --delivery-channel-name BLEA-Config-Co
 3. [別の AWS アカウント] を選択し、[アカウント ID] に Control Tower のマネジメントアカウントのアカウント ID を入力します
 4. [次のステップ: アクセス権限] をクリックします
 5. 'AdministratorAccess' ポリシーを選択し、[次のステップ: タグ]、[次のステップ: レビュー]を順にクリックします
-6. ロール名に 'AWSControlTowerExecution' を入力し、[ロール作成] ボタンをクリックします
+6. ロール名に 'AWSControl TowerExecution' を入力し、[ロール作成] ボタンをクリックします
 
 # 3. [マネジメントアカウント] ターゲットアカウントを Control Tower へ移行する
 
@@ -145,7 +145,7 @@ aws configservice delete-delivery-channel --delivery-channel-name BLEA-Config-Co
 - パスワードをリセットするには AWS SSO コンソールの [Users] メニューからユーザを指定して行います
   ![ChangePass](../doc/images/S2C-ChangePass.png)
 
-2. ControlTower コンソールを開きます
+2. Control Tower コンソールを開きます
 3. ナビゲーションメニューから[Account Factory]を選択します
 4. [アカウントの登録] をクリックし、ターゲットアカウントの情報を入力して、 [アカウントの登録] ボタンをクリックします。アカウントの移行が開始されます。
    ![Enroll](../doc/images/S2C-Enroll.png)

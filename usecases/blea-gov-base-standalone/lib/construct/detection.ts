@@ -225,7 +225,7 @@ export class Detection extends Construct {
 
     // LogGroup Construct for CloudTrail
     //   Use LogGroup.fromLogGroupName() because...
-    //   On ControlTower environment, it created by not BLEA but ControlTower. So we need to refer existent LogGroup.
+    //   On Control Tower environment, it created by not BLEA but Control Tower. So we need to refer existent LogGroup.
     //   When you use BLEA Standalone version, the LogGroup is created by BLEA.
     //
     //   Note:

@@ -15,7 +15,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Bug Fixes
 
-* **base-ct-guest:** Fix to support ControlTower LZ v3.0 ([#70](https://github.com/aws-samples/baseline-environment-on-aws/issues/70)) ([9067290](https://github.com/aws-samples/baseline-environment-on-aws/commit/9067290883a9216765eeb6fddf9ac9aa06a28fca))
+* **base-ct-guest:** Fix to support Control Tower LZ v3.0 ([#70](https://github.com/aws-samples/baseline-environment-on-aws/issues/70)) ([9067290](https://github.com/aws-samples/baseline-environment-on-aws/commit/9067290883a9216765eeb6fddf9ac9aa06a28fca))
 * **base-standalone:** Replace deprecated IAM Policy `AWSConfigRole` with `AWS_ConfigRole` ([#46](https://github.com/aws-samples/baseline-environment-on-aws/issues/46)) ([47cadcc](https://github.com/aws-samples/baseline-environment-on-aws/commit/47cadcce43b8173b9cd1b346010a7263469fe313))
 * enable bucket-enforce-ssl on all buckets ([#47](https://github.com/aws-samples/baseline-environment-on-aws/issues/47)) ([dac02d5](https://github.com/aws-samples/baseline-environment-on-aws/commit/dac02d5179acdf39add6ced45fa27b9b373521a8))
 * vulnerabilities in minimist ([#42](https://github.com/aws-samples/baseline-environment-on-aws/issues/42)) ([2fcef62](https://github.com/aws-samples/baseline-environment-on-aws/commit/2fcef62706443dc202de2a095bced9346484692c))

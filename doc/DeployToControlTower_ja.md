@@ -1,8 +1,8 @@
-# Deploy to ControlTower environment
+# Deploy to Control Tower environment
 
 [In English](DeployToControlTower.md) | [リポジトリの README に戻る](../README_ja.md)
 
-ここでは ControlTower 管理下のアカウントに BLEA を導入する手順について記述します。
+ここでは Control Tower 管理下のアカウントに BLEA を導入する手順について記述します。
 
 ## デプロイの流れ
 
@@ -22,13 +22,13 @@ CDK コードを安全に編集するため、本格的な開発を行わない�
 
 - [手順]: [VisualStudioCode のセットアップ手順](HowTo_ja.md#VisualStudioCode-のセットアップ)
 
-### ControlTower 配下への導入手順
+### Control Tower 配下への導入手順
 
-ControlTower の配下にマルチアカウント版のガバナンスベースを導入して、ゲストシステムとしてサンプルアプリケーションを導入する手順を例にとって解説します。ここで `MC` はマネジメントコンソールでの作業を、`Local` は手元環境での作業を示します。
+Control Tower の配下にマルチアカウント版のガバナンスベースを導入して、ゲストシステムとしてサンプルアプリケーションを導入する手順を例にとって解説します。ここで `MC` はマネジメントコンソールでの作業を、`Local` は手元環境での作業を示します。
 
-1. ControlTower およびセキュリティサービスのセットアップ (MC)
+1. Control Tower およびセキュリティサービスのセットアップ (MC)
 
-2. デプロイ対象のゲストアカウントを ControlTower で作成する (MC)
+2. デプロイ対象のゲストアカウントを Control Tower で作成する (MC)
 
 3. 依存パッケージのインストールとコードのビル ド(Local)
 
@@ -40,15 +40,15 @@ ControlTower の配下にマルチアカウント版のガバナンスベース�
 
 ## 導入手順
 
-### 1. ControlTower およびセキュリティサービスのセットアップ(MC)
+### 1. Control Tower およびセキュリティサービスのセットアップ(MC)
 
-ControlTower を利用することで、ガバナンスベースの一部の機能は自動的に設定されます。ControlTower が対応していないセキュリティサービスは Organizations に対して一括有効化を行うことで、以後新しいアカウントが作られると自動的に設定されるようになります。
+Control Tower を利用することで、ガバナンスベースの一部の機能は自動的に設定されます。Control Tower が対応していないセキュリティサービスは Organizations に対して一括有効化を行うことで、以後新しいアカウントが作られると自動的に設定されるようになります。
 
-ここでは ControlTower をセットアップし、Organizations 全体に対して SecurityHub, GuardDuty, Inspector そして IAM Access Analyzer を有効化する手順を示します。これらの委任アカウントとして Audit アカウントを指定します。
+ここでは Control Tower をセットアップし、Organizations 全体に対して SecurityHub, GuardDuty, Inspector そして IAM Access Analyzer を有効化する手順を示します。これらの委任アカウントとして Audit アカウントを指定します。
 
-#### 1-1. ControlTower のセットアップ
+#### 1-1. Control Tower のセットアップ
 
-ControlTower をセットアップします。
+Control Tower をセットアップします。
 See: [https://docs.aws.amazon.com/controltower/latest/userguide/setting-up.html]
 
 > NOTE:
@@ -90,11 +90,11 @@ See: [https://docs.aws.amazon.com/controltower/latest/userguide/setting-up.html]
 
 - [https://docs.aws.amazon.com/awssupport/latest/user/organizational-view.html]
 
-### 2. デプロイ対象のゲストアカウントを ControlTower で作成する(MC)
+### 2. デプロイ対象のゲストアカウントを Control Tower で作成する(MC)
 
 #### 2-1. ゲストアカウントを作成する
 
-ControlTower を使って新しいアカウント（ゲストアカウント）を作成します。
+Control Tower を使って新しいアカウント（ゲストアカウント）を作成します。
 
 > See: [https://docs.aws.amazon.com/controltower/latest/userguide/account-factory.html#quick-account-provisioning]
 
@@ -128,7 +128,7 @@ Git に Commit する際に Linter, Formatter, git-secrets によるチェック
 
 ### 4. AWS SSO に合わせて AWS CLI の認証情報を設定する(Local)
 
-恒久的な認証情報も利用可能ですが、ControlTower 環境では AWS SSO の利用を推奨します。AWS SSO によって、マネジメントコンソールへのログインおよび SSO 認証による AWS CLI の実行が可能です。
+恒久的な認証情報も利用可能ですが、Control Tower 環境では AWS SSO の利用を推奨します。AWS SSO によって、マネジメントコンソールへのログインおよび SSO 認証による AWS CLI の実行が可能です。
 
 > NOTE:
 >
@@ -265,7 +265,7 @@ npx aws-cdk deploy --all --profile ct-guest
 - セキュリティイベントを通知する SNS トピック (SecurityAlarmTopic) の作成
 - 上記 SNS トピックを経由した、メールの送信と Slack のセキュリティチャネルへの通知
 
-Standalone 版でセットアップされていた以下の内容は ControlTower およびセキュリティサービスの Organizations 対応により設定されます。したがって、マルチアカウント版の BLEA も Standalone 版の BLEA も、設定されるセキュリティサービス群は同等になるように設計されています。
+Standalone 版でセットアップされていた以下の内容は Control Tower およびセキュリティサービスの Organizations 対応により設定されます。したがって、マルチアカウント版の BLEA も Standalone 版の BLEA も、設定されるセキュリティサービス群は同等になるように設計されています。
 
 - CloudTrail による API のロギング
 - AWS Config による構成変更の記録
@@ -306,7 +306,7 @@ TrustedAdvisor は AWS のベストプラクティスをフォローするため
 
 ### 6. ゲストアプリケーションサンプルをデプロイする(Local)
 
-ガバナンスベースが設定された後は Standalone 版も ControlTower 版も同じ手順で同じゲストアプリケーションサンプルをデプロイできます。
+ガバナンスベースが設定された後は Standalone 版も Control Tower 版も同じ手順で同じゲストアプリケーションサンプルをデプロイできます。
 
 ゲストアカウントに SSO で認証している状態から、サーバーレス API アプリケーションサンプルをデプロイする手順を示します。
 

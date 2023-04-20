@@ -5,7 +5,7 @@
 
 [In English](README.md)
 
-Baseline Environment on AWS(BLEA) は 単独の AWS アカウントまたは ControlTower で管理されたマルチアカウント環境で、セキュアなベースラインを確立するための リファレンス CDK テンプレート群です。このテンプレート群は AWS のセキュリティサービスを活用して基本的かつ拡張可能なガードレールを提供します。また典型的なシステムアーキテクチャを実現するエンドツーエンドの CDK サンプルコードを提供します。この CDK テンプレートは用途に合わせてユーザが拡張して使うことを前提としており、拡張の参考となるコードやコメントを多く含んでいます。これによって AWS のアーキテクチャベストプラクティスや CDK コードのカスタマイズを習得しやすくすることを目的としています。
+Baseline Environment on AWS (BLEA) は 単独の AWS アカウントまたは AWS Control Tower で管理されたマルチアカウント環境で、セキュアなベースラインを確立するための リファレンス AWS CDK テンプレート群です。このテンプレート群は AWS のセキュリティサービスを活用して基本的かつ拡張可能なガードレールを提供します。また典型的なシステムアーキテクチャを実現するエンドツーエンドの AWS CDK サンプルコードを提供します。この AWS CDK テンプレートは用途に合わせてユーザが拡張して使うことを前提としており、拡張の参考となるコードやコメントを多く含んでいます。これによって AWS のアーキテクチャベストプラクティスや AWS CDK コードのカスタマイズを習得しやすくすることを目的としています。
 
 Jump to | [Changelog](CHANGELOG.md) | [HowTo](doc/HowTo_ja.md) | [マルチアカウント環境へのデプロイ](/doc/DeployToControlTower_ja.md) | [Standalone 版からマルチアカウント版への移行](doc/Standalone2ControlTower_ja.md) | [パイプラインによるデプロイ](doc/PipelineDeployment_ja.md) |
 
@@ -15,7 +15,7 @@ Jump to | [Changelog](CHANGELOG.md) | [HowTo](doc/HowTo_ja.md) | [マルチア�
 
 ![BLEA-OpsPatterns](doc/images/BLEA-OpsPatterns.png)
 
-### マルチアカウント版 (ControlTower 利用)
+### マルチアカウント版 (AWS Control Tower 利用)
 
 ![BLEA-GovOverviewMultiAccount](doc/images/BLEA-GovOverviewMultiAccount.png)
 
@@ -39,16 +39,16 @@ Jump to | [Changelog](CHANGELOG.md) | [HowTo](doc/HowTo_ja.md) | [マルチア�
 
 ## ガバナンスベース一覧
 
-| ユースケース                                          | フォルダ                            |
-| ----------------------------------------------------- | ----------------------------------- |
-| スタンドアローン版ガバナンスベース                    | `usecases/blea-gov-base-standalone` |
-| ControlTower 版ガバナンスベース（ゲストアカウント用） | `usecases/blea-gov-base-ct`         |
+| ユースケース                                           | フォルダ                            |
+| ------------------------------------------------------ | ----------------------------------- |
+| スタンドアローン版ガバナンスベース                     | `usecases/blea-gov-base-standalone` |
+| Control Tower 版ガバナンスベース（ゲストアカウント用） | `usecases/blea-gov-base-ct`         |
 
-- ControlTower 版ガバナンスベースサンプルでは異なる 3 つのデプロイメントオプションを提供しています
+- Control Tower 版ガバナンスベースサンプルでは異なる 3 つのデプロイメントオプションを提供しています
 
   - 手元環境からの直接デプロイメント (blea-gov-base-ct.ts) （デフォルト）
   - CDKPipeline を使ったデプロイメント (blea-gov-base-ct-via-cdk-pipelines.ts)
-  - ControlTower の Account Factory Customization を使ったデプロイメント (blea-gov-base-ct-via-cdk-pipelines.ts)
+  - Control Tower の Account Factory Customization を使ったデプロイメント (blea-gov-base-ct-via-cdk-pipelines.ts)
 
 ## ゲストシステムのサンプルアーキテクチャ一覧
 
@@ -96,18 +96,14 @@ CDK コードを安全に編集するため、本格的な開発を行わない�
 BLEA を使う場合の、もっとも典型的な導入手順は次の通りです。ここでは単独のアカウントにガバナンスベースとゲストアプリケーションを導入する手順を示します。
 
 1. 関連ライブラリのインストールとコードのビルド
-
 2. AWS CLI の認証情報の設定
-
 3. デプロイ対象のアカウント作成
-
 4. ガバナンスベースをデプロイ
-
 5. ゲストアプリケーションサンプルをデプロイ
 
 > NOTE:
 > ここでは 単独アカウントに Standalone 版ガバナンスベースと サーバーレス API アプリケーションサンプルを導入します。
-> ControlTower を使ったマルチアカウント版の導入手順については、[Deploy to ControlTower environment](/doc/DeployToControlTower_ja.md)を参照してください。
+> Control Tower を使ったマルチアカウント版の導入手順については、[Deploy to Control Tower environment](/doc/DeployToControlTower_ja.md)を参照してください。
 
 ## 導入手順
 
@@ -169,7 +165,7 @@ Organizations を使用しない単一のアカウントを利用することも
 BLEA ではセキュリティイベントおよびモニタリングイベントを通知のためにそれぞれ Slack チャネルを使用します。Slack 上にチャネルを 2 つ作成し、以下の手順を参照して AWS Chatbot の初期設定を行ってください。
 設定が終わったら後の設定のため、ワークスペースの ID（1 つ）、通知先のチャネルの ID（2 つ）をメモしておきます。
 
-- [手順] [AWSChatbot 用に Slack を設定する](doc/HowTo_ja.md#AWSChatbot-用に-Slack-を設定する)
+- [手順] [AWS Chatbot 用に Slack を設定する](doc/HowTo_ja.md#AWSChatbot-用に-Slack-を設定する)
 
 ### 4. ガバナンスベースをデプロイする
 
@@ -183,7 +179,7 @@ BLEA ではセキュリティイベントおよびモニタリングイベント
 usecases/blea-gov-base-standalone/parameter.ts
 ```
 
-このサンプルは `devParameter` というパラメータセットを定義する例です。同様の設定を検証、本番アカウントにもデプロイできるようにするには、`stagingParameter`や`prodParameter`といったパラメータセットを定義し、App （こここでは `bin/blea-gov-base-standalone.ts`）でそれぞれの環境のスタックを作成します。
+このサンプルは `devParameter` というパラメータセットを定義する例です。同様の設定を検証、本番アカウントにもデプロイできるようにするには、`stagingParameter`や`prodParameter`といったパラメータセットを定義し、App （ここでは `bin/blea-gov-base-standalone.ts`）でそれぞれの環境のスタックを作成します。
 
 usecases/blea-gov-base-standalone/parameter.ts
 
@@ -250,12 +246,12 @@ npx aws-cdk deploy --all --profile prof_dev
 
 Amazon Inspector は、ワークロードをスキャンして、脆弱性を管理します。EC2 と ECR を継続的にスキャンすることで、ソフトウェアの脆弱性や意図しないネットワークの露出を検出します。検出された脆弱性は、算出されたリスクスコアに基づき優先順位づけされて表示されるため、可視性高く結果を取得できます。また、Security Hub とは自動で統合され、一元的に検出結果を確認できます。
 
-セットアップ手順：[https://docs.aws.amazon.com/inspector/latest/user/getting_started_tutorial.html]
+セットアップ手順：https://docs.aws.amazon.com/inspector/latest/user/getting_started_tutorial.html
 
 ##### b. EC2 管理のため AWS Systems Manager Quick Setup を実施する
 
 EC2 を利用する場合は SystemsManager を利用して管理することをお勧めします。AWS Systems Manager Quick Setup を使うことで、EC2 の管理に必要な基本的なセットアップを自動化できます。
-セットアップ手順: [https://docs.aws.amazon.com/systems-manager/latest/userguide/quick-setup-host-management.html]
+セットアップ手順: https://docs.aws.amazon.com/systems-manager/latest/userguide/quick-setup-host-management.html
 
 Quick Setup は以下の機能を提供します:
 
@@ -326,6 +322,12 @@ npx aws-cdk deploy --all --profile prof_dev
 ガバナンスベースをデプロイした後でも、Security Hub のベンチマークレポートで 重要度が CRITICAL あるいは HIGH のレベルでレポートされる検出項目があります。これらに対しては手動で対応が必要です。必要に応じて修復(Remediation)を実施してください。
 
 - [セキュリティ指摘事項の修復](doc/HowTo_ja.md#セキュリティ指摘事項の修復)
+
+## Versioning Policy
+
+BLEA はガバナンスベース (blea-gov-base-ct, blea-gov-base-standalone) を対象として Semantic Versioning を採用しています。ガバナンスベースはメジャーバージョンの変更がない限り後方互換性が保たれます。メジャーバージョンが変更される場合にはマイグレーションガイドが提供されます。
+
+ゲストシステムサンプルは Semantic Versioning の対象外です。これらはサンプルコードを提供することが目的であり、破壊的変更がいつでも起こりえます。メジャーバージョンが変更される場合も、マイグレーションガイドは提供されません。
 
 ## Security
 

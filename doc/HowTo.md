@@ -104,7 +104,7 @@ Next, register a list of credentials that are allowed as dummy values. Edit `~/.
 
 You can control deployment behavior by specifying options in the cdk command. Here are some useful settings that are often used.
 
-- See: [https://docs.aws.amazon.com/cdk/latest/guide/cli.html#cli-deploy]
+- See: https://docs.aws.amazon.com/cdk/latest/guide/cli.html#cli-deploy
 
 ### Skip approval when deploying
 
@@ -188,7 +188,7 @@ export const devParameter: AppParameter = {
 You can use CloudShell to deploy this template from the management console.
 However, keep in mind that ClouShell deletes data from the environment you set up after 120 days of inuse.
 
-see: [https://docs.aws.amazon.com/cloudshell/latest/userguide/limits.html]
+see: https://docs.aws.amazon.com/cloudshell/latest/userguide/limits.html
 
 ### 1. Start CloudShell
 
@@ -197,7 +197,7 @@ see: [https://docs.aws.amazon.com/cloudshell/latest/userguide/limits.html]
 
 ### 2. Set up the CDK execution environment
 
-See: [https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/getting_started.html]
+See: https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/getting_started.html
 
 - Update npm
 
@@ -248,39 +248,39 @@ After checking out the code, the flow for editing, building, and deploying the C
 
 ### 1. Check out the code and install the required libraries
 
-> ```sh
-> git clone https://github.com/aws-samples/baseline-environment-on-aws.git
-> cd baseline-environment-on-aws
-> npm ci
-> ```
+```sh
+git clone https://github.com/aws-samples/baseline-environment-on-aws.git
+cd baseline-environment-on-aws
+npm ci
+```
 
 ### 2. Deploy, modify, and test a single use case
 
-> ```sh
-> cd usecases/blea-guest-web-app-sample
->
-> # Check the differences
-> npx aws-cdk diff --all --profile prof_dev
->
-> # Edit the CDK code with an editor of your choice (Visutal Studio Code is recommended)
-> #...
->
-> # linting (check the appearance)
-> npm run lint
->
-> # Orthopedic
-> npm run format
->
-> # Run snapshot test (see NOTE)
-> npm run test
->
-> # Deploy (to speed up the process, we have specified an option not to ask for approval and not perform a rollback)
->
-> npx aws-cdk deploy --all --profile prof_dev --require-approval never --no-rollback
->
-> # Again diff, modify, test, and deploy ...
->
-> ```
+```sh
+cd usecases/blea-guest-web-app-sample
+
+# Check the differences
+npx aws-cdk diff --all --profile prof_dev
+
+# Edit the CDK code with an editor of your choice (Visutal Studio Code is recommended)
+#...
+
+# linting (check the appearance)
+npm run lint
+
+# Orthopedic
+npm run format
+
+# Run snapshot test (see NOTE)
+npm run test
+
+# Deploy (to speed up the process, we have specified an option not to ask for approval and not perform a rollback)
+
+npx aws-cdk deploy --all --profile prof_dev --require-approval never --no-rollback
+
+# Again diff, modify, test, and deploy ...
+
+```
 
 NOTE:
 
@@ -296,15 +296,15 @@ NOTE:
 
 To verify and test all use cases, use `workspaces` and run the following:
 
-> ```sh
-> # Run in BLEA root directory
-> npm ci
-> npm run lint
-> npm run format
-> npm run clean --workspaces
-> npm run test --workspaces -- -u # updatesnaphosts
-> npm run test --workspaces
-> ```
+```sh
+# Run in BLEA root directory
+npm ci
+npm run lint
+npm run format
+npm run clean --workspaces
+npm run test --workspaces -- -u # updatesnaphosts
+npm run test --workspaces
+```
 
 NOTE:
 
@@ -319,10 +319,10 @@ NOTE:
 
 If the CDK code requires additional packages, install them as follows: Here we are installing `@aws -cdk/aws-kms`
 
-> ```sh
-> # Run in BLEA root directory
-> npm i-P @aws -cdk/aws-kms --workspace usecases/guest-webapp-sample
-> ```
+```sh
+# Run in BLEA root directory
+npm i-P @aws -cdk/aws-kms --workspace usecases/guest-webapp-sample
+```
 
 ---
 
@@ -332,7 +332,7 @@ Even after deploying a governance base, there are detections that are reported a
 
 > Optional: You can also disable Security Hub detections (not recommended. (If you want to disable it, please do so after fully evaluating the security risk.)
 
-- [https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-enable-disable-controls.html]
+- https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-enable-disable-controls.html
 
 ### 1. Enable MFA for the root user
 
@@ -341,38 +341,36 @@ You must manually configure MFA for the root user. A root user is a user who log
 Security Hub controls related to MFA (CRITICAL level)
 
 - [CIS.1.13] Ensure MFA is enabled for the “root” account
-  - [https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-cis-controls-1.13]
+  - https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-cis-controls-1.13
 - [CIS.1.14] Ensure hardware MFA is enabled for the “root” account
-  - [https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-cis-controls-1.14]
+  - https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-cis-controls-1.14
 - [IAM.6] Hardware MFA should be enabled for the root user
-  - [https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-iam-6]
+  - https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-iam-6
 
 #### How to repair
 
 ##### 1. Access the root user of an Organizations member account
 
-- [https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_access-as-root]
+- https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_access-as-root
 
 ##### 2. Enable Hardware MFA for the Root User
 
-- [https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_enable_physical.html#enable-hw-mfa-for-root]
+- https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_enable_physical.html#enable-hw-mfa-for-root
 
 ### 2. Using IMDSv2 for EC2 metadata access
 
 It is recommended that you use IDMSv2 only for metadata access on EC2 instances. Refer to the following documents for remediation:
 
 - [EC2.8] EC2 instances should use IMDSv2
-  - [https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-ec2-8]
+  - https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-ec2-8
 
 ### 3. Changing the status of notifications about CodeBuild's privileged mode
 
 CodeBuild should only enable privileged mode when building Docker images. If the following controls are out of compliance, check to see if the CodeBuild project needs to enable privileged mode, and if so, change the status of the workflow to SUPPRESSED.
 
 - [CodeBuild.5] CodeBuild project environments should not have privileged mode enabled
-  - [https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-codebuild-5]
+  - https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-codebuild-5
 
 Refer to the following document how to change the status of a workflow.
 
-[https://docs.aws.amazon.com/securityhub/latest/userguide/finding-workflow-status.html]
-
----
+ttps://docs.aws.amazon.com/securityhub/latest/userguide/finding-workflow-status.html

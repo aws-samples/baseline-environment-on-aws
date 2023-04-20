@@ -2,12 +2,12 @@
 
 [View this page in Japanese (日本語)](Standalone2ControlTower_ja.md) | [Back to README](../README.md)
 
-You can enroll an AWS account managed by Baseline Environment on AWS(Standalone) into OU managed by ControlTower with BLEA Multi-Account. Guest Base and Guest System on the enroll account are not changed, but the systems may be affected by Organizations Service Control Policies (SCPs) after enrollment. So we recommend to test the SCPs before enrollment.
+You can enroll an AWS account managed by Baseline Environment on AWS(Standalone) into OU managed by Control Tower with BLEA Multi-Account. Guest Base and Guest System on the enroll account are not changed, but the systems may be affected by Organizations Service Control Policies (SCPs) after enrollment. So we recommend to test the SCPs before enrollment.
 
 On this procedure, we named accounts listed below:
 
-- Management account: an account setup Baseline Environment on AWS (Multi-Account) with ControlTower
-- Target account: an account setup Baseline Environment on AWS (Standalone), will enroll into OU managed by ControlTower.
+- Management account: an account setup Baseline Environment on AWS (Multi-Account) with Control Tower
+- Target account: an account setup Baseline Environment on AWS (Standalone), will enroll into OU managed by Control Tower.
 
 # Prerequisities
 
@@ -48,9 +48,9 @@ On Management account, You need to have setup Baseline Environment on AWS with M
 
 1. Invitation will be sent to administrator's email address of Target Account. Follow instruction and approve invitation.
 
-# 2. [Target Account] Prepare to enroll ControlTower
+# 2. [Target Account] Prepare to enroll Control Tower
 
-You should be setup AWS Config on Target account, and AWS Config should to be disabled before enroll into ControlTower.
+You should be setup AWS Config on Target account, and AWS Config should to be disabled before enroll into Control Tower.
 
 ## 2.1. Delete AWS Config delivery channel
 
@@ -120,9 +120,9 @@ You should be setup AWS Config on Target account, and AWS Config should to be di
    aws configservice delete-delivery-channel --delivery-channel-name BLEA-Config-ConfigDeliveryChannel-XXXXXXXXXXX
    ```
 
-## 2.2. Create AWSControlTowerExecution Role
+## 2.2. Create AWSControl TowerExecution Role
 
-You need to create IAM Role for managing by ControlTower. The procedure is described at "Prerequisites for Enrollment - step 3" in the page below.
+You need to create IAM Role for managing by Control Tower. The procedure is described at "Prerequisites for Enrollment - step 3" in the page below.
 
 Refer: https://docs.aws.amazon.com/controltower/latest/userguide/enroll-account.html
 
@@ -131,7 +131,7 @@ Refer: https://docs.aws.amazon.com/controltower/latest/userguide/enroll-account.
 3. Select [Another AWS account] and fill Control Tower Admin's AWS account ID
 4. Click [Next: Permissions]
 5. Select 'AdministratorAccess' policy and click [Next: Tags]-[Next: Review]
-6. Type 'AWSControlTowerExecution' in the Role name text box and click [Create role] button
+6. Type 'AWSControl TowerExecution' in the Role name text box and click [Create role] button
 
 # 3. [Management account] Enroll Target account to the Control Tower
 

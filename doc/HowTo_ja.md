@@ -104,7 +104,7 @@ git secrets --register-aws --global
 
 cdk コマンドにオプションを指定することで、デプロイ時の挙動をコントロールできます。ここではよく利用される便利な設定について記載します。
 
-- See: [https://docs.aws.amazon.com/cdk/latest/guide/cli.html#cli-deploy]
+- See: https://docs.aws.amazon.com/cdk/latest/guide/cli.html#cli-deploy
 
 ### デプロイ時の承認をスキップする
 
@@ -188,7 +188,7 @@ export const devParameter: AppParameter = {
 CloudShell を使い、マネジメントコンソールからこのテンプレートをデプロイすることが可能です。
 ただし ClouShell は 120 日間使用しないとセットアップした環境のデータを削除することに注意してください。
 
-see: [https://docs.aws.amazon.com/cloudshell/latest/userguide/limits.html]
+see: https://docs.aws.amazon.com/cloudshell/latest/userguide/limits.html
 
 ### 1. CloudShell を起動する
 
@@ -197,7 +197,7 @@ see: [https://docs.aws.amazon.com/cloudshell/latest/userguide/limits.html]
 
 ### 2. CDK の実行環境をセットアップする
 
-See: [https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/getting_started.html]
+See: https://docs.aws.amazon.com/ja_jp/cdk/latest/guide/getting_started.html
 
 - npm をアップデートする
 
@@ -256,76 +256,73 @@ npm update --workspaces
 
 ### 2. 単一のユースケースをデプロイ、変更、テストする
 
-> ```sh
-> cd usecases/blea-guest-web-app-sample
->
-> # 差分を確認する
-> npx aws-cdk diff --all --profile prof_dev
->
-> # 任意のエディタで CDK コードを編集する（Visutal Studio Code を推奨します）
-> # ....
->
-> # linting (体裁を確認)
-> npm run lint
->
-> # formatting (整形)
-> npm run format
->
-> # snapshot testを実行する (see NOTE)
-> npm run test
-> ```
->
-> # デプロイ（作業迅速化のため、承認を求めず、またロールバックを実行しないオプションを指定しています）
->
-> npx aws-cdk deploy --all --profile prof_dev --require-approval never --no-rollback
->
-> # 以下、確認、変更、テスト、デプロイを繰り返す
->
-> ```
->
-> ```
+```sh
+cd usecases/blea-guest-web-app-sample
+
+# 差分を確認する
+npx aws-cdk diff --all --profile prof_dev
+
+# 任意のエディタで CDK コードを編集する（Visutal Studio Code を推奨します）
+# ....
+
+# linting (体裁を確認)
+npm run lint
+
+# formatting (整形)
+npm run format
+
+# snapshot testを実行する (see NOTE)
+npm run test
+
+# デプロイ（作業迅速化のため、承認を求めず、またロールバックを実行しないオプションを指定しています）
+
+npx aws-cdk deploy --all --profile prof_dev --require-approval never --no-rollback
+
+# 以下、確認、変更、テスト、デプロイを繰り返す
+
+```
 
 NOTE:
 
 > CDK コードを変更した場合、以前とは異なるテンプレートが生成されるため、スナップショットテスト (npm run test) が失敗します
 > テンプレートが正しく生成されているならば、次のようにスナップショットの更新が必要です。
->
-> ```sh
-> # Update snapshot
-> npm run test -- -u
-> ```
 
-### 3. BLEA の全ユースケースをまとめて操作する
+```sh
+# Update snapshot
+npm run test -- -u
+```
 
-全てのユースケースを検証、テストするには `workspaces` を使用して次のように実行します。
+# 3. BLEA の全ユースケースをまとめて操作する
 
-> ```sh
-> # BLEAのルートディレクトリで実行
-> npm ci
-> npm run lint
-> npm run format
-> npm run clean --workspaces
-> npm run test --workspaces -- -u      # update snaphosts
-> npm run test --workspaces
-> ```
+のユースケースを検証、テストするには `workspaces` を使用して次のように実行します。
+
+```sh
+# BLEAのルートディレクトリで実行
+npm ci
+npm run lint
+npm run format
+npm run clean --workspaces
+npm run test --workspaces -- -u      # update snaphosts
+npm run test --workspaces
+```
 
 NOTE:
 
-> 個別のユースケースを workspaces を使用してテストするには次のように実行します。workspaces と workspace の違いに注意してください。
->
-> ```sh
-> # BLEAのルートディレクトリで実行
-> npm run test --workspace usecases/blea-gov-base-standalone
-> ```
+個別のユースケースを workspaces を使用してテストするには次のように実行します。workspaces と workspace の違いに注意してください。
 
-### 4. 追加パッケージをインストールする
+```sh
+# BLEAのルートディレクトリで実行
+npm run test --workspace usecases/blea-gov-base-standalone
+```
 
-CDK コードで追加のパッケージが必要になった場合は、以下のようにインストールします。ここでは `@aws-cdk/aws-kms` をインストールしています。
+# 4. 追加パッケージをインストールする
 
-> ```sh
-> # BLEAのルートディレクトリで実行
-> npm i -P @aws-cdk/aws-kms --workspace usecases/guest-webapp-sample
-> ```
+K コードで追加のパッケージが必要になった場合は、以下のようにインストールします。ここでは `@aws-cdk/aws-glue-alpha` をインストールしています。
+
+```sh
+# BLEAのルートディレクトリで実行
+npm i -P @aws-cdk/aws-glue-alpha --workspace usecases/blea-guest-ecs-app-sample
+```
 
 ---
 
@@ -335,7 +332,7 @@ CDK コードで追加のパッケージが必要になった場合は、以下�
 
 > オプション: Security Hub の 検出項目を無効化することもできます（推奨しません。無効化する場合はセキュリティリスクを十分に評価した上で実施して下さい）。
 
-- [https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-enable-disable-controls.html]
+https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-enable-disable-controls.html
 
 ### 1. ルートユーザに対して MFA を有効化する
 
@@ -344,38 +341,36 @@ CDK コードで追加のパッケージが必要になった場合は、以下�
 MFA に関連する Security Hub コントロール（CRITICAL レベル）
 
 - [CIS.1.13] Ensure MFA is enabled for the "root" account
-  - [https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-cis-controls-1.13]
+  - https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-cis-controls-1.13
 - [CIS.1.14] Ensure hardware MFA is enabled for the "root" account
-  - [https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-cis-controls-1.14]
+  - https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-cis-controls-1.14
 - [IAM.6] Hardware MFA should be enabled for the root user
-  - [https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-iam-6]
+  - https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-iam-6
 
 #### 修復方法
 
 ##### 1. Organizations メンバアカウントのルートユーザにアクセスする
 
-- [https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_access-as-root]
+- https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_access-as-root
 
 ##### 2. ルートユーザに対してハードウェア MFA を有効化する
 
-- [https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_enable_physical.html#enable-hw-mfa-for-root]
+- https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_enable_physical.html#enable-hw-mfa-for-root
 
 ### 2. EC2 のメタデータアクセスに IMDSv2 を使う
 
 EC2 インスタンスのメタデータアクセスには IDMSv2 のみを使用することが推奨されています。修復については以下のドキュメントを参照してください。
 
 - [EC2.8] EC2 instances should use IMDSv2
-  - [https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-ec2-8]
+  - https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-ec2-8
 
 ### 3. CodeBuild の特権モードに関する通知のステータスを変更する
 
 CodeBuild では Docker イメージをビルドするときにのみ特権モードが有効化されるべきです。以下のコントロールがコンプライアンス違反となった場合には、その CodeBuild プロジェクトが特権モードを有効化する必要があるかを確認し、もし必要だと確認された場合にはワークフローのステータスを SUPPRESSED に変更します。
 
 - [CodeBuild.5] CodeBuild project environments should not have privileged mode enabled
-  - [https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-codebuild-5]
+  - https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#fsbp-codebuild-5
 
 ワークフローのステータスを変更する方法は以下のドキュメントを参照してください。
 
-[https://docs.aws.amazon.com/securityhub/latest/userguide/finding-workflow-status.html]
-
----
+https://docs.aws.amazon.com/securityhub/latest/userguide/finding-workflow-status.html

@@ -25,7 +25,7 @@ export class BLEAGovBaseCtStage extends Stage {
 
     // Security Alarms
     // !!! Need to setup SecurityHub, GuardDuty manually on Organizations Management account
-    // AWS Config and CloudTrail are set up by ControlTower
+    // AWS Config and CloudTrail are set up by Control Tower
     new Detection(stack, 'Detection', {
       notifyEmail: props.securityNotifyEmail,
       cloudTrailLogGroupName: logging.trailLogGroup.logGroupName,

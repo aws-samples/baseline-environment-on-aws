@@ -5,9 +5,9 @@
 
 [View this page in Japanese (日本語)](README_ja.md)
 
-Baseline Environment on AWS(BLEA) is a set of reference CDK template to establish secure baseline on standalone-account or ControlTower based multi-account AWS environment. This solution provides basic and extensible guardrail with AWS security services and end-to-end sample CDK code for typical system architecture. This template is also useful to learn more about AWS architecting best practices and how to customize CDK code as we incorporated comments in detail so that users can know why and how to customize.
+Baseline Environment on AWS(BLEA) is a set of reference CDK template to establish secure baseline on standalone-account or Control Tower based multi-account AWS environment. This solution provides basic and extensible guardrail with AWS security services and end-to-end sample CDK code for typical system architecture. This template is also useful to learn more about AWS architecting best practices and how to customize CDK code as we incorporated comments in detail so that users can know why and how to customize.
 
-Jump to | [Changelog](CHANGELOG.md) | [HowTo](doc/HowTo.md) | [Deploy to Multiaccount environment](/doc/DeployToControlTower.md) | [Standalone to ControlTower](doc/Standalone2ControlTower.md) | [Deployment Pipeline](doc/PipelineDeployment.md) |
+Jump to | [Changelog](CHANGELOG.md) | [HowTo](doc/HowTo.md) | [Deploy to Multiaccount environment](/doc/DeployToControlTower.md) | [Standalone to Control Tower](doc/Standalone2ControlTower.md) | [Deployment Pipeline](doc/PipelineDeployment.md) |
 
 ## Governance Architecture
 
@@ -15,7 +15,7 @@ Jump to | [Changelog](CHANGELOG.md) | [HowTo](doc/HowTo.md) | [Deploy to Multiac
 
 ![BLEA-OpsPatterns](doc/images/BLEA-OpsPatterns.png)
 
-### Multi-Account Governance (with ControlTower)
+### Multi-Account Governance (with Control Tower)
 
 ![BLEA-GovOverviewMultiAccount](doc/images/BLEA-GovOverviewMultiAccount.png)
 
@@ -25,7 +25,7 @@ Jump to | [Changelog](CHANGELOG.md) | [HowTo](doc/HowTo.md) | [Deploy to Multiac
 
 ## Baseline Architecture
 
-### Multi-Account (With ControlTower)
+### Multi-Account (With Control Tower)
 
 ![BLEA-ArchMultiAccount](doc/images/BLEA-ArchMultiAccount.png)
 
@@ -39,16 +39,16 @@ Jump to | [Changelog](CHANGELOG.md) | [HowTo](doc/HowTo.md) | [Deploy to Multiac
 
 ## Governance baselines
 
-| use case                                          | folder                              |
-| ------------------------------------------------- | ----------------------------------- |
-| Standalone governance base                        | `usecases/blea-gov-base-standalone` |
-| ControlTower governance base (for guest accounts) | `usecases/blea-gov-base-ct`         |
+| use case                                           | folder                              |
+| -------------------------------------------------- | ----------------------------------- |
+| Standalone governance base                         | `usecases/blea-gov-base-standalone` |
+| Control Tower governance base (for guest accounts) | `usecases/blea-gov-base-ct`         |
 
-- The ControlTower governance base sample offers 3 different deployment options
+- The Control Tower governance base sample offers 3 different deployment options
 
 - Direct deployment from the on-hand environment (blea-gov-base-ct.ts) (default)
 - Deployment using cdkPipeline (blea-gov-base-ct-via-cdk-pipelines.ts)
-- Deployment using ControlTower's Account Factory Customization (blea-giv-base-ct-via-cdk-pipelines.ts)
+- Deployment using Control Tower's Account Factory Customization (blea-giv-base-ct-via-cdk-pipelines.ts)
 
 ## Guest System Sample Architectures List
 
@@ -107,7 +107,7 @@ The most typical implementation procedure when using BLEA is as follows. Here ar
 
 > NOTE:
 > Here, we will introduce a standalone governance base and a serverless API application sample to a single account.
-> For instructions on deploying a multi-account version using ControlTower, see [Deploy to ControlTower environment](doc/DeployToControlTower.md).
+> For instructions on deploying a multi-account version using Control Tower, see [Deploy to Control Tower environment](doc/DeployToControl Tower.md).
 
 ## Implementation Procedure
 
@@ -327,6 +327,12 @@ After that, I will start with this sample code and develop applications tailored
 Even after deploying the governance base, there are detections whose importance is reported at the CRITICAL or HIGH level in the Security Hub benchmark report. Manual action is required for these. If necessary, perform remediation (Remediation).
 
 - [Remediate Security Issues](doc/HowTo.md#remediate-security-issues)
+
+## Versioning Policy
+
+BLEA has adopted semantic versioning for governance bases (blea-govern-base-ct, blea-govern-base-standalone). The governance base remains backwards compatible as long as there are no major version changes. Migration guides are provided when major versions change.
+
+The guest system sample is not eligible for Semantic Versioning. They are intended to provide sample code, and disruptive changes can occur at any time. Migration guides are also not provided when major versions change.
 
 ## Security
 
