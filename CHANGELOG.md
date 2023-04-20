@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/aws-samples/baseline-environment-on-aws/compare/v2.1.0...v3.0.0) (2023-04-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* BLEA v3 (#298)
+
+### Features
+
+* BLEA v3 ([#298](https://github.com/aws-samples/baseline-environment-on-aws/issues/298)) ([d54371b](https://github.com/aws-samples/baseline-environment-on-aws/commit/d54371b372411bbf9926b76efe0a7207f6cb1faf)), closes [#221](https://github.com/aws-samples/baseline-environment-on-aws/issues/221) [#237](https://github.com/aws-samples/baseline-environment-on-aws/issues/237) [#161](https://github.com/aws-samples/baseline-environment-on-aws/issues/161) [#220](https://github.com/aws-samples/baseline-environment-on-aws/issues/220)
+* Change Aurora DB instance identifier not to conflict with each samples ([#86](https://github.com/aws-samples/baseline-environment-on-aws/issues/86)) ([0a817b4](https://github.com/aws-samples/baseline-environment-on-aws/commit/0a817b48801204e183c3547aebf6dd715de6b56c))
+* enable imageScanOnPush to ECR repository. ([#105](https://github.com/aws-samples/baseline-environment-on-aws/issues/105)) ([77c840a](https://github.com/aws-samples/baseline-environment-on-aws/commit/77c840a03f56e7a4e0df6c6c8d73a8084495b31c))
+* **guest-webapp-sample:** Replace LaunchConfiguration with LaunchTemplate ([#183](https://github.com/aws-samples/baseline-environment-on-aws/issues/183)) ([0102836](https://github.com/aws-samples/baseline-environment-on-aws/commit/01028367b3ec282262b37de3abd1572d19370aa5))
+
+
+### Bug Fixes
+
+* **guest-webapp-sample:** Update subnet type, PRIVATE_WITH_NAT is deprecated. ([#106](https://github.com/aws-samples/baseline-environment-on-aws/issues/106)) ([bbe4bb7](https://github.com/aws-samples/baseline-environment-on-aws/commit/bbe4bb704c36846509b8e503f113b77a3f28638c))
+
 ## [2.1.0](https://github.com/aws-samples/baseline-environment-on-aws/compare/v2.0.0...v2.1.0) (2022-09-06)
 
 
