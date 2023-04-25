@@ -22,7 +22,7 @@ pull_request_rules:
       - '#changes-requested-reviews-by=0'
       - status-success=Build on Node.js v14 on ubuntu-latest
       - status-success=Build on Node.js v16 on ubuntu-latest
-      - status-success=Build on Node.js v16 on windows
+      - status-success=Build on Node.js v16 on windows-latest
       - status-success=Validate PR title
   - name: if fails conventional commits
     actions:
@@ -54,5 +54,5 @@ pull_request_rules:
       - '#changes-requested-reviews-by=0'
       - status-success=Build on Node.js v14 on ubuntu-latest
       - status-success=Build on Node.js v16 on ubuntu-latest
-      - status-success=Build on Node.js v16 on windows
+      - status-success=Build on Node.js v16 on windows-latest
       - status-success=Validate PR title
