@@ -36,8 +36,6 @@ pull_request_rules:
       - -closed
   - name: automatic merge of Dependabot PRs
     actions:
-      comment:
-        message: Thanks Dependabot!
       queue:
         name: default
         method: squash
