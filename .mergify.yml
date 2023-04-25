@@ -23,7 +23,7 @@ pull_request_rules:
       - status-success=Build on Node.js v14 on ubuntu-latest
       - status-success=Build on Node.js v16 on ubuntu-latest
       - status-success=Build on Node.js v16 on windows
-      - status-success=Semantic PRs
+      - status-success=Validate PR title
   - name: if fails conventional commits
     actions:
       comment:
@@ -55,4 +55,4 @@ pull_request_rules:
       - status-success=Build on Node.js v14 on ubuntu-latest
       - status-success=Build on Node.js v16 on ubuntu-latest
       - status-success=Build on Node.js v16 on windows
-      - status-success=Semantic PRs
+      - status-success=Validate PR title
