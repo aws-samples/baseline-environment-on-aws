@@ -1,0 +1,58 @@
+pull_request_rules:
+  - name: automatic merge
+    actions:
+      comment:
+        message: Thank you for contributing! Your pull request will be updated from main and then merged automatically (do not update manually, and be sure to [allow changes to be pushed to your fork](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/allowing-changes-to-a-pull-request-branch-created-from-a-fork)).
+      queue:
+        name: default
+        method: squash
+        commit_message_template: |-
+          {{ title }} (#{{ number }})
+          {{ body }}
+    conditions:
+      - base!=release
+      - -title~=(WIP|wip)
+      - -label~=(blocked|do-not-merge|no-squash)
+      - -merged
+      - -closed
+      - author!=dependabot[bot]
+      - author!=dependabot-preview[bot]
+      - '#approved-reviews-by>=1'
+      - -approved-reviews-by~=author
+      - '#changes-requested-reviews-by=0'
+      - status-success=Build on Node.js v14 on ubuntu-latest
+      - status-success=Build on Node.js v16 on ubuntu-latest
+      - status-success=Build on Node.js v16 on windows
+      - status-success=Semantic PRs
+  - name: if fails conventional commits
+    actions:
+      comment:
+        message: Title does not follow the guidelines of [Conventional Commits](https://www.conventionalcommits.org). Please adjust title before merge.
+    conditions:
+      - author!=dependabot[bot]
+      - author!=dependabot-preview[bot]
+      - status-failure=Semantic PRs
+      - -merged
+      - -closed
+  - name: automatic merge of Dependabot PRs
+    actions:
+      comment:
+        message: Thanks Dependabot!
+      queue:
+        name: default
+        method: squash
+        commit_message_template: |-
+          {{ title }} (#{{ number }})
+          {{ body }}
+    conditions:
+      - -title~=(WIP|wip)
+      - -label~=(blocked|do-not-merge)
+      - -merged
+      - -closed
+      - author~=dependabot
+      - '#approved-reviews-by>=1'
+      - '#changes-requested-reviews-by=0'
+      - status-success=Build on Node.js v14 on ubuntu-latest
+      - status-success=Build on Node.js v16 on ubuntu-latest
+      - status-success=Build on Node.js v16 on windows
+      - status-success=Semantic PRs
