@@ -35,7 +35,7 @@
     "aws-cdk-lib": "^2.76.0",
     "aws-sdk": "^2.1365.0",
     "aws-xray-sdk": "^3.5.0",
-    "constructs": "^10.2.6",
+    "constructs": "^10.2.11",
     "source-map-support": "^0.5.21"
   }
 }
