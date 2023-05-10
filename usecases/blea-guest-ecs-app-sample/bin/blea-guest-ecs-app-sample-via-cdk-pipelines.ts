@@ -10,14 +10,13 @@ const app = new cdk.App();
 // If you have multiple environments, instantiate stacks with its parameters.
 new BLEAEcsAppPipelineStack(app, 'Dev-BLEAEcsAppPipeline', {
   env: {
-    account: devParameter.env?.account || process.env.CDK_DEFAULT_ACCOUNT,
-    region: devParameter.env?.region || process.env.CDK_DEFAULT_REGION,
+    account: devPipelineParameter.env.account || process.env.CDK_DEFAULT_ACCOUNT,
+    region: devPipelineParameter.env.region || process.env.CDK_DEFAULT_REGION,
   },
   tags: {
     Repository: 'aws-samples/baseline-environment-on-aws',
     Environment: devParameter.envName,
   },
-
   targetParameters: [devParameter],
   sourceRepository: devPipelineParameter.sourceRepository,
   sourceBranch: devPipelineParameter.sourceBranch,
