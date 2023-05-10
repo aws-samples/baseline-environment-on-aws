@@ -12,7 +12,7 @@ export class BLEAEcsAppStage extends Stage {
     const ecsapp = new BLEAEcsAppStack(this, 'BLEAEcsApp', {
       env: {
         account: props.env?.account || process.env.CDK_DEFAULT_ACCOUNT,
-        region: props.env?.region || process.env.CDK_DEFAULT_REGION || 'ap-northeast-1',
+        region: props.env?.region || process.env.CDK_DEFAULT_REGION,
       },
       crossRegionReferences: true,
       tags: {
@@ -51,7 +51,7 @@ export class BLEAEcsAppStage extends Stage {
     new BLEAEcsAppMonitoringStack(this, 'BLEAEcsAppMonitoring', {
       env: {
         account: props.env?.account || process.env.CDK_DEFAULT_ACCOUNT,
-        region: props.env?.region || process.env.CDK_DEFAULT_REGION || 'ap-northeast-1',
+        region: props.env?.region || process.env.CDK_DEFAULT_REGION,
       },
       crossRegionReferences: true,
       tags: {

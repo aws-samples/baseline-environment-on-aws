@@ -11,7 +11,7 @@ const app = new cdk.App();
 new BLEAEcsAppPipelineStack(app, 'Dev-BLEAEcsAppPipeline', {
   env: {
     account: devParameter.env?.account || process.env.CDK_DEFAULT_ACCOUNT,
-    region: devParameter.env?.region || process.env.CDK_DEFAULT_REGION || 'ap-northeast-1',
+    region: devParameter.env?.region || process.env.CDK_DEFAULT_REGION,
   },
   tags: {
     Repository: 'aws-samples/baseline-environment-on-aws',

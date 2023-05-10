@@ -10,7 +10,7 @@ const app = new App();
 const ecsapp = new BLEAEcsAppStack(app, 'Dev-BLEAEcsApp', {
   env: {
     account: devParameter.env?.account || process.env.CDK_DEFAULT_ACCOUNT,
-    region: devParameter.env?.region || process.env.CDK_DEFAULT_REGION || 'ap-northeast-1',
+    region: devParameter.env?.region || process.env.CDK_DEFAULT_REGION,
   },
   crossRegionReferences: true,
   tags: {
@@ -28,7 +28,7 @@ const ecsapp = new BLEAEcsAppStack(app, 'Dev-BLEAEcsApp', {
 const frontend = new BLEAEcsAppFrontendStack(app, 'Dev-BLEAEcsAppFrontend', {
   env: {
     account: devParameter.env?.account || process.env.CDK_DEFAULT_ACCOUNT,
-    region: 'us-east-1',
+    region: 'us-east-1', // To use WAFv2 in this Stack
   },
   crossRegionReferences: true,
   tags: {
@@ -50,7 +50,7 @@ const frontend = new BLEAEcsAppFrontendStack(app, 'Dev-BLEAEcsAppFrontend', {
 new BLEAEcsAppMonitoringStack(app, 'Dev-BLEAEcsAppMonitoring', {
   env: {
     account: devParameter.env?.account || process.env.CDK_DEFAULT_ACCOUNT,
-    region: devParameter.env?.region || process.env.CDK_DEFAULT_REGION || 'ap-northeast-1',
+    region: devParameter.env?.region || process.env.CDK_DEFAULT_REGION,
   },
   crossRegionReferences: true,
   tags: {
