@@ -16,6 +16,8 @@ updates:
     ignore:
       - dependency-name: '*jest'
         versions: '>=28'
+      - dependency-name: '@types/node'
+        versions: '>=20'
   - package-ecosystem: 'docker' # See documentation for possible values
     directory: '/' # Location of package manifests
     open-pull-requests-limit: 30
