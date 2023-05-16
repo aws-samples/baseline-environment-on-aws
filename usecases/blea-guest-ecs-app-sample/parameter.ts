@@ -50,7 +50,7 @@ export const devParameter: AppParameter = {
 // Parameters for Pipeline Account
 export const devPipelineParameter: PipelineParameter = {
   env: {
-    account: '222222222222',
+    account: '123456789012',
     region: 'ap-northeast-1',
   },
   envName: 'DevPipeline',
