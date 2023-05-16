@@ -50,7 +50,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":logs:ap-northeast-1:222222222222:log-group:/aws/codebuild/",
+                      ":logs:ap-northeast-1:123456789012:log-group:/aws/codebuild/",
                       Object {
                         "Ref": "PipelineBuildSynthStepCdkBuildProject7FBB5116",
                       },
@@ -65,7 +65,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":logs:ap-northeast-1:222222222222:log-group:/aws/codebuild/",
+                      ":logs:ap-northeast-1:123456789012:log-group:/aws/codebuild/",
                       Object {
                         "Ref": "PipelineBuildSynthStepCdkBuildProject7FBB5116",
                       },
@@ -92,7 +92,7 @@ Object {
                     Object {
                       "Ref": "AWS::Partition",
                     },
-                    ":codebuild:ap-northeast-1:222222222222:report-group/",
+                    ":codebuild:ap-northeast-1:123456789012:report-group/",
                     Object {
                       "Ref": "PipelineBuildSynthStepCdkBuildProject7FBB5116",
                     },
@@ -199,13 +199,13 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":kms:us-east-1:222222222222:alias/eline-sutencryptionalias6670304b85daeb0cbccc",
+                      ":kms:us-east-1:123456789012:alias/eline-sutencryptionalias9f35a51f1649db44d325",
                     ],
                   ],
                 },
                 "Type": "KMS",
               },
-              "Location": "dev-bleaecsapppipeline-sueplicationbucket7976a269ef4f86825ade",
+              "Location": "dev-bleaecsapppipeline-sueplicationbucket851dbc8f159ed8f79e37",
               "Type": "S3",
             },
             "Region": "us-east-1",
@@ -810,7 +810,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::222222222222:root",
+                      ":iam::123456789012:root",
                     ],
                   ],
                 },
@@ -1174,7 +1174,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::222222222222:root",
+                      ":iam::123456789012:root",
                     ],
                   ],
                 },
@@ -1205,7 +1205,7 @@ Object {
                     Object {
                       "Ref": "AWS::Partition",
                     },
-                    ":logs:ap-northeast-1:222222222222:log-group:/aws/codebuild/*",
+                    ":logs:ap-northeast-1:123456789012:log-group:/aws/codebuild/*",
                   ],
                 ],
               },
@@ -1227,7 +1227,7 @@ Object {
                     Object {
                       "Ref": "AWS::Partition",
                     },
-                    ":codebuild:ap-northeast-1:222222222222:report-group/*",
+                    ":codebuild:ap-northeast-1:123456789012:report-group/*",
                   ],
                 ],
               },
@@ -1387,7 +1387,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::222222222222:root",
+                      ":iam::123456789012:root",
                     ],
                   ],
                 },
@@ -1640,7 +1640,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":s3:::dev-bleaecsapppipeline-sueplicationbucket7976a269ef4f86825ade",
+                      ":s3:::dev-bleaecsapppipeline-sueplicationbucket851dbc8f159ed8f79e37",
                     ],
                   ],
                 },
@@ -1652,7 +1652,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":s3:::dev-bleaecsapppipeline-sueplicationbucket7976a269ef4f86825ade/*",
+                      ":s3:::dev-bleaecsapppipeline-sueplicationbucket851dbc8f159ed8f79e37/*",
                     ],
                   ],
                 },
@@ -1721,7 +1721,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":iam::222222222222:root",
+                      ":iam::123456789012:root",
                     ],
                   ],
                 },
@@ -1914,7 +1914,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":logs:ap-northeast-1:222222222222:log-group:/aws/codebuild/",
+                      ":logs:ap-northeast-1:123456789012:log-group:/aws/codebuild/",
                       Object {
                         "Ref": "PipelineUpdatePipelineSelfMutationDAA41400",
                       },
@@ -1929,7 +1929,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":logs:ap-northeast-1:222222222222:log-group:/aws/codebuild/",
+                      ":logs:ap-northeast-1:123456789012:log-group:/aws/codebuild/",
                       Object {
                         "Ref": "PipelineUpdatePipelineSelfMutationDAA41400",
                       },
@@ -1956,7 +1956,7 @@ Object {
                     Object {
                       "Ref": "AWS::Partition",
                     },
-                    ":codebuild:ap-northeast-1:222222222222:report-group/",
+                    ":codebuild:ap-northeast-1:123456789012:report-group/",
                     Object {
                       "Ref": "PipelineUpdatePipelineSelfMutationDAA41400",
                     },
@@ -1977,7 +1977,7 @@ Object {
                 },
               },
               "Effect": "Allow",
-              "Resource": "arn:*:iam::222222222222:role/*",
+              "Resource": "arn:*:iam::123456789012:role/*",
             },
             Object {
               "Action": "cloudformation:DescribeStacks",
