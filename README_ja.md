@@ -329,6 +329,10 @@ BLEA はガバナンスベース (blea-gov-base-ct, blea-gov-base-standalone) �
 
 ゲストシステムサンプルは Semantic Versioning の対象外です。これらはサンプルコードを提供することが目的であり、破壊的変更がいつでも起こりえます。メジャーバージョンが変更される場合も、マイグレーションガイドは提供されません。
 
+### v2 から v3 へのマイグレーションについて
+
+[v3 へのマイグレーションガイド](doc/HowToMigrateToV3_ja.md)を参照ください
+
 ## Security
 
 See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.

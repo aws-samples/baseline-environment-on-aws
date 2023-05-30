@@ -11,8 +11,8 @@ export interface AppParameter {
 // Example
 export const devParameter: AppParameter = {
   envName: 'Development',
-  securityNotifyEmail: 'notify-security@example.com',
-  securitySlackWorkspaceId: 'T8XXXXXXX',
-  securitySlackChannelId: 'C00XXXXXXXX',
+  securityNotifyEmail: 'suzukyz+notify-security@amazon.co.jp',
+  securitySlackWorkspaceId: 'T030VKQD7BM',
+  securitySlackChannelId: 'C031889HJRF',
   // env: { account: '123456789012', region: 'ap-northeast-1' },
 };
