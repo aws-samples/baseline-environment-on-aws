@@ -13,7 +13,7 @@ AWS CloudTrail や AWS Config、AWS Security Hub といったログや検出結�
 
 ## v2 の Stack 構成と生成されるリソース、再作成時の影響
 
-### Standalone 版/マルチアカウント版の両方で対象となる Stack
+### Standalone 版/マルチアカウント版で提供される Stack
 
 #### BLEAChatbotStack
 
@@ -57,7 +57,7 @@ AWS CloudTrail や AWS Config、AWS Security Hub といったログや検出結�
 | `aws_logs.LogGroup`    | `CloudTrailLogGroup` | 再作成で問題ないが、<br />**Trail のログを検索する際は、<br />マイグレーション前後で検索対象となる <br />LogGroup が異なるため、注意が必要**                                            |
 | `aws_cloudtrail.Trail` | `CloudTrail`         | -                                                                                                                                                                                       |
 
-### Standalone 版のみ対象となる Stack
+### Standalone 版のみで提供される Stack
 
 #### BLEAConfigCtGuardrailStack
 
