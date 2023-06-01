@@ -192,6 +192,7 @@ export class Frontend extends Construct {
         blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
         removalPolicy: cdk.RemovalPolicy.RETAIN,
         enforceSSL: true,
+        objectOwnership: s3.ObjectOwnership.OBJECT_WRITER,
       }),
       logIncludesCookies: true,
       logFilePrefix: 'CloudFrontAccessLogs/',
