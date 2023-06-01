@@ -13,39 +13,83 @@ AWS CloudTrail や AWS Config、AWS Security Hub といったログや検出結�
 
 ## v2 の Stack 構成と生成されるリソース、再作成時の影響
 
-| Usecase | Stack 名称                 | リソースの種類/論理 ID                                              | 再作成時の影響                                                                                                                                                                                                                                                                                                                                             |
-| :-----: | -------------------------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|   S/M   | BLEAChatbotStack           | `aws_iam.Role`/`ChatbotRole`                                        | -                                                                                                                                                                                                                                                                                                                                                          |
-|   S/M   |                            | `aws_chatbot.CfnSlackChannelConfiguration`<br />/`ChatbotChannel`   | -                                                                                                                                                                                                                                                                                                                                                          |
-|    S    | BLEAConfigCtGuardrailStack | `CfnInclude`/`ConfigCtGr`                                           | -                                                                                                                                                                                                                                                                                                                                                          |
-|   S/M   | BLEAConfigRulesStack       | `aws_config.ManagedRule`<br />/`BLEARuleDefaultSecurityGroupClosed` | -                                                                                                                                                                                                                                                                                                                                                          |
-|   S/M   |                            | `aws_iam.Role`<br />/`RemoveSecGroupRemediationRole`                | -                                                                                                                                                                                                                                                                                                                                                          |
-|   S/M   |                            | `aws_config.CfnRemediationConfiguration`<br />/`RmDefaultSg`        | -                                                                                                                                                                                                                                                                                                                                                          |
-|    S    | BLEAConfigStack            | `aws_iam.Role`/`ConfigRole`                                         | -                                                                                                                                                                                                                                                                                                                                                          |
-|    S    |                            | `aws_config.CfnConfigurationRecorder`<br />/`ConfigRecorder`        | Config Recorder を削除しても、<br />構成記録自体は削除されないため、<br />再作成で問題ない。<br />また、再度 Config Recorder を有効にすることで、<br />過去の構成記録にアクセス可能となる。<br />参考:[delete-configuration-recorder](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/configservice/delete-configuration-recorder.html) |
-|    S    |                            | `aws_s3.Bucket`/`ConfigBucket`                                      | 再作成で問題ない。<br />ただし、v2 時に作成された Bucket は<br />`DeletionPolicy`が`RETAIN`のため、<br />Stack が削除されてもリソースは残る。 <br /> **Athena でクエリを実行する際は、<br />マイグレーション前後で検索対象となる Bucket が異なるため、<br />v2 用と v3 用の 2 つのデータソースが必要になる**                                               |
-|    S    |                            | `aws_config.CfnDeliveryChannel`<br />/`ConfigDeliveryChannel`       | -                                                                                                                                                                                                                                                                                                                                                          |
-|    S    | BLEAGuarddutyStack         | `aws_guardduty.CfnDetector`<br />/`GuardDutyDetector`               |                                                                                                                                                                                                                                                                                                                                                            |
-|   S/M   | BLEAIamStack               | `aws_iam.ManagedP○licy`<br />/`SysAdminPolicy`など                  | -                                                                                                                                                                                                                                                                                                                                                          |
-|   S/M   |                            | `aws_iam.Role`/`SysAdminRole`など                                   | -                                                                                                                                                                                                                                                                                                                                                          |
-|   S/M   |                            | `aws_iam.Group`/`SysAdminGroup`など                                 | -                                                                                                                                                                                                                                                                                                                                                          |
-|   S/M   | BLEASecurityAlarmStack     | `aws_sns.Topic`/`SecurityAlarmTopic`                                | -                                                                                                                                                                                                                                                                                                                                                          |
-|   S/M   |                            | `aws_events.Rule`<br />/`BLEARuleConfigRules`など                   | -                                                                                                                                                                                                                                                                                                                                                          |
-|   S/M   |                            | `aws_logs.MetricFilter`<br />/`IAMPolicyChange`など                 | -                                                                                                                                                                                                                                                                                                                                                          |
-|   S/M   |                            | `aws_cloudwatch.Alarm`<br />/`IAMPolicyChangeAlarm`など             | -                                                                                                                                                                                                                                                                                                                                                          |
-|    S    | BLEASecurityHubStack       | `aws_iam.CfnServiceLinkedRole`<br />/`RoleForSecurityHub`           | -                                                                                                                                                                                                                                                                                                                                                          |
-|    S    |                            | `aws_securityhub.CfnHub`<br />/`SecurityHub`                        | 再作成で問題ない。<br />ただし、SecurityHub を無効化した場合、<br />90 日経過すると、既存の検出結果などが削除されるため、<br />マイグレーションは 保持期間内に実施する必要がある。<br />参考：[Security Hub を無効にする](https://docs.aws.amazon.com/ja_jp/securityhub/latest/userguide/securityhub-disable.html)                                         |
-|   S/M   | BLEATrailStack             | `aws_s3.Bucket`/`ArchiveLogsBucket`                                 | -                                                                                                                                                                                                                                                                                                                                                          |
-|   S/M   |                            | `aws_s3.Bucket`/`CloudTrailBucket`                                  | 再作成で問題ないが、<br />**Athena でクエリを実行する際は、<br />マイグレーション前後で検索対象となる <br />Bucket が異なるため、<br />v2 用と v3 用の 2 つのデータソースが必要になる**                                                                                                                                                                    |
-|   S/M   |                            | `aws_kms.Key`/`CloudTrailKey`                                       | 再作成で問題ないが、<br />既存の暗号・復号対象リソースのため、<br />既存の`key`も残す必要がある                                                                                                                                                                                                                                                            |
-|   S/M   |                            | `aws_logs.LogGroup`<br />/`CloudTrailLogGroup`                      | 再作成で問題ないが、<br />**Trail のログを検索する際は、<br />マイグレーション前後で検索対象となる <br />LogGroup が異なるため、注意が必要**                                                                                                                                                                                                               |
-|   S/M   |                            | `aws_cloudtrail.Trail`/`CloudTrail`                                 | -                                                                                                                                                                                                                                                                                                                                                          |
+### Standalone 版/マルチアカウント版の両方で対象となる Stack
 
-**※ユースケース列の S は Standalone 版、M は Multi-Account 版を指します。**
+#### BLEAChatbotStack
+
+| リソースの種類                             | 論理 ID          | 再作成時の影響 |
+| ------------------------------------------ | ---------------- | -------------- |
+| `aws_iam.Role`                             | `ChatbotRole`    | -              |
+| `aws_chatbot.CfnSlackChannelConfiguration` | `ChatbotChannel` | -              |
+
+#### BLEAConfigRulesStack
+
+| リソースの種類                           | 論理 ID                              | 再作成時の影響 |
+| ---------------------------------------- | ------------------------------------ | -------------- |
+| `aws_config.ManagedRule`                 | `BLEARuleDefaultSecurityGroupClosed` | -              |
+| `aws_iam.Role`                           | `RemoveSecGroupRemediationRole`      | -              |
+| `aws_config.CfnRemediationConfiguration` | `RmDefaultSg`                        | -              |
+
+#### BLEAIamStack
+
+| リソースの種類          | 論理 ID              | 再作成時の影響 |
+| ----------------------- | -------------------- | -------------- |
+| `aws_iam.ManagedP○licy` | `SysAdminPolicy`など | -              |
+| `aws_iam.Role`          | `SysAdminRole`など   | -              |
+| `aws_iam.Group`         | `SysAdminGroup`など  | -              |
+
+#### BLEASecurityAlarmStack
+
+| リソースの種類          | 論理 ID                    | 再作成時の影響 |
+| ----------------------- | -------------------------- | -------------- |
+| `aws_sns.Topic`         | `SecurityAlarmTopic`       | -              |
+| `aws_events.Rule`       | `BLEARuleConfigRules`など  | -              |
+| `aws_logs.MetricFilter` | `IAMPolicyChange`など      | -              |
+| `aws_cloudwatch.Alarm`  | `IAMPolicyChangeAlarm`など | -              |
+
+#### BLEATrailStack
+
+| リソースの種類         | 論理 ID              | 再作成時の影響                                                                                                                                                                          |
+| ---------------------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `aws_s3.Bucket`        | `ArchiveLogsBucket`  | -                                                                                                                                                                                       |
+| `aws_s3.Bucket`        | `CloudTrailBucket`   | 再作成で問題ないが、<br />**Athena でクエリを実行する際は、<br />マイグレーション前後で検索対象となる <br />Bucket が異なるため、<br />v2 用と v3 用の 2 つのデータソースが必要になる** |
+| `aws_kms.Key`          | `CloudTrailKey`      | 再作成で問題ないが、<br />既存の暗号・復号対象リソースのため、<br />既存の`key`も残す必要がある                                                                                         |
+| `aws_logs.LogGroup`    | `CloudTrailLogGroup` | 再作成で問題ないが、<br />**Trail のログを検索する際は、<br />マイグレーション前後で検索対象となる <br />LogGroup が異なるため、注意が必要**                                            |
+| `aws_cloudtrail.Trail` | `CloudTrail`         | -                                                                                                                                                                                       |
+
+### Standalone 版のみ対象となる Stack
+
+#### BLEAConfigCtGuardrailStack
+
+| リソースの種類 | 論理 ID      | 再作成時の影響 |
+| -------------- | ------------ | -------------- |
+| `CfnInclude`   | `ConfigCtGr` | -              |
+
+#### BLEAConfigStack
+
+| リソースの種類                        | 論理 ID                 | 再作成時の影響                                                                                                                                                                                                                                                                                                                                             |
+| ------------------------------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `aws_iam.Role`                        | `ConfigRole`            | -                                                                                                                                                                                                                                                                                                                                                          |
+| `aws_config.CfnConfigurationRecorder` | `ConfigRecorder`        | Config Recorder を削除しても、<br />構成記録自体は削除されないため、<br />再作成で問題ない。<br />また、再度 Config Recorder を有効にすることで、<br />過去の構成記録にアクセス可能となる。<br />参考:[delete-configuration-recorder](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/configservice/delete-configuration-recorder.html) |
+| `aws_s3.Bucket`                       | `ConfigBucket`          | 再作成で問題ない。<br />ただし、v2 時に作成された Bucket は<br />`DeletionPolicy`が`RETAIN`のため、<br />Stack が削除されてもリソースは残る。 <br /> **Athena でクエリを実行する際は、<br />マイグレーション前後で検索対象となる Bucket が異なるため、<br />v2 用と v3 用の 2 つのデータソースが必要になる**                                               |
+| `aws_config.CfnDeliveryChannel`       | `ConfigDeliveryChannel` | -                                                                                                                                                                                                                                                                                                                                                          |
+
+#### BLEAGuarddutyStack
+
+| リソースの種類              | 論理 ID             | 再作成時の影響 |
+| --------------------------- | ------------------- | -------------- |
+| `aws_guardduty.CfnDetector` | `GuardDutyDetector` |                |
+
+#### BLEASecurityHubStack
+
+| リソースの種類                 | 論理 ID              | 再作成時の影響                                                                                                                                                                                                                                                                                                     |
+| ------------------------------ | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `aws_iam.CfnServiceLinkedRole` | `RoleForSecurityHub` | -                                                                                                                                                                                                                                                                                                                  |
+| `aws_securityhub.CfnHub`       | `SecurityHub`        | 再作成で問題ない。<br />ただし、SecurityHub を無効化した場合、<br />90 日経過すると、既存の検出結果などが削除されるため、<br />マイグレーションは 保持期間内に実施する必要がある。<br />参考：[Security Hub を無効にする](https://docs.aws.amazon.com/ja_jp/securityhub/latest/userguide/securityhub-disable.html) |
 
 ## マイグレーション手順
 
-1. BLEAv2 の Stack を全て削除する
+1. 利用しているユースケースで提供されている BLEAv2 の Stack を全て削除する
    - ターミナルからの場合、v2 のソースコードを維持した状態で、`npm run aws-cdk destroy --all -c environment={環境識別子} --profile {profile}`を実行してください
    - マネジメントコンソールからの場合、CloudForamtion のコンソールへ遷移し、各 Stack を削除してください
 2. BLEAv2 のソースコードを BLEAv3 へ更新する
