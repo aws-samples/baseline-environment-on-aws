@@ -94,6 +94,7 @@ The services and data that need to be considered are described individually, so 
    - In AWS management console, please go to CloudFormation's console, destroy all BLEAv2's stacks.
 2. Update BLEAv2 source code to BLEAv3
    - Pull BLEAv3 source code to your directory from GitHub OR merge BLEAv3 source code to your directory manually.
+   - When you update source code, you have to copy parameters from `cdk.json` to `parameter.ts`. Please refer to [4-1. Set deployment parameters](../README.md#4-1-set-deployment-parameters)
 3. Deploy BLEAv3
    - Please refer to [4-2. Deploy a governance base](../README.md#4-2-deploy-a-governance-base), and deploy BLEAv3 to your environment.
    - If there are no errors, migration is complete.
