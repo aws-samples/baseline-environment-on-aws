@@ -13,79 +13,81 @@ The services and data that need to be considered are described individually, so 
 
 ## The v2 stack configuration, the resources generated, and the impact when re-created
 
+\*If **the impact when re-created** is “-”, it means that there is no particular effect. Therefore, if resource creation is successful when v3 is deployed, migration is success.
+
 ### Stacks are given by Standalone ver. and Multi-Account ver.
 
 #### BLEAChatbotStack
 
-| Types of resources                         | Logical ID       | The impact when re-created |
-| ------------------------------------------ | ---------------- | -------------------------- |
-| `aws_iam.Role`                             | `ChatbotRole`    | -                          |
-| `aws_chatbot.CfnSlackChannelConfiguration` | `ChatbotChannel` | -                          |
+| Types of resources                         | Logical ID       | Behavior when destroyed | The impact when re-created |
+| ------------------------------------------ | ---------------- | ----------------------- | -------------------------- |
+| `aws_iam.Role`                             | `ChatbotRole`    | Delete                  | -                          |
+| `aws_chatbot.CfnSlackChannelConfiguration` | `ChatbotChannel` | Delete                  | -                          |
 
 #### BLEAConfigRulesStack
 
-| Types of resources                       | Logical ID                           | The impact when re-created |
-| ---------------------------------------- | ------------------------------------ | -------------------------- |
-| `aws_config.ManagedRule`                 | `BLEARuleDefaultSecurityGroupClosed` | -                          |
-| `aws_iam.Role`                           | `RemoveSecGroupRemediationRole`      | -                          |
-| `aws_config.CfnRemediationConfiguration` | `RmDefaultSg`                        | -                          |
+| Types of resources                       | Logical ID                           | Behavior when destroyed | The impact when re-created |
+| ---------------------------------------- | ------------------------------------ | ----------------------- | -------------------------- |
+| `aws_config.ManagedRule`                 | `BLEARuleDefaultSecurityGroupClosed` | Delete                  | -                          |
+| `aws_iam.Role`                           | `RemoveSecGroupRemediationRole`      | Delete                  | -                          |
+| `aws_config.CfnRemediationConfiguration` | `RmDefaultSg`                        | Delete                  | -                          |
 
 #### BLEAIamStack
 
-| Types of resources      | Logical ID           | The impact when re-created |
-| ----------------------- | -------------------- | -------------------------- |
-| `aws_iam.ManagedP○licy` | `SysAdminPolicy`etc. | -                          |
-| `aws_iam.Role`          | `SysAdminRole`etc.   | -                          |
-| `aws_iam.Group`         | `SysAdminGroup`etc.  | -                          |
+| Types of resources      | Logical ID           | Behavior when destroyed | The impact when re-created |
+| ----------------------- | -------------------- | ----------------------- | -------------------------- |
+| `aws_iam.ManagedP○licy` | `SysAdminPolicy`etc. | Delete                  | -                          |
+| `aws_iam.Role`          | `SysAdminRole`etc.   | Delete                  | -                          |
+| `aws_iam.Group`         | `SysAdminGroup`etc.  | Delete                  | -                          |
 
 #### BLEASecurityAlarmStack
 
-| Types of resources      | Logical ID                 | The impact when re-created |
-| ----------------------- | -------------------------- | -------------------------- |
-| `aws_sns.Topic`         | `SecurityAlarmTopic`       | -                          |
-| `aws_events.Rule`       | `BLEARuleConfigRules`etc.  | -                          |
-| `aws_logs.MetricFilter` | `IAMPolicyChange`etc.      | -                          |
-| `aws_cloudwatch.Alarm`  | `IAMPolicyChangeAlarm`etc. | -                          |
+| Types of resources      | Logical ID                 | Behavior when destroyed | The impact when re-created |
+| ----------------------- | -------------------------- | ----------------------- | -------------------------- |
+| `aws_sns.Topic`         | `SecurityAlarmTopic`       | Delete                  | -                          |
+| `aws_events.Rule`       | `BLEARuleConfigRules`etc.  | Delete                  | -                          |
+| `aws_logs.MetricFilter` | `IAMPolicyChange`etc.      | Delete                  | -                          |
+| `aws_cloudwatch.Alarm`  | `IAMPolicyChangeAlarm`etc. | Delete                  | -                          |
 
 #### BLEATrailStack
 
-| Types of resources     | Logical ID           | The impact when re-created                                                                                                                                                                                                                                                                              |
-| ---------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `aws_s3.Bucket`        | `ArchiveLogsBucket`  | -                                                                                                                                                                                                                                                                                                       |
-| `aws_s3.Bucket`        | `CloudTrailBucket`   | You re-create this resource.<br />But the bucket that created in v2 are existing after destroying stacks.<br />Because these bucket's `DeletionPolicy` is `RETAIN`.<br /> **You need two datasources for Athena to invoke a query.<br />Because the buckets are different before and after migration.** |
-| `aws_kms.Key`          | `CloudTrailKey`      | You re-create this resource.<br />But you need to keep existing `Key` to encrypt/decrypt exsiting resources.                                                                                                                                                                                            |
-| `aws_logs.LogGroup`    | `CloudTrailLogGroup` | You re-create this resource.<br />**You need to switch the `LogGroup` to search Trail logs before and after migration.<br />Because `LogGroup` that are before migration is existing in your environment.**                                                                                             |
-| `aws_cloudtrail.Trail` | `CloudTrail`         | -                                                                                                                                                                                                                                                                                                       |
+| Types of resources     | Logical ID           | Behavior when destroyed | The impact when re-created                                                                                                                                                                                                                                                                              |
+| ---------------------- | -------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `aws_s3.Bucket`        | `ArchiveLogsBucket`  | Retain                  | -                                                                                                                                                                                                                                                                                                       |
+| `aws_s3.Bucket`        | `CloudTrailBucket`   | Retain                  | You re-create this resource.<br />But the bucket that created in v2 are existing after destroying stacks.<br />Because these bucket's `DeletionPolicy` is `RETAIN`.<br /> **You need two datasources for Athena to invoke a query.<br />Because the buckets are different before and after migration.** |
+| `aws_kms.Key`          | `CloudTrailKey`      | Retain                  | You re-create this resource.<br />But you need to keep existing `Key` to encrypt/decrypt exsiting resources.                                                                                                                                                                                            |
+| `aws_logs.LogGroup`    | `CloudTrailLogGroup` | Retain                  | You re-create this resource.<br />**You need to switch the `LogGroup` to search Trail logs before and after migration.<br />Because `LogGroup` that are before migration is existing in your environment.**                                                                                             |
+| `aws_cloudtrail.Trail` | `CloudTrail`         | Delete                  | -                                                                                                                                                                                                                                                                                                       |
 
 ### Stacks are given by Standalone ver. only
 
 #### BLEAConfigCtGuardrailStack
 
-| Types of resources | Logical ID   | The impact when re-created |
-| ------------------ | ------------ | -------------------------- |
-| `CfnInclude`       | `ConfigCtGr` | -                          |
+| Types of resources | Logical ID   | Behavior when destroyed | The impact when re-created |
+| ------------------ | ------------ | ----------------------- | -------------------------- |
+| `CfnInclude`       | `ConfigCtGr` | Delete                  | -                          |
 
 #### BLEAConfigStack
 
-| Types of resources                    | Logical ID              | The impact when re-created                                                                                                                                                                                                                                                                                                                                                |
-| ------------------------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `aws_iam.Role`                        | `ConfigRole`            | -                                                                                                                                                                                                                                                                                                                                                                         |
-| `aws_config.CfnConfigurationRecorder` | `ConfigRecorder`        | You re-create this resource.<br />If you delete `Config Recorder`, the configuration information that was previously recorded is not deleted.<br />And you can access this after enabling `Config Recorder`<br />Ref:[delete-configuration-recorder](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/configservice/delete-configuration-recorder.html) |
-| `aws_s3.Bucket`                       | `ConfigBucket`          | You re-create this resource.<br />But the bucket that created in v2 are existing after destroying stacks.<br />Because these bucket's `DeletionPolicy` is `RETAIN`.<br /> **You need two datasources for Athena to invoke a query.<br />Because the buckets are different before and after migration.**                                                                   |
-| `aws_config.CfnDeliveryChannel`       | `ConfigDeliveryChannel` | -                                                                                                                                                                                                                                                                                                                                                                         |
+| Types of resources                    | Logical ID              | Behavior when destroyed | The impact when re-created                                                                                                                                                                                                                                                                                                                                                |
+| ------------------------------------- | ----------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `aws_iam.Role`                        | `ConfigRole`            | Delete                  | -                                                                                                                                                                                                                                                                                                                                                                         |
+| `aws_config.CfnConfigurationRecorder` | `ConfigRecorder`        | Delete                  | You re-create this resource.<br />If you delete `Config Recorder`, the configuration information that was previously recorded is not deleted.<br />And you can access this after enabling `Config Recorder`<br />Ref:[delete-configuration-recorder](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/configservice/delete-configuration-recorder.html) |
+| `aws_s3.Bucket`                       | `ConfigBucket`          | Retain                  | You re-create this resource.<br />But the bucket that created in v2 are existing after destroying stacks.<br />Because these bucket's `DeletionPolicy` is `RETAIN`.<br /> **You need two datasources for Athena to invoke a query.<br />Because the buckets are different before and after migration.**                                                                   |
+| `aws_config.CfnDeliveryChannel`       | `ConfigDeliveryChannel` | Delete                  | -                                                                                                                                                                                                                                                                                                                                                                         |
 
 #### BLEAGuarddutyStack
 
-| Types of resources          | Logical ID          | The impact when re-created |
-| --------------------------- | ------------------- | -------------------------- |
-| `aws_guardduty.CfnDetector` | `GuardDutyDetector` |                            |
+| Types of resources          | Logical ID          | Behavior when destroyed | The impact when re-created |
+| --------------------------- | ------------------- | ----------------------- | -------------------------- |
+| `aws_guardduty.CfnDetector` | `GuardDutyDetector` | Delete                  |                            |
 
 #### BLEASecurityHubStack
 
-| Types of resources             | Logical ID           | The impact when re-created                                                                                                                                                                                                                                                                                                                                             |
-| ------------------------------ | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `aws_iam.CfnServiceLinkedRole` | `RoleForSecurityHub` | -                                                                                                                                                                                                                                                                                                                                                                      |
-| `aws_securityhub.CfnHub`       | `SecurityHub`        | You re-create this resource.<br />But the existing detection results will be deleted after 90 days when Security Hub was disabled.<br />So, the migration process need to be completed during 90 days from when Security Hub was disabled.<br />Ref：[Disabling Security Hub](https://docs.aws.amazon.com/ja_jp/securityhub/latest/userguide/securityhub-disable.html) |
+| Types of resources             | Logical ID           | Behavior when destroyed | The impact when re-created                                                                                                                                                                                                                                                                                                                                             |
+| ------------------------------ | -------------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `aws_iam.CfnServiceLinkedRole` | `RoleForSecurityHub` | Delete                  | -                                                                                                                                                                                                                                                                                                                                                                      |
+| `aws_securityhub.CfnHub`       | `SecurityHub`        | Delete                  | You re-create this resource.<br />But the existing detection results will be deleted after 90 days when Security Hub was disabled.<br />So, the migration process need to be completed during 90 days from when Security Hub was disabled.<br />Ref：[Disabling Security Hub](https://docs.aws.amazon.com/ja_jp/securityhub/latest/userguide/securityhub-disable.html) |
 
 ## How to migrate
 

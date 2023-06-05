@@ -10,7 +10,7 @@ AWS CloudTrail や AWS Config、AWS Security Hub などのログや検出結果�
 
 ## v2 の Stack 構成と生成されるリソース、再作成時の影響
 
-※再作成時の影響が「-」のものは、特に影響がないことを意味する。
+※再作成時の影響が「-」のものは、特に影響がないことを意味します。そのため、v3 デプロイ時にリソース作成が成功すれば問題ありません。
 
 ### Standalone 版/マルチアカウント版で提供される Stack
 
@@ -48,13 +48,13 @@ AWS CloudTrail や AWS Config、AWS Security Hub などのログや検出結果�
 
 #### BLEATrailStack
 
-| リソースの種類         | 論理 ID              | Destroy 時の挙動 | 再作成時の影響                                                                                                                                                                          |
-| ---------------------- | -------------------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `aws_s3.Bucket`        | `ArchiveLogsBucket`  | 保持される       | -                                                                                                                                                                                       |
-| `aws_s3.Bucket`        | `CloudTrailBucket`   | 保持される       | 再作成で問題ないが、<br />**Athena でクエリを実行する際は、<br />マイグレーション前後で検索対象となる <br />Bucket が異なるため、<br />v2 用と v3 用の 2 つのデータソースが必要になる** |
-| `aws_kms.Key`          | `CloudTrailKey`      | 保持される       | 再作成で問題ないが、<br />既存の暗号・復号対象リソースのため、<br />既存の`key`も残す必要がある                                                                                         |
-| `aws_logs.LogGroup`    | `CloudTrailLogGroup` | 保持される       | 再作成で問題ないが、<br />**Trail のログを検索する際は、<br />マイグレーション前後で検索対象となる <br />LogGroup が異なるため、注意が必要**                                            |
-| `aws_cloudtrail.Trail` | `CloudTrail`         | 削除される       | -                                                                                                                                                                                       |
+| リソースの種類         | 論理 ID              | Destroy 時の挙動 | 再作成時の影響                                                                                                                                                |
+| ---------------------- | -------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `aws_s3.Bucket`        | `ArchiveLogsBucket`  | 保持される       | -                                                                                                                                                             |
+| `aws_s3.Bucket`        | `CloudTrailBucket`   | 保持される       | **Athena でクエリを実行する際は、<br />マイグレーション前後で検索対象となる <br />Bucket が異なるため、<br />v2 用と v3 用の 2 つのデータソースが必要になる** |
+| `aws_kms.Key`          | `CloudTrailKey`      | 保持される       | **既存の暗号・復号対象リソースのため、<br />既存の`key`も残す必要がある**                                                                                     |
+| `aws_logs.LogGroup`    | `CloudTrailLogGroup` | 保持される       | **Trail のログを検索する際は、<br />マイグレーション前後で検索対象となる <br />LogGroup が異なるため、注意が必要**                                            |
+| `aws_cloudtrail.Trail` | `CloudTrail`         | 削除される       | -                                                                                                                                                             |
 
 ### Standalone 版のみで提供される Stack
 
@@ -66,12 +66,12 @@ AWS CloudTrail や AWS Config、AWS Security Hub などのログや検出結果�
 
 #### BLEAConfigStack
 
-| リソースの種類                        | 論理 ID                 | Destroy 時の挙動 | 再作成時の影響                                                                                                                                                                                                                                                                                                                                             |
-| ------------------------------------- | ----------------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `aws_iam.Role`                        | `ConfigRole`            | 削除される       | -                                                                                                                                                                                                                                                                                                                                                          |
-| `aws_config.CfnConfigurationRecorder` | `ConfigRecorder`        | 削除される       | Config Recorder を削除しても、<br />構成記録自体は削除されないため、<br />再作成で問題ない。<br />また、再度 Config Recorder を有効にすることで、<br />過去の構成記録にアクセス可能となる。<br />参考:[delete-configuration-recorder](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/configservice/delete-configuration-recorder.html) |
-| `aws_s3.Bucket`                       | `ConfigBucket`          | 保持される       | 再作成で問題ない。<br />ただし、v2 時に作成された Bucket は<br />`DeletionPolicy`が`RETAIN`のため、<br />Stack が削除されてもリソースは残る。 <br /> **Athena でクエリを実行する際は、<br />マイグレーション前後で検索対象となる Bucket が異なるため、<br />v2 用と v3 用の 2 つのデータソースが必要になる**                                               |
-| `aws_config.CfnDeliveryChannel`       | `ConfigDeliveryChannel` | 削除される       | -                                                                                                                                                                                                                                                                                                                                                          |
+| リソースの種類                        | 論理 ID                 | Destroy 時の挙動 | 再作成時の影響                                                                                                                                                                                                                                                                                                                                                 |
+| ------------------------------------- | ----------------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `aws_iam.Role`                        | `ConfigRole`            | 削除される       | -                                                                                                                                                                                                                                                                                                                                                              |
+| `aws_config.CfnConfigurationRecorder` | `ConfigRecorder`        | 削除される       | **Config Recorder を削除しても、<br />構成記録自体は削除されないため、<br />再作成で問題ない。<br />また、再度 Config Recorder を有効にすることで、<br />過去の構成記録にアクセス可能となる。<br />参考:[delete-configuration-recorder](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/configservice/delete-configuration-recorder.html)** |
+| `aws_s3.Bucket`                       | `ConfigBucket`          | 保持される       | **Athena でクエリを実行する際は、<br />マイグレーション前後で検索対象となる Bucket が異なるため、<br />v2 用と v3 用の 2 つのデータソースが必要になる**                                                                                                                                                                                                        |
+| `aws_config.CfnDeliveryChannel`       | `ConfigDeliveryChannel` | 削除される       | -                                                                                                                                                                                                                                                                                                                                                              |
 
 #### BLEAGuarddutyStack
 
@@ -81,10 +81,10 @@ AWS CloudTrail や AWS Config、AWS Security Hub などのログや検出結果�
 
 #### BLEASecurityHubStack
 
-| リソースの種類                 | 論理 ID              | Destroy した場合の挙動 | 再作成時の影響                                                                                                                                                                                                                                                                                                     |
-| ------------------------------ | -------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `aws_iam.CfnServiceLinkedRole` | `RoleForSecurityHub` | 削除される             | -                                                                                                                                                                                                                                                                                                                  |
-| `aws_securityhub.CfnHub`       | `SecurityHub`        | 削除される             | 再作成で問題ない。<br />ただし、SecurityHub を無効化した場合、<br />90 日経過すると、既存の検出結果などが削除されるため、<br />マイグレーションは 保持期間内に実施する必要がある。<br />参考：[Security Hub を無効にする](https://docs.aws.amazon.com/ja_jp/securityhub/latest/userguide/securityhub-disable.html) |
+| リソースの種類                 | 論理 ID              | Destroy 時の挙動 | 再作成時の影響                                                                                                                                                                                                                                                                                                         |
+| ------------------------------ | -------------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `aws_iam.CfnServiceLinkedRole` | `RoleForSecurityHub` | 削除される       | -                                                                                                                                                                                                                                                                                                                      |
+| `aws_securityhub.CfnHub`       | `SecurityHub`        | 削除される       | **再作成で問題ない。<br />ただし、SecurityHub を無効化した場合、<br />90 日経過すると、既存の検出結果などが削除されるため、<br />マイグレーションは 保持期間内に実施する必要がある。<br />参考：[Security Hub を無効にする](https://docs.aws.amazon.com/ja_jp/securityhub/latest/userguide/securityhub-disable.html)** |
 
 ## マイグレーション手順
 
