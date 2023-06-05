@@ -334,6 +334,10 @@ BLEA has adopted semantic versioning for governance bases (blea-govern-base-ct, 
 
 The guest system sample is not eligible for Semantic Versioning. They are intended to provide sample code, and disruptive changes can occur at any time. Migration guides are also not provided when major versions change.
 
+### How to migrate from v2 to v3
+
+Please read [How to migrate to v3](doc/HowToMigrateToV3.md).
+
 ## Security
 
 See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.

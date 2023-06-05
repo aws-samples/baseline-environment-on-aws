@@ -90,7 +90,7 @@ AWS CloudTrail や AWS Config、AWS Security Hub といったログや検出結�
 ## マイグレーション手順
 
 1. 利用しているユースケースで提供されている BLEAv2 の Stack を全て削除する
-   - ターミナルからの場合、v2 のソースコードを維持した状態で、`npm run aws-cdk destroy --all -c environment={環境識別子} --profile {profile}`を実行してください
+   - ターミナルからの場合、v2 のソースコードを維持した状態で、`npx aws-cdk destroy --all -c environment={環境識別子} --profile {profile}`を実行してください
    - マネジメントコンソールからの場合、CloudForamtion のコンソールへ遷移し、各 Stack を削除してください
 2. BLEAv2 のソースコードを BLEAv3 へ更新する
    - github より、v3 のソースコードを pull するか、手動でマージしてください
