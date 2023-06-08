@@ -52,7 +52,7 @@ AWS CloudTrail や AWS Config、AWS Security Hub などのログや検出結果�
 | ---------------------- | -------------------- | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `aws_s3.Bucket`        | `ArchiveLogsBucket`  | 保持される       | -                                                                                                                                                                                                           |
 | `aws_s3.Bucket`        | `CloudTrailBucket`   | 保持される       | CloudTrail の証跡を保存する S3 バケットが新しく作成される。<br />v2 で記録していた証跡を Amazon Athena で検索する場合は、v3 をデプロイする前後で異なるデータソースへのクエリが必要がある。                  |
-| `aws_kms.Key`          | `CloudTrailKey`      | 保持される       | v2 で作成した CloudTrail のイベントを記録する CloudWatch Logs の LogGroup を暗号・復号する CMK。<br />LogGroup は v2 時の記録を保持する必要がある場合、当該`key`も残す必要がある。                          |
+| `aws_kms.Key`          | `CloudTrailKey`      | 保持される       | v2 で作成した CloudTrail のイベントを記録するための CloudWatch Logs の LogGroup を暗号・復号する CMK。<br />LogGroup は v2 時の記録を保持する必要がある場合、当該`key`も残す必要がある。                    |
 | `aws_logs.LogGroup`    | `CloudTrailLogGroup` | 保持される       | CloudTrail のイベントを記録する CloudWatch Logs のロググループが新しく作成される。<br />CloudWatch Logs の機能でイベントのログを検索する場合は、v3 をデプロイする前後で異なるロググループへのクエリが必要。 |
 | `aws_cloudtrail.Trail` | `CloudTrail`         | 削除される       | -                                                                                                                                                                                                           |
 
@@ -81,10 +81,10 @@ AWS CloudTrail や AWS Config、AWS Security Hub などのログや検出結果�
 
 #### BLEASecurityHubStack
 
-| リソースの種類                 | 論理 ID              | Destroy 時の挙動 | 再作成時の影響                                                                                                                                                                                                                                                                                         |
-| ------------------------------ | -------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `aws_iam.CfnServiceLinkedRole` | `RoleForSecurityHub` | 削除される       | -                                                                                                                                                                                                                                                                                                      |
-| `aws_securityhub.CfnHub`       | `SecurityHub`        | 削除される       | 再作成で問題ない。<br />ただし、SecurityHub を無効化した場合、90 日経過すると、既存の検出結果などが削除されるため、マイグレーションは 保持期間内に実施する必要がある。<br />参考：[Security Hub を無効にする](https://docs.aws.amazon.com/ja_jp/securityhub/latest/userguide/securityhub-disable.html) |
+| リソースの種類                 | 論理 ID              | Destroy 時の挙動 | 再作成時の影響                                                                                                                                                                                                                                                                                                                  |
+| ------------------------------ | -------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `aws_iam.CfnServiceLinkedRole` | `RoleForSecurityHub` | 削除される       | -                                                                                                                                                                                                                                                                                                                               |
+| `aws_securityhub.CfnHub`       | `SecurityHub`        | 削除される       | Security Hub リソース が新規に作成される。<br />ただし、Security Hub を無効化した場合、90 日経過すると、既存の検出結果などが削除されるため、マイグレーションは 保持期間内に実施する必要がある。<br />参考：[Security Hub を無効にする](https://docs.aws.amazon.com/ja_jp/securityhub/latest/userguide/securityhub-disable.html) |
 
 ## マイグレーション手順
 
