@@ -62,7 +62,7 @@ Object {
             "DisableTemplateValidation": false,
             "Info": Object {
               "LoadTemplateFromURL": Object {
-                "Fn::Sub": "https://s3.\${AWS::Region}.\${AWS::URLSuffix}/cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}/6ba87dcc0d590a251be2ba18874f592e006efc5c392c7bb8df5af04722e733f7.json",
+                "Fn::Sub": "https://s3.\${AWS::Region}.\${AWS::URLSuffix}/cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}/5a0a58016b941d71e6062bca12766e188a830732746706f8f7e4684a71602638.json",
               },
             },
             "Name": "v1",

@@ -4,10 +4,13 @@ import { CloudFormationProduct, Portfolio, ProductStack, ProductStackHistory } f
 import { Iam } from '../construct/iam';
 import { Logging } from '../construct/logging';
 import { Detection } from '../construct/detection';
+import { Notification } from '../construct/notification';
 import { Role } from 'aws-cdk-lib/aws-iam';
 
 export interface BLEAGovBaseCtScStackProps extends StackProps {
   securityNotifyEmail: string;
+  securitySlackWorkspaceId?: string;
+  securitySlackChannelId?: string;
 }
 
 export class BLEAGovBaseCtScStack extends Stack {
@@ -28,9 +31,19 @@ export class BLEAGovBaseCtScStack extends Stack {
         // Security Alarms
         // !!! Need to setup SecurityHub, GuardDuty manually on Organizations Management account
         // AWS Config and CloudTrail are set up by Control Tower
-        new Detection(this, 'Detection', {
+        const detection = new Detection(this, 'Detection', {
           notifyEmail: props.securityNotifyEmail,
           cloudTrailLogGroupName: logging.trailLogGroup.logGroupName,
+        });
+
+        if (!props.securitySlackWorkspaceId || !props.securitySlackChannelId) {
+          throw new Error('securitySlackWorkspaceId and securitySlackChannelId are required');
+        }
+
+        new Notification(this, 'Notification', {
+          topicArn: detection.topic.topicArn,
+          workspaceId: props.securitySlackWorkspaceId,
+          channelId: props.securitySlackChannelId,
         });
       }
     }

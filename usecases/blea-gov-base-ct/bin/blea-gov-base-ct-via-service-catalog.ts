@@ -19,4 +19,6 @@ new BLEAGovBaseCtScStack(app, 'Dev-BLEAGovBaseCtSc', {
   },
 
   securityNotifyEmail: devParameter.securityNotifyEmail,
+  securitySlackWorkspaceId: devParameter.securitySlackWorkspaceId,
+  securitySlackChannelId: devParameter.securitySlackChannelId,
 });
