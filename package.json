@@ -31,7 +31,7 @@
     "depcheck": "^1.4.3",
     "eslint": "^8.43.0",
     "eslint-config-prettier": "^8.8.0",
-    "lint-staged": "^13.2.2",
+    "lint-staged": "^13.2.3",
     "prettier": "^2.8.8",
     "simple-git-hooks": "^2.8.1",
     "standard-version": "^9.5.0",
