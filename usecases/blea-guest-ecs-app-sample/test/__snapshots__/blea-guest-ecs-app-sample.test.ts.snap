@@ -4325,6 +4325,10 @@ Object {
               Object {
                 "Fn::ImportValue": "Dev-BLEAEcsApp:ExportsOutputRefDatastoreAuroraCluster2FE23DD58102FDEF",
               },
+              "\\",\\"Role\\",\\"WRITER\\",{\\"label\\":\\"\${PROP('MetricName')} /\${PROP('Period')}sec\\",\\"period\\":60}],[\\"AWS/RDS\\",\\"DMLLatency\\",\\"DBClusterIdentifier\\",\\"",
+              Object {
+                "Fn::ImportValue": "Dev-BLEAEcsApp:ExportsOutputRefDatastoreAuroraCluster2FE23DD58102FDEF",
+              },
               "\\",\\"Role\\",\\"WRITER\\",{\\"label\\":\\"\${PROP('MetricName')} /\${PROP('Period')}sec\\",\\"period\\":60}],[\\"AWS/RDS\\",\\"ReadLatency\\",\\"DBClusterIdentifier\\",\\"",
               Object {
                 "Fn::ImportValue": "Dev-BLEAEcsApp:ExportsOutputRefDatastoreAuroraCluster2FE23DD58102FDEF",
@@ -4404,6 +4408,10 @@ Object {
                 "Fn::ImportValue": "Dev-BLEAEcsApp:ExportsOutputFnGetAttEcsAppAlb74CC21B3LoadBalancerFullName06D09417",
               },
               "\\",{\\"label\\":\\"\${PROP('MetricName')} /\${PROP('Period')}sec\\",\\"period\\":60,\\"stat\\":\\"Sum\\"}],[\\"AWS/ApplicationELB\\",\\"TargetConnectionErrorCount\\",\\"LoadBalancer\\",\\"",
+              Object {
+                "Fn::ImportValue": "Dev-BLEAEcsApp:ExportsOutputFnGetAttEcsAppAlb74CC21B3LoadBalancerFullName06D09417",
+              },
+              "\\",{\\"label\\":\\"\${PROP('MetricName')} /\${PROP('Period')}sec\\",\\"period\\":60,\\"stat\\":\\"Sum\\"}],[\\"AWS/ApplicationELB\\",\\"TargetTLSNegotiationErrorCount\\",\\"LoadBalancer\\",\\"",
               Object {
                 "Fn::ImportValue": "Dev-BLEAEcsApp:ExportsOutputFnGetAttEcsAppAlb74CC21B3LoadBalancerFullName06D09417",
               },
