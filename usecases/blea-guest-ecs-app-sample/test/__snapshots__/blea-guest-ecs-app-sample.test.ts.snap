@@ -179,7 +179,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
-          "S3Key": "d03a1e3909f7dea25696e7cc8c98e4f045bfc5c0717679fad2ffa98fccadcf81.zip",
+          "S3Key": "3539b349e2688ba291e85e5defb2cf778cf1151db53f7541cf44cc20d5e7000b.zip",
         },
         "Handler": "__entrypoint__.handler",
         "MemorySize": 128,
@@ -189,7 +189,7 @@ Object {
             "Arn",
           ],
         },
-        "Runtime": "nodejs16.x",
+        "Runtime": "nodejs18.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -1361,6 +1361,7 @@ Object {
       "DependsOn": Array [
         "EcsAppAlbAlbSslListenerAppTargetGroupGroup00D988B0",
         "EcsAppAlbAlbSslListener056EB6C5",
+        "EcsAppEcsTaskRole2B17F49D",
       ],
       "Properties": Object {
         "CapacityProviderStrategy": Array [
@@ -1373,6 +1374,11 @@ Object {
           "Ref": "EcsAppCluster7C7DF57B",
         },
         "DeploymentConfiguration": Object {
+          "Alarms": Object {
+            "AlarmNames": Array [],
+            "Enable": false,
+            "Rollback": false,
+          },
           "MaximumPercent": 200,
           "MinimumHealthyPercent": 50,
         },
@@ -1417,6 +1423,9 @@ Object {
       "Type": "AWS::ECS::Service",
     },
     "EcsAppServiceTaskCountTarget68D0F209": Object {
+      "DependsOn": Array [
+        "EcsAppEcsTaskRole2B17F49D",
+      ],
       "Properties": Object {
         "MaxCapacity": 10,
         "MinCapacity": 2,
@@ -1460,6 +1469,9 @@ Object {
       "Type": "AWS::ApplicationAutoScaling::ScalableTarget",
     },
     "EcsAppServiceTaskCountTargetCpuScalingEC96128C": Object {
+      "DependsOn": Array [
+        "EcsAppEcsTaskRole2B17F49D",
+      ],
       "Properties": Object {
         "PolicyName": "DevBLEAEcsAppServiceTaskCountTargetCpuScaling2EA8D08F",
         "PolicyType": "TargetTrackingScaling",
@@ -1476,6 +1488,9 @@ Object {
       "Type": "AWS::ApplicationAutoScaling::ScalingPolicy",
     },
     "EcsAppServiceTaskCountTargetRequestScaling9DD1E39A": Object {
+      "DependsOn": Array [
+        "EcsAppEcsTaskRole2B17F49D",
+      ],
       "Properties": Object {
         "PolicyName": "DevBLEAEcsAppServiceTaskCountTargetRequestScaling50CC5FBF",
         "PolicyType": "TargetTrackingScaling",
@@ -3210,7 +3225,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-us-east-1",
           },
-          "S3Key": "06287b159ddc42f3d70d8ea52e034430d7a63d9263991d2579b1370203cfee4e.zip",
+          "S3Key": "78590412b566feb650ac783cf0d1555626dde1a6672e3ed0e0326bc9ca9cd74a.zip",
         },
         "Handler": "__entrypoint__.handler",
         "MemorySize": 128,
@@ -3220,7 +3235,7 @@ Object {
             "Arn",
           ],
         },
-        "Runtime": "nodejs16.x",
+        "Runtime": "nodejs18.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -3290,7 +3305,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-us-east-1",
           },
-          "S3Key": "d03a1e3909f7dea25696e7cc8c98e4f045bfc5c0717679fad2ffa98fccadcf81.zip",
+          "S3Key": "3539b349e2688ba291e85e5defb2cf778cf1151db53f7541cf44cc20d5e7000b.zip",
         },
         "Handler": "__entrypoint__.handler",
         "MemorySize": 128,
@@ -3300,7 +3315,7 @@ Object {
             "Arn",
           ],
         },
-        "Runtime": "nodejs16.x",
+        "Runtime": "nodejs18.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -4143,7 +4158,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
-          "S3Key": "06287b159ddc42f3d70d8ea52e034430d7a63d9263991d2579b1370203cfee4e.zip",
+          "S3Key": "78590412b566feb650ac783cf0d1555626dde1a6672e3ed0e0326bc9ca9cd74a.zip",
         },
         "Handler": "__entrypoint__.handler",
         "MemorySize": 128,
@@ -4153,7 +4168,7 @@ Object {
             "Arn",
           ],
         },
-        "Runtime": "nodejs16.x",
+        "Runtime": "nodejs18.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
