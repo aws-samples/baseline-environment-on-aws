@@ -201,7 +201,7 @@ export class Dashboard extends Construct {
     });
     const albTgTLSNegotiationErrors = new cw.Metric({
       namespace: 'AWS/ApplicationELB',
-      metricName: 'TargetConnectionErrorCount',
+      metricName: 'TargetTLSNegotiationErrorCount',
       dimensionsMap: {
         LoadBalancer: props.albFullName,
       },
@@ -474,7 +474,7 @@ export class Dashboard extends Construct {
     });
     const dbWriterDMLLatency = new cw.Metric({
       namespace: 'AWS/RDS',
-      metricName: 'DeleteLatency',
+      metricName: 'DMLLatency',
       dimensionsMap: {
         DBClusterIdentifier: props.dbClusterName,
         Role: 'WRITER',
