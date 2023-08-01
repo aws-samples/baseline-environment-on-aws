@@ -75,7 +75,7 @@ Jump to | [Changelog](CHANGELOG.md) | [HowTo](doc/HowTo_ja.md) | [マルチア�
 
 以下のランタイムを使用します。各 OS ごとの手順に従いインストールしてください。
 
-- [Node.js](https://nodejs.org/) (>= `14.0.0`)
+- [Node.js](https://nodejs.org/) (>= `18.0.0`)
   - `npm` (>= `8.1.0`)
 - [Git](https://git-scm.com/)
 

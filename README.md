@@ -75,7 +75,7 @@ The steps to deploy are described. Building an editor environment is not necessa
 
 It uses the following runtimes: Please follow the instructions for each OS to install.
 
-- [Node.js] (https://nodejs.org/) (>= `14.0.0`)
+- [Node.js] (https://nodejs.org/) (>= `18.0.0`)
 - `npm` (>= `8.1.0`)
 - [Git] (https://git-scm.com/)
 

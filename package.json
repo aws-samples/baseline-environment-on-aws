@@ -9,7 +9,7 @@
   },
   "license": "MIT-0",
   "engines": {
-    "node": ">=14",
+    "node": ">=18",
     "npm": ">=8.1.0"
   },
   "workspaces": [
