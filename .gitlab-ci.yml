@@ -31,14 +31,8 @@ variables:
   - npm run clean:product --workspace usecases/blea-gov-base-ct
   - npm run synth --workspaces
 
-build-node14:
+build-node18:
   stage: build
-  image: node:14
-  script:
-    - *node-build
-
-build-node16:
-  stage: build
-  image: node:16
+  image: node:18
   script:
     - *node-build

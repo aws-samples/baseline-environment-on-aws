@@ -15,11 +15,11 @@ jobs:
     strategy:
       matrix:
         # supported node versions
-        node: [14, 16]
+        node: [18]
         os: ['ubuntu-latest']
         include:
           # additional test for current node version on windows
-          - node: 16
+          - node: 18
             os: windows-latest
     steps:
       - run: |

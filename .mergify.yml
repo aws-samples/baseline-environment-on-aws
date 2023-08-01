@@ -20,9 +20,8 @@ pull_request_rules:
       - '#approved-reviews-by>=1'
       - -approved-reviews-by~=author
       - '#changes-requested-reviews-by=0'
-      - status-success=Build on Node.js v14 on ubuntu-latest
-      - status-success=Build on Node.js v16 on ubuntu-latest
-      - status-success=Build on Node.js v16 on windows-latest
+      - status-success=Build on Node.js v18 on ubuntu-latest
+      - status-success=Build on Node.js v18 on windows-latest
       - status-success=Validate PR title
   - name: if fails conventional commits
     actions:
@@ -48,7 +47,6 @@ pull_request_rules:
       - -merged
       - -closed
       - author=dependabot[bot]
-      - status-success=Build on Node.js v14 on ubuntu-latest
-      - status-success=Build on Node.js v16 on ubuntu-latest
-      - status-success=Build on Node.js v16 on windows-latest
+      - status-success=Build on Node.js v18 on ubuntu-latest
+      - status-success=Build on Node.js v18 on windows-latest
       - status-success=Validate PR title
