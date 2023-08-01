@@ -433,7 +433,6 @@ The contents of this setting are as follows.
 > NOTE: See the following explanation for how to use Context
 >
 > - [Manage personal environment by cdk.context.json](HowTo.md#Manage-personal-environment-by-cdkcontextjson)
->
 > - [Accessing context in application](HowTo.md#accessing-context-in-application)
 
 #### 5-3. Deploy a baseline for the Audit account
@@ -463,7 +462,6 @@ You should now be notified of all AWS Config change events for accounts managed 
 > NOTE:
 >
 > - Here we are using `npx` to use a local cdk installed in the BLEA environment. If you start the command directly from `cdk`, the globally installed cdk will be used.
->
 > - There are options that are useful when using the cdk command. See [Skip Deployment Approvals and Don't Roll Back](HowTo.md#skip-deployment-approvals-and-dont-roll-back).
 
 ### 6. Deploy a governance base for guest accounts (Local)
@@ -601,7 +599,6 @@ npx cdk bootstrap -c environment=dev --profile ct-guest
 > NOTE:
 >
 > - Here we are using `npx` to use a local cdk installed in the BLEA environment. If you start the command directly from `cdk`, the globally installed cdk will be used.
->
 > - There are options that are useful when using the cdk command. See [Skip Deployment Approvals and Don't Roll Back](HowTo.md#skip-deployment-approvals-and-dont-roll-back).
 
 Deploy a governance base for guest accounts.
