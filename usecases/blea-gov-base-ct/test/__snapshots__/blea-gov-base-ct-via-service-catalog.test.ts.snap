@@ -1,48 +1,48 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Snapshot test for BLEGovABase Stack 1`] = `
-Object {
-  "Parameters": Object {
-    "BootstrapVersion": Object {
+{
+  "Parameters": {
+    "BootstrapVersion": {
       "Default": "/cdk-bootstrap/hnb659fds/version",
       "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
       "Type": "AWS::SSM::Parameter::Value<String>",
     },
   },
-  "Resources": Object {
-    "Portfolio856A4190": Object {
-      "Properties": Object {
+  "Resources": {
+    "Portfolio856A4190": {
+      "Properties": {
         "DisplayName": "BLEA Baselines for Guest accounts",
         "ProviderName": "Platform team at Example Company",
       },
       "Type": "AWS::ServiceCatalog::Portfolio",
     },
-    "PortfolioPortfolioProductAssociationd2b2e10d104073565C5B": Object {
-      "Properties": Object {
-        "PortfolioId": Object {
+    "PortfolioPortfolioProductAssociationd2b2e10d104073565C5B": {
+      "Properties": {
+        "PortfolioId": {
           "Ref": "Portfolio856A4190",
         },
-        "ProductId": Object {
+        "ProductId": {
           "Ref": "Product896941B4",
         },
       },
       "Type": "AWS::ServiceCatalog::PortfolioProductAssociation",
     },
-    "PortfolioPortolioPrincipalAssociationd82fda574793DAB993CA": Object {
-      "Properties": Object {
-        "PortfolioId": Object {
+    "PortfolioPortolioPrincipalAssociationd82fda574793DAB993CA": {
+      "Properties": {
+        "PortfolioId": {
           "Ref": "Portfolio856A4190",
         },
-        "PrincipalARN": Object {
-          "Fn::Join": Array [
+        "PrincipalARN": {
+          "Fn::Join": [
             "",
-            Array [
+            [
               "arn:",
-              Object {
+              {
                 "Ref": "AWS::Partition",
               },
               ":iam::",
-              Object {
+              {
                 "Ref": "AWS::AccountId",
               },
               ":role/AWSControlTowerExecution",
@@ -53,15 +53,15 @@ Object {
       },
       "Type": "AWS::ServiceCatalog::PortfolioPrincipalAssociation",
     },
-    "Product896941B4": Object {
-      "Properties": Object {
+    "Product896941B4": {
+      "Properties": {
         "Name": "BLEA Baseline",
         "Owner": "Platform team at Example Company",
-        "ProvisioningArtifactParameters": Array [
-          Object {
+        "ProvisioningArtifactParameters": [
+          {
             "DisableTemplateValidation": false,
-            "Info": Object {
-              "LoadTemplateFromURL": Object {
+            "Info": {
+              "LoadTemplateFromURL": {
                 "Fn::Sub": "https://s3.\${AWS::Region}.\${AWS::URLSuffix}/cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}/f2afe5af21a8b0d7aadec724632274791c2b7d0cc4f78018f8ff48b5371ce183.json",
               },
             },
@@ -72,22 +72,22 @@ Object {
       "Type": "AWS::ServiceCatalog::CloudFormationProduct",
     },
   },
-  "Rules": Object {
-    "CheckBootstrapVersion": Object {
-      "Assertions": Array [
-        Object {
-          "Assert": Object {
-            "Fn::Not": Array [
-              Object {
-                "Fn::Contains": Array [
-                  Array [
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
                     "1",
                     "2",
                     "3",
                     "4",
                     "5",
                   ],
-                  Object {
+                  {
                     "Ref": "BootstrapVersion",
                   },
                 ],

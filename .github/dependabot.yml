@@ -14,8 +14,6 @@ updates:
       time: '08:00'
       timezone: 'Asia/Tokyo'
     ignore:
-      - dependency-name: '*jest'
-        versions: '>=28'
       - dependency-name: '@types/node'
         versions: '>=20'
   - package-ecosystem: 'docker' # See documentation for possible values
