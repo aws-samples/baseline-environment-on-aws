@@ -71,7 +71,7 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
                   "Version": "1",
                 },
                 "Configuration": {
-                  "EnvironmentVariables": "[{"name":"_PROJECT_CONFIG_HASH","type":"PLAINTEXT","value":"e94c841cdbb89a42d615fa2e3c04d988012ccd1baa3ab150b346d254ec6d6b1f"}]",
+                  "EnvironmentVariables": "[{"name":"_PROJECT_CONFIG_HASH","type":"PLAINTEXT","value":"acb21dc20d80677abb3dba3261c1cc1775fbc085e7e223e4a6dc432bb2ddf685"}]",
                   "ProjectName": {
                     "Ref": "PipelineBuildSynthCdkBuildProject6BEFA8E6",
                   },
@@ -108,7 +108,7 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
                   "Version": "1",
                 },
                 "Configuration": {
-                  "EnvironmentVariables": "[{"name":"_PROJECT_CONFIG_HASH","type":"PLAINTEXT","value":"685ee3453127134e4fd0bcd277fa53ca0f0d612b8970c5a9f096167f35bd3823"}]",
+                  "EnvironmentVariables": "[{"name":"_PROJECT_CONFIG_HASH","type":"PLAINTEXT","value":"4f67319bbdbc8a4822d92e1638b4210739b162975724041ca7db5f53bbcb763d"}]",
                   "ProjectName": {
                     "Ref": "PipelineUpdatePipelineSelfMutationDAA41400",
                   },
@@ -382,7 +382,7 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
         "EncryptionKey": "alias/aws/s3",
         "Environment": {
           "ComputeType": "BUILD_GENERAL1_SMALL",
-          "Image": "aws/codebuild/standard:6.0",
+          "Image": "aws/codebuild/standard:7.0",
           "ImagePullCredentialsType": "CODEBUILD",
           "PrivilegedMode": false,
           "Type": "LINUX_CONTAINER",
@@ -862,7 +862,7 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
         "EncryptionKey": "alias/aws/s3",
         "Environment": {
           "ComputeType": "BUILD_GENERAL1_SMALL",
-          "Image": "aws/codebuild/standard:6.0",
+          "Image": "aws/codebuild/standard:7.0",
           "ImagePullCredentialsType": "CODEBUILD",
           "PrivilegedMode": false,
           "Type": "LINUX_CONTAINER",
