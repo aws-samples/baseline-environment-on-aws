@@ -230,7 +230,7 @@ export class EcsApp extends Construct {
 
     const ecsContainer = taskDefinition.addContainer('App', {
       // -- Option 1: If you want to use your ECR repository with pull through cache, you can use like this.
-      image: ecs.ContainerImage.fromEcrRepository(containerRepository, 'latest'),
+      image: ecs.ContainerImage.fromEcrRepository(containerRepository, '2.4.57'),
 
       // -- Option 2: If you want to use your ECR repository, you can use like this.
       // --           You Need to create your repository and dockerimage, then pass it to this stack.
