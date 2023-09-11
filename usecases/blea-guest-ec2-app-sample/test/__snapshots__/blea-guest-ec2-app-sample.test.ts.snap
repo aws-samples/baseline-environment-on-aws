@@ -998,6 +998,12 @@ sudo yum -y install mariadb",
     },
     "NetworkingPrivateNacl8E602059": {
       "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/PrivateNacl",
+          },
+        ],
         "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
@@ -1054,6 +1060,12 @@ sudo yum -y install mariadb",
     },
     "NetworkingPublicNacl8F0D44A5": {
       "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/PublicNacl",
+          },
+        ],
         "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },

@@ -278,7 +278,7 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
                   "Version": "1",
                 },
                 "Configuration": {
-                  "EnvironmentVariables": "[{"name":"_PROJECT_CONFIG_HASH","type":"PLAINTEXT","value":"1f617c378753930b29d24c0c928e5398803b1e4cc8149ae86529d27b86ba6fa2"}]",
+                  "EnvironmentVariables": "[{"name":"_PROJECT_CONFIG_HASH","type":"PLAINTEXT","value":"9250e75d40ae220934f4bb3a2eb2baefedbd4fe05d17e30c9e54facd40b16f29"}]",
                   "ProjectName": {
                     "Ref": "PipelineBuildSynthStepCdkBuildProject7FBB5116",
                   },
@@ -315,7 +315,7 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
                   "Version": "1",
                 },
                 "Configuration": {
-                  "EnvironmentVariables": "[{"name":"_PROJECT_CONFIG_HASH","type":"PLAINTEXT","value":"83848a019681c5e401d8f01b033e1999a74508787e3f354a829c6437dce3fc1b"}]",
+                  "EnvironmentVariables": "[{"name":"_PROJECT_CONFIG_HASH","type":"PLAINTEXT","value":"777e1f99b7f8d5e569b618537ad9b2aae8116c0e56b2354f2aad58c77ae16075"}]",
                   "ProjectName": {
                     "Ref": "PipelineUpdatePipelineSelfMutationDAA41400",
                   },
@@ -970,7 +970,7 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
         },
         "Environment": {
           "ComputeType": "BUILD_GENERAL1_SMALL",
-          "Image": "aws/codebuild/standard:6.0",
+          "Image": "aws/codebuild/standard:7.0",
           "ImagePullCredentialsType": "CODEBUILD",
           "PrivilegedMode": false,
           "Type": "LINUX_CONTAINER",
@@ -992,7 +992,7 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
     },
     "build": {
       "commands": [
-        "cdk-assets --path \\"assembly-Dev-BLEAEcsAppPipeline-Dev/DevBLEAEcsAppPipelineDevBLEAEcsApp6C10F018.assets.json\\" --verbose publish \\"5cc92ed0cea39e2b8de2dbc527dfb5980a3af9564bd1084d840b9787c7d0467e:current_account-ap-northeast-1\\""
+        "cdk-assets --path \\"assembly-Dev-BLEAEcsAppPipeline-Dev/DevBLEAEcsAppPipelineDevBLEAEcsApp6C10F018.assets.json\\" --verbose publish \\"1039a174afbf09cd27e3b215f53b9e80b1bd66df24547e5746f0e5bcb9204cf3:current_account-ap-northeast-1\\""
       ]
     }
   }
@@ -1019,7 +1019,7 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
         },
         "Environment": {
           "ComputeType": "BUILD_GENERAL1_SMALL",
-          "Image": "aws/codebuild/standard:6.0",
+          "Image": "aws/codebuild/standard:7.0",
           "ImagePullCredentialsType": "CODEBUILD",
           "PrivilegedMode": false,
           "Type": "LINUX_CONTAINER",
@@ -1069,7 +1069,7 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
         },
         "Environment": {
           "ComputeType": "BUILD_GENERAL1_SMALL",
-          "Image": "aws/codebuild/standard:6.0",
+          "Image": "aws/codebuild/standard:7.0",
           "ImagePullCredentialsType": "CODEBUILD",
           "PrivilegedMode": false,
           "Type": "LINUX_CONTAINER",
@@ -1119,7 +1119,7 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
         },
         "Environment": {
           "ComputeType": "BUILD_GENERAL1_SMALL",
-          "Image": "aws/codebuild/standard:6.0",
+          "Image": "aws/codebuild/standard:7.0",
           "ImagePullCredentialsType": "CODEBUILD",
           "PrivilegedMode": false,
           "Type": "LINUX_CONTAINER",
@@ -1325,7 +1325,7 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
         },
         "Environment": {
           "ComputeType": "BUILD_GENERAL1_SMALL",
-          "Image": "aws/codebuild/standard:6.0",
+          "Image": "aws/codebuild/standard:7.0",
           "ImagePullCredentialsType": "CODEBUILD",
           "PrivilegedMode": false,
           "Type": "LINUX_CONTAINER",
@@ -1834,7 +1834,7 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
         },
         "Environment": {
           "ComputeType": "BUILD_GENERAL1_SMALL",
-          "Image": "aws/codebuild/standard:6.0",
+          "Image": "aws/codebuild/standard:7.0",
           "ImagePullCredentialsType": "CODEBUILD",
           "PrivilegedMode": false,
           "Type": "LINUX_CONTAINER",
