@@ -28,7 +28,7 @@
     "@types/node": "18.17.15",
     "@typescript-eslint/eslint-plugin": "^6.6.0",
     "@typescript-eslint/parser": "^6.6.0",
-    "depcheck": "^1.4.5",
+    "depcheck": "^1.4.6",
     "eslint": "^8.49.0",
     "eslint-config-prettier": "^9.0.0",
     "lint-staged": "^14.0.1",
