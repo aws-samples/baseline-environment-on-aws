@@ -21,7 +21,7 @@
     "@types/node": "18.17.19",
     "@typescript-eslint/eslint-plugin": "^6.7.2",
     "@typescript-eslint/parser": "^6.7.2",
-    "aws-cdk": "^2.97.0",
+    "aws-cdk": "^2.99.0",
     "esbuild": "^0.19.3",
     "eslint": "^8.50.0",
     "eslint-config-prettier": "^9.0.0",
@@ -32,7 +32,7 @@
     "typescript": "~5.2.2"
   },
   "dependencies": {
-    "aws-cdk-lib": "^2.97.0",
+    "aws-cdk-lib": "^2.99.0",
     "aws-sdk": "^2.1463.0",
     "aws-xray-sdk": "^3.5.1",
     "constructs": "^10.2.70",

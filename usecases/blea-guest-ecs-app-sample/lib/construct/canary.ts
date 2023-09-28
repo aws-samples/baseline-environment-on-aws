@@ -1,4 +1,3 @@
-import * as synthetics from '@aws-cdk/aws-synthetics-alpha';
 import * as cdk from 'aws-cdk-lib';
 import {
   aws_cloudwatch as cw,
@@ -6,6 +5,7 @@ import {
   aws_iam as iam,
   aws_s3 as s3,
   aws_sns as sns,
+  aws_synthetics as synthetics,
 } from 'aws-cdk-lib';
 import { IAlarm } from 'aws-cdk-lib/aws-cloudwatch';
 import { Construct } from 'constructs';
