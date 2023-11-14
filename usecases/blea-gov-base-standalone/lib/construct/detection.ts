@@ -28,9 +28,11 @@ export class Detection extends Construct {
     });
 
     // === AWS Security Hub ===
-    new iam.CfnServiceLinkedRole(this, 'SecurityHubRole', {
-      awsServiceName: 'securityhub.amazonaws.com',
-    });
+    iam.Role.fromRoleArn(
+      this,
+      'existSecurityHubRole',
+      `arn:aws:iam::${cdk.Aws.ACCOUNT_ID}:role/aws-service-role/securityhub.amazonaws.com/AWSServiceRoleForSecurityHub`,
+    );
 
     new hub.CfnHub(this, 'SecurityHub');
 
