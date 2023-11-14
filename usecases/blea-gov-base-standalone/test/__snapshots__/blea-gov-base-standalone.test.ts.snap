@@ -1365,29 +1365,6 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       },
       "Type": "AWS::Events::Rule",
     },
-    "DetectionSecurityHubRoleDBC68A4D": {
-      "DependsOn": [
-        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
-        "LoggingCloudTrailLogsRoleE1DD6030",
-        "LoggingCloudTrail44E92DB9",
-        "LoggingCloudTrailAccessLogBucketPolicyE58866E2",
-        "LoggingCloudTrailAccessLogBucketA7B773C8",
-        "LoggingCloudTrailBucketPolicy4004472F",
-        "LoggingCloudTrailBucket7560781D",
-        "LoggingCloudTrailKeyAlias65A5FEEA",
-        "LoggingCloudTrailKey43327553",
-        "LoggingCloudTrailLogGroupEFC12822",
-        "LoggingConfigBucketPolicy66A7F5E7",
-        "LoggingConfigBucket139B5174",
-        "LoggingConfigDeliveryChannel44B4762B",
-        "LoggingConfigRecorderFC55B19F",
-        "LoggingConfigRole0E4FDF1F",
-      ],
-      "Properties": {
-        "AWSServiceName": "securityhub.amazonaws.com",
-      },
-      "Type": "AWS::IAM::ServiceLinkedRole",
-    },
     "DetectionSgChangedEventRule80666B19": {
       "DependsOn": [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
