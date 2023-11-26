@@ -17,7 +17,7 @@
     "cdk": "cdk"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.8",
+    "@types/jest": "^29.5.10",
     "@types/node": "18.18.10",
     "@typescript-eslint/eslint-plugin": "^6.11.0",
     "@typescript-eslint/parser": "^6.12.0",
@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "aws-cdk-lib": "^2.106.1",
-    "aws-sdk": "^2.1499.0",
+    "aws-sdk": "^2.1502.0",
     "aws-xray-sdk": "^3.5.3",
     "constructs": "^10.3.0",
     "source-map-support": "^0.5.21"
