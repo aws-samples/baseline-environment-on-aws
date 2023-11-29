@@ -1,27 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
-{
-  "Outputs": {
-    "ExportsOutputRefDetectionAlarmTopic36C4BB557D18D152": {
-      "Export": {
+Object {
+  "Outputs": Object {
+    "ExportsOutputRefDetectionAlarmTopic36C4BB557D18D152": Object {
+      "Export": Object {
         "Name": "Dev-BLEABaseStandalone:ExportsOutputRefDetectionAlarmTopic36C4BB557D18D152",
       },
-      "Value": {
+      "Value": Object {
         "Ref": "DetectionAlarmTopic36C4BB55",
       },
     },
   },
-  "Parameters": {
-    "BootstrapVersion": {
+  "Parameters": Object {
+    "BootstrapVersion": Object {
       "Default": "/cdk-bootstrap/hnb659fds/version",
       "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
       "Type": "AWS::SSM::Parameter::Value<String>",
     },
   },
-  "Resources": {
-    "CheckForEbsOptimizedInstance": {
-      "DependsOn": [
+  "Resources": Object {
+    "CheckForEbsOptimizedInstance": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -38,23 +38,23 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "ConfigRuleName": "CheckForEbsOptimizedInstance",
         "Description": "Disallow launch of EC2 instance types that are not EBS-optimized - Checks whether EBS optimization is enabled for your EC2 instances that can be EBS-optimized",
-        "Scope": {
-          "ComplianceResourceTypes": [
+        "Scope": Object {
+          "ComplianceResourceTypes": Array [
             "AWS::EC2::Instance",
           ],
         },
-        "Source": {
+        "Source": Object {
           "Owner": "AWS",
           "SourceIdentifier": "EBS_OPTIMIZED_INSTANCE",
         },
       },
       "Type": "AWS::Config::ConfigRule",
     },
-    "CheckForEc2VolumesInUse": {
-      "DependsOn": [
+    "CheckForEc2VolumesInUse": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -71,26 +71,26 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "ConfigRuleName": "CheckForEc2VolumesInUs",
         "Description": "Disallow EBS volumes that are unattached to an EC2 instance - Checks whether EBS volumes are attached to EC2 instances",
-        "InputParameters": {
+        "InputParameters": Object {
           "deleteOnTermination": true,
         },
-        "Scope": {
-          "ComplianceResourceTypes": [
+        "Scope": Object {
+          "ComplianceResourceTypes": Array [
             "AWS::EC2::Volume",
           ],
         },
-        "Source": {
+        "Source": Object {
           "Owner": "AWS",
           "SourceIdentifier": "EC2_VOLUME_INUSE_CHECK",
         },
       },
       "Type": "AWS::Config::ConfigRule",
     },
-    "CheckForEncryptedVolumes": {
-      "DependsOn": [
+    "CheckForEncryptedVolumes": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -107,23 +107,23 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "ConfigRuleName": "CheckForEncryptedVolumes",
         "Description": "Enable encryption for EBS volumes attached to EC2 instances - Checks whether EBS volumes that are in an attached state are encrypted.",
-        "Scope": {
-          "ComplianceResourceTypes": [
+        "Scope": Object {
+          "ComplianceResourceTypes": Array [
             "AWS::EC2::Volume",
           ],
         },
-        "Source": {
+        "Source": Object {
           "Owner": "AWS",
           "SourceIdentifier": "ENCRYPTED_VOLUMES",
         },
       },
       "Type": "AWS::Config::ConfigRule",
     },
-    "CheckForIAMUserConsoleMFA": {
-      "DependsOn": [
+    "CheckForIAMUserConsoleMFA": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -140,19 +140,19 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "ConfigRuleName": "CheckForIAMUserConsoleMFA",
         "Description": "Disallow console access to IAM users without MFA - Checks whether AWS Multi-Factor Authentication (MFA) is enabled for all AWS Identity and Access Management (IAM) users that use a console password. The rule is COMPLIANT if MFA is enabled.",
         "MaximumExecutionFrequency": "One_Hour",
-        "Source": {
+        "Source": Object {
           "Owner": "AWS",
           "SourceIdentifier": "MFA_ENABLED_FOR_IAM_CONSOLE_ACCESS",
         },
       },
       "Type": "AWS::Config::ConfigRule",
     },
-    "CheckForIAMUserMFA": {
-      "DependsOn": [
+    "CheckForIAMUserMFA": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -169,19 +169,19 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "ConfigRuleName": "CheckForIAMUserMFA",
         "Description": "Disallow access to IAM users without MFA - Checks whether the AWS Identity and Access Management users have multi-factor authentication (MFA) enabled. The rule is COMPLIANT if MFA is enabled.",
         "MaximumExecutionFrequency": "One_Hour",
-        "Source": {
+        "Source": Object {
           "Owner": "AWS",
           "SourceIdentifier": "IAM_USER_MFA_ENABLED",
         },
       },
       "Type": "AWS::Config::ConfigRule",
     },
-    "CheckForPublicRdsSnapshots": {
-      "DependsOn": [
+    "CheckForPublicRdsSnapshots": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -198,23 +198,23 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "ConfigRuleName": "CheckForPublicRdsSnapshots",
         "Description": "Disallow public access to RDS database snapshots - Checks if Amazon Relational Database Service (Amazon RDS) snapshots are public. The rule is non-compliant if any existing and new Amazon RDS snapshots are public.",
-        "Scope": {
-          "ComplianceResourceTypes": [
+        "Scope": Object {
+          "ComplianceResourceTypes": Array [
             "AWS::RDS::DBSnapshot",
           ],
         },
-        "Source": {
+        "Source": Object {
           "Owner": "AWS",
           "SourceIdentifier": "RDS_SNAPSHOTS_PUBLIC_PROHIBITED",
         },
       },
       "Type": "AWS::Config::ConfigRule",
     },
-    "CheckForRdsPublicAccess": {
-      "DependsOn": [
+    "CheckForRdsPublicAccess": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -231,23 +231,23 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "ConfigRuleName": "CheckForRdsPublicAccess",
         "Description": "Disallow public access to RDS database instances - Checks whether the Amazon Relational Database Service (RDS) instances are not publicly accessible. The rule is non-compliant if the publiclyAccessible field is true in the instance configuration item.",
-        "Scope": {
-          "ComplianceResourceTypes": [
+        "Scope": Object {
+          "ComplianceResourceTypes": Array [
             "AWS::RDS::DBInstance",
           ],
         },
-        "Source": {
+        "Source": Object {
           "Owner": "AWS",
           "SourceIdentifier": "RDS_INSTANCE_PUBLIC_ACCESS_CHECK",
         },
       },
       "Type": "AWS::Config::ConfigRule",
     },
-    "CheckForRdsStorageEncryption": {
-      "DependsOn": [
+    "CheckForRdsStorageEncryption": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -264,23 +264,23 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "ConfigRuleName": "CheckForRdsStorageEncryption",
         "Description": "Disallow RDS database instances that are not storage encrypted - Checks whether storage encryption is enabled for your RDS DB instances.",
-        "Scope": {
-          "ComplianceResourceTypes": [
+        "Scope": Object {
+          "ComplianceResourceTypes": Array [
             "AWS::RDS::DBInstance",
           ],
         },
-        "Source": {
+        "Source": Object {
           "Owner": "AWS",
           "SourceIdentifier": "RDS_STORAGE_ENCRYPTED",
         },
       },
       "Type": "AWS::Config::ConfigRule",
     },
-    "CheckForRestrictedCommonPortsPolicy": {
-      "DependsOn": [
+    "CheckForRestrictedCommonPortsPolicy": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -297,30 +297,30 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "ConfigRuleName": "CheckForRestrictedCommonPortsPolicy",
         "Description": "Disallow internet connection through RDP - Checks whether security groups that are in use disallow unrestricted incoming TCP traffic to the specified ports.",
-        "InputParameters": {
+        "InputParameters": Object {
           "blockedPort1": 20,
           "blockedPort2": 21,
           "blockedPort3": 3389,
           "blockedPort4": 3306,
           "blockedPort5": 4333,
         },
-        "Scope": {
-          "ComplianceResourceTypes": [
+        "Scope": Object {
+          "ComplianceResourceTypes": Array [
             "AWS::EC2::SecurityGroup",
           ],
         },
-        "Source": {
+        "Source": Object {
           "Owner": "AWS",
           "SourceIdentifier": "RESTRICTED_INCOMING_TRAFFIC",
         },
       },
       "Type": "AWS::Config::ConfigRule",
     },
-    "CheckForRestrictedSshPolicy": {
-      "DependsOn": [
+    "CheckForRestrictedSshPolicy": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -337,23 +337,23 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "ConfigRuleName": "CheckForRestrictedSshPolicy",
         "Description": "Disallow internet connection through SSH - Checks whether security groups that are in use disallow unrestricted incoming SSH traffic.",
-        "Scope": {
-          "ComplianceResourceTypes": [
+        "Scope": Object {
+          "ComplianceResourceTypes": Array [
             "AWS::EC2::SecurityGroup",
           ],
         },
-        "Source": {
+        "Source": Object {
           "Owner": "AWS",
           "SourceIdentifier": "INCOMING_SSH_DISABLED",
         },
       },
       "Type": "AWS::Config::ConfigRule",
     },
-    "CheckForRootMfa": {
-      "DependsOn": [
+    "CheckForRootMfa": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -370,19 +370,19 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "ConfigRuleName": "CheckForRootMfa",
         "Description": "Enable MFA for the root user - Checks whether the root user of your AWS account requires multi-factor authentication for console sign-in.",
         "MaximumExecutionFrequency": "One_Hour",
-        "Source": {
+        "Source": Object {
           "Owner": "AWS",
           "SourceIdentifier": "ROOT_ACCOUNT_MFA_ENABLED",
         },
       },
       "Type": "AWS::Config::ConfigRule",
     },
-    "CheckForS3PublicRead": {
-      "DependsOn": [
+    "CheckForS3PublicRead": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -399,23 +399,23 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "ConfigRuleName": "CheckForS3PublicRead",
         "Description": "Disallow public read access to S3 buckets - Checks that your S3 buckets do not allow public read access. If an S3 bucket policy or bucket ACL allows public read access, the bucket is noncompliant.",
-        "Scope": {
-          "ComplianceResourceTypes": [
+        "Scope": Object {
+          "ComplianceResourceTypes": Array [
             "AWS::S3::Bucket",
           ],
         },
-        "Source": {
+        "Source": Object {
           "Owner": "AWS",
           "SourceIdentifier": "S3_BUCKET_PUBLIC_READ_PROHIBITED",
         },
       },
       "Type": "AWS::Config::ConfigRule",
     },
-    "CheckForS3PublicWrite": {
-      "DependsOn": [
+    "CheckForS3PublicWrite": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -432,23 +432,23 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "ConfigRuleName": "CheckForS3PublicWrite",
         "Description": "Disallow public write access to S3 buckets - Checks that your S3 buckets do not allow public write access. If an S3 bucket policy or bucket ACL allows public write access, the bucket is noncompliant.",
-        "Scope": {
-          "ComplianceResourceTypes": [
+        "Scope": Object {
+          "ComplianceResourceTypes": Array [
             "AWS::S3::Bucket",
           ],
         },
-        "Source": {
+        "Source": Object {
           "Owner": "AWS",
           "SourceIdentifier": "S3_BUCKET_PUBLIC_WRITE_PROHIBITED",
         },
       },
       "Type": "AWS::Config::ConfigRule",
     },
-    "CheckForS3VersioningEnabled": {
-      "DependsOn": [
+    "CheckForS3VersioningEnabled": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -465,23 +465,23 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "ConfigRuleName": "CheckForS3VersioningEnabled",
         "Description": "Disallow S3 buckets that are not versioning enabled - Checks whether versioning is enabled for your S3 buckets.",
-        "Scope": {
-          "ComplianceResourceTypes": [
+        "Scope": Object {
+          "ComplianceResourceTypes": Array [
             "AWS::S3::Bucket",
           ],
         },
-        "Source": {
+        "Source": Object {
           "Owner": "AWS",
           "SourceIdentifier": "S3_BUCKET_VERSIONING_ENABLED",
         },
       },
       "Type": "AWS::Config::ConfigRule",
     },
-    "DetectionAlarmTopic36C4BB55": {
-      "DependsOn": [
+    "DetectionAlarmTopic36C4BB55": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -500,8 +500,8 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       ],
       "Type": "AWS::SNS::Topic",
     },
-    "DetectionAlarmTopicPolicyDEB08BF4": {
-      "DependsOn": [
+    "DetectionAlarmTopicPolicyDEB08BF4": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -518,27 +518,27 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "sns:Publish",
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "Service": "cloudwatch.amazonaws.com",
               },
-              "Resource": {
+              "Resource": Object {
                 "Ref": "DetectionAlarmTopic36C4BB55",
               },
               "Sid": "0",
             },
-            {
+            Object {
               "Action": "sns:Publish",
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "Service": "events.amazonaws.com",
               },
-              "Resource": {
+              "Resource": Object {
                 "Ref": "DetectionAlarmTopic36C4BB55",
               },
               "Sid": "1",
@@ -546,16 +546,16 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
           ],
           "Version": "2012-10-17",
         },
-        "Topics": [
-          {
+        "Topics": Array [
+          Object {
             "Ref": "DetectionAlarmTopic36C4BB55",
           },
         ],
       },
       "Type": "AWS::SNS::TopicPolicy",
     },
-    "DetectionAwsHealthEventRule6825AFCC": {
-      "DependsOn": [
+    "DetectionAwsHealthEventRule6825AFCC": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -572,20 +572,20 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "Description": "Notify AWS Health event",
-        "EventPattern": {
-          "detail-type": [
+        "EventPattern": Object {
+          "detail-type": Array [
             "AWS Health Event",
           ],
-          "source": [
+          "source": Array [
             "aws.health",
           ],
         },
         "State": "ENABLED",
-        "Targets": [
-          {
-            "Arn": {
+        "Targets": Array [
+          Object {
+            "Arn": Object {
               "Ref": "DetectionAlarmTopic36C4BB55",
             },
             "Id": "Target0",
@@ -594,8 +594,8 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       },
       "Type": "AWS::Events::Rule",
     },
-    "DetectionCloudTrailChangeEventRuleA526075C": {
-      "DependsOn": [
+    "DetectionCloudTrailChangeEventRuleA526075C": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -612,27 +612,27 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "Description": "Notify to change on CloudTrail log configuration",
-        "EventPattern": {
-          "detail": {
-            "eventName": [
+        "EventPattern": Object {
+          "detail": Object {
+            "eventName": Array [
               "StopLogging",
               "DeleteTrail",
               "UpdateTrail",
             ],
-            "eventSource": [
+            "eventSource": Array [
               "cloudtrail.amazonaws.com",
             ],
           },
-          "detail-type": [
+          "detail-type": Array [
             "AWS API Call via CloudTrail",
           ],
         },
         "State": "ENABLED",
-        "Targets": [
-          {
-            "Arn": {
+        "Targets": Array [
+          Object {
+            "Arn": Object {
               "Ref": "DetectionAlarmTopic36C4BB55",
             },
             "Id": "Target0",
@@ -641,8 +641,8 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       },
       "Type": "AWS::Events::Rule",
     },
-    "DetectionDefaultSgClosedEventRuleFB96D536": {
-      "DependsOn": [
+    "DetectionDefaultSgClosedEventRuleFB96D536": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -659,30 +659,30 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "Description": "CloudWatch Event Rule to send notification on Config Rule compliance changes.",
-        "EventPattern": {
-          "detail": {
-            "configRuleName": [
+        "EventPattern": Object {
+          "detail": Object {
+            "configRuleName": Array [
               "bb-default-security-group-closed",
             ],
-            "newEvaluationResult": {
-              "complianceType": [
+            "newEvaluationResult": Object {
+              "complianceType": Array [
                 "NON_COMPLIANT",
               ],
             },
           },
-          "detail-type": [
+          "detail-type": Array [
             "Config Rules Compliance Change",
           ],
-          "source": [
+          "source": Array [
             "aws.config",
           ],
         },
         "State": "ENABLED",
-        "Targets": [
-          {
-            "Arn": {
+        "Targets": Array [
+          Object {
+            "Arn": Object {
               "Ref": "DetectionAlarmTopic36C4BB55",
             },
             "Id": "Target0",
@@ -691,8 +691,8 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       },
       "Type": "AWS::Events::Rule",
     },
-    "DetectionDefaultSgClosedRuleFED7310D": {
-      "DependsOn": [
+    "DetectionDefaultSgClosedRuleFED7310D": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -709,23 +709,23 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "ConfigRuleName": "bb-default-security-group-closed",
         "Description": "Checks that the default security group of any Amazon Virtual Private Cloud (VPC) does not allow inbound or outbound traffic. The rule is non-compliant if the default security group has one or more inbound or outbound traffic.",
-        "Scope": {
-          "ComplianceResourceTypes": [
+        "Scope": Object {
+          "ComplianceResourceTypes": Array [
             "AWS::EC2::SecurityGroup",
           ],
         },
-        "Source": {
+        "Source": Object {
           "Owner": "AWS",
           "SourceIdentifier": "VPC_DEFAULT_SECURITY_GROUP_CLOSED",
         },
       },
       "Type": "AWS::Config::ConfigRule",
     },
-    "DetectionDefaultSgRemediation21C0DB33": {
-      "DependsOn": [
+    "DetectionDefaultSgRemediation21C0DB33": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -742,18 +742,18 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "Automatic": true,
-        "ConfigRuleName": {
+        "ConfigRuleName": Object {
           "Ref": "DetectionDefaultSgClosedRuleFED7310D",
         },
         "MaximumAutomaticAttempts": 5,
-        "Parameters": {
-          "AutomationAssumeRole": {
-            "StaticValue": {
-              "Values": [
-                {
-                  "Fn::GetAtt": [
+        "Parameters": Object {
+          "AutomationAssumeRole": Object {
+            "StaticValue": Object {
+              "Values": Array [
+                Object {
+                  "Fn::GetAtt": Array [
                     "DetectionDefaultSgRemediationRoleAEF5626C",
                     "Arn",
                   ],
@@ -761,8 +761,8 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
               ],
             },
           },
-          "GroupId": {
-            "ResourceValue": {
+          "GroupId": Object {
+            "ResourceValue": Object {
               "Value": "RESOURCE_ID",
             },
           },
@@ -774,8 +774,8 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       },
       "Type": "AWS::Config::RemediationConfiguration",
     },
-    "DetectionDefaultSgRemediationRoleAEF5626C": {
-      "DependsOn": [
+    "DetectionDefaultSgRemediationRoleAEF5626C": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -792,28 +792,28 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "Service": "ssm.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": [
+        "ManagedPolicyArns": Array [
           "arn:aws:iam::aws:policy/service-role/AmazonSSMAutomationRole",
         ],
         "Path": "/",
       },
       "Type": "AWS::IAM::Role",
     },
-    "DetectionDefaultSgRemediationRoleDefaultPolicy87C90FDE": {
-      "DependsOn": [
+    "DetectionDefaultSgRemediationRoleDefaultPolicy87C90FDE": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -830,11 +830,11 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": [
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
                 "ec2:RevokeSecurityGroupIngress",
                 "ec2:RevokeSecurityGroupEgress",
                 "ec2:DescribeSecurityGroups",
@@ -842,17 +842,17 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
               "Effect": "Allow",
               "Resource": "*",
             },
-            {
+            Object {
               "Action": "iam:PassRole",
               "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
+              "Resource": Object {
+                "Fn::GetAtt": Array [
                   "DetectionDefaultSgRemediationRoleAEF5626C",
                   "Arn",
                 ],
               },
             },
-            {
+            Object {
               "Action": "ssm:StartAutomationExecution",
               "Effect": "Allow",
               "Resource": "arn:aws:ssm:::automation-definition/AWSConfigRemediation-RemoveVPCDefaultSecurityGroupRules",
@@ -861,16 +861,16 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
           "Version": "2012-10-17",
         },
         "PolicyName": "DetectionDefaultSgRemediationRoleDefaultPolicy87C90FDE",
-        "Roles": [
-          {
+        "Roles": Array [
+          Object {
             "Ref": "DetectionDefaultSgRemediationRoleAEF5626C",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "DetectionGuardDutyDetector43B5BAA7": {
-      "DependsOn": [
+    "DetectionGuardDutyDetector43B5BAA7": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -887,13 +887,13 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "Enable": true,
       },
       "Type": "AWS::GuardDuty::Detector",
     },
-    "DetectionGuardDutyEventRule60AAD2D7": {
-      "DependsOn": [
+    "DetectionGuardDutyEventRule60AAD2D7": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -910,11 +910,11 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "Description": "CloudWatch Event Rule to send notification on GuardDuty findings.",
-        "EventPattern": {
-          "detail": {
-            "severity": [
+        "EventPattern": Object {
+          "detail": Object {
+            "severity": Array [
               4,
               4,
               4.1,
@@ -972,17 +972,17 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
               8.9,
             ],
           },
-          "detail-type": [
+          "detail-type": Array [
             "GuardDuty Finding",
           ],
-          "source": [
+          "source": Array [
             "aws.guardduty",
           ],
         },
         "State": "ENABLED",
-        "Targets": [
-          {
-            "Arn": {
+        "Targets": Array [
+          Object {
+            "Arn": Object {
               "Ref": "DetectionAlarmTopic36C4BB55",
             },
             "Id": "Target0",
@@ -991,8 +991,8 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       },
       "Type": "AWS::Events::Rule",
     },
-    "DetectionIAMPolicyChangeAlarm7DBC7A65": {
-      "DependsOn": [
+    "DetectionIAMPolicyChangeAlarm7DBC7A65": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -1009,10 +1009,10 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "DetectionAlarmTopic36C4BB55",
           },
         ],
@@ -1028,8 +1028,8 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "DetectionIAMPolicyChangeFilterA31FCC40": {
-      "DependsOn": [
+    "DetectionIAMPolicyChangeFilterA31FCC40": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -1046,13 +1046,13 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "FilterPattern": "{($.eventName=DeleteGroupPolicy)||($.eventName=DeleteRolePolicy)||($.eventName=DeleteUserPolicy)||($.eventName=PutGroupPolicy)||($.eventName=PutRolePolicy)||($.eventName=PutUserPolicy)||($.eventName=CreatePolicy)||($.eventName=DeletePolicy)||($.eventName=CreatePolicyVersion)||($.eventName=DeletePolicyVersion)||($.eventName=AttachRolePolicy)||($.eventName=DetachRolePolicy)||($.eventName=AttachUserPolicy)||($.eventName=DetachUserPolicy)||($.eventName=AttachGroupPolicy)||($.eventName=DetachGroupPolicy)}",
-        "LogGroupName": {
+        "LogGroupName": Object {
           "Ref": "LoggingCloudTrailLogGroupEFC12822",
         },
-        "MetricTransformations": [
-          {
+        "MetricTransformations": Array [
+          Object {
             "MetricName": "IAMPolicyEventCount",
             "MetricNamespace": "CloudTrailMetrics",
             "MetricValue": "1",
@@ -1061,8 +1061,8 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       },
       "Type": "AWS::Logs::MetricFilter",
     },
-    "DetectionNetworkAclChangeEventRuleE99FF49F": {
-      "DependsOn": [
+    "DetectionNetworkAclChangeEventRuleE99FF49F": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -1079,11 +1079,11 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "Description": "Notify to create, update or delete a Network ACL.",
-        "EventPattern": {
-          "detail": {
-            "eventName": [
+        "EventPattern": Object {
+          "detail": Object {
+            "eventName": Array [
               "CreateNetworkAcl",
               "CreateNetworkAclEntry",
               "DeleteNetworkAcl",
@@ -1091,21 +1091,21 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
               "ReplaceNetworkAclEntry",
               "ReplaceNetworkAclAssociation",
             ],
-            "eventSource": [
+            "eventSource": Array [
               "ec2.amazonaws.com",
             ],
           },
-          "detail-type": [
+          "detail-type": Array [
             "AWS API Call via CloudTrail",
           ],
-          "source": [
+          "source": Array [
             "aws.ec2",
           ],
         },
         "State": "ENABLED",
-        "Targets": [
-          {
-            "Arn": {
+        "Targets": Array [
+          Object {
+            "Arn": Object {
               "Ref": "DetectionAlarmTopic36C4BB55",
             },
             "Id": "Target0",
@@ -1114,8 +1114,8 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       },
       "Type": "AWS::Events::Rule",
     },
-    "DetectionNewAccessKeyCreatedAlarm00969636": {
-      "DependsOn": [
+    "DetectionNewAccessKeyCreatedAlarm00969636": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -1132,10 +1132,10 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "DetectionAlarmTopic36C4BB55",
           },
         ],
@@ -1151,8 +1151,8 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "DetectionNewAccessKeyCreatedFilter011F7D99": {
-      "DependsOn": [
+    "DetectionNewAccessKeyCreatedFilter011F7D99": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -1169,13 +1169,13 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "FilterPattern": "{($.eventName=CreateAccessKey)}",
-        "LogGroupName": {
+        "LogGroupName": Object {
           "Ref": "LoggingCloudTrailLogGroupEFC12822",
         },
-        "MetricTransformations": [
-          {
+        "MetricTransformations": Array [
+          Object {
             "MetricName": "NewAccessKeyCreatedEventCount",
             "MetricNamespace": "CloudTrailMetrics",
             "MetricValue": "1",
@@ -1184,8 +1184,8 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       },
       "Type": "AWS::Logs::MetricFilter",
     },
-    "DetectionRootUserActivityAlarm4B9356FC": {
-      "DependsOn": [
+    "DetectionRootUserActivityAlarm4B9356FC": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -1202,10 +1202,10 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "DetectionAlarmTopic36C4BB55",
           },
         ],
@@ -1221,8 +1221,8 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "DetectionRootUserActivityFilter5C9C4989": {
-      "DependsOn": [
+    "DetectionRootUserActivityFilter5C9C4989": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -1239,13 +1239,13 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
-        "FilterPattern": "{$.userIdentity.type="Root" && $.userIdentity.invokedBy NOT EXISTS && $.eventType !="AwsServiceEvent"}",
-        "LogGroupName": {
+      "Properties": Object {
+        "FilterPattern": "{$.userIdentity.type=\\"Root\\" && $.userIdentity.invokedBy NOT EXISTS && $.eventType !=\\"AwsServiceEvent\\"}",
+        "LogGroupName": Object {
           "Ref": "LoggingCloudTrailLogGroupEFC12822",
         },
-        "MetricTransformations": [
-          {
+        "MetricTransformations": Array [
+          Object {
             "MetricName": "RootUserPolicyEventCount",
             "MetricNamespace": "CloudTrailMetrics",
             "MetricValue": "1",
@@ -1254,8 +1254,8 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       },
       "Type": "AWS::Logs::MetricFilter",
     },
-    "DetectionSecurityAlarmEmail872B09F1": {
-      "DependsOn": [
+    "DetectionSecurityAlarmEmail872B09F1": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -1272,17 +1272,17 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
-        "Endpoint": "notify-security@example.com",
+      "Properties": Object {
+        "Endpoint": "suzukyz+notify-security@amazon.co.jpm",
         "Protocol": "email",
-        "TopicArn": {
+        "TopicArn": Object {
           "Ref": "DetectionAlarmTopic36C4BB55",
         },
       },
       "Type": "AWS::SNS::Subscription",
     },
-    "DetectionSecurityHub0FF05D88": {
-      "DependsOn": [
+    "DetectionSecurityHub0FF05D88": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -1301,8 +1301,8 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       ],
       "Type": "AWS::SecurityHub::Hub",
     },
-    "DetectionSecurityHubEventRule95BEBD4F": {
-      "DependsOn": [
+    "DetectionSecurityHubEventRule95BEBD4F": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -1319,44 +1319,44 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "Description": "CloudWatch Event Rule to send notification on SecurityHub all new findings and all updates.",
-        "EventPattern": {
-          "detail": {
-            "findings": {
-              "Compliance": {
-                "Status": [
+        "EventPattern": Object {
+          "detail": Object {
+            "findings": Object {
+              "Compliance": Object {
+                "Status": Array [
                   "FAILED",
                 ],
               },
-              "RecordState": [
+              "RecordState": Array [
                 "ACTIVE",
               ],
-              "Severity": {
-                "Label": [
+              "Severity": Object {
+                "Label": Array [
                   "CRITICAL",
                   "HIGH",
                 ],
               },
-              "Workflow": {
-                "Status": [
+              "Workflow": Object {
+                "Status": Array [
                   "NEW",
                   "NOTIFIED",
                 ],
               },
             },
           },
-          "detail-type": [
+          "detail-type": Array [
             "Security Hub Findings - Imported",
           ],
-          "source": [
+          "source": Array [
             "aws.securityhub",
           ],
         },
         "State": "ENABLED",
-        "Targets": [
-          {
-            "Arn": {
+        "Targets": Array [
+          Object {
+            "Arn": Object {
               "Ref": "DetectionAlarmTopic36C4BB55",
             },
             "Id": "Target0",
@@ -1365,8 +1365,8 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       },
       "Type": "AWS::Events::Rule",
     },
-    "DetectionSecurityHubRoleDBC68A4D": {
-      "DependsOn": [
+    "DetectionSecurityHubRoleDBC68A4D": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -1383,13 +1383,13 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "AWSServiceName": "securityhub.amazonaws.com",
       },
       "Type": "AWS::IAM::ServiceLinkedRole",
     },
-    "DetectionSgChangedEventRule80666B19": {
-      "DependsOn": [
+    "DetectionSgChangedEventRule80666B19": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -1406,31 +1406,31 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "Description": "Notify to create, update or delete a Security Group.",
-        "EventPattern": {
-          "detail": {
-            "eventName": [
+        "EventPattern": Object {
+          "detail": Object {
+            "eventName": Array [
               "AuthorizeSecurityGroupIngress",
               "AuthorizeSecurityGroupEgress",
               "RevokeSecurityGroupIngress",
               "RevokeSecurityGroupEgress",
             ],
-            "eventSource": [
+            "eventSource": Array [
               "ec2.amazonaws.com",
             ],
           },
-          "detail-type": [
+          "detail-type": Array [
             "AWS API Call via CloudTrail",
           ],
-          "source": [
+          "source": Array [
             "aws.ec2",
           ],
         },
         "State": "ENABLED",
-        "Targets": [
-          {
-            "Arn": {
+        "Targets": Array [
+          Object {
+            "Arn": Object {
               "Ref": "DetectionAlarmTopic36C4BB55",
             },
             "Id": "Target0",
@@ -1439,8 +1439,8 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       },
       "Type": "AWS::Events::Rule",
     },
-    "DetectionUnauthorizedAttemptsAlarmB897676B": {
-      "DependsOn": [
+    "DetectionUnauthorizedAttemptsAlarmB897676B": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -1457,10 +1457,10 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "DetectionAlarmTopic36C4BB55",
           },
         ],
@@ -1476,8 +1476,8 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "DetectionUnauthorizedAttemptsFilterCA20EEAA": {
-      "DependsOn": [
+    "DetectionUnauthorizedAttemptsFilterCA20EEAA": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrail44E92DB9",
@@ -1494,13 +1494,13 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
         "LoggingConfigRecorderFC55B19F",
         "LoggingConfigRole0E4FDF1F",
       ],
-      "Properties": {
-        "FilterPattern": "{($.errorCode = "*UnauthorizedOperation" || $.errorCode = "AccessDenied*") && ($.eventName != "Decrypt" || $.userIdentity.invokedBy != "config.amazonaws.com" )}",
-        "LogGroupName": {
+      "Properties": Object {
+        "FilterPattern": "{($.errorCode = \\"*UnauthorizedOperation\\" || $.errorCode = \\"AccessDenied*\\") && ($.eventName != \\"Decrypt\\" || $.userIdentity.invokedBy != \\"config.amazonaws.com\\" )}",
+        "LogGroupName": Object {
           "Ref": "LoggingCloudTrailLogGroupEFC12822",
         },
-        "MetricTransformations": [
-          {
+        "MetricTransformations": Array [
+          Object {
             "MetricName": "UnauthorizedAttemptsEventCount",
             "MetricNamespace": "CloudTrailMetrics",
             "MetricValue": "1",
@@ -1509,34 +1509,117 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       },
       "Type": "AWS::Logs::MetricFilter",
     },
-    "IamIamAdminGroup25000CB5": {
-      "Properties": {
-        "ManagedPolicyArns": [
-          {
+    "IamIamAdminGroup25000CB5": Object {
+      "Properties": Object {
+        "ManagedPolicyArns": Array [
+          Object {
             "Ref": "IamIamAdminPolicy7A593281",
           },
         ],
       },
       "Type": "AWS::IAM::Group",
     },
-    "IamIamAdminPolicy7A593281": {
-      "Properties": {
+    "IamIamAdminPolicy7A593281": Object {
+      "Properties": Object {
         "Description": "",
         "Path": "/",
-        "PolicyDocument": {
-          "Statement": [
-            {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "iam:*",
-              "Condition": {
-                "Bool": {
+              "Condition": Object {
+                "Bool": Object {
                   "aws:MultiFactorAuthPresent": "true",
                 },
               },
               "Effect": "Allow",
               "Resource": "*",
             },
-            {
+            Object {
               "Action": "aws-portal:*Billing",
+              "Effect": "Deny",
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
+                "account:GetAccountInformation",
+                "billing:GetBillingData",
+                "billing:GetBillingDetails",
+                "billing:GetBillingNotifications",
+                "billing:GetBillingPreferences",
+                "billing:GetContractInformation",
+                "billing:GetCredits",
+                "billing:GetIAMAccessPreference",
+                "billing:GetSellerOfRecord",
+                "billing:ListBillingViews",
+                "billing:PutContractInformation",
+                "billing:RedeemCredits",
+                "billing:UpdateBillingPreferences",
+                "ce:CreateAnomalyMonitor",
+                "ce:CreateAnomalySubscription",
+                "ce:CreateNotificationSubscription",
+                "ce:CreateReport",
+                "ce:DeleteAnomalyMonitor",
+                "ce:DeleteAnomalySubscription",
+                "ce:DeleteNotificationSubscription",
+                "ce:DeleteReport",
+                "ce:DescribeNotificationSubscription",
+                "ce:DescribeReport",
+                "ce:GetAnomalies",
+                "ce:GetAnomalyMonitors",
+                "ce:GetAnomalySubscriptions",
+                "ce:GetCostAndUsage",
+                "ce:GetCostAndUsageWithResources",
+                "ce:GetCostCategories",
+                "ce:GetCostForecast",
+                "ce:GetDimensionValues",
+                "ce:GetPreferences",
+                "ce:GetReservationCoverage",
+                "ce:GetReservationPurchaseRecommendation",
+                "ce:GetReservationUtilization",
+                "ce:GetRightsizingRecommendation",
+                "ce:GetSavingsPlansCoverage",
+                "ce:GetSavingsPlansPurchaseRecommendation",
+                "ce:GetSavingsPlansUtilization",
+                "ce:GetSavingsPlansUtilizationDetails",
+                "ce:GetTags",
+                "ce:GetUsageForecast",
+                "ce:ListCostAllocationTags",
+                "ce:ListSavingsPlansPurchaseRecommendationGeneration",
+                "ce:ProvideAnomalyFeedback",
+                "ce:StartSavingsPlansPurchaseRecommendationGeneration",
+                "ce:UpdateAnomalyMonitor",
+                "ce:UpdateAnomalySubscription",
+                "ce:UpdateCostAllocationTagsStatus",
+                "ce:UpdateNotificationSubscription",
+                "ce:UpdatePreferences",
+                "consolidatedbilling:GetAccountBillingRole",
+                "consolidatedbilling:ListLinkedAccounts",
+                "cur:GetClassicReport",
+                "cur:GetClassicReportPreferences",
+                "cur:PutClassicReportPreferences",
+                "cur:ValidateReportDestination",
+                "freetier:GetFreeTierAlertPreference",
+                "freetier:GetFreeTierUsage",
+                "freetier:PutFreeTierAlertPreference",
+                "invoicing:GetInvoiceEmailDeliveryPreferences",
+                "invoicing:GetInvoicePDF",
+                "invoicing:ListInvoiceSummaries",
+                "invoicing:PutInvoiceEmailDeliveryPreferences",
+                "payments:CreatePaymentInstrument",
+                "payments:DeletePaymentInstrument",
+                "payments:GetPaymentInstrument",
+                "payments:GetPaymentStatus",
+                "payments:ListPaymentPreferences",
+                "payments:MakePayment",
+                "payments:UpdatePaymentPreferences",
+                "tax:BatchPutTaxRegistration",
+                "tax:DeleteTaxRegistration",
+                "tax:GetTaxInheritance",
+                "tax:GetTaxRegistrationDocument",
+                "tax:ListTaxRegistrations",
+                "tax:PutTaxInheritance",
+              ],
               "Effect": "Deny",
               "Resource": "*",
             },
@@ -1546,66 +1629,66 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "IamIamAdminRole4B2B80CC": {
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
+    "IamIamAdminRole4B2B80CC": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "Service": "ec2.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": [
-          {
+        "ManagedPolicyArns": Array [
+          Object {
             "Ref": "IamIamAdminPolicy7A593281",
           },
         ],
       },
       "Type": "AWS::IAM::Role",
     },
-    "IamInstanceOpsGroup05587F7C": {
-      "Properties": {
-        "ManagedPolicyArns": [
-          {
+    "IamInstanceOpsGroup05587F7C": Object {
+      "Properties": Object {
+        "ManagedPolicyArns": Array [
+          Object {
             "Ref": "IamInstanceOpsPolicy3A664659",
           },
         ],
       },
       "Type": "AWS::IAM::Group",
     },
-    "IamInstanceOpsPolicy3A664659": {
-      "Properties": {
+    "IamInstanceOpsPolicy3A664659": Object {
+      "Properties": Object {
         "Description": "",
         "Path": "/",
-        "PolicyDocument": {
-          "Statement": [
-            {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "ec2:*",
               "Effect": "Allow",
               "Resource": "*",
             },
-            {
+            Object {
               "Action": "elasticloadbalancing:*",
               "Effect": "Allow",
               "Resource": "*",
             },
-            {
+            Object {
               "Action": "cloudwatch:*",
               "Effect": "Allow",
               "Resource": "*",
             },
-            {
+            Object {
               "Action": "autoscaling:*",
               "Effect": "Allow",
               "Resource": "*",
             },
-            {
-              "Action": [
+            Object {
+              "Action": Array [
                 "ec2:CreateVpc*",
                 "ec2:DeleteVpc*",
                 "ec2:ModifyVpc*",
@@ -1629,13 +1712,96 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
               "Effect": "Deny",
               "Resource": "*",
             },
-            {
+            Object {
               "Action": "aws-portal:*Billing",
               "Effect": "Deny",
               "Resource": "*",
             },
-            {
-              "Action": [
+            Object {
+              "Action": Array [
+                "account:GetAccountInformation",
+                "billing:GetBillingData",
+                "billing:GetBillingDetails",
+                "billing:GetBillingNotifications",
+                "billing:GetBillingPreferences",
+                "billing:GetContractInformation",
+                "billing:GetCredits",
+                "billing:GetIAMAccessPreference",
+                "billing:GetSellerOfRecord",
+                "billing:ListBillingViews",
+                "billing:PutContractInformation",
+                "billing:RedeemCredits",
+                "billing:UpdateBillingPreferences",
+                "ce:CreateAnomalyMonitor",
+                "ce:CreateAnomalySubscription",
+                "ce:CreateNotificationSubscription",
+                "ce:CreateReport",
+                "ce:DeleteAnomalyMonitor",
+                "ce:DeleteAnomalySubscription",
+                "ce:DeleteNotificationSubscription",
+                "ce:DeleteReport",
+                "ce:DescribeNotificationSubscription",
+                "ce:DescribeReport",
+                "ce:GetAnomalies",
+                "ce:GetAnomalyMonitors",
+                "ce:GetAnomalySubscriptions",
+                "ce:GetCostAndUsage",
+                "ce:GetCostAndUsageWithResources",
+                "ce:GetCostCategories",
+                "ce:GetCostForecast",
+                "ce:GetDimensionValues",
+                "ce:GetPreferences",
+                "ce:GetReservationCoverage",
+                "ce:GetReservationPurchaseRecommendation",
+                "ce:GetReservationUtilization",
+                "ce:GetRightsizingRecommendation",
+                "ce:GetSavingsPlansCoverage",
+                "ce:GetSavingsPlansPurchaseRecommendation",
+                "ce:GetSavingsPlansUtilization",
+                "ce:GetSavingsPlansUtilizationDetails",
+                "ce:GetTags",
+                "ce:GetUsageForecast",
+                "ce:ListCostAllocationTags",
+                "ce:ListSavingsPlansPurchaseRecommendationGeneration",
+                "ce:ProvideAnomalyFeedback",
+                "ce:StartSavingsPlansPurchaseRecommendationGeneration",
+                "ce:UpdateAnomalyMonitor",
+                "ce:UpdateAnomalySubscription",
+                "ce:UpdateCostAllocationTagsStatus",
+                "ce:UpdateNotificationSubscription",
+                "ce:UpdatePreferences",
+                "consolidatedbilling:GetAccountBillingRole",
+                "consolidatedbilling:ListLinkedAccounts",
+                "cur:GetClassicReport",
+                "cur:GetClassicReportPreferences",
+                "cur:PutClassicReportPreferences",
+                "cur:ValidateReportDestination",
+                "freetier:GetFreeTierAlertPreference",
+                "freetier:GetFreeTierUsage",
+                "freetier:PutFreeTierAlertPreference",
+                "invoicing:GetInvoiceEmailDeliveryPreferences",
+                "invoicing:GetInvoicePDF",
+                "invoicing:ListInvoiceSummaries",
+                "invoicing:PutInvoiceEmailDeliveryPreferences",
+                "payments:CreatePaymentInstrument",
+                "payments:DeletePaymentInstrument",
+                "payments:GetPaymentInstrument",
+                "payments:GetPaymentStatus",
+                "payments:ListPaymentPreferences",
+                "payments:MakePayment",
+                "payments:UpdatePaymentPreferences",
+                "tax:BatchPutTaxRegistration",
+                "tax:DeleteTaxRegistration",
+                "tax:GetTaxInheritance",
+                "tax:GetTaxRegistrationDocument",
+                "tax:ListTaxRegistrations",
+                "tax:PutTaxInheritance",
+              ],
+              "Effect": "Deny",
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
                 "kms:Create*",
                 "kms:Revoke*",
                 "kms:Enable*",
@@ -1654,46 +1820,46 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "IamInstanceOpsRole580371E4": {
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
+    "IamInstanceOpsRole580371E4": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "Service": "ec2.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": [
-          {
+        "ManagedPolicyArns": Array [
+          Object {
             "Ref": "IamInstanceOpsPolicy3A664659",
           },
         ],
       },
       "Type": "AWS::IAM::Role",
     },
-    "IamReadOnlyAdminGroupEA35CD95": {
-      "Properties": {
-        "ManagedPolicyArns": [
-          {
+    "IamReadOnlyAdminGroupEA35CD95": Object {
+      "Properties": Object {
+        "ManagedPolicyArns": Array [
+          Object {
             "Ref": "IamReadOnlyAdminPolicyB7107EA2",
           },
         ],
       },
       "Type": "AWS::IAM::Group",
     },
-    "IamReadOnlyAdminPolicyB7107EA2": {
-      "Properties": {
+    "IamReadOnlyAdminPolicyB7107EA2": Object {
+      "Properties": Object {
         "Description": "",
         "Path": "/",
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": [
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
                 "appstream:Get*",
                 "autoscaling:Describe*",
                 "cloudformation:DescribeStacks",
@@ -1758,8 +1924,91 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
               "Effect": "Allow",
               "Resource": "*",
             },
-            {
+            Object {
               "Action": "aws-portal:*Billing",
+              "Effect": "Deny",
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
+                "account:GetAccountInformation",
+                "billing:GetBillingData",
+                "billing:GetBillingDetails",
+                "billing:GetBillingNotifications",
+                "billing:GetBillingPreferences",
+                "billing:GetContractInformation",
+                "billing:GetCredits",
+                "billing:GetIAMAccessPreference",
+                "billing:GetSellerOfRecord",
+                "billing:ListBillingViews",
+                "billing:PutContractInformation",
+                "billing:RedeemCredits",
+                "billing:UpdateBillingPreferences",
+                "ce:CreateAnomalyMonitor",
+                "ce:CreateAnomalySubscription",
+                "ce:CreateNotificationSubscription",
+                "ce:CreateReport",
+                "ce:DeleteAnomalyMonitor",
+                "ce:DeleteAnomalySubscription",
+                "ce:DeleteNotificationSubscription",
+                "ce:DeleteReport",
+                "ce:DescribeNotificationSubscription",
+                "ce:DescribeReport",
+                "ce:GetAnomalies",
+                "ce:GetAnomalyMonitors",
+                "ce:GetAnomalySubscriptions",
+                "ce:GetCostAndUsage",
+                "ce:GetCostAndUsageWithResources",
+                "ce:GetCostCategories",
+                "ce:GetCostForecast",
+                "ce:GetDimensionValues",
+                "ce:GetPreferences",
+                "ce:GetReservationCoverage",
+                "ce:GetReservationPurchaseRecommendation",
+                "ce:GetReservationUtilization",
+                "ce:GetRightsizingRecommendation",
+                "ce:GetSavingsPlansCoverage",
+                "ce:GetSavingsPlansPurchaseRecommendation",
+                "ce:GetSavingsPlansUtilization",
+                "ce:GetSavingsPlansUtilizationDetails",
+                "ce:GetTags",
+                "ce:GetUsageForecast",
+                "ce:ListCostAllocationTags",
+                "ce:ListSavingsPlansPurchaseRecommendationGeneration",
+                "ce:ProvideAnomalyFeedback",
+                "ce:StartSavingsPlansPurchaseRecommendationGeneration",
+                "ce:UpdateAnomalyMonitor",
+                "ce:UpdateAnomalySubscription",
+                "ce:UpdateCostAllocationTagsStatus",
+                "ce:UpdateNotificationSubscription",
+                "ce:UpdatePreferences",
+                "consolidatedbilling:GetAccountBillingRole",
+                "consolidatedbilling:ListLinkedAccounts",
+                "cur:GetClassicReport",
+                "cur:GetClassicReportPreferences",
+                "cur:PutClassicReportPreferences",
+                "cur:ValidateReportDestination",
+                "freetier:GetFreeTierAlertPreference",
+                "freetier:GetFreeTierUsage",
+                "freetier:PutFreeTierAlertPreference",
+                "invoicing:GetInvoiceEmailDeliveryPreferences",
+                "invoicing:GetInvoicePDF",
+                "invoicing:ListInvoiceSummaries",
+                "invoicing:PutInvoiceEmailDeliveryPreferences",
+                "payments:CreatePaymentInstrument",
+                "payments:DeletePaymentInstrument",
+                "payments:GetPaymentInstrument",
+                "payments:GetPaymentStatus",
+                "payments:ListPaymentPreferences",
+                "payments:MakePayment",
+                "payments:UpdatePaymentPreferences",
+                "tax:BatchPutTaxRegistration",
+                "tax:DeleteTaxRegistration",
+                "tax:GetTaxInheritance",
+                "tax:GetTaxRegistrationDocument",
+                "tax:ListTaxRegistrations",
+                "tax:PutTaxInheritance",
+              ],
               "Effect": "Deny",
               "Resource": "*",
             },
@@ -1769,47 +2018,47 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "IamReadOnlyAdminRoleD519CCF3": {
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
+    "IamReadOnlyAdminRoleD519CCF3": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "Service": "ec2.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": [
-          {
+        "ManagedPolicyArns": Array [
+          Object {
             "Ref": "IamReadOnlyAdminPolicyB7107EA2",
           },
         ],
       },
       "Type": "AWS::IAM::Role",
     },
-    "IamSysAdminGroup3543FAD1": {
-      "Properties": {
-        "ManagedPolicyArns": [
-          {
+    "IamSysAdminGroup3543FAD1": Object {
+      "Properties": Object {
+        "ManagedPolicyArns": Array [
+          Object {
             "Ref": "IamSysAdminPolicy03754AB3",
           },
         ],
       },
       "Type": "AWS::IAM::Group",
     },
-    "IamSysAdminPolicy03754AB3": {
-      "Properties": {
+    "IamSysAdminPolicy03754AB3": Object {
+      "Properties": Object {
         "Description": "",
         "Path": "/",
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Condition": {
-                "Bool": {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Condition": Object {
+                "Bool": Object {
                   "aws:MultiFactorAuthPresent": "true",
                 },
               },
@@ -1817,13 +2066,96 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
               "NotAction": "iam:*",
               "Resource": "*",
             },
-            {
+            Object {
               "Action": "aws-portal:*Billing",
               "Effect": "Deny",
               "Resource": "*",
             },
-            {
-              "Action": [
+            Object {
+              "Action": Array [
+                "account:GetAccountInformation",
+                "billing:GetBillingData",
+                "billing:GetBillingDetails",
+                "billing:GetBillingNotifications",
+                "billing:GetBillingPreferences",
+                "billing:GetContractInformation",
+                "billing:GetCredits",
+                "billing:GetIAMAccessPreference",
+                "billing:GetSellerOfRecord",
+                "billing:ListBillingViews",
+                "billing:PutContractInformation",
+                "billing:RedeemCredits",
+                "billing:UpdateBillingPreferences",
+                "ce:CreateAnomalyMonitor",
+                "ce:CreateAnomalySubscription",
+                "ce:CreateNotificationSubscription",
+                "ce:CreateReport",
+                "ce:DeleteAnomalyMonitor",
+                "ce:DeleteAnomalySubscription",
+                "ce:DeleteNotificationSubscription",
+                "ce:DeleteReport",
+                "ce:DescribeNotificationSubscription",
+                "ce:DescribeReport",
+                "ce:GetAnomalies",
+                "ce:GetAnomalyMonitors",
+                "ce:GetAnomalySubscriptions",
+                "ce:GetCostAndUsage",
+                "ce:GetCostAndUsageWithResources",
+                "ce:GetCostCategories",
+                "ce:GetCostForecast",
+                "ce:GetDimensionValues",
+                "ce:GetPreferences",
+                "ce:GetReservationCoverage",
+                "ce:GetReservationPurchaseRecommendation",
+                "ce:GetReservationUtilization",
+                "ce:GetRightsizingRecommendation",
+                "ce:GetSavingsPlansCoverage",
+                "ce:GetSavingsPlansPurchaseRecommendation",
+                "ce:GetSavingsPlansUtilization",
+                "ce:GetSavingsPlansUtilizationDetails",
+                "ce:GetTags",
+                "ce:GetUsageForecast",
+                "ce:ListCostAllocationTags",
+                "ce:ListSavingsPlansPurchaseRecommendationGeneration",
+                "ce:ProvideAnomalyFeedback",
+                "ce:StartSavingsPlansPurchaseRecommendationGeneration",
+                "ce:UpdateAnomalyMonitor",
+                "ce:UpdateAnomalySubscription",
+                "ce:UpdateCostAllocationTagsStatus",
+                "ce:UpdateNotificationSubscription",
+                "ce:UpdatePreferences",
+                "consolidatedbilling:GetAccountBillingRole",
+                "consolidatedbilling:ListLinkedAccounts",
+                "cur:GetClassicReport",
+                "cur:GetClassicReportPreferences",
+                "cur:PutClassicReportPreferences",
+                "cur:ValidateReportDestination",
+                "freetier:GetFreeTierAlertPreference",
+                "freetier:GetFreeTierUsage",
+                "freetier:PutFreeTierAlertPreference",
+                "invoicing:GetInvoiceEmailDeliveryPreferences",
+                "invoicing:GetInvoicePDF",
+                "invoicing:ListInvoiceSummaries",
+                "invoicing:PutInvoiceEmailDeliveryPreferences",
+                "payments:CreatePaymentInstrument",
+                "payments:DeletePaymentInstrument",
+                "payments:GetPaymentInstrument",
+                "payments:GetPaymentStatus",
+                "payments:ListPaymentPreferences",
+                "payments:MakePayment",
+                "payments:UpdatePaymentPreferences",
+                "tax:BatchPutTaxRegistration",
+                "tax:DeleteTaxRegistration",
+                "tax:GetTaxInheritance",
+                "tax:GetTaxRegistrationDocument",
+                "tax:ListTaxRegistrations",
+                "tax:PutTaxInheritance",
+              ],
+              "Effect": "Deny",
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
                 "cloudtrail:DeleteTrail",
                 "cloudtrail:StopLogging",
                 "cloudtrail:UpdateTrail",
@@ -1831,8 +2163,8 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
               "Effect": "Deny",
               "Resource": "*",
             },
-            {
-              "Action": [
+            Object {
+              "Action": Array [
                 "kms:Create*",
                 "kms:Revoke*",
                 "kms:Enable*",
@@ -1851,84 +2183,84 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       },
       "Type": "AWS::IAM::ManagedPolicy",
     },
-    "IamSysAdminRoleB0EE4AA6": {
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
+    "IamSysAdminRoleB0EE4AA6": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "Service": "ec2.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": [
-          {
+        "ManagedPolicyArns": Array [
+          Object {
             "Ref": "IamSysAdminPolicy03754AB3",
           },
         ],
       },
       "Type": "AWS::IAM::Role",
     },
-    "LoggingCloudTrail44E92DB9": {
-      "DependsOn": [
+    "LoggingCloudTrail44E92DB9": Object {
+      "DependsOn": Array [
         "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
         "LoggingCloudTrailLogsRoleE1DD6030",
         "LoggingCloudTrailBucketPolicy4004472F",
       ],
-      "Properties": {
-        "CloudWatchLogsLogGroupArn": {
-          "Fn::GetAtt": [
+      "Properties": Object {
+        "CloudWatchLogsLogGroupArn": Object {
+          "Fn::GetAtt": Array [
             "LoggingCloudTrailLogGroupEFC12822",
             "Arn",
           ],
         },
-        "CloudWatchLogsRoleArn": {
-          "Fn::GetAtt": [
+        "CloudWatchLogsRoleArn": Object {
+          "Fn::GetAtt": Array [
             "LoggingCloudTrailLogsRoleE1DD6030",
             "Arn",
           ],
         },
         "EnableLogFileValidation": true,
-        "EventSelectors": [],
+        "EventSelectors": Array [],
         "IncludeGlobalServiceEvents": true,
         "IsLogging": true,
         "IsMultiRegionTrail": true,
-        "KMSKeyId": {
-          "Fn::GetAtt": [
+        "KMSKeyId": Object {
+          "Fn::GetAtt": Array [
             "LoggingCloudTrailKey43327553",
             "Arn",
           ],
         },
-        "S3BucketName": {
+        "S3BucketName": Object {
           "Ref": "LoggingCloudTrailBucket7560781D",
         },
       },
       "Type": "AWS::CloudTrail::Trail",
     },
-    "LoggingCloudTrailAccessLogBucketA7B773C8": {
+    "LoggingCloudTrailAccessLogBucketA7B773C8": Object {
       "DeletionPolicy": "Retain",
-      "Properties": {
+      "Properties": Object {
         "AccessControl": "LogDeliveryWrite",
-        "BucketEncryption": {
-          "ServerSideEncryptionConfiguration": [
-            {
-              "ServerSideEncryptionByDefault": {
+        "BucketEncryption": Object {
+          "ServerSideEncryptionConfiguration": Array [
+            Object {
+              "ServerSideEncryptionByDefault": Object {
                 "SSEAlgorithm": "AES256",
               },
             },
           ],
         },
-        "LifecycleConfiguration": {
-          "Rules": [
-            {
+        "LifecycleConfiguration": Object {
+          "Rules": Array [
+            Object {
               "ExpirationInDays": 2555,
               "Status": "Enabled",
-              "Transitions": [
-                {
+              "Transitions": Array [
+                Object {
                   "StorageClass": "GLACIER",
                   "TransitionInDays": 90,
                 },
@@ -1936,57 +2268,57 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
             },
           ],
         },
-        "OwnershipControls": {
-          "Rules": [
-            {
+        "OwnershipControls": Object {
+          "Rules": Array [
+            Object {
               "ObjectOwnership": "ObjectWriter",
             },
           ],
         },
-        "PublicAccessBlockConfiguration": {
+        "PublicAccessBlockConfiguration": Object {
           "BlockPublicAcls": true,
           "BlockPublicPolicy": true,
           "IgnorePublicAcls": true,
           "RestrictPublicBuckets": true,
         },
-        "VersioningConfiguration": {
+        "VersioningConfiguration": Object {
           "Status": "Enabled",
         },
       },
       "Type": "AWS::S3::Bucket",
       "UpdateReplacePolicy": "Retain",
     },
-    "LoggingCloudTrailAccessLogBucketPolicyE58866E2": {
-      "Properties": {
-        "Bucket": {
+    "LoggingCloudTrailAccessLogBucketPolicyE58866E2": Object {
+      "Properties": Object {
+        "Bucket": Object {
           "Ref": "LoggingCloudTrailAccessLogBucketA7B773C8",
         },
-        "PolicyDocument": {
-          "Statement": [
-            {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "s3:*",
-              "Condition": {
-                "Bool": {
+              "Condition": Object {
+                "Bool": Object {
                   "aws:SecureTransport": "false",
                 },
               },
               "Effect": "Deny",
-              "Principal": {
+              "Principal": Object {
                 "AWS": "*",
               },
-              "Resource": [
-                {
-                  "Fn::GetAtt": [
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
                     "LoggingCloudTrailAccessLogBucketA7B773C8",
                     "Arn",
                   ],
                 },
-                {
-                  "Fn::Join": [
+                Object {
+                  "Fn::Join": Array [
                     "",
-                    [
-                      {
-                        "Fn::GetAtt": [
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
                           "LoggingCloudTrailAccessLogBucketA7B773C8",
                           "Arn",
                         ],
@@ -1997,18 +2329,18 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
                 },
               ],
             },
-            {
+            Object {
               "Action": "s3:Delete*",
               "Effect": "Deny",
-              "Principal": {
+              "Principal": Object {
                 "AWS": "*",
               },
-              "Resource": {
-                "Fn::Join": [
+              "Resource": Object {
+                "Fn::Join": Array [
                   "",
-                  [
-                    {
-                      "Fn::GetAtt": [
+                  Array [
+                    Object {
+                      "Fn::GetAtt": Array [
                         "LoggingCloudTrailAccessLogBucketA7B773C8",
                         "Arn",
                       ],
@@ -2025,60 +2357,60 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       },
       "Type": "AWS::S3::BucketPolicy",
     },
-    "LoggingCloudTrailBucket7560781D": {
+    "LoggingCloudTrailBucket7560781D": Object {
       "DeletionPolicy": "Retain",
-      "Properties": {
+      "Properties": Object {
         "AccessControl": "Private",
-        "LoggingConfiguration": {
-          "DestinationBucketName": {
+        "LoggingConfiguration": Object {
+          "DestinationBucketName": Object {
             "Ref": "LoggingCloudTrailAccessLogBucketA7B773C8",
           },
           "LogFilePrefix": "cloudtraillogs",
         },
-        "PublicAccessBlockConfiguration": {
+        "PublicAccessBlockConfiguration": Object {
           "BlockPublicAcls": true,
           "BlockPublicPolicy": true,
           "IgnorePublicAcls": true,
           "RestrictPublicBuckets": true,
         },
-        "VersioningConfiguration": {
+        "VersioningConfiguration": Object {
           "Status": "Enabled",
         },
       },
       "Type": "AWS::S3::Bucket",
       "UpdateReplacePolicy": "Retain",
     },
-    "LoggingCloudTrailBucketPolicy4004472F": {
-      "Properties": {
-        "Bucket": {
+    "LoggingCloudTrailBucketPolicy4004472F": Object {
+      "Properties": Object {
+        "Bucket": Object {
           "Ref": "LoggingCloudTrailBucket7560781D",
         },
-        "PolicyDocument": {
-          "Statement": [
-            {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "s3:*",
-              "Condition": {
-                "Bool": {
+              "Condition": Object {
+                "Bool": Object {
                   "aws:SecureTransport": "false",
                 },
               },
               "Effect": "Deny",
-              "Principal": {
+              "Principal": Object {
                 "AWS": "*",
               },
-              "Resource": [
-                {
-                  "Fn::GetAtt": [
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
                     "LoggingCloudTrailBucket7560781D",
                     "Arn",
                   ],
                 },
-                {
-                  "Fn::Join": [
+                Object {
+                  "Fn::Join": Array [
                     "",
-                    [
-                      {
-                        "Fn::GetAtt": [
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
                           "LoggingCloudTrailBucket7560781D",
                           "Arn",
                         ],
@@ -2089,18 +2421,18 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
                 },
               ],
             },
-            {
+            Object {
               "Action": "s3:Delete*",
               "Effect": "Deny",
-              "Principal": {
+              "Principal": Object {
                 "AWS": "*",
               },
-              "Resource": {
-                "Fn::Join": [
+              "Resource": Object {
+                "Fn::Join": Array [
                   "",
-                  [
-                    {
-                      "Fn::GetAtt": [
+                  Array [
+                    Object {
+                      "Fn::GetAtt": Array [
                         "LoggingCloudTrailBucket7560781D",
                         "Arn",
                       ],
@@ -2111,42 +2443,42 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
               },
               "Sid": "Restrict Delete* Actions",
             },
-            {
+            Object {
               "Action": "s3:GetBucketAcl",
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "Service": "cloudtrail.amazonaws.com",
               },
-              "Resource": {
-                "Fn::GetAtt": [
+              "Resource": Object {
+                "Fn::GetAtt": Array [
                   "LoggingCloudTrailBucket7560781D",
                   "Arn",
                 ],
               },
             },
-            {
+            Object {
               "Action": "s3:PutObject",
-              "Condition": {
-                "StringEquals": {
+              "Condition": Object {
+                "StringEquals": Object {
                   "s3:x-amz-acl": "bucket-owner-full-control",
                 },
               },
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "Service": "cloudtrail.amazonaws.com",
               },
-              "Resource": {
-                "Fn::Join": [
+              "Resource": Object {
+                "Fn::Join": Array [
                   "",
-                  [
-                    {
-                      "Fn::GetAtt": [
+                  Array [
+                    Object {
+                      "Fn::GetAtt": Array [
                         "LoggingCloudTrailBucket7560781D",
                         "Arn",
                       ],
                     },
                     "/AWSLogs/",
-                    {
+                    Object {
                       "Ref": "AWS::AccountId",
                     },
                     "/*",
@@ -2160,27 +2492,27 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       },
       "Type": "AWS::S3::BucketPolicy",
     },
-    "LoggingCloudTrailKey43327553": {
+    "LoggingCloudTrailKey43327553": Object {
       "DeletionPolicy": "Retain",
-      "Properties": {
+      "Properties": Object {
         "Description": "BLEA Governance Base: CMK for CloudTrail",
         "EnableKeyRotation": true,
-        "KeyPolicy": {
-          "Statement": [
-            {
+        "KeyPolicy": Object {
+          "Statement": Array [
+            Object {
               "Action": "kms:*",
               "Effect": "Allow",
-              "Principal": {
-                "AWS": {
-                  "Fn::Join": [
+              "Principal": Object {
+                "AWS": Object {
+                  "Fn::Join": Array [
                     "",
-                    [
+                    Array [
                       "arn:",
-                      {
+                      Object {
                         "Ref": "AWS::Partition",
                       },
                       ":iam::",
-                      {
+                      Object {
                         "Ref": "AWS::AccountId",
                       },
                       ":root",
@@ -2190,17 +2522,17 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
               },
               "Resource": "*",
             },
-            {
+            Object {
               "Action": "kms:GenerateDataKey*",
-              "Condition": {
-                "StringLike": {
-                  "kms:EncryptionContext:aws:cloudtrail:arn": [
-                    {
-                      "Fn::Join": [
+              "Condition": Object {
+                "StringLike": Object {
+                  "kms:EncryptionContext:aws:cloudtrail:arn": Array [
+                    Object {
+                      "Fn::Join": Array [
                         "",
-                        [
+                        Array [
                           "arn:aws:cloudtrail:*:",
-                          {
+                          Object {
                             "Ref": "AWS::AccountId",
                           },
                           ":trail/*",
@@ -2211,38 +2543,38 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
                 },
               },
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "Service": "cloudtrail.amazonaws.com",
               },
               "Resource": "*",
             },
-            {
+            Object {
               "Action": "kms:DescribeKey",
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "Service": "cloudtrail.amazonaws.com",
               },
               "Resource": "*",
             },
-            {
-              "Action": [
+            Object {
+              "Action": Array [
                 "kms:Decrypt",
                 "kms:ReEncryptFrom",
               ],
-              "Condition": {
-                "StringEquals": {
-                  "kms:CallerAccount": {
+              "Condition": Object {
+                "StringEquals": Object {
+                  "kms:CallerAccount": Object {
                     "Ref": "AWS::AccountId",
                   },
                 },
-                "StringLike": {
-                  "kms:EncryptionContext:aws:cloudtrail:arn": [
-                    {
-                      "Fn::Join": [
+                "StringLike": Object {
+                  "kms:EncryptionContext:aws:cloudtrail:arn": Array [
+                    Object {
+                      "Fn::Join": Array [
                         "",
-                        [
+                        Array [
                           "arn:aws:cloudtrail:*:",
-                          {
+                          Object {
                             "Ref": "AWS::AccountId",
                           },
                           ":trail/*",
@@ -2253,31 +2585,31 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
                 },
               },
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "AWS": "*",
               },
               "Resource": "*",
             },
-            {
-              "Action": [
+            Object {
+              "Action": Array [
                 "kms:Encrypt*",
                 "kms:Decrypt*",
                 "kms:ReEncrypt*",
                 "kms:GenerateDataKey*",
                 "kms:Describe*",
               ],
-              "Condition": {
-                "ArnEquals": {
-                  "kms:EncryptionContext:aws:logs:arn": {
-                    "Fn::Join": [
+              "Condition": Object {
+                "ArnEquals": Object {
+                  "kms:EncryptionContext:aws:logs:arn": Object {
+                    "Fn::Join": Array [
                       "",
-                      [
+                      Array [
                         "arn:aws:logs:",
-                        {
+                        Object {
                           "Ref": "AWS::Region",
                         },
                         ":",
-                        {
+                        Object {
                           "Ref": "AWS::AccountId",
                         },
                         ":log-group:*",
@@ -2287,17 +2619,17 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
                 },
               },
               "Effect": "Allow",
-              "Principal": {
-                "Service": {
-                  "Fn::Join": [
+              "Principal": Object {
+                "Service": Object {
+                  "Fn::Join": Array [
                     "",
-                    [
+                    Array [
                       "logs.",
-                      {
+                      Object {
                         "Ref": "AWS::Region",
                       },
                       ".",
-                      {
+                      Object {
                         "Ref": "AWS::URLSuffix",
                       },
                     ],
@@ -2313,11 +2645,11 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       "Type": "AWS::KMS::Key",
       "UpdateReplacePolicy": "Retain",
     },
-    "LoggingCloudTrailKeyAlias65A5FEEA": {
-      "Properties": {
+    "LoggingCloudTrailKeyAlias65A5FEEA": Object {
+      "Properties": Object {
         "AliasName": "alias/DevBLEABaseStandaloneLogging7164FEBB",
-        "TargetKeyId": {
-          "Fn::GetAtt": [
+        "TargetKeyId": Object {
+          "Fn::GetAtt": Array [
             "LoggingCloudTrailKey43327553",
             "Arn",
           ],
@@ -2325,11 +2657,11 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       },
       "Type": "AWS::KMS::Alias",
     },
-    "LoggingCloudTrailLogGroupEFC12822": {
+    "LoggingCloudTrailLogGroupEFC12822": Object {
       "DeletionPolicy": "Retain",
-      "Properties": {
-        "KmsKeyId": {
-          "Fn::GetAtt": [
+      "Properties": Object {
+        "KmsKeyId": Object {
+          "Fn::GetAtt": Array [
             "LoggingCloudTrailKey43327553",
             "Arn",
           ],
@@ -2339,18 +2671,18 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       "Type": "AWS::Logs::LogGroup",
       "UpdateReplacePolicy": "Retain",
     },
-    "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C": {
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": [
+    "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
                 "logs:PutLogEvents",
                 "logs:CreateLogStream",
               ],
               "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
+              "Resource": Object {
+                "Fn::GetAtt": Array [
                   "LoggingCloudTrailLogGroupEFC12822",
                   "Arn",
                 ],
@@ -2360,22 +2692,22 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
           "Version": "2012-10-17",
         },
         "PolicyName": "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
-        "Roles": [
-          {
+        "Roles": Array [
+          Object {
             "Ref": "LoggingCloudTrailLogsRoleE1DD6030",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "LoggingCloudTrailLogsRoleE1DD6030": {
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
+    "LoggingCloudTrailLogsRoleE1DD6030": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "Service": "cloudtrail.amazonaws.com",
               },
             },
@@ -2385,63 +2717,63 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
-    "LoggingConfigBucket139B5174": {
+    "LoggingConfigBucket139B5174": Object {
       "DeletionPolicy": "Retain",
-      "Properties": {
+      "Properties": Object {
         "AccessControl": "Private",
-        "BucketEncryption": {
-          "ServerSideEncryptionConfiguration": [
-            {
-              "ServerSideEncryptionByDefault": {
+        "BucketEncryption": Object {
+          "ServerSideEncryptionConfiguration": Array [
+            Object {
+              "ServerSideEncryptionByDefault": Object {
                 "SSEAlgorithm": "AES256",
               },
             },
           ],
         },
-        "PublicAccessBlockConfiguration": {
+        "PublicAccessBlockConfiguration": Object {
           "BlockPublicAcls": true,
           "BlockPublicPolicy": true,
           "IgnorePublicAcls": true,
           "RestrictPublicBuckets": true,
         },
-        "VersioningConfiguration": {
+        "VersioningConfiguration": Object {
           "Status": "Enabled",
         },
       },
       "Type": "AWS::S3::Bucket",
       "UpdateReplacePolicy": "Retain",
     },
-    "LoggingConfigBucketPolicy66A7F5E7": {
-      "Properties": {
-        "Bucket": {
+    "LoggingConfigBucketPolicy66A7F5E7": Object {
+      "Properties": Object {
+        "Bucket": Object {
           "Ref": "LoggingConfigBucket139B5174",
         },
-        "PolicyDocument": {
-          "Statement": [
-            {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "s3:*",
-              "Condition": {
-                "Bool": {
+              "Condition": Object {
+                "Bool": Object {
                   "aws:SecureTransport": "false",
                 },
               },
               "Effect": "Deny",
-              "Principal": {
+              "Principal": Object {
                 "AWS": "*",
               },
-              "Resource": [
-                {
-                  "Fn::GetAtt": [
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
                     "LoggingConfigBucket139B5174",
                     "Arn",
                   ],
                 },
-                {
-                  "Fn::Join": [
+                Object {
+                  "Fn::Join": Array [
                     "",
-                    [
-                      {
-                        "Fn::GetAtt": [
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
                           "LoggingConfigBucket139B5174",
                           "Arn",
                         ],
@@ -2452,52 +2784,52 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
                 },
               ],
             },
-            {
+            Object {
               "Action": "s3:GetBucketAcl",
               "Effect": "Allow",
-              "Principal": {
-                "AWS": {
-                  "Fn::GetAtt": [
+              "Principal": Object {
+                "AWS": Object {
+                  "Fn::GetAtt": Array [
                     "LoggingConfigRole0E4FDF1F",
                     "Arn",
                   ],
                 },
               },
-              "Resource": {
-                "Fn::GetAtt": [
+              "Resource": Object {
+                "Fn::GetAtt": Array [
                   "LoggingConfigBucket139B5174",
                   "Arn",
                 ],
               },
             },
-            {
+            Object {
               "Action": "s3:PutObject",
-              "Condition": {
-                "StringEquals": {
+              "Condition": Object {
+                "StringEquals": Object {
                   "s3:x-amz-acl": "bucket-owner-full-control",
                 },
               },
               "Effect": "Allow",
-              "Principal": {
-                "AWS": {
-                  "Fn::GetAtt": [
+              "Principal": Object {
+                "AWS": Object {
+                  "Fn::GetAtt": Array [
                     "LoggingConfigRole0E4FDF1F",
                     "Arn",
                   ],
                 },
               },
-              "Resource": {
-                "Fn::Join": [
+              "Resource": Object {
+                "Fn::Join": Array [
                   "",
-                  [
-                    {
-                      "Fn::GetAtt": [
+                  Array [
+                    Object {
+                      "Fn::GetAtt": Array [
                         "LoggingConfigBucket139B5174",
                         "Arn",
                       ],
                     },
                     "/AWSLogs/",
-                    {
+                    Object {
                       "Ref": "AWS::AccountId",
                     },
                     "/Config/*",
@@ -2511,22 +2843,22 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       },
       "Type": "AWS::S3::BucketPolicy",
     },
-    "LoggingConfigDeliveryChannel44B4762B": {
-      "Properties": {
-        "S3BucketName": {
+    "LoggingConfigDeliveryChannel44B4762B": Object {
+      "Properties": Object {
+        "S3BucketName": Object {
           "Ref": "LoggingConfigBucket139B5174",
         },
       },
       "Type": "AWS::Config::DeliveryChannel",
     },
-    "LoggingConfigRecorderFC55B19F": {
-      "Properties": {
-        "RecordingGroup": {
+    "LoggingConfigRecorderFC55B19F": Object {
+      "Properties": Object {
+        "RecordingGroup": Object {
           "AllSupported": true,
           "IncludeGlobalResourceTypes": true,
         },
-        "RoleARN": {
-          "Fn::GetAtt": [
+        "RoleARN": Object {
+          "Fn::GetAtt": Array [
             "LoggingConfigRole0E4FDF1F",
             "Arn",
           ],
@@ -2534,27 +2866,27 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       },
       "Type": "AWS::Config::ConfigurationRecorder",
     },
-    "LoggingConfigRole0E4FDF1F": {
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
+    "LoggingConfigRole0E4FDF1F": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "Service": "config.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": [
-          {
-            "Fn::Join": [
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
               "",
-              [
+              Array [
                 "arn:",
-                {
+                Object {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/service-role/AWS_ConfigRole",
@@ -2565,58 +2897,58 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
-    "NotificationChatbotChannel053BCEF2": {
-      "Properties": {
+    "NotificationChatbotChannel053BCEF2": Object {
+      "Properties": Object {
         "ConfigurationName": "DevBLEABaseStandaloneNotificationC6359BD8",
-        "IamRoleArn": {
-          "Fn::GetAtt": [
+        "IamRoleArn": Object {
+          "Fn::GetAtt": Array [
             "NotificationChatbotRole9B60F7B3",
             "Arn",
           ],
         },
-        "SlackChannelId": "C00XXXXXXXX",
-        "SlackWorkspaceId": "T8XXXXXXX",
-        "SnsTopicArns": [
-          {
+        "SlackChannelId": "C031889HJRF",
+        "SlackWorkspaceId": "T030VKQD7BM",
+        "SnsTopicArns": Array [
+          Object {
             "Ref": "DetectionAlarmTopic36C4BB55",
           },
         ],
       },
       "Type": "AWS::Chatbot::SlackChannelConfiguration",
     },
-    "NotificationChatbotRole9B60F7B3": {
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
+    "NotificationChatbotRole9B60F7B3": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "Service": "chatbot.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": [
-          {
-            "Fn::Join": [
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
               "",
-              [
+              Array [
                 "arn:",
-                {
+                Object {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/ReadOnlyAccess",
               ],
             ],
           },
-          {
-            "Fn::Join": [
+          Object {
+            "Fn::Join": Array [
               "",
-              [
+              Array [
                 "arn:",
-                {
+                Object {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/CloudWatchReadOnlyAccess",
@@ -2628,22 +2960,22 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
       "Type": "AWS::IAM::Role",
     },
   },
-  "Rules": {
-    "CheckBootstrapVersion": {
-      "Assertions": [
-        {
-          "Assert": {
-            "Fn::Not": [
-              {
-                "Fn::Contains": [
-                  [
+  "Rules": Object {
+    "CheckBootstrapVersion": Object {
+      "Assertions": Array [
+        Object {
+          "Assert": Object {
+            "Fn::Not": Array [
+              Object {
+                "Fn::Contains": Array [
+                  Array [
                     "1",
                     "2",
                     "3",
                     "4",
                     "5",
                   ],
-                  {
+                  Object {
                     "Ref": "BootstrapVersion",
                   },
                 ],

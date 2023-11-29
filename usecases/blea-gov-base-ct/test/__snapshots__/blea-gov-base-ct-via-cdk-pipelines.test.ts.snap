@@ -1,57 +1,57 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
-{
-  "Parameters": {
-    "BootstrapVersion": {
+Object {
+  "Parameters": Object {
+    "BootstrapVersion": Object {
       "Default": "/cdk-bootstrap/hnb659fds/version",
       "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
       "Type": "AWS::SSM::Parameter::Value<String>",
     },
   },
-  "Resources": {
-    "Pipeline9850B417": {
-      "DependsOn": [
+  "Resources": Object {
+    "Pipeline9850B417": Object {
+      "DependsOn": Array [
         "PipelineRoleDefaultPolicy7BDC1ABB",
         "PipelineRoleB27FAA37",
       ],
-      "Properties": {
-        "ArtifactStore": {
-          "Location": {
+      "Properties": Object {
+        "ArtifactStore": Object {
+          "Location": Object {
             "Ref": "PipelineArtifactsBucketAEA9A052",
           },
           "Type": "S3",
         },
         "RestartExecutionOnUpdate": true,
-        "RoleArn": {
-          "Fn::GetAtt": [
+        "RoleArn": Object {
+          "Fn::GetAtt": Array [
             "PipelineRoleB27FAA37",
             "Arn",
           ],
         },
-        "Stages": [
-          {
-            "Actions": [
-              {
-                "ActionTypeId": {
+        "Stages": Array [
+          Object {
+            "Actions": Array [
+              Object {
+                "ActionTypeId": Object {
                   "Category": "Source",
                   "Owner": "AWS",
                   "Provider": "CodeStarSourceConnection",
                   "Version": "1",
                 },
-                "Configuration": {
+                "Configuration": Object {
                   "BranchName": "main",
                   "ConnectionArn": "arn:aws:codestar-connections:ap-northeast-1:xxxxxxxxxxxx:connection/example",
                   "FullRepositoryId": "aws-samples/baseline-environment-on-aws",
                 },
                 "Name": "aws-samples_baseline-environment-on-aws",
-                "OutputArtifacts": [
-                  {
+                "OutputArtifacts": Array [
+                  Object {
                     "Name": "aws_samples_baseline_environment_on_aws_Source",
                   },
                 ],
-                "RoleArn": {
-                  "Fn::GetAtt": [
+                "RoleArn": Object {
+                  "Fn::GetAtt": Array [
                     "PipelineSourceawssamplesbaselineenvironmentonawsCodePipelineActionRole1BD37B19",
                     "Arn",
                   ],
@@ -61,34 +61,34 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
             ],
             "Name": "Source",
           },
-          {
-            "Actions": [
-              {
-                "ActionTypeId": {
+          Object {
+            "Actions": Array [
+              Object {
+                "ActionTypeId": Object {
                   "Category": "Build",
                   "Owner": "AWS",
                   "Provider": "CodeBuild",
                   "Version": "1",
                 },
-                "Configuration": {
-                  "EnvironmentVariables": "[{"name":"_PROJECT_CONFIG_HASH","type":"PLAINTEXT","value":"acb21dc20d80677abb3dba3261c1cc1775fbc085e7e223e4a6dc432bb2ddf685"}]",
-                  "ProjectName": {
+                "Configuration": Object {
+                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"e94c841cdbb89a42d615fa2e3c04d988012ccd1baa3ab150b346d254ec6d6b1f\\"}]",
+                  "ProjectName": Object {
                     "Ref": "PipelineBuildSynthCdkBuildProject6BEFA8E6",
                   },
                 },
-                "InputArtifacts": [
-                  {
+                "InputArtifacts": Array [
+                  Object {
                     "Name": "aws_samples_baseline_environment_on_aws_Source",
                   },
                 ],
                 "Name": "Synth",
-                "OutputArtifacts": [
-                  {
+                "OutputArtifacts": Array [
+                  Object {
                     "Name": "Synth_Output",
                   },
                 ],
-                "RoleArn": {
-                  "Fn::GetAtt": [
+                "RoleArn": Object {
+                  "Fn::GetAtt": Array [
                     "PipelineCodeBuildActionRole226DB0CB",
                     "Arn",
                   ],
@@ -98,29 +98,29 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
             ],
             "Name": "Build",
           },
-          {
-            "Actions": [
-              {
-                "ActionTypeId": {
+          Object {
+            "Actions": Array [
+              Object {
+                "ActionTypeId": Object {
                   "Category": "Build",
                   "Owner": "AWS",
                   "Provider": "CodeBuild",
                   "Version": "1",
                 },
-                "Configuration": {
-                  "EnvironmentVariables": "[{"name":"_PROJECT_CONFIG_HASH","type":"PLAINTEXT","value":"4f67319bbdbc8a4822d92e1638b4210739b162975724041ca7db5f53bbcb763d"}]",
-                  "ProjectName": {
+                "Configuration": Object {
+                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"685ee3453127134e4fd0bcd277fa53ca0f0d612b8970c5a9f096167f35bd3823\\"}]",
+                  "ProjectName": Object {
                     "Ref": "PipelineUpdatePipelineSelfMutationDAA41400",
                   },
                 },
-                "InputArtifacts": [
-                  {
+                "InputArtifacts": Array [
+                  Object {
                     "Name": "Synth_Output",
                   },
                 ],
                 "Name": "SelfMutate",
-                "RoleArn": {
-                  "Fn::GetAtt": [
+                "RoleArn": Object {
+                  "Fn::GetAtt": Array [
                     "PipelineCodeBuildActionRole226DB0CB",
                     "Arn",
                   ],
@@ -130,37 +130,37 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
             ],
             "Name": "UpdatePipeline",
           },
-          {
-            "Actions": [
-              {
-                "ActionTypeId": {
+          Object {
+            "Actions": Array [
+              Object {
+                "ActionTypeId": Object {
                   "Category": "Deploy",
                   "Owner": "AWS",
                   "Provider": "CloudFormation",
                   "Version": "1",
                 },
-                "Configuration": {
+                "Configuration": Object {
                   "ActionMode": "CHANGE_SET_REPLACE",
                   "Capabilities": "CAPABILITY_NAMED_IAM,CAPABILITY_AUTO_EXPAND",
                   "ChangeSetName": "PipelineChange",
-                  "RoleArn": {
-                    "Fn::Join": [
+                  "RoleArn": Object {
+                    "Fn::Join": Array [
                       "",
-                      [
+                      Array [
                         "arn:",
-                        {
+                        Object {
                           "Ref": "AWS::Partition",
                         },
                         ":iam::",
-                        {
+                        Object {
                           "Ref": "AWS::AccountId",
                         },
                         ":role/cdk-hnb659fds-cfn-exec-role-",
-                        {
+                        Object {
                           "Ref": "AWS::AccountId",
                         },
                         "-",
-                        {
+                        Object {
                           "Ref": "AWS::Region",
                         },
                       ],
@@ -170,30 +170,30 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
                   "TemplateConfiguration": "Synth_Output::assembly-Dev-BLEAGovBaseCtPipeilne-Dev/DevBLEAGovBaseCtPipeilneDevBLEAGovBaseCt843AF7BA.template.json.config.json",
                   "TemplatePath": "Synth_Output::assembly-Dev-BLEAGovBaseCtPipeilne-Dev/DevBLEAGovBaseCtPipeilneDevBLEAGovBaseCt843AF7BA.template.json",
                 },
-                "InputArtifacts": [
-                  {
+                "InputArtifacts": Array [
+                  Object {
                     "Name": "Synth_Output",
                   },
                 ],
                 "Name": "Prepare",
-                "RoleArn": {
-                  "Fn::Join": [
+                "RoleArn": Object {
+                  "Fn::Join": Array [
                     "",
-                    [
+                    Array [
                       "arn:",
-                      {
+                      Object {
                         "Ref": "AWS::Partition",
                       },
                       ":iam::",
-                      {
+                      Object {
                         "Ref": "AWS::AccountId",
                       },
                       ":role/cdk-hnb659fds-deploy-role-",
-                      {
+                      Object {
                         "Ref": "AWS::AccountId",
                       },
                       "-",
-                      {
+                      Object {
                         "Ref": "AWS::Region",
                       },
                     ],
@@ -201,37 +201,37 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
                 },
                 "RunOrder": 1,
               },
-              {
-                "ActionTypeId": {
+              Object {
+                "ActionTypeId": Object {
                   "Category": "Deploy",
                   "Owner": "AWS",
                   "Provider": "CloudFormation",
                   "Version": "1",
                 },
-                "Configuration": {
+                "Configuration": Object {
                   "ActionMode": "CHANGE_SET_EXECUTE",
                   "ChangeSetName": "PipelineChange",
                   "StackName": "Dev-BLEAGovBaseCt",
                 },
                 "Name": "Deploy",
-                "RoleArn": {
-                  "Fn::Join": [
+                "RoleArn": Object {
+                  "Fn::Join": Array [
                     "",
-                    [
+                    Array [
                       "arn:",
-                      {
+                      Object {
                         "Ref": "AWS::Partition",
                       },
                       ":iam::",
-                      {
+                      Object {
                         "Ref": "AWS::AccountId",
                       },
                       ":role/cdk-hnb659fds-deploy-role-",
-                      {
+                      Object {
                         "Ref": "AWS::AccountId",
                       },
                       "-",
-                      {
+                      Object {
                         "Ref": "AWS::Region",
                       },
                     ],
@@ -246,19 +246,19 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
       },
       "Type": "AWS::CodePipeline::Pipeline",
     },
-    "PipelineArtifactsBucketAEA9A052": {
+    "PipelineArtifactsBucketAEA9A052": Object {
       "DeletionPolicy": "Retain",
-      "Properties": {
-        "BucketEncryption": {
-          "ServerSideEncryptionConfiguration": [
-            {
-              "ServerSideEncryptionByDefault": {
+      "Properties": Object {
+        "BucketEncryption": Object {
+          "ServerSideEncryptionConfiguration": Array [
+            Object {
+              "ServerSideEncryptionByDefault": Object {
                 "SSEAlgorithm": "aws:kms",
               },
             },
           ],
         },
-        "PublicAccessBlockConfiguration": {
+        "PublicAccessBlockConfiguration": Object {
           "BlockPublicAcls": true,
           "BlockPublicPolicy": true,
           "IgnorePublicAcls": true,
@@ -268,37 +268,37 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
       "Type": "AWS::S3::Bucket",
       "UpdateReplacePolicy": "Retain",
     },
-    "PipelineArtifactsBucketPolicyF53CCC52": {
-      "Properties": {
-        "Bucket": {
+    "PipelineArtifactsBucketPolicyF53CCC52": Object {
+      "Properties": Object {
+        "Bucket": Object {
           "Ref": "PipelineArtifactsBucketAEA9A052",
         },
-        "PolicyDocument": {
-          "Statement": [
-            {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "s3:*",
-              "Condition": {
-                "Bool": {
+              "Condition": Object {
+                "Bool": Object {
                   "aws:SecureTransport": "false",
                 },
               },
               "Effect": "Deny",
-              "Principal": {
+              "Principal": Object {
                 "AWS": "*",
               },
-              "Resource": [
-                {
-                  "Fn::GetAtt": [
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
                     "PipelineArtifactsBucketAEA9A052",
                     "Arn",
                   ],
                 },
-                {
-                  "Fn::Join": [
+                Object {
+                  "Fn::Join": Array [
                     "",
-                    [
-                      {
-                        "Fn::GetAtt": [
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
                           "PipelineArtifactsBucketAEA9A052",
                           "Arn",
                         ],
@@ -309,51 +309,51 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
                 },
               ],
             },
-            {
-              "Action": [
+            Object {
+              "Action": Array [
                 "s3:GetObject*",
                 "s3:GetBucket*",
                 "s3:List*",
               ],
               "Effect": "Allow",
-              "Principal": {
-                "AWS": {
-                  "Fn::Join": [
+              "Principal": Object {
+                "AWS": Object {
+                  "Fn::Join": Array [
                     "",
-                    [
+                    Array [
                       "arn:",
-                      {
+                      Object {
                         "Ref": "AWS::Partition",
                       },
                       ":iam::",
-                      {
+                      Object {
                         "Ref": "AWS::AccountId",
                       },
                       ":role/cdk-hnb659fds-deploy-role-",
-                      {
+                      Object {
                         "Ref": "AWS::AccountId",
                       },
                       "-",
-                      {
+                      Object {
                         "Ref": "AWS::Region",
                       },
                     ],
                   ],
                 },
               },
-              "Resource": [
-                {
-                  "Fn::GetAtt": [
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
                     "PipelineArtifactsBucketAEA9A052",
                     "Arn",
                   ],
                 },
-                {
-                  "Fn::Join": [
+                Object {
+                  "Fn::Join": Array [
                     "",
-                    [
-                      {
-                        "Fn::GetAtt": [
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
                           "PipelineArtifactsBucketAEA9A052",
                           "Arn",
                         ],
@@ -370,52 +370,52 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
       },
       "Type": "AWS::S3::BucketPolicy",
     },
-    "PipelineBuildSynthCdkBuildProject6BEFA8E6": {
-      "Properties": {
-        "Artifacts": {
+    "PipelineBuildSynthCdkBuildProject6BEFA8E6": Object {
+      "Properties": Object {
+        "Artifacts": Object {
           "Type": "CODEPIPELINE",
         },
-        "Cache": {
+        "Cache": Object {
           "Type": "NO_CACHE",
         },
         "Description": "Pipeline step Dev-BLEAGovBaseCtPipeilne/Pipeline/Build/Synth",
         "EncryptionKey": "alias/aws/s3",
-        "Environment": {
+        "Environment": Object {
           "ComputeType": "BUILD_GENERAL1_SMALL",
-          "Image": "aws/codebuild/standard:7.0",
+          "Image": "aws/codebuild/standard:6.0",
           "ImagePullCredentialsType": "CODEBUILD",
           "PrivilegedMode": false,
           "Type": "LINUX_CONTAINER",
         },
-        "ServiceRole": {
-          "Fn::GetAtt": [
+        "ServiceRole": Object {
+          "Fn::GetAtt": Array [
             "PipelineBuildSynthCdkBuildProjectRole231EEA2A",
             "Arn",
           ],
         },
-        "Source": {
+        "Source": Object {
           "BuildSpec": "{
-  "version": "0.2",
-  "phases": {
-    "install": {
-      "commands": [
-        "n stable",
-        "node --version",
-        "npm i -g npm",
-        "npm --version"
+  \\"version\\": \\"0.2\\",
+  \\"phases\\": {
+    \\"install\\": {
+      \\"commands\\": [
+        \\"n stable\\",
+        \\"node --version\\",
+        \\"npm i -g npm\\",
+        \\"npm --version\\"
       ]
     },
-    "build": {
-      "commands": [
-        "npm ci --workspaces",
-        "cd usecases/blea-gov-base-ct",
-        "npx cdk synth --app \\"npx ts-node --prefer-ts-exts bin/blea-gov-base-ct-via-cdk-pipelines.ts\\" --all"
+    \\"build\\": {
+      \\"commands\\": [
+        \\"npm ci --workspaces\\",
+        \\"cd usecases/blea-gov-base-ct\\",
+        \\"npx cdk synth --app \\\\\\"npx ts-node --prefer-ts-exts bin/blea-gov-base-ct-via-cdk-pipelines.ts\\\\\\" --all\\"
       ]
     }
   },
-  "artifacts": {
-    "base-directory": "./usecases/blea-gov-base-ct/cdk.out",
-    "files": "**/*"
+  \\"artifacts\\": {
+    \\"base-directory\\": \\"./usecases/blea-gov-base-ct/cdk.out\\",
+    \\"files\\": \\"**/*\\"
   }
 }",
           "Type": "CODEPIPELINE",
@@ -423,14 +423,14 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
       },
       "Type": "AWS::CodeBuild::Project",
     },
-    "PipelineBuildSynthCdkBuildProjectRole231EEA2A": {
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
+    "PipelineBuildSynthCdkBuildProjectRole231EEA2A": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "Service": "codebuild.amazonaws.com",
               },
             },
@@ -440,43 +440,43 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
-    "PipelineBuildSynthCdkBuildProjectRoleDefaultPolicyFB6C941C": {
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": [
+    "PipelineBuildSynthCdkBuildProjectRoleDefaultPolicyFB6C941C": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
                 "logs:CreateLogGroup",
                 "logs:CreateLogStream",
                 "logs:PutLogEvents",
               ],
               "Effect": "Allow",
-              "Resource": [
-                {
-                  "Fn::Join": [
+              "Resource": Array [
+                Object {
+                  "Fn::Join": Array [
                     "",
-                    [
+                    Array [
                       "arn:",
-                      {
+                      Object {
                         "Ref": "AWS::Partition",
                       },
                       ":logs:ap-northeast-1:123456789012:log-group:/aws/codebuild/",
-                      {
+                      Object {
                         "Ref": "PipelineBuildSynthCdkBuildProject6BEFA8E6",
                       },
                     ],
                   ],
                 },
-                {
-                  "Fn::Join": [
+                Object {
+                  "Fn::Join": Array [
                     "",
-                    [
+                    Array [
                       "arn:",
-                      {
+                      Object {
                         "Ref": "AWS::Partition",
                       },
                       ":logs:ap-northeast-1:123456789012:log-group:/aws/codebuild/",
-                      {
+                      Object {
                         "Ref": "PipelineBuildSynthCdkBuildProject6BEFA8E6",
                       },
                       ":*",
@@ -485,8 +485,8 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
                 },
               ],
             },
-            {
-              "Action": [
+            Object {
+              "Action": Array [
                 "codebuild:CreateReportGroup",
                 "codebuild:CreateReport",
                 "codebuild:UpdateReport",
@@ -494,16 +494,16 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
                 "codebuild:BatchPutCodeCoverages",
               ],
               "Effect": "Allow",
-              "Resource": {
-                "Fn::Join": [
+              "Resource": Object {
+                "Fn::Join": Array [
                   "",
-                  [
+                  Array [
                     "arn:",
-                    {
+                    Object {
                       "Ref": "AWS::Partition",
                     },
                     ":codebuild:ap-northeast-1:123456789012:report-group/",
-                    {
+                    Object {
                       "Ref": "PipelineBuildSynthCdkBuildProject6BEFA8E6",
                     },
                     "-*",
@@ -511,8 +511,8 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
                 ],
               },
             },
-            {
-              "Action": [
+            Object {
+              "Action": Array [
                 "s3:GetObject*",
                 "s3:GetBucket*",
                 "s3:List*",
@@ -525,19 +525,19 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
                 "s3:Abort*",
               ],
               "Effect": "Allow",
-              "Resource": [
-                {
-                  "Fn::GetAtt": [
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
                     "PipelineArtifactsBucketAEA9A052",
                     "Arn",
                   ],
                 },
-                {
-                  "Fn::Join": [
+                Object {
+                  "Fn::Join": Array [
                     "",
-                    [
-                      {
-                        "Fn::GetAtt": [
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
                           "PipelineArtifactsBucketAEA9A052",
                           "Arn",
                         ],
@@ -552,24 +552,24 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
           "Version": "2012-10-17",
         },
         "PolicyName": "PipelineBuildSynthCdkBuildProjectRoleDefaultPolicyFB6C941C",
-        "Roles": [
-          {
+        "Roles": Array [
+          Object {
             "Ref": "PipelineBuildSynthCdkBuildProjectRole231EEA2A",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "PipelineCodeBuildActionRole226DB0CB": {
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
+    "PipelineCodeBuildActionRole226DB0CB": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": {
-                "AWS": {
-                  "Fn::GetAtt": [
+              "Principal": Object {
+                "AWS": Object {
+                  "Fn::GetAtt": Array [
                     "PipelineRoleB27FAA37",
                     "Arn",
                   ],
@@ -582,33 +582,33 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
-    "PipelineCodeBuildActionRoleDefaultPolicy1D62A6FE": {
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": [
+    "PipelineCodeBuildActionRoleDefaultPolicy1D62A6FE": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
                 "codebuild:BatchGetBuilds",
                 "codebuild:StartBuild",
                 "codebuild:StopBuild",
               ],
               "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
+              "Resource": Object {
+                "Fn::GetAtt": Array [
                   "PipelineBuildSynthCdkBuildProject6BEFA8E6",
                   "Arn",
                 ],
               },
             },
-            {
-              "Action": [
+            Object {
+              "Action": Array [
                 "codebuild:BatchGetBuilds",
                 "codebuild:StartBuild",
                 "codebuild:StopBuild",
               ],
               "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
+              "Resource": Object {
+                "Fn::GetAtt": Array [
                   "PipelineUpdatePipelineSelfMutationDAA41400",
                   "Arn",
                 ],
@@ -618,22 +618,22 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
           "Version": "2012-10-17",
         },
         "PolicyName": "PipelineCodeBuildActionRoleDefaultPolicy1D62A6FE",
-        "Roles": [
-          {
+        "Roles": Array [
+          Object {
             "Ref": "PipelineCodeBuildActionRole226DB0CB",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "PipelineRoleB27FAA37": {
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
+    "PipelineRoleB27FAA37": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "Service": "codepipeline.amazonaws.com",
               },
             },
@@ -643,12 +643,12 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
-    "PipelineRoleDefaultPolicy7BDC1ABB": {
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": [
+    "PipelineRoleDefaultPolicy7BDC1ABB": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
                 "s3:GetObject*",
                 "s3:GetBucket*",
                 "s3:List*",
@@ -661,19 +661,19 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
                 "s3:Abort*",
               ],
               "Effect": "Allow",
-              "Resource": [
-                {
-                  "Fn::GetAtt": [
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
                     "PipelineArtifactsBucketAEA9A052",
                     "Arn",
                   ],
                 },
-                {
-                  "Fn::Join": [
+                Object {
+                  "Fn::Join": Array [
                     "",
-                    [
-                      {
-                        "Fn::GetAtt": [
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
                           "PipelineArtifactsBucketAEA9A052",
                           "Arn",
                         ],
@@ -684,47 +684,47 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
                 },
               ],
             },
-            {
+            Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
+              "Resource": Object {
+                "Fn::GetAtt": Array [
                   "PipelineSourceawssamplesbaselineenvironmentonawsCodePipelineActionRole1BD37B19",
                   "Arn",
                 ],
               },
             },
-            {
+            Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
+              "Resource": Object {
+                "Fn::GetAtt": Array [
                   "PipelineCodeBuildActionRole226DB0CB",
                   "Arn",
                 ],
               },
             },
-            {
+            Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Resource": {
-                "Fn::Join": [
+              "Resource": Object {
+                "Fn::Join": Array [
                   "",
-                  [
+                  Array [
                     "arn:",
-                    {
+                    Object {
                       "Ref": "AWS::Partition",
                     },
                     ":iam::",
-                    {
+                    Object {
                       "Ref": "AWS::AccountId",
                     },
                     ":role/cdk-hnb659fds-deploy-role-",
-                    {
+                    Object {
                       "Ref": "AWS::AccountId",
                     },
                     "-",
-                    {
+                    Object {
                       "Ref": "AWS::Region",
                     },
                   ],
@@ -735,28 +735,28 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
           "Version": "2012-10-17",
         },
         "PolicyName": "PipelineRoleDefaultPolicy7BDC1ABB",
-        "Roles": [
-          {
+        "Roles": Array [
+          Object {
             "Ref": "PipelineRoleB27FAA37",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "PipelineSourceawssamplesbaselineenvironmentonawsCodePipelineActionRole1BD37B19": {
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
+    "PipelineSourceawssamplesbaselineenvironmentonawsCodePipelineActionRole1BD37B19": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": {
-                "AWS": {
-                  "Fn::Join": [
+              "Principal": Object {
+                "AWS": Object {
+                  "Fn::Join": Array [
                     "",
-                    [
+                    Array [
                       "arn:",
-                      {
+                      Object {
                         "Ref": "AWS::Partition",
                       },
                       ":iam::123456789012:root",
@@ -771,17 +771,17 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
-    "PipelineSourceawssamplesbaselineenvironmentonawsCodePipelineActionRoleDefaultPolicy51E7124E": {
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
+    "PipelineSourceawssamplesbaselineenvironmentonawsCodePipelineActionRoleDefaultPolicy51E7124E": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "codestar-connections:UseConnection",
               "Effect": "Allow",
               "Resource": "arn:aws:codestar-connections:ap-northeast-1:xxxxxxxxxxxx:connection/example",
             },
-            {
-              "Action": [
+            Object {
+              "Action": Array [
                 "s3:GetObject*",
                 "s3:GetBucket*",
                 "s3:List*",
@@ -794,19 +794,19 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
                 "s3:Abort*",
               ],
               "Effect": "Allow",
-              "Resource": [
-                {
-                  "Fn::GetAtt": [
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
                     "PipelineArtifactsBucketAEA9A052",
                     "Arn",
                   ],
                 },
-                {
-                  "Fn::Join": [
+                Object {
+                  "Fn::Join": Array [
                     "",
-                    [
-                      {
-                        "Fn::GetAtt": [
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
                           "PipelineArtifactsBucketAEA9A052",
                           "Arn",
                         ],
@@ -817,18 +817,18 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
                 },
               ],
             },
-            {
-              "Action": [
+            Object {
+              "Action": Array [
                 "s3:PutObjectAcl",
                 "s3:PutObjectVersionAcl",
               ],
               "Effect": "Allow",
-              "Resource": {
-                "Fn::Join": [
+              "Resource": Object {
+                "Fn::Join": Array [
                   "",
-                  [
-                    {
-                      "Fn::GetAtt": [
+                  Array [
+                    Object {
+                      "Fn::GetAtt": Array [
                         "PipelineArtifactsBucketAEA9A052",
                         "Arn",
                       ],
@@ -842,49 +842,49 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
           "Version": "2012-10-17",
         },
         "PolicyName": "PipelineSourceawssamplesbaselineenvironmentonawsCodePipelineActionRoleDefaultPolicy51E7124E",
-        "Roles": [
-          {
+        "Roles": Array [
+          Object {
             "Ref": "PipelineSourceawssamplesbaselineenvironmentonawsCodePipelineActionRole1BD37B19",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "PipelineUpdatePipelineSelfMutationDAA41400": {
-      "Properties": {
-        "Artifacts": {
+    "PipelineUpdatePipelineSelfMutationDAA41400": Object {
+      "Properties": Object {
+        "Artifacts": Object {
           "Type": "CODEPIPELINE",
         },
-        "Cache": {
+        "Cache": Object {
           "Type": "NO_CACHE",
         },
         "Description": "Pipeline step Dev-BLEAGovBaseCtPipeilne/Pipeline/UpdatePipeline/SelfMutate",
         "EncryptionKey": "alias/aws/s3",
-        "Environment": {
+        "Environment": Object {
           "ComputeType": "BUILD_GENERAL1_SMALL",
-          "Image": "aws/codebuild/standard:7.0",
+          "Image": "aws/codebuild/standard:6.0",
           "ImagePullCredentialsType": "CODEBUILD",
           "PrivilegedMode": false,
           "Type": "LINUX_CONTAINER",
         },
-        "ServiceRole": {
-          "Fn::GetAtt": [
+        "ServiceRole": Object {
+          "Fn::GetAtt": Array [
             "PipelineUpdatePipelineSelfMutationRole57E559E8",
             "Arn",
           ],
         },
-        "Source": {
+        "Source": Object {
           "BuildSpec": "{
-  "version": "0.2",
-  "phases": {
-    "install": {
-      "commands": [
-        "npm install -g aws-cdk@2"
+  \\"version\\": \\"0.2\\",
+  \\"phases\\": {
+    \\"install\\": {
+      \\"commands\\": [
+        \\"npm install -g aws-cdk@2\\"
       ]
     },
-    "build": {
-      "commands": [
-        "cdk -a . deploy Dev-BLEAGovBaseCtPipeilne --require-approval=never --verbose"
+    \\"build\\": {
+      \\"commands\\": [
+        \\"cdk -a . deploy Dev-BLEAGovBaseCtPipeilne --require-approval=never --verbose\\"
       ]
     }
   }
@@ -894,14 +894,14 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
       },
       "Type": "AWS::CodeBuild::Project",
     },
-    "PipelineUpdatePipelineSelfMutationRole57E559E8": {
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
+    "PipelineUpdatePipelineSelfMutationRole57E559E8": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "Service": "codebuild.amazonaws.com",
               },
             },
@@ -911,43 +911,43 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
-    "PipelineUpdatePipelineSelfMutationRoleDefaultPolicyA225DA4E": {
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": [
+    "PipelineUpdatePipelineSelfMutationRoleDefaultPolicyA225DA4E": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
                 "logs:CreateLogGroup",
                 "logs:CreateLogStream",
                 "logs:PutLogEvents",
               ],
               "Effect": "Allow",
-              "Resource": [
-                {
-                  "Fn::Join": [
+              "Resource": Array [
+                Object {
+                  "Fn::Join": Array [
                     "",
-                    [
+                    Array [
                       "arn:",
-                      {
+                      Object {
                         "Ref": "AWS::Partition",
                       },
                       ":logs:ap-northeast-1:123456789012:log-group:/aws/codebuild/",
-                      {
+                      Object {
                         "Ref": "PipelineUpdatePipelineSelfMutationDAA41400",
                       },
                     ],
                   ],
                 },
-                {
-                  "Fn::Join": [
+                Object {
+                  "Fn::Join": Array [
                     "",
-                    [
+                    Array [
                       "arn:",
-                      {
+                      Object {
                         "Ref": "AWS::Partition",
                       },
                       ":logs:ap-northeast-1:123456789012:log-group:/aws/codebuild/",
-                      {
+                      Object {
                         "Ref": "PipelineUpdatePipelineSelfMutationDAA41400",
                       },
                       ":*",
@@ -956,8 +956,8 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
                 },
               ],
             },
-            {
-              "Action": [
+            Object {
+              "Action": Array [
                 "codebuild:CreateReportGroup",
                 "codebuild:CreateReport",
                 "codebuild:UpdateReport",
@@ -965,16 +965,16 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
                 "codebuild:BatchPutCodeCoverages",
               ],
               "Effect": "Allow",
-              "Resource": {
-                "Fn::Join": [
+              "Resource": Object {
+                "Fn::Join": Array [
                   "",
-                  [
+                  Array [
                     "arn:",
-                    {
+                    Object {
                       "Ref": "AWS::Partition",
                     },
                     ":codebuild:ap-northeast-1:123456789012:report-group/",
-                    {
+                    Object {
                       "Ref": "PipelineUpdatePipelineSelfMutationDAA41400",
                     },
                     "-*",
@@ -982,11 +982,11 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
                 ],
               },
             },
-            {
+            Object {
               "Action": "sts:AssumeRole",
-              "Condition": {
-                "ForAnyValue:StringEquals": {
-                  "iam:ResourceTag/aws-cdk:bootstrap-role": [
+              "Condition": Object {
+                "ForAnyValue:StringEquals": Object {
+                  "iam:ResourceTag/aws-cdk:bootstrap-role": Array [
                     "image-publishing",
                     "file-publishing",
                     "deploy",
@@ -996,36 +996,36 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
               "Effect": "Allow",
               "Resource": "arn:*:iam::123456789012:role/*",
             },
-            {
+            Object {
               "Action": "cloudformation:DescribeStacks",
               "Effect": "Allow",
               "Resource": "*",
             },
-            {
+            Object {
               "Action": "s3:ListBucket",
               "Effect": "Allow",
               "Resource": "*",
             },
-            {
-              "Action": [
+            Object {
+              "Action": Array [
                 "s3:GetObject*",
                 "s3:GetBucket*",
                 "s3:List*",
               ],
               "Effect": "Allow",
-              "Resource": [
-                {
-                  "Fn::GetAtt": [
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
                     "PipelineArtifactsBucketAEA9A052",
                     "Arn",
                   ],
                 },
-                {
-                  "Fn::Join": [
+                Object {
+                  "Fn::Join": Array [
                     "",
-                    [
-                      {
-                        "Fn::GetAtt": [
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
                           "PipelineArtifactsBucketAEA9A052",
                           "Arn",
                         ],
@@ -1040,8 +1040,8 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
           "Version": "2012-10-17",
         },
         "PolicyName": "PipelineUpdatePipelineSelfMutationRoleDefaultPolicyA225DA4E",
-        "Roles": [
-          {
+        "Roles": Array [
+          Object {
             "Ref": "PipelineUpdatePipelineSelfMutationRole57E559E8",
           },
         ],
@@ -1049,22 +1049,22 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
       "Type": "AWS::IAM::Policy",
     },
   },
-  "Rules": {
-    "CheckBootstrapVersion": {
-      "Assertions": [
-        {
-          "Assert": {
-            "Fn::Not": [
-              {
-                "Fn::Contains": [
-                  [
+  "Rules": Object {
+    "CheckBootstrapVersion": Object {
+      "Assertions": Array [
+        Object {
+          "Assert": Object {
+            "Fn::Not": Array [
+              Object {
+                "Fn::Contains": Array [
+                  Array [
                     "1",
                     "2",
                     "3",
                     "4",
                     "5",
                   ],
-                  {
+                  Object {
                     "Ref": "BootstrapVersion",
                   },
                 ],
