@@ -1273,7 +1273,7 @@ Object {
         "LoggingConfigRole0E4FDF1F",
       ],
       "Properties": Object {
-        "Endpoint": "suzukyz+notify-security@amazon.co.jpm",
+        "Endpoint": "notify-security@example.com",
         "Protocol": "email",
         "TopicArn": Object {
           "Ref": "DetectionAlarmTopic36C4BB55",
@@ -2906,8 +2906,8 @@ Object {
             "Arn",
           ],
         },
-        "SlackChannelId": "C031889HJRF",
-        "SlackWorkspaceId": "T030VKQD7BM",
+        "SlackChannelId": "C00XXXXXXXX",
+        "SlackWorkspaceId": "T8XXXXXXX",
         "SnsTopicArns": Array [
           Object {
             "Ref": "DetectionAlarmTopic36C4BB55",
