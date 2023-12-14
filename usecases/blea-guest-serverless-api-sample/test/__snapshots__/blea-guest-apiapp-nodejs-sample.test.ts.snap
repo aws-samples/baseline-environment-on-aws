@@ -1,23 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Snapshot test for ServerlessApi Stack 1`] = `
-Object {
-  "Outputs": Object {
-    "ApiRestApiEndpoint4DEFB5CC": Object {
-      "Value": Object {
-        "Fn::Join": Array [
+{
+  "Outputs": {
+    "ApiRestApiEndpoint4DEFB5CC": {
+      "Value": {
+        "Fn::Join": [
           "",
-          Array [
+          [
             "https://",
-            Object {
+            {
               "Ref": "ApiRestApiE35FEAFE",
             },
             ".execute-api.ap-northeast-1.",
-            Object {
+            {
               "Ref": "AWS::URLSuffix",
             },
             "/",
-            Object {
+            {
               "Ref": "ApiRestApiDeploymentStageprodE828476C",
             },
             "/",
@@ -26,26 +26,26 @@ Object {
       },
     },
   },
-  "Parameters": Object {
-    "BootstrapVersion": Object {
+  "Parameters": {
+    "BootstrapVersion": {
       "Default": "/cdk-bootstrap/hnb659fds/version",
       "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
       "Type": "AWS::SSM::Parameter::Value<String>",
     },
   },
-  "Resources": Object {
-    "ApiAPIGatewayInvocationCountB691929A": Object {
-      "Properties": Object {
+  "Resources": {
+    "ApiAPIGatewayInvocationCountB691929A": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
+        "AlarmActions": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": Array [
-          Object {
+        "Dimensions": [
+          {
             "Name": "ApiName",
             "Value": "RestApi",
           },
@@ -59,75 +59,75 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiApiGatewayLogGroup7BC2F58D": Object {
+    "ApiApiGatewayLogGroup7BC2F58D": {
       "DeletionPolicy": "Retain",
-      "Properties": Object {
+      "Properties": {
         "RetentionInDays": 30,
       },
       "Type": "AWS::Logs::LogGroup",
       "UpdateReplacePolicy": "Retain",
     },
-    "ApiLambdaNodejsGetItemFunction690D1743": Object {
-      "DependsOn": Array [
+    "ApiLambdaNodejsGetItemFunction690D1743": {
+      "DependsOn": [
         "ApiLambdaNodejsGetItemFunctionServiceRoleDefaultPolicy47E2D438",
         "ApiLambdaNodejsGetItemFunctionServiceRoleE5916FAE",
       ],
-      "Properties": Object {
-        "Code": Object {
-          "S3Bucket": Object {
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
-          "S3Key": "a616604aaa5cc7457cca5373a05c61891e93469ced11392a0cd056762c7c50aa.zip",
+          "S3Key": "0157fe07cfc88764efa12fcb763d754f369f10425465a09d15e1d590506494df.zip",
         },
-        "Environment": Object {
-          "Variables": Object {
+        "Environment": {
+          "Variables": {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-            "DDB_TABLE": Object {
+            "DDB_TABLE": {
               "Ref": "DatastoreTable6900098D",
             },
           },
         },
         "Handler": "index.getItem",
-        "KmsKeyArn": Object {
-          "Fn::GetAtt": Array [
+        "KmsKeyArn": {
+          "Fn::GetAtt": [
             "CMK56817A4C",
             "Arn",
           ],
         },
-        "Layers": Array [
+        "Layers": [
           "arn:aws:lambda:ap-northeast-1:580247275435:layer:LambdaInsightsExtension:14",
         ],
         "MemorySize": 256,
-        "Role": Object {
-          "Fn::GetAtt": Array [
+        "Role": {
+          "Fn::GetAtt": [
             "ApiLambdaNodejsGetItemFunctionServiceRoleE5916FAE",
             "Arn",
           ],
         },
         "Runtime": "nodejs14.x",
         "Timeout": 25,
-        "TracingConfig": Object {
+        "TracingConfig": {
           "Mode": "Active",
         },
       },
       "Type": "AWS::Lambda::Function",
     },
-    "ApiLambdaNodejsGetItemFunctionLogRetentionAEF27AB1": Object {
-      "Properties": Object {
-        "LogGroupName": Object {
-          "Fn::Join": Array [
+    "ApiLambdaNodejsGetItemFunctionLogRetentionAEF27AB1": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
             "",
-            Array [
+            [
               "/aws/lambda/",
-              Object {
+              {
                 "Ref": "ApiLambdaNodejsGetItemFunction690D1743",
               },
             ],
           ],
         },
         "RetentionInDays": 90,
-        "ServiceToken": Object {
-          "Fn::GetAtt": Array [
+        "ServiceToken": {
+          "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
             "Arn",
           ],
@@ -135,20 +135,20 @@ Object {
       },
       "Type": "Custom::LogRetention",
     },
-    "ApiLambdaNodejsGetItemFunctionServiceRoleDefaultPolicy47E2D438": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
+    "ApiLambdaNodejsGetItemFunctionServiceRoleDefaultPolicy47E2D438": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
                 "xray:PutTraceSegments",
                 "xray:PutTelemetryRecords",
               ],
               "Effect": "Allow",
               "Resource": "*",
             },
-            Object {
-              "Action": Array [
+            {
+              "Action": [
                 "kms:Encrypt*",
                 "kms:Decrypt*",
                 "kms:ReEncrypt*",
@@ -156,32 +156,32 @@ Object {
                 "kms:Describe*",
               ],
               "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
+              "Resource": {
+                "Fn::GetAtt": [
                   "CMK56817A4C",
                   "Arn",
                 ],
               },
             },
-            Object {
-              "Action": Array [
+            {
+              "Action": [
                 "dynamodb:Query",
                 "dynamodb:GetItem",
               ],
               "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
                     "DatastoreTable6900098D",
                     "Arn",
                   ],
                 },
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
+                    [
+                      {
+                        "Fn::GetAtt": [
                           "DatastoreTable6900098D",
                           "Arn",
                         ],
@@ -196,47 +196,47 @@ Object {
           "Version": "2012-10-17",
         },
         "PolicyName": "ApiLambdaNodejsGetItemFunctionServiceRoleDefaultPolicy47E2D438",
-        "Roles": Array [
-          Object {
+        "Roles": [
+          {
             "Ref": "ApiLambdaNodejsGetItemFunctionServiceRoleE5916FAE",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "ApiLambdaNodejsGetItemFunctionServiceRoleE5916FAE": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
+    "ApiLambdaNodejsGetItemFunctionServiceRoleE5916FAE": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": Object {
+              "Principal": {
                 "Service": "lambda.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
               ],
             ],
           },
-          Object {
-            "Fn::Join": Array [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
@@ -247,67 +247,67 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "ApiLambdaNodejsListItemsFunction7383885E": Object {
-      "DependsOn": Array [
+    "ApiLambdaNodejsListItemsFunction7383885E": {
+      "DependsOn": [
         "ApiLambdaNodejsListItemsFunctionServiceRoleDefaultPolicy79E6AC10",
         "ApiLambdaNodejsListItemsFunctionServiceRole568FA032",
       ],
-      "Properties": Object {
-        "Code": Object {
-          "S3Bucket": Object {
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
-          "S3Key": "0d9e5c676e6afe9e67a4e2ec1973be8d83308ef75062c2a39b03be6da1d6dcb3.zip",
+          "S3Key": "1e9ca361a3f211f391de1a63a75aa25053dbf11ebf7b6ad57020c9d08caeafa5.zip",
         },
-        "Environment": Object {
-          "Variables": Object {
+        "Environment": {
+          "Variables": {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-            "DDB_TABLE": Object {
+            "DDB_TABLE": {
               "Ref": "DatastoreTable6900098D",
             },
           },
         },
         "Handler": "index.listItems",
-        "KmsKeyArn": Object {
-          "Fn::GetAtt": Array [
+        "KmsKeyArn": {
+          "Fn::GetAtt": [
             "CMK56817A4C",
             "Arn",
           ],
         },
-        "Layers": Array [
+        "Layers": [
           "arn:aws:lambda:ap-northeast-1:580247275435:layer:LambdaInsightsExtension:14",
         ],
         "MemorySize": 256,
-        "Role": Object {
-          "Fn::GetAtt": Array [
+        "Role": {
+          "Fn::GetAtt": [
             "ApiLambdaNodejsListItemsFunctionServiceRole568FA032",
             "Arn",
           ],
         },
         "Runtime": "nodejs14.x",
         "Timeout": 25,
-        "TracingConfig": Object {
+        "TracingConfig": {
           "Mode": "Active",
         },
       },
       "Type": "AWS::Lambda::Function",
     },
-    "ApiLambdaNodejsListItemsFunctionLogRetention28222FF3": Object {
-      "Properties": Object {
-        "LogGroupName": Object {
-          "Fn::Join": Array [
+    "ApiLambdaNodejsListItemsFunctionLogRetention28222FF3": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
             "",
-            Array [
+            [
               "/aws/lambda/",
-              Object {
+              {
                 "Ref": "ApiLambdaNodejsListItemsFunction7383885E",
               },
             ],
           ],
         },
         "RetentionInDays": 90,
-        "ServiceToken": Object {
-          "Fn::GetAtt": Array [
+        "ServiceToken": {
+          "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
             "Arn",
           ],
@@ -315,39 +315,39 @@ Object {
       },
       "Type": "Custom::LogRetention",
     },
-    "ApiLambdaNodejsListItemsFunctionServiceRole568FA032": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
+    "ApiLambdaNodejsListItemsFunctionServiceRole568FA032": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": Object {
+              "Principal": {
                 "Service": "lambda.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
               ],
             ],
           },
-          Object {
-            "Fn::Join": Array [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
@@ -358,20 +358,20 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "ApiLambdaNodejsListItemsFunctionServiceRoleDefaultPolicy79E6AC10": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
+    "ApiLambdaNodejsListItemsFunctionServiceRoleDefaultPolicy79E6AC10": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
                 "xray:PutTraceSegments",
                 "xray:PutTelemetryRecords",
               ],
               "Effect": "Allow",
               "Resource": "*",
             },
-            Object {
-              "Action": Array [
+            {
+              "Action": [
                 "kms:Encrypt*",
                 "kms:Decrypt*",
                 "kms:ReEncrypt*",
@@ -379,32 +379,32 @@ Object {
                 "kms:Describe*",
               ],
               "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
+              "Resource": {
+                "Fn::GetAtt": [
                   "CMK56817A4C",
                   "Arn",
                 ],
               },
             },
-            Object {
-              "Action": Array [
+            {
+              "Action": [
                 "dynamodb:Query",
                 "dynamodb:Scan",
               ],
               "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
                     "DatastoreTable6900098D",
                     "Arn",
                   ],
                 },
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
+                    [
+                      {
+                        "Fn::GetAtt": [
                           "DatastoreTable6900098D",
                           "Arn",
                         ],
@@ -419,75 +419,75 @@ Object {
           "Version": "2012-10-17",
         },
         "PolicyName": "ApiLambdaNodejsListItemsFunctionServiceRoleDefaultPolicy79E6AC10",
-        "Roles": Array [
-          Object {
+        "Roles": [
+          {
             "Ref": "ApiLambdaNodejsListItemsFunctionServiceRole568FA032",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "ApiLambdaNodejsPutItemFunctionFC2FA584": Object {
-      "DependsOn": Array [
+    "ApiLambdaNodejsPutItemFunctionFC2FA584": {
+      "DependsOn": [
         "ApiLambdaNodejsPutItemFunctionServiceRoleDefaultPolicy04245F1A",
         "ApiLambdaNodejsPutItemFunctionServiceRoleB67323AE",
       ],
-      "Properties": Object {
-        "Code": Object {
-          "S3Bucket": Object {
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
-          "S3Key": "da011cc76728148664f8d21f1fb5767cc8c16ccefedd41942eae64a6135e4699.zip",
+          "S3Key": "17b346b18d1dd1c466b1915e9cd7962315bf33dabe5eabff497ee1eef6315afd.zip",
         },
-        "Environment": Object {
-          "Variables": Object {
+        "Environment": {
+          "Variables": {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-            "DDB_TABLE": Object {
+            "DDB_TABLE": {
               "Ref": "DatastoreTable6900098D",
             },
           },
         },
         "Handler": "index.putItem",
-        "KmsKeyArn": Object {
-          "Fn::GetAtt": Array [
+        "KmsKeyArn": {
+          "Fn::GetAtt": [
             "CMK56817A4C",
             "Arn",
           ],
         },
-        "Layers": Array [
+        "Layers": [
           "arn:aws:lambda:ap-northeast-1:580247275435:layer:LambdaInsightsExtension:14",
         ],
         "MemorySize": 256,
-        "Role": Object {
-          "Fn::GetAtt": Array [
+        "Role": {
+          "Fn::GetAtt": [
             "ApiLambdaNodejsPutItemFunctionServiceRoleB67323AE",
             "Arn",
           ],
         },
         "Runtime": "nodejs14.x",
         "Timeout": 25,
-        "TracingConfig": Object {
+        "TracingConfig": {
           "Mode": "Active",
         },
       },
       "Type": "AWS::Lambda::Function",
     },
-    "ApiLambdaNodejsPutItemFunctionLogRetentionF06A63D6": Object {
-      "Properties": Object {
-        "LogGroupName": Object {
-          "Fn::Join": Array [
+    "ApiLambdaNodejsPutItemFunctionLogRetentionF06A63D6": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
             "",
-            Array [
+            [
               "/aws/lambda/",
-              Object {
+              {
                 "Ref": "ApiLambdaNodejsPutItemFunctionFC2FA584",
               },
             ],
           ],
         },
         "RetentionInDays": 90,
-        "ServiceToken": Object {
-          "Fn::GetAtt": Array [
+        "ServiceToken": {
+          "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
             "Arn",
           ],
@@ -495,39 +495,39 @@ Object {
       },
       "Type": "Custom::LogRetention",
     },
-    "ApiLambdaNodejsPutItemFunctionServiceRoleB67323AE": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
+    "ApiLambdaNodejsPutItemFunctionServiceRoleB67323AE": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": Object {
+              "Principal": {
                 "Service": "lambda.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
               ],
             ],
           },
-          Object {
-            "Fn::Join": Array [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
@@ -538,20 +538,20 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "ApiLambdaNodejsPutItemFunctionServiceRoleDefaultPolicy04245F1A": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
+    "ApiLambdaNodejsPutItemFunctionServiceRoleDefaultPolicy04245F1A": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
                 "xray:PutTraceSegments",
                 "xray:PutTelemetryRecords",
               ],
               "Effect": "Allow",
               "Resource": "*",
             },
-            Object {
-              "Action": Array [
+            {
+              "Action": [
                 "kms:Encrypt*",
                 "kms:Decrypt*",
                 "kms:ReEncrypt*",
@@ -559,29 +559,29 @@ Object {
                 "kms:Describe*",
               ],
               "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
+              "Resource": {
+                "Fn::GetAtt": [
                   "CMK56817A4C",
                   "Arn",
                 ],
               },
             },
-            Object {
+            {
               "Action": "dynamodb:PutItem",
               "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
                     "DatastoreTable6900098D",
                     "Arn",
                   ],
                 },
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
+                    [
+                      {
+                        "Fn::GetAtt": [
                           "DatastoreTable6900098D",
                           "Arn",
                         ],
@@ -596,28 +596,28 @@ Object {
           "Version": "2012-10-17",
         },
         "PolicyName": "ApiLambdaNodejsPutItemFunctionServiceRoleDefaultPolicy04245F1A",
-        "Roles": Array [
-          Object {
+        "Roles": [
+          {
             "Ref": "ApiLambdaNodejsPutItemFunctionServiceRoleB67323AE",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "ApiLambdaNodejsgetItemConcurrentExecutionsAlarmFFA1BD91": Object {
-      "Properties": Object {
+    "ApiLambdaNodejsgetItemConcurrentExecutionsAlarmFFA1BD91": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
+        "AlarmActions": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": Array [
-          Object {
+        "Dimensions": [
+          {
             "Name": "FunctionName",
-            "Value": Object {
+            "Value": {
               "Ref": "ApiLambdaNodejsGetItemFunction690D1743",
             },
           },
@@ -631,20 +631,20 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaNodejsgetItemDurationAlarm5EA5942E": Object {
-      "Properties": Object {
+    "ApiLambdaNodejsgetItemDurationAlarm5EA5942E": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
+        "AlarmActions": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": Array [
-          Object {
+        "Dimensions": [
+          {
             "Name": "FunctionName",
-            "Value": Object {
+            "Value": {
               "Ref": "ApiLambdaNodejsGetItemFunction690D1743",
             },
           },
@@ -658,20 +658,20 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaNodejsgetItemErrorsAlarm5A5A18BF": Object {
-      "Properties": Object {
+    "ApiLambdaNodejsgetItemErrorsAlarm5A5A18BF": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
+        "AlarmActions": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": Array [
-          Object {
+        "Dimensions": [
+          {
             "Name": "FunctionName",
-            "Value": Object {
+            "Value": {
               "Ref": "ApiLambdaNodejsGetItemFunction690D1743",
             },
           },
@@ -685,20 +685,20 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaNodejsgetItemThrottlesAlarmB352F6E5": Object {
-      "Properties": Object {
+    "ApiLambdaNodejsgetItemThrottlesAlarmB352F6E5": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
+        "AlarmActions": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": Array [
-          Object {
+        "Dimensions": [
+          {
             "Name": "FunctionName",
-            "Value": Object {
+            "Value": {
               "Ref": "ApiLambdaNodejsGetItemFunction690D1743",
             },
           },
@@ -712,20 +712,20 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaNodejslistItemsConcurrentExecutionsAlarmD2695C91": Object {
-      "Properties": Object {
+    "ApiLambdaNodejslistItemsConcurrentExecutionsAlarmD2695C91": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
+        "AlarmActions": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": Array [
-          Object {
+        "Dimensions": [
+          {
             "Name": "FunctionName",
-            "Value": Object {
+            "Value": {
               "Ref": "ApiLambdaNodejsListItemsFunction7383885E",
             },
           },
@@ -739,20 +739,20 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaNodejslistItemsDurationAlarmEE962444": Object {
-      "Properties": Object {
+    "ApiLambdaNodejslistItemsDurationAlarmEE962444": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
+        "AlarmActions": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": Array [
-          Object {
+        "Dimensions": [
+          {
             "Name": "FunctionName",
-            "Value": Object {
+            "Value": {
               "Ref": "ApiLambdaNodejsListItemsFunction7383885E",
             },
           },
@@ -766,20 +766,20 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaNodejslistItemsErrorsExecutionsAlarm509E4CEC": Object {
-      "Properties": Object {
+    "ApiLambdaNodejslistItemsErrorsExecutionsAlarm509E4CEC": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
+        "AlarmActions": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": Array [
-          Object {
+        "Dimensions": [
+          {
             "Name": "FunctionName",
-            "Value": Object {
+            "Value": {
               "Ref": "ApiLambdaNodejsListItemsFunction7383885E",
             },
           },
@@ -793,20 +793,20 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaNodejslistItemsThrottlesAlarm9C26D78C": Object {
-      "Properties": Object {
+    "ApiLambdaNodejslistItemsThrottlesAlarm9C26D78C": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
+        "AlarmActions": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": Array [
-          Object {
+        "Dimensions": [
+          {
             "Name": "FunctionName",
-            "Value": Object {
+            "Value": {
               "Ref": "ApiLambdaNodejsListItemsFunction7383885E",
             },
           },
@@ -820,20 +820,20 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaNodejsputItemConcurrentExecutionsAlarm96A1F417": Object {
-      "Properties": Object {
+    "ApiLambdaNodejsputItemConcurrentExecutionsAlarm96A1F417": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
+        "AlarmActions": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": Array [
-          Object {
+        "Dimensions": [
+          {
             "Name": "FunctionName",
-            "Value": Object {
+            "Value": {
               "Ref": "ApiLambdaNodejsPutItemFunctionFC2FA584",
             },
           },
@@ -847,20 +847,20 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaNodejsputItemDurationAlarm4DEC7925": Object {
-      "Properties": Object {
+    "ApiLambdaNodejsputItemDurationAlarm4DEC7925": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
+        "AlarmActions": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": Array [
-          Object {
+        "Dimensions": [
+          {
             "Name": "FunctionName",
-            "Value": Object {
+            "Value": {
               "Ref": "ApiLambdaNodejsPutItemFunctionFC2FA584",
             },
           },
@@ -874,20 +874,20 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaNodejsputItemErrorsAlarmB59BB9FA": Object {
-      "Properties": Object {
+    "ApiLambdaNodejsputItemErrorsAlarmB59BB9FA": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
+        "AlarmActions": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": Array [
-          Object {
+        "Dimensions": [
+          {
             "Name": "FunctionName",
-            "Value": Object {
+            "Value": {
               "Ref": "ApiLambdaNodejsPutItemFunctionFC2FA584",
             },
           },
@@ -901,20 +901,20 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaNodejsputItemThrottlesAlarmDA173E04": Object {
-      "Properties": Object {
+    "ApiLambdaNodejsputItemThrottlesAlarmDA173E04": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
+        "AlarmActions": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": Array [
-          Object {
+        "Dimensions": [
+          {
             "Name": "FunctionName",
-            "Value": Object {
+            "Value": {
               "Ref": "ApiLambdaNodejsPutItemFunctionFC2FA584",
             },
           },
@@ -928,67 +928,67 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaPythonGetItemFunction7F81F93B": Object {
-      "DependsOn": Array [
+    "ApiLambdaPythonGetItemFunction7F81F93B": {
+      "DependsOn": [
         "ApiLambdaPythonGetItemFunctionServiceRoleDefaultPolicy550CE002",
         "ApiLambdaPythonGetItemFunctionServiceRole87970B01",
       ],
-      "Properties": Object {
-        "Code": Object {
-          "S3Bucket": Object {
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
           "S3Key": "6c6248559cf324952895870a3b546cf7cbfbafe0cce9e4a60bc61e6ec8eef051.zip",
         },
-        "Environment": Object {
-          "Variables": Object {
-            "DDB_TABLE": Object {
+        "Environment": {
+          "Variables": {
+            "DDB_TABLE": {
               "Ref": "DatastoreTable6900098D",
             },
           },
         },
         "Handler": "getItem.lambda_handler",
-        "KmsKeyArn": Object {
-          "Fn::GetAtt": Array [
+        "KmsKeyArn": {
+          "Fn::GetAtt": [
             "CMK56817A4C",
             "Arn",
           ],
         },
-        "Layers": Array [
+        "Layers": [
           "arn:aws:lambda:ap-northeast-1:017000801446:layer:AWSLambdaPowertoolsPython:3",
           "arn:aws:lambda:ap-northeast-1:580247275435:layer:LambdaInsightsExtension:14",
         ],
         "MemorySize": 256,
-        "Role": Object {
-          "Fn::GetAtt": Array [
+        "Role": {
+          "Fn::GetAtt": [
             "ApiLambdaPythonGetItemFunctionServiceRole87970B01",
             "Arn",
           ],
         },
         "Runtime": "python3.7",
         "Timeout": 25,
-        "TracingConfig": Object {
+        "TracingConfig": {
           "Mode": "Active",
         },
       },
       "Type": "AWS::Lambda::Function",
     },
-    "ApiLambdaPythonGetItemFunctionLogRetentionBA7F7CC2": Object {
-      "Properties": Object {
-        "LogGroupName": Object {
-          "Fn::Join": Array [
+    "ApiLambdaPythonGetItemFunctionLogRetentionBA7F7CC2": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
             "",
-            Array [
+            [
               "/aws/lambda/",
-              Object {
+              {
                 "Ref": "ApiLambdaPythonGetItemFunction7F81F93B",
               },
             ],
           ],
         },
         "RetentionInDays": 90,
-        "ServiceToken": Object {
-          "Fn::GetAtt": Array [
+        "ServiceToken": {
+          "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
             "Arn",
           ],
@@ -996,39 +996,39 @@ Object {
       },
       "Type": "Custom::LogRetention",
     },
-    "ApiLambdaPythonGetItemFunctionServiceRole87970B01": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
+    "ApiLambdaPythonGetItemFunctionServiceRole87970B01": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": Object {
+              "Principal": {
                 "Service": "lambda.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
               ],
             ],
           },
-          Object {
-            "Fn::Join": Array [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
@@ -1039,20 +1039,20 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "ApiLambdaPythonGetItemFunctionServiceRoleDefaultPolicy550CE002": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
+    "ApiLambdaPythonGetItemFunctionServiceRoleDefaultPolicy550CE002": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
                 "xray:PutTraceSegments",
                 "xray:PutTelemetryRecords",
               ],
               "Effect": "Allow",
               "Resource": "*",
             },
-            Object {
-              "Action": Array [
+            {
+              "Action": [
                 "kms:Encrypt*",
                 "kms:Decrypt*",
                 "kms:ReEncrypt*",
@@ -1060,32 +1060,32 @@ Object {
                 "kms:Describe*",
               ],
               "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
+              "Resource": {
+                "Fn::GetAtt": [
                   "CMK56817A4C",
                   "Arn",
                 ],
               },
             },
-            Object {
-              "Action": Array [
+            {
+              "Action": [
                 "dynamodb:Query",
                 "dynamodb:GetItem",
               ],
               "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
                     "DatastoreTable6900098D",
                     "Arn",
                   ],
                 },
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
+                    [
+                      {
+                        "Fn::GetAtt": [
                           "DatastoreTable6900098D",
                           "Arn",
                         ],
@@ -1100,75 +1100,75 @@ Object {
           "Version": "2012-10-17",
         },
         "PolicyName": "ApiLambdaPythonGetItemFunctionServiceRoleDefaultPolicy550CE002",
-        "Roles": Array [
-          Object {
+        "Roles": [
+          {
             "Ref": "ApiLambdaPythonGetItemFunctionServiceRole87970B01",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "ApiLambdaPythonListItemsFunction6E2E7058": Object {
-      "DependsOn": Array [
+    "ApiLambdaPythonListItemsFunction6E2E7058": {
+      "DependsOn": [
         "ApiLambdaPythonListItemsFunctionServiceRoleDefaultPolicy365FE2DB",
         "ApiLambdaPythonListItemsFunctionServiceRoleD3B9A3A3",
       ],
-      "Properties": Object {
-        "Code": Object {
-          "S3Bucket": Object {
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
           "S3Key": "9935294482ff6ee39a0af20cfbf740c113a6d493e51300bfd6e98e85e6e9f360.zip",
         },
-        "Environment": Object {
-          "Variables": Object {
-            "DDB_TABLE": Object {
+        "Environment": {
+          "Variables": {
+            "DDB_TABLE": {
               "Ref": "DatastoreTable6900098D",
             },
           },
         },
         "Handler": "listItems.lambda_handler",
-        "KmsKeyArn": Object {
-          "Fn::GetAtt": Array [
+        "KmsKeyArn": {
+          "Fn::GetAtt": [
             "CMK56817A4C",
             "Arn",
           ],
         },
-        "Layers": Array [
+        "Layers": [
           "arn:aws:lambda:ap-northeast-1:017000801446:layer:AWSLambdaPowertoolsPython:3",
           "arn:aws:lambda:ap-northeast-1:580247275435:layer:LambdaInsightsExtension:14",
         ],
         "MemorySize": 2048,
-        "Role": Object {
-          "Fn::GetAtt": Array [
+        "Role": {
+          "Fn::GetAtt": [
             "ApiLambdaPythonListItemsFunctionServiceRoleD3B9A3A3",
             "Arn",
           ],
         },
         "Runtime": "python3.7",
         "Timeout": 25,
-        "TracingConfig": Object {
+        "TracingConfig": {
           "Mode": "Active",
         },
       },
       "Type": "AWS::Lambda::Function",
     },
-    "ApiLambdaPythonListItemsFunctionLogRetention4AAEE7BC": Object {
-      "Properties": Object {
-        "LogGroupName": Object {
-          "Fn::Join": Array [
+    "ApiLambdaPythonListItemsFunctionLogRetention4AAEE7BC": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
             "",
-            Array [
+            [
               "/aws/lambda/",
-              Object {
+              {
                 "Ref": "ApiLambdaPythonListItemsFunction6E2E7058",
               },
             ],
           ],
         },
         "RetentionInDays": 90,
-        "ServiceToken": Object {
-          "Fn::GetAtt": Array [
+        "ServiceToken": {
+          "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
             "Arn",
           ],
@@ -1176,39 +1176,39 @@ Object {
       },
       "Type": "Custom::LogRetention",
     },
-    "ApiLambdaPythonListItemsFunctionServiceRoleD3B9A3A3": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
+    "ApiLambdaPythonListItemsFunctionServiceRoleD3B9A3A3": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": Object {
+              "Principal": {
                 "Service": "lambda.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
               ],
             ],
           },
-          Object {
-            "Fn::Join": Array [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
@@ -1219,20 +1219,20 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "ApiLambdaPythonListItemsFunctionServiceRoleDefaultPolicy365FE2DB": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
+    "ApiLambdaPythonListItemsFunctionServiceRoleDefaultPolicy365FE2DB": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
                 "xray:PutTraceSegments",
                 "xray:PutTelemetryRecords",
               ],
               "Effect": "Allow",
               "Resource": "*",
             },
-            Object {
-              "Action": Array [
+            {
+              "Action": [
                 "kms:Encrypt*",
                 "kms:Decrypt*",
                 "kms:ReEncrypt*",
@@ -1240,32 +1240,32 @@ Object {
                 "kms:Describe*",
               ],
               "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
+              "Resource": {
+                "Fn::GetAtt": [
                   "CMK56817A4C",
                   "Arn",
                 ],
               },
             },
-            Object {
-              "Action": Array [
+            {
+              "Action": [
                 "dynamodb:Query",
                 "dynamodb:Scan",
               ],
               "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
                     "DatastoreTable6900098D",
                     "Arn",
                   ],
                 },
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
+                    [
+                      {
+                        "Fn::GetAtt": [
                           "DatastoreTable6900098D",
                           "Arn",
                         ],
@@ -1280,75 +1280,75 @@ Object {
           "Version": "2012-10-17",
         },
         "PolicyName": "ApiLambdaPythonListItemsFunctionServiceRoleDefaultPolicy365FE2DB",
-        "Roles": Array [
-          Object {
+        "Roles": [
+          {
             "Ref": "ApiLambdaPythonListItemsFunctionServiceRoleD3B9A3A3",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "ApiLambdaPythonPutItemFunction0EA5A227": Object {
-      "DependsOn": Array [
+    "ApiLambdaPythonPutItemFunction0EA5A227": {
+      "DependsOn": [
         "ApiLambdaPythonPutItemFunctionServiceRoleDefaultPolicyBA2B5B41",
         "ApiLambdaPythonPutItemFunctionServiceRole2AD40DC0",
       ],
-      "Properties": Object {
-        "Code": Object {
-          "S3Bucket": Object {
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
           "S3Key": "dc0a332c2c8fb4d4e7977a51466ff04fda2926977fd3f496acfa00722ded9563.zip",
         },
-        "Environment": Object {
-          "Variables": Object {
-            "DDB_TABLE": Object {
+        "Environment": {
+          "Variables": {
+            "DDB_TABLE": {
               "Ref": "DatastoreTable6900098D",
             },
           },
         },
         "Handler": "putItem.lambda_handler",
-        "KmsKeyArn": Object {
-          "Fn::GetAtt": Array [
+        "KmsKeyArn": {
+          "Fn::GetAtt": [
             "CMK56817A4C",
             "Arn",
           ],
         },
-        "Layers": Array [
+        "Layers": [
           "arn:aws:lambda:ap-northeast-1:017000801446:layer:AWSLambdaPowertoolsPython:3",
           "arn:aws:lambda:ap-northeast-1:580247275435:layer:LambdaInsightsExtension:14",
         ],
         "MemorySize": 256,
-        "Role": Object {
-          "Fn::GetAtt": Array [
+        "Role": {
+          "Fn::GetAtt": [
             "ApiLambdaPythonPutItemFunctionServiceRole2AD40DC0",
             "Arn",
           ],
         },
         "Runtime": "python3.7",
         "Timeout": 25,
-        "TracingConfig": Object {
+        "TracingConfig": {
           "Mode": "Active",
         },
       },
       "Type": "AWS::Lambda::Function",
     },
-    "ApiLambdaPythonPutItemFunctionLogRetention1C3D6644": Object {
-      "Properties": Object {
-        "LogGroupName": Object {
-          "Fn::Join": Array [
+    "ApiLambdaPythonPutItemFunctionLogRetention1C3D6644": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
             "",
-            Array [
+            [
               "/aws/lambda/",
-              Object {
+              {
                 "Ref": "ApiLambdaPythonPutItemFunction0EA5A227",
               },
             ],
           ],
         },
         "RetentionInDays": 90,
-        "ServiceToken": Object {
-          "Fn::GetAtt": Array [
+        "ServiceToken": {
+          "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
             "Arn",
           ],
@@ -1356,39 +1356,39 @@ Object {
       },
       "Type": "Custom::LogRetention",
     },
-    "ApiLambdaPythonPutItemFunctionServiceRole2AD40DC0": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
+    "ApiLambdaPythonPutItemFunctionServiceRole2AD40DC0": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": Object {
+              "Principal": {
                 "Service": "lambda.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
               ],
             ],
           },
-          Object {
-            "Fn::Join": Array [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
@@ -1399,20 +1399,20 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "ApiLambdaPythonPutItemFunctionServiceRoleDefaultPolicyBA2B5B41": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
+    "ApiLambdaPythonPutItemFunctionServiceRoleDefaultPolicyBA2B5B41": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
                 "xray:PutTraceSegments",
                 "xray:PutTelemetryRecords",
               ],
               "Effect": "Allow",
               "Resource": "*",
             },
-            Object {
-              "Action": Array [
+            {
+              "Action": [
                 "kms:Encrypt*",
                 "kms:Decrypt*",
                 "kms:ReEncrypt*",
@@ -1420,29 +1420,29 @@ Object {
                 "kms:Describe*",
               ],
               "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
+              "Resource": {
+                "Fn::GetAtt": [
                   "CMK56817A4C",
                   "Arn",
                 ],
               },
             },
-            Object {
+            {
               "Action": "dynamodb:PutItem",
               "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
                     "DatastoreTable6900098D",
                     "Arn",
                   ],
                 },
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
+                    [
+                      {
+                        "Fn::GetAtt": [
                           "DatastoreTable6900098D",
                           "Arn",
                         ],
@@ -1457,28 +1457,28 @@ Object {
           "Version": "2012-10-17",
         },
         "PolicyName": "ApiLambdaPythonPutItemFunctionServiceRoleDefaultPolicyBA2B5B41",
-        "Roles": Array [
-          Object {
+        "Roles": [
+          {
             "Ref": "ApiLambdaPythonPutItemFunctionServiceRole2AD40DC0",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "ApiLambdaPythongetItemConcurrentExecutionsAlarm09E169A6": Object {
-      "Properties": Object {
+    "ApiLambdaPythongetItemConcurrentExecutionsAlarm09E169A6": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
+        "AlarmActions": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": Array [
-          Object {
+        "Dimensions": [
+          {
             "Name": "FunctionName",
-            "Value": Object {
+            "Value": {
               "Ref": "ApiLambdaPythonGetItemFunction7F81F93B",
             },
           },
@@ -1492,20 +1492,20 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaPythongetItemDurationAlarmD9B0D891": Object {
-      "Properties": Object {
+    "ApiLambdaPythongetItemDurationAlarmD9B0D891": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
+        "AlarmActions": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": Array [
-          Object {
+        "Dimensions": [
+          {
             "Name": "FunctionName",
-            "Value": Object {
+            "Value": {
               "Ref": "ApiLambdaPythonGetItemFunction7F81F93B",
             },
           },
@@ -1519,20 +1519,20 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaPythongetItemErrorsAlarm1636EC90": Object {
-      "Properties": Object {
+    "ApiLambdaPythongetItemErrorsAlarm1636EC90": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
+        "AlarmActions": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": Array [
-          Object {
+        "Dimensions": [
+          {
             "Name": "FunctionName",
-            "Value": Object {
+            "Value": {
               "Ref": "ApiLambdaPythonGetItemFunction7F81F93B",
             },
           },
@@ -1546,20 +1546,20 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaPythongetItemThrottlesAlarm34456187": Object {
-      "Properties": Object {
+    "ApiLambdaPythongetItemThrottlesAlarm34456187": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
+        "AlarmActions": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": Array [
-          Object {
+        "Dimensions": [
+          {
             "Name": "FunctionName",
-            "Value": Object {
+            "Value": {
               "Ref": "ApiLambdaPythonGetItemFunction7F81F93B",
             },
           },
@@ -1573,20 +1573,20 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaPythonlistItemsConcurrentExecutionsAlarm307F2F04": Object {
-      "Properties": Object {
+    "ApiLambdaPythonlistItemsConcurrentExecutionsAlarm307F2F04": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
+        "AlarmActions": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": Array [
-          Object {
+        "Dimensions": [
+          {
             "Name": "FunctionName",
-            "Value": Object {
+            "Value": {
               "Ref": "ApiLambdaPythonListItemsFunction6E2E7058",
             },
           },
@@ -1600,20 +1600,20 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaPythonlistItemsDurationAlarm8D3DC059": Object {
-      "Properties": Object {
+    "ApiLambdaPythonlistItemsDurationAlarm8D3DC059": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
+        "AlarmActions": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": Array [
-          Object {
+        "Dimensions": [
+          {
             "Name": "FunctionName",
-            "Value": Object {
+            "Value": {
               "Ref": "ApiLambdaPythonListItemsFunction6E2E7058",
             },
           },
@@ -1627,20 +1627,20 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaPythonlistItemsErrorsExecutionsAlarm50F77830": Object {
-      "Properties": Object {
+    "ApiLambdaPythonlistItemsErrorsExecutionsAlarm50F77830": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
+        "AlarmActions": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": Array [
-          Object {
+        "Dimensions": [
+          {
             "Name": "FunctionName",
-            "Value": Object {
+            "Value": {
               "Ref": "ApiLambdaPythonListItemsFunction6E2E7058",
             },
           },
@@ -1654,20 +1654,20 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaPythonlistItemsThrottlesAlarm6969E734": Object {
-      "Properties": Object {
+    "ApiLambdaPythonlistItemsThrottlesAlarm6969E734": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
+        "AlarmActions": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": Array [
-          Object {
+        "Dimensions": [
+          {
             "Name": "FunctionName",
-            "Value": Object {
+            "Value": {
               "Ref": "ApiLambdaPythonListItemsFunction6E2E7058",
             },
           },
@@ -1681,20 +1681,20 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaPythonputItemConcurrentExecutionsAlarmA11DBC15": Object {
-      "Properties": Object {
+    "ApiLambdaPythonputItemConcurrentExecutionsAlarmA11DBC15": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
+        "AlarmActions": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": Array [
-          Object {
+        "Dimensions": [
+          {
             "Name": "FunctionName",
-            "Value": Object {
+            "Value": {
               "Ref": "ApiLambdaPythonPutItemFunction0EA5A227",
             },
           },
@@ -1708,20 +1708,20 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaPythonputItemDurationAlarm3B22CCB7": Object {
-      "Properties": Object {
+    "ApiLambdaPythonputItemDurationAlarm3B22CCB7": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
+        "AlarmActions": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": Array [
-          Object {
+        "Dimensions": [
+          {
             "Name": "FunctionName",
-            "Value": Object {
+            "Value": {
               "Ref": "ApiLambdaPythonPutItemFunction0EA5A227",
             },
           },
@@ -1735,20 +1735,20 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaPythonputItemErrorsAlarm6023E1EC": Object {
-      "Properties": Object {
+    "ApiLambdaPythonputItemErrorsAlarm6023E1EC": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
+        "AlarmActions": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": Array [
-          Object {
+        "Dimensions": [
+          {
             "Name": "FunctionName",
-            "Value": Object {
+            "Value": {
               "Ref": "ApiLambdaPythonPutItemFunction0EA5A227",
             },
           },
@@ -1762,20 +1762,20 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaPythonputItemThrottlesAlarm7981B2AC": Object {
-      "Properties": Object {
+    "ApiLambdaPythonputItemThrottlesAlarm7981B2AC": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
+        "AlarmActions": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": Array [
-          Object {
+        "Dimensions": [
+          {
             "Name": "FunctionName",
-            "Value": Object {
+            "Value": {
               "Ref": "ApiLambdaPythonPutItemFunction0EA5A227",
             },
           },
@@ -1789,14 +1789,14 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiRestApiAccount598A1DA6": Object {
+    "ApiRestApiAccount598A1DA6": {
       "DeletionPolicy": "Retain",
-      "DependsOn": Array [
+      "DependsOn": [
         "ApiRestApiE35FEAFE",
       ],
-      "Properties": Object {
-        "CloudWatchRoleArn": Object {
-          "Fn::GetAtt": Array [
+      "Properties": {
+        "CloudWatchRoleArn": {
+          "Fn::GetAtt": [
             "ApiRestApiCloudWatchRoleB7879BFC",
             "Arn",
           ],
@@ -1805,28 +1805,28 @@ Object {
       "Type": "AWS::ApiGateway::Account",
       "UpdateReplacePolicy": "Retain",
     },
-    "ApiRestApiCloudWatchRoleB7879BFC": Object {
+    "ApiRestApiCloudWatchRoleB7879BFC": {
       "DeletionPolicy": "Retain",
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": Object {
+              "Principal": {
                 "Service": "apigateway.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs",
@@ -1838,8 +1838,8 @@ Object {
       "Type": "AWS::IAM::Role",
       "UpdateReplacePolicy": "Retain",
     },
-    "ApiRestApiDeploymentDC05A82D897c301a1bec5a379eebd5094efed118": Object {
-      "DependsOn": Array [
+    "ApiRestApiDeploymentDC05A82D897c301a1bec5a379eebd5094efed118": {
+      "DependsOn": [
         "ApiRestApinodejsitemtitleGETC0EE8F85",
         "ApiRestApinodejsitemtitle29B62070",
         "ApiRestApinodejsitemPOST296B5713",
@@ -1855,33 +1855,33 @@ Object {
         "ApiRestApipythonlist4EC12D2C",
         "ApiRestApipython2F6D6644",
       ],
-      "Properties": Object {
+      "Properties": {
         "Description": "Automatically created by the RestApi construct",
-        "RestApiId": Object {
+        "RestApiId": {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Deployment",
     },
-    "ApiRestApiDeploymentStageprodE828476C": Object {
-      "DependsOn": Array [
+    "ApiRestApiDeploymentStageprodE828476C": {
+      "DependsOn": [
         "ApiRestApiAccount598A1DA6",
       ],
-      "Properties": Object {
-        "AccessLogSetting": Object {
-          "DestinationArn": Object {
-            "Fn::GetAtt": Array [
+      "Properties": {
+        "AccessLogSetting": {
+          "DestinationArn": {
+            "Fn::GetAtt": [
               "ApiApiGatewayLogGroup7BC2F58D",
               "Arn",
             ],
           },
-          "Format": "{\\"requestId\\":\\"$context.requestId\\",\\"ip\\":\\"$context.identity.sourceIp\\",\\"user\\":\\"$context.identity.user\\",\\"caller\\":\\"$context.identity.caller\\",\\"requestTime\\":\\"$context.requestTime\\",\\"httpMethod\\":\\"$context.httpMethod\\",\\"resourcePath\\":\\"$context.resourcePath\\",\\"status\\":\\"$context.status\\",\\"protocol\\":\\"$context.protocol\\",\\"responseLength\\":\\"$context.responseLength\\"}",
+          "Format": "{"requestId":"$context.requestId","ip":"$context.identity.sourceIp","user":"$context.identity.user","caller":"$context.identity.caller","requestTime":"$context.requestTime","httpMethod":"$context.httpMethod","resourcePath":"$context.resourcePath","status":"$context.status","protocol":"$context.protocol","responseLength":"$context.responseLength"}",
         },
-        "DeploymentId": Object {
+        "DeploymentId": {
           "Ref": "ApiRestApiDeploymentDC05A82D897c301a1bec5a379eebd5094efed118",
         },
-        "MethodSettings": Array [
-          Object {
+        "MethodSettings": [
+          {
             "DataTraceEnabled": false,
             "HttpMethod": "*",
             "LoggingLevel": "INFO",
@@ -1889,7 +1889,7 @@ Object {
             "ResourcePath": "/*",
           },
         ],
-        "RestApiId": Object {
+        "RestApiId": {
           "Ref": "ApiRestApiE35FEAFE",
         },
         "StageName": "prod",
@@ -1897,57 +1897,57 @@ Object {
       },
       "Type": "AWS::ApiGateway::Stage",
     },
-    "ApiRestApiE35FEAFE": Object {
-      "Properties": Object {
+    "ApiRestApiE35FEAFE": {
+      "Properties": {
         "Name": "RestApi",
       },
       "Type": "AWS::ApiGateway::RestApi",
     },
-    "ApiRestApinodejsD890E984": Object {
-      "Properties": Object {
-        "ParentId": Object {
-          "Fn::GetAtt": Array [
+    "ApiRestApinodejsD890E984": {
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
             "ApiRestApiE35FEAFE",
             "RootResourceId",
           ],
         },
         "PathPart": "nodejs",
-        "RestApiId": Object {
+        "RestApiId": {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Resource",
     },
-    "ApiRestApinodejsitemB718EB4B": Object {
-      "Properties": Object {
-        "ParentId": Object {
+    "ApiRestApinodejsitemB718EB4B": {
+      "Properties": {
+        "ParentId": {
           "Ref": "ApiRestApinodejsD890E984",
         },
         "PathPart": "item",
-        "RestApiId": Object {
+        "RestApiId": {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Resource",
     },
-    "ApiRestApinodejsitemPOST296B5713": Object {
-      "Properties": Object {
+    "ApiRestApinodejsitemPOST296B5713": {
+      "Properties": {
         "AuthorizationType": "NONE",
         "HttpMethod": "POST",
-        "Integration": Object {
+        "Integration": {
           "IntegrationHttpMethod": "POST",
           "Type": "AWS_PROXY",
-          "Uri": Object {
-            "Fn::Join": Array [
+          "Uri": {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/",
-                Object {
-                  "Fn::GetAtt": Array [
+                {
+                  "Fn::GetAtt": [
                     "ApiLambdaNodejsPutItemFunctionFC2FA584",
                     "Arn",
                   ],
@@ -1957,43 +1957,43 @@ Object {
             ],
           },
         },
-        "ResourceId": Object {
+        "ResourceId": {
           "Ref": "ApiRestApinodejsitemB718EB4B",
         },
-        "RestApiId": Object {
+        "RestApiId": {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Method",
     },
-    "ApiRestApinodejsitemPOSTApiPermissionDevBLEAServerlessApiRestApiEBE3BF9APOSTnodejsitem1DBCEB01": Object {
-      "Properties": Object {
+    "ApiRestApinodejsitemPOSTApiPermissionDevBLEAServerlessApiRestApiEBE3BF9APOSTnodejsitem1DBCEB01": {
+      "Properties": {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
+        "FunctionName": {
+          "Fn::GetAtt": [
             "ApiLambdaNodejsPutItemFunctionFC2FA584",
             "Arn",
           ],
         },
         "Principal": "apigateway.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::Join": Array [
+        "SourceArn": {
+          "Fn::Join": [
             "",
-            Array [
+            [
               "arn:",
-              Object {
+              {
                 "Ref": "AWS::Partition",
               },
               ":execute-api:ap-northeast-1:",
-              Object {
+              {
                 "Ref": "AWS::AccountId",
               },
               ":",
-              Object {
+              {
                 "Ref": "ApiRestApiE35FEAFE",
               },
               "/",
-              Object {
+              {
                 "Ref": "ApiRestApiDeploymentStageprodE828476C",
               },
               "/POST/nodejs/item",
@@ -2003,30 +2003,30 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "ApiRestApinodejsitemPOSTApiPermissionTestDevBLEAServerlessApiRestApiEBE3BF9APOSTnodejsitem1523F9C5": Object {
-      "Properties": Object {
+    "ApiRestApinodejsitemPOSTApiPermissionTestDevBLEAServerlessApiRestApiEBE3BF9APOSTnodejsitem1523F9C5": {
+      "Properties": {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
+        "FunctionName": {
+          "Fn::GetAtt": [
             "ApiLambdaNodejsPutItemFunctionFC2FA584",
             "Arn",
           ],
         },
         "Principal": "apigateway.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::Join": Array [
+        "SourceArn": {
+          "Fn::Join": [
             "",
-            Array [
+            [
               "arn:",
-              Object {
+              {
                 "Ref": "AWS::Partition",
               },
               ":execute-api:ap-northeast-1:",
-              Object {
+              {
                 "Ref": "AWS::AccountId",
               },
               ":",
-              Object {
+              {
                 "Ref": "ApiRestApiE35FEAFE",
               },
               "/test-invoke-stage/POST/nodejs/item",
@@ -2036,46 +2036,46 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "ApiRestApinodejsitemtitle29B62070": Object {
-      "Properties": Object {
-        "ParentId": Object {
+    "ApiRestApinodejsitemtitle29B62070": {
+      "Properties": {
+        "ParentId": {
           "Ref": "ApiRestApinodejsitemB718EB4B",
         },
         "PathPart": "{title}",
-        "RestApiId": Object {
+        "RestApiId": {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Resource",
     },
-    "ApiRestApinodejsitemtitleGETApiPermissionDevBLEAServerlessApiRestApiEBE3BF9AGETnodejsitemtitle81B2BFF3": Object {
-      "Properties": Object {
+    "ApiRestApinodejsitemtitleGETApiPermissionDevBLEAServerlessApiRestApiEBE3BF9AGETnodejsitemtitle81B2BFF3": {
+      "Properties": {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
+        "FunctionName": {
+          "Fn::GetAtt": [
             "ApiLambdaNodejsGetItemFunction690D1743",
             "Arn",
           ],
         },
         "Principal": "apigateway.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::Join": Array [
+        "SourceArn": {
+          "Fn::Join": [
             "",
-            Array [
+            [
               "arn:",
-              Object {
+              {
                 "Ref": "AWS::Partition",
               },
               ":execute-api:ap-northeast-1:",
-              Object {
+              {
                 "Ref": "AWS::AccountId",
               },
               ":",
-              Object {
+              {
                 "Ref": "ApiRestApiE35FEAFE",
               },
               "/",
-              Object {
+              {
                 "Ref": "ApiRestApiDeploymentStageprodE828476C",
               },
               "/GET/nodejs/item/*",
@@ -2085,30 +2085,30 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "ApiRestApinodejsitemtitleGETApiPermissionTestDevBLEAServerlessApiRestApiEBE3BF9AGETnodejsitemtitleB659ABEB": Object {
-      "Properties": Object {
+    "ApiRestApinodejsitemtitleGETApiPermissionTestDevBLEAServerlessApiRestApiEBE3BF9AGETnodejsitemtitleB659ABEB": {
+      "Properties": {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
+        "FunctionName": {
+          "Fn::GetAtt": [
             "ApiLambdaNodejsGetItemFunction690D1743",
             "Arn",
           ],
         },
         "Principal": "apigateway.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::Join": Array [
+        "SourceArn": {
+          "Fn::Join": [
             "",
-            Array [
+            [
               "arn:",
-              Object {
+              {
                 "Ref": "AWS::Partition",
               },
               ":execute-api:ap-northeast-1:",
-              Object {
+              {
                 "Ref": "AWS::AccountId",
               },
               ":",
-              Object {
+              {
                 "Ref": "ApiRestApiE35FEAFE",
               },
               "/test-invoke-stage/GET/nodejs/item/*",
@@ -2118,24 +2118,24 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "ApiRestApinodejsitemtitleGETC0EE8F85": Object {
-      "Properties": Object {
+    "ApiRestApinodejsitemtitleGETC0EE8F85": {
+      "Properties": {
         "AuthorizationType": "NONE",
         "HttpMethod": "GET",
-        "Integration": Object {
+        "Integration": {
           "IntegrationHttpMethod": "POST",
           "Type": "AWS_PROXY",
-          "Uri": Object {
-            "Fn::Join": Array [
+          "Uri": {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/",
-                Object {
-                  "Fn::GetAtt": Array [
+                {
+                  "Fn::GetAtt": [
                     "ApiLambdaNodejsGetItemFunction690D1743",
                     "Arn",
                   ],
@@ -2145,45 +2145,45 @@ Object {
             ],
           },
         },
-        "ResourceId": Object {
+        "ResourceId": {
           "Ref": "ApiRestApinodejsitemtitle29B62070",
         },
-        "RestApiId": Object {
+        "RestApiId": {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Method",
     },
-    "ApiRestApinodejslistEE136EF7": Object {
-      "Properties": Object {
-        "ParentId": Object {
+    "ApiRestApinodejslistEE136EF7": {
+      "Properties": {
+        "ParentId": {
           "Ref": "ApiRestApinodejsD890E984",
         },
         "PathPart": "list",
-        "RestApiId": Object {
+        "RestApiId": {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Resource",
     },
-    "ApiRestApinodejslistGET729AFFC7": Object {
-      "Properties": Object {
+    "ApiRestApinodejslistGET729AFFC7": {
+      "Properties": {
         "AuthorizationType": "NONE",
         "HttpMethod": "GET",
-        "Integration": Object {
+        "Integration": {
           "IntegrationHttpMethod": "POST",
           "Type": "AWS_PROXY",
-          "Uri": Object {
-            "Fn::Join": Array [
+          "Uri": {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/",
-                Object {
-                  "Fn::GetAtt": Array [
+                {
+                  "Fn::GetAtt": [
                     "ApiLambdaNodejsListItemsFunction7383885E",
                     "Arn",
                   ],
@@ -2193,43 +2193,43 @@ Object {
             ],
           },
         },
-        "ResourceId": Object {
+        "ResourceId": {
           "Ref": "ApiRestApinodejslistEE136EF7",
         },
-        "RestApiId": Object {
+        "RestApiId": {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Method",
     },
-    "ApiRestApinodejslistGETApiPermissionDevBLEAServerlessApiRestApiEBE3BF9AGETnodejslist5B482CF3": Object {
-      "Properties": Object {
+    "ApiRestApinodejslistGETApiPermissionDevBLEAServerlessApiRestApiEBE3BF9AGETnodejslist5B482CF3": {
+      "Properties": {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
+        "FunctionName": {
+          "Fn::GetAtt": [
             "ApiLambdaNodejsListItemsFunction7383885E",
             "Arn",
           ],
         },
         "Principal": "apigateway.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::Join": Array [
+        "SourceArn": {
+          "Fn::Join": [
             "",
-            Array [
+            [
               "arn:",
-              Object {
+              {
                 "Ref": "AWS::Partition",
               },
               ":execute-api:ap-northeast-1:",
-              Object {
+              {
                 "Ref": "AWS::AccountId",
               },
               ":",
-              Object {
+              {
                 "Ref": "ApiRestApiE35FEAFE",
               },
               "/",
-              Object {
+              {
                 "Ref": "ApiRestApiDeploymentStageprodE828476C",
               },
               "/GET/nodejs/list",
@@ -2239,30 +2239,30 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "ApiRestApinodejslistGETApiPermissionTestDevBLEAServerlessApiRestApiEBE3BF9AGETnodejslist5E7FE9FC": Object {
-      "Properties": Object {
+    "ApiRestApinodejslistGETApiPermissionTestDevBLEAServerlessApiRestApiEBE3BF9AGETnodejslist5E7FE9FC": {
+      "Properties": {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
+        "FunctionName": {
+          "Fn::GetAtt": [
             "ApiLambdaNodejsListItemsFunction7383885E",
             "Arn",
           ],
         },
         "Principal": "apigateway.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::Join": Array [
+        "SourceArn": {
+          "Fn::Join": [
             "",
-            Array [
+            [
               "arn:",
-              Object {
+              {
                 "Ref": "AWS::Partition",
               },
               ":execute-api:ap-northeast-1:",
-              Object {
+              {
                 "Ref": "AWS::AccountId",
               },
               ":",
-              Object {
+              {
                 "Ref": "ApiRestApiE35FEAFE",
               },
               "/test-invoke-stage/GET/nodejs/list",
@@ -2272,51 +2272,51 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "ApiRestApipython2F6D6644": Object {
-      "Properties": Object {
-        "ParentId": Object {
-          "Fn::GetAtt": Array [
+    "ApiRestApipython2F6D6644": {
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
             "ApiRestApiE35FEAFE",
             "RootResourceId",
           ],
         },
         "PathPart": "python",
-        "RestApiId": Object {
+        "RestApiId": {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Resource",
     },
-    "ApiRestApipythonitemF1EBD3B9": Object {
-      "Properties": Object {
-        "ParentId": Object {
+    "ApiRestApipythonitemF1EBD3B9": {
+      "Properties": {
+        "ParentId": {
           "Ref": "ApiRestApipython2F6D6644",
         },
         "PathPart": "item",
-        "RestApiId": Object {
+        "RestApiId": {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Resource",
     },
-    "ApiRestApipythonitemPOST15FD049D": Object {
-      "Properties": Object {
+    "ApiRestApipythonitemPOST15FD049D": {
+      "Properties": {
         "AuthorizationType": "NONE",
         "HttpMethod": "POST",
-        "Integration": Object {
+        "Integration": {
           "IntegrationHttpMethod": "POST",
           "Type": "AWS_PROXY",
-          "Uri": Object {
-            "Fn::Join": Array [
+          "Uri": {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/",
-                Object {
-                  "Fn::GetAtt": Array [
+                {
+                  "Fn::GetAtt": [
                     "ApiLambdaPythonPutItemFunction0EA5A227",
                     "Arn",
                   ],
@@ -2326,43 +2326,43 @@ Object {
             ],
           },
         },
-        "ResourceId": Object {
+        "ResourceId": {
           "Ref": "ApiRestApipythonitemF1EBD3B9",
         },
-        "RestApiId": Object {
+        "RestApiId": {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Method",
     },
-    "ApiRestApipythonitemPOSTApiPermissionDevBLEAServerlessApiRestApiEBE3BF9APOSTpythonitem5761D1B8": Object {
-      "Properties": Object {
+    "ApiRestApipythonitemPOSTApiPermissionDevBLEAServerlessApiRestApiEBE3BF9APOSTpythonitem5761D1B8": {
+      "Properties": {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
+        "FunctionName": {
+          "Fn::GetAtt": [
             "ApiLambdaPythonPutItemFunction0EA5A227",
             "Arn",
           ],
         },
         "Principal": "apigateway.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::Join": Array [
+        "SourceArn": {
+          "Fn::Join": [
             "",
-            Array [
+            [
               "arn:",
-              Object {
+              {
                 "Ref": "AWS::Partition",
               },
               ":execute-api:ap-northeast-1:",
-              Object {
+              {
                 "Ref": "AWS::AccountId",
               },
               ":",
-              Object {
+              {
                 "Ref": "ApiRestApiE35FEAFE",
               },
               "/",
-              Object {
+              {
                 "Ref": "ApiRestApiDeploymentStageprodE828476C",
               },
               "/POST/python/item",
@@ -2372,30 +2372,30 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "ApiRestApipythonitemPOSTApiPermissionTestDevBLEAServerlessApiRestApiEBE3BF9APOSTpythonitem715A3E20": Object {
-      "Properties": Object {
+    "ApiRestApipythonitemPOSTApiPermissionTestDevBLEAServerlessApiRestApiEBE3BF9APOSTpythonitem715A3E20": {
+      "Properties": {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
+        "FunctionName": {
+          "Fn::GetAtt": [
             "ApiLambdaPythonPutItemFunction0EA5A227",
             "Arn",
           ],
         },
         "Principal": "apigateway.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::Join": Array [
+        "SourceArn": {
+          "Fn::Join": [
             "",
-            Array [
+            [
               "arn:",
-              Object {
+              {
                 "Ref": "AWS::Partition",
               },
               ":execute-api:ap-northeast-1:",
-              Object {
+              {
                 "Ref": "AWS::AccountId",
               },
               ":",
-              Object {
+              {
                 "Ref": "ApiRestApiE35FEAFE",
               },
               "/test-invoke-stage/POST/python/item",
@@ -2405,36 +2405,36 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "ApiRestApipythonitemtitle896EFCA5": Object {
-      "Properties": Object {
-        "ParentId": Object {
+    "ApiRestApipythonitemtitle896EFCA5": {
+      "Properties": {
+        "ParentId": {
           "Ref": "ApiRestApipythonitemF1EBD3B9",
         },
         "PathPart": "{title}",
-        "RestApiId": Object {
+        "RestApiId": {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Resource",
     },
-    "ApiRestApipythonitemtitleGET4BA7981E": Object {
-      "Properties": Object {
+    "ApiRestApipythonitemtitleGET4BA7981E": {
+      "Properties": {
         "AuthorizationType": "NONE",
         "HttpMethod": "GET",
-        "Integration": Object {
+        "Integration": {
           "IntegrationHttpMethod": "POST",
           "Type": "AWS_PROXY",
-          "Uri": Object {
-            "Fn::Join": Array [
+          "Uri": {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/",
-                Object {
-                  "Fn::GetAtt": Array [
+                {
+                  "Fn::GetAtt": [
                     "ApiLambdaPythonGetItemFunction7F81F93B",
                     "Arn",
                   ],
@@ -2444,43 +2444,43 @@ Object {
             ],
           },
         },
-        "ResourceId": Object {
+        "ResourceId": {
           "Ref": "ApiRestApipythonitemtitle896EFCA5",
         },
-        "RestApiId": Object {
+        "RestApiId": {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Method",
     },
-    "ApiRestApipythonitemtitleGETApiPermissionDevBLEAServerlessApiRestApiEBE3BF9AGETpythonitemtitle9380763F": Object {
-      "Properties": Object {
+    "ApiRestApipythonitemtitleGETApiPermissionDevBLEAServerlessApiRestApiEBE3BF9AGETpythonitemtitle9380763F": {
+      "Properties": {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
+        "FunctionName": {
+          "Fn::GetAtt": [
             "ApiLambdaPythonGetItemFunction7F81F93B",
             "Arn",
           ],
         },
         "Principal": "apigateway.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::Join": Array [
+        "SourceArn": {
+          "Fn::Join": [
             "",
-            Array [
+            [
               "arn:",
-              Object {
+              {
                 "Ref": "AWS::Partition",
               },
               ":execute-api:ap-northeast-1:",
-              Object {
+              {
                 "Ref": "AWS::AccountId",
               },
               ":",
-              Object {
+              {
                 "Ref": "ApiRestApiE35FEAFE",
               },
               "/",
-              Object {
+              {
                 "Ref": "ApiRestApiDeploymentStageprodE828476C",
               },
               "/GET/python/item/*",
@@ -2490,30 +2490,30 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "ApiRestApipythonitemtitleGETApiPermissionTestDevBLEAServerlessApiRestApiEBE3BF9AGETpythonitemtitleE2FDEC9D": Object {
-      "Properties": Object {
+    "ApiRestApipythonitemtitleGETApiPermissionTestDevBLEAServerlessApiRestApiEBE3BF9AGETpythonitemtitleE2FDEC9D": {
+      "Properties": {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
+        "FunctionName": {
+          "Fn::GetAtt": [
             "ApiLambdaPythonGetItemFunction7F81F93B",
             "Arn",
           ],
         },
         "Principal": "apigateway.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::Join": Array [
+        "SourceArn": {
+          "Fn::Join": [
             "",
-            Array [
+            [
               "arn:",
-              Object {
+              {
                 "Ref": "AWS::Partition",
               },
               ":execute-api:ap-northeast-1:",
-              Object {
+              {
                 "Ref": "AWS::AccountId",
               },
               ":",
-              Object {
+              {
                 "Ref": "ApiRestApiE35FEAFE",
               },
               "/test-invoke-stage/GET/python/item/*",
@@ -2523,36 +2523,36 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "ApiRestApipythonlist4EC12D2C": Object {
-      "Properties": Object {
-        "ParentId": Object {
+    "ApiRestApipythonlist4EC12D2C": {
+      "Properties": {
+        "ParentId": {
           "Ref": "ApiRestApipython2F6D6644",
         },
         "PathPart": "list",
-        "RestApiId": Object {
+        "RestApiId": {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Resource",
     },
-    "ApiRestApipythonlistGETA946A0F8": Object {
-      "Properties": Object {
+    "ApiRestApipythonlistGETA946A0F8": {
+      "Properties": {
         "AuthorizationType": "NONE",
         "HttpMethod": "GET",
-        "Integration": Object {
+        "Integration": {
           "IntegrationHttpMethod": "POST",
           "Type": "AWS_PROXY",
-          "Uri": Object {
-            "Fn::Join": Array [
+          "Uri": {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/",
-                Object {
-                  "Fn::GetAtt": Array [
+                {
+                  "Fn::GetAtt": [
                     "ApiLambdaPythonListItemsFunction6E2E7058",
                     "Arn",
                   ],
@@ -2562,43 +2562,43 @@ Object {
             ],
           },
         },
-        "ResourceId": Object {
+        "ResourceId": {
           "Ref": "ApiRestApipythonlist4EC12D2C",
         },
-        "RestApiId": Object {
+        "RestApiId": {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Method",
     },
-    "ApiRestApipythonlistGETApiPermissionDevBLEAServerlessApiRestApiEBE3BF9AGETpythonlist6FD5F4CB": Object {
-      "Properties": Object {
+    "ApiRestApipythonlistGETApiPermissionDevBLEAServerlessApiRestApiEBE3BF9AGETpythonlist6FD5F4CB": {
+      "Properties": {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
+        "FunctionName": {
+          "Fn::GetAtt": [
             "ApiLambdaPythonListItemsFunction6E2E7058",
             "Arn",
           ],
         },
         "Principal": "apigateway.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::Join": Array [
+        "SourceArn": {
+          "Fn::Join": [
             "",
-            Array [
+            [
               "arn:",
-              Object {
+              {
                 "Ref": "AWS::Partition",
               },
               ":execute-api:ap-northeast-1:",
-              Object {
+              {
                 "Ref": "AWS::AccountId",
               },
               ":",
-              Object {
+              {
                 "Ref": "ApiRestApiE35FEAFE",
               },
               "/",
-              Object {
+              {
                 "Ref": "ApiRestApiDeploymentStageprodE828476C",
               },
               "/GET/python/list",
@@ -2608,30 +2608,30 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "ApiRestApipythonlistGETApiPermissionTestDevBLEAServerlessApiRestApiEBE3BF9AGETpythonlistC2B18F06": Object {
-      "Properties": Object {
+    "ApiRestApipythonlistGETApiPermissionTestDevBLEAServerlessApiRestApiEBE3BF9AGETpythonlistC2B18F06": {
+      "Properties": {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
+        "FunctionName": {
+          "Fn::GetAtt": [
             "ApiLambdaPythonListItemsFunction6E2E7058",
             "Arn",
           ],
         },
         "Principal": "apigateway.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::Join": Array [
+        "SourceArn": {
+          "Fn::Join": [
             "",
-            Array [
+            [
               "arn:",
-              Object {
+              {
                 "Ref": "AWS::Partition",
               },
               ":execute-api:ap-northeast-1:",
-              Object {
+              {
                 "Ref": "AWS::AccountId",
               },
               ":",
-              Object {
+              {
                 "Ref": "ApiRestApiE35FEAFE",
               },
               "/test-invoke-stage/GET/python/list",
@@ -2641,27 +2641,27 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "CMK56817A4C": Object {
+    "CMK56817A4C": {
       "DeletionPolicy": "Retain",
-      "Properties": Object {
+      "Properties": {
         "Description": "BLEA Guest Sample: CMK for ServerlessApi",
         "EnableKeyRotation": true,
-        "KeyPolicy": Object {
-          "Statement": Array [
-            Object {
+        "KeyPolicy": {
+          "Statement": [
+            {
               "Action": "kms:*",
               "Effect": "Allow",
-              "Principal": Object {
-                "AWS": Object {
-                  "Fn::Join": Array [
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:",
-                      Object {
+                      {
                         "Ref": "AWS::Partition",
                       },
                       ":iam::",
-                      Object {
+                      {
                         "Ref": "AWS::AccountId",
                       },
                       ":root",
@@ -2671,22 +2671,22 @@ Object {
               },
               "Resource": "*",
             },
-            Object {
-              "Action": Array [
+            {
+              "Action": [
                 "kms:Encrypt*",
                 "kms:Decrypt*",
                 "kms:ReEncrypt*",
                 "kms:GenerateDataKey*",
                 "kms:Describe*",
               ],
-              "Condition": Object {
-                "ArnLike": Object {
-                  "aws:PrincipalArn": Object {
-                    "Fn::Join": Array [
+              "Condition": {
+                "ArnLike": {
+                  "aws:PrincipalArn": {
+                    "Fn::Join": [
                       "",
-                      Array [
+                      [
                         "arn:aws:iam::",
-                        Object {
+                        {
                           "Ref": "AWS::AccountId",
                         },
                         ":role/BLEA-LambdaNodejs-*",
@@ -2696,27 +2696,27 @@ Object {
                 },
               },
               "Effect": "Allow",
-              "Principal": Object {
+              "Principal": {
                 "AWS": "*",
               },
               "Resource": "*",
             },
-            Object {
-              "Action": Array [
+            {
+              "Action": [
                 "kms:Encrypt*",
                 "kms:Decrypt*",
                 "kms:ReEncrypt*",
                 "kms:GenerateDataKey*",
                 "kms:Describe*",
               ],
-              "Condition": Object {
-                "ArnLike": Object {
-                  "aws:PrincipalArn": Object {
-                    "Fn::Join": Array [
+              "Condition": {
+                "ArnLike": {
+                  "aws:PrincipalArn": {
+                    "Fn::Join": [
                       "",
-                      Array [
+                      [
                         "arn:aws:iam::",
-                        Object {
+                        {
                           "Ref": "AWS::AccountId",
                         },
                         ":role/BLEA-LambdaPython-*",
@@ -2726,7 +2726,7 @@ Object {
                 },
               },
               "Effect": "Allow",
-              "Principal": Object {
+              "Principal": {
                 "AWS": "*",
               },
               "Resource": "*",
@@ -2738,11 +2738,11 @@ Object {
       "Type": "AWS::KMS::Key",
       "UpdateReplacePolicy": "Retain",
     },
-    "CMKAliasFD5A95C9": Object {
-      "Properties": Object {
+    "CMKAliasFD5A95C9": {
+      "Properties": {
         "AliasName": "alias/DevBLEAServerlessApi",
-        "TargetKeyId": Object {
-          "Fn::GetAtt": Array [
+        "TargetKeyId": {
+          "Fn::GetAtt": [
             "CMK56817A4C",
             "Arn",
           ],
@@ -2750,20 +2750,20 @@ Object {
       },
       "Type": "AWS::KMS::Alias",
     },
-    "DatastoreDynamoConsumedReadCapacityUnitE16CED8A": Object {
-      "Properties": Object {
+    "DatastoreDynamoConsumedReadCapacityUnitE16CED8A": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
+        "AlarmActions": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": Array [
-          Object {
+        "Dimensions": [
+          {
             "Name": "TableName",
-            "Value": Object {
+            "Value": {
               "Ref": "DatastoreTable6900098D",
             },
           },
@@ -2777,55 +2777,55 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "DatastoreTable6900098D": Object {
+    "DatastoreTable6900098D": {
       "DeletionPolicy": "Retain",
-      "Properties": Object {
-        "AttributeDefinitions": Array [
-          Object {
+      "Properties": {
+        "AttributeDefinitions": [
+          {
             "AttributeName": "title",
             "AttributeType": "S",
           },
-          Object {
+          {
             "AttributeName": "content",
             "AttributeType": "S",
           },
-          Object {
+          {
             "AttributeName": "createdAt",
             "AttributeType": "S",
           },
         ],
         "BillingMode": "PAY_PER_REQUEST",
-        "KeySchema": Array [
-          Object {
+        "KeySchema": [
+          {
             "AttributeName": "title",
             "KeyType": "HASH",
           },
-          Object {
+          {
             "AttributeName": "content",
             "KeyType": "RANGE",
           },
         ],
-        "LocalSecondaryIndexes": Array [
-          Object {
+        "LocalSecondaryIndexes": [
+          {
             "IndexName": "CreatedAtLSI",
-            "KeySchema": Array [
-              Object {
+            "KeySchema": [
+              {
                 "AttributeName": "title",
                 "KeyType": "HASH",
               },
-              Object {
+              {
                 "AttributeName": "createdAt",
                 "KeyType": "RANGE",
               },
             ],
-            "Projection": Object {
+            "Projection": {
               "ProjectionType": "ALL",
             },
           },
         ],
-        "SSESpecification": Object {
-          "KMSMasterKeyId": Object {
-            "Fn::GetAtt": Array [
+        "SSESpecification": {
+          "KMSMasterKeyId": {
+            "Fn::GetAtt": [
               "CMK56817A4C",
               "Arn",
             ],
@@ -2837,50 +2837,51 @@ Object {
       "Type": "AWS::DynamoDB::Table",
       "UpdateReplacePolicy": "Retain",
     },
-    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A": Object {
-      "DependsOn": Array [
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A": {
+      "DependsOn": [
         "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
         "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
       ],
-      "Properties": Object {
-        "Code": Object {
-          "S3Bucket": Object {
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
-          "S3Key": "5fa1330271b8967d9254ba2d4a07144f8acefe8b77e6d6bba38261373a50d5f8.zip",
+          "S3Key": "5bc602ecde93c947efe5899ae355f999986a1acbe610b1c0b9c468d738857555.zip",
         },
         "Handler": "index.handler",
-        "Role": Object {
-          "Fn::GetAtt": Array [
+        "Role": {
+          "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
             "Arn",
           ],
         },
-        "Runtime": "nodejs16.x",
+        "Runtime": "nodejs18.x",
+        "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
     },
-    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": Object {
+              "Principal": {
                 "Service": "lambda.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
@@ -2891,12 +2892,12 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
                 "logs:PutRetentionPolicy",
                 "logs:DeleteRetentionPolicy",
               ],
@@ -2907,28 +2908,28 @@ Object {
           "Version": "2012-10-17",
         },
         "PolicyName": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
-        "Roles": Array [
-          Object {
+        "Roles": [
+          {
             "Ref": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "MonitoringAlarmTopicAF62D4F1": Object {
+    "MonitoringAlarmTopicAF62D4F1": {
       "Type": "AWS::SNS::Topic",
     },
-    "MonitoringAlarmTopicPolicyCB9CCFB0": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
+    "MonitoringAlarmTopicPolicyCB9CCFB0": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
               "Action": "sns:Publish",
               "Effect": "Allow",
-              "Principal": Object {
+              "Principal": {
                 "Service": "cloudwatch.amazonaws.com",
               },
-              "Resource": Object {
+              "Resource": {
                 "Ref": "MonitoringAlarmTopicAF62D4F1",
               },
               "Sid": "0",
@@ -2936,66 +2937,66 @@ Object {
           ],
           "Version": "2012-10-17",
         },
-        "Topics": Array [
-          Object {
+        "Topics": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
       },
       "Type": "AWS::SNS::TopicPolicy",
     },
-    "MonitoringChatbotChannel3696F0E4": Object {
-      "Properties": Object {
+    "MonitoringChatbotChannel3696F0E4": {
+      "Properties": {
         "ConfigurationName": "DevBLEAServerlessApiMonitoring9149EEBF",
-        "IamRoleArn": Object {
-          "Fn::GetAtt": Array [
+        "IamRoleArn": {
+          "Fn::GetAtt": [
             "MonitoringChatbotRoleD766A77D",
             "Arn",
           ],
         },
         "SlackChannelId": "CYYYYYYYYYY",
         "SlackWorkspaceId": "TXXXXXXXXXX",
-        "SnsTopicArns": Array [
-          Object {
+        "SnsTopicArns": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
       },
       "Type": "AWS::Chatbot::SlackChannelConfiguration",
     },
-    "MonitoringChatbotRoleD766A77D": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
+    "MonitoringChatbotRoleD766A77D": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": Object {
+              "Principal": {
                 "Service": "chatbot.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/ReadOnlyAccess",
               ],
             ],
           },
-          Object {
-            "Fn::Join": Array [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/CloudWatchReadOnlyAccess",
@@ -3006,33 +3007,33 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "MonitoringEmailSubsc6D15C956": Object {
-      "Properties": Object {
+    "MonitoringEmailSubsc6D15C956": {
+      "Properties": {
         "Endpoint": "notify-security@example.com",
         "Protocol": "email",
-        "TopicArn": Object {
+        "TopicArn": {
           "Ref": "MonitoringAlarmTopicAF62D4F1",
         },
       },
       "Type": "AWS::SNS::Subscription",
     },
   },
-  "Rules": Object {
-    "CheckBootstrapVersion": Object {
-      "Assertions": Array [
-        Object {
-          "Assert": Object {
-            "Fn::Not": Array [
-              Object {
-                "Fn::Contains": Array [
-                  Array [
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
                     "1",
                     "2",
                     "3",
                     "4",
                     "5",
                   ],
-                  Object {
+                  {
                     "Ref": "BootstrapVersion",
                   },
                 ],
