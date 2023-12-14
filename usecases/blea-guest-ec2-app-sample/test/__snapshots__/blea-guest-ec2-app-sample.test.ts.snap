@@ -1,40 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Snapshot test for BLEAEc2App Stack 1`] = `
-Object {
-  "Parameters": Object {
-    "BootstrapVersion": Object {
+{
+  "Parameters": {
+    "BootstrapVersion": {
       "Default": "/cdk-bootstrap/hnb659fds/version",
       "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
       "Type": "AWS::SSM::Parameter::Value<String>",
     },
-    "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter": Object {
+    "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter": {
       "Default": "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2",
       "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
     },
   },
-  "Resources": Object {
-    "CMK56817A4C": Object {
+  "Resources": {
+    "CMK56817A4C": {
       "DeletionPolicy": "Retain",
-      "Properties": Object {
+      "Properties": {
         "Description": "BLEA Guest Sample: CMK for Ec2App",
         "EnableKeyRotation": true,
-        "KeyPolicy": Object {
-          "Statement": Array [
-            Object {
+        "KeyPolicy": {
+          "Statement": [
+            {
               "Action": "kms:*",
               "Effect": "Allow",
-              "Principal": Object {
-                "AWS": Object {
-                  "Fn::Join": Array [
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:",
-                      Object {
+                      {
                         "Ref": "AWS::Partition",
                       },
                       ":iam::",
-                      Object {
+                      {
                         "Ref": "AWS::AccountId",
                       },
                       ":root",
@@ -51,11 +51,11 @@ Object {
       "Type": "AWS::KMS::Key",
       "UpdateReplacePolicy": "Retain",
     },
-    "CMKAliasFD5A95C9": Object {
-      "Properties": Object {
+    "CMKAliasFD5A95C9": {
+      "Properties": {
         "AliasName": "alias/DevBLEAEc2App",
-        "TargetKeyId": Object {
-          "Fn::GetAtt": Array [
+        "TargetKeyId": {
+          "Fn::GetAtt": [
             "CMK56817A4C",
             "Arn",
           ],
@@ -63,44 +63,44 @@ Object {
       },
       "Type": "AWS::KMS::Alias",
     },
-    "Ec2AppAlb7DEFB31D": Object {
-      "DependsOn": Array [
+    "Ec2AppAlb7DEFB31D": {
+      "DependsOn": [
         "NetworkingVpcPublicSubnet1DefaultRoute80C01FA6",
         "NetworkingVpcPublicSubnet1RouteTableAssociationD13830EA",
         "NetworkingVpcPublicSubnet2DefaultRouteDF98F60F",
         "NetworkingVpcPublicSubnet2RouteTableAssociation2D4CEA06",
       ],
-      "Properties": Object {
-        "LoadBalancerAttributes": Array [
-          Object {
+      "Properties": {
+        "LoadBalancerAttributes": [
+          {
             "Key": "deletion_protection.enabled",
             "Value": "false",
           },
-          Object {
+          {
             "Key": "access_logs.s3.enabled",
             "Value": "true",
           },
-          Object {
+          {
             "Key": "access_logs.s3.bucket",
-            "Value": Object {
+            "Value": {
               "Ref": "Ec2AppAlbLogBucket1DE66F6A",
             },
           },
         ],
         "Scheme": "internet-facing",
-        "SecurityGroups": Array [
-          Object {
-            "Fn::GetAtt": Array [
+        "SecurityGroups": [
+          {
+            "Fn::GetAtt": [
               "Ec2AppAlbSg4F64FD2A",
               "GroupId",
             ],
           },
         ],
-        "Subnets": Array [
-          Object {
+        "Subnets": [
+          {
             "Ref": "NetworkingVpcPublicSubnet1Subnet918289EE",
           },
-          Object {
+          {
             "Ref": "NetworkingVpcPublicSubnet2Subnet9D9E5AFB",
           },
         ],
@@ -108,52 +108,52 @@ Object {
       },
       "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
     },
-    "Ec2AppAlbAlbListenerAppAsgTargetGroup308E1E51": Object {
-      "Properties": Object {
+    "Ec2AppAlbAlbListenerAppAsgTargetGroup308E1E51": {
+      "Properties": {
         "Port": 80,
         "Protocol": "HTTP",
-        "TargetGroupAttributes": Array [
-          Object {
+        "TargetGroupAttributes": [
+          {
             "Key": "deregistration_delay.timeout_seconds",
             "Value": "30",
           },
-          Object {
+          {
             "Key": "stickiness.enabled",
             "Value": "false",
           },
         ],
         "TargetType": "instance",
-        "Targets": Array [
-          Object {
-            "Id": Object {
+        "Targets": [
+          {
+            "Id": {
               "Ref": "Ec2AppAppInstance07A0F86A5",
             },
             "Port": 80,
           },
-          Object {
-            "Id": Object {
+          {
+            "Id": {
               "Ref": "Ec2AppAppInstance10A28D59A",
             },
             "Port": 80,
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
       },
       "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
     },
-    "Ec2AppAlbAlbListenerD30090D8": Object {
-      "Properties": Object {
-        "DefaultActions": Array [
-          Object {
-            "TargetGroupArn": Object {
+    "Ec2AppAlbAlbListenerD30090D8": {
+      "Properties": {
+        "DefaultActions": [
+          {
+            "TargetGroupArn": {
               "Ref": "Ec2AppAlbAlbListenerAppAsgTargetGroup308E1E51",
             },
             "Type": "forward",
           },
         ],
-        "LoadBalancerArn": Object {
+        "LoadBalancerArn": {
           "Ref": "Ec2AppAlb7DEFB31D",
         },
         "Port": 80,
@@ -161,20 +161,20 @@ Object {
       },
       "Type": "AWS::ElasticLoadBalancingV2::Listener",
     },
-    "Ec2AppAlbLogBucket1DE66F6A": Object {
+    "Ec2AppAlbLogBucket1DE66F6A": {
       "DeletionPolicy": "Retain",
-      "Properties": Object {
+      "Properties": {
         "AccessControl": "Private",
-        "BucketEncryption": Object {
-          "ServerSideEncryptionConfiguration": Array [
-            Object {
-              "ServerSideEncryptionByDefault": Object {
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
                 "SSEAlgorithm": "AES256",
               },
             },
           ],
         },
-        "PublicAccessBlockConfiguration": Object {
+        "PublicAccessBlockConfiguration": {
           "BlockPublicAcls": true,
           "BlockPublicPolicy": true,
           "IgnorePublicAcls": true,
@@ -184,37 +184,37 @@ Object {
       "Type": "AWS::S3::Bucket",
       "UpdateReplacePolicy": "Retain",
     },
-    "Ec2AppAlbLogBucketPolicy6C6759B4": Object {
-      "Properties": Object {
-        "Bucket": Object {
+    "Ec2AppAlbLogBucketPolicy6C6759B4": {
+      "Properties": {
+        "Bucket": {
           "Ref": "Ec2AppAlbLogBucket1DE66F6A",
         },
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
+        "PolicyDocument": {
+          "Statement": [
+            {
               "Action": "s3:*",
-              "Condition": Object {
-                "Bool": Object {
+              "Condition": {
+                "Bool": {
                   "aws:SecureTransport": "false",
                 },
               },
               "Effect": "Deny",
-              "Principal": Object {
+              "Principal": {
                 "AWS": "*",
               },
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
                     "Ec2AppAlbLogBucket1DE66F6A",
                     "Arn",
                   ],
                 },
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
+                    [
+                      {
+                        "Fn::GetAtt": [
                           "Ec2AppAlbLogBucket1DE66F6A",
                           "Arn",
                         ],
@@ -225,16 +225,16 @@ Object {
                 },
               ],
             },
-            Object {
+            {
               "Action": "s3:PutObject",
               "Effect": "Allow",
-              "Principal": Object {
-                "AWS": Object {
-                  "Fn::Join": Array [
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:",
-                      Object {
+                      {
                         "Ref": "AWS::Partition",
                       },
                       ":iam::582318560864:root",
@@ -242,18 +242,18 @@ Object {
                   ],
                 },
               },
-              "Resource": Object {
-                "Fn::Join": Array [
+              "Resource": {
+                "Fn::Join": [
                   "",
-                  Array [
-                    Object {
-                      "Fn::GetAtt": Array [
+                  [
+                    {
+                      "Fn::GetAtt": [
                         "Ec2AppAlbLogBucket1DE66F6A",
                         "Arn",
                       ],
                     },
                     "/AWSLogs/",
-                    Object {
+                    {
                       "Ref": "AWS::AccountId",
                     },
                     "/*",
@@ -261,29 +261,29 @@ Object {
                 ],
               },
             },
-            Object {
+            {
               "Action": "s3:PutObject",
-              "Condition": Object {
-                "StringEquals": Object {
+              "Condition": {
+                "StringEquals": {
                   "s3:x-amz-acl": "bucket-owner-full-control",
                 },
               },
               "Effect": "Allow",
-              "Principal": Object {
+              "Principal": {
                 "Service": "delivery.logs.amazonaws.com",
               },
-              "Resource": Object {
-                "Fn::Join": Array [
+              "Resource": {
+                "Fn::Join": [
                   "",
-                  Array [
-                    Object {
-                      "Fn::GetAtt": Array [
+                  [
+                    {
+                      "Fn::GetAtt": [
                         "Ec2AppAlbLogBucket1DE66F6A",
                         "Arn",
                       ],
                     },
                     "/AWSLogs/",
-                    Object {
+                    {
                       "Ref": "AWS::AccountId",
                     },
                     "/*",
@@ -291,14 +291,14 @@ Object {
                 ],
               },
             },
-            Object {
+            {
               "Action": "s3:GetBucketAcl",
               "Effect": "Allow",
-              "Principal": Object {
+              "Principal": {
                 "Service": "delivery.logs.amazonaws.com",
               },
-              "Resource": Object {
-                "Fn::GetAtt": Array [
+              "Resource": {
+                "Fn::GetAtt": [
                   "Ec2AppAlbLogBucket1DE66F6A",
                   "Arn",
                 ],
@@ -310,11 +310,11 @@ Object {
       },
       "Type": "AWS::S3::BucketPolicy",
     },
-    "Ec2AppAlbSg4F64FD2A": Object {
-      "Properties": Object {
+    "Ec2AppAlbSg4F64FD2A": {
+      "Properties": {
         "GroupDescription": "Dev-BLEAEc2App/Ec2App/AlbSg",
-        "SecurityGroupEgress": Array [
-          Object {
+        "SecurityGroupEgress": [
+          {
             "CidrIp": "0.0.0.0/0",
             "Description": "from 0.0.0.0/0:ALL PORTS",
             "FromPort": 0,
@@ -322,8 +322,8 @@ Object {
             "ToPort": 65535,
           },
         ],
-        "SecurityGroupIngress": Array [
-          Object {
+        "SecurityGroupIngress": [
+          {
             "CidrIp": "0.0.0.0/0",
             "Description": "Allow from anyone on port 80",
             "FromPort": 80,
@@ -331,24 +331,24 @@ Object {
             "ToPort": 80,
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
       },
       "Type": "AWS::EC2::SecurityGroup",
     },
-    "Ec2AppAlbSgtoDevBLEAEc2AppAppSgB5966D8D80E8567116": Object {
-      "Properties": Object {
+    "Ec2AppAlbSgtoDevBLEAEc2AppAppSgB5966D8D80E8567116": {
+      "Properties": {
         "Description": "Load balancer to target",
-        "DestinationSecurityGroupId": Object {
-          "Fn::GetAtt": Array [
+        "DestinationSecurityGroupId": {
+          "Fn::GetAtt": [
             "Ec2AppAppSgF34C625B",
             "GroupId",
           ],
         },
         "FromPort": 80,
-        "GroupId": Object {
-          "Fn::GetAtt": Array [
+        "GroupId": {
+          "Fn::GetAtt": [
             "Ec2AppAlbSg4F64FD2A",
             "GroupId",
           ],
@@ -358,101 +358,101 @@ Object {
       },
       "Type": "AWS::EC2::SecurityGroupEgress",
     },
-    "Ec2AppAppAsgASGA1C2034A": Object {
-      "Properties": Object {
+    "Ec2AppAppAsgASGA1C2034A": {
+      "Properties": {
         "HealthCheckGracePeriod": 60,
         "HealthCheckType": "ELB",
-        "LaunchConfigurationName": Object {
+        "LaunchConfigurationName": {
           "Ref": "Ec2AppAppAsgLaunchConfig7E072488",
         },
         "MaxSize": "4",
         "MinSize": "2",
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "Name",
             "PropagateAtLaunch": true,
             "Value": "AppServer",
           },
         ],
-        "TargetGroupARNs": Array [
-          Object {
+        "TargetGroupARNs": [
+          {
             "Ref": "Ec2AppAlbAlbListenerAppAsgTargetGroup308E1E51",
           },
         ],
-        "VPCZoneIdentifier": Array [
-          Object {
+        "VPCZoneIdentifier": [
+          {
             "Ref": "NetworkingVpcPrivateSubnet1Subnet717BCE48",
           },
-          Object {
+          {
             "Ref": "NetworkingVpcPrivateSubnet2Subnet4313381B",
           },
         ],
       },
       "Type": "AWS::AutoScaling::AutoScalingGroup",
-      "UpdatePolicy": Object {
-        "AutoScalingScheduledAction": Object {
+      "UpdatePolicy": {
+        "AutoScalingScheduledAction": {
           "IgnoreUnmodifiedGroupSizeProperties": true,
         },
       },
     },
-    "Ec2AppAppAsgInstanceProfile6555344A": Object {
-      "Properties": Object {
-        "Roles": Array [
-          Object {
+    "Ec2AppAppAsgInstanceProfile6555344A": {
+      "Properties": {
+        "Roles": [
+          {
             "Ref": "Ec2AppSsmInstanceRole98A9FB18",
           },
         ],
       },
       "Type": "AWS::IAM::InstanceProfile",
     },
-    "Ec2AppAppAsgLaunchConfig7E072488": Object {
-      "DependsOn": Array [
+    "Ec2AppAppAsgLaunchConfig7E072488": {
+      "DependsOn": [
         "Ec2AppSsmInstanceRole98A9FB18",
       ],
-      "Properties": Object {
-        "BlockDeviceMappings": Array [
-          Object {
+      "Properties": {
+        "BlockDeviceMappings": [
+          {
             "DeviceName": "/dev/xvda",
-            "Ebs": Object {
+            "Ebs": {
               "Encrypted": true,
               "VolumeSize": 10,
             },
           },
         ],
-        "IamInstanceProfile": Object {
+        "IamInstanceProfile": {
           "Ref": "Ec2AppAppAsgInstanceProfile6555344A",
         },
-        "ImageId": Object {
+        "ImageId": {
           "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter",
         },
         "InstanceType": "t3.micro",
-        "SecurityGroups": Array [
-          Object {
-            "Fn::GetAtt": Array [
+        "SecurityGroups": [
+          {
+            "Fn::GetAtt": [
               "Ec2AppAppSgF34C625B",
               "GroupId",
             ],
           },
         ],
-        "UserData": Object {
+        "UserData": {
           "Fn::Base64": "#!/bin/bash
 sudo yum -y install httpd
 sudo systemctl enable httpd
 sudo systemctl start httpd
-echo \\"<h1>Hello from $(hostname)</h1>\\" > /var/www/html/index.html
+echo "<h1>Hello from $(hostname)</h1>" > /var/www/html/index.html
 chown apache.apache /var/www/html/index.html",
         },
       },
       "Type": "AWS::AutoScaling::LaunchConfiguration",
     },
-    "Ec2AppAppAsgScalingPolicykeepSpareCPUE940C04E": Object {
-      "Properties": Object {
-        "AutoScalingGroupName": Object {
+    "Ec2AppAppAsgScalingPolicykeepSpareCPUE940C04E": {
+      "Properties": {
+        "AutoScalingGroupName": {
           "Ref": "Ec2AppAppAsgASGA1C2034A",
         },
         "PolicyType": "TargetTrackingScaling",
-        "TargetTrackingConfiguration": Object {
-          "PredefinedMetricSpecification": Object {
+        "TargetTrackingConfiguration": {
+          "PredefinedMetricSpecification": {
             "PredefinedMetricType": "ASGAverageCPUUtilization",
           },
           "TargetValue": 50,
@@ -460,145 +460,145 @@ chown apache.apache /var/www/html/index.html",
       },
       "Type": "AWS::AutoScaling::ScalingPolicy",
     },
-    "Ec2AppAppInstance07A0F86A5": Object {
-      "DependsOn": Array [
+    "Ec2AppAppInstance07A0F86A5": {
+      "DependsOn": [
         "Ec2AppSsmInstanceRole98A9FB18",
       ],
-      "Properties": Object {
-        "AvailabilityZone": Object {
-          "Fn::Select": Array [
+      "Properties": {
+        "AvailabilityZone": {
+          "Fn::Select": [
             0,
-            Object {
+            {
               "Fn::GetAZs": "",
             },
           ],
         },
-        "BlockDeviceMappings": Array [
-          Object {
+        "BlockDeviceMappings": [
+          {
             "DeviceName": "/dev/xvda",
-            "Ebs": Object {
+            "Ebs": {
               "Encrypted": true,
               "VolumeSize": 10,
             },
           },
         ],
-        "IamInstanceProfile": Object {
+        "IamInstanceProfile": {
           "Ref": "Ec2AppAppInstance0InstanceProfile5EE4D678",
         },
-        "ImageId": Object {
+        "ImageId": {
           "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter",
         },
         "InstanceType": "t3.micro",
-        "SecurityGroupIds": Array [
-          Object {
-            "Fn::GetAtt": Array [
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
               "Ec2AppAppSgF34C625B",
               "GroupId",
             ],
           },
         ],
-        "SubnetId": Object {
+        "SubnetId": {
           "Ref": "NetworkingVpcPrivateSubnet1Subnet717BCE48",
         },
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "Name",
             "Value": "AppServer0",
           },
         ],
-        "UserData": Object {
+        "UserData": {
           "Fn::Base64": "#!/bin/bash
 sudo yum -y install httpd
 sudo systemctl enable httpd
 sudo systemctl start httpd
-echo \\"<h1>Hello from $(hostname)</h1>\\" > /var/www/html/index.html
+echo "<h1>Hello from $(hostname)</h1>" > /var/www/html/index.html
 chown apache.apache /var/www/html/index.html",
         },
       },
       "Type": "AWS::EC2::Instance",
     },
-    "Ec2AppAppInstance0InstanceProfile5EE4D678": Object {
-      "Properties": Object {
-        "Roles": Array [
-          Object {
+    "Ec2AppAppInstance0InstanceProfile5EE4D678": {
+      "Properties": {
+        "Roles": [
+          {
             "Ref": "Ec2AppSsmInstanceRole98A9FB18",
           },
         ],
       },
       "Type": "AWS::IAM::InstanceProfile",
     },
-    "Ec2AppAppInstance10A28D59A": Object {
-      "DependsOn": Array [
+    "Ec2AppAppInstance10A28D59A": {
+      "DependsOn": [
         "Ec2AppSsmInstanceRole98A9FB18",
       ],
-      "Properties": Object {
-        "AvailabilityZone": Object {
-          "Fn::Select": Array [
+      "Properties": {
+        "AvailabilityZone": {
+          "Fn::Select": [
             1,
-            Object {
+            {
               "Fn::GetAZs": "",
             },
           ],
         },
-        "BlockDeviceMappings": Array [
-          Object {
+        "BlockDeviceMappings": [
+          {
             "DeviceName": "/dev/xvda",
-            "Ebs": Object {
+            "Ebs": {
               "Encrypted": true,
               "VolumeSize": 10,
             },
           },
         ],
-        "IamInstanceProfile": Object {
+        "IamInstanceProfile": {
           "Ref": "Ec2AppAppInstance1InstanceProfile1886A29D",
         },
-        "ImageId": Object {
+        "ImageId": {
           "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter",
         },
         "InstanceType": "t3.micro",
-        "SecurityGroupIds": Array [
-          Object {
-            "Fn::GetAtt": Array [
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
               "Ec2AppAppSgF34C625B",
               "GroupId",
             ],
           },
         ],
-        "SubnetId": Object {
+        "SubnetId": {
           "Ref": "NetworkingVpcPrivateSubnet2Subnet4313381B",
         },
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "Name",
             "Value": "AppServer1",
           },
         ],
-        "UserData": Object {
+        "UserData": {
           "Fn::Base64": "#!/bin/bash
 sudo yum -y install httpd
 sudo systemctl enable httpd
 sudo systemctl start httpd
-echo \\"<h1>Hello from $(hostname)</h1>\\" > /var/www/html/index.html
+echo "<h1>Hello from $(hostname)</h1>" > /var/www/html/index.html
 chown apache.apache /var/www/html/index.html",
         },
       },
       "Type": "AWS::EC2::Instance",
     },
-    "Ec2AppAppInstance1InstanceProfile1886A29D": Object {
-      "Properties": Object {
-        "Roles": Array [
-          Object {
+    "Ec2AppAppInstance1InstanceProfile1886A29D": {
+      "Properties": {
+        "Roles": [
+          {
             "Ref": "Ec2AppSsmInstanceRole98A9FB18",
           },
         ],
       },
       "Type": "AWS::IAM::InstanceProfile",
     },
-    "Ec2AppAppSgF34C625B": Object {
-      "Properties": Object {
+    "Ec2AppAppSgF34C625B": {
+      "Properties": {
         "GroupDescription": "Dev-BLEAEc2App/Ec2App/AppSg",
-        "SecurityGroupEgress": Array [
-          Object {
+        "SecurityGroupEgress": [
+          {
             "CidrIp": "0.0.0.0/0",
             "Description": "from 0.0.0.0/0:ALL PORTS",
             "FromPort": 0,
@@ -606,25 +606,25 @@ chown apache.apache /var/www/html/index.html",
             "ToPort": 65535,
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
       },
       "Type": "AWS::EC2::SecurityGroup",
     },
-    "Ec2AppAppSgfromDevBLEAEc2AppAlbSgB1E49274805D7F9651": Object {
-      "Properties": Object {
+    "Ec2AppAppSgfromDevBLEAEc2AppAlbSgB1E49274805D7F9651": {
+      "Properties": {
         "Description": "from DevBLEAEc2AppAlbSgB1E49274:80",
         "FromPort": 80,
-        "GroupId": Object {
-          "Fn::GetAtt": Array [
+        "GroupId": {
+          "Fn::GetAtt": [
             "Ec2AppAppSgF34C625B",
             "GroupId",
           ],
         },
         "IpProtocol": "tcp",
-        "SourceSecurityGroupId": Object {
-          "Fn::GetAtt": Array [
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
             "Ec2AppAlbSg4F64FD2A",
             "GroupId",
           ],
@@ -633,21 +633,21 @@ chown apache.apache /var/www/html/index.html",
       },
       "Type": "AWS::EC2::SecurityGroupIngress",
     },
-    "Ec2AppSsmInstanceRole98A9FB18": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
+    "Ec2AppSsmInstanceRole98A9FB18": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": Object {
+              "Principal": {
                 "Service": "ec2.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": Array [
+        "ManagedPolicyArns": [
           "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
           "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
         ],
@@ -655,100 +655,100 @@ chown apache.apache /var/www/html/index.html",
       },
       "Type": "AWS::IAM::Role",
     },
-    "InvestigationInstance2E4D52A0": Object {
-      "DependsOn": Array [
+    "InvestigationInstance2E4D52A0": {
+      "DependsOn": [
         "InvestigationInstanceSsmInstanceRole95F6BCCB",
       ],
-      "Properties": Object {
-        "AvailabilityZone": Object {
-          "Fn::Select": Array [
+      "Properties": {
+        "AvailabilityZone": {
+          "Fn::Select": [
             0,
-            Object {
+            {
               "Fn::GetAZs": "",
             },
           ],
         },
-        "BlockDeviceMappings": Array [
-          Object {
+        "BlockDeviceMappings": [
+          {
             "DeviceName": "/dev/xvda",
-            "Ebs": Object {
+            "Ebs": {
               "Encrypted": true,
               "VolumeSize": 10,
             },
           },
         ],
-        "IamInstanceProfile": Object {
+        "IamInstanceProfile": {
           "Ref": "InvestigationInstanceInstanceProfileAF68C034",
         },
-        "ImageId": Object {
+        "ImageId": {
           "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter",
         },
         "InstanceType": "t3.micro",
-        "SecurityGroupIds": Array [
-          Object {
-            "Fn::GetAtt": Array [
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
               "InvestigationInstanceInvInstanceSgB92E484E",
               "GroupId",
             ],
           },
         ],
-        "SubnetId": Object {
+        "SubnetId": {
           "Ref": "NetworkingVpcProtectedSubnet1SubnetF97DE33B",
         },
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "Name",
             "Value": "Investigation",
           },
         ],
-        "UserData": Object {
+        "UserData": {
           "Fn::Base64": "#!/bin/bash
 sudo yum -y install mariadb",
         },
       },
       "Type": "AWS::EC2::Instance",
     },
-    "InvestigationInstanceInstanceProfileAF68C034": Object {
-      "Properties": Object {
-        "Roles": Array [
-          Object {
+    "InvestigationInstanceInstanceProfileAF68C034": {
+      "Properties": {
+        "Roles": [
+          {
             "Ref": "InvestigationInstanceSsmInstanceRole95F6BCCB",
           },
         ],
       },
       "Type": "AWS::IAM::InstanceProfile",
     },
-    "InvestigationInstanceInvInstanceSgB92E484E": Object {
-      "Properties": Object {
+    "InvestigationInstanceInvInstanceSgB92E484E": {
+      "Properties": {
         "GroupDescription": "Dev-BLEAEc2App/InvestigationInstance/InvInstanceSg",
-        "SecurityGroupEgress": Array [
-          Object {
+        "SecurityGroupEgress": [
+          {
             "CidrIp": "0.0.0.0/0",
             "Description": "Allow all outbound traffic by default",
             "IpProtocol": "-1",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
       },
       "Type": "AWS::EC2::SecurityGroup",
     },
-    "InvestigationInstanceSsmInstanceRole95F6BCCB": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
+    "InvestigationInstanceSsmInstanceRole95F6BCCB": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": Object {
+              "Principal": {
                 "Service": "ec2.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": Array [
+        "ManagedPolicyArns": [
           "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
           "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
         ],
@@ -756,20 +756,20 @@ sudo yum -y install mariadb",
       },
       "Type": "AWS::IAM::Role",
     },
-    "MonitoringAlarmTopicAF62D4F1": Object {
+    "MonitoringAlarmTopicAF62D4F1": {
       "Type": "AWS::SNS::Topic",
     },
-    "MonitoringAlarmTopicPolicyCB9CCFB0": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
+    "MonitoringAlarmTopicPolicyCB9CCFB0": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
               "Action": "sns:Publish",
               "Effect": "Allow",
-              "Principal": Object {
+              "Principal": {
                 "Service": "cloudwatch.amazonaws.com",
               },
-              "Resource": Object {
+              "Resource": {
                 "Ref": "MonitoringAlarmTopicAF62D4F1",
               },
               "Sid": "0",
@@ -777,66 +777,66 @@ sudo yum -y install mariadb",
           ],
           "Version": "2012-10-17",
         },
-        "Topics": Array [
-          Object {
+        "Topics": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
       },
       "Type": "AWS::SNS::TopicPolicy",
     },
-    "MonitoringChatbotChannel3696F0E4": Object {
-      "Properties": Object {
+    "MonitoringChatbotChannel3696F0E4": {
+      "Properties": {
         "ConfigurationName": "DevBLEAEc2AppMonitoring7E28C0B1",
-        "IamRoleArn": Object {
-          "Fn::GetAtt": Array [
+        "IamRoleArn": {
+          "Fn::GetAtt": [
             "MonitoringChatbotRoleD766A77D",
             "Arn",
           ],
         },
         "SlackChannelId": "CYYYYYYYYYY",
         "SlackWorkspaceId": "TXXXXXXXXXX",
-        "SnsTopicArns": Array [
-          Object {
+        "SnsTopicArns": [
+          {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
       },
       "Type": "AWS::Chatbot::SlackChannelConfiguration",
     },
-    "MonitoringChatbotRoleD766A77D": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
+    "MonitoringChatbotRoleD766A77D": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": Object {
+              "Principal": {
                 "Service": "chatbot.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/ReadOnlyAccess",
               ],
             ],
           },
-          Object {
-            "Fn::Join": Array [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:",
-                Object {
+                {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/CloudWatchReadOnlyAccess",
@@ -847,26 +847,26 @@ sudo yum -y install mariadb",
       },
       "Type": "AWS::IAM::Role",
     },
-    "MonitoringEmailSubsc6D15C956": Object {
-      "Properties": Object {
+    "MonitoringEmailSubsc6D15C956": {
+      "Properties": {
         "Endpoint": "notify-security@example.com",
         "Protocol": "email",
-        "TopicArn": Object {
+        "TopicArn": {
           "Ref": "MonitoringAlarmTopicAF62D4F1",
         },
       },
       "Type": "AWS::SNS::Subscription",
     },
-    "NetworkingFlowLogBucket33187957": Object {
+    "NetworkingFlowLogBucket33187957": {
       "DeletionPolicy": "Retain",
-      "Properties": Object {
+      "Properties": {
         "AccessControl": "Private",
-        "BucketEncryption": Object {
-          "ServerSideEncryptionConfiguration": Array [
-            Object {
-              "ServerSideEncryptionByDefault": Object {
-                "KMSMasterKeyID": Object {
-                  "Fn::GetAtt": Array [
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "KMSMasterKeyID": {
+                  "Fn::GetAtt": [
                     "NetworkingKey5DCEF7CD",
                     "Arn",
                   ],
@@ -876,7 +876,7 @@ sudo yum -y install mariadb",
             },
           ],
         },
-        "PublicAccessBlockConfiguration": Object {
+        "PublicAccessBlockConfiguration": {
           "BlockPublicAcls": true,
           "BlockPublicPolicy": true,
           "IgnorePublicAcls": true,
@@ -886,37 +886,37 @@ sudo yum -y install mariadb",
       "Type": "AWS::S3::Bucket",
       "UpdateReplacePolicy": "Retain",
     },
-    "NetworkingFlowLogBucketPolicy1EE356A6": Object {
-      "Properties": Object {
-        "Bucket": Object {
+    "NetworkingFlowLogBucketPolicy1EE356A6": {
+      "Properties": {
+        "Bucket": {
           "Ref": "NetworkingFlowLogBucket33187957",
         },
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
+        "PolicyDocument": {
+          "Statement": [
+            {
               "Action": "s3:*",
-              "Condition": Object {
-                "Bool": Object {
+              "Condition": {
+                "Bool": {
                   "aws:SecureTransport": "false",
                 },
               },
               "Effect": "Deny",
-              "Principal": Object {
+              "Principal": {
                 "AWS": "*",
               },
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
                     "NetworkingFlowLogBucket33187957",
                     "Arn",
                   ],
                 },
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
+                    [
+                      {
+                        "Fn::GetAtt": [
                           "NetworkingFlowLogBucket33187957",
                           "Arn",
                         ],
@@ -933,27 +933,27 @@ sudo yum -y install mariadb",
       },
       "Type": "AWS::S3::BucketPolicy",
     },
-    "NetworkingKey5DCEF7CD": Object {
+    "NetworkingKey5DCEF7CD": {
       "DeletionPolicy": "Retain",
-      "Properties": Object {
+      "Properties": {
         "Description": "BLEA Guest Sample: CMK for Ec2App VPC Flow Logs",
         "EnableKeyRotation": true,
-        "KeyPolicy": Object {
-          "Statement": Array [
-            Object {
+        "KeyPolicy": {
+          "Statement": [
+            {
               "Action": "kms:*",
               "Effect": "Allow",
-              "Principal": Object {
-                "AWS": Object {
-                  "Fn::Join": Array [
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:",
-                      Object {
+                      {
                         "Ref": "AWS::Partition",
                       },
                       ":iam::",
-                      Object {
+                      {
                         "Ref": "AWS::AccountId",
                       },
                       ":root",
@@ -963,8 +963,8 @@ sudo yum -y install mariadb",
               },
               "Resource": "*",
             },
-            Object {
-              "Action": Array [
+            {
+              "Action": [
                 "kms:Encrypt*",
                 "kms:Decrypt*",
                 "kms:ReEncrypt*",
@@ -972,7 +972,7 @@ sudo yum -y install mariadb",
                 "kms:Describe*",
               ],
               "Effect": "Allow",
-              "Principal": Object {
+              "Principal": {
                 "Service": "delivery.logs.amazonaws.com",
               },
               "Resource": "*",
@@ -984,11 +984,11 @@ sudo yum -y install mariadb",
       "Type": "AWS::KMS::Key",
       "UpdateReplacePolicy": "Retain",
     },
-    "NetworkingKeyAlias2BF09FC0": Object {
-      "Properties": Object {
+    "NetworkingKeyAlias2BF09FC0": {
+      "Properties": {
         "AliasName": "alias/DevBLEAEc2AppNetworkingD87AB721",
-        "TargetKeyId": Object {
-          "Fn::GetAtt": Array [
+        "TargetKeyId": {
+          "Fn::GetAtt": [
             "NetworkingKey5DCEF7CD",
             "Arn",
           ],
@@ -996,41 +996,47 @@ sudo yum -y install mariadb",
       },
       "Type": "AWS::KMS::Alias",
     },
-    "NetworkingPrivateNacl8E602059": Object {
-      "Properties": Object {
-        "VpcId": Object {
+    "NetworkingPrivateNacl8E602059": {
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/PrivateNacl",
+          },
+        ],
+        "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
       },
       "Type": "AWS::EC2::NetworkAcl",
     },
-    "NetworkingPrivateNaclDefaultAssociationDevBLEAEc2AppNetworkingVpcPrivateSubnet15B31922B8E6227D5": Object {
-      "Properties": Object {
-        "NetworkAclId": Object {
+    "NetworkingPrivateNaclDefaultAssociationDevBLEAEc2AppNetworkingVpcPrivateSubnet15B31922B8E6227D5": {
+      "Properties": {
+        "NetworkAclId": {
           "Ref": "NetworkingPrivateNacl8E602059",
         },
-        "SubnetId": Object {
+        "SubnetId": {
           "Ref": "NetworkingVpcPrivateSubnet1Subnet717BCE48",
         },
       },
       "Type": "AWS::EC2::SubnetNetworkAclAssociation",
     },
-    "NetworkingPrivateNaclDefaultAssociationDevBLEAEc2AppNetworkingVpcPrivateSubnet239B35D27D643660A": Object {
-      "Properties": Object {
-        "NetworkAclId": Object {
+    "NetworkingPrivateNaclDefaultAssociationDevBLEAEc2AppNetworkingVpcPrivateSubnet239B35D27D643660A": {
+      "Properties": {
+        "NetworkAclId": {
           "Ref": "NetworkingPrivateNacl8E602059",
         },
-        "SubnetId": Object {
+        "SubnetId": {
           "Ref": "NetworkingVpcPrivateSubnet2Subnet4313381B",
         },
       },
       "Type": "AWS::EC2::SubnetNetworkAclAssociation",
     },
-    "NetworkingPrivateNaclPrivateEgress8D7BEE42": Object {
-      "Properties": Object {
+    "NetworkingPrivateNaclPrivateEgress8D7BEE42": {
+      "Properties": {
         "CidrBlock": "0.0.0.0/0",
         "Egress": true,
-        "NetworkAclId": Object {
+        "NetworkAclId": {
           "Ref": "NetworkingPrivateNacl8E602059",
         },
         "Protocol": -1,
@@ -1039,11 +1045,11 @@ sudo yum -y install mariadb",
       },
       "Type": "AWS::EC2::NetworkAclEntry",
     },
-    "NetworkingPrivateNaclPrivateIngressA5CFFFD6": Object {
-      "Properties": Object {
+    "NetworkingPrivateNaclPrivateIngressA5CFFFD6": {
+      "Properties": {
         "CidrBlock": "0.0.0.0/0",
         "Egress": false,
-        "NetworkAclId": Object {
+        "NetworkAclId": {
           "Ref": "NetworkingPrivateNacl8E602059",
         },
         "Protocol": -1,
@@ -1052,41 +1058,47 @@ sudo yum -y install mariadb",
       },
       "Type": "AWS::EC2::NetworkAclEntry",
     },
-    "NetworkingPublicNacl8F0D44A5": Object {
-      "Properties": Object {
-        "VpcId": Object {
+    "NetworkingPublicNacl8F0D44A5": {
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/PublicNacl",
+          },
+        ],
+        "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
       },
       "Type": "AWS::EC2::NetworkAcl",
     },
-    "NetworkingPublicNaclDefaultAssociationDevBLEAEc2AppNetworkingVpcPublicSubnet109F200B211B5AB43": Object {
-      "Properties": Object {
-        "NetworkAclId": Object {
+    "NetworkingPublicNaclDefaultAssociationDevBLEAEc2AppNetworkingVpcPublicSubnet109F200B211B5AB43": {
+      "Properties": {
+        "NetworkAclId": {
           "Ref": "NetworkingPublicNacl8F0D44A5",
         },
-        "SubnetId": Object {
+        "SubnetId": {
           "Ref": "NetworkingVpcPublicSubnet1Subnet918289EE",
         },
       },
       "Type": "AWS::EC2::SubnetNetworkAclAssociation",
     },
-    "NetworkingPublicNaclDefaultAssociationDevBLEAEc2AppNetworkingVpcPublicSubnet24591B590BD988215": Object {
-      "Properties": Object {
-        "NetworkAclId": Object {
+    "NetworkingPublicNaclDefaultAssociationDevBLEAEc2AppNetworkingVpcPublicSubnet24591B590BD988215": {
+      "Properties": {
+        "NetworkAclId": {
           "Ref": "NetworkingPublicNacl8F0D44A5",
         },
-        "SubnetId": Object {
+        "SubnetId": {
           "Ref": "NetworkingVpcPublicSubnet2Subnet9D9E5AFB",
         },
       },
       "Type": "AWS::EC2::SubnetNetworkAclAssociation",
     },
-    "NetworkingPublicNaclPublicEgress927B5E86": Object {
-      "Properties": Object {
+    "NetworkingPublicNaclPublicEgress927B5E86": {
+      "Properties": {
         "CidrBlock": "0.0.0.0/0",
         "Egress": true,
-        "NetworkAclId": Object {
+        "NetworkAclId": {
           "Ref": "NetworkingPublicNacl8F0D44A5",
         },
         "Protocol": -1,
@@ -1095,11 +1107,11 @@ sudo yum -y install mariadb",
       },
       "Type": "AWS::EC2::NetworkAclEntry",
     },
-    "NetworkingPublicNaclPublicIngressAC30352B": Object {
-      "Properties": Object {
+    "NetworkingPublicNaclPublicIngressAC30352B": {
+      "Properties": {
         "CidrBlock": "0.0.0.0/0",
         "Egress": false,
-        "NetworkAclId": Object {
+        "NetworkAclId": {
           "Ref": "NetworkingPublicNacl8F0D44A5",
         },
         "Protocol": -1,
@@ -1108,14 +1120,14 @@ sudo yum -y install mariadb",
       },
       "Type": "AWS::EC2::NetworkAclEntry",
     },
-    "NetworkingVpc6B5E6F44": Object {
-      "Properties": Object {
+    "NetworkingVpc6B5E6F44": {
+      "Properties": {
         "CidrBlock": "10.100.0.0/16",
         "EnableDnsHostnames": true,
         "EnableDnsSupport": true,
         "InstanceTenancy": "default",
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "Name",
             "Value": "Dev-BLEAEc2App/Networking/Vpc",
           },
@@ -1123,58 +1135,58 @@ sudo yum -y install mariadb",
       },
       "Type": "AWS::EC2::VPC",
     },
-    "NetworkingVpcEc2EndpointCDE9BE0C": Object {
-      "Properties": Object {
+    "NetworkingVpcEc2EndpointCDE9BE0C": {
+      "Properties": {
         "PrivateDnsEnabled": true,
-        "SecurityGroupIds": Array [
-          Object {
-            "Fn::GetAtt": Array [
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
               "NetworkingVpcEc2EndpointSecurityGroup28494A31",
               "GroupId",
             ],
           },
         ],
         "ServiceName": "com.amazonaws.ap-northeast-1.ec2",
-        "SubnetIds": Array [
-          Object {
+        "SubnetIds": [
+          {
             "Ref": "NetworkingVpcProtectedSubnet1SubnetF97DE33B",
           },
-          Object {
+          {
             "Ref": "NetworkingVpcProtectedSubnet2SubnetE110C692",
           },
         ],
         "VpcEndpointType": "Interface",
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
       },
       "Type": "AWS::EC2::VPCEndpoint",
     },
-    "NetworkingVpcEc2EndpointSecurityGroup28494A31": Object {
-      "Properties": Object {
+    "NetworkingVpcEc2EndpointSecurityGroup28494A31": {
+      "Properties": {
         "GroupDescription": "Dev-BLEAEc2App/Networking/Vpc/Ec2Endpoint/SecurityGroup",
-        "SecurityGroupEgress": Array [
-          Object {
+        "SecurityGroupEgress": [
+          {
             "CidrIp": "0.0.0.0/0",
             "Description": "Allow all outbound traffic by default",
             "IpProtocol": "-1",
           },
         ],
-        "SecurityGroupIngress": Array [
-          Object {
-            "CidrIp": Object {
-              "Fn::GetAtt": Array [
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::GetAtt": [
                 "NetworkingVpc6B5E6F44",
                 "CidrBlock",
               ],
             },
-            "Description": Object {
-              "Fn::Join": Array [
+            "Description": {
+              "Fn::Join": [
                 "",
-                Array [
+                [
                   "from ",
-                  Object {
-                    "Fn::GetAtt": Array [
+                  {
+                    "Fn::GetAtt": [
                       "NetworkingVpc6B5E6F44",
                       "CidrBlock",
                     ],
@@ -1188,70 +1200,70 @@ sudo yum -y install mariadb",
             "ToPort": 443,
           },
         ],
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "Name",
             "Value": "Dev-BLEAEc2App/Networking/Vpc",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
       },
       "Type": "AWS::EC2::SecurityGroup",
     },
-    "NetworkingVpcEc2MessagesEndpointD64BDA68": Object {
-      "Properties": Object {
+    "NetworkingVpcEc2MessagesEndpointD64BDA68": {
+      "Properties": {
         "PrivateDnsEnabled": true,
-        "SecurityGroupIds": Array [
-          Object {
-            "Fn::GetAtt": Array [
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
               "NetworkingVpcEc2MessagesEndpointSecurityGroupA9FD1F29",
               "GroupId",
             ],
           },
         ],
         "ServiceName": "com.amazonaws.ap-northeast-1.ec2messages",
-        "SubnetIds": Array [
-          Object {
+        "SubnetIds": [
+          {
             "Ref": "NetworkingVpcProtectedSubnet1SubnetF97DE33B",
           },
-          Object {
+          {
             "Ref": "NetworkingVpcProtectedSubnet2SubnetE110C692",
           },
         ],
         "VpcEndpointType": "Interface",
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
       },
       "Type": "AWS::EC2::VPCEndpoint",
     },
-    "NetworkingVpcEc2MessagesEndpointSecurityGroupA9FD1F29": Object {
-      "Properties": Object {
+    "NetworkingVpcEc2MessagesEndpointSecurityGroupA9FD1F29": {
+      "Properties": {
         "GroupDescription": "Dev-BLEAEc2App/Networking/Vpc/Ec2MessagesEndpoint/SecurityGroup",
-        "SecurityGroupEgress": Array [
-          Object {
+        "SecurityGroupEgress": [
+          {
             "CidrIp": "0.0.0.0/0",
             "Description": "Allow all outbound traffic by default",
             "IpProtocol": "-1",
           },
         ],
-        "SecurityGroupIngress": Array [
-          Object {
-            "CidrIp": Object {
-              "Fn::GetAtt": Array [
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::GetAtt": [
                 "NetworkingVpc6B5E6F44",
                 "CidrBlock",
               ],
             },
-            "Description": Object {
-              "Fn::Join": Array [
+            "Description": {
+              "Fn::Join": [
                 "",
-                Array [
+                [
                   "from ",
-                  Object {
-                    "Fn::GetAtt": Array [
+                  {
+                    "Fn::GetAtt": [
                       "NetworkingVpc6B5E6F44",
                       "CidrBlock",
                     ],
@@ -1265,48 +1277,48 @@ sudo yum -y install mariadb",
             "ToPort": 443,
           },
         ],
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "Name",
             "Value": "Dev-BLEAEc2App/Networking/Vpc",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
       },
       "Type": "AWS::EC2::SecurityGroup",
     },
-    "NetworkingVpcFlowLogsFlowLog7DF32A67": Object {
-      "DependsOn": Array [
+    "NetworkingVpcFlowLogsFlowLog7DF32A67": {
+      "DependsOn": [
         "NetworkingFlowLogBucketPolicy1EE356A6",
       ],
-      "Properties": Object {
-        "LogDestination": Object {
-          "Fn::GetAtt": Array [
+      "Properties": {
+        "LogDestination": {
+          "Fn::GetAtt": [
             "NetworkingFlowLogBucket33187957",
             "Arn",
           ],
         },
         "LogDestinationType": "s3",
-        "ResourceId": Object {
+        "ResourceId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
         "ResourceType": "VPC",
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "Name",
-            "Value": "Dev-BLEAEc2App/Networking/Vpc",
+            "Value": "Dev-BLEAEc2App/Networking/Vpc/FlowLogs",
           },
         ],
         "TrafficType": "ALL",
       },
       "Type": "AWS::EC2::FlowLog",
     },
-    "NetworkingVpcIGW21218DAB": Object {
-      "Properties": Object {
-        "Tags": Array [
-          Object {
+    "NetworkingVpcIGW21218DAB": {
+      "Properties": {
+        "Tags": [
+          {
             "Key": "Name",
             "Value": "Dev-BLEAEc2App/Networking/Vpc",
           },
@@ -1314,278 +1326,278 @@ sudo yum -y install mariadb",
       },
       "Type": "AWS::EC2::InternetGateway",
     },
-    "NetworkingVpcPrivateSubnet1DefaultRouteDE58E6A0": Object {
-      "Properties": Object {
+    "NetworkingVpcPrivateSubnet1DefaultRouteDE58E6A0": {
+      "Properties": {
         "DestinationCidrBlock": "0.0.0.0/0",
-        "NatGatewayId": Object {
+        "NatGatewayId": {
           "Ref": "NetworkingVpcPublicSubnet1NATGateway70EEEC07",
         },
-        "RouteTableId": Object {
+        "RouteTableId": {
           "Ref": "NetworkingVpcPrivateSubnet1RouteTable69CC9A73",
         },
       },
       "Type": "AWS::EC2::Route",
     },
-    "NetworkingVpcPrivateSubnet1RouteTable69CC9A73": Object {
-      "Properties": Object {
-        "Tags": Array [
-          Object {
+    "NetworkingVpcPrivateSubnet1RouteTable69CC9A73": {
+      "Properties": {
+        "Tags": [
+          {
             "Key": "Name",
             "Value": "Dev-BLEAEc2App/Networking/Vpc/PrivateSubnet1",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
       },
       "Type": "AWS::EC2::RouteTable",
     },
-    "NetworkingVpcPrivateSubnet1RouteTableAssociation761725EA": Object {
-      "Properties": Object {
-        "RouteTableId": Object {
+    "NetworkingVpcPrivateSubnet1RouteTableAssociation761725EA": {
+      "Properties": {
+        "RouteTableId": {
           "Ref": "NetworkingVpcPrivateSubnet1RouteTable69CC9A73",
         },
-        "SubnetId": Object {
+        "SubnetId": {
           "Ref": "NetworkingVpcPrivateSubnet1Subnet717BCE48",
         },
       },
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
     },
-    "NetworkingVpcPrivateSubnet1Subnet717BCE48": Object {
-      "Properties": Object {
-        "AvailabilityZone": Object {
-          "Fn::Select": Array [
+    "NetworkingVpcPrivateSubnet1Subnet717BCE48": {
+      "Properties": {
+        "AvailabilityZone": {
+          "Fn::Select": [
             0,
-            Object {
+            {
               "Fn::GetAZs": "",
             },
           ],
         },
         "CidrBlock": "10.100.4.0/22",
         "MapPublicIpOnLaunch": false,
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "aws-cdk:subnet-name",
             "Value": "Private",
           },
-          Object {
+          {
             "Key": "aws-cdk:subnet-type",
             "Value": "Private",
           },
-          Object {
+          {
             "Key": "Name",
             "Value": "Dev-BLEAEc2App/Networking/Vpc/PrivateSubnet1",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "NetworkingVpcPrivateSubnet2DefaultRoute5BF16047": Object {
-      "Properties": Object {
+    "NetworkingVpcPrivateSubnet2DefaultRoute5BF16047": {
+      "Properties": {
         "DestinationCidrBlock": "0.0.0.0/0",
-        "NatGatewayId": Object {
+        "NatGatewayId": {
           "Ref": "NetworkingVpcPublicSubnet1NATGateway70EEEC07",
         },
-        "RouteTableId": Object {
+        "RouteTableId": {
           "Ref": "NetworkingVpcPrivateSubnet2RouteTableAE92CE40",
         },
       },
       "Type": "AWS::EC2::Route",
     },
-    "NetworkingVpcPrivateSubnet2RouteTableAE92CE40": Object {
-      "Properties": Object {
-        "Tags": Array [
-          Object {
+    "NetworkingVpcPrivateSubnet2RouteTableAE92CE40": {
+      "Properties": {
+        "Tags": [
+          {
             "Key": "Name",
             "Value": "Dev-BLEAEc2App/Networking/Vpc/PrivateSubnet2",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
       },
       "Type": "AWS::EC2::RouteTable",
     },
-    "NetworkingVpcPrivateSubnet2RouteTableAssociation9EFBB61D": Object {
-      "Properties": Object {
-        "RouteTableId": Object {
+    "NetworkingVpcPrivateSubnet2RouteTableAssociation9EFBB61D": {
+      "Properties": {
+        "RouteTableId": {
           "Ref": "NetworkingVpcPrivateSubnet2RouteTableAE92CE40",
         },
-        "SubnetId": Object {
+        "SubnetId": {
           "Ref": "NetworkingVpcPrivateSubnet2Subnet4313381B",
         },
       },
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
     },
-    "NetworkingVpcPrivateSubnet2Subnet4313381B": Object {
-      "Properties": Object {
-        "AvailabilityZone": Object {
-          "Fn::Select": Array [
+    "NetworkingVpcPrivateSubnet2Subnet4313381B": {
+      "Properties": {
+        "AvailabilityZone": {
+          "Fn::Select": [
             1,
-            Object {
+            {
               "Fn::GetAZs": "",
             },
           ],
         },
         "CidrBlock": "10.100.8.0/22",
         "MapPublicIpOnLaunch": false,
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "aws-cdk:subnet-name",
             "Value": "Private",
           },
-          Object {
+          {
             "Key": "aws-cdk:subnet-type",
             "Value": "Private",
           },
-          Object {
+          {
             "Key": "Name",
             "Value": "Dev-BLEAEc2App/Networking/Vpc/PrivateSubnet2",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "NetworkingVpcProtectedSubnet1RouteTable2C1558E9": Object {
-      "Properties": Object {
-        "Tags": Array [
-          Object {
+    "NetworkingVpcProtectedSubnet1RouteTable2C1558E9": {
+      "Properties": {
+        "Tags": [
+          {
             "Key": "Name",
             "Value": "Dev-BLEAEc2App/Networking/Vpc/ProtectedSubnet1",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
       },
       "Type": "AWS::EC2::RouteTable",
     },
-    "NetworkingVpcProtectedSubnet1RouteTableAssociation011790AB": Object {
-      "Properties": Object {
-        "RouteTableId": Object {
+    "NetworkingVpcProtectedSubnet1RouteTableAssociation011790AB": {
+      "Properties": {
+        "RouteTableId": {
           "Ref": "NetworkingVpcProtectedSubnet1RouteTable2C1558E9",
         },
-        "SubnetId": Object {
+        "SubnetId": {
           "Ref": "NetworkingVpcProtectedSubnet1SubnetF97DE33B",
         },
       },
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
     },
-    "NetworkingVpcProtectedSubnet1SubnetF97DE33B": Object {
-      "Properties": Object {
-        "AvailabilityZone": Object {
-          "Fn::Select": Array [
+    "NetworkingVpcProtectedSubnet1SubnetF97DE33B": {
+      "Properties": {
+        "AvailabilityZone": {
+          "Fn::Select": [
             0,
-            Object {
+            {
               "Fn::GetAZs": "",
             },
           ],
         },
         "CidrBlock": "10.100.12.0/22",
         "MapPublicIpOnLaunch": false,
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "aws-cdk:subnet-name",
             "Value": "Protected",
           },
-          Object {
+          {
             "Key": "aws-cdk:subnet-type",
             "Value": "Isolated",
           },
-          Object {
+          {
             "Key": "Name",
             "Value": "Dev-BLEAEc2App/Networking/Vpc/ProtectedSubnet1",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "NetworkingVpcProtectedSubnet2RouteTableA434E57C": Object {
-      "Properties": Object {
-        "Tags": Array [
-          Object {
+    "NetworkingVpcProtectedSubnet2RouteTableA434E57C": {
+      "Properties": {
+        "Tags": [
+          {
             "Key": "Name",
             "Value": "Dev-BLEAEc2App/Networking/Vpc/ProtectedSubnet2",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
       },
       "Type": "AWS::EC2::RouteTable",
     },
-    "NetworkingVpcProtectedSubnet2RouteTableAssociation01AFDB7E": Object {
-      "Properties": Object {
-        "RouteTableId": Object {
+    "NetworkingVpcProtectedSubnet2RouteTableAssociation01AFDB7E": {
+      "Properties": {
+        "RouteTableId": {
           "Ref": "NetworkingVpcProtectedSubnet2RouteTableA434E57C",
         },
-        "SubnetId": Object {
+        "SubnetId": {
           "Ref": "NetworkingVpcProtectedSubnet2SubnetE110C692",
         },
       },
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
     },
-    "NetworkingVpcProtectedSubnet2SubnetE110C692": Object {
-      "Properties": Object {
-        "AvailabilityZone": Object {
-          "Fn::Select": Array [
+    "NetworkingVpcProtectedSubnet2SubnetE110C692": {
+      "Properties": {
+        "AvailabilityZone": {
+          "Fn::Select": [
             1,
-            Object {
+            {
               "Fn::GetAZs": "",
             },
           ],
         },
         "CidrBlock": "10.100.16.0/22",
         "MapPublicIpOnLaunch": false,
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "aws-cdk:subnet-name",
             "Value": "Protected",
           },
-          Object {
+          {
             "Key": "aws-cdk:subnet-type",
             "Value": "Isolated",
           },
-          Object {
+          {
             "Key": "Name",
             "Value": "Dev-BLEAEc2App/Networking/Vpc/ProtectedSubnet2",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "NetworkingVpcPublicSubnet1DefaultRoute80C01FA6": Object {
-      "DependsOn": Array [
+    "NetworkingVpcPublicSubnet1DefaultRoute80C01FA6": {
+      "DependsOn": [
         "NetworkingVpcVPCGW12E561D8",
       ],
-      "Properties": Object {
+      "Properties": {
         "DestinationCidrBlock": "0.0.0.0/0",
-        "GatewayId": Object {
+        "GatewayId": {
           "Ref": "NetworkingVpcIGW21218DAB",
         },
-        "RouteTableId": Object {
+        "RouteTableId": {
           "Ref": "NetworkingVpcPublicSubnet1RouteTable8FB3C18A",
         },
       },
       "Type": "AWS::EC2::Route",
     },
-    "NetworkingVpcPublicSubnet1EIP7D5353EC": Object {
-      "Properties": Object {
+    "NetworkingVpcPublicSubnet1EIP7D5353EC": {
+      "Properties": {
         "Domain": "vpc",
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "Name",
             "Value": "Dev-BLEAEc2App/Networking/Vpc/PublicSubnet1",
           },
@@ -1593,23 +1605,23 @@ sudo yum -y install mariadb",
       },
       "Type": "AWS::EC2::EIP",
     },
-    "NetworkingVpcPublicSubnet1NATGateway70EEEC07": Object {
-      "DependsOn": Array [
+    "NetworkingVpcPublicSubnet1NATGateway70EEEC07": {
+      "DependsOn": [
         "NetworkingVpcPublicSubnet1DefaultRoute80C01FA6",
         "NetworkingVpcPublicSubnet1RouteTableAssociationD13830EA",
       ],
-      "Properties": Object {
-        "AllocationId": Object {
-          "Fn::GetAtt": Array [
+      "Properties": {
+        "AllocationId": {
+          "Fn::GetAtt": [
             "NetworkingVpcPublicSubnet1EIP7D5353EC",
             "AllocationId",
           ],
         },
-        "SubnetId": Object {
+        "SubnetId": {
           "Ref": "NetworkingVpcPublicSubnet1Subnet918289EE",
         },
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "Name",
             "Value": "Dev-BLEAEc2App/Networking/Vpc/PublicSubnet1",
           },
@@ -1617,157 +1629,157 @@ sudo yum -y install mariadb",
       },
       "Type": "AWS::EC2::NatGateway",
     },
-    "NetworkingVpcPublicSubnet1RouteTable8FB3C18A": Object {
-      "Properties": Object {
-        "Tags": Array [
-          Object {
+    "NetworkingVpcPublicSubnet1RouteTable8FB3C18A": {
+      "Properties": {
+        "Tags": [
+          {
             "Key": "Name",
             "Value": "Dev-BLEAEc2App/Networking/Vpc/PublicSubnet1",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
       },
       "Type": "AWS::EC2::RouteTable",
     },
-    "NetworkingVpcPublicSubnet1RouteTableAssociationD13830EA": Object {
-      "Properties": Object {
-        "RouteTableId": Object {
+    "NetworkingVpcPublicSubnet1RouteTableAssociationD13830EA": {
+      "Properties": {
+        "RouteTableId": {
           "Ref": "NetworkingVpcPublicSubnet1RouteTable8FB3C18A",
         },
-        "SubnetId": Object {
+        "SubnetId": {
           "Ref": "NetworkingVpcPublicSubnet1Subnet918289EE",
         },
       },
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
     },
-    "NetworkingVpcPublicSubnet1Subnet918289EE": Object {
-      "Properties": Object {
-        "AvailabilityZone": Object {
-          "Fn::Select": Array [
+    "NetworkingVpcPublicSubnet1Subnet918289EE": {
+      "Properties": {
+        "AvailabilityZone": {
+          "Fn::Select": [
             0,
-            Object {
+            {
               "Fn::GetAZs": "",
             },
           ],
         },
         "CidrBlock": "10.100.0.0/24",
         "MapPublicIpOnLaunch": true,
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "aws-cdk:subnet-name",
             "Value": "Public",
           },
-          Object {
+          {
             "Key": "aws-cdk:subnet-type",
             "Value": "Public",
           },
-          Object {
+          {
             "Key": "Name",
             "Value": "Dev-BLEAEc2App/Networking/Vpc/PublicSubnet1",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "NetworkingVpcPublicSubnet2DefaultRouteDF98F60F": Object {
-      "DependsOn": Array [
+    "NetworkingVpcPublicSubnet2DefaultRouteDF98F60F": {
+      "DependsOn": [
         "NetworkingVpcVPCGW12E561D8",
       ],
-      "Properties": Object {
+      "Properties": {
         "DestinationCidrBlock": "0.0.0.0/0",
-        "GatewayId": Object {
+        "GatewayId": {
           "Ref": "NetworkingVpcIGW21218DAB",
         },
-        "RouteTableId": Object {
+        "RouteTableId": {
           "Ref": "NetworkingVpcPublicSubnet2RouteTable22886677",
         },
       },
       "Type": "AWS::EC2::Route",
     },
-    "NetworkingVpcPublicSubnet2RouteTable22886677": Object {
-      "Properties": Object {
-        "Tags": Array [
-          Object {
+    "NetworkingVpcPublicSubnet2RouteTable22886677": {
+      "Properties": {
+        "Tags": [
+          {
             "Key": "Name",
             "Value": "Dev-BLEAEc2App/Networking/Vpc/PublicSubnet2",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
       },
       "Type": "AWS::EC2::RouteTable",
     },
-    "NetworkingVpcPublicSubnet2RouteTableAssociation2D4CEA06": Object {
-      "Properties": Object {
-        "RouteTableId": Object {
+    "NetworkingVpcPublicSubnet2RouteTableAssociation2D4CEA06": {
+      "Properties": {
+        "RouteTableId": {
           "Ref": "NetworkingVpcPublicSubnet2RouteTable22886677",
         },
-        "SubnetId": Object {
+        "SubnetId": {
           "Ref": "NetworkingVpcPublicSubnet2Subnet9D9E5AFB",
         },
       },
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
     },
-    "NetworkingVpcPublicSubnet2Subnet9D9E5AFB": Object {
-      "Properties": Object {
-        "AvailabilityZone": Object {
-          "Fn::Select": Array [
+    "NetworkingVpcPublicSubnet2Subnet9D9E5AFB": {
+      "Properties": {
+        "AvailabilityZone": {
+          "Fn::Select": [
             1,
-            Object {
+            {
               "Fn::GetAZs": "",
             },
           ],
         },
         "CidrBlock": "10.100.1.0/24",
         "MapPublicIpOnLaunch": true,
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "aws-cdk:subnet-name",
             "Value": "Public",
           },
-          Object {
+          {
             "Key": "aws-cdk:subnet-type",
             "Value": "Public",
           },
-          Object {
+          {
             "Key": "Name",
             "Value": "Dev-BLEAEc2App/Networking/Vpc/PublicSubnet2",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "NetworkingVpcS3GWEndpointA935E1AA": Object {
-      "Properties": Object {
-        "RouteTableIds": Array [
-          Object {
+    "NetworkingVpcS3GWEndpointA935E1AA": {
+      "Properties": {
+        "RouteTableIds": [
+          {
             "Ref": "NetworkingVpcPrivateSubnet1RouteTable69CC9A73",
           },
-          Object {
+          {
             "Ref": "NetworkingVpcPrivateSubnet2RouteTableAE92CE40",
           },
-          Object {
+          {
             "Ref": "NetworkingVpcProtectedSubnet1RouteTable2C1558E9",
           },
-          Object {
+          {
             "Ref": "NetworkingVpcProtectedSubnet2RouteTableA434E57C",
           },
         ],
-        "ServiceName": Object {
-          "Fn::Join": Array [
+        "ServiceName": {
+          "Fn::Join": [
             "",
-            Array [
+            [
               "com.amazonaws.",
-              Object {
+              {
                 "Ref": "AWS::Region",
               },
               ".s3",
@@ -1775,64 +1787,64 @@ sudo yum -y install mariadb",
           ],
         },
         "VpcEndpointType": "Gateway",
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
       },
       "Type": "AWS::EC2::VPCEndpoint",
     },
-    "NetworkingVpcSsmEndpoint054488E3": Object {
-      "Properties": Object {
+    "NetworkingVpcSsmEndpoint054488E3": {
+      "Properties": {
         "PrivateDnsEnabled": true,
-        "SecurityGroupIds": Array [
-          Object {
-            "Fn::GetAtt": Array [
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
               "NetworkingVpcSsmEndpointSecurityGroup897B24DC",
               "GroupId",
             ],
           },
         ],
         "ServiceName": "com.amazonaws.ap-northeast-1.ssm",
-        "SubnetIds": Array [
-          Object {
+        "SubnetIds": [
+          {
             "Ref": "NetworkingVpcProtectedSubnet1SubnetF97DE33B",
           },
-          Object {
+          {
             "Ref": "NetworkingVpcProtectedSubnet2SubnetE110C692",
           },
         ],
         "VpcEndpointType": "Interface",
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
       },
       "Type": "AWS::EC2::VPCEndpoint",
     },
-    "NetworkingVpcSsmEndpointSecurityGroup897B24DC": Object {
-      "Properties": Object {
+    "NetworkingVpcSsmEndpointSecurityGroup897B24DC": {
+      "Properties": {
         "GroupDescription": "Dev-BLEAEc2App/Networking/Vpc/SsmEndpoint/SecurityGroup",
-        "SecurityGroupEgress": Array [
-          Object {
+        "SecurityGroupEgress": [
+          {
             "CidrIp": "0.0.0.0/0",
             "Description": "Allow all outbound traffic by default",
             "IpProtocol": "-1",
           },
         ],
-        "SecurityGroupIngress": Array [
-          Object {
-            "CidrIp": Object {
-              "Fn::GetAtt": Array [
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::GetAtt": [
                 "NetworkingVpc6B5E6F44",
                 "CidrBlock",
               ],
             },
-            "Description": Object {
-              "Fn::Join": Array [
+            "Description": {
+              "Fn::Join": [
                 "",
-                Array [
+                [
                   "from ",
-                  Object {
-                    "Fn::GetAtt": Array [
+                  {
+                    "Fn::GetAtt": [
                       "NetworkingVpc6B5E6F44",
                       "CidrBlock",
                     ],
@@ -1846,70 +1858,70 @@ sudo yum -y install mariadb",
             "ToPort": 443,
           },
         ],
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "Name",
             "Value": "Dev-BLEAEc2App/Networking/Vpc",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
       },
       "Type": "AWS::EC2::SecurityGroup",
     },
-    "NetworkingVpcSsmMessagesEndpointDA21F821": Object {
-      "Properties": Object {
+    "NetworkingVpcSsmMessagesEndpointDA21F821": {
+      "Properties": {
         "PrivateDnsEnabled": true,
-        "SecurityGroupIds": Array [
-          Object {
-            "Fn::GetAtt": Array [
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
               "NetworkingVpcSsmMessagesEndpointSecurityGroup4F815FEB",
               "GroupId",
             ],
           },
         ],
         "ServiceName": "com.amazonaws.ap-northeast-1.ssmmessages",
-        "SubnetIds": Array [
-          Object {
+        "SubnetIds": [
+          {
             "Ref": "NetworkingVpcProtectedSubnet1SubnetF97DE33B",
           },
-          Object {
+          {
             "Ref": "NetworkingVpcProtectedSubnet2SubnetE110C692",
           },
         ],
         "VpcEndpointType": "Interface",
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
       },
       "Type": "AWS::EC2::VPCEndpoint",
     },
-    "NetworkingVpcSsmMessagesEndpointSecurityGroup4F815FEB": Object {
-      "Properties": Object {
+    "NetworkingVpcSsmMessagesEndpointSecurityGroup4F815FEB": {
+      "Properties": {
         "GroupDescription": "Dev-BLEAEc2App/Networking/Vpc/SsmMessagesEndpoint/SecurityGroup",
-        "SecurityGroupEgress": Array [
-          Object {
+        "SecurityGroupEgress": [
+          {
             "CidrIp": "0.0.0.0/0",
             "Description": "Allow all outbound traffic by default",
             "IpProtocol": "-1",
           },
         ],
-        "SecurityGroupIngress": Array [
-          Object {
-            "CidrIp": Object {
-              "Fn::GetAtt": Array [
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::GetAtt": [
                 "NetworkingVpc6B5E6F44",
                 "CidrBlock",
               ],
             },
-            "Description": Object {
-              "Fn::Join": Array [
+            "Description": {
+              "Fn::Join": [
                 "",
-                Array [
+                [
                   "from ",
-                  Object {
-                    "Fn::GetAtt": Array [
+                  {
+                    "Fn::GetAtt": [
                       "NetworkingVpc6B5E6F44",
                       "CidrBlock",
                     ],
@@ -1923,46 +1935,46 @@ sudo yum -y install mariadb",
             "ToPort": 443,
           },
         ],
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "Name",
             "Value": "Dev-BLEAEc2App/Networking/Vpc",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
       },
       "Type": "AWS::EC2::SecurityGroup",
     },
-    "NetworkingVpcVPCGW12E561D8": Object {
-      "Properties": Object {
-        "InternetGatewayId": Object {
+    "NetworkingVpcVPCGW12E561D8": {
+      "Properties": {
+        "InternetGatewayId": {
           "Ref": "NetworkingVpcIGW21218DAB",
         },
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
         },
       },
       "Type": "AWS::EC2::VPCGatewayAttachment",
     },
   },
-  "Rules": Object {
-    "CheckBootstrapVersion": Object {
-      "Assertions": Array [
-        Object {
-          "Assert": Object {
-            "Fn::Not": Array [
-              Object {
-                "Fn::Contains": Array [
-                  Array [
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
                     "1",
                     "2",
                     "3",
                     "4",
                     "5",
                   ],
-                  Object {
+                  {
                     "Ref": "BootstrapVersion",
                   },
                 ],
