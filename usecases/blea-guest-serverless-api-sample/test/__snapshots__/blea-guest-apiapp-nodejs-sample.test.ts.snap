@@ -1,23 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Snapshot test for ServerlessApi Stack 1`] = `
-{
-  "Outputs": {
-    "ApiRestApiEndpoint4DEFB5CC": {
-      "Value": {
-        "Fn::Join": [
+Object {
+  "Outputs": Object {
+    "ApiRestApiEndpoint4DEFB5CC": Object {
+      "Value": Object {
+        "Fn::Join": Array [
           "",
-          [
+          Array [
             "https://",
-            {
+            Object {
               "Ref": "ApiRestApiE35FEAFE",
             },
             ".execute-api.ap-northeast-1.",
-            {
+            Object {
               "Ref": "AWS::URLSuffix",
             },
             "/",
-            {
+            Object {
               "Ref": "ApiRestApiDeploymentStageprodE828476C",
             },
             "/",
@@ -26,26 +26,26 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
     },
   },
-  "Parameters": {
-    "BootstrapVersion": {
+  "Parameters": Object {
+    "BootstrapVersion": Object {
       "Default": "/cdk-bootstrap/hnb659fds/version",
       "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
       "Type": "AWS::SSM::Parameter::Value<String>",
     },
   },
-  "Resources": {
-    "ApiAPIGatewayInvocationCountB691929A": {
-      "Properties": {
+  "Resources": Object {
+    "ApiAPIGatewayInvocationCountB691929A": Object {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": [
-          {
+        "Dimensions": Array [
+          Object {
             "Name": "ApiName",
             "Value": "RestApi",
           },
@@ -59,75 +59,75 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiApiGatewayLogGroup7BC2F58D": {
+    "ApiApiGatewayLogGroup7BC2F58D": Object {
       "DeletionPolicy": "Retain",
-      "Properties": {
+      "Properties": Object {
         "RetentionInDays": 30,
       },
       "Type": "AWS::Logs::LogGroup",
       "UpdateReplacePolicy": "Retain",
     },
-    "ApiLambdaNodejsGetItemFunction690D1743": {
-      "DependsOn": [
+    "ApiLambdaNodejsGetItemFunction690D1743": Object {
+      "DependsOn": Array [
         "ApiLambdaNodejsGetItemFunctionServiceRoleDefaultPolicy47E2D438",
         "ApiLambdaNodejsGetItemFunctionServiceRoleE5916FAE",
       ],
-      "Properties": {
-        "Code": {
-          "S3Bucket": {
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
-          "S3Key": "0157fe07cfc88764efa12fcb763d754f369f10425465a09d15e1d590506494df.zip",
+          "S3Key": "a616604aaa5cc7457cca5373a05c61891e93469ced11392a0cd056762c7c50aa.zip",
         },
-        "Environment": {
-          "Variables": {
+        "Environment": Object {
+          "Variables": Object {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-            "DDB_TABLE": {
+            "DDB_TABLE": Object {
               "Ref": "DatastoreTable6900098D",
             },
           },
         },
         "Handler": "index.getItem",
-        "KmsKeyArn": {
-          "Fn::GetAtt": [
+        "KmsKeyArn": Object {
+          "Fn::GetAtt": Array [
             "CMK56817A4C",
             "Arn",
           ],
         },
-        "Layers": [
+        "Layers": Array [
           "arn:aws:lambda:ap-northeast-1:580247275435:layer:LambdaInsightsExtension:14",
         ],
         "MemorySize": 256,
-        "Role": {
-          "Fn::GetAtt": [
+        "Role": Object {
+          "Fn::GetAtt": Array [
             "ApiLambdaNodejsGetItemFunctionServiceRoleE5916FAE",
             "Arn",
           ],
         },
         "Runtime": "nodejs14.x",
         "Timeout": 25,
-        "TracingConfig": {
+        "TracingConfig": Object {
           "Mode": "Active",
         },
       },
       "Type": "AWS::Lambda::Function",
     },
-    "ApiLambdaNodejsGetItemFunctionLogRetentionAEF27AB1": {
-      "Properties": {
-        "LogGroupName": {
-          "Fn::Join": [
+    "ApiLambdaNodejsGetItemFunctionLogRetentionAEF27AB1": Object {
+      "Properties": Object {
+        "LogGroupName": Object {
+          "Fn::Join": Array [
             "",
-            [
+            Array [
               "/aws/lambda/",
-              {
+              Object {
                 "Ref": "ApiLambdaNodejsGetItemFunction690D1743",
               },
             ],
           ],
         },
         "RetentionInDays": 90,
-        "ServiceToken": {
-          "Fn::GetAtt": [
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
             "Arn",
           ],
@@ -135,20 +135,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "Custom::LogRetention",
     },
-    "ApiLambdaNodejsGetItemFunctionServiceRoleDefaultPolicy47E2D438": {
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": [
+    "ApiLambdaNodejsGetItemFunctionServiceRoleDefaultPolicy47E2D438": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
                 "xray:PutTraceSegments",
                 "xray:PutTelemetryRecords",
               ],
               "Effect": "Allow",
               "Resource": "*",
             },
-            {
-              "Action": [
+            Object {
+              "Action": Array [
                 "kms:Encrypt*",
                 "kms:Decrypt*",
                 "kms:ReEncrypt*",
@@ -156,32 +156,32 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
                 "kms:Describe*",
               ],
               "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
+              "Resource": Object {
+                "Fn::GetAtt": Array [
                   "CMK56817A4C",
                   "Arn",
                 ],
               },
             },
-            {
-              "Action": [
+            Object {
+              "Action": Array [
                 "dynamodb:Query",
                 "dynamodb:GetItem",
               ],
               "Effect": "Allow",
-              "Resource": [
-                {
-                  "Fn::GetAtt": [
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
                     "DatastoreTable6900098D",
                     "Arn",
                   ],
                 },
-                {
-                  "Fn::Join": [
+                Object {
+                  "Fn::Join": Array [
                     "",
-                    [
-                      {
-                        "Fn::GetAtt": [
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
                           "DatastoreTable6900098D",
                           "Arn",
                         ],
@@ -196,47 +196,47 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
           "Version": "2012-10-17",
         },
         "PolicyName": "ApiLambdaNodejsGetItemFunctionServiceRoleDefaultPolicy47E2D438",
-        "Roles": [
-          {
+        "Roles": Array [
+          Object {
             "Ref": "ApiLambdaNodejsGetItemFunctionServiceRoleE5916FAE",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "ApiLambdaNodejsGetItemFunctionServiceRoleE5916FAE": {
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
+    "ApiLambdaNodejsGetItemFunctionServiceRoleE5916FAE": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "Service": "lambda.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": [
-          {
-            "Fn::Join": [
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
               "",
-              [
+              Array [
                 "arn:",
-                {
+                Object {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
               ],
             ],
           },
-          {
-            "Fn::Join": [
+          Object {
+            "Fn::Join": Array [
               "",
-              [
+              Array [
                 "arn:",
-                {
+                Object {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
@@ -247,67 +247,67 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
-    "ApiLambdaNodejsListItemsFunction7383885E": {
-      "DependsOn": [
+    "ApiLambdaNodejsListItemsFunction7383885E": Object {
+      "DependsOn": Array [
         "ApiLambdaNodejsListItemsFunctionServiceRoleDefaultPolicy79E6AC10",
         "ApiLambdaNodejsListItemsFunctionServiceRole568FA032",
       ],
-      "Properties": {
-        "Code": {
-          "S3Bucket": {
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
-          "S3Key": "1e9ca361a3f211f391de1a63a75aa25053dbf11ebf7b6ad57020c9d08caeafa5.zip",
+          "S3Key": "0d9e5c676e6afe9e67a4e2ec1973be8d83308ef75062c2a39b03be6da1d6dcb3.zip",
         },
-        "Environment": {
-          "Variables": {
+        "Environment": Object {
+          "Variables": Object {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-            "DDB_TABLE": {
+            "DDB_TABLE": Object {
               "Ref": "DatastoreTable6900098D",
             },
           },
         },
         "Handler": "index.listItems",
-        "KmsKeyArn": {
-          "Fn::GetAtt": [
+        "KmsKeyArn": Object {
+          "Fn::GetAtt": Array [
             "CMK56817A4C",
             "Arn",
           ],
         },
-        "Layers": [
+        "Layers": Array [
           "arn:aws:lambda:ap-northeast-1:580247275435:layer:LambdaInsightsExtension:14",
         ],
         "MemorySize": 256,
-        "Role": {
-          "Fn::GetAtt": [
+        "Role": Object {
+          "Fn::GetAtt": Array [
             "ApiLambdaNodejsListItemsFunctionServiceRole568FA032",
             "Arn",
           ],
         },
         "Runtime": "nodejs14.x",
         "Timeout": 25,
-        "TracingConfig": {
+        "TracingConfig": Object {
           "Mode": "Active",
         },
       },
       "Type": "AWS::Lambda::Function",
     },
-    "ApiLambdaNodejsListItemsFunctionLogRetention28222FF3": {
-      "Properties": {
-        "LogGroupName": {
-          "Fn::Join": [
+    "ApiLambdaNodejsListItemsFunctionLogRetention28222FF3": Object {
+      "Properties": Object {
+        "LogGroupName": Object {
+          "Fn::Join": Array [
             "",
-            [
+            Array [
               "/aws/lambda/",
-              {
+              Object {
                 "Ref": "ApiLambdaNodejsListItemsFunction7383885E",
               },
             ],
           ],
         },
         "RetentionInDays": 90,
-        "ServiceToken": {
-          "Fn::GetAtt": [
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
             "Arn",
           ],
@@ -315,39 +315,39 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "Custom::LogRetention",
     },
-    "ApiLambdaNodejsListItemsFunctionServiceRole568FA032": {
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
+    "ApiLambdaNodejsListItemsFunctionServiceRole568FA032": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "Service": "lambda.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": [
-          {
-            "Fn::Join": [
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
               "",
-              [
+              Array [
                 "arn:",
-                {
+                Object {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
               ],
             ],
           },
-          {
-            "Fn::Join": [
+          Object {
+            "Fn::Join": Array [
               "",
-              [
+              Array [
                 "arn:",
-                {
+                Object {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
@@ -358,20 +358,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
-    "ApiLambdaNodejsListItemsFunctionServiceRoleDefaultPolicy79E6AC10": {
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": [
+    "ApiLambdaNodejsListItemsFunctionServiceRoleDefaultPolicy79E6AC10": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
                 "xray:PutTraceSegments",
                 "xray:PutTelemetryRecords",
               ],
               "Effect": "Allow",
               "Resource": "*",
             },
-            {
-              "Action": [
+            Object {
+              "Action": Array [
                 "kms:Encrypt*",
                 "kms:Decrypt*",
                 "kms:ReEncrypt*",
@@ -379,32 +379,32 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
                 "kms:Describe*",
               ],
               "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
+              "Resource": Object {
+                "Fn::GetAtt": Array [
                   "CMK56817A4C",
                   "Arn",
                 ],
               },
             },
-            {
-              "Action": [
+            Object {
+              "Action": Array [
                 "dynamodb:Query",
                 "dynamodb:Scan",
               ],
               "Effect": "Allow",
-              "Resource": [
-                {
-                  "Fn::GetAtt": [
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
                     "DatastoreTable6900098D",
                     "Arn",
                   ],
                 },
-                {
-                  "Fn::Join": [
+                Object {
+                  "Fn::Join": Array [
                     "",
-                    [
-                      {
-                        "Fn::GetAtt": [
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
                           "DatastoreTable6900098D",
                           "Arn",
                         ],
@@ -419,75 +419,75 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
           "Version": "2012-10-17",
         },
         "PolicyName": "ApiLambdaNodejsListItemsFunctionServiceRoleDefaultPolicy79E6AC10",
-        "Roles": [
-          {
+        "Roles": Array [
+          Object {
             "Ref": "ApiLambdaNodejsListItemsFunctionServiceRole568FA032",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "ApiLambdaNodejsPutItemFunctionFC2FA584": {
-      "DependsOn": [
+    "ApiLambdaNodejsPutItemFunctionFC2FA584": Object {
+      "DependsOn": Array [
         "ApiLambdaNodejsPutItemFunctionServiceRoleDefaultPolicy04245F1A",
         "ApiLambdaNodejsPutItemFunctionServiceRoleB67323AE",
       ],
-      "Properties": {
-        "Code": {
-          "S3Bucket": {
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
-          "S3Key": "17b346b18d1dd1c466b1915e9cd7962315bf33dabe5eabff497ee1eef6315afd.zip",
+          "S3Key": "da011cc76728148664f8d21f1fb5767cc8c16ccefedd41942eae64a6135e4699.zip",
         },
-        "Environment": {
-          "Variables": {
+        "Environment": Object {
+          "Variables": Object {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-            "DDB_TABLE": {
+            "DDB_TABLE": Object {
               "Ref": "DatastoreTable6900098D",
             },
           },
         },
         "Handler": "index.putItem",
-        "KmsKeyArn": {
-          "Fn::GetAtt": [
+        "KmsKeyArn": Object {
+          "Fn::GetAtt": Array [
             "CMK56817A4C",
             "Arn",
           ],
         },
-        "Layers": [
+        "Layers": Array [
           "arn:aws:lambda:ap-northeast-1:580247275435:layer:LambdaInsightsExtension:14",
         ],
         "MemorySize": 256,
-        "Role": {
-          "Fn::GetAtt": [
+        "Role": Object {
+          "Fn::GetAtt": Array [
             "ApiLambdaNodejsPutItemFunctionServiceRoleB67323AE",
             "Arn",
           ],
         },
         "Runtime": "nodejs14.x",
         "Timeout": 25,
-        "TracingConfig": {
+        "TracingConfig": Object {
           "Mode": "Active",
         },
       },
       "Type": "AWS::Lambda::Function",
     },
-    "ApiLambdaNodejsPutItemFunctionLogRetentionF06A63D6": {
-      "Properties": {
-        "LogGroupName": {
-          "Fn::Join": [
+    "ApiLambdaNodejsPutItemFunctionLogRetentionF06A63D6": Object {
+      "Properties": Object {
+        "LogGroupName": Object {
+          "Fn::Join": Array [
             "",
-            [
+            Array [
               "/aws/lambda/",
-              {
+              Object {
                 "Ref": "ApiLambdaNodejsPutItemFunctionFC2FA584",
               },
             ],
           ],
         },
         "RetentionInDays": 90,
-        "ServiceToken": {
-          "Fn::GetAtt": [
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
             "Arn",
           ],
@@ -495,39 +495,39 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "Custom::LogRetention",
     },
-    "ApiLambdaNodejsPutItemFunctionServiceRoleB67323AE": {
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
+    "ApiLambdaNodejsPutItemFunctionServiceRoleB67323AE": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "Service": "lambda.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": [
-          {
-            "Fn::Join": [
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
               "",
-              [
+              Array [
                 "arn:",
-                {
+                Object {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
               ],
             ],
           },
-          {
-            "Fn::Join": [
+          Object {
+            "Fn::Join": Array [
               "",
-              [
+              Array [
                 "arn:",
-                {
+                Object {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
@@ -538,20 +538,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
-    "ApiLambdaNodejsPutItemFunctionServiceRoleDefaultPolicy04245F1A": {
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": [
+    "ApiLambdaNodejsPutItemFunctionServiceRoleDefaultPolicy04245F1A": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
                 "xray:PutTraceSegments",
                 "xray:PutTelemetryRecords",
               ],
               "Effect": "Allow",
               "Resource": "*",
             },
-            {
-              "Action": [
+            Object {
+              "Action": Array [
                 "kms:Encrypt*",
                 "kms:Decrypt*",
                 "kms:ReEncrypt*",
@@ -559,29 +559,29 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
                 "kms:Describe*",
               ],
               "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
+              "Resource": Object {
+                "Fn::GetAtt": Array [
                   "CMK56817A4C",
                   "Arn",
                 ],
               },
             },
-            {
+            Object {
               "Action": "dynamodb:PutItem",
               "Effect": "Allow",
-              "Resource": [
-                {
-                  "Fn::GetAtt": [
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
                     "DatastoreTable6900098D",
                     "Arn",
                   ],
                 },
-                {
-                  "Fn::Join": [
+                Object {
+                  "Fn::Join": Array [
                     "",
-                    [
-                      {
-                        "Fn::GetAtt": [
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
                           "DatastoreTable6900098D",
                           "Arn",
                         ],
@@ -596,28 +596,28 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
           "Version": "2012-10-17",
         },
         "PolicyName": "ApiLambdaNodejsPutItemFunctionServiceRoleDefaultPolicy04245F1A",
-        "Roles": [
-          {
+        "Roles": Array [
+          Object {
             "Ref": "ApiLambdaNodejsPutItemFunctionServiceRoleB67323AE",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "ApiLambdaNodejsgetItemConcurrentExecutionsAlarmFFA1BD91": {
-      "Properties": {
+    "ApiLambdaNodejsgetItemConcurrentExecutionsAlarmFFA1BD91": Object {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": [
-          {
+        "Dimensions": Array [
+          Object {
             "Name": "FunctionName",
-            "Value": {
+            "Value": Object {
               "Ref": "ApiLambdaNodejsGetItemFunction690D1743",
             },
           },
@@ -631,20 +631,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaNodejsgetItemDurationAlarm5EA5942E": {
-      "Properties": {
+    "ApiLambdaNodejsgetItemDurationAlarm5EA5942E": Object {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": [
-          {
+        "Dimensions": Array [
+          Object {
             "Name": "FunctionName",
-            "Value": {
+            "Value": Object {
               "Ref": "ApiLambdaNodejsGetItemFunction690D1743",
             },
           },
@@ -658,20 +658,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaNodejsgetItemErrorsAlarm5A5A18BF": {
-      "Properties": {
+    "ApiLambdaNodejsgetItemErrorsAlarm5A5A18BF": Object {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": [
-          {
+        "Dimensions": Array [
+          Object {
             "Name": "FunctionName",
-            "Value": {
+            "Value": Object {
               "Ref": "ApiLambdaNodejsGetItemFunction690D1743",
             },
           },
@@ -685,20 +685,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaNodejsgetItemThrottlesAlarmB352F6E5": {
-      "Properties": {
+    "ApiLambdaNodejsgetItemThrottlesAlarmB352F6E5": Object {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": [
-          {
+        "Dimensions": Array [
+          Object {
             "Name": "FunctionName",
-            "Value": {
+            "Value": Object {
               "Ref": "ApiLambdaNodejsGetItemFunction690D1743",
             },
           },
@@ -712,20 +712,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaNodejslistItemsConcurrentExecutionsAlarmD2695C91": {
-      "Properties": {
+    "ApiLambdaNodejslistItemsConcurrentExecutionsAlarmD2695C91": Object {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": [
-          {
+        "Dimensions": Array [
+          Object {
             "Name": "FunctionName",
-            "Value": {
+            "Value": Object {
               "Ref": "ApiLambdaNodejsListItemsFunction7383885E",
             },
           },
@@ -739,20 +739,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaNodejslistItemsDurationAlarmEE962444": {
-      "Properties": {
+    "ApiLambdaNodejslistItemsDurationAlarmEE962444": Object {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": [
-          {
+        "Dimensions": Array [
+          Object {
             "Name": "FunctionName",
-            "Value": {
+            "Value": Object {
               "Ref": "ApiLambdaNodejsListItemsFunction7383885E",
             },
           },
@@ -766,20 +766,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaNodejslistItemsErrorsExecutionsAlarm509E4CEC": {
-      "Properties": {
+    "ApiLambdaNodejslistItemsErrorsExecutionsAlarm509E4CEC": Object {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": [
-          {
+        "Dimensions": Array [
+          Object {
             "Name": "FunctionName",
-            "Value": {
+            "Value": Object {
               "Ref": "ApiLambdaNodejsListItemsFunction7383885E",
             },
           },
@@ -793,20 +793,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaNodejslistItemsThrottlesAlarm9C26D78C": {
-      "Properties": {
+    "ApiLambdaNodejslistItemsThrottlesAlarm9C26D78C": Object {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": [
-          {
+        "Dimensions": Array [
+          Object {
             "Name": "FunctionName",
-            "Value": {
+            "Value": Object {
               "Ref": "ApiLambdaNodejsListItemsFunction7383885E",
             },
           },
@@ -820,20 +820,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaNodejsputItemConcurrentExecutionsAlarm96A1F417": {
-      "Properties": {
+    "ApiLambdaNodejsputItemConcurrentExecutionsAlarm96A1F417": Object {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": [
-          {
+        "Dimensions": Array [
+          Object {
             "Name": "FunctionName",
-            "Value": {
+            "Value": Object {
               "Ref": "ApiLambdaNodejsPutItemFunctionFC2FA584",
             },
           },
@@ -847,20 +847,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaNodejsputItemDurationAlarm4DEC7925": {
-      "Properties": {
+    "ApiLambdaNodejsputItemDurationAlarm4DEC7925": Object {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": [
-          {
+        "Dimensions": Array [
+          Object {
             "Name": "FunctionName",
-            "Value": {
+            "Value": Object {
               "Ref": "ApiLambdaNodejsPutItemFunctionFC2FA584",
             },
           },
@@ -874,20 +874,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaNodejsputItemErrorsAlarmB59BB9FA": {
-      "Properties": {
+    "ApiLambdaNodejsputItemErrorsAlarmB59BB9FA": Object {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": [
-          {
+        "Dimensions": Array [
+          Object {
             "Name": "FunctionName",
-            "Value": {
+            "Value": Object {
               "Ref": "ApiLambdaNodejsPutItemFunctionFC2FA584",
             },
           },
@@ -901,20 +901,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaNodejsputItemThrottlesAlarmDA173E04": {
-      "Properties": {
+    "ApiLambdaNodejsputItemThrottlesAlarmDA173E04": Object {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": [
-          {
+        "Dimensions": Array [
+          Object {
             "Name": "FunctionName",
-            "Value": {
+            "Value": Object {
               "Ref": "ApiLambdaNodejsPutItemFunctionFC2FA584",
             },
           },
@@ -928,67 +928,67 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaPythonGetItemFunction7F81F93B": {
-      "DependsOn": [
+    "ApiLambdaPythonGetItemFunction7F81F93B": Object {
+      "DependsOn": Array [
         "ApiLambdaPythonGetItemFunctionServiceRoleDefaultPolicy550CE002",
         "ApiLambdaPythonGetItemFunctionServiceRole87970B01",
       ],
-      "Properties": {
-        "Code": {
-          "S3Bucket": {
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
           "S3Key": "6c6248559cf324952895870a3b546cf7cbfbafe0cce9e4a60bc61e6ec8eef051.zip",
         },
-        "Environment": {
-          "Variables": {
-            "DDB_TABLE": {
+        "Environment": Object {
+          "Variables": Object {
+            "DDB_TABLE": Object {
               "Ref": "DatastoreTable6900098D",
             },
           },
         },
         "Handler": "getItem.lambda_handler",
-        "KmsKeyArn": {
-          "Fn::GetAtt": [
+        "KmsKeyArn": Object {
+          "Fn::GetAtt": Array [
             "CMK56817A4C",
             "Arn",
           ],
         },
-        "Layers": [
+        "Layers": Array [
           "arn:aws:lambda:ap-northeast-1:017000801446:layer:AWSLambdaPowertoolsPython:3",
           "arn:aws:lambda:ap-northeast-1:580247275435:layer:LambdaInsightsExtension:14",
         ],
         "MemorySize": 256,
-        "Role": {
-          "Fn::GetAtt": [
+        "Role": Object {
+          "Fn::GetAtt": Array [
             "ApiLambdaPythonGetItemFunctionServiceRole87970B01",
             "Arn",
           ],
         },
         "Runtime": "python3.7",
         "Timeout": 25,
-        "TracingConfig": {
+        "TracingConfig": Object {
           "Mode": "Active",
         },
       },
       "Type": "AWS::Lambda::Function",
     },
-    "ApiLambdaPythonGetItemFunctionLogRetentionBA7F7CC2": {
-      "Properties": {
-        "LogGroupName": {
-          "Fn::Join": [
+    "ApiLambdaPythonGetItemFunctionLogRetentionBA7F7CC2": Object {
+      "Properties": Object {
+        "LogGroupName": Object {
+          "Fn::Join": Array [
             "",
-            [
+            Array [
               "/aws/lambda/",
-              {
+              Object {
                 "Ref": "ApiLambdaPythonGetItemFunction7F81F93B",
               },
             ],
           ],
         },
         "RetentionInDays": 90,
-        "ServiceToken": {
-          "Fn::GetAtt": [
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
             "Arn",
           ],
@@ -996,39 +996,39 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "Custom::LogRetention",
     },
-    "ApiLambdaPythonGetItemFunctionServiceRole87970B01": {
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
+    "ApiLambdaPythonGetItemFunctionServiceRole87970B01": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "Service": "lambda.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": [
-          {
-            "Fn::Join": [
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
               "",
-              [
+              Array [
                 "arn:",
-                {
+                Object {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
               ],
             ],
           },
-          {
-            "Fn::Join": [
+          Object {
+            "Fn::Join": Array [
               "",
-              [
+              Array [
                 "arn:",
-                {
+                Object {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
@@ -1039,20 +1039,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
-    "ApiLambdaPythonGetItemFunctionServiceRoleDefaultPolicy550CE002": {
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": [
+    "ApiLambdaPythonGetItemFunctionServiceRoleDefaultPolicy550CE002": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
                 "xray:PutTraceSegments",
                 "xray:PutTelemetryRecords",
               ],
               "Effect": "Allow",
               "Resource": "*",
             },
-            {
-              "Action": [
+            Object {
+              "Action": Array [
                 "kms:Encrypt*",
                 "kms:Decrypt*",
                 "kms:ReEncrypt*",
@@ -1060,32 +1060,32 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
                 "kms:Describe*",
               ],
               "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
+              "Resource": Object {
+                "Fn::GetAtt": Array [
                   "CMK56817A4C",
                   "Arn",
                 ],
               },
             },
-            {
-              "Action": [
+            Object {
+              "Action": Array [
                 "dynamodb:Query",
                 "dynamodb:GetItem",
               ],
               "Effect": "Allow",
-              "Resource": [
-                {
-                  "Fn::GetAtt": [
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
                     "DatastoreTable6900098D",
                     "Arn",
                   ],
                 },
-                {
-                  "Fn::Join": [
+                Object {
+                  "Fn::Join": Array [
                     "",
-                    [
-                      {
-                        "Fn::GetAtt": [
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
                           "DatastoreTable6900098D",
                           "Arn",
                         ],
@@ -1100,75 +1100,75 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
           "Version": "2012-10-17",
         },
         "PolicyName": "ApiLambdaPythonGetItemFunctionServiceRoleDefaultPolicy550CE002",
-        "Roles": [
-          {
+        "Roles": Array [
+          Object {
             "Ref": "ApiLambdaPythonGetItemFunctionServiceRole87970B01",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "ApiLambdaPythonListItemsFunction6E2E7058": {
-      "DependsOn": [
+    "ApiLambdaPythonListItemsFunction6E2E7058": Object {
+      "DependsOn": Array [
         "ApiLambdaPythonListItemsFunctionServiceRoleDefaultPolicy365FE2DB",
         "ApiLambdaPythonListItemsFunctionServiceRoleD3B9A3A3",
       ],
-      "Properties": {
-        "Code": {
-          "S3Bucket": {
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
           "S3Key": "9935294482ff6ee39a0af20cfbf740c113a6d493e51300bfd6e98e85e6e9f360.zip",
         },
-        "Environment": {
-          "Variables": {
-            "DDB_TABLE": {
+        "Environment": Object {
+          "Variables": Object {
+            "DDB_TABLE": Object {
               "Ref": "DatastoreTable6900098D",
             },
           },
         },
         "Handler": "listItems.lambda_handler",
-        "KmsKeyArn": {
-          "Fn::GetAtt": [
+        "KmsKeyArn": Object {
+          "Fn::GetAtt": Array [
             "CMK56817A4C",
             "Arn",
           ],
         },
-        "Layers": [
+        "Layers": Array [
           "arn:aws:lambda:ap-northeast-1:017000801446:layer:AWSLambdaPowertoolsPython:3",
           "arn:aws:lambda:ap-northeast-1:580247275435:layer:LambdaInsightsExtension:14",
         ],
         "MemorySize": 2048,
-        "Role": {
-          "Fn::GetAtt": [
+        "Role": Object {
+          "Fn::GetAtt": Array [
             "ApiLambdaPythonListItemsFunctionServiceRoleD3B9A3A3",
             "Arn",
           ],
         },
         "Runtime": "python3.7",
         "Timeout": 25,
-        "TracingConfig": {
+        "TracingConfig": Object {
           "Mode": "Active",
         },
       },
       "Type": "AWS::Lambda::Function",
     },
-    "ApiLambdaPythonListItemsFunctionLogRetention4AAEE7BC": {
-      "Properties": {
-        "LogGroupName": {
-          "Fn::Join": [
+    "ApiLambdaPythonListItemsFunctionLogRetention4AAEE7BC": Object {
+      "Properties": Object {
+        "LogGroupName": Object {
+          "Fn::Join": Array [
             "",
-            [
+            Array [
               "/aws/lambda/",
-              {
+              Object {
                 "Ref": "ApiLambdaPythonListItemsFunction6E2E7058",
               },
             ],
           ],
         },
         "RetentionInDays": 90,
-        "ServiceToken": {
-          "Fn::GetAtt": [
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
             "Arn",
           ],
@@ -1176,39 +1176,39 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "Custom::LogRetention",
     },
-    "ApiLambdaPythonListItemsFunctionServiceRoleD3B9A3A3": {
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
+    "ApiLambdaPythonListItemsFunctionServiceRoleD3B9A3A3": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "Service": "lambda.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": [
-          {
-            "Fn::Join": [
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
               "",
-              [
+              Array [
                 "arn:",
-                {
+                Object {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
               ],
             ],
           },
-          {
-            "Fn::Join": [
+          Object {
+            "Fn::Join": Array [
               "",
-              [
+              Array [
                 "arn:",
-                {
+                Object {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
@@ -1219,20 +1219,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
-    "ApiLambdaPythonListItemsFunctionServiceRoleDefaultPolicy365FE2DB": {
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": [
+    "ApiLambdaPythonListItemsFunctionServiceRoleDefaultPolicy365FE2DB": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
                 "xray:PutTraceSegments",
                 "xray:PutTelemetryRecords",
               ],
               "Effect": "Allow",
               "Resource": "*",
             },
-            {
-              "Action": [
+            Object {
+              "Action": Array [
                 "kms:Encrypt*",
                 "kms:Decrypt*",
                 "kms:ReEncrypt*",
@@ -1240,32 +1240,32 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
                 "kms:Describe*",
               ],
               "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
+              "Resource": Object {
+                "Fn::GetAtt": Array [
                   "CMK56817A4C",
                   "Arn",
                 ],
               },
             },
-            {
-              "Action": [
+            Object {
+              "Action": Array [
                 "dynamodb:Query",
                 "dynamodb:Scan",
               ],
               "Effect": "Allow",
-              "Resource": [
-                {
-                  "Fn::GetAtt": [
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
                     "DatastoreTable6900098D",
                     "Arn",
                   ],
                 },
-                {
-                  "Fn::Join": [
+                Object {
+                  "Fn::Join": Array [
                     "",
-                    [
-                      {
-                        "Fn::GetAtt": [
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
                           "DatastoreTable6900098D",
                           "Arn",
                         ],
@@ -1280,75 +1280,75 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
           "Version": "2012-10-17",
         },
         "PolicyName": "ApiLambdaPythonListItemsFunctionServiceRoleDefaultPolicy365FE2DB",
-        "Roles": [
-          {
+        "Roles": Array [
+          Object {
             "Ref": "ApiLambdaPythonListItemsFunctionServiceRoleD3B9A3A3",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "ApiLambdaPythonPutItemFunction0EA5A227": {
-      "DependsOn": [
+    "ApiLambdaPythonPutItemFunction0EA5A227": Object {
+      "DependsOn": Array [
         "ApiLambdaPythonPutItemFunctionServiceRoleDefaultPolicyBA2B5B41",
         "ApiLambdaPythonPutItemFunctionServiceRole2AD40DC0",
       ],
-      "Properties": {
-        "Code": {
-          "S3Bucket": {
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
           "S3Key": "dc0a332c2c8fb4d4e7977a51466ff04fda2926977fd3f496acfa00722ded9563.zip",
         },
-        "Environment": {
-          "Variables": {
-            "DDB_TABLE": {
+        "Environment": Object {
+          "Variables": Object {
+            "DDB_TABLE": Object {
               "Ref": "DatastoreTable6900098D",
             },
           },
         },
         "Handler": "putItem.lambda_handler",
-        "KmsKeyArn": {
-          "Fn::GetAtt": [
+        "KmsKeyArn": Object {
+          "Fn::GetAtt": Array [
             "CMK56817A4C",
             "Arn",
           ],
         },
-        "Layers": [
+        "Layers": Array [
           "arn:aws:lambda:ap-northeast-1:017000801446:layer:AWSLambdaPowertoolsPython:3",
           "arn:aws:lambda:ap-northeast-1:580247275435:layer:LambdaInsightsExtension:14",
         ],
         "MemorySize": 256,
-        "Role": {
-          "Fn::GetAtt": [
+        "Role": Object {
+          "Fn::GetAtt": Array [
             "ApiLambdaPythonPutItemFunctionServiceRole2AD40DC0",
             "Arn",
           ],
         },
         "Runtime": "python3.7",
         "Timeout": 25,
-        "TracingConfig": {
+        "TracingConfig": Object {
           "Mode": "Active",
         },
       },
       "Type": "AWS::Lambda::Function",
     },
-    "ApiLambdaPythonPutItemFunctionLogRetention1C3D6644": {
-      "Properties": {
-        "LogGroupName": {
-          "Fn::Join": [
+    "ApiLambdaPythonPutItemFunctionLogRetention1C3D6644": Object {
+      "Properties": Object {
+        "LogGroupName": Object {
+          "Fn::Join": Array [
             "",
-            [
+            Array [
               "/aws/lambda/",
-              {
+              Object {
                 "Ref": "ApiLambdaPythonPutItemFunction0EA5A227",
               },
             ],
           ],
         },
         "RetentionInDays": 90,
-        "ServiceToken": {
-          "Fn::GetAtt": [
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
             "Arn",
           ],
@@ -1356,39 +1356,39 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "Custom::LogRetention",
     },
-    "ApiLambdaPythonPutItemFunctionServiceRole2AD40DC0": {
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
+    "ApiLambdaPythonPutItemFunctionServiceRole2AD40DC0": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "Service": "lambda.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": [
-          {
-            "Fn::Join": [
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
               "",
-              [
+              Array [
                 "arn:",
-                {
+                Object {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
               ],
             ],
           },
-          {
-            "Fn::Join": [
+          Object {
+            "Fn::Join": Array [
               "",
-              [
+              Array [
                 "arn:",
-                {
+                Object {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
@@ -1399,20 +1399,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
-    "ApiLambdaPythonPutItemFunctionServiceRoleDefaultPolicyBA2B5B41": {
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": [
+    "ApiLambdaPythonPutItemFunctionServiceRoleDefaultPolicyBA2B5B41": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
                 "xray:PutTraceSegments",
                 "xray:PutTelemetryRecords",
               ],
               "Effect": "Allow",
               "Resource": "*",
             },
-            {
-              "Action": [
+            Object {
+              "Action": Array [
                 "kms:Encrypt*",
                 "kms:Decrypt*",
                 "kms:ReEncrypt*",
@@ -1420,29 +1420,29 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
                 "kms:Describe*",
               ],
               "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
+              "Resource": Object {
+                "Fn::GetAtt": Array [
                   "CMK56817A4C",
                   "Arn",
                 ],
               },
             },
-            {
+            Object {
               "Action": "dynamodb:PutItem",
               "Effect": "Allow",
-              "Resource": [
-                {
-                  "Fn::GetAtt": [
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
                     "DatastoreTable6900098D",
                     "Arn",
                   ],
                 },
-                {
-                  "Fn::Join": [
+                Object {
+                  "Fn::Join": Array [
                     "",
-                    [
-                      {
-                        "Fn::GetAtt": [
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
                           "DatastoreTable6900098D",
                           "Arn",
                         ],
@@ -1457,28 +1457,28 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
           "Version": "2012-10-17",
         },
         "PolicyName": "ApiLambdaPythonPutItemFunctionServiceRoleDefaultPolicyBA2B5B41",
-        "Roles": [
-          {
+        "Roles": Array [
+          Object {
             "Ref": "ApiLambdaPythonPutItemFunctionServiceRole2AD40DC0",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "ApiLambdaPythongetItemConcurrentExecutionsAlarm09E169A6": {
-      "Properties": {
+    "ApiLambdaPythongetItemConcurrentExecutionsAlarm09E169A6": Object {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": [
-          {
+        "Dimensions": Array [
+          Object {
             "Name": "FunctionName",
-            "Value": {
+            "Value": Object {
               "Ref": "ApiLambdaPythonGetItemFunction7F81F93B",
             },
           },
@@ -1492,20 +1492,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaPythongetItemDurationAlarmD9B0D891": {
-      "Properties": {
+    "ApiLambdaPythongetItemDurationAlarmD9B0D891": Object {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": [
-          {
+        "Dimensions": Array [
+          Object {
             "Name": "FunctionName",
-            "Value": {
+            "Value": Object {
               "Ref": "ApiLambdaPythonGetItemFunction7F81F93B",
             },
           },
@@ -1519,20 +1519,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaPythongetItemErrorsAlarm1636EC90": {
-      "Properties": {
+    "ApiLambdaPythongetItemErrorsAlarm1636EC90": Object {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": [
-          {
+        "Dimensions": Array [
+          Object {
             "Name": "FunctionName",
-            "Value": {
+            "Value": Object {
               "Ref": "ApiLambdaPythonGetItemFunction7F81F93B",
             },
           },
@@ -1546,20 +1546,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaPythongetItemThrottlesAlarm34456187": {
-      "Properties": {
+    "ApiLambdaPythongetItemThrottlesAlarm34456187": Object {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": [
-          {
+        "Dimensions": Array [
+          Object {
             "Name": "FunctionName",
-            "Value": {
+            "Value": Object {
               "Ref": "ApiLambdaPythonGetItemFunction7F81F93B",
             },
           },
@@ -1573,20 +1573,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaPythonlistItemsConcurrentExecutionsAlarm307F2F04": {
-      "Properties": {
+    "ApiLambdaPythonlistItemsConcurrentExecutionsAlarm307F2F04": Object {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": [
-          {
+        "Dimensions": Array [
+          Object {
             "Name": "FunctionName",
-            "Value": {
+            "Value": Object {
               "Ref": "ApiLambdaPythonListItemsFunction6E2E7058",
             },
           },
@@ -1600,20 +1600,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaPythonlistItemsDurationAlarm8D3DC059": {
-      "Properties": {
+    "ApiLambdaPythonlistItemsDurationAlarm8D3DC059": Object {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": [
-          {
+        "Dimensions": Array [
+          Object {
             "Name": "FunctionName",
-            "Value": {
+            "Value": Object {
               "Ref": "ApiLambdaPythonListItemsFunction6E2E7058",
             },
           },
@@ -1627,20 +1627,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaPythonlistItemsErrorsExecutionsAlarm50F77830": {
-      "Properties": {
+    "ApiLambdaPythonlistItemsErrorsExecutionsAlarm50F77830": Object {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": [
-          {
+        "Dimensions": Array [
+          Object {
             "Name": "FunctionName",
-            "Value": {
+            "Value": Object {
               "Ref": "ApiLambdaPythonListItemsFunction6E2E7058",
             },
           },
@@ -1654,20 +1654,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaPythonlistItemsThrottlesAlarm6969E734": {
-      "Properties": {
+    "ApiLambdaPythonlistItemsThrottlesAlarm6969E734": Object {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": [
-          {
+        "Dimensions": Array [
+          Object {
             "Name": "FunctionName",
-            "Value": {
+            "Value": Object {
               "Ref": "ApiLambdaPythonListItemsFunction6E2E7058",
             },
           },
@@ -1681,20 +1681,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaPythonputItemConcurrentExecutionsAlarmA11DBC15": {
-      "Properties": {
+    "ApiLambdaPythonputItemConcurrentExecutionsAlarmA11DBC15": Object {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": [
-          {
+        "Dimensions": Array [
+          Object {
             "Name": "FunctionName",
-            "Value": {
+            "Value": Object {
               "Ref": "ApiLambdaPythonPutItemFunction0EA5A227",
             },
           },
@@ -1708,20 +1708,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaPythonputItemDurationAlarm3B22CCB7": {
-      "Properties": {
+    "ApiLambdaPythonputItemDurationAlarm3B22CCB7": Object {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": [
-          {
+        "Dimensions": Array [
+          Object {
             "Name": "FunctionName",
-            "Value": {
+            "Value": Object {
               "Ref": "ApiLambdaPythonPutItemFunction0EA5A227",
             },
           },
@@ -1735,20 +1735,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaPythonputItemErrorsAlarm6023E1EC": {
-      "Properties": {
+    "ApiLambdaPythonputItemErrorsAlarm6023E1EC": Object {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": [
-          {
+        "Dimensions": Array [
+          Object {
             "Name": "FunctionName",
-            "Value": {
+            "Value": Object {
               "Ref": "ApiLambdaPythonPutItemFunction0EA5A227",
             },
           },
@@ -1762,20 +1762,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiLambdaPythonputItemThrottlesAlarm7981B2AC": {
-      "Properties": {
+    "ApiLambdaPythonputItemThrottlesAlarm7981B2AC": Object {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": [
-          {
+        "Dimensions": Array [
+          Object {
             "Name": "FunctionName",
-            "Value": {
+            "Value": Object {
               "Ref": "ApiLambdaPythonPutItemFunction0EA5A227",
             },
           },
@@ -1789,14 +1789,14 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ApiRestApiAccount598A1DA6": {
+    "ApiRestApiAccount598A1DA6": Object {
       "DeletionPolicy": "Retain",
-      "DependsOn": [
+      "DependsOn": Array [
         "ApiRestApiE35FEAFE",
       ],
-      "Properties": {
-        "CloudWatchRoleArn": {
-          "Fn::GetAtt": [
+      "Properties": Object {
+        "CloudWatchRoleArn": Object {
+          "Fn::GetAtt": Array [
             "ApiRestApiCloudWatchRoleB7879BFC",
             "Arn",
           ],
@@ -1805,28 +1805,28 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       "Type": "AWS::ApiGateway::Account",
       "UpdateReplacePolicy": "Retain",
     },
-    "ApiRestApiCloudWatchRoleB7879BFC": {
+    "ApiRestApiCloudWatchRoleB7879BFC": Object {
       "DeletionPolicy": "Retain",
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "Service": "apigateway.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": [
-          {
-            "Fn::Join": [
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
               "",
-              [
+              Array [
                 "arn:",
-                {
+                Object {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs",
@@ -1838,8 +1838,8 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       "Type": "AWS::IAM::Role",
       "UpdateReplacePolicy": "Retain",
     },
-    "ApiRestApiDeploymentDC05A82D897c301a1bec5a379eebd5094efed118": {
-      "DependsOn": [
+    "ApiRestApiDeploymentDC05A82D897c301a1bec5a379eebd5094efed118": Object {
+      "DependsOn": Array [
         "ApiRestApinodejsitemtitleGETC0EE8F85",
         "ApiRestApinodejsitemtitle29B62070",
         "ApiRestApinodejsitemPOST296B5713",
@@ -1855,33 +1855,33 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
         "ApiRestApipythonlist4EC12D2C",
         "ApiRestApipython2F6D6644",
       ],
-      "Properties": {
+      "Properties": Object {
         "Description": "Automatically created by the RestApi construct",
-        "RestApiId": {
+        "RestApiId": Object {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Deployment",
     },
-    "ApiRestApiDeploymentStageprodE828476C": {
-      "DependsOn": [
+    "ApiRestApiDeploymentStageprodE828476C": Object {
+      "DependsOn": Array [
         "ApiRestApiAccount598A1DA6",
       ],
-      "Properties": {
-        "AccessLogSetting": {
-          "DestinationArn": {
-            "Fn::GetAtt": [
+      "Properties": Object {
+        "AccessLogSetting": Object {
+          "DestinationArn": Object {
+            "Fn::GetAtt": Array [
               "ApiApiGatewayLogGroup7BC2F58D",
               "Arn",
             ],
           },
-          "Format": "{"requestId":"$context.requestId","ip":"$context.identity.sourceIp","user":"$context.identity.user","caller":"$context.identity.caller","requestTime":"$context.requestTime","httpMethod":"$context.httpMethod","resourcePath":"$context.resourcePath","status":"$context.status","protocol":"$context.protocol","responseLength":"$context.responseLength"}",
+          "Format": "{\\"requestId\\":\\"$context.requestId\\",\\"ip\\":\\"$context.identity.sourceIp\\",\\"user\\":\\"$context.identity.user\\",\\"caller\\":\\"$context.identity.caller\\",\\"requestTime\\":\\"$context.requestTime\\",\\"httpMethod\\":\\"$context.httpMethod\\",\\"resourcePath\\":\\"$context.resourcePath\\",\\"status\\":\\"$context.status\\",\\"protocol\\":\\"$context.protocol\\",\\"responseLength\\":\\"$context.responseLength\\"}",
         },
-        "DeploymentId": {
+        "DeploymentId": Object {
           "Ref": "ApiRestApiDeploymentDC05A82D897c301a1bec5a379eebd5094efed118",
         },
-        "MethodSettings": [
-          {
+        "MethodSettings": Array [
+          Object {
             "DataTraceEnabled": false,
             "HttpMethod": "*",
             "LoggingLevel": "INFO",
@@ -1889,7 +1889,7 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
             "ResourcePath": "/*",
           },
         ],
-        "RestApiId": {
+        "RestApiId": Object {
           "Ref": "ApiRestApiE35FEAFE",
         },
         "StageName": "prod",
@@ -1897,57 +1897,57 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::ApiGateway::Stage",
     },
-    "ApiRestApiE35FEAFE": {
-      "Properties": {
+    "ApiRestApiE35FEAFE": Object {
+      "Properties": Object {
         "Name": "RestApi",
       },
       "Type": "AWS::ApiGateway::RestApi",
     },
-    "ApiRestApinodejsD890E984": {
-      "Properties": {
-        "ParentId": {
-          "Fn::GetAtt": [
+    "ApiRestApinodejsD890E984": Object {
+      "Properties": Object {
+        "ParentId": Object {
+          "Fn::GetAtt": Array [
             "ApiRestApiE35FEAFE",
             "RootResourceId",
           ],
         },
         "PathPart": "nodejs",
-        "RestApiId": {
+        "RestApiId": Object {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Resource",
     },
-    "ApiRestApinodejsitemB718EB4B": {
-      "Properties": {
-        "ParentId": {
+    "ApiRestApinodejsitemB718EB4B": Object {
+      "Properties": Object {
+        "ParentId": Object {
           "Ref": "ApiRestApinodejsD890E984",
         },
         "PathPart": "item",
-        "RestApiId": {
+        "RestApiId": Object {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Resource",
     },
-    "ApiRestApinodejsitemPOST296B5713": {
-      "Properties": {
+    "ApiRestApinodejsitemPOST296B5713": Object {
+      "Properties": Object {
         "AuthorizationType": "NONE",
         "HttpMethod": "POST",
-        "Integration": {
+        "Integration": Object {
           "IntegrationHttpMethod": "POST",
           "Type": "AWS_PROXY",
-          "Uri": {
-            "Fn::Join": [
+          "Uri": Object {
+            "Fn::Join": Array [
               "",
-              [
+              Array [
                 "arn:",
-                {
+                Object {
                   "Ref": "AWS::Partition",
                 },
                 ":apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/",
-                {
-                  "Fn::GetAtt": [
+                Object {
+                  "Fn::GetAtt": Array [
                     "ApiLambdaNodejsPutItemFunctionFC2FA584",
                     "Arn",
                   ],
@@ -1957,43 +1957,43 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
             ],
           },
         },
-        "ResourceId": {
+        "ResourceId": Object {
           "Ref": "ApiRestApinodejsitemB718EB4B",
         },
-        "RestApiId": {
+        "RestApiId": Object {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Method",
     },
-    "ApiRestApinodejsitemPOSTApiPermissionDevBLEAServerlessApiRestApiEBE3BF9APOSTnodejsitem1DBCEB01": {
-      "Properties": {
+    "ApiRestApinodejsitemPOSTApiPermissionDevBLEAServerlessApiRestApiEBE3BF9APOSTnodejsitem1DBCEB01": Object {
+      "Properties": Object {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": {
-          "Fn::GetAtt": [
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
             "ApiLambdaNodejsPutItemFunctionFC2FA584",
             "Arn",
           ],
         },
         "Principal": "apigateway.amazonaws.com",
-        "SourceArn": {
-          "Fn::Join": [
+        "SourceArn": Object {
+          "Fn::Join": Array [
             "",
-            [
+            Array [
               "arn:",
-              {
+              Object {
                 "Ref": "AWS::Partition",
               },
               ":execute-api:ap-northeast-1:",
-              {
+              Object {
                 "Ref": "AWS::AccountId",
               },
               ":",
-              {
+              Object {
                 "Ref": "ApiRestApiE35FEAFE",
               },
               "/",
-              {
+              Object {
                 "Ref": "ApiRestApiDeploymentStageprodE828476C",
               },
               "/POST/nodejs/item",
@@ -2003,30 +2003,30 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "ApiRestApinodejsitemPOSTApiPermissionTestDevBLEAServerlessApiRestApiEBE3BF9APOSTnodejsitem1523F9C5": {
-      "Properties": {
+    "ApiRestApinodejsitemPOSTApiPermissionTestDevBLEAServerlessApiRestApiEBE3BF9APOSTnodejsitem1523F9C5": Object {
+      "Properties": Object {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": {
-          "Fn::GetAtt": [
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
             "ApiLambdaNodejsPutItemFunctionFC2FA584",
             "Arn",
           ],
         },
         "Principal": "apigateway.amazonaws.com",
-        "SourceArn": {
-          "Fn::Join": [
+        "SourceArn": Object {
+          "Fn::Join": Array [
             "",
-            [
+            Array [
               "arn:",
-              {
+              Object {
                 "Ref": "AWS::Partition",
               },
               ":execute-api:ap-northeast-1:",
-              {
+              Object {
                 "Ref": "AWS::AccountId",
               },
               ":",
-              {
+              Object {
                 "Ref": "ApiRestApiE35FEAFE",
               },
               "/test-invoke-stage/POST/nodejs/item",
@@ -2036,46 +2036,46 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "ApiRestApinodejsitemtitle29B62070": {
-      "Properties": {
-        "ParentId": {
+    "ApiRestApinodejsitemtitle29B62070": Object {
+      "Properties": Object {
+        "ParentId": Object {
           "Ref": "ApiRestApinodejsitemB718EB4B",
         },
         "PathPart": "{title}",
-        "RestApiId": {
+        "RestApiId": Object {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Resource",
     },
-    "ApiRestApinodejsitemtitleGETApiPermissionDevBLEAServerlessApiRestApiEBE3BF9AGETnodejsitemtitle81B2BFF3": {
-      "Properties": {
+    "ApiRestApinodejsitemtitleGETApiPermissionDevBLEAServerlessApiRestApiEBE3BF9AGETnodejsitemtitle81B2BFF3": Object {
+      "Properties": Object {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": {
-          "Fn::GetAtt": [
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
             "ApiLambdaNodejsGetItemFunction690D1743",
             "Arn",
           ],
         },
         "Principal": "apigateway.amazonaws.com",
-        "SourceArn": {
-          "Fn::Join": [
+        "SourceArn": Object {
+          "Fn::Join": Array [
             "",
-            [
+            Array [
               "arn:",
-              {
+              Object {
                 "Ref": "AWS::Partition",
               },
               ":execute-api:ap-northeast-1:",
-              {
+              Object {
                 "Ref": "AWS::AccountId",
               },
               ":",
-              {
+              Object {
                 "Ref": "ApiRestApiE35FEAFE",
               },
               "/",
-              {
+              Object {
                 "Ref": "ApiRestApiDeploymentStageprodE828476C",
               },
               "/GET/nodejs/item/*",
@@ -2085,30 +2085,30 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "ApiRestApinodejsitemtitleGETApiPermissionTestDevBLEAServerlessApiRestApiEBE3BF9AGETnodejsitemtitleB659ABEB": {
-      "Properties": {
+    "ApiRestApinodejsitemtitleGETApiPermissionTestDevBLEAServerlessApiRestApiEBE3BF9AGETnodejsitemtitleB659ABEB": Object {
+      "Properties": Object {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": {
-          "Fn::GetAtt": [
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
             "ApiLambdaNodejsGetItemFunction690D1743",
             "Arn",
           ],
         },
         "Principal": "apigateway.amazonaws.com",
-        "SourceArn": {
-          "Fn::Join": [
+        "SourceArn": Object {
+          "Fn::Join": Array [
             "",
-            [
+            Array [
               "arn:",
-              {
+              Object {
                 "Ref": "AWS::Partition",
               },
               ":execute-api:ap-northeast-1:",
-              {
+              Object {
                 "Ref": "AWS::AccountId",
               },
               ":",
-              {
+              Object {
                 "Ref": "ApiRestApiE35FEAFE",
               },
               "/test-invoke-stage/GET/nodejs/item/*",
@@ -2118,24 +2118,24 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "ApiRestApinodejsitemtitleGETC0EE8F85": {
-      "Properties": {
+    "ApiRestApinodejsitemtitleGETC0EE8F85": Object {
+      "Properties": Object {
         "AuthorizationType": "NONE",
         "HttpMethod": "GET",
-        "Integration": {
+        "Integration": Object {
           "IntegrationHttpMethod": "POST",
           "Type": "AWS_PROXY",
-          "Uri": {
-            "Fn::Join": [
+          "Uri": Object {
+            "Fn::Join": Array [
               "",
-              [
+              Array [
                 "arn:",
-                {
+                Object {
                   "Ref": "AWS::Partition",
                 },
                 ":apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/",
-                {
-                  "Fn::GetAtt": [
+                Object {
+                  "Fn::GetAtt": Array [
                     "ApiLambdaNodejsGetItemFunction690D1743",
                     "Arn",
                   ],
@@ -2145,45 +2145,45 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
             ],
           },
         },
-        "ResourceId": {
+        "ResourceId": Object {
           "Ref": "ApiRestApinodejsitemtitle29B62070",
         },
-        "RestApiId": {
+        "RestApiId": Object {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Method",
     },
-    "ApiRestApinodejslistEE136EF7": {
-      "Properties": {
-        "ParentId": {
+    "ApiRestApinodejslistEE136EF7": Object {
+      "Properties": Object {
+        "ParentId": Object {
           "Ref": "ApiRestApinodejsD890E984",
         },
         "PathPart": "list",
-        "RestApiId": {
+        "RestApiId": Object {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Resource",
     },
-    "ApiRestApinodejslistGET729AFFC7": {
-      "Properties": {
+    "ApiRestApinodejslistGET729AFFC7": Object {
+      "Properties": Object {
         "AuthorizationType": "NONE",
         "HttpMethod": "GET",
-        "Integration": {
+        "Integration": Object {
           "IntegrationHttpMethod": "POST",
           "Type": "AWS_PROXY",
-          "Uri": {
-            "Fn::Join": [
+          "Uri": Object {
+            "Fn::Join": Array [
               "",
-              [
+              Array [
                 "arn:",
-                {
+                Object {
                   "Ref": "AWS::Partition",
                 },
                 ":apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/",
-                {
-                  "Fn::GetAtt": [
+                Object {
+                  "Fn::GetAtt": Array [
                     "ApiLambdaNodejsListItemsFunction7383885E",
                     "Arn",
                   ],
@@ -2193,43 +2193,43 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
             ],
           },
         },
-        "ResourceId": {
+        "ResourceId": Object {
           "Ref": "ApiRestApinodejslistEE136EF7",
         },
-        "RestApiId": {
+        "RestApiId": Object {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Method",
     },
-    "ApiRestApinodejslistGETApiPermissionDevBLEAServerlessApiRestApiEBE3BF9AGETnodejslist5B482CF3": {
-      "Properties": {
+    "ApiRestApinodejslistGETApiPermissionDevBLEAServerlessApiRestApiEBE3BF9AGETnodejslist5B482CF3": Object {
+      "Properties": Object {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": {
-          "Fn::GetAtt": [
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
             "ApiLambdaNodejsListItemsFunction7383885E",
             "Arn",
           ],
         },
         "Principal": "apigateway.amazonaws.com",
-        "SourceArn": {
-          "Fn::Join": [
+        "SourceArn": Object {
+          "Fn::Join": Array [
             "",
-            [
+            Array [
               "arn:",
-              {
+              Object {
                 "Ref": "AWS::Partition",
               },
               ":execute-api:ap-northeast-1:",
-              {
+              Object {
                 "Ref": "AWS::AccountId",
               },
               ":",
-              {
+              Object {
                 "Ref": "ApiRestApiE35FEAFE",
               },
               "/",
-              {
+              Object {
                 "Ref": "ApiRestApiDeploymentStageprodE828476C",
               },
               "/GET/nodejs/list",
@@ -2239,30 +2239,30 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "ApiRestApinodejslistGETApiPermissionTestDevBLEAServerlessApiRestApiEBE3BF9AGETnodejslist5E7FE9FC": {
-      "Properties": {
+    "ApiRestApinodejslistGETApiPermissionTestDevBLEAServerlessApiRestApiEBE3BF9AGETnodejslist5E7FE9FC": Object {
+      "Properties": Object {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": {
-          "Fn::GetAtt": [
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
             "ApiLambdaNodejsListItemsFunction7383885E",
             "Arn",
           ],
         },
         "Principal": "apigateway.amazonaws.com",
-        "SourceArn": {
-          "Fn::Join": [
+        "SourceArn": Object {
+          "Fn::Join": Array [
             "",
-            [
+            Array [
               "arn:",
-              {
+              Object {
                 "Ref": "AWS::Partition",
               },
               ":execute-api:ap-northeast-1:",
-              {
+              Object {
                 "Ref": "AWS::AccountId",
               },
               ":",
-              {
+              Object {
                 "Ref": "ApiRestApiE35FEAFE",
               },
               "/test-invoke-stage/GET/nodejs/list",
@@ -2272,51 +2272,51 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "ApiRestApipython2F6D6644": {
-      "Properties": {
-        "ParentId": {
-          "Fn::GetAtt": [
+    "ApiRestApipython2F6D6644": Object {
+      "Properties": Object {
+        "ParentId": Object {
+          "Fn::GetAtt": Array [
             "ApiRestApiE35FEAFE",
             "RootResourceId",
           ],
         },
         "PathPart": "python",
-        "RestApiId": {
+        "RestApiId": Object {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Resource",
     },
-    "ApiRestApipythonitemF1EBD3B9": {
-      "Properties": {
-        "ParentId": {
+    "ApiRestApipythonitemF1EBD3B9": Object {
+      "Properties": Object {
+        "ParentId": Object {
           "Ref": "ApiRestApipython2F6D6644",
         },
         "PathPart": "item",
-        "RestApiId": {
+        "RestApiId": Object {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Resource",
     },
-    "ApiRestApipythonitemPOST15FD049D": {
-      "Properties": {
+    "ApiRestApipythonitemPOST15FD049D": Object {
+      "Properties": Object {
         "AuthorizationType": "NONE",
         "HttpMethod": "POST",
-        "Integration": {
+        "Integration": Object {
           "IntegrationHttpMethod": "POST",
           "Type": "AWS_PROXY",
-          "Uri": {
-            "Fn::Join": [
+          "Uri": Object {
+            "Fn::Join": Array [
               "",
-              [
+              Array [
                 "arn:",
-                {
+                Object {
                   "Ref": "AWS::Partition",
                 },
                 ":apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/",
-                {
-                  "Fn::GetAtt": [
+                Object {
+                  "Fn::GetAtt": Array [
                     "ApiLambdaPythonPutItemFunction0EA5A227",
                     "Arn",
                   ],
@@ -2326,43 +2326,43 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
             ],
           },
         },
-        "ResourceId": {
+        "ResourceId": Object {
           "Ref": "ApiRestApipythonitemF1EBD3B9",
         },
-        "RestApiId": {
+        "RestApiId": Object {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Method",
     },
-    "ApiRestApipythonitemPOSTApiPermissionDevBLEAServerlessApiRestApiEBE3BF9APOSTpythonitem5761D1B8": {
-      "Properties": {
+    "ApiRestApipythonitemPOSTApiPermissionDevBLEAServerlessApiRestApiEBE3BF9APOSTpythonitem5761D1B8": Object {
+      "Properties": Object {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": {
-          "Fn::GetAtt": [
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
             "ApiLambdaPythonPutItemFunction0EA5A227",
             "Arn",
           ],
         },
         "Principal": "apigateway.amazonaws.com",
-        "SourceArn": {
-          "Fn::Join": [
+        "SourceArn": Object {
+          "Fn::Join": Array [
             "",
-            [
+            Array [
               "arn:",
-              {
+              Object {
                 "Ref": "AWS::Partition",
               },
               ":execute-api:ap-northeast-1:",
-              {
+              Object {
                 "Ref": "AWS::AccountId",
               },
               ":",
-              {
+              Object {
                 "Ref": "ApiRestApiE35FEAFE",
               },
               "/",
-              {
+              Object {
                 "Ref": "ApiRestApiDeploymentStageprodE828476C",
               },
               "/POST/python/item",
@@ -2372,30 +2372,30 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "ApiRestApipythonitemPOSTApiPermissionTestDevBLEAServerlessApiRestApiEBE3BF9APOSTpythonitem715A3E20": {
-      "Properties": {
+    "ApiRestApipythonitemPOSTApiPermissionTestDevBLEAServerlessApiRestApiEBE3BF9APOSTpythonitem715A3E20": Object {
+      "Properties": Object {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": {
-          "Fn::GetAtt": [
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
             "ApiLambdaPythonPutItemFunction0EA5A227",
             "Arn",
           ],
         },
         "Principal": "apigateway.amazonaws.com",
-        "SourceArn": {
-          "Fn::Join": [
+        "SourceArn": Object {
+          "Fn::Join": Array [
             "",
-            [
+            Array [
               "arn:",
-              {
+              Object {
                 "Ref": "AWS::Partition",
               },
               ":execute-api:ap-northeast-1:",
-              {
+              Object {
                 "Ref": "AWS::AccountId",
               },
               ":",
-              {
+              Object {
                 "Ref": "ApiRestApiE35FEAFE",
               },
               "/test-invoke-stage/POST/python/item",
@@ -2405,36 +2405,36 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "ApiRestApipythonitemtitle896EFCA5": {
-      "Properties": {
-        "ParentId": {
+    "ApiRestApipythonitemtitle896EFCA5": Object {
+      "Properties": Object {
+        "ParentId": Object {
           "Ref": "ApiRestApipythonitemF1EBD3B9",
         },
         "PathPart": "{title}",
-        "RestApiId": {
+        "RestApiId": Object {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Resource",
     },
-    "ApiRestApipythonitemtitleGET4BA7981E": {
-      "Properties": {
+    "ApiRestApipythonitemtitleGET4BA7981E": Object {
+      "Properties": Object {
         "AuthorizationType": "NONE",
         "HttpMethod": "GET",
-        "Integration": {
+        "Integration": Object {
           "IntegrationHttpMethod": "POST",
           "Type": "AWS_PROXY",
-          "Uri": {
-            "Fn::Join": [
+          "Uri": Object {
+            "Fn::Join": Array [
               "",
-              [
+              Array [
                 "arn:",
-                {
+                Object {
                   "Ref": "AWS::Partition",
                 },
                 ":apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/",
-                {
-                  "Fn::GetAtt": [
+                Object {
+                  "Fn::GetAtt": Array [
                     "ApiLambdaPythonGetItemFunction7F81F93B",
                     "Arn",
                   ],
@@ -2444,43 +2444,43 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
             ],
           },
         },
-        "ResourceId": {
+        "ResourceId": Object {
           "Ref": "ApiRestApipythonitemtitle896EFCA5",
         },
-        "RestApiId": {
+        "RestApiId": Object {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Method",
     },
-    "ApiRestApipythonitemtitleGETApiPermissionDevBLEAServerlessApiRestApiEBE3BF9AGETpythonitemtitle9380763F": {
-      "Properties": {
+    "ApiRestApipythonitemtitleGETApiPermissionDevBLEAServerlessApiRestApiEBE3BF9AGETpythonitemtitle9380763F": Object {
+      "Properties": Object {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": {
-          "Fn::GetAtt": [
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
             "ApiLambdaPythonGetItemFunction7F81F93B",
             "Arn",
           ],
         },
         "Principal": "apigateway.amazonaws.com",
-        "SourceArn": {
-          "Fn::Join": [
+        "SourceArn": Object {
+          "Fn::Join": Array [
             "",
-            [
+            Array [
               "arn:",
-              {
+              Object {
                 "Ref": "AWS::Partition",
               },
               ":execute-api:ap-northeast-1:",
-              {
+              Object {
                 "Ref": "AWS::AccountId",
               },
               ":",
-              {
+              Object {
                 "Ref": "ApiRestApiE35FEAFE",
               },
               "/",
-              {
+              Object {
                 "Ref": "ApiRestApiDeploymentStageprodE828476C",
               },
               "/GET/python/item/*",
@@ -2490,30 +2490,30 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "ApiRestApipythonitemtitleGETApiPermissionTestDevBLEAServerlessApiRestApiEBE3BF9AGETpythonitemtitleE2FDEC9D": {
-      "Properties": {
+    "ApiRestApipythonitemtitleGETApiPermissionTestDevBLEAServerlessApiRestApiEBE3BF9AGETpythonitemtitleE2FDEC9D": Object {
+      "Properties": Object {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": {
-          "Fn::GetAtt": [
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
             "ApiLambdaPythonGetItemFunction7F81F93B",
             "Arn",
           ],
         },
         "Principal": "apigateway.amazonaws.com",
-        "SourceArn": {
-          "Fn::Join": [
+        "SourceArn": Object {
+          "Fn::Join": Array [
             "",
-            [
+            Array [
               "arn:",
-              {
+              Object {
                 "Ref": "AWS::Partition",
               },
               ":execute-api:ap-northeast-1:",
-              {
+              Object {
                 "Ref": "AWS::AccountId",
               },
               ":",
-              {
+              Object {
                 "Ref": "ApiRestApiE35FEAFE",
               },
               "/test-invoke-stage/GET/python/item/*",
@@ -2523,36 +2523,36 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "ApiRestApipythonlist4EC12D2C": {
-      "Properties": {
-        "ParentId": {
+    "ApiRestApipythonlist4EC12D2C": Object {
+      "Properties": Object {
+        "ParentId": Object {
           "Ref": "ApiRestApipython2F6D6644",
         },
         "PathPart": "list",
-        "RestApiId": {
+        "RestApiId": Object {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Resource",
     },
-    "ApiRestApipythonlistGETA946A0F8": {
-      "Properties": {
+    "ApiRestApipythonlistGETA946A0F8": Object {
+      "Properties": Object {
         "AuthorizationType": "NONE",
         "HttpMethod": "GET",
-        "Integration": {
+        "Integration": Object {
           "IntegrationHttpMethod": "POST",
           "Type": "AWS_PROXY",
-          "Uri": {
-            "Fn::Join": [
+          "Uri": Object {
+            "Fn::Join": Array [
               "",
-              [
+              Array [
                 "arn:",
-                {
+                Object {
                   "Ref": "AWS::Partition",
                 },
                 ":apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/",
-                {
-                  "Fn::GetAtt": [
+                Object {
+                  "Fn::GetAtt": Array [
                     "ApiLambdaPythonListItemsFunction6E2E7058",
                     "Arn",
                   ],
@@ -2562,43 +2562,43 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
             ],
           },
         },
-        "ResourceId": {
+        "ResourceId": Object {
           "Ref": "ApiRestApipythonlist4EC12D2C",
         },
-        "RestApiId": {
+        "RestApiId": Object {
           "Ref": "ApiRestApiE35FEAFE",
         },
       },
       "Type": "AWS::ApiGateway::Method",
     },
-    "ApiRestApipythonlistGETApiPermissionDevBLEAServerlessApiRestApiEBE3BF9AGETpythonlist6FD5F4CB": {
-      "Properties": {
+    "ApiRestApipythonlistGETApiPermissionDevBLEAServerlessApiRestApiEBE3BF9AGETpythonlist6FD5F4CB": Object {
+      "Properties": Object {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": {
-          "Fn::GetAtt": [
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
             "ApiLambdaPythonListItemsFunction6E2E7058",
             "Arn",
           ],
         },
         "Principal": "apigateway.amazonaws.com",
-        "SourceArn": {
-          "Fn::Join": [
+        "SourceArn": Object {
+          "Fn::Join": Array [
             "",
-            [
+            Array [
               "arn:",
-              {
+              Object {
                 "Ref": "AWS::Partition",
               },
               ":execute-api:ap-northeast-1:",
-              {
+              Object {
                 "Ref": "AWS::AccountId",
               },
               ":",
-              {
+              Object {
                 "Ref": "ApiRestApiE35FEAFE",
               },
               "/",
-              {
+              Object {
                 "Ref": "ApiRestApiDeploymentStageprodE828476C",
               },
               "/GET/python/list",
@@ -2608,30 +2608,30 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "ApiRestApipythonlistGETApiPermissionTestDevBLEAServerlessApiRestApiEBE3BF9AGETpythonlistC2B18F06": {
-      "Properties": {
+    "ApiRestApipythonlistGETApiPermissionTestDevBLEAServerlessApiRestApiEBE3BF9AGETpythonlistC2B18F06": Object {
+      "Properties": Object {
         "Action": "lambda:InvokeFunction",
-        "FunctionName": {
-          "Fn::GetAtt": [
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
             "ApiLambdaPythonListItemsFunction6E2E7058",
             "Arn",
           ],
         },
         "Principal": "apigateway.amazonaws.com",
-        "SourceArn": {
-          "Fn::Join": [
+        "SourceArn": Object {
+          "Fn::Join": Array [
             "",
-            [
+            Array [
               "arn:",
-              {
+              Object {
                 "Ref": "AWS::Partition",
               },
               ":execute-api:ap-northeast-1:",
-              {
+              Object {
                 "Ref": "AWS::AccountId",
               },
               ":",
-              {
+              Object {
                 "Ref": "ApiRestApiE35FEAFE",
               },
               "/test-invoke-stage/GET/python/list",
@@ -2641,27 +2641,27 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "CMK56817A4C": {
+    "CMK56817A4C": Object {
       "DeletionPolicy": "Retain",
-      "Properties": {
+      "Properties": Object {
         "Description": "BLEA Guest Sample: CMK for ServerlessApi",
         "EnableKeyRotation": true,
-        "KeyPolicy": {
-          "Statement": [
-            {
+        "KeyPolicy": Object {
+          "Statement": Array [
+            Object {
               "Action": "kms:*",
               "Effect": "Allow",
-              "Principal": {
-                "AWS": {
-                  "Fn::Join": [
+              "Principal": Object {
+                "AWS": Object {
+                  "Fn::Join": Array [
                     "",
-                    [
+                    Array [
                       "arn:",
-                      {
+                      Object {
                         "Ref": "AWS::Partition",
                       },
                       ":iam::",
-                      {
+                      Object {
                         "Ref": "AWS::AccountId",
                       },
                       ":root",
@@ -2671,22 +2671,22 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
               },
               "Resource": "*",
             },
-            {
-              "Action": [
+            Object {
+              "Action": Array [
                 "kms:Encrypt*",
                 "kms:Decrypt*",
                 "kms:ReEncrypt*",
                 "kms:GenerateDataKey*",
                 "kms:Describe*",
               ],
-              "Condition": {
-                "ArnLike": {
-                  "aws:PrincipalArn": {
-                    "Fn::Join": [
+              "Condition": Object {
+                "ArnLike": Object {
+                  "aws:PrincipalArn": Object {
+                    "Fn::Join": Array [
                       "",
-                      [
+                      Array [
                         "arn:aws:iam::",
-                        {
+                        Object {
                           "Ref": "AWS::AccountId",
                         },
                         ":role/BLEA-LambdaNodejs-*",
@@ -2696,27 +2696,27 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
                 },
               },
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "AWS": "*",
               },
               "Resource": "*",
             },
-            {
-              "Action": [
+            Object {
+              "Action": Array [
                 "kms:Encrypt*",
                 "kms:Decrypt*",
                 "kms:ReEncrypt*",
                 "kms:GenerateDataKey*",
                 "kms:Describe*",
               ],
-              "Condition": {
-                "ArnLike": {
-                  "aws:PrincipalArn": {
-                    "Fn::Join": [
+              "Condition": Object {
+                "ArnLike": Object {
+                  "aws:PrincipalArn": Object {
+                    "Fn::Join": Array [
                       "",
-                      [
+                      Array [
                         "arn:aws:iam::",
-                        {
+                        Object {
                           "Ref": "AWS::AccountId",
                         },
                         ":role/BLEA-LambdaPython-*",
@@ -2726,7 +2726,7 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
                 },
               },
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "AWS": "*",
               },
               "Resource": "*",
@@ -2738,11 +2738,11 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       "Type": "AWS::KMS::Key",
       "UpdateReplacePolicy": "Retain",
     },
-    "CMKAliasFD5A95C9": {
-      "Properties": {
+    "CMKAliasFD5A95C9": Object {
+      "Properties": Object {
         "AliasName": "alias/DevBLEAServerlessApi",
-        "TargetKeyId": {
-          "Fn::GetAtt": [
+        "TargetKeyId": Object {
+          "Fn::GetAtt": Array [
             "CMK56817A4C",
             "Arn",
           ],
@@ -2750,20 +2750,20 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::KMS::Alias",
     },
-    "DatastoreDynamoConsumedReadCapacityUnitE16CED8A": {
-      "Properties": {
+    "DatastoreDynamoConsumedReadCapacityUnitE16CED8A": Object {
+      "Properties": Object {
         "ActionsEnabled": true,
-        "AlarmActions": [
-          {
+        "AlarmActions": Array [
+          Object {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 3,
-        "Dimensions": [
-          {
+        "Dimensions": Array [
+          Object {
             "Name": "TableName",
-            "Value": {
+            "Value": Object {
               "Ref": "DatastoreTable6900098D",
             },
           },
@@ -2777,55 +2777,55 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "DatastoreTable6900098D": {
+    "DatastoreTable6900098D": Object {
       "DeletionPolicy": "Retain",
-      "Properties": {
-        "AttributeDefinitions": [
-          {
+      "Properties": Object {
+        "AttributeDefinitions": Array [
+          Object {
             "AttributeName": "title",
             "AttributeType": "S",
           },
-          {
+          Object {
             "AttributeName": "content",
             "AttributeType": "S",
           },
-          {
+          Object {
             "AttributeName": "createdAt",
             "AttributeType": "S",
           },
         ],
         "BillingMode": "PAY_PER_REQUEST",
-        "KeySchema": [
-          {
+        "KeySchema": Array [
+          Object {
             "AttributeName": "title",
             "KeyType": "HASH",
           },
-          {
+          Object {
             "AttributeName": "content",
             "KeyType": "RANGE",
           },
         ],
-        "LocalSecondaryIndexes": [
-          {
+        "LocalSecondaryIndexes": Array [
+          Object {
             "IndexName": "CreatedAtLSI",
-            "KeySchema": [
-              {
+            "KeySchema": Array [
+              Object {
                 "AttributeName": "title",
                 "KeyType": "HASH",
               },
-              {
+              Object {
                 "AttributeName": "createdAt",
                 "KeyType": "RANGE",
               },
             ],
-            "Projection": {
+            "Projection": Object {
               "ProjectionType": "ALL",
             },
           },
         ],
-        "SSESpecification": {
-          "KMSMasterKeyId": {
-            "Fn::GetAtt": [
+        "SSESpecification": Object {
+          "KMSMasterKeyId": Object {
+            "Fn::GetAtt": Array [
               "CMK56817A4C",
               "Arn",
             ],
@@ -2837,51 +2837,50 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       "Type": "AWS::DynamoDB::Table",
       "UpdateReplacePolicy": "Retain",
     },
-    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A": {
-      "DependsOn": [
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A": Object {
+      "DependsOn": Array [
         "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
         "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
       ],
-      "Properties": {
-        "Code": {
-          "S3Bucket": {
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
-          "S3Key": "5bc602ecde93c947efe5899ae355f999986a1acbe610b1c0b9c468d738857555.zip",
+          "S3Key": "5fa1330271b8967d9254ba2d4a07144f8acefe8b77e6d6bba38261373a50d5f8.zip",
         },
         "Handler": "index.handler",
-        "Role": {
-          "Fn::GetAtt": [
+        "Role": Object {
+          "Fn::GetAtt": Array [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
-        "Timeout": 900,
+        "Runtime": "nodejs16.x",
       },
       "Type": "AWS::Lambda::Function",
     },
-    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB": {
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "Service": "lambda.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": [
-          {
-            "Fn::Join": [
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
               "",
-              [
+              Array [
                 "arn:",
-                {
+                Object {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
@@ -2892,12 +2891,12 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
-    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB": {
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": [
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
                 "logs:PutRetentionPolicy",
                 "logs:DeleteRetentionPolicy",
               ],
@@ -2908,28 +2907,28 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
           "Version": "2012-10-17",
         },
         "PolicyName": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
-        "Roles": [
-          {
+        "Roles": Array [
+          Object {
             "Ref": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "MonitoringAlarmTopicAF62D4F1": {
+    "MonitoringAlarmTopicAF62D4F1": Object {
       "Type": "AWS::SNS::Topic",
     },
-    "MonitoringAlarmTopicPolicyCB9CCFB0": {
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
+    "MonitoringAlarmTopicPolicyCB9CCFB0": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "sns:Publish",
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "Service": "cloudwatch.amazonaws.com",
               },
-              "Resource": {
+              "Resource": Object {
                 "Ref": "MonitoringAlarmTopicAF62D4F1",
               },
               "Sid": "0",
@@ -2937,66 +2936,66 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
           ],
           "Version": "2012-10-17",
         },
-        "Topics": [
-          {
+        "Topics": Array [
+          Object {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
       },
       "Type": "AWS::SNS::TopicPolicy",
     },
-    "MonitoringChatbotChannel3696F0E4": {
-      "Properties": {
+    "MonitoringChatbotChannel3696F0E4": Object {
+      "Properties": Object {
         "ConfigurationName": "DevBLEAServerlessApiMonitoring9149EEBF",
-        "IamRoleArn": {
-          "Fn::GetAtt": [
+        "IamRoleArn": Object {
+          "Fn::GetAtt": Array [
             "MonitoringChatbotRoleD766A77D",
             "Arn",
           ],
         },
         "SlackChannelId": "CYYYYYYYYYY",
         "SlackWorkspaceId": "TXXXXXXXXXX",
-        "SnsTopicArns": [
-          {
+        "SnsTopicArns": Array [
+          Object {
             "Ref": "MonitoringAlarmTopicAF62D4F1",
           },
         ],
       },
       "Type": "AWS::Chatbot::SlackChannelConfiguration",
     },
-    "MonitoringChatbotRoleD766A77D": {
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
+    "MonitoringChatbotRoleD766A77D": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": {
+              "Principal": Object {
                 "Service": "chatbot.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": [
-          {
-            "Fn::Join": [
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
               "",
-              [
+              Array [
                 "arn:",
-                {
+                Object {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/ReadOnlyAccess",
               ],
             ],
           },
-          {
-            "Fn::Join": [
+          Object {
+            "Fn::Join": Array [
               "",
-              [
+              Array [
                 "arn:",
-                {
+                Object {
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/CloudWatchReadOnlyAccess",
@@ -3007,33 +3006,33 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
-    "MonitoringEmailSubsc6D15C956": {
-      "Properties": {
+    "MonitoringEmailSubsc6D15C956": Object {
+      "Properties": Object {
         "Endpoint": "notify-security@example.com",
         "Protocol": "email",
-        "TopicArn": {
+        "TopicArn": Object {
           "Ref": "MonitoringAlarmTopicAF62D4F1",
         },
       },
       "Type": "AWS::SNS::Subscription",
     },
   },
-  "Rules": {
-    "CheckBootstrapVersion": {
-      "Assertions": [
-        {
-          "Assert": {
-            "Fn::Not": [
-              {
-                "Fn::Contains": [
-                  [
+  "Rules": Object {
+    "CheckBootstrapVersion": Object {
+      "Assertions": Array [
+        Object {
+          "Assert": Object {
+            "Fn::Not": Array [
+              Object {
+                "Fn::Contains": Array [
+                  Array [
                     "1",
                     "2",
                     "3",
                     "4",
                     "5",
                   ],
-                  {
+                  Object {
                     "Ref": "BootstrapVersion",
                   },
                 ],
