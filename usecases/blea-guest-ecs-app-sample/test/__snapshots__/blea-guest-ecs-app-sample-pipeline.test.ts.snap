@@ -992,7 +992,7 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
     },
     "build": {
       "commands": [
-        "cdk-assets --path \\"assembly-Dev-BLEAEcsAppPipeline-Dev/DevBLEAEcsAppPipelineDevBLEAEcsApp6C10F018.assets.json\\" --verbose publish \\"5bc602ecde93c947efe5899ae355f999986a1acbe610b1c0b9c468d738857555:current_account-ap-northeast-1\\""
+        "cdk-assets --path \\"assembly-Dev-BLEAEcsAppPipeline-Dev/DevBLEAEcsAppPipelineDevBLEAEcsApp6C10F018.assets.json\\" --verbose publish \\"4e26bf2d0a26f2097fb2b261f22bb51e3f6b4b52635777b1e54edbd8e2d58c35:current_account-ap-northeast-1\\""
       ]
     }
   }
@@ -1041,8 +1041,8 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
     },
     "build": {
       "commands": [
-        "cdk-assets --path \\"assembly-Dev-BLEAEcsAppPipeline-Dev/DevBLEAEcsAppPipelineDevBLEAEcsApp6C10F018.assets.json\\" --verbose publish \\"b885273956ed6568773aa9a2353e506c82ce0c9004d5b57fb500ba0d779ca772:current_account-ap-northeast-1\\"",
-        "cdk-assets --path \\"assembly-Dev-BLEAEcsAppPipeline-Dev/DevBLEAEcsAppPipelineDevBLEAEcsFrontendDCC2248E.assets.json\\" --verbose publish \\"b885273956ed6568773aa9a2353e506c82ce0c9004d5b57fb500ba0d779ca772:current_account-us-east-1\\""
+        "cdk-assets --path \\"assembly-Dev-BLEAEcsAppPipeline-Dev/DevBLEAEcsAppPipelineDevBLEAEcsApp6C10F018.assets.json\\" --verbose publish \\"cff1057a28ad960092a93eb998fe4ec0a6c36771c1122ea4f3cadaea315f93b0:current_account-ap-northeast-1\\"",
+        "cdk-assets --path \\"assembly-Dev-BLEAEcsAppPipeline-Dev/DevBLEAEcsAppPipelineDevBLEAEcsFrontendDCC2248E.assets.json\\" --verbose publish \\"cff1057a28ad960092a93eb998fe4ec0a6c36771c1122ea4f3cadaea315f93b0:current_account-us-east-1\\""
       ]
     }
   }
@@ -1091,8 +1091,8 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
     },
     "build": {
       "commands": [
-        "cdk-assets --path \\"assembly-Dev-BLEAEcsAppPipeline-Dev/DevBLEAEcsAppPipelineDevBLEAEcsFrontendDCC2248E.assets.json\\" --verbose publish \\"8f9d60872520bd7819905e9e0a22c9ab278c21ffd73ae3ab335c174d70416630:current_account-us-east-1\\"",
-        "cdk-assets --path \\"assembly-Dev-BLEAEcsAppPipeline-Dev/DevBLEAEcsAppPipelineDevBLEAEcsAppMonitoringADD43E1F.assets.json\\" --verbose publish \\"8f9d60872520bd7819905e9e0a22c9ab278c21ffd73ae3ab335c174d70416630:current_account-ap-northeast-1\\""
+        "cdk-assets --path \\"assembly-Dev-BLEAEcsAppPipeline-Dev/DevBLEAEcsAppPipelineDevBLEAEcsFrontendDCC2248E.assets.json\\" --verbose publish \\"e72e707870c336971ab7edc78222966e07384ecaa2af26b78e930ecdd37fc088:current_account-us-east-1\\"",
+        "cdk-assets --path \\"assembly-Dev-BLEAEcsAppPipeline-Dev/DevBLEAEcsAppPipelineDevBLEAEcsAppMonitoringADD43E1F.assets.json\\" --verbose publish \\"e72e707870c336971ab7edc78222966e07384ecaa2af26b78e930ecdd37fc088:current_account-ap-northeast-1\\""
       ]
     }
   }
