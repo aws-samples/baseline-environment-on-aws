@@ -35,16 +35,24 @@ export class Datastore extends Construct {
       //   version: rds.AuroraMysqlEngineVersion.VER_2_09_1
       // }),
       credentials: rds.Credentials.fromGeneratedSecret('dbadmin'),
-      instanceProps: {
+      vpcSubnets: {
+        subnetType: SubnetType.PRIVATE_ISOLATED,
+      },
+      vpc: props.vpc,
+      writer: rds.ClusterInstance.provisioned('Writer', {
         instanceType: InstanceType.of(InstanceClass.T3, InstanceSize.MEDIUM),
-        vpcSubnets: {
-          subnetType: SubnetType.PRIVATE_ISOLATED,
-        },
-        vpc: props.vpc,
         enablePerformanceInsights: true,
         performanceInsightEncryptionKey: props.cmk,
         performanceInsightRetention: rds.PerformanceInsightRetention.DEFAULT, // 7 days
-      },
+      }),
+      readers: [
+        rds.ClusterInstance.provisioned('Reader', {
+          instanceType: InstanceType.of(InstanceClass.T3, InstanceSize.MEDIUM),
+          enablePerformanceInsights: true,
+          performanceInsightEncryptionKey: props.cmk,
+          performanceInsightRetention: rds.PerformanceInsightRetention.DEFAULT, // 7 days
+        }),
+      ],
       removalPolicy: RemovalPolicy.SNAPSHOT,
       defaultDatabaseName: 'mydb',
       storageEncrypted: true,
