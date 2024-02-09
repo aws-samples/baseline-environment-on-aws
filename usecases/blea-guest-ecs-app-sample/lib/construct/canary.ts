@@ -50,7 +50,7 @@ export class Canary extends Construct {
       }),
       // It's recommended that use the latest runtime version.
       // See: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Library.html
-      runtime: synthetics.Runtime.SYNTHETICS_NODEJS_PUPPETEER_3_5,
+      runtime: synthetics.Runtime.SYNTHETICS_NODEJS_PUPPETEER_6_0,
       environmentVariables: {
         TARGETHOST: props.appEndpoint,
         TARGETPATH: '/',
