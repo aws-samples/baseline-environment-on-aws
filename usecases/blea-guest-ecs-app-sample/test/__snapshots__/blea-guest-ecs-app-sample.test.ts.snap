@@ -179,7 +179,7 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
-          "S3Key": "cff1057a28ad960092a93eb998fe4ec0a6c36771c1122ea4f3cadaea315f93b0.zip",
+          "S3Key": "b885273956ed6568773aa9a2353e506c82ce0c9004d5b57fb500ba0d779ca772.zip",
         },
         "Handler": "__entrypoint__.handler",
         "MemorySize": 128,
@@ -327,64 +327,6 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
       "Type": "AWS::RDS::DBCluster",
       "UpdateReplacePolicy": "Snapshot",
     },
-    "DatastoreAuroraClusterInstance17CC9C737": {
-      "DeletionPolicy": "Delete",
-      "DependsOn": [
-        "NetworkingVpcProtectedSubnet1RouteTableAssociation011790AB",
-        "NetworkingVpcProtectedSubnet2RouteTableAssociation01AFDB7E",
-      ],
-      "Properties": {
-        "DBClusterIdentifier": {
-          "Ref": "DatastoreAuroraCluster2FE23DD5",
-        },
-        "DBInstanceClass": "db.t3.medium",
-        "DBInstanceIdentifier": "Datastore1",
-        "DBSubnetGroupName": {
-          "Ref": "DatastoreAuroraClusterSubnetsD8325308",
-        },
-        "EnablePerformanceInsights": true,
-        "Engine": "aurora-postgresql",
-        "PerformanceInsightsKMSKeyId": {
-          "Fn::GetAtt": [
-            "CMK56817A4C",
-            "Arn",
-          ],
-        },
-        "PerformanceInsightsRetentionPeriod": 7,
-        "PubliclyAccessible": false,
-      },
-      "Type": "AWS::RDS::DBInstance",
-      "UpdateReplacePolicy": "Delete",
-    },
-    "DatastoreAuroraClusterInstance2FA5EF5D9": {
-      "DeletionPolicy": "Delete",
-      "DependsOn": [
-        "NetworkingVpcProtectedSubnet1RouteTableAssociation011790AB",
-        "NetworkingVpcProtectedSubnet2RouteTableAssociation01AFDB7E",
-      ],
-      "Properties": {
-        "DBClusterIdentifier": {
-          "Ref": "DatastoreAuroraCluster2FE23DD5",
-        },
-        "DBInstanceClass": "db.t3.medium",
-        "DBInstanceIdentifier": "Datastore2",
-        "DBSubnetGroupName": {
-          "Ref": "DatastoreAuroraClusterSubnetsD8325308",
-        },
-        "EnablePerformanceInsights": true,
-        "Engine": "aurora-postgresql",
-        "PerformanceInsightsKMSKeyId": {
-          "Fn::GetAtt": [
-            "CMK56817A4C",
-            "Arn",
-          ],
-        },
-        "PerformanceInsightsRetentionPeriod": 7,
-        "PubliclyAccessible": false,
-      },
-      "Type": "AWS::RDS::DBInstance",
-      "UpdateReplacePolicy": "Delete",
-    },
     "DatastoreAuroraClusterLogRetentionpostgresql428EA768": {
       "Properties": {
         "LogGroupName": {
@@ -408,6 +350,32 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
         },
       },
       "Type": "Custom::LogRetention",
+    },
+    "DatastoreAuroraClusterReaderF0BFF582": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "NetworkingVpcProtectedSubnet1RouteTableAssociation011790AB",
+        "NetworkingVpcProtectedSubnet2RouteTableAssociation01AFDB7E",
+      ],
+      "Properties": {
+        "DBClusterIdentifier": {
+          "Ref": "DatastoreAuroraCluster2FE23DD5",
+        },
+        "DBInstanceClass": "db.t3.medium",
+        "EnablePerformanceInsights": true,
+        "Engine": "aurora-postgresql",
+        "PerformanceInsightsKMSKeyId": {
+          "Fn::GetAtt": [
+            "CMK56817A4C",
+            "Arn",
+          ],
+        },
+        "PerformanceInsightsRetentionPeriod": 7,
+        "PromotionTier": 2,
+        "PubliclyAccessible": false,
+      },
+      "Type": "AWS::RDS::DBInstance",
+      "UpdateReplacePolicy": "Delete",
     },
     "DatastoreAuroraClusterSecretAttachment3F350821": {
       "Properties": {
@@ -481,6 +449,32 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
         ],
       },
       "Type": "AWS::RDS::DBSubnetGroup",
+    },
+    "DatastoreAuroraClusterWriter66DA001D": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "NetworkingVpcProtectedSubnet1RouteTableAssociation011790AB",
+        "NetworkingVpcProtectedSubnet2RouteTableAssociation01AFDB7E",
+      ],
+      "Properties": {
+        "DBClusterIdentifier": {
+          "Ref": "DatastoreAuroraCluster2FE23DD5",
+        },
+        "DBInstanceClass": "db.t3.medium",
+        "EnablePerformanceInsights": true,
+        "Engine": "aurora-postgresql",
+        "PerformanceInsightsKMSKeyId": {
+          "Fn::GetAtt": [
+            "CMK56817A4C",
+            "Arn",
+          ],
+        },
+        "PerformanceInsightsRetentionPeriod": 7,
+        "PromotionTier": 0,
+        "PubliclyAccessible": false,
+      },
+      "Type": "AWS::RDS::DBInstance",
+      "UpdateReplacePolicy": "Delete",
     },
     "DatastoreRdsClusterEventSubscB4CD338B": {
       "Properties": {
@@ -1662,7 +1656,7 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
-          "S3Key": "4e26bf2d0a26f2097fb2b261f22bb51e3f6b4b52635777b1e54edbd8e2d58c35.zip",
+          "S3Key": "5bc602ecde93c947efe5899ae355f999986a1acbe610b1c0b9c468d738857555.zip",
         },
         "Handler": "index.handler",
         "Role": {
@@ -3238,7 +3232,7 @@ exports[`Snapshot test for BLEA ECS App Stacks 2`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-us-east-1",
           },
-          "S3Key": "e72e707870c336971ab7edc78222966e07384ecaa2af26b78e930ecdd37fc088.zip",
+          "S3Key": "8f9d60872520bd7819905e9e0a22c9ab278c21ffd73ae3ab335c174d70416630.zip",
         },
         "Handler": "__entrypoint__.handler",
         "MemorySize": 128,
@@ -3318,7 +3312,7 @@ exports[`Snapshot test for BLEA ECS App Stacks 2`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-us-east-1",
           },
-          "S3Key": "cff1057a28ad960092a93eb998fe4ec0a6c36771c1122ea4f3cadaea315f93b0.zip",
+          "S3Key": "b885273956ed6568773aa9a2353e506c82ce0c9004d5b57fb500ba0d779ca772.zip",
         },
         "Handler": "__entrypoint__.handler",
         "MemorySize": 128,
@@ -4059,7 +4053,7 @@ exports[`Snapshot test for BLEA ECS App Stacks 3`] = `
             "TARGETPATH": "/",
           },
         },
-        "RuntimeVersion": "syn-nodejs-puppeteer-3.5",
+        "RuntimeVersion": "syn-nodejs-puppeteer-6.0",
         "Schedule": {
           "DurationInSeconds": "0",
           "Expression": "rate(1 minute)",
@@ -4171,7 +4165,7 @@ exports[`Snapshot test for BLEA ECS App Stacks 3`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
-          "S3Key": "e72e707870c336971ab7edc78222966e07384ecaa2af26b78e930ecdd37fc088.zip",
+          "S3Key": "8f9d60872520bd7819905e9e0a22c9ab278c21ffd73ae3ab335c174d70416630.zip",
         },
         "Handler": "__entrypoint__.handler",
         "MemorySize": 128,
