@@ -77,7 +77,7 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
-          "S3Key": "0157fe07cfc88764efa12fcb763d754f369f10425465a09d15e1d590506494df.zip",
+          "S3Key": "22e07287aed0526a88fdb48b9fd20bd5b9f2e165bc595ee11aa68ee028d55c35.zip",
         },
         "Environment": {
           "Variables": {
