@@ -39,18 +39,22 @@ export class Datastore extends Construct {
         subnetType: SubnetType.PRIVATE_ISOLATED,
       },
       vpc: props.vpc,
-      writer: rds.ClusterInstance.provisioned('Writer', {
+      writer: rds.ClusterInstance.provisioned('Instance1', {
+        instanceIdentifier: 'Datastore1',
         instanceType: InstanceType.of(InstanceClass.T3, InstanceSize.MEDIUM),
         enablePerformanceInsights: true,
         performanceInsightEncryptionKey: props.cmk,
         performanceInsightRetention: rds.PerformanceInsightRetention.DEFAULT, // 7 days
+        isFromLegacyInstanceProps: true,
       }),
       readers: [
-        rds.ClusterInstance.provisioned('Reader', {
+        rds.ClusterInstance.provisioned('Instance2', {
+          instanceIdentifier: 'Datastore2',
           instanceType: InstanceType.of(InstanceClass.T3, InstanceSize.MEDIUM),
           enablePerformanceInsights: true,
           performanceInsightEncryptionKey: props.cmk,
           performanceInsightRetention: rds.PerformanceInsightRetention.DEFAULT, // 7 days
+          isFromLegacyInstanceProps: true,
         }),
       ],
       removalPolicy: RemovalPolicy.SNAPSHOT,
