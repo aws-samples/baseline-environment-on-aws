@@ -4059,7 +4059,7 @@ exports[`Snapshot test for BLEA ECS App Stacks 3`] = `
             "TARGETPATH": "/",
           },
         },
-        "RuntimeVersion": "syn-nodejs-puppeteer-3.5",
+        "RuntimeVersion": "syn-nodejs-puppeteer-6.0",
         "Schedule": {
           "DurationInSeconds": "0",
           "Expression": "rate(1 minute)",
