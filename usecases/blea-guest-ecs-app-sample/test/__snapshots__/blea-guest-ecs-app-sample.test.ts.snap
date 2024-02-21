@@ -327,6 +327,64 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
       "Type": "AWS::RDS::DBCluster",
       "UpdateReplacePolicy": "Snapshot",
     },
+    "DatastoreAuroraClusterInstance17CC9C737": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "NetworkingVpcProtectedSubnet1RouteTableAssociation011790AB",
+        "NetworkingVpcProtectedSubnet2RouteTableAssociation01AFDB7E",
+      ],
+      "Properties": {
+        "DBClusterIdentifier": {
+          "Ref": "DatastoreAuroraCluster2FE23DD5",
+        },
+        "DBInstanceClass": "db.t3.medium",
+        "DBInstanceIdentifier": "Datastore1",
+        "DBSubnetGroupName": {
+          "Ref": "DatastoreAuroraClusterSubnetsD8325308",
+        },
+        "EnablePerformanceInsights": true,
+        "Engine": "aurora-postgresql",
+        "PerformanceInsightsKMSKeyId": {
+          "Fn::GetAtt": [
+            "CMK56817A4C",
+            "Arn",
+          ],
+        },
+        "PerformanceInsightsRetentionPeriod": 7,
+        "PubliclyAccessible": false,
+      },
+      "Type": "AWS::RDS::DBInstance",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "DatastoreAuroraClusterInstance2FA5EF5D9": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "NetworkingVpcProtectedSubnet1RouteTableAssociation011790AB",
+        "NetworkingVpcProtectedSubnet2RouteTableAssociation01AFDB7E",
+      ],
+      "Properties": {
+        "DBClusterIdentifier": {
+          "Ref": "DatastoreAuroraCluster2FE23DD5",
+        },
+        "DBInstanceClass": "db.t3.medium",
+        "DBInstanceIdentifier": "Datastore2",
+        "DBSubnetGroupName": {
+          "Ref": "DatastoreAuroraClusterSubnetsD8325308",
+        },
+        "EnablePerformanceInsights": true,
+        "Engine": "aurora-postgresql",
+        "PerformanceInsightsKMSKeyId": {
+          "Fn::GetAtt": [
+            "CMK56817A4C",
+            "Arn",
+          ],
+        },
+        "PerformanceInsightsRetentionPeriod": 7,
+        "PubliclyAccessible": false,
+      },
+      "Type": "AWS::RDS::DBInstance",
+      "UpdateReplacePolicy": "Delete",
+    },
     "DatastoreAuroraClusterLogRetentionpostgresql428EA768": {
       "Properties": {
         "LogGroupName": {
@@ -350,32 +408,6 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
         },
       },
       "Type": "Custom::LogRetention",
-    },
-    "DatastoreAuroraClusterReaderF0BFF582": {
-      "DeletionPolicy": "Delete",
-      "DependsOn": [
-        "NetworkingVpcProtectedSubnet1RouteTableAssociation011790AB",
-        "NetworkingVpcProtectedSubnet2RouteTableAssociation01AFDB7E",
-      ],
-      "Properties": {
-        "DBClusterIdentifier": {
-          "Ref": "DatastoreAuroraCluster2FE23DD5",
-        },
-        "DBInstanceClass": "db.t3.medium",
-        "EnablePerformanceInsights": true,
-        "Engine": "aurora-postgresql",
-        "PerformanceInsightsKMSKeyId": {
-          "Fn::GetAtt": [
-            "CMK56817A4C",
-            "Arn",
-          ],
-        },
-        "PerformanceInsightsRetentionPeriod": 7,
-        "PromotionTier": 2,
-        "PubliclyAccessible": false,
-      },
-      "Type": "AWS::RDS::DBInstance",
-      "UpdateReplacePolicy": "Delete",
     },
     "DatastoreAuroraClusterSecretAttachment3F350821": {
       "Properties": {
@@ -449,32 +481,6 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
         ],
       },
       "Type": "AWS::RDS::DBSubnetGroup",
-    },
-    "DatastoreAuroraClusterWriter66DA001D": {
-      "DeletionPolicy": "Delete",
-      "DependsOn": [
-        "NetworkingVpcProtectedSubnet1RouteTableAssociation011790AB",
-        "NetworkingVpcProtectedSubnet2RouteTableAssociation01AFDB7E",
-      ],
-      "Properties": {
-        "DBClusterIdentifier": {
-          "Ref": "DatastoreAuroraCluster2FE23DD5",
-        },
-        "DBInstanceClass": "db.t3.medium",
-        "EnablePerformanceInsights": true,
-        "Engine": "aurora-postgresql",
-        "PerformanceInsightsKMSKeyId": {
-          "Fn::GetAtt": [
-            "CMK56817A4C",
-            "Arn",
-          ],
-        },
-        "PerformanceInsightsRetentionPeriod": 7,
-        "PromotionTier": 0,
-        "PubliclyAccessible": false,
-      },
-      "Type": "AWS::RDS::DBInstance",
-      "UpdateReplacePolicy": "Delete",
     },
     "DatastoreRdsClusterEventSubscB4CD338B": {
       "Properties": {
