@@ -18,10 +18,10 @@
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
-    "@types/node": "18.19.18",
+    "@types/node": "18.19.21",
     "@typescript-eslint/eslint-plugin": "^7.1.0",
     "@typescript-eslint/parser": "^7.0.2",
-    "aws-cdk": "^2.130.0",
+    "aws-cdk": "^2.131.0",
     "esbuild": "^0.20.1",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
