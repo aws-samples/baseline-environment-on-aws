@@ -8,6 +8,7 @@ import { BLEAEcsAppMonitoringStack } from '../lib/stack/blea-guest-ecs-app-monit
 const app = new App();
 
 const ecsapp = new BLEAEcsAppStack(app, 'Dev-BLEAEcsApp', {
+  description: 'BLEA ECS App sample for guest accounts (uksb-1tupboc58) (tag:blea-guest-ecs-app-sample-backend)',
   env: {
     account: devParameter.env?.account || process.env.CDK_DEFAULT_ACCOUNT,
     region: devParameter.env?.region || process.env.CDK_DEFAULT_REGION,
@@ -26,6 +27,7 @@ const ecsapp = new BLEAEcsAppStack(app, 'Dev-BLEAEcsApp', {
 });
 
 const frontend = new BLEAEcsAppFrontendStack(app, 'Dev-BLEAEcsAppFrontend', {
+  description: 'BLEA ECS App sample for guest accounts (uksb-1tupboc58) (tag:blea-guest-ecs-app-sample-frontend)',
   env: {
     account: devParameter.env?.account || process.env.CDK_DEFAULT_ACCOUNT,
     region: 'us-east-1', // To use WAFv2 in this Stack
@@ -48,6 +50,7 @@ const frontend = new BLEAEcsAppFrontendStack(app, 'Dev-BLEAEcsAppFrontend', {
 });
 
 new BLEAEcsAppMonitoringStack(app, 'Dev-BLEAEcsAppMonitoring', {
+  description: 'BLEA ECS App sample for guest accounts (uksb-1tupboc58) (tag:blea-guest-ecs-app-sample-monitoring)',
   env: {
     account: devParameter.env?.account || process.env.CDK_DEFAULT_ACCOUNT,
     region: devParameter.env?.region || process.env.CDK_DEFAULT_REGION,
