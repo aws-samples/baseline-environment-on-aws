@@ -10,6 +10,7 @@ export class BLEAEcsAppStage extends Stage {
     super(scope, id, props);
 
     const ecsapp = new BLEAEcsAppStack(this, 'BLEAEcsApp', {
+      description: 'BLEA ECS App sample for guest accounts (uksb-1tupboc58) (tag:blea-guest-ecs-app-sample-backend)',
       env: {
         account: props.env?.account || process.env.CDK_DEFAULT_ACCOUNT,
         region: props.env?.region || process.env.CDK_DEFAULT_REGION,
@@ -28,6 +29,7 @@ export class BLEAEcsAppStage extends Stage {
     });
 
     const frontend = new BLEAEcsAppFrontendStack(this, 'BLEAEcsFrontend', {
+      description: 'BLEA ECS App sample for guest accounts (uksb-1tupboc58) (tag:blea-guest-ecs-app-sample-frontend)',
       env: {
         account: props.env?.account || process.env.CDK_DEFAULT_ACCOUNT,
         region: 'us-east-1',
@@ -49,6 +51,7 @@ export class BLEAEcsAppStage extends Stage {
     });
 
     new BLEAEcsAppMonitoringStack(this, 'BLEAEcsAppMonitoring', {
+      description: 'BLEA ECS App sample for guest accounts (uksb-1tupboc58) (tag:blea-guest-ecs-app-sample-monitoring)',
       env: {
         account: props.env?.account || process.env.CDK_DEFAULT_ACCOUNT,
         region: props.env?.region || process.env.CDK_DEFAULT_REGION,

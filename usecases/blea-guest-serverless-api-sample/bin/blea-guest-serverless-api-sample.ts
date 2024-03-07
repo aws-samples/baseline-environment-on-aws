@@ -5,6 +5,7 @@ import { devParameter } from '../parameter';
 const app = new cdk.App();
 
 new BLEAServerlessApiStack(app, 'Dev-BLEAServerlessApi', {
+  description: 'BLEA Serveless API sample for guest accounts (uksb-1tupboc58) (tag:blea-guest-serverless-api-sample)',
   env: {
     account: devParameter.env?.account || process.env.CDK_DEFAULT_ACCOUNT,
     region: devParameter.env?.region || process.env.CDK_DEFAULT_REGION,

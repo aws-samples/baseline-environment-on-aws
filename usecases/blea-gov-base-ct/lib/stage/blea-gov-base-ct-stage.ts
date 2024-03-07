@@ -11,6 +11,7 @@ export class BLEAGovBaseCtStage extends Stage {
 
     // Define a stack and associate same constructs as normal to this.
     const stack = new Stack(this, 'BLEAGovBaseCt', {
+      description: 'BLEA Governance Base for multi-accounts (uksb-1tupboc58) (tag:blea-gov-base-ct)',
       tags: {
         Repository: 'aws-samples/baseline-environment-on-aws',
       },
