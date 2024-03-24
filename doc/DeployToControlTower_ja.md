@@ -30,7 +30,7 @@ Control Tower の配下にマルチアカウント版のガバナンスベース
 
 2. デプロイ対象のゲストアカウントを Control Tower で作成する (MC)
 
-3. 依存パッケージのインストールとコードのビル ド(Local)
+3. 依存パッケージのインストールとコードのビルド (Local)
 
 4. AWS SSO に合わせて AWS CLI の認証情報を設定する (Local)
 
@@ -286,7 +286,7 @@ Amazon Inspector は、ワークロードをスキャンして、脆弱性を管
 
 ##### b. EC2 管理のため AWS Systems Manager Quick Setup を実施する
 
-EC2 を利用する場合は SystemsManager を利用して管理することをお勧めします。AWS Systems Manager Quick Setup を使うことで、EC2 の管理に必要な基本的なセットアップを自動化できます。
+EC2 を利用する場合は Systems Manager を利用して管理することをお勧めします。AWS Systems Manager Quick Setup を使うことで、EC2 の管理に必要な基本的なセットアップを自動化できます。
 セットアップ手順: [https://docs.aws.amazon.com/systems-manager/latest/userguide/quick-setup-host-management.html]
 
 Quick Setup は以下の機能を提供します:
@@ -314,7 +314,7 @@ TrustedAdvisor は AWS のベストプラクティスをフォローするため
 
 Standalone 版と同じ手順でパラメータを設定します。
 
-#### 7-2. ゲストアプリケーションをデプロイする
+#### 6-2. ゲストアプリケーションをデプロイする
 
 （ログインしていない場合）AWS SSO を使ってゲストアカウントにログインします。
 
@@ -331,14 +331,14 @@ npx aws-cdk deploy --all --profile ct-guest
 
 以上でゲストアカウントに対するベースラインおよびサンプルアプリケーションのデプロイが完了します。
 
-#### 7-3. 独自のアプリケーションを開発する
+#### 6-3. 独自のアプリケーションを開発する
 
 以後はこのサンプルコードを起点にして、自分のユースケースに合わせたアプリケーションを開発していくことになります。一般的な開発に必要な情報を示します。
 
 - [通常の開発の流れ](HowTo_ja.md#通常の開発の流れ)
 - [依存パッケージの最新化](HowTo_ja.md#依存パッケージの最新化)
 
-#### 7-4. セキュリティ指摘事項の修復
+#### 6-4. セキュリティ指摘事項の修復
 
 ガバナンスベースをデプロイした後でも、Security Hub のベンチマークレポートで 重要度が CRITICAL あるいは HIGH のレベルでレポートされる検出項目があります。これらに対しては手動で対応が必要です。必要に応じて修復(Remediation)を実施してください。
 
