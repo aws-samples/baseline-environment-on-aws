@@ -22,6 +22,7 @@ exports[`Snapshot test for BLEAGovABaseCtPipeline Stack 1`] = `
           },
           "Type": "S3",
         },
+        "PipelineType": "V1",
         "RestartExecutionOnUpdate": true,
         "RoleArn": {
           "Fn::GetAtt": [
