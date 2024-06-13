@@ -77,7 +77,7 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
-          "S3Key": "1c605bf16478b51860cca556fdfb1e37f5024de19e01232fcb3455ae08708b60.zip",
+          "S3Key": "2a9875eb37263cf2556e6f088d5f20034e2fd3b8c2176c6332c8a8fcfc3cfd2a.zip",
         },
         "Environment": {
           "Variables": {
@@ -104,7 +104,7 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs18.x",
         "Timeout": 25,
         "TracingConfig": {
           "Mode": "Active",
@@ -257,7 +257,7 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
-          "S3Key": "21c0d46dba304aebe7819d962d091864231949de414d5f232f3d71f536ab3e82.zip",
+          "S3Key": "68a11c84212c3eff28df00c3bf5918304911369738721962565d7b7e22635f1d.zip",
         },
         "Environment": {
           "Variables": {
@@ -284,7 +284,7 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs18.x",
         "Timeout": 25,
         "TracingConfig": {
           "Mode": "Active",
@@ -437,7 +437,7 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
-          "S3Key": "5779f9584321924cd8199013da6cb79193587b02e3ea4e372217c849d5ac2b0d.zip",
+          "S3Key": "8f98da062af0ac11372a014910ace092e8d07c085ee89aac238241a5b6b7c6f5.zip",
         },
         "Environment": {
           "Variables": {
@@ -464,7 +464,7 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs18.x",
         "Timeout": 25,
         "TracingConfig": {
           "Mode": "Active",
@@ -955,7 +955,7 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
           ],
         },
         "Layers": [
-          "arn:aws:lambda:ap-northeast-1:017000801446:layer:AWSLambdaPowertoolsPython:3",
+          "arn:aws:lambda:ap-northeast-1:017000801446:layer:AWSLambdaPowertoolsPythonV2:60",
           "arn:aws:lambda:ap-northeast-1:580247275435:layer:LambdaInsightsExtension:14",
         ],
         "MemorySize": 256,
@@ -965,7 +965,7 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "python3.7",
+        "Runtime": "python3.12",
         "Timeout": 25,
         "TracingConfig": {
           "Mode": "Active",
@@ -1135,7 +1135,7 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
           ],
         },
         "Layers": [
-          "arn:aws:lambda:ap-northeast-1:017000801446:layer:AWSLambdaPowertoolsPython:3",
+          "arn:aws:lambda:ap-northeast-1:017000801446:layer:AWSLambdaPowertoolsPythonV2:60",
           "arn:aws:lambda:ap-northeast-1:580247275435:layer:LambdaInsightsExtension:14",
         ],
         "MemorySize": 2048,
@@ -1145,7 +1145,7 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "python3.7",
+        "Runtime": "python3.12",
         "Timeout": 25,
         "TracingConfig": {
           "Mode": "Active",
@@ -1315,7 +1315,7 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
           ],
         },
         "Layers": [
-          "arn:aws:lambda:ap-northeast-1:017000801446:layer:AWSLambdaPowertoolsPython:3",
+          "arn:aws:lambda:ap-northeast-1:017000801446:layer:AWSLambdaPowertoolsPythonV2:60",
           "arn:aws:lambda:ap-northeast-1:580247275435:layer:LambdaInsightsExtension:14",
         ],
         "MemorySize": 256,
@@ -1325,7 +1325,7 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "python3.7",
+        "Runtime": "python3.12",
         "Timeout": 25,
         "TracingConfig": {
           "Mode": "Active",
