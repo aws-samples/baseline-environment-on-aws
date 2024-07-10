@@ -1042,8 +1042,8 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
     },
     "build": {
       "commands": [
-        "cdk-assets --path \\"assembly-Dev-BLEAEcsAppPipeline-Dev/DevBLEAEcsAppPipelineDevBLEAEcsApp6C10F018.assets.json\\" --verbose publish \\"8a012a312e53123703ad2abd1b7043bb13b3001de0b9fc6329aba4d62585073e:current_account-ap-northeast-1\\"",
-        "cdk-assets --path \\"assembly-Dev-BLEAEcsAppPipeline-Dev/DevBLEAEcsAppPipelineDevBLEAEcsFrontendDCC2248E.assets.json\\" --verbose publish \\"8a012a312e53123703ad2abd1b7043bb13b3001de0b9fc6329aba4d62585073e:current_account-us-east-1\\""
+        "cdk-assets --path \\"assembly-Dev-BLEAEcsAppPipeline-Dev/DevBLEAEcsAppPipelineDevBLEAEcsApp6C10F018.assets.json\\" --verbose publish \\"246cb27aa0cb552c81fdca061092d0905aa4d2529e8b52b5598c069f18be51d7:current_account-ap-northeast-1\\"",
+        "cdk-assets --path \\"assembly-Dev-BLEAEcsAppPipeline-Dev/DevBLEAEcsAppPipelineDevBLEAEcsFrontendDCC2248E.assets.json\\" --verbose publish \\"246cb27aa0cb552c81fdca061092d0905aa4d2529e8b52b5598c069f18be51d7:current_account-us-east-1\\""
       ]
     }
   }
@@ -1161,24 +1161,6 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
               "Effect": "Allow",
               "Principal": {
                 "Service": "codebuild.amazonaws.com",
-              },
-            },
-            {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": {
-                "AWS": {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:",
-                      {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":iam::123456789012:root",
-                    ],
-                  ],
-                },
               },
             },
           ],
