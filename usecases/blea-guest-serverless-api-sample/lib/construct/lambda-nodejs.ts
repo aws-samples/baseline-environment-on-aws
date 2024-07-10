@@ -60,7 +60,7 @@ export class LambdaNodejs extends Construct {
 
     // GetItem Function
     const getItemFunction = new node_lambda.NodejsFunction(this, 'GetItemFunction', {
-      runtime: lambda.Runtime.NODEJS_14_X,
+      runtime: lambda.Runtime.NODEJS_LATEST,
       entry: 'lambda/nodejs/getItem.js',
       handler: 'getItem',
       memorySize: 256,
@@ -147,7 +147,7 @@ export class LambdaNodejs extends Construct {
 
     // ListItem Function
     const listItemsFunction = new node_lambda.NodejsFunction(this, 'ListItemsFunction', {
-      runtime: lambda.Runtime.NODEJS_14_X,
+      runtime: lambda.Runtime.NODEJS_LATEST,
       entry: 'lambda/nodejs/listItems.js',
       handler: 'listItems',
       timeout: cdk.Duration.seconds(25),
@@ -233,7 +233,7 @@ export class LambdaNodejs extends Construct {
 
     // PutItem Function
     const putItemFunction = new node_lambda.NodejsFunction(this, 'PutItemFunction', {
-      runtime: lambda.Runtime.NODEJS_14_X,
+      runtime: lambda.Runtime.NODEJS_LATEST,
       entry: 'lambda/nodejs/putItem.js',
       handler: 'putItem',
       timeout: cdk.Duration.seconds(25),

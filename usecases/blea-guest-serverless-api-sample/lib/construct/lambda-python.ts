@@ -65,12 +65,12 @@ export class LambdaPython extends Construct {
     const lambdaPowertools = lambda.LayerVersion.fromLayerVersionArn(
       this,
       'lambda-powertools',
-      `arn:aws:lambda:${cdk.Stack.of(this).region}:017000801446:layer:AWSLambdaPowertoolsPython:3`,
+      `arn:aws:lambda:${cdk.Stack.of(this).region}:017000801446:layer:AWSLambdaPowertoolsPythonV2:60`,
     );
 
     // GetItem Function
     const getItemFunction = new lambda.Function(this, 'GetItemFunction', {
-      runtime: lambda.Runtime.PYTHON_3_7,
+      runtime: lambda.Runtime.PYTHON_3_12,
       code: lambda.Code.fromAsset('lambda/python/getItem'),
       handler: 'getItem.lambda_handler',
       memorySize: 256,
@@ -158,7 +158,7 @@ export class LambdaPython extends Construct {
 
     // ListItem Function
     const listItemsFunction = new lambda.Function(this, 'ListItemsFunction', {
-      runtime: lambda.Runtime.PYTHON_3_7,
+      runtime: lambda.Runtime.PYTHON_3_12,
       code: lambda.Code.fromAsset('lambda/python/listItems'),
       handler: 'listItems.lambda_handler',
       timeout: cdk.Duration.seconds(25),
@@ -246,7 +246,7 @@ export class LambdaPython extends Construct {
 
     // PutItem Function
     const putItemFunction = new lambda.Function(this, 'PutItemFunction', {
-      runtime: lambda.Runtime.PYTHON_3_7,
+      runtime: lambda.Runtime.PYTHON_3_12,
       code: lambda.Code.fromAsset('lambda/python/putItem'),
       handler: 'putItem.lambda_handler',
       timeout: cdk.Duration.seconds(25),
