@@ -77,7 +77,7 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
-          "S3Key": "5eb6ebc45f9cfa13a3ba774c97aea934486a71239782a08415cc5a7a01b0e39c.zip",
+          "S3Key": "82daf0514e3c1e20178754d2e3a53f6d928ef931770a10bd431219bc7068c21f.zip",
         },
         "Environment": {
           "Variables": {
@@ -256,7 +256,7 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
-          "S3Key": "3e9bfabe006a930bbeb651bd235b5cea7bcb1534bc0982ab4a8a7ed54a63d5e5.zip",
+          "S3Key": "462cd285089ab78236cd6bb6bf40274323a5d595d9794bab42478088fc575b29.zip",
         },
         "Environment": {
           "Variables": {
@@ -435,7 +435,7 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-ap-northeast-1",
           },
-          "S3Key": "f0f5bc4e4bc6c745dab0589c34635dc0fcca0d4af256a6b380758b9df224b1a0.zip",
+          "S3Key": "0b47ea544c41c4ca28c24849149a8dd789e5507399596a758b39de93e7bd8b00.zip",
         },
         "Environment": {
           "Variables": {
