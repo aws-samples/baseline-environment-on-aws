@@ -16,6 +16,10 @@ updates:
     ignore:
       - dependency-name: '@types/node'
         versions: '>=20'
+      # Pin esbuild to 0.21.x because of breaking changes
+      # See: https://github.com/aws/aws-cdk/pull/30726
+      - dependency-name: 'esbuild'
+        versions: '>=0.22'
   - package-ecosystem: 'docker' # See documentation for possible values
     directory: '/' # Location of package manifests
     open-pull-requests-limit: 30
