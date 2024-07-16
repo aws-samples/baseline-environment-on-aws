@@ -8,7 +8,7 @@ export interface MonitoringProps {
 }
 
 export class Monitoring extends Construct {
-  public readonly alarmTopic: sns.Topic;
+  public readonly alarmTopic: sns.ITopic;
 
   constructor(scope: Construct, id: string, props: MonitoringProps) {
     super(scope, id);

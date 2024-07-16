@@ -19,9 +19,9 @@ export interface LambdaNodejsProps {
 }
 
 export class LambdaNodejs extends Construct {
-  public readonly getItemFunction: lambda.Function;
-  public readonly listItemsFunction: lambda.Function;
-  public readonly putItemFunction: lambda.Function;
+  public readonly getItemFunction: lambda.IFunction;
+  public readonly listItemsFunction: lambda.IFunction;
+  public readonly putItemFunction: lambda.IFunction;
 
   constructor(scope: Construct, id: string, props: LambdaNodejsProps) {
     super(scope, id);

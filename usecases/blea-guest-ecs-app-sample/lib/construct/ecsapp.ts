@@ -23,9 +23,9 @@ import { IDatabaseCluster } from 'aws-cdk-lib/aws-rds';
 import { Construct } from 'constructs';
 
 export interface EcsAppProps {
-  vpc: ec2.Vpc;
+  vpc: ec2.IVpc;
   cmk: kms.IKey;
-  alarmTopic: sns.Topic;
+  alarmTopic: sns.ITopic;
   dbCluster: IDatabaseCluster;
 }
 
