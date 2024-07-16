@@ -17,9 +17,9 @@ export interface LambdaPythonProps {
   appKey: kms.IKey;
 }
 export class LambdaPython extends Construct {
-  public readonly getItemFunction: lambda.Function;
-  public readonly listItemsFunction: lambda.Function;
-  public readonly putItemFunction: lambda.Function;
+  public readonly getItemFunction: lambda.IFunction;
+  public readonly listItemsFunction: lambda.IFunction;
+  public readonly putItemFunction: lambda.IFunction;
 
   constructor(scope: Construct, id: string, props: LambdaPythonProps) {
     super(scope, id);

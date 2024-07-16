@@ -5,17 +5,17 @@ import {
   aws_logs as logs,
   aws_rds as rds,
   aws_sns as sns,
+  aws_ec2 as ec2,
   Duration,
   RemovalPolicy,
 } from 'aws-cdk-lib';
-import { InstanceClass, InstanceSize, InstanceType, SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
 import { IDatabaseCluster } from 'aws-cdk-lib/aws-rds';
 import { Construct } from 'constructs';
 
 export interface DatastoreProps {
-  vpc: Vpc;
+  vpc: ec2.IVpc;
   cmk: kms.IKey;
-  alarmTopic: sns.Topic;
+  alarmTopic: sns.ITopic;
 }
 
 export class Datastore extends Construct {
@@ -36,12 +36,12 @@ export class Datastore extends Construct {
       // }),
       credentials: rds.Credentials.fromGeneratedSecret('dbadmin'),
       vpcSubnets: {
-        subnetType: SubnetType.PRIVATE_ISOLATED,
+        subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
       },
       vpc: props.vpc,
       writer: rds.ClusterInstance.provisioned('Instance1', {
         instanceIdentifier: 'Datastore1',
-        instanceType: InstanceType.of(InstanceClass.T3, InstanceSize.MEDIUM),
+        instanceType: ec2.InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.MEDIUM),
         enablePerformanceInsights: true,
         performanceInsightEncryptionKey: props.cmk,
         performanceInsightRetention: rds.PerformanceInsightRetention.DEFAULT, // 7 days
@@ -50,7 +50,7 @@ export class Datastore extends Construct {
       readers: [
         rds.ClusterInstance.provisioned('Instance2', {
           instanceIdentifier: 'Datastore2',
-          instanceType: InstanceType.of(InstanceClass.T3, InstanceSize.MEDIUM),
+          instanceType: ec2.InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.MEDIUM),
           enablePerformanceInsights: true,
           performanceInsightEncryptionKey: props.cmk,
           performanceInsightRetention: rds.PerformanceInsightRetention.DEFAULT, // 7 days

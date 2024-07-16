@@ -3,7 +3,7 @@ import { aws_cloudtrail as trail, aws_iam as iam, aws_kms as kms, aws_logs as cw
 import { Construct } from 'constructs';
 
 export class Logging extends Construct {
-  public readonly trailLogGroup: cwl.LogGroup;
+  public readonly trailLogGroup: cwl.ILogGroup;
 
   constructor(scope: Construct, id: string) {
     super(scope, id);
