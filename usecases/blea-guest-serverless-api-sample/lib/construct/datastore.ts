@@ -13,7 +13,7 @@ export interface DatastoreProps {
   appKey: kms.IKey;
 }
 export class Datastore extends Construct {
-  public readonly table: dynamodb.Table;
+  public readonly table: dynamodb.ITable;
   constructor(scope: Construct, id: string, props: DatastoreProps) {
     super(scope, id);
 

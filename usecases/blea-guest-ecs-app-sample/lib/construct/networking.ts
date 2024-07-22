@@ -8,7 +8,7 @@ export interface NetworkingProps {
 }
 
 export class Networking extends Construct {
-  public readonly vpc: ec2.Vpc;
+  public readonly vpc: ec2.IVpc;
 
   constructor(scope: Construct, id: string, props: NetworkingProps) {
     super(scope, id);
