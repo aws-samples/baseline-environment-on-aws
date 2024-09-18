@@ -4,4 +4,5 @@ module.exports = {
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
   },
+  snapshotSerializers: ['<rootDir>/test/plugin/ignore-assets-snapshot-selializer.ts'],
 };
