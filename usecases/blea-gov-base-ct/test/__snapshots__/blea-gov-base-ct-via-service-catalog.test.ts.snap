@@ -62,7 +62,7 @@ exports[`Snapshot test for BLEGovABase Stack 1`] = `
             "DisableTemplateValidation": false,
             "Info": {
               "LoadTemplateFromURL": {
-                "Fn::Sub": "https://s3.\${AWS::Region}.\${AWS::URLSuffix}/cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}/e3ed32ec5c9eeee3f6c2a9266d975e5a5c8741e45c898f191844134fc88e8251.json",
+                "Fn::Sub": "https://s3.\${AWS::Region}.\${AWS::URLSuffix}/cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}/HASH-REPLACED.json",
               },
             },
             "Name": "v1",
