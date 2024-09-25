@@ -1720,21 +1720,7 @@ exports[`Snapshot test for BLEGovABaseCt Stack 1`] = `
               },
               "Effect": "Allow",
               "Principal": {
-                "Service": {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "logs.",
-                      {
-                        "Ref": "AWS::Region",
-                      },
-                      ".",
-                      {
-                        "Ref": "AWS::URLSuffix",
-                      },
-                    ],
-                  ],
-                },
+                "Service": "logs.amazonaws.com",
               },
               "Resource": "*",
             },
