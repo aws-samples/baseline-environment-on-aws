@@ -11,7 +11,7 @@ import {
 } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
-export interface LambdaPythonProps {
+interface LambdaPythonProps {
   alarmTopic: sns.ITopic;
   table: dynamodb.ITable;
   appKey: kms.IKey;
