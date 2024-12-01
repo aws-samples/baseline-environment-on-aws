@@ -21,7 +21,7 @@ variables:
   AWS_SECRET_ACCESS_KEY: ''
 
 .node-build: &node-build
-  - npm run depcheck && npm run depcheck --workspaces
+  - npm run unused
   - npm run lint:ci
   - npm run format:ci
   - npm run build --workspaces

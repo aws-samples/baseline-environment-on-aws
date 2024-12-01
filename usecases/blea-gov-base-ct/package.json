@@ -11,7 +11,6 @@
     "synth": "cdk synth -q && npm run synth:pipelines && npm run synth:sc",
     "synth:pipelines": "cdk synth -q --app \"npx ts-node --prefer-ts-exts bin/blea-gov-base-ct-via-cdk-pipelines.ts\"",
     "synth:sc": "cdk synth -q --app \"npx ts-node --prefer-ts-exts bin/blea-gov-base-ct-via-service-catalog.ts\"",
-    "depcheck": "depcheck",
     "build": "tsc --build",
     "clean": "tsc --build --clean && rm -f parameter.js parameter.d.ts && rm -rf cdk.out",
     "clean:product": "rm -rf product-stack-snapshots/",

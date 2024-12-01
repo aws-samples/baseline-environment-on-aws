@@ -16,9 +16,9 @@
     "usecases/*"
   ],
   "scripts": {
-    "depcheck": "depcheck",
+    "unused": "knip",
     "lint": "eslint --fix .",
-    "lint:ci": "eslint . && knip",
+    "lint:ci": "eslint .",
     "format": "prettier --write .",
     "format:ci": "prettier --check .",
     "release": "standard-version"
@@ -28,7 +28,6 @@
     "@types/node": "18.19.65",
     "@typescript-eslint/eslint-plugin": "^7.17.0",
     "@typescript-eslint/parser": "^7.18.0",
-    "depcheck": "^1.4.7",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",
     "knip": "^5.38.3",
