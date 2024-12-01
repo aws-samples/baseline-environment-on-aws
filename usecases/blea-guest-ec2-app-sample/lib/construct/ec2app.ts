@@ -9,7 +9,7 @@ import { aws_kms as kms } from 'aws-cdk-lib';
 import { region_info as ri } from 'aws-cdk-lib';
 import { aws_autoscaling as autoscaling } from 'aws-cdk-lib';
 
-export interface Ec2AppProps {
+interface Ec2AppProps {
   vpc: ec2.IVpc;
   cmk: kms.IKey;
 }

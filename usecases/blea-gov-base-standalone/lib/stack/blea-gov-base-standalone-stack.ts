@@ -5,7 +5,7 @@ import { Iam } from '../construct/iam';
 import { Logging } from '../construct/logging';
 import { Notification } from '../construct/notification';
 
-export interface BLEAGovBaseStandaloneProps extends StackProps {
+interface BLEAGovBaseStandaloneProps extends StackProps {
   securityNotifyEmail: string;
   securitySlackWorkspaceId: string;
   securitySlackChannelId: string;

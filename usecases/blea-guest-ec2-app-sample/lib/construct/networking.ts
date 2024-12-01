@@ -6,7 +6,7 @@ import { aws_kms as kms } from 'aws-cdk-lib';
 import { aws_iam as iam } from 'aws-cdk-lib';
 import { IpAddresses } from 'aws-cdk-lib/aws-ec2';
 
-export interface NetworkingProps {
+interface NetworkingProps {
   vpcCidr: string;
 }
 
