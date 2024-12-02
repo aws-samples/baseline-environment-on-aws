@@ -25,14 +25,14 @@
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
-    "@types/node": "18.19.65",
+    "@types/node": "18.19.67",
     "@typescript-eslint/eslint-plugin": "^7.17.0",
     "@typescript-eslint/parser": "^7.18.0",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",
     "knip": "^5.38.3",
     "lint-staged": "^15.2.10",
-    "prettier": "^3.3.3",
+    "prettier": "^3.4.1",
     "simple-git-hooks": "^2.11.1",
     "standard-version": "^9.5.0",
     "typescript": "~5.7.2"

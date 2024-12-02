@@ -12,13 +12,12 @@
     "build": "tsc --build",
     "clean": "tsc --build --clean && rm -f parameter.js parameter.d.ts && rm -rf cdk.out",
     "watch": "tsc -w",
-    "test": "jest",
-    "cdk": "cdk"
+    "test": "jest"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
-    "@types/node": "18.19.65",
-    "aws-cdk": "^2.170.0",
+    "@types/node": "18.19.67",
+    "aws-cdk": "^2.171.1",
     "jest": "^29.7.0",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
