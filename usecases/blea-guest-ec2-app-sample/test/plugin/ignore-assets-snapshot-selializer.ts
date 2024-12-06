@@ -2,6 +2,6 @@
 module.exports = {
   test: (val: any) => typeof val === 'string',
   serialize: (val: any) => {
-    return `"${val.replace(/[A-Fa-f0-9]{64}.(zip|json)/, 'HASH-REPLACED.$1')}"`;
+    return `"${val.replace(/[A-Fa-f0-9]{64}(\.zip|\.json|:[A-Za-z0-9_-]*)/, 'HASH-REPLACED$1')}"`;
   },
 };
