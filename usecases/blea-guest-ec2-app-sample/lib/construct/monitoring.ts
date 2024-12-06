@@ -3,7 +3,7 @@ import { Names, aws_iam as iam } from 'aws-cdk-lib';
 import { aws_chatbot as cb } from 'aws-cdk-lib';
 import { aws_sns as sns } from 'aws-cdk-lib';
 
-export interface MonitoringProps {
+interface MonitoringProps {
   monitoringNotifyEmail: string;
   monitoringSlackChannelId: string;
   monitoringSlackWorkspaceId: string;

@@ -5,7 +5,7 @@ import { Api } from '../construct/api';
 import { Datastore } from '../construct/datastore';
 import { Monitoring } from '../construct/monitoring';
 
-export interface BLEAServerlessApiStackProps extends StackProps {
+interface BLEAServerlessApiStackProps extends StackProps {
   monitoringNotifyEmail: string;
   monitoringSlackWorkspaceId: string;
   monitoringSlackChannelId: string;

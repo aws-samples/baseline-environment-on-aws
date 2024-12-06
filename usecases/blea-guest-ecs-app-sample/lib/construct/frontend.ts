@@ -12,7 +12,7 @@ import {
 import { ILoadBalancerV2 } from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 import { Construct } from 'constructs';
 
-export interface FrontendProps {
+interface FrontendProps {
   alb: ILoadBalancerV2;
   // -- Sample to use custom domain on CloudFront
   // hostedZoneId: string;
