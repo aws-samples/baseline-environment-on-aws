@@ -13,7 +13,8 @@
     "build": "tsc --build",
     "clean": "tsc --build --clean && rm -f parameter.js parameter.d.ts && rm -rf cdk.out",
     "watch": "tsc -w",
-    "test": "jest"
+    "test": "jest",
+    "cdk": "cdk"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
