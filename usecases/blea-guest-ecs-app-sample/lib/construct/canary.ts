@@ -10,7 +10,7 @@ import {
 import { IAlarm } from 'aws-cdk-lib/aws-cloudwatch';
 import { Construct } from 'constructs';
 
-interface CanaryProps {
+export interface CanaryProps {
   alarmTopic: sns.ITopic;
   appEndpoint: string;
 }

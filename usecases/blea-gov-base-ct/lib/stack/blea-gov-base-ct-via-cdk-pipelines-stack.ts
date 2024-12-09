@@ -4,7 +4,7 @@ import { Construct } from 'constructs';
 import { BLEAGovBaseCtStage } from '../stage/blea-gov-base-ct-stage';
 import { AppParameter } from '../../parameter';
 
-interface BLEAGovBaseCtPipelineStackProps extends cdk.StackProps {
+export interface BLEAGovBaseCtPipelineStackProps extends cdk.StackProps {
   targetParameters: AppParameter[];
   sourceRepository: string;
   sourceBranch: string;

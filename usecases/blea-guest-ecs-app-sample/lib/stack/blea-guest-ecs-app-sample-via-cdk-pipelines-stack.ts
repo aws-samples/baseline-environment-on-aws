@@ -5,7 +5,7 @@ import { pipelines } from 'aws-cdk-lib';
 import { BLEAEcsAppStage } from '../stage/blea-guest-ecs-app-sample-stage';
 import { AppParameter } from '../../parameter';
 
-interface BLEAEcsAppPipelineStackProps extends cdk.StackProps {
+export interface BLEAEcsAppPipelineStackProps extends cdk.StackProps {
   targetParameters: AppParameter[];
   env: Environment;
   sourceRepository: string;

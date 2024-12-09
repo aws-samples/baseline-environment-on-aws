@@ -5,7 +5,7 @@ import { Construct } from 'constructs';
 import { Dashboard } from '../construct/dashboard';
 import { Canary } from '../construct/canary';
 
-interface BLEAEcsAppMonitoringStackProps extends StackProps {
+export interface BLEAEcsAppMonitoringStackProps extends StackProps {
   alarmTopic: ITopic;
   appEndpoint: string;
   distributionId: string;

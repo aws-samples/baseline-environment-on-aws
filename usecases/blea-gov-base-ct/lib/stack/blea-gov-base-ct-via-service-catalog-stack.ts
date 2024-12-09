@@ -6,7 +6,7 @@ import { Logging } from '../construct/logging';
 import { Detection } from '../construct/detection';
 import { Role } from 'aws-cdk-lib/aws-iam';
 
-interface BLEAGovBaseCtScStackProps extends StackProps {
+export interface BLEAGovBaseCtScStackProps extends StackProps {
   securityNotifyEmail: string;
 }
 

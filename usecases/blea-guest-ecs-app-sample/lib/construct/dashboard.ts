@@ -3,7 +3,7 @@ import { aws_cloudwatch as cw } from 'aws-cdk-lib';
 import { IAlarm } from 'aws-cdk-lib/aws-cloudwatch';
 import { Construct } from 'constructs';
 
-interface DashboardProps {
+export interface DashboardProps {
   dashboardName: string;
   distributionId: string;
   albFullName: string;

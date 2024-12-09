@@ -10,7 +10,7 @@ import { aws_logs as cwl } from 'aws-cdk-lib';
 import { aws_events_targets as cwet } from 'aws-cdk-lib';
 import { ITopic } from 'aws-cdk-lib/aws-sns';
 
-interface DetectionProps {
+export interface DetectionProps {
   notifyEmail: string;
   cloudTrailLogGroupName: string;
 }

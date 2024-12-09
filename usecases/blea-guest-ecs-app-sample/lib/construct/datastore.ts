@@ -12,7 +12,7 @@ import {
 import { IDatabaseCluster } from 'aws-cdk-lib/aws-rds';
 import { Construct } from 'constructs';
 
-interface DatastoreProps {
+export interface DatastoreProps {
   vpc: ec2.IVpc;
   cmk: kms.IKey;
   alarmTopic: sns.ITopic;

@@ -3,7 +3,7 @@ import { aws_ec2 as ec2, aws_iam as iam, aws_kms as kms, aws_s3 as s3 } from 'aw
 import { IpAddresses } from 'aws-cdk-lib/aws-ec2';
 import { Construct } from 'constructs';
 
-interface NetworkingProps {
+export interface NetworkingProps {
   vpcCidr: string;
 }
 

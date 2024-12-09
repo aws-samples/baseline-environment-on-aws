@@ -9,7 +9,7 @@ import { Monitoring } from '../construct/monitoring';
 import { Networking } from '../construct/networking';
 import { ILoadBalancerV2 } from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 
-interface BLEAEcsAppStackProps extends StackProps {
+export interface BLEAEcsAppStackProps extends StackProps {
   monitoringNotifyEmail: string;
   monitoringSlackWorkspaceId: string;
   monitoringSlackChannelId: string;

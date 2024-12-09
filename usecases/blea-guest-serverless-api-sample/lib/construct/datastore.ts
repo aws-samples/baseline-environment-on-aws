@@ -8,7 +8,7 @@ import {
 } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
-interface DatastoreProps {
+export interface DatastoreProps {
   alarmTopic: sns.ITopic;
   appKey: kms.IKey;
 }

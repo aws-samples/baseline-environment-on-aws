@@ -3,7 +3,7 @@ import { Construct } from 'constructs';
 import { aws_ec2 as ec2 } from 'aws-cdk-lib';
 import { aws_iam as iam } from 'aws-cdk-lib';
 
-interface InvestigationInstanceProps {
+export interface InvestigationInstanceProps {
   vpc: ec2.IVpc;
 }
 

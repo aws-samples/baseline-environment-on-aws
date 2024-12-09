@@ -4,7 +4,7 @@ import { Construct } from 'constructs';
 import { Frontend } from '../construct/frontend';
 import { ILoadBalancerV2 } from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 
-interface BLEAEcsAppFrontendStackProps extends StackProps {
+export interface BLEAEcsAppFrontendStackProps extends StackProps {
   alarmTopic: ITopic;
   alb: ILoadBalancerV2;
   // -- Sample to use custom domain on CloudFront

@@ -6,7 +6,7 @@ import { Monitoring } from '../construct/monitoring';
 import { Networking } from '../construct/networking';
 import { InvestigationInstance } from '../construct/investigation-instance';
 
-interface BLEAEc2AppStackProps extends StackProps {
+export interface BLEAEc2AppStackProps extends StackProps {
   monitoringNotifyEmail: string;
   monitoringSlackWorkspaceId: string;
   monitoringSlackChannelId: string;

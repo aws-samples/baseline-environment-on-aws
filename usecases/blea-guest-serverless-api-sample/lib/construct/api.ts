@@ -12,7 +12,7 @@ import { Construct } from 'constructs';
 import { LambdaNodejs } from './lambda-nodejs';
 import { LambdaPython } from './lambda-python';
 
-interface ApiProps {
+export interface ApiProps {
   alarmTopic: sns.ITopic;
   appKey: IKey;
   table: ITable;

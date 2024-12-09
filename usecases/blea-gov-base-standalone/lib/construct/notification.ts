@@ -3,7 +3,7 @@ import { CfnSlackChannelConfiguration } from 'aws-cdk-lib/aws-chatbot';
 import { ManagedPolicy, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
 
-interface NotificationProps {
+export interface NotificationProps {
   topicArn: string;
   channelId: string;
   workspaceId: string;

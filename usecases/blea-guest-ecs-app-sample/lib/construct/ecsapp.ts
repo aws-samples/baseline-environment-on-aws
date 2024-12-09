@@ -22,7 +22,7 @@ import { ILoadBalancerV2 } from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 import { IDatabaseCluster } from 'aws-cdk-lib/aws-rds';
 import { Construct } from 'constructs';
 
-interface EcsAppProps {
+export interface EcsAppProps {
   vpc: ec2.IVpc;
   cmk: kms.IKey;
   alarmTopic: sns.ITopic;
