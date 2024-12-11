@@ -9,7 +9,6 @@ export default {
       entry: ['bin/*.ts', 'lambda/**/*.{js,ts}'],
       project: '**/*.{js,ts}',
       ignore: ['parameter.ts'], // FIXME: ignore to avoid unused errors on `stagingParameter`. We should use all sample values.
-      ignoreDependencies: ['eslint', 'prettier'],
     },
   },
 } as const satisfies KnipConfig;
