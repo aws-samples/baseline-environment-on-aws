@@ -1,10 +1,8 @@
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { CloudFormationProduct, Portfolio, ProductStack, ProductStackHistory } from 'aws-cdk-lib/aws-servicecatalog';
-import { Iam } from '../construct/iam';
-import { Logging } from '../construct/logging';
-import { Detection } from '../construct/detection';
 import { Role } from 'aws-cdk-lib/aws-iam';
+import { Detection, Iam, Logging } from '../construct';
 
 export interface BLEAGovBaseCtScStackProps extends StackProps {
   securityNotifyEmail: string;

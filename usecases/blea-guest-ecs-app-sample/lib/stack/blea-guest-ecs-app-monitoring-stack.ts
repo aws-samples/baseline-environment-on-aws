@@ -2,8 +2,7 @@ import { Stack, StackProps } from 'aws-cdk-lib';
 import { IAlarm } from 'aws-cdk-lib/aws-cloudwatch';
 import { ITopic } from 'aws-cdk-lib/aws-sns';
 import { Construct } from 'constructs';
-import { Dashboard } from '../construct/dashboard';
-import { Canary } from '../construct/canary';
+import { Canary, Dashboard } from '../construct';
 
 export interface BLEAEcsAppMonitoringStackProps extends StackProps {
   alarmTopic: ITopic;

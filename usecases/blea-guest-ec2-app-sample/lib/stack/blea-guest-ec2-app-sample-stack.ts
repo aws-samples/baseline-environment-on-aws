@@ -1,10 +1,7 @@
 import { Names, Stack, StackProps } from 'aws-cdk-lib';
 import { Key } from 'aws-cdk-lib/aws-kms';
 import { Construct } from 'constructs';
-import { Ec2App } from '../construct/ec2app';
-import { Monitoring } from '../construct/monitoring';
-import { Networking } from '../construct/networking';
-import { InvestigationInstance } from '../construct/investigation-instance';
+import { Ec2App, Monitoring, Networking, InvestigationInstance } from '../construct';
 
 export interface BLEAEc2AppStackProps extends StackProps {
   monitoringNotifyEmail: string;

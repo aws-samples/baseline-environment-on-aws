@@ -3,11 +3,8 @@ import { IAlarm } from 'aws-cdk-lib/aws-cloudwatch';
 import { Key } from 'aws-cdk-lib/aws-kms';
 import { ITopic } from 'aws-cdk-lib/aws-sns';
 import { Construct } from 'constructs';
-import { Datastore } from '../construct/datastore';
-import { EcsApp } from '../construct/ecsapp';
-import { Monitoring } from '../construct/monitoring';
-import { Networking } from '../construct/networking';
 import { ILoadBalancerV2 } from 'aws-cdk-lib/aws-elasticloadbalancingv2';
+import { Datastore, EcsApp, Monitoring, Networking } from '../construct';
 
 export interface BLEAEcsAppStackProps extends StackProps {
   monitoringNotifyEmail: string;

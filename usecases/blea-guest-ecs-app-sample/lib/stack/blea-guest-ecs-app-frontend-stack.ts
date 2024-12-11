@@ -1,8 +1,8 @@
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { ITopic } from 'aws-cdk-lib/aws-sns';
 import { Construct } from 'constructs';
-import { Frontend } from '../construct/frontend';
 import { ILoadBalancerV2 } from 'aws-cdk-lib/aws-elasticloadbalancingv2';
+import { Frontend } from '../construct';
 
 export interface BLEAEcsAppFrontendStackProps extends StackProps {
   alarmTopic: ITopic;

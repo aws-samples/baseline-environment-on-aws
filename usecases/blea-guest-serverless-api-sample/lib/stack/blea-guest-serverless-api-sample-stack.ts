@@ -1,9 +1,7 @@
 import { Names, Stack, StackProps } from 'aws-cdk-lib';
 import { Key } from 'aws-cdk-lib/aws-kms';
 import { Construct } from 'constructs';
-import { Api } from '../construct/api';
-import { Datastore } from '../construct/datastore';
-import { Monitoring } from '../construct/monitoring';
+import { Api, Datastore, Monitoring } from '../construct';
 
 export interface BLEAServerlessApiStackProps extends StackProps {
   monitoringNotifyEmail: string;
