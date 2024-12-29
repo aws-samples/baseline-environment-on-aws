@@ -30,7 +30,7 @@
     "eslint": "^9.17.0",
     "eslint-config-prettier": "^9.1.0",
     "knip": "^5.41.1",
-    "lint-staged": "^15.2.11",
+    "lint-staged": "^15.3.0",
     "prettier": "^3.4.2",
     "simple-git-hooks": "^2.11.1",
     "standard-version": "^9.5.0",
