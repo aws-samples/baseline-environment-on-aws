@@ -29,7 +29,7 @@
     "@types/node": "18.19.71",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^9.1.0",
-    "knip": "^5.42.2",
+    "knip": "^5.43.3",
     "lint-staged": "^15.4.1",
     "prettier": "^3.4.2",
     "simple-git-hooks": "^2.11.1",
