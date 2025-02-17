@@ -28,7 +28,7 @@
     "@types/jest": "^29.5.14",
     "@types/node": "18.19.76",
     "eslint": "^9.20.1",
-    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-prettier": "^10.0.1",
     "knip": "^5.44.1",
     "lint-staged": "^15.4.3",
     "prettier": "^3.5.1",
