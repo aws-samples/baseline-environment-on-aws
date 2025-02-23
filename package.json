@@ -31,7 +31,7 @@
     "eslint-config-prettier": "^9.1.0",
     "knip": "^5.44.5",
     "lint-staged": "^15.4.3",
-    "prettier": "^3.5.1",
+    "prettier": "^3.5.2",
     "simple-git-hooks": "^2.11.1",
     "standard-version": "^9.5.0",
     "typescript": "~5.7.3",
