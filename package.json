@@ -32,7 +32,7 @@
     "knip": "^5.50.5",
     "lint-staged": "^15.5.1",
     "prettier": "^3.5.3",
-    "simple-git-hooks": "^2.12.1",
+    "simple-git-hooks": "^2.13.0",
     "standard-version": "^9.5.0",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.30.1"
