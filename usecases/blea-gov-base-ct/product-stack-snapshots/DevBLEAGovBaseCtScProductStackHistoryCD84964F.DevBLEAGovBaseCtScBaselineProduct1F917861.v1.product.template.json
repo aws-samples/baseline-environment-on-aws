@@ -1,0 +1,1628 @@
+{
+  "Resources": {
+    "IamSysAdminPolicy03754AB3": {
+      "Type": "AWS::IAM::ManagedPolicy",
+      "Properties": {
+        "Description": "",
+        "Path": "/",
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "NotAction": "iam:*",
+              "Condition": {
+                "Bool": {
+                  "aws:MultiFactorAuthPresent": "true"
+                }
+              },
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "aws-portal:*Billing",
+              "Effect": "Deny",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "account:GetAccountInformation",
+                "billing:GetBillingData",
+                "billing:GetBillingDetails",
+                "billing:GetBillingNotifications",
+                "billing:GetBillingPreferences",
+                "billing:GetContractInformation",
+                "billing:GetCredits",
+                "billing:GetIAMAccessPreference",
+                "billing:GetSellerOfRecord",
+                "billing:ListBillingViews",
+                "billing:PutContractInformation",
+                "billing:RedeemCredits",
+                "billing:UpdateBillingPreferences",
+                "ce:CreateAnomalyMonitor",
+                "ce:CreateAnomalySubscription",
+                "ce:CreateNotificationSubscription",
+                "ce:CreateReport",
+                "ce:DeleteAnomalyMonitor",
+                "ce:DeleteAnomalySubscription",
+                "ce:DeleteNotificationSubscription",
+                "ce:DeleteReport",
+                "ce:DescribeNotificationSubscription",
+                "ce:DescribeReport",
+                "ce:GetAnomalies",
+                "ce:GetAnomalyMonitors",
+                "ce:GetAnomalySubscriptions",
+                "ce:GetCostAndUsage",
+                "ce:GetCostAndUsageWithResources",
+                "ce:GetCostCategories",
+                "ce:GetCostForecast",
+                "ce:GetDimensionValues",
+                "ce:GetPreferences",
+                "ce:GetReservationCoverage",
+                "ce:GetReservationPurchaseRecommendation",
+                "ce:GetReservationUtilization",
+                "ce:GetRightsizingRecommendation",
+                "ce:GetSavingsPlansCoverage",
+                "ce:GetSavingsPlansPurchaseRecommendation",
+                "ce:GetSavingsPlansUtilization",
+                "ce:GetSavingsPlansUtilizationDetails",
+                "ce:GetTags",
+                "ce:GetUsageForecast",
+                "ce:ListCostAllocationTags",
+                "ce:ListSavingsPlansPurchaseRecommendationGeneration",
+                "ce:ProvideAnomalyFeedback",
+                "ce:StartSavingsPlansPurchaseRecommendationGeneration",
+                "ce:UpdateAnomalyMonitor",
+                "ce:UpdateAnomalySubscription",
+                "ce:UpdateCostAllocationTagsStatus",
+                "ce:UpdateNotificationSubscription",
+                "ce:UpdatePreferences",
+                "consolidatedbilling:GetAccountBillingRole",
+                "consolidatedbilling:ListLinkedAccounts",
+                "cur:GetClassicReport",
+                "cur:GetClassicReportPreferences",
+                "cur:PutClassicReportPreferences",
+                "cur:ValidateReportDestination",
+                "freetier:GetFreeTierAlertPreference",
+                "freetier:GetFreeTierUsage",
+                "freetier:PutFreeTierAlertPreference",
+                "invoicing:GetInvoiceEmailDeliveryPreferences",
+                "invoicing:GetInvoicePDF",
+                "invoicing:ListInvoiceSummaries",
+                "invoicing:PutInvoiceEmailDeliveryPreferences",
+                "payments:CreatePaymentInstrument",
+                "payments:DeletePaymentInstrument",
+                "payments:GetPaymentInstrument",
+                "payments:GetPaymentStatus",
+                "payments:ListPaymentPreferences",
+                "payments:MakePayment",
+                "payments:UpdatePaymentPreferences",
+                "tax:BatchPutTaxRegistration",
+                "tax:DeleteTaxRegistration",
+                "tax:GetTaxInheritance",
+                "tax:GetTaxRegistrationDocument",
+                "tax:ListTaxRegistrations",
+                "tax:PutTaxInheritance"
+              ],
+              "Effect": "Deny",
+              "Resource": "*"
+            },
+            {
+              "Action": ["cloudtrail:DeleteTrail", "cloudtrail:StopLogging", "cloudtrail:UpdateTrail"],
+              "Effect": "Deny",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "kms:Create*",
+                "kms:Revoke*",
+                "kms:Enable*",
+                "kms:Get*",
+                "kms:Disable*",
+                "kms:Delete*",
+                "kms:Put*",
+                "kms:Update*"
+              ],
+              "Effect": "Deny",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      }
+    },
+    "IamSysAdminRoleB0EE4AA6": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Ref": "IamSysAdminPolicy03754AB3"
+          }
+        ]
+      }
+    },
+    "IamSysAdminGroup3543FAD1": {
+      "Type": "AWS::IAM::Group",
+      "Properties": {
+        "ManagedPolicyArns": [
+          {
+            "Ref": "IamSysAdminPolicy03754AB3"
+          }
+        ]
+      }
+    },
+    "IamIamAdminPolicy7A593281": {
+      "Type": "AWS::IAM::ManagedPolicy",
+      "Properties": {
+        "Description": "",
+        "Path": "/",
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "iam:*",
+              "Condition": {
+                "Bool": {
+                  "aws:MultiFactorAuthPresent": "true"
+                }
+              },
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "aws-portal:*Billing",
+              "Effect": "Deny",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "account:GetAccountInformation",
+                "billing:GetBillingData",
+                "billing:GetBillingDetails",
+                "billing:GetBillingNotifications",
+                "billing:GetBillingPreferences",
+                "billing:GetContractInformation",
+                "billing:GetCredits",
+                "billing:GetIAMAccessPreference",
+                "billing:GetSellerOfRecord",
+                "billing:ListBillingViews",
+                "billing:PutContractInformation",
+                "billing:RedeemCredits",
+                "billing:UpdateBillingPreferences",
+                "ce:CreateAnomalyMonitor",
+                "ce:CreateAnomalySubscription",
+                "ce:CreateNotificationSubscription",
+                "ce:CreateReport",
+                "ce:DeleteAnomalyMonitor",
+                "ce:DeleteAnomalySubscription",
+                "ce:DeleteNotificationSubscription",
+                "ce:DeleteReport",
+                "ce:DescribeNotificationSubscription",
+                "ce:DescribeReport",
+                "ce:GetAnomalies",
+                "ce:GetAnomalyMonitors",
+                "ce:GetAnomalySubscriptions",
+                "ce:GetCostAndUsage",
+                "ce:GetCostAndUsageWithResources",
+                "ce:GetCostCategories",
+                "ce:GetCostForecast",
+                "ce:GetDimensionValues",
+                "ce:GetPreferences",
+                "ce:GetReservationCoverage",
+                "ce:GetReservationPurchaseRecommendation",
+                "ce:GetReservationUtilization",
+                "ce:GetRightsizingRecommendation",
+                "ce:GetSavingsPlansCoverage",
+                "ce:GetSavingsPlansPurchaseRecommendation",
+                "ce:GetSavingsPlansUtilization",
+                "ce:GetSavingsPlansUtilizationDetails",
+                "ce:GetTags",
+                "ce:GetUsageForecast",
+                "ce:ListCostAllocationTags",
+                "ce:ListSavingsPlansPurchaseRecommendationGeneration",
+                "ce:ProvideAnomalyFeedback",
+                "ce:StartSavingsPlansPurchaseRecommendationGeneration",
+                "ce:UpdateAnomalyMonitor",
+                "ce:UpdateAnomalySubscription",
+                "ce:UpdateCostAllocationTagsStatus",
+                "ce:UpdateNotificationSubscription",
+                "ce:UpdatePreferences",
+                "consolidatedbilling:GetAccountBillingRole",
+                "consolidatedbilling:ListLinkedAccounts",
+                "cur:GetClassicReport",
+                "cur:GetClassicReportPreferences",
+                "cur:PutClassicReportPreferences",
+                "cur:ValidateReportDestination",
+                "freetier:GetFreeTierAlertPreference",
+                "freetier:GetFreeTierUsage",
+                "freetier:PutFreeTierAlertPreference",
+                "invoicing:GetInvoiceEmailDeliveryPreferences",
+                "invoicing:GetInvoicePDF",
+                "invoicing:ListInvoiceSummaries",
+                "invoicing:PutInvoiceEmailDeliveryPreferences",
+                "payments:CreatePaymentInstrument",
+                "payments:DeletePaymentInstrument",
+                "payments:GetPaymentInstrument",
+                "payments:GetPaymentStatus",
+                "payments:ListPaymentPreferences",
+                "payments:MakePayment",
+                "payments:UpdatePaymentPreferences",
+                "tax:BatchPutTaxRegistration",
+                "tax:DeleteTaxRegistration",
+                "tax:GetTaxInheritance",
+                "tax:GetTaxRegistrationDocument",
+                "tax:ListTaxRegistrations",
+                "tax:PutTaxInheritance"
+              ],
+              "Effect": "Deny",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      }
+    },
+    "IamIamAdminRole4B2B80CC": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Ref": "IamIamAdminPolicy7A593281"
+          }
+        ]
+      }
+    },
+    "IamIamAdminGroup25000CB5": {
+      "Type": "AWS::IAM::Group",
+      "Properties": {
+        "ManagedPolicyArns": [
+          {
+            "Ref": "IamIamAdminPolicy7A593281"
+          }
+        ]
+      }
+    },
+    "IamInstanceOpsPolicy3A664659": {
+      "Type": "AWS::IAM::ManagedPolicy",
+      "Properties": {
+        "Description": "",
+        "Path": "/",
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "ec2:*",
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "elasticloadbalancing:*",
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "cloudwatch:*",
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "autoscaling:*",
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "ec2:CreateVpc*",
+                "ec2:DeleteVpc*",
+                "ec2:ModifyVpc*",
+                "ec2:CreateSubnet*",
+                "ec2:DeleteSubnet*",
+                "ec2:ModifySubnet*",
+                "ec2:Create*Route*",
+                "ec2:DeleteRoute*",
+                "ec2:AssociateRoute*",
+                "ec2:ReplaceRoute*",
+                "ec2:CreateVpn*",
+                "ec2:DeleteVpn*",
+                "ec2:AttachVpn*",
+                "ec2:DetachVpn*",
+                "ec2:CreateNetworkAcl*",
+                "ec2:DeleteNetworkAcl*",
+                "ec2:ReplaceNetworkAcl*",
+                "ec2:*Gateway*",
+                "ec2:*PeeringConnection*"
+              ],
+              "Effect": "Deny",
+              "Resource": "*"
+            },
+            {
+              "Action": "aws-portal:*Billing",
+              "Effect": "Deny",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "account:GetAccountInformation",
+                "billing:GetBillingData",
+                "billing:GetBillingDetails",
+                "billing:GetBillingNotifications",
+                "billing:GetBillingPreferences",
+                "billing:GetContractInformation",
+                "billing:GetCredits",
+                "billing:GetIAMAccessPreference",
+                "billing:GetSellerOfRecord",
+                "billing:ListBillingViews",
+                "billing:PutContractInformation",
+                "billing:RedeemCredits",
+                "billing:UpdateBillingPreferences",
+                "ce:CreateAnomalyMonitor",
+                "ce:CreateAnomalySubscription",
+                "ce:CreateNotificationSubscription",
+                "ce:CreateReport",
+                "ce:DeleteAnomalyMonitor",
+                "ce:DeleteAnomalySubscription",
+                "ce:DeleteNotificationSubscription",
+                "ce:DeleteReport",
+                "ce:DescribeNotificationSubscription",
+                "ce:DescribeReport",
+                "ce:GetAnomalies",
+                "ce:GetAnomalyMonitors",
+                "ce:GetAnomalySubscriptions",
+                "ce:GetCostAndUsage",
+                "ce:GetCostAndUsageWithResources",
+                "ce:GetCostCategories",
+                "ce:GetCostForecast",
+                "ce:GetDimensionValues",
+                "ce:GetPreferences",
+                "ce:GetReservationCoverage",
+                "ce:GetReservationPurchaseRecommendation",
+                "ce:GetReservationUtilization",
+                "ce:GetRightsizingRecommendation",
+                "ce:GetSavingsPlansCoverage",
+                "ce:GetSavingsPlansPurchaseRecommendation",
+                "ce:GetSavingsPlansUtilization",
+                "ce:GetSavingsPlansUtilizationDetails",
+                "ce:GetTags",
+                "ce:GetUsageForecast",
+                "ce:ListCostAllocationTags",
+                "ce:ListSavingsPlansPurchaseRecommendationGeneration",
+                "ce:ProvideAnomalyFeedback",
+                "ce:StartSavingsPlansPurchaseRecommendationGeneration",
+                "ce:UpdateAnomalyMonitor",
+                "ce:UpdateAnomalySubscription",
+                "ce:UpdateCostAllocationTagsStatus",
+                "ce:UpdateNotificationSubscription",
+                "ce:UpdatePreferences",
+                "consolidatedbilling:GetAccountBillingRole",
+                "consolidatedbilling:ListLinkedAccounts",
+                "cur:GetClassicReport",
+                "cur:GetClassicReportPreferences",
+                "cur:PutClassicReportPreferences",
+                "cur:ValidateReportDestination",
+                "freetier:GetFreeTierAlertPreference",
+                "freetier:GetFreeTierUsage",
+                "freetier:PutFreeTierAlertPreference",
+                "invoicing:GetInvoiceEmailDeliveryPreferences",
+                "invoicing:GetInvoicePDF",
+                "invoicing:ListInvoiceSummaries",
+                "invoicing:PutInvoiceEmailDeliveryPreferences",
+                "payments:CreatePaymentInstrument",
+                "payments:DeletePaymentInstrument",
+                "payments:GetPaymentInstrument",
+                "payments:GetPaymentStatus",
+                "payments:ListPaymentPreferences",
+                "payments:MakePayment",
+                "payments:UpdatePaymentPreferences",
+                "tax:BatchPutTaxRegistration",
+                "tax:DeleteTaxRegistration",
+                "tax:GetTaxInheritance",
+                "tax:GetTaxRegistrationDocument",
+                "tax:ListTaxRegistrations",
+                "tax:PutTaxInheritance"
+              ],
+              "Effect": "Deny",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "kms:Create*",
+                "kms:Revoke*",
+                "kms:Enable*",
+                "kms:Get*",
+                "kms:Disable*",
+                "kms:Delete*",
+                "kms:Put*",
+                "kms:Update*"
+              ],
+              "Effect": "Deny",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      }
+    },
+    "IamInstanceOpsRole580371E4": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Ref": "IamInstanceOpsPolicy3A664659"
+          }
+        ]
+      }
+    },
+    "IamInstanceOpsGroup05587F7C": {
+      "Type": "AWS::IAM::Group",
+      "Properties": {
+        "ManagedPolicyArns": [
+          {
+            "Ref": "IamInstanceOpsPolicy3A664659"
+          }
+        ]
+      }
+    },
+    "IamReadOnlyAdminPolicyB7107EA2": {
+      "Type": "AWS::IAM::ManagedPolicy",
+      "Properties": {
+        "Description": "",
+        "Path": "/",
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "appstream:Get*",
+                "autoscaling:Describe*",
+                "cloudformation:DescribeStacks",
+                "cloudformation:DescribeStackEvents",
+                "cloudformation:DescribeStackResource",
+                "cloudformation:DescribeStackResources",
+                "cloudformation:GetTemplate",
+                "cloudformation:List*",
+                "cloudfront:Get*",
+                "cloudfront:List*",
+                "cloudtrail:DescribeTrails",
+                "cloudtrail:GetTrailStatus",
+                "cloudwatch:Describe*",
+                "cloudwatch:Get*",
+                "cloudwatch:List*",
+                "directconnect:Describe*",
+                "dynamodb:GetItem",
+                "dynamodb:BatchGetItem",
+                "dynamodb:Query",
+                "dynamodb:Scan",
+                "dynamodb:DescribeTable",
+                "dynamodb:ListTables",
+                "ec2:Describe*",
+                "elasticache:Describe*",
+                "elasticbeanstalk:Check*",
+                "elasticbeanstalk:Describe*",
+                "elasticbeanstalk:List*",
+                "elasticbeanstalk:RequestEnvironmentInfo",
+                "elasticbeanstalk:RetrieveEnvironmentInfo",
+                "elasticloadbalancing:Describe*",
+                "elastictranscoder:Read*",
+                "elastictranscoder:List*",
+                "iam:List*",
+                "iam:Get*",
+                "kinesis:Describe*",
+                "kinesis:Get*",
+                "kinesis:List*",
+                "opsworks:Describe*",
+                "opsworks:Get*",
+                "route53:Get*",
+                "route53:List*",
+                "redshift:Describe*",
+                "redshift:ViewQueriesInConsole",
+                "rds:Describe*",
+                "rds:ListTagsForResource",
+                "s3:Get*",
+                "s3:List*",
+                "sdb:GetAttributes",
+                "sdb:List*",
+                "sdb:Select*",
+                "ses:Get*",
+                "ses:List*",
+                "sns:Get*",
+                "sns:List*",
+                "sqs:GetQueueAttributes",
+                "sqs:ListQueues",
+                "sqs:ReceiveMessage",
+                "storagegateway:List*",
+                "storagegateway:Describe*",
+                "trustedadvisor:Describe*"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "aws-portal:*Billing",
+              "Effect": "Deny",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "account:GetAccountInformation",
+                "billing:GetBillingData",
+                "billing:GetBillingDetails",
+                "billing:GetBillingNotifications",
+                "billing:GetBillingPreferences",
+                "billing:GetContractInformation",
+                "billing:GetCredits",
+                "billing:GetIAMAccessPreference",
+                "billing:GetSellerOfRecord",
+                "billing:ListBillingViews",
+                "billing:PutContractInformation",
+                "billing:RedeemCredits",
+                "billing:UpdateBillingPreferences",
+                "ce:CreateAnomalyMonitor",
+                "ce:CreateAnomalySubscription",
+                "ce:CreateNotificationSubscription",
+                "ce:CreateReport",
+                "ce:DeleteAnomalyMonitor",
+                "ce:DeleteAnomalySubscription",
+                "ce:DeleteNotificationSubscription",
+                "ce:DeleteReport",
+                "ce:DescribeNotificationSubscription",
+                "ce:DescribeReport",
+                "ce:GetAnomalies",
+                "ce:GetAnomalyMonitors",
+                "ce:GetAnomalySubscriptions",
+                "ce:GetCostAndUsage",
+                "ce:GetCostAndUsageWithResources",
+                "ce:GetCostCategories",
+                "ce:GetCostForecast",
+                "ce:GetDimensionValues",
+                "ce:GetPreferences",
+                "ce:GetReservationCoverage",
+                "ce:GetReservationPurchaseRecommendation",
+                "ce:GetReservationUtilization",
+                "ce:GetRightsizingRecommendation",
+                "ce:GetSavingsPlansCoverage",
+                "ce:GetSavingsPlansPurchaseRecommendation",
+                "ce:GetSavingsPlansUtilization",
+                "ce:GetSavingsPlansUtilizationDetails",
+                "ce:GetTags",
+                "ce:GetUsageForecast",
+                "ce:ListCostAllocationTags",
+                "ce:ListSavingsPlansPurchaseRecommendationGeneration",
+                "ce:ProvideAnomalyFeedback",
+                "ce:StartSavingsPlansPurchaseRecommendationGeneration",
+                "ce:UpdateAnomalyMonitor",
+                "ce:UpdateAnomalySubscription",
+                "ce:UpdateCostAllocationTagsStatus",
+                "ce:UpdateNotificationSubscription",
+                "ce:UpdatePreferences",
+                "consolidatedbilling:GetAccountBillingRole",
+                "consolidatedbilling:ListLinkedAccounts",
+                "cur:GetClassicReport",
+                "cur:GetClassicReportPreferences",
+                "cur:PutClassicReportPreferences",
+                "cur:ValidateReportDestination",
+                "freetier:GetFreeTierAlertPreference",
+                "freetier:GetFreeTierUsage",
+                "freetier:PutFreeTierAlertPreference",
+                "invoicing:GetInvoiceEmailDeliveryPreferences",
+                "invoicing:GetInvoicePDF",
+                "invoicing:ListInvoiceSummaries",
+                "invoicing:PutInvoiceEmailDeliveryPreferences",
+                "payments:CreatePaymentInstrument",
+                "payments:DeletePaymentInstrument",
+                "payments:GetPaymentInstrument",
+                "payments:GetPaymentStatus",
+                "payments:ListPaymentPreferences",
+                "payments:MakePayment",
+                "payments:UpdatePaymentPreferences",
+                "tax:BatchPutTaxRegistration",
+                "tax:DeleteTaxRegistration",
+                "tax:GetTaxInheritance",
+                "tax:GetTaxRegistrationDocument",
+                "tax:ListTaxRegistrations",
+                "tax:PutTaxInheritance"
+              ],
+              "Effect": "Deny",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      }
+    },
+    "IamReadOnlyAdminRoleD519CCF3": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Ref": "IamReadOnlyAdminPolicyB7107EA2"
+          }
+        ]
+      }
+    },
+    "IamReadOnlyAdminGroupEA35CD95": {
+      "Type": "AWS::IAM::Group",
+      "Properties": {
+        "ManagedPolicyArns": [
+          {
+            "Ref": "IamReadOnlyAdminPolicyB7107EA2"
+          }
+        ]
+      }
+    },
+    "LoggingCloudTrailAccessLogBucketA7B773C8": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "AccessControl": "LogDeliveryWrite",
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256"
+              }
+            }
+          ]
+        },
+        "LifecycleConfiguration": {
+          "Rules": [
+            {
+              "ExpirationInDays": 2555,
+              "Status": "Enabled",
+              "Transitions": [
+                {
+                  "StorageClass": "GLACIER",
+                  "TransitionInDays": 90
+                }
+              ]
+            }
+          ]
+        },
+        "OwnershipControls": {
+          "Rules": [
+            {
+              "ObjectOwnership": "ObjectWriter"
+            }
+          ]
+        },
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true
+        },
+        "VersioningConfiguration": {
+          "Status": "Enabled"
+        }
+      },
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain"
+    },
+    "LoggingCloudTrailAccessLogBucketPolicyE58866E2": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "Bucket": {
+          "Ref": "LoggingCloudTrailAccessLogBucketA7B773C8"
+        },
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "s3:*",
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false"
+                }
+              },
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*"
+              },
+              "Resource": [
+                {
+                  "Fn::GetAtt": ["LoggingCloudTrailAccessLogBucketA7B773C8", "Arn"]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": ["LoggingCloudTrailAccessLogBucketA7B773C8", "Arn"]
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Action": "s3:Delete*",
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*"
+              },
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Fn::GetAtt": ["LoggingCloudTrailAccessLogBucketA7B773C8", "Arn"]
+                    },
+                    "/*"
+                  ]
+                ]
+              },
+              "Sid": "Restrict Delete* Actions"
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      }
+    },
+    "LoggingCloudTrailBucket7560781D": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "AccessControl": "Private",
+        "LoggingConfiguration": {
+          "DestinationBucketName": {
+            "Ref": "LoggingCloudTrailAccessLogBucketA7B773C8"
+          },
+          "LogFilePrefix": "cloudtraillogs"
+        },
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true
+        },
+        "VersioningConfiguration": {
+          "Status": "Enabled"
+        }
+      },
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain"
+    },
+    "LoggingCloudTrailBucketPolicy4004472F": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "Bucket": {
+          "Ref": "LoggingCloudTrailBucket7560781D"
+        },
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "s3:*",
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false"
+                }
+              },
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*"
+              },
+              "Resource": [
+                {
+                  "Fn::GetAtt": ["LoggingCloudTrailBucket7560781D", "Arn"]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": ["LoggingCloudTrailBucket7560781D", "Arn"]
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Action": "s3:Delete*",
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*"
+              },
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Fn::GetAtt": ["LoggingCloudTrailBucket7560781D", "Arn"]
+                    },
+                    "/*"
+                  ]
+                ]
+              },
+              "Sid": "Restrict Delete* Actions"
+            },
+            {
+              "Action": "s3:GetBucketAcl",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "cloudtrail.amazonaws.com"
+              },
+              "Resource": {
+                "Fn::GetAtt": ["LoggingCloudTrailBucket7560781D", "Arn"]
+              }
+            },
+            {
+              "Action": "s3:PutObject",
+              "Condition": {
+                "StringEquals": {
+                  "s3:x-amz-acl": "bucket-owner-full-control"
+                }
+              },
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "cloudtrail.amazonaws.com"
+              },
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Fn::GetAtt": ["LoggingCloudTrailBucket7560781D", "Arn"]
+                    },
+                    "/AWSLogs/",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    "/*"
+                  ]
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      }
+    },
+    "LoggingCloudTrailKey43327553": {
+      "Type": "AWS::KMS::Key",
+      "Properties": {
+        "Description": "BLEA Governance Base: CMK for CloudTrail",
+        "EnableKeyRotation": true,
+        "KeyPolicy": {
+          "Statement": [
+            {
+              "Action": "kms:*",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":root"
+                    ]
+                  ]
+                }
+              },
+              "Resource": "*"
+            },
+            {
+              "Action": "kms:GenerateDataKey*",
+              "Condition": {
+                "StringLike": {
+                  "kms:EncryptionContext:aws:cloudtrail:arn": [
+                    {
+                      "Fn::Join": [
+                        "",
+                        [
+                          "arn:aws:cloudtrail:*:",
+                          {
+                            "Ref": "AWS::AccountId"
+                          },
+                          ":trail/*"
+                        ]
+                      ]
+                    }
+                  ]
+                }
+              },
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "cloudtrail.amazonaws.com"
+              },
+              "Resource": "*"
+            },
+            {
+              "Action": "kms:DescribeKey",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "cloudtrail.amazonaws.com"
+              },
+              "Resource": "*"
+            },
+            {
+              "Action": ["kms:Decrypt", "kms:ReEncryptFrom"],
+              "Condition": {
+                "StringEquals": {
+                  "kms:CallerAccount": {
+                    "Ref": "AWS::AccountId"
+                  }
+                },
+                "StringLike": {
+                  "kms:EncryptionContext:aws:cloudtrail:arn": [
+                    {
+                      "Fn::Join": [
+                        "",
+                        [
+                          "arn:aws:cloudtrail:*:",
+                          {
+                            "Ref": "AWS::AccountId"
+                          },
+                          ":trail/*"
+                        ]
+                      ]
+                    }
+                  ]
+                }
+              },
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": "*"
+              },
+              "Resource": "*"
+            },
+            {
+              "Action": ["kms:Encrypt*", "kms:Decrypt*", "kms:ReEncrypt*", "kms:GenerateDataKey*", "kms:Describe*"],
+              "Condition": {
+                "ArnEquals": {
+                  "kms:EncryptionContext:aws:logs:arn": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:aws:logs:",
+                        {
+                          "Ref": "AWS::Region"
+                        },
+                        ":",
+                        {
+                          "Ref": "AWS::AccountId"
+                        },
+                        ":log-group:*"
+                      ]
+                    ]
+                  }
+                }
+              },
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "logs.amazonaws.com"
+              },
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain"
+    },
+    "LoggingCloudTrailKeyAlias65A5FEEA": {
+      "Type": "AWS::KMS::Alias",
+      "Properties": {
+        "AliasName": "alias/DevBLEAGovBaseCtScBaselineProduct1F917861LoggingF234D00D",
+        "TargetKeyId": {
+          "Fn::GetAtt": ["LoggingCloudTrailKey43327553", "Arn"]
+        }
+      }
+    },
+    "LoggingCloudTrailLogGroupEFC12822": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "KmsKeyId": {
+          "Fn::GetAtt": ["LoggingCloudTrailKey43327553", "Arn"]
+        },
+        "RetentionInDays": 90
+      },
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain"
+    },
+    "LoggingCloudTrailLogsRoleE1DD6030": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "cloudtrail.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      }
+    },
+    "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": ["logs:PutLogEvents", "logs:CreateLogStream"],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": ["LoggingCloudTrailLogGroupEFC12822", "Arn"]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "Roles": [
+          {
+            "Ref": "LoggingCloudTrailLogsRoleE1DD6030"
+          }
+        ]
+      }
+    },
+    "LoggingCloudTrail44E92DB9": {
+      "Type": "AWS::CloudTrail::Trail",
+      "Properties": {
+        "CloudWatchLogsLogGroupArn": {
+          "Fn::GetAtt": ["LoggingCloudTrailLogGroupEFC12822", "Arn"]
+        },
+        "CloudWatchLogsRoleArn": {
+          "Fn::GetAtt": ["LoggingCloudTrailLogsRoleE1DD6030", "Arn"]
+        },
+        "EnableLogFileValidation": true,
+        "EventSelectors": [],
+        "IncludeGlobalServiceEvents": true,
+        "IsLogging": true,
+        "IsMultiRegionTrail": true,
+        "KMSKeyId": {
+          "Fn::GetAtt": ["LoggingCloudTrailKey43327553", "Arn"]
+        },
+        "S3BucketName": {
+          "Ref": "LoggingCloudTrailBucket7560781D"
+        }
+      },
+      "DependsOn": [
+        "LoggingCloudTrailLogsRoleDefaultPolicy7A5B650C",
+        "LoggingCloudTrailLogsRoleE1DD6030",
+        "LoggingCloudTrailBucketPolicy4004472F"
+      ]
+    },
+    "DetectionDefaultSgClosedRuleFED7310D": {
+      "Type": "AWS::Config::ConfigRule",
+      "Properties": {
+        "ConfigRuleName": "bb-default-security-group-closed",
+        "Description": "Checks that the default security group of any Amazon Virtual Private Cloud (VPC) does not allow inbound or outbound traffic. The rule is non-compliant if the default security group has one or more inbound or outbound traffic.",
+        "Scope": {
+          "ComplianceResourceTypes": ["AWS::EC2::SecurityGroup"]
+        },
+        "Source": {
+          "Owner": "AWS",
+          "SourceIdentifier": "VPC_DEFAULT_SECURITY_GROUP_CLOSED"
+        }
+      }
+    },
+    "DetectionDefaultSgRemediationRoleAEF5626C": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ssm.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": ["arn:aws:iam::aws:policy/service-role/AmazonSSMAutomationRole"],
+        "Path": "/"
+      }
+    },
+    "DetectionDefaultSgRemediationRoleDefaultPolicy87C90FDE": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ec2:RevokeSecurityGroupIngress",
+                "ec2:RevokeSecurityGroupEgress",
+                "ec2:DescribeSecurityGroups"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "iam:PassRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": ["DetectionDefaultSgRemediationRoleAEF5626C", "Arn"]
+              }
+            },
+            {
+              "Action": "ssm:StartAutomationExecution",
+              "Effect": "Allow",
+              "Resource": "arn:aws:ssm:::automation-definition/AWSConfigRemediation-RemoveVPCDefaultSecurityGroupRules"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "DetectionDefaultSgRemediationRoleDefaultPolicy87C90FDE",
+        "Roles": [
+          {
+            "Ref": "DetectionDefaultSgRemediationRoleAEF5626C"
+          }
+        ]
+      }
+    },
+    "DetectionDefaultSgRemediation21C0DB33": {
+      "Type": "AWS::Config::RemediationConfiguration",
+      "Properties": {
+        "Automatic": true,
+        "ConfigRuleName": {
+          "Ref": "DetectionDefaultSgClosedRuleFED7310D"
+        },
+        "MaximumAutomaticAttempts": 5,
+        "Parameters": {
+          "AutomationAssumeRole": {
+            "StaticValue": {
+              "Values": [
+                {
+                  "Fn::GetAtt": ["DetectionDefaultSgRemediationRoleAEF5626C", "Arn"]
+                }
+              ]
+            }
+          },
+          "GroupId": {
+            "ResourceValue": {
+              "Value": "RESOURCE_ID"
+            }
+          }
+        },
+        "RetryAttemptSeconds": 60,
+        "TargetId": "AWSConfigRemediation-RemoveVPCDefaultSecurityGroupRules",
+        "TargetType": "SSM_DOCUMENT",
+        "TargetVersion": "1"
+      }
+    },
+    "DetectionAlarmTopic36C4BB55": {
+      "Type": "AWS::SNS::Topic"
+    },
+    "DetectionAlarmTopicPolicyDEB08BF4": {
+      "Type": "AWS::SNS::TopicPolicy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "cloudwatch.amazonaws.com"
+              },
+              "Resource": {
+                "Ref": "DetectionAlarmTopic36C4BB55"
+              },
+              "Sid": "0"
+            },
+            {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "events.amazonaws.com"
+              },
+              "Resource": {
+                "Ref": "DetectionAlarmTopic36C4BB55"
+              },
+              "Sid": "1"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Topics": [
+          {
+            "Ref": "DetectionAlarmTopic36C4BB55"
+          }
+        ]
+      }
+    },
+    "DetectionSecurityAlarmEmail872B09F1": {
+      "Type": "AWS::SNS::Subscription",
+      "Properties": {
+        "Endpoint": "notify-security@example.com",
+        "Protocol": "email",
+        "TopicArn": {
+          "Ref": "DetectionAlarmTopic36C4BB55"
+        }
+      }
+    },
+    "DetectionDefaultSgClosedEventRuleFB96D536": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "Description": "CloudWatch Event Rule to send notification on Config Rule compliance changes.",
+        "EventPattern": {
+          "source": ["aws.config"],
+          "detail-type": ["Config Rules Compliance Change"],
+          "detail": {
+            "configRuleName": ["bb-default-security-group-closed"],
+            "newEvaluationResult": {
+              "complianceType": ["NON_COMPLIANT"]
+            }
+          }
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Ref": "DetectionAlarmTopic36C4BB55"
+            },
+            "Id": "Target0"
+          }
+        ]
+      }
+    },
+    "DetectionAwsHealthEventRule6825AFCC": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "Description": "Notify AWS Health event",
+        "EventPattern": {
+          "source": ["aws.health"],
+          "detail-type": ["AWS Health Event"]
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Ref": "DetectionAlarmTopic36C4BB55"
+            },
+            "Id": "Target0"
+          }
+        ]
+      }
+    },
+    "DetectionSgChangedEventRule80666B19": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "Description": "Notify to create, update or delete a Security Group.",
+        "EventPattern": {
+          "source": ["aws.ec2"],
+          "detail-type": ["AWS API Call via CloudTrail"],
+          "detail": {
+            "eventSource": ["ec2.amazonaws.com"],
+            "eventName": [
+              "AuthorizeSecurityGroupIngress",
+              "AuthorizeSecurityGroupEgress",
+              "RevokeSecurityGroupIngress",
+              "RevokeSecurityGroupEgress"
+            ]
+          }
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Ref": "DetectionAlarmTopic36C4BB55"
+            },
+            "Id": "Target0"
+          }
+        ]
+      }
+    },
+    "DetectionNetworkAclChangeEventRuleE99FF49F": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "Description": "Notify to create, update or delete a Network ACL.",
+        "EventPattern": {
+          "source": ["aws.ec2"],
+          "detail-type": ["AWS API Call via CloudTrail"],
+          "detail": {
+            "eventSource": ["ec2.amazonaws.com"],
+            "eventName": [
+              "CreateNetworkAcl",
+              "CreateNetworkAclEntry",
+              "DeleteNetworkAcl",
+              "DeleteNetworkAclEntry",
+              "ReplaceNetworkAclEntry",
+              "ReplaceNetworkAclAssociation"
+            ]
+          }
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Ref": "DetectionAlarmTopic36C4BB55"
+            },
+            "Id": "Target0"
+          }
+        ]
+      }
+    },
+    "DetectionCloudTrailChangeEventRuleA526075C": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "Description": "Notify to change on CloudTrail log configuration",
+        "EventPattern": {
+          "detail-type": ["AWS API Call via CloudTrail"],
+          "detail": {
+            "eventSource": ["cloudtrail.amazonaws.com"],
+            "eventName": ["StopLogging", "DeleteTrail", "UpdateTrail"]
+          }
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Ref": "DetectionAlarmTopic36C4BB55"
+            },
+            "Id": "Target0"
+          }
+        ]
+      }
+    },
+    "DetectionIAMPolicyChangeFilterA31FCC40": {
+      "Type": "AWS::Logs::MetricFilter",
+      "Properties": {
+        "FilterPattern": "{($.eventName=DeleteGroupPolicy)||($.eventName=DeleteRolePolicy)||($.eventName=DeleteUserPolicy)||($.eventName=PutGroupPolicy)||($.eventName=PutRolePolicy)||($.eventName=PutUserPolicy)||($.eventName=CreatePolicy)||($.eventName=DeletePolicy)||($.eventName=CreatePolicyVersion)||($.eventName=DeletePolicyVersion)||($.eventName=AttachRolePolicy)||($.eventName=DetachRolePolicy)||($.eventName=AttachUserPolicy)||($.eventName=DetachUserPolicy)||($.eventName=AttachGroupPolicy)||($.eventName=DetachGroupPolicy)}",
+        "LogGroupName": {
+          "Ref": "LoggingCloudTrailLogGroupEFC12822"
+        },
+        "MetricTransformations": [
+          {
+            "MetricName": "IAMPolicyEventCount",
+            "MetricNamespace": "CloudTrailMetrics",
+            "MetricValue": "1"
+          }
+        ]
+      }
+    },
+    "DetectionIAMPolicyChangeAlarm7DBC7A65": {
+      "Type": "AWS::CloudWatch::Alarm",
+      "Properties": {
+        "ActionsEnabled": true,
+        "AlarmActions": [
+          {
+            "Ref": "DetectionAlarmTopic36C4BB55"
+          }
+        ],
+        "AlarmDescription": "IAM Configuration changes detected!",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "DatapointsToAlarm": 1,
+        "EvaluationPeriods": 1,
+        "MetricName": "IAMPolicyEventCount",
+        "Namespace": "CloudTrailMetrics",
+        "Period": 300,
+        "Statistic": "Sum",
+        "Threshold": 1
+      }
+    },
+    "DetectionUnauthorizedAttemptsFilterCA20EEAA": {
+      "Type": "AWS::Logs::MetricFilter",
+      "Properties": {
+        "FilterPattern": "{($.errorCode = \"*UnauthorizedOperation\" || $.errorCode = \"AccessDenied*\") && ($.eventName != \"Decrypt\" || $.userIdentity.invokedBy != \"config.amazonaws.com\" )}",
+        "LogGroupName": {
+          "Ref": "LoggingCloudTrailLogGroupEFC12822"
+        },
+        "MetricTransformations": [
+          {
+            "MetricName": "UnauthorizedAttemptsEventCount",
+            "MetricNamespace": "CloudTrailMetrics",
+            "MetricValue": "1"
+          }
+        ]
+      }
+    },
+    "DetectionUnauthorizedAttemptsAlarmB897676B": {
+      "Type": "AWS::CloudWatch::Alarm",
+      "Properties": {
+        "ActionsEnabled": true,
+        "AlarmActions": [
+          {
+            "Ref": "DetectionAlarmTopic36C4BB55"
+          }
+        ],
+        "AlarmDescription": "Multiple unauthorized actions or logins attempted!",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "DatapointsToAlarm": 1,
+        "EvaluationPeriods": 1,
+        "MetricName": "UnauthorizedAttemptsEventCount",
+        "Namespace": "CloudTrailMetrics",
+        "Period": 300,
+        "Statistic": "Sum",
+        "Threshold": 5
+      }
+    },
+    "DetectionNewAccessKeyCreatedFilter011F7D99": {
+      "Type": "AWS::Logs::MetricFilter",
+      "Properties": {
+        "FilterPattern": "{($.eventName=CreateAccessKey)}",
+        "LogGroupName": {
+          "Ref": "LoggingCloudTrailLogGroupEFC12822"
+        },
+        "MetricTransformations": [
+          {
+            "MetricName": "NewAccessKeyCreatedEventCount",
+            "MetricNamespace": "CloudTrailMetrics",
+            "MetricValue": "1"
+          }
+        ]
+      }
+    },
+    "DetectionNewAccessKeyCreatedAlarm00969636": {
+      "Type": "AWS::CloudWatch::Alarm",
+      "Properties": {
+        "ActionsEnabled": true,
+        "AlarmActions": [
+          {
+            "Ref": "DetectionAlarmTopic36C4BB55"
+          }
+        ],
+        "AlarmDescription": "Warning: New IAM access Eey was created. Please be sure this action was neccessary.",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "DatapointsToAlarm": 1,
+        "EvaluationPeriods": 1,
+        "MetricName": "NewAccessKeyCreatedEventCount",
+        "Namespace": "CloudTrailMetrics",
+        "Period": 300,
+        "Statistic": "Sum",
+        "Threshold": 1
+      }
+    },
+    "DetectionRootUserActivityFilter5C9C4989": {
+      "Type": "AWS::Logs::MetricFilter",
+      "Properties": {
+        "FilterPattern": "{$.userIdentity.type=\"Root\" && $.userIdentity.invokedBy NOT EXISTS && $.eventType !=\"AwsServiceEvent\"}",
+        "LogGroupName": {
+          "Ref": "LoggingCloudTrailLogGroupEFC12822"
+        },
+        "MetricTransformations": [
+          {
+            "MetricName": "RootUserPolicyEventCount",
+            "MetricNamespace": "CloudTrailMetrics",
+            "MetricValue": "1"
+          }
+        ]
+      }
+    },
+    "DetectionRootUserActivityAlarm4B9356FC": {
+      "Type": "AWS::CloudWatch::Alarm",
+      "Properties": {
+        "ActionsEnabled": true,
+        "AlarmActions": [
+          {
+            "Ref": "DetectionAlarmTopic36C4BB55"
+          }
+        ],
+        "AlarmDescription": "Root user activity detected!",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "DatapointsToAlarm": 1,
+        "EvaluationPeriods": 1,
+        "MetricName": "RootUserPolicyEventCount",
+        "Namespace": "CloudTrailMetrics",
+        "Period": 300,
+        "Statistic": "Sum",
+        "Threshold": 1
+      }
+    },
+    "DetectionSecurityHubEventRule95BEBD4F": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "Description": "CloudWatch Event Rule to send notification on SecurityHub all new findings and all updates.",
+        "EventPattern": {
+          "source": ["aws.securityhub"],
+          "detail-type": ["Security Hub Findings - Imported"],
+          "detail": {
+            "findings": {
+              "Severity": {
+                "Label": ["CRITICAL", "HIGH"]
+              },
+              "Compliance": {
+                "Status": ["FAILED"]
+              },
+              "Workflow": {
+                "Status": ["NEW", "NOTIFIED"]
+              },
+              "RecordState": ["ACTIVE"]
+            }
+          }
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Ref": "DetectionAlarmTopic36C4BB55"
+            },
+            "Id": "Target0"
+          }
+        ]
+      }
+    },
+    "DetectionGuardDutyEventRuleViaSecurityHubCA83F302": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "Description": "CloudWatch Event Rule to send notification on GuardDuty findings via SecurityHub.",
+        "EventPattern": {
+          "source": ["aws.securityhub"],
+          "detail-type": ["Security Hub Findings - Imported"],
+          "detail": {
+            "findings": {
+              "ProductName": ["GuardDuty"],
+              "Severity": {
+                "Label": ["CRITICAL", "HIGH", "MEDIUM"]
+              }
+            }
+          }
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Ref": "DetectionAlarmTopic36C4BB55"
+            },
+            "Id": "Target0"
+          }
+        ]
+      }
+    }
+  },
+  "Outputs": {
+    "ExportsOutputRefDetectionAlarmTopic36C4BB557D18D152": {
+      "Value": {
+        "Ref": "DetectionAlarmTopic36C4BB55"
+      },
+      "Export": {
+        "Name": "DevBLEAGovBaseCtScBaselineProduct1F917861:ExportsOutputRefDetectionAlarmTopic36C4BB557D18D152"
+      }
+    }
+  }
+}
