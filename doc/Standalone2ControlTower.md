@@ -140,7 +140,6 @@ On Management account, Enroll Target account.
 Refer: https://docs.aws.amazon.com/controltower/latest/userguide/enroll-account.html
 
 1. Login to Management account via AWS SSO
-
    - You can find SSO portal URL on [Users and Access] menu in the Control Tower Console
      ![SSOURL](../doc/images/S2C-SSOURL.png)
    - You can reset password in the AWS SSO Console [Users] tab and click user.
