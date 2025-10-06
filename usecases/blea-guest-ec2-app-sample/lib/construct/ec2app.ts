@@ -110,8 +110,8 @@ export class Ec2App extends Construct {
       assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
       path: '/',
       managedPolicies: [
-        { managedPolicyArn: 'arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore' },
-        { managedPolicyArn: 'arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy' },
+        iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore'),
+        iam.ManagedPolicy.fromAwsManagedPolicyName('CloudWatchAgentServerPolicy'),
       ],
     });
 

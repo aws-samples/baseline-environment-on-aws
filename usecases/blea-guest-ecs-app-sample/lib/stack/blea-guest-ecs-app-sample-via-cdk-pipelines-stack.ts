@@ -19,11 +19,7 @@ export class BLEAEcsAppPipelineStack extends cdk.Stack {
 
     const deployRole = new iam.Role(this, 'CodeBuildDeployRole', {
       assumedBy: new iam.ServicePrincipal('codebuild.amazonaws.com'),
-      managedPolicies: [
-        {
-          managedPolicyArn: 'arn:aws:iam::aws:policy/AdministratorAccess',
-        },
-      ],
+      managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('AdministratorAccess')],
     });
 
     // You just have to select GitHub as the source when creating the connection in the console

@@ -189,7 +189,7 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs20.x",
+        "Runtime": "nodejs22.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -1671,7 +1671,7 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs20.x",
+        "Runtime": "nodejs22.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -2141,6 +2141,12 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
             "Ref": "NetworkingVpcProtectedSubnet2SubnetE110C692",
           },
         ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Dev-BLEAEcsApp/Networking/Vpc",
+          },
+        ],
         "VpcEndpointType": "Interface",
         "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
@@ -2216,6 +2222,12 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
           },
           {
             "Ref": "NetworkingVpcProtectedSubnet2SubnetE110C692",
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Dev-BLEAEcsApp/Networking/Vpc",
           },
         ],
         "VpcEndpointType": "Interface",
@@ -2295,6 +2307,12 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
             "Ref": "NetworkingVpcProtectedSubnet2SubnetE110C692",
           },
         ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Dev-BLEAEcsApp/Networking/Vpc",
+          },
+        ],
         "VpcEndpointType": "Interface",
         "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
@@ -2370,6 +2388,12 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
           },
           {
             "Ref": "NetworkingVpcProtectedSubnet2SubnetE110C692",
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Dev-BLEAEcsApp/Networking/Vpc",
           },
         ],
         "VpcEndpointType": "Interface",
@@ -2484,6 +2508,12 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
           },
           {
             "Ref": "NetworkingVpcProtectedSubnet2SubnetE110C692",
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Dev-BLEAEcsApp/Networking/Vpc",
           },
         ],
         "VpcEndpointType": "Interface",
@@ -3003,6 +3033,12 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
             ],
           ],
         },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Dev-BLEAEcsApp/Networking/Vpc",
+          },
+        ],
         "VpcEndpointType": "Gateway",
         "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
@@ -3028,6 +3064,12 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
           },
           {
             "Ref": "NetworkingVpcProtectedSubnet2SubnetE110C692",
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Dev-BLEAEcsApp/Networking/Vpc",
           },
         ],
         "VpcEndpointType": "Interface",
@@ -3105,6 +3147,12 @@ exports[`Snapshot test for BLEA ECS App Stacks 1`] = `
           },
           {
             "Ref": "NetworkingVpcProtectedSubnet2SubnetE110C692",
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Dev-BLEAEcsApp/Networking/Vpc",
           },
         ],
         "VpcEndpointType": "Interface",
@@ -3248,7 +3296,7 @@ exports[`Snapshot test for BLEA ECS App Stacks 2`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs20.x",
+        "Runtime": "nodejs22.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -3328,7 +3376,7 @@ exports[`Snapshot test for BLEA ECS App Stacks 2`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs20.x",
+        "Runtime": "nodejs22.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -4181,7 +4229,7 @@ exports[`Snapshot test for BLEA ECS App Stacks 3`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs20.x",
+        "Runtime": "nodejs22.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",

@@ -806,7 +806,18 @@ exports[`Snapshot test for BLEAGovBaseStandalone Stack 1`] = `
           "Version": "2012-10-17",
         },
         "ManagedPolicyArns": [
-          "arn:aws:iam::aws:policy/service-role/AmazonSSMAutomationRole",
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AmazonSSMAutomationRole",
+              ],
+            ],
+          },
         ],
         "Path": "/",
       },

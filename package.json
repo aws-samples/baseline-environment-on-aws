@@ -24,18 +24,18 @@
     "release": "standard-version"
   },
   "devDependencies": {
-    "@eslint/js": "^9.25.1",
+    "@eslint/js": "^9.37.0",
     "@types/jest": "^29.5.14",
-    "@types/node": "18.19.120",
-    "eslint": "^9.32.0",
-    "eslint-config-prettier": "^9.1.0",
-    "knip": "^5.62.0",
-    "lint-staged": "^15.5.1",
-    "prettier": "^3.5.3",
-    "simple-git-hooks": "^2.13.0",
+    "@types/node": "18.19.129",
+    "eslint": "^9.37.0",
+    "eslint-config-prettier": "^9.1.2",
+    "knip": "^5.64.1",
+    "lint-staged": "^15.5.2",
+    "prettier": "^3.6.2",
+    "simple-git-hooks": "^2.13.1",
     "standard-version": "^9.5.0",
-    "typescript": "~5.8.3",
-    "typescript-eslint": "^8.38.0"
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.45.0"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"

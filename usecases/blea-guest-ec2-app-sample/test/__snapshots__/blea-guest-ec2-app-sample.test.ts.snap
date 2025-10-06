@@ -648,8 +648,30 @@ chown apache.apache /var/www/html/index.html",
           "Version": "2012-10-17",
         },
         "ManagedPolicyArns": [
-          "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
-          "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/AmazonSSMManagedInstanceCore",
+              ],
+            ],
+          },
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/CloudWatchAgentServerPolicy",
+              ],
+            ],
+          },
         ],
         "Path": "/",
       },
@@ -749,8 +771,30 @@ sudo yum -y install mariadb",
           "Version": "2012-10-17",
         },
         "ManagedPolicyArns": [
-          "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
-          "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/AmazonSSMManagedInstanceCore",
+              ],
+            ],
+          },
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/CloudWatchAgentServerPolicy",
+              ],
+            ],
+          },
         ],
         "Path": "/",
       },
@@ -1155,6 +1199,12 @@ sudo yum -y install mariadb",
             "Ref": "NetworkingVpcProtectedSubnet2SubnetE110C692",
           },
         ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/Vpc",
+          },
+        ],
         "VpcEndpointType": "Interface",
         "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
@@ -1230,6 +1280,12 @@ sudo yum -y install mariadb",
           },
           {
             "Ref": "NetworkingVpcProtectedSubnet2SubnetE110C692",
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/Vpc",
           },
         ],
         "VpcEndpointType": "Interface",
@@ -1786,6 +1842,12 @@ sudo yum -y install mariadb",
             ],
           ],
         },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/Vpc",
+          },
+        ],
         "VpcEndpointType": "Gateway",
         "VpcId": {
           "Ref": "NetworkingVpc6B5E6F44",
@@ -1811,6 +1873,12 @@ sudo yum -y install mariadb",
           },
           {
             "Ref": "NetworkingVpcProtectedSubnet2SubnetE110C692",
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/Vpc",
           },
         ],
         "VpcEndpointType": "Interface",
@@ -1888,6 +1956,12 @@ sudo yum -y install mariadb",
           },
           {
             "Ref": "NetworkingVpcProtectedSubnet2SubnetE110C692",
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Dev-BLEAEc2App/Networking/Vpc",
           },
         ],
         "VpcEndpointType": "Interface",
