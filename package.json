@@ -21,7 +21,7 @@
     "lint:ci": "eslint .",
     "format": "prettier --write .",
     "format:ci": "prettier --check .",
-    "release": "standard-version"
+    "release": "echo 'Releases are now automated via release-please GitHub Action'"
   },
   "devDependencies": {
     "@eslint/js": "^9.37.0",
@@ -33,7 +33,6 @@
     "lint-staged": "^16.2.3",
     "prettier": "^3.6.2",
     "simple-git-hooks": "^2.13.1",
-    "standard-version": "^9.5.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.0"
   },
