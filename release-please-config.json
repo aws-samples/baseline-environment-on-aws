@@ -1,0 +1,8 @@
+{
+  "release-type": "node",
+  "packages": {
+    ".": {
+      "package-name": "baseline-environment-on-aws"
+    }
+  }
+}
