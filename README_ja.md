@@ -45,7 +45,6 @@ Jump to | [Changelog](CHANGELOG.md) | [HowTo](doc/HowTo_ja.md) | [マルチア�
 | Control Tower 版ガバナンスベース（ゲストアカウント用） | `usecases/blea-gov-base-ct`         |
 
 - Control Tower 版ガバナンスベースサンプルでは異なる 3 つのデプロイメントオプションを提供しています
-
   - 手元環境からの直接デプロイメント (blea-gov-base-ct.ts) （デフォルト）
   - CDKPipeline を使ったデプロイメント (blea-gov-base-ct-via-cdk-pipelines.ts)
   - Control Tower の Account Factory Customization を使ったデプロイメント (blea-gov-base-ct-via-cdk-pipelines.ts)
@@ -59,7 +58,6 @@ Jump to | [Changelog](CHANGELOG.md) | [HowTo](doc/HowTo_ja.md) | [マルチア�
 | サーバーレス API アプリケーションサンプル | `usecases/blea-guest-serverless-api-sample` |
 
 - ECS による Web アプリケーションサンプルでは異なる 2 つのデプロイメントオプションを提供しています
-
   - 手元環境からの直接デプロイメント (blea-guest-ecs-app-sample.ts) （デフォルト）
   - CDKPipeline を使ったデプロイメント (blea-guest-ecs-app-sample-via-cdk-pipelines.ts)
 

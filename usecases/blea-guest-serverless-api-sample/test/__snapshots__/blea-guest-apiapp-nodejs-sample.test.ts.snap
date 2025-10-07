@@ -103,7 +103,7 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs22.x",
         "Timeout": 25,
         "TracingConfig": {
           "Mode": "Active",
@@ -282,7 +282,7 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs22.x",
         "Timeout": 25,
         "TracingConfig": {
           "Mode": "Active",
@@ -461,7 +461,7 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs22.x",
         "Timeout": 25,
         "TracingConfig": {
           "Mode": "Active",
@@ -1852,6 +1852,9 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
         "ApiRestApipythonlist4EC12D2C",
         "ApiRestApipython2F6D6644",
       ],
+      "Metadata": {
+        "aws:cdk:do-not-refactor": true,
+      },
       "Properties": {
         "Description": "Automatically created by the RestApi construct",
         "RestApiId": {
@@ -2853,7 +2856,7 @@ exports[`Snapshot test for ServerlessApi Stack 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs20.x",
+        "Runtime": "nodejs22.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",

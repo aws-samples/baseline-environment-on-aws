@@ -38,7 +38,7 @@ export class Detection extends Construct {
     const defaultSgRemediationRole = new iam.Role(this, 'DefaultSgRemediationRole', {
       assumedBy: new iam.ServicePrincipal('ssm.amazonaws.com'),
       path: '/',
-      managedPolicies: [{ managedPolicyArn: 'arn:aws:iam::aws:policy/service-role/AmazonSSMAutomationRole' }],
+      managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AmazonSSMAutomationRole')],
     });
     defaultSgRemediationRole.addToPolicy(
       new iam.PolicyStatement({
