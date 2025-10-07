@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/aws-samples/baseline-environment-on-aws/compare/v3.0.0...v3.1.0) (2025-10-07)
+
+
+### Features
+
+* dealing with issue [#1139](https://github.com/aws-samples/baseline-environment-on-aws/issues/1139);  add Critical to GuardDutyFindings alert ([#1140](https://github.com/aws-samples/baseline-environment-on-aws/issues/1140)) ([0c2e83c](https://github.com/aws-samples/baseline-environment-on-aws/commit/0c2e83ca53f4a11273f327e6bb7462b87cca2be5))
+* **ecs-app:** use stable synthetics module ([#503](https://github.com/aws-samples/baseline-environment-on-aws/issues/503)) ([448ac6b](https://github.com/aws-samples/baseline-environment-on-aws/commit/448ac6bccaba8dd2ea8961849f8e2daf71283794))
+* migrate from depcheck to knip ([#924](https://github.com/aws-samples/baseline-environment-on-aws/issues/924)) ([4246e6a](https://github.com/aws-samples/baseline-environment-on-aws/commit/4246e6aa83f367908ff4c6fecaff602d9a757ac0))
+* migrate to Node.js 22 ([#1220](https://github.com/aws-samples/baseline-environment-on-aws/issues/1220)) ([777d645](https://github.com/aws-samples/baseline-environment-on-aws/commit/777d645948967fe99f76593d4124cc3b76d89b74))
+* Modify env parameter ([#333](https://github.com/aws-samples/baseline-environment-on-aws/issues/333)) ([b301434](https://github.com/aws-samples/baseline-environment-on-aws/commit/b30143409ebef50b7917ec97d31567fb6cb60862))
+* Use Node.js 18 as default build environment ([#439](https://github.com/aws-samples/baseline-environment-on-aws/issues/439)) ([8d87cf5](https://github.com/aws-samples/baseline-environment-on-aws/commit/8d87cf57ea3a76f8bd69d1594a310ade768ba474))
+
+
+### Bug Fixes
+
+* add ObjectOwnership property ([#364](https://github.com/aws-samples/baseline-environment-on-aws/issues/364)) ([099e143](https://github.com/aws-samples/baseline-environment-on-aws/commit/099e143a4d56fe7a56c2cc6d313ccf0381ff3755)), closes [#363](https://github.com/aws-samples/baseline-environment-on-aws/issues/363)
+* **blea-guest-serverless-api-sample:** lambda runtime version and snapshot update ([#784](https://github.com/aws-samples/baseline-environment-on-aws/issues/784)) ([7831a9e](https://github.com/aws-samples/baseline-environment-on-aws/commit/7831a9ec1466c929f924d531b8c9ef86568a8a00))
+* deprecated code, RDS's instanceProps and CloudWatch Synthetics's older runtime ([#662](https://github.com/aws-samples/baseline-environment-on-aws/issues/662)) ([73342d0](https://github.com/aws-samples/baseline-environment-on-aws/commit/73342d0da1d4b386160a4a117f9dc7d41bb32b1c)), closes [#604](https://github.com/aws-samples/baseline-environment-on-aws/issues/604) [#652](https://github.com/aws-samples/baseline-environment-on-aws/issues/652) [#604](https://github.com/aws-samples/baseline-environment-on-aws/issues/604) [#652](https://github.com/aws-samples/baseline-environment-on-aws/issues/652)
+* make public variable read only outside construct ([#824](https://github.com/aws-samples/baseline-environment-on-aws/issues/824)) ([fd79f6a](https://github.com/aws-samples/baseline-environment-on-aws/commit/fd79f6add92338679f9dc95e59ad209083316c63))
+* metrics name ([#438](https://github.com/aws-samples/baseline-environment-on-aws/issues/438)) ([c4b69fe](https://github.com/aws-samples/baseline-environment-on-aws/commit/c4b69fe5315050fd28be93a2857c63ae010879eb))
+* pin esbuild version to 0.21.x ([#815](https://github.com/aws-samples/baseline-environment-on-aws/issues/815)) ([2e51dca](https://github.com/aws-samples/baseline-environment-on-aws/commit/2e51dcafe36d471485984ce76ae770fb5c34ef16))
+* replace deprecated aws-portal:*Billing policy ([#583](https://github.com/aws-samples/baseline-environment-on-aws/issues/583)) ([d2a1300](https://github.com/aws-samples/baseline-environment-on-aws/commit/d2a1300c8b1fbfd4f502fca2d2a4b9f0733bd1d6))
+* replace managedPolicies object literals with ManagedPolicy.fromAwsManagedPolicyName ([#1218](https://github.com/aws-samples/baseline-environment-on-aws/issues/1218)) ([1698332](https://github.com/aws-samples/baseline-environment-on-aws/commit/16983327b4a2686610906444a9f13e5068fd9109))
+* rm eslint & prettier from ignoreDependencies in knip config ([#940](https://github.com/aws-samples/baseline-environment-on-aws/issues/940)) ([af60c49](https://github.com/aws-samples/baseline-environment-on-aws/commit/af60c494ed52865710fb3b1396665cd2e9fa27ab)), closes [#924](https://github.com/aws-samples/baseline-environment-on-aws/issues/924) [/github.com/aws-samples/baseline-environment-on-aws/pull/924#pullrequestreview-2490925750](https://github.com/aws-samples//github.com/aws-samples/baseline-environment-on-aws/pull/924/issues/pullrequestreview-2490925750)
+
+
+### Document Changes
+
+* v3 migration doc ([#372](https://github.com/aws-samples/baseline-environment-on-aws/issues/372)) ([4981bbb](https://github.com/aws-samples/baseline-environment-on-aws/commit/4981bbbc4277f21df2a06605739af4ba0dffd3c1))
+
 ## [3.0.0](https://github.com/aws-samples/baseline-environment-on-aws/compare/v2.1.0...v3.0.0) (2023-04-20)
 
 
