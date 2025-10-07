@@ -9,7 +9,7 @@
   },
   "license": "MIT-0",
   "engines": {
-    "node": ">=18",
+    "node": ">=22",
     "npm": ">=8.1.0"
   },
   "workspaces": [
@@ -26,7 +26,7 @@
   "devDependencies": {
     "@eslint/js": "^9.37.0",
     "@types/jest": "^29.5.14",
-    "@types/node": "18.19.129",
+    "@types/node": "22.10.1",
     "eslint": "^9.37.0",
     "eslint-config-prettier": "^9.1.2",
     "knip": "^5.64.1",
