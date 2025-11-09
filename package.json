@@ -24,7 +24,7 @@
     "release": "echo 'Releases are now automated via release-please GitHub Action'"
   },
   "devDependencies": {
-    "@eslint/js": "^9.37.0",
+    "@eslint/js": "^9.39.1",
     "@types/jest": "^30.0.0",
     "@types/node": "^22.18.8",
     "eslint": "^9.37.0",
