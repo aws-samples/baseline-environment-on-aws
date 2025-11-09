@@ -20,7 +20,7 @@
     "@types/node": "^22.10.1",
     "aws-cdk": "^2.1029.4",
     "aws-cdk-lib": "^2.219.0",
-    "constructs": "^10.4.2",
+    "constructs": "^10.4.3",
     "jest": "^30.2.0",
     "ts-jest": "^29.4.4",
     "ts-node": "^10.9.2",
@@ -28,6 +28,6 @@
   },
   "dependencies": {
     "aws-cdk-lib": "^2.219.0",
-    "constructs": "^10.4.2"
+    "constructs": "^10.4.3"
   }
 }
