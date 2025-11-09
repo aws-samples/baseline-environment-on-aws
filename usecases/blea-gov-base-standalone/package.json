@@ -19,7 +19,7 @@
     "@types/jest": "^30.0.0",
     "@types/node": "^22.10.1",
     "aws-cdk": "^2.1029.4",
-    "aws-cdk-lib": "^2.219.0",
+    "aws-cdk-lib": "^2.222.0",
     "constructs": "^10.4.2",
     "jest": "^30.2.0",
     "ts-jest": "^29.4.4",
@@ -27,7 +27,7 @@
     "typescript": "~5.9.3"
   },
   "dependencies": {
-    "aws-cdk-lib": "^2.219.0",
+    "aws-cdk-lib": "^2.222.0",
     "constructs": "^10.4.2"
   }
 }
