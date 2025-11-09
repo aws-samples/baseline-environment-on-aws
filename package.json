@@ -27,7 +27,7 @@
     "@eslint/js": "^9.37.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^22.18.8",
-    "eslint": "^9.37.0",
+    "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
     "knip": "^5.64.2",
     "lint-staged": "^16.2.3",
