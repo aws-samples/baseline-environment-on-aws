@@ -34,7 +34,7 @@
     "prettier": "^3.6.2",
     "simple-git-hooks": "^2.13.1",
     "typescript": "~5.9.3",
-    "typescript-eslint": "^8.46.0"
+    "typescript-eslint": "^8.52.0"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
