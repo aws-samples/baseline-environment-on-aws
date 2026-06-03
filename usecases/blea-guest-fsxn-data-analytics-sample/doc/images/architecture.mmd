@@ -1,0 +1,58 @@
+%% BLEA FSxN Data Analytics - Architecture Diagram
+%% Render with: mmdc -i architecture.mmd -o architecture.png
+
+graph TB
+    subgraph Stack["BLEAFsxnDataAnalyticsStack"]
+        subgraph VPC["VPC (Private Subnets × 2 AZ, No Internet)"]
+            direction TB
+            VPCE_S3["VPC Endpoint: S3<br/>(Gateway)"]
+            VPCE_Glue["VPC Endpoint: Glue<br/>(Interface)"]
+            VPCE_Athena["VPC Endpoint: Athena<br/>(Interface)"]
+        end
+
+        subgraph FSxN["FSx for NetApp ONTAP"]
+            FS["File System<br/>(Multi-AZ / Single-AZ)"]
+            SVM["Storage Virtual Machine"]
+            VOL["Volume<br/>NFS + Dedup + Compression<br/>FabricPool: AUTO"]
+        end
+
+        subgraph S3AP["S3 Access Point"]
+            AP["CfnS3AccessPointAttachment<br/>(Internet-origin)<br/>UNIX_USER identity"]
+        end
+
+        subgraph Analytics["Data Analytics"]
+            GDB["Glue Database"]
+            GC["Glue Crawler<br/>(scheduled)"]
+            AW["Athena Workgroup"]
+            S3R["Query Results Bucket<br/>(KMS encrypted)"]
+        end
+
+        subgraph Monitor["Monitoring"]
+            CW["CloudWatch Alarms<br/>Throughput / CPU / Capacity"]
+            SNS["SNS Topic"]
+            EMAIL["Email"]
+            SLACK["Chatbot → Slack"]
+        end
+
+        KMS["KMS CMK<br/>(Auto-rotation)"]
+    end
+
+    Users["Users<br/>(NFS/SMB)"] --> VOL
+    VOL --> AP
+    AP --> GC
+    GC --> GDB
+    GDB --> AW
+    AW --> S3R
+    FS --> CW
+    CW --> SNS
+    SNS --> EMAIL
+    SNS --> SLACK
+    KMS -.-> FS
+    KMS -.-> S3R
+
+    style Stack fill:#f9f9f9,stroke:#333
+    style VPC fill:#e8f4fd,stroke:#1976d2
+    style FSxN fill:#fff3e0,stroke:#f57c00
+    style S3AP fill:#e8f5e9,stroke:#388e3c
+    style Analytics fill:#f3e5f5,stroke:#7b1fa2
+    style Monitor fill:#fce4ec,stroke:#c62828
