@@ -39,9 +39,8 @@ pull_request_rules:
   - name: automatic merge
     actions:
       comment:
-        message:
-          Thank you for contributing! Your pull request will be updated from main and then merged automatically (do not update manually, and be sure to [allow
-          changes to be pushed to your fork](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/allowing-changes-to-a-pull-request-branch-created-from-a-fork)).
+        message: Thank you for contributing! Your pull request will be updated from main and then merged automatically (do not update manually, and be sure to [allow changes to be pushed 
+          to your fork](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/allowing-changes-to-a-pull-request-branch-created-from-a-fork)).
     conditions:
       - base!=release
       - -title~=(WIP|wip)
@@ -81,3 +80,4 @@ priority_rules:
       - -approved-reviews-by~=author
       - '#changes-requested-reviews-by=0'
     priority: 2250
+    allow_checks_interruption: true
