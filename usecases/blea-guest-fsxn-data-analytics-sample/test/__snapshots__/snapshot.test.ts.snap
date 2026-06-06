@@ -484,7 +484,7 @@ exports[`Snapshot test 1`] = `
     },
     "MonitoringEmailSubscriptionD4477583": {
       "Properties": {
-        "Endpoint": "yoshiki0705@gmail.com",
+        "Endpoint": "notify-monitoring@example.com",
         "Protocol": "email",
         "TopicArn": {
           "Ref": "MonitoringAlarmTopicAF62D4F1",
