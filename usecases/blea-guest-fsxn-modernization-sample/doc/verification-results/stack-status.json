@@ -1,0 +1,54 @@
+{
+    "Stacks": [
+        {
+            "StackId": "arn:aws:cloudformation:ap-northeast-1:178625946981:stack/Dev-BLEAFsxnModernization/712ca6d0-6083-11f1-ae8f-061c81c90471",
+            "StackName": "Dev-BLEAFsxnModernization",
+            "ChangeSetId": "arn:aws:cloudformation:ap-northeast-1:178625946981:changeSet/cdk-deploy-change-set/074ff4ec-6d05-4e70-8b68-d87861156972",
+            "Description": "BLEA FSxN Modernization Platform (tag:blea-guest-fsxn-modernization-sample)",
+            "Parameters": [
+                {
+                    "ParameterKey": "SsmParameterValueawsserviceamiamazonlinuxlatestal2023amikernel61x8664C96584B6F00A464EAD1953AFF4B05118Parameter",
+                    "ParameterValue": "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-6.1-x86_64",
+                    "ResolvedValue": "ami-0b53194d9d4d5cfea"
+                },
+                {
+                    "ParameterKey": "BootstrapVersion",
+                    "ParameterValue": "/cdk-bootstrap/hnb659fds/version",
+                    "ResolvedValue": "31"
+                }
+            ],
+            "CreationTime": "2026-06-05T02:08:28.507000+00:00",
+            "LastUpdatedTime": "2026-06-05T02:08:39.760000+00:00",
+            "RollbackConfiguration": {},
+            "StackStatus": "CREATE_COMPLETE",
+            "DisableRollback": false,
+            "NotificationARNs": [],
+            "Capabilities": [
+                "CAPABILITY_IAM",
+                "CAPABILITY_NAMED_IAM",
+                "CAPABILITY_AUTO_EXPAND"
+            ],
+            "RoleARN": "arn:aws:iam::178625946981:role/cdk-hnb659fds-cfn-exec-role-178625946981-ap-northeast-1",
+            "Tags": [
+                {
+                    "Key": "Repository",
+                    "Value": "aws-samples/baseline-environment-on-aws"
+                },
+                {
+                    "Key": "Environment",
+                    "Value": "Development"
+                }
+            ],
+            "EnableTerminationProtection": false,
+            "DriftInformation": {
+                "StackDriftStatus": "NOT_CHECKED"
+            },
+            "LastOperations": [
+                {
+                    "OperationType": "CREATE_STACK",
+                    "OperationId": "90ad5f30-ac51-41ae-bc31-32764abe556b"
+                }
+            ]
+        }
+    ]
+}
