@@ -1,4 +1,4 @@
-import { Stack, StackProps } from 'aws-cdk-lib';
+import { Stack, StackProps, Tags } from 'aws-cdk-lib';
 import { Key } from 'aws-cdk-lib/aws-kms';
 import { Construct } from 'constructs';
 import { Networking } from '../construct/networking';
@@ -20,6 +20,8 @@ export interface BLEAFsxnDataAnalyticsStackProps extends StackProps {
   fsxnVolumeName: string;
   fsxnVolumeSizeMiB: number;
   fsxnJunctionPath: string;
+  fsxnAutomaticBackupRetentionDays: number;
+  fsxnDailyAutomaticBackupStartTime: string;
   s3AccessPointName: string;
   s3ApFileSystemIdentityUser: string;
   glueDatabaseName: string;
@@ -56,6 +58,8 @@ export class BLEAFsxnDataAnalyticsStack extends Stack {
       volumeSizeMiB: props.fsxnVolumeSizeMiB,
       junctionPath: props.fsxnJunctionPath,
       kmsKey: cmk,
+      automaticBackupRetentionDays: props.fsxnAutomaticBackupRetentionDays,
+      dailyAutomaticBackupStartTime: props.fsxnDailyAutomaticBackupStartTime,
     });
 
     // 3. S3 Access Point (Internet-origin for Athena/Glue)
@@ -83,5 +87,10 @@ export class BLEAFsxnDataAnalyticsStack extends Stack {
       monitoringSlackChannelId: props.monitoringSlackChannelId,
       fileSystemId: fsxnStorage.fileSystemId,
     });
+
+    // 6. Tagging Policy (Government Cloud requirement: resource identification)
+    Tags.of(this).add('System', 'BLEA-FSxN-DataAnalytics');
+    Tags.of(this).add('Environment', props.envName);
+    Tags.of(this).add('ManagedBy', 'AWS-CDK');
   }
 }

@@ -1,5 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
-import { aws_ec2 as ec2 } from 'aws-cdk-lib';
+import { aws_ec2 as ec2, aws_iam as iam, aws_logs as logs } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
 export interface NetworkingProps {
@@ -31,9 +31,7 @@ export class Networking extends Construct {
     this.vpc = vpc;
 
     // Collect route table IDs for FSxN Multi-AZ configuration
-    this.privateSubnetRouteTableIds = vpc.isolatedSubnets.map(
-      (subnet) => subnet.routeTable.routeTableId,
-    );
+    this.privateSubnetRouteTableIds = vpc.isolatedSubnets.map((subnet) => subnet.routeTable.routeTableId);
 
     // S3 Gateway Endpoint
     vpc.addGatewayEndpoint('S3Endpoint', {
@@ -47,9 +45,7 @@ export class Networking extends Construct {
 
     // Athena Interface Endpoint
     vpc.addInterfaceEndpoint('AthenaEndpoint', {
-      service: new ec2.InterfaceVpcEndpointService(
-        `com.amazonaws.${cdk.Stack.of(this).region}.athena`,
-      ),
+      service: new ec2.InterfaceVpcEndpointService(`com.amazonaws.${cdk.Stack.of(this).region}.athena`),
     });
 
     // Security Group for FSxN
@@ -81,5 +77,20 @@ export class Networking extends Construct {
     // Self-referencing rule for Glue Spark (required for Glue connections)
     glueSg.addIngressRule(glueSg, ec2.Port.allTraffic(), 'Self-referencing for Glue Spark');
     this.glueSecurityGroup = glueSg;
+
+    // VPC Flow Logs (Government Cloud requirement: network traffic audit)
+    const flowLogGroup = new logs.LogGroup(this, 'VpcFlowLogGroup', {
+      retention: logs.RetentionDays.ONE_YEAR,
+      removalPolicy: cdk.RemovalPolicy.RETAIN,
+    });
+
+    const flowLogRole = new iam.Role(this, 'VpcFlowLogRole', {
+      assumedBy: new iam.ServicePrincipal('vpc-flow-logs.amazonaws.com'),
+    });
+
+    vpc.addFlowLog('FlowLog', {
+      destination: ec2.FlowLogDestination.toCloudWatchLogs(flowLogGroup, flowLogRole),
+      trafficType: ec2.FlowLogTrafficType.ALL,
+    });
   }
 }

@@ -14,6 +14,8 @@ export interface FsxnStorageProps {
   volumeSizeMiB: number;
   junctionPath: string;
   kmsKey: kms.IKey;
+  automaticBackupRetentionDays: number;
+  dailyAutomaticBackupStartTime: string;
 }
 
 export class FsxnStorage extends Construct {
@@ -30,16 +32,16 @@ export class FsxnStorage extends Construct {
     const fileSystem = new fsx.CfnFileSystem(this, 'FileSystem', {
       fileSystemType: 'ONTAP',
       storageCapacity: props.storageCapacityGiB,
-      subnetIds:
-        props.deploymentType === 'MULTI_AZ_1'
-          ? subnets.map((s) => s.subnetId)
-          : [subnets[0].subnetId],
+      subnetIds: props.deploymentType === 'MULTI_AZ_1' ? subnets.map((s) => s.subnetId) : [subnets[0].subnetId],
       securityGroupIds: [props.fsxnSecurityGroup.securityGroupId],
       kmsKeyId: props.kmsKey.keyArn,
       ontapConfiguration: {
         deploymentType: props.deploymentType,
         throughputCapacity: props.throughputCapacityMBps,
         preferredSubnetId: subnets[0].subnetId,
+        // Automatic daily backups (Government Cloud requirement: data protection)
+        automaticBackupRetentionDays: props.automaticBackupRetentionDays,
+        dailyAutomaticBackupStartTime: props.dailyAutomaticBackupStartTime,
         // RouteTableIds is only supported for Multi-AZ deployments
         ...(props.deploymentType === 'MULTI_AZ_1' && {
           routeTableIds: props.privateSubnetRouteTableIds,

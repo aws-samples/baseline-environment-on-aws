@@ -4,6 +4,9 @@ export interface AppParameter {
   env?: Environment;
   envName: string;
 
+  // Stack protection
+  terminationProtection?: boolean;
+
   // Monitoring
   monitoringNotifyEmail: string;
   monitoringSlackWorkspaceId: string;
@@ -20,6 +23,8 @@ export interface AppParameter {
   fsxnVolumeName: string;
   fsxnVolumeSizeMiB: number;
   fsxnJunctionPath: string;
+  fsxnAutomaticBackupRetentionDays: number;
+  fsxnDailyAutomaticBackupStartTime: string;
 
   // S3 Access Point
   s3AccessPointName: string;
@@ -46,6 +51,8 @@ export const devParameter: AppParameter = {
   fsxnVolumeName: 'vol_data',
   fsxnVolumeSizeMiB: 102400,
   fsxnJunctionPath: '/data',
+  fsxnAutomaticBackupRetentionDays: 7,
+  fsxnDailyAutomaticBackupStartTime: '17:00',
   s3AccessPointName: 'fsxn-analytics-dev',
   s3ApFileSystemIdentityUser: 'nobody',
   glueDatabaseName: 'fsxn_analytics_db',
@@ -58,6 +65,7 @@ export const devParameter: AppParameter = {
 // Production: high-availability multi-AZ configuration
 export const prodParameter: AppParameter = {
   envName: 'Production',
+  terminationProtection: true,
   monitoringNotifyEmail: 'notify-monitoring@example.com',
   monitoringSlackWorkspaceId: 'T8XXXXXXX',
   monitoringSlackChannelId: 'C00XXXXXXXX',
@@ -69,6 +77,8 @@ export const prodParameter: AppParameter = {
   fsxnVolumeName: 'vol_data',
   fsxnVolumeSizeMiB: 512000,
   fsxnJunctionPath: '/data',
+  fsxnAutomaticBackupRetentionDays: 30,
+  fsxnDailyAutomaticBackupStartTime: '17:00',
   s3AccessPointName: 'fsxn-analytics-prod',
   s3ApFileSystemIdentityUser: 'analytics-svc',
   glueDatabaseName: 'fsxn_analytics_db',

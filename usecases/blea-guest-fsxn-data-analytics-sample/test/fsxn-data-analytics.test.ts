@@ -21,6 +21,8 @@ beforeAll(() => {
     fsxnVolumeName: devParameter.fsxnVolumeName,
     fsxnVolumeSizeMiB: devParameter.fsxnVolumeSizeMiB,
     fsxnJunctionPath: devParameter.fsxnJunctionPath,
+    fsxnAutomaticBackupRetentionDays: devParameter.fsxnAutomaticBackupRetentionDays,
+    fsxnDailyAutomaticBackupStartTime: devParameter.fsxnDailyAutomaticBackupStartTime,
     s3AccessPointName: devParameter.s3AccessPointName,
     s3ApFileSystemIdentityUser: devParameter.s3ApFileSystemIdentityUser,
     glueDatabaseName: devParameter.glueDatabaseName,
@@ -127,6 +129,30 @@ describe('Security', () => {
         }
       }
     }
+  });
+});
+
+describe('Government Cloud Compliance', () => {
+  test('has VPC Flow Logs', () => {
+    template.hasResourceProperties('AWS::EC2::FlowLog', {
+      ResourceType: 'VPC',
+      TrafficType: 'ALL',
+    });
+  });
+
+  test('VPC Flow Log Group has retention configured', () => {
+    template.hasResourceProperties('AWS::Logs::LogGroup', {
+      RetentionInDays: 365,
+    });
+  });
+
+  test('FSxN has automatic backup configured', () => {
+    template.hasResourceProperties('AWS::FSx::FileSystem', {
+      OntapConfiguration: Match.objectLike({
+        AutomaticBackupRetentionDays: 7,
+        DailyAutomaticBackupStartTime: '17:00',
+      }),
+    });
   });
 });
 

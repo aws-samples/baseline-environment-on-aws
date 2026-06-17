@@ -19,6 +19,8 @@ test('Snapshot test', () => {
     fsxnVolumeName: devParameter.fsxnVolumeName,
     fsxnVolumeSizeMiB: devParameter.fsxnVolumeSizeMiB,
     fsxnJunctionPath: devParameter.fsxnJunctionPath,
+    fsxnAutomaticBackupRetentionDays: devParameter.fsxnAutomaticBackupRetentionDays,
+    fsxnDailyAutomaticBackupStartTime: devParameter.fsxnDailyAutomaticBackupStartTime,
     s3AccessPointName: devParameter.s3AccessPointName,
     s3ApFileSystemIdentityUser: devParameter.s3ApFileSystemIdentityUser,
     glueDatabaseName: devParameter.glueDatabaseName,

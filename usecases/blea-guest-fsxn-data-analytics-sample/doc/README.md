@@ -159,6 +159,59 @@ FSx for ONTAP throughput is shared across all protocols (NFS, SMB, S3 Access Poi
 - FSxN security group allows VPC-internal traffic only
 - IAM roles follow least-privilege, scoped to specific resources
 - S3 results bucket has Block Public Access + versioning enabled
+- VPC Flow Logs enabled (all traffic → CloudWatch Logs, 1 year retention)
+- Automatic daily backups with configurable retention (dev: 7 days, prod: 30 days)
+- Stack termination protection enabled for production
+- Resource tagging policy applied (System, Environment, ManagedBy)
+
+## Government Cloud (ガバメントクラウド) Compatibility
+
+This template is designed to be compatible with the Government Cloud standard requirements published by the Digital Agency of Japan.
+
+### Prerequisites (Baseline Environment)
+
+This template assumes the following services are already enabled at the account or organization level, typically by the **BLEA governance base stack** or a **Landing Zone / Control Tower** setup:
+
+| Service | Scope | Responsibility |
+|---------|-------|---------------|
+| AWS CloudTrail | Organization or account trail | Baseline environment |
+| AWS Config | Account-level recorder + rules | Baseline environment |
+| Amazon GuardDuty | Account or organization | Baseline environment |
+| AWS Security Hub | Account or organization | Baseline environment |
+| IAM Access Analyzer | Account or organization | Baseline environment |
+| AWS Organizations SCPs | Organization-level guardrails | Management account |
+
+> ⚠️ If deploying without a BLEA governance base, enable these services manually before deploying this template to satisfy Government Cloud audit requirements.
+
+### What This Template Provides
+
+| Requirement Category | Implementation | Details |
+|---------------------|---------------|---------|
+| Network Isolation | VPC with isolated private subnets | No IGW, no NAT, VPC Endpoints only |
+| Encryption at Rest | KMS CMK with auto-rotation | FSxN, S3, Athena results |
+| Encryption in Transit | enforceSSL, VPC Endpoints | See [NFS/SMB Encryption Guide](nfs-smb-encryption-guide.md) for protocol-level encryption |
+| Least Privilege IAM | Resource-scoped policies | No wildcard permissions, tested |
+| Monitoring & Alerting | CloudWatch Alarms + SNS + Chatbot | Throughput, CPU, Storage |
+| Network Audit | VPC Flow Logs | All traffic, 1 year retention |
+| Data Protection | Automatic daily backups | 7 days (dev) / 30 days (prod) retention |
+| Resource Protection | RemovalPolicy.RETAIN + Termination Protection | FSxN, Volumes, KMS, S3 |
+| Resource Tagging | Automated tag propagation | System, Environment, ManagedBy |
+| Cost Visibility | Tags + per-resource identification | CloudWatch + Cost Explorer |
+
+### Post-Deployment Configuration
+
+After CDK deployment, complete the following to fully satisfy Government Cloud requirements:
+
+1. **NFS/SMB Encryption**: Enable protocol-level encryption following [doc/nfs-smb-encryption-guide.md](nfs-smb-encryption-guide.md)
+2. **ONTAP Audit Logging**: Enable ONTAP file access audit logs via CLI for file-level access tracking
+3. **Snapshot Policy**: Configure ONTAP Snapshot policies for granular point-in-time recovery (in addition to AWS-level backups)
+
+### Applicable Standards
+
+- デジタル庁 ガバメントクラウド技術要件 (305項目)
+- ISMAP (政府情報システムのためのセキュリティ評価制度)
+- AWS Well-Architected Framework - Security Pillar
+- NISC 政府機関等のサイバーセキュリティ対策のための統一基準群
 
 ## Related Links
 
