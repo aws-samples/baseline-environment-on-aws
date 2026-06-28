@@ -1,0 +1,75 @@
+{
+    "FileSystems": [
+        {
+            "OwnerId": "178625946981",
+            "CreationTime": "2026-06-05T11:09:09.275000+09:00",
+            "FileSystemId": "fs-07d114047cc4f18c9",
+            "FileSystemType": "ONTAP",
+            "Lifecycle": "AVAILABLE",
+            "StorageCapacity": 1024,
+            "StorageType": "SSD",
+            "VpcId": "vpc-0aa7b0af1eab80ac9",
+            "SubnetIds": [
+                "subnet-0f17c492e15da2e08"
+            ],
+            "NetworkInterfaceIds": [
+                "eni-05b25a985b890f371",
+                "eni-0f332c3b957fef94f"
+            ],
+            "KmsKeyId": "arn:aws:kms:ap-northeast-1:178625946981:key/60819c31-7b32-4ed9-b98b-0e6f200927e7",
+            "ResourceARN": "arn:aws:fsx:ap-northeast-1:178625946981:file-system/fs-07d114047cc4f18c9",
+            "Tags": [
+                {
+                    "Key": "aws:cloudformation:stack-name",
+                    "Value": "Dev-BLEAFsxnModernization"
+                },
+                {
+                    "Key": "Environment",
+                    "Value": "Development"
+                },
+                {
+                    "Key": "aws:cloudformation:logical-id",
+                    "Value": "FsxnStorageFileSystem528E848B"
+                },
+                {
+                    "Key": "Repository",
+                    "Value": "aws-samples/baseline-environment-on-aws"
+                },
+                {
+                    "Key": "aws:cloudformation:stack-id",
+                    "Value": "arn:aws:cloudformation:ap-northeast-1:178625946981:stack/Dev-BLEAFsxnModernization/712ca6d0-6083-11f1-ae8f-061c81c90471"
+                }
+            ],
+            "OntapConfiguration": {
+                "AutomaticBackupRetentionDays": 30,
+                "DailyAutomaticBackupStartTime": "14:30",
+                "DeploymentType": "SINGLE_AZ_1",
+                "Endpoints": {
+                    "Intercluster": {
+                        "DNSName": "intercluster.fs-07d114047cc4f18c9.fsx.ap-northeast-1.amazonaws.com",
+                        "IpAddresses": [
+                            "10.0.0.98",
+                            "10.0.0.99"
+                        ]
+                    },
+                    "Management": {
+                        "DNSName": "management.fs-07d114047cc4f18c9.fsx.ap-northeast-1.amazonaws.com",
+                        "IpAddresses": [
+                            "10.0.0.142"
+                        ]
+                    }
+                },
+                "DiskIopsConfiguration": {
+                    "Mode": "AUTOMATIC",
+                    "Iops": 3072
+                },
+                "PreferredSubnetId": "subnet-0f17c492e15da2e08",
+                "ThroughputCapacity": 128,
+                "WeeklyMaintenanceStartTime": "4:18:30",
+                "HAPairs": 1,
+                "ThroughputCapacityPerHAPair": 128
+            },
+            "NetworkType": "IPV4"
+        }
+    ]
+}
