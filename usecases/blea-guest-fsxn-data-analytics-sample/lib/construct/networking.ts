@@ -9,7 +9,6 @@ export interface NetworkingProps {
 export class Networking extends Construct {
   public readonly vpc: ec2.IVpc;
   public readonly fsxnSecurityGroup: ec2.ISecurityGroup;
-  public readonly glueSecurityGroup: ec2.ISecurityGroup;
   public readonly privateSubnetRouteTableIds: string[];
 
   constructor(scope: Construct, id: string, props: NetworkingProps) {
@@ -66,19 +65,7 @@ export class Networking extends Construct {
     fsxnSg.addIngressRule(ec2.Peer.ipv4(props.vpcCidr), ec2.Port.tcp(443), 'ONTAP REST API');
     this.fsxnSecurityGroup = fsxnSg;
 
-    // Security Group for Glue Crawler
-    const glueSg = new ec2.SecurityGroup(this, 'GlueSecurityGroup', {
-      vpc,
-      description: 'Security group for AWS Glue Crawler',
-      allowAllOutbound: false,
-    });
-    // Outbound HTTPS to VPC endpoints
-    glueSg.addEgressRule(ec2.Peer.ipv4(props.vpcCidr), ec2.Port.tcp(443), 'HTTPS to VPC Endpoints');
-    // Self-referencing rule for Glue Spark (required for Glue connections)
-    glueSg.addIngressRule(glueSg, ec2.Port.allTraffic(), 'Self-referencing for Glue Spark');
-    this.glueSecurityGroup = glueSg;
-
-    // VPC Flow Logs (Government Cloud requirement: network traffic audit)
+    // VPC Flow Logs (security best practice: network traffic audit)
     const flowLogGroup = new logs.LogGroup(this, 'VpcFlowLogGroup', {
       retention: logs.RetentionDays.ONE_YEAR,
       removalPolicy: cdk.RemovalPolicy.RETAIN,

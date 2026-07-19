@@ -132,7 +132,7 @@ describe('Security', () => {
   });
 });
 
-describe('Government Cloud Compliance', () => {
+describe('Security Compliance', () => {
   test('has VPC Flow Logs', () => {
     template.hasResourceProperties('AWS::EC2::FlowLog', {
       ResourceType: 'VPC',

@@ -53,6 +53,25 @@ This use case provides enterprise file storage with Amazon FSx for NetApp ONTAP 
 - AWS CDK CLI (`npm install -g aws-cdk`)
 - CDK Bootstrap completed in the target account
 - BLEA governance base deployed (standalone or Control Tower)
+- **Lake Formation Data Lake Administrator** registered for the CDK execution role (see below)
+
+### Lake Formation Setup (Required)
+
+This stack uses `AWS::LakeFormation::PrincipalPermissions` to grant Glue Crawler access to the Data Catalog. Deployment will fail with `AccessDenied` unless the CDK CloudFormation execution role is registered as a Lake Formation Data Lake Administrator.
+
+Run the following command **once** before the first deployment:
+
+```bash
+aws lakeformation put-data-lake-settings \
+  --data-lake-settings '{
+    "DataLakeAdmins": [
+      {"DataLakePrincipalIdentifier": "arn:aws:iam::<ACCOUNT>:role/cdk-hnb659fds-cfn-exec-role-<ACCOUNT>-<REGION>"}
+    ]
+  }' \
+  --region <REGION> --profile <your-profile>
+```
+
+Replace `<ACCOUNT>` and `<REGION>` with your target values.
 
 ## Parameter Configuration
 
@@ -101,6 +120,8 @@ Edit `parameter.ts` with your environment-specific values.
 ```bash
 npx cdk deploy --all --profile <your-profile>
 ```
+
+> ⏱️ Initial deployment takes 20–35 minutes. The majority of this time is FSx for ONTAP file system provisioning.
 
 ### 5. Run Glue Crawler
 
@@ -164,9 +185,9 @@ FSx for ONTAP throughput is shared across all protocols (NFS, SMB, S3 Access Poi
 - Stack termination protection enabled for production
 - Resource tagging policy applied (System, Environment, ManagedBy)
 
-## Government Cloud (ガバメントクラウド) Compatibility
+## Security Best Practices
 
-This template is designed to be compatible with the Government Cloud standard requirements published by the Digital Agency of Japan.
+This template implements security controls aligned with the AWS Well-Architected Framework Security Pillar and enterprise compliance standards.
 
 ### Prerequisites (Baseline Environment)
 
@@ -181,7 +202,7 @@ This template assumes the following services are already enabled at the account 
 | IAM Access Analyzer | Account or organization | Baseline environment |
 | AWS Organizations SCPs | Organization-level guardrails | Management account |
 
-> ⚠️ If deploying without a BLEA governance base, enable these services manually before deploying this template to satisfy Government Cloud audit requirements.
+> ⚠️ If deploying without a BLEA governance base, enable these services manually before deploying this template to satisfy security audit requirements.
 
 ### What This Template Provides
 
@@ -200,7 +221,7 @@ This template assumes the following services are already enabled at the account 
 
 ### Post-Deployment Configuration
 
-After CDK deployment, complete the following to fully satisfy Government Cloud requirements:
+After CDK deployment, complete the following for full security posture:
 
 1. **NFS/SMB Encryption**: Enable protocol-level encryption following [doc/nfs-smb-encryption-guide.md](nfs-smb-encryption-guide.md)
 2. **ONTAP Audit Logging**: Enable ONTAP file access audit logs via CLI for file-level access tracking
@@ -208,10 +229,7 @@ After CDK deployment, complete the following to fully satisfy Government Cloud r
 
 ### Applicable Standards
 
-- デジタル庁 ガバメントクラウド技術要件 (305項目)
-- ISMAP (政府情報システムのためのセキュリティ評価制度)
 - AWS Well-Architected Framework - Security Pillar
-- NISC 政府機関等のサイバーセキュリティ対策のための統一基準群
 
 ## Related Links
 

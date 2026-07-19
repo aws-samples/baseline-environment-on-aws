@@ -53,6 +53,25 @@
 - AWS CDK CLI (`npm install -g aws-cdk`)
 - デプロイ先 AWS アカウントで CDK Bootstrap が実行済みであること
 - BLEA ガバナンスベース（standalone または Control Tower）がデプロイ済みであること
+- CDK 実行ロールが **Lake Formation Data Lake Administrator** として登録済みであること（下記参照）
+
+### Lake Formation の設定（必須）
+
+本スタックは `AWS::LakeFormation::PrincipalPermissions` を使用して Glue Crawler に Data Catalog へのアクセス権を付与します。CDK の CloudFormation 実行ロールが Lake Formation Data Lake Administrator として登録されていない場合、デプロイ時に `AccessDenied` エラーが発生します。
+
+初回デプロイ前に以下のコマンドを **1回** 実行してください：
+
+```bash
+aws lakeformation put-data-lake-settings \
+  --data-lake-settings '{
+    "DataLakeAdmins": [
+      {"DataLakePrincipalIdentifier": "arn:aws:iam::<ACCOUNT>:role/cdk-hnb659fds-cfn-exec-role-<ACCOUNT>-<REGION>"}
+    ]
+  }' \
+  --region <REGION> --profile <your-profile>
+```
+
+`<ACCOUNT>` と `<REGION>` を対象環境の値に置き換えてください。
 
 ## パラメータ設定
 
@@ -101,6 +120,8 @@ npx cdk bootstrap --profile <your-profile>
 ```bash
 npx cdk deploy --all --profile <your-profile>
 ```
+
+> ⏱️ 初回デプロイには 20〜35 分程度かかります。所要時間の大部分は FSx for ONTAP ファイルシステムのプロビジョニングです。
 
 ### 5. Glue Crawler の実行
 

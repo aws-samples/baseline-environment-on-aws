@@ -39,6 +39,20 @@ exports[`Snapshot test 1`] = `
           ],
           "Version": "2012-10-17",
         },
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "AWS-CDK",
+          },
+          {
+            "Key": "System",
+            "Value": "BLEA-FSxN-DataAnalytics",
+          },
+        ],
       },
       "Type": "AWS::KMS::Key",
       "UpdateReplacePolicy": "Retain",
@@ -76,6 +90,20 @@ exports[`Snapshot test 1`] = `
           "IgnorePublicAcls": true,
           "RestrictPublicBuckets": true,
         },
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "AWS-CDK",
+          },
+          {
+            "Key": "System",
+            "Value": "BLEA-FSxN-DataAnalytics",
+          },
+        ],
         "VersioningConfiguration": {
           "Status": "Enabled",
         },
@@ -134,6 +162,20 @@ exports[`Snapshot test 1`] = `
       "Properties": {
         "Name": "fsxn-analytics",
         "State": "ENABLED",
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "AWS-CDK",
+          },
+          {
+            "Key": "System",
+            "Value": "BLEA-FSxN-DataAnalytics",
+          },
+        ],
         "WorkGroupConfiguration": {
           "EnforceWorkGroupConfiguration": true,
           "EngineVersion": {
@@ -183,6 +225,11 @@ exports[`Snapshot test 1`] = `
           "DeleteBehavior": "LOG",
           "UpdateBehavior": "UPDATE_IN_DATABASE",
         },
+        "Tags": {
+          "Environment": "Development",
+          "ManagedBy": "AWS-CDK",
+          "System": "BLEA-FSxN-DataAnalytics",
+        },
         "Targets": {
           "S3Targets": [
             {
@@ -222,6 +269,20 @@ exports[`Snapshot test 1`] = `
           "Version": "2012-10-17",
         },
         "Description": "IAM role for Glue Crawler to access FSxN S3 Access Point",
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "AWS-CDK",
+          },
+          {
+            "Key": "System",
+            "Value": "BLEA-FSxN-DataAnalytics",
+          },
+        ],
       },
       "Type": "AWS::IAM::Role",
     },
@@ -372,6 +433,8 @@ exports[`Snapshot test 1`] = `
           ],
         },
         "OntapConfiguration": {
+          "AutomaticBackupRetentionDays": 7,
+          "DailyAutomaticBackupStartTime": "17:00",
           "DeploymentType": "SINGLE_AZ_1",
           "PreferredSubnetId": {
             "Ref": "NetworkingVpcPrivateSubnet1Subnet717BCE48",
@@ -392,6 +455,20 @@ exports[`Snapshot test 1`] = `
             "Ref": "NetworkingVpcPrivateSubnet1Subnet717BCE48",
           },
         ],
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "AWS-CDK",
+          },
+          {
+            "Key": "System",
+            "Value": "BLEA-FSxN-DataAnalytics",
+          },
+        ],
       },
       "Type": "AWS::FSx::FileSystem",
       "UpdateReplacePolicy": "Retain",
@@ -403,6 +480,20 @@ exports[`Snapshot test 1`] = `
         },
         "Name": "svm-analytics",
         "RootVolumeSecurityStyle": "UNIX",
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "AWS-CDK",
+          },
+          {
+            "Key": "System",
+            "Value": "BLEA-FSxN-DataAnalytics",
+          },
+        ],
       },
       "Type": "AWS::FSx::StorageVirtualMachine",
     },
@@ -422,12 +513,42 @@ exports[`Snapshot test 1`] = `
             "Name": "AUTO",
           },
         },
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "AWS-CDK",
+          },
+          {
+            "Key": "System",
+            "Value": "BLEA-FSxN-DataAnalytics",
+          },
+        ],
         "VolumeType": "ONTAP",
       },
       "Type": "AWS::FSx::Volume",
       "UpdateReplacePolicy": "Retain",
     },
     "MonitoringAlarmTopicAF62D4F1": {
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "AWS-CDK",
+          },
+          {
+            "Key": "System",
+            "Value": "BLEA-FSxN-DataAnalytics",
+          },
+        ],
+      },
       "Type": "AWS::SNS::Topic",
     },
     "MonitoringAlarmTopicPolicyCB9CCFB0": {
@@ -478,6 +599,20 @@ exports[`Snapshot test 1`] = `
         "Namespace": "AWS/FSx",
         "Period": 300,
         "Statistic": "Average",
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "AWS-CDK",
+          },
+          {
+            "Key": "System",
+            "Value": "BLEA-FSxN-DataAnalytics",
+          },
+        ],
         "Threshold": 80,
       },
       "Type": "AWS::CloudWatch::Alarm",
@@ -514,6 +649,20 @@ exports[`Snapshot test 1`] = `
         "Namespace": "AWS/FSx",
         "Period": 300,
         "Statistic": "Average",
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "AWS-CDK",
+          },
+          {
+            "Key": "System",
+            "Value": "BLEA-FSxN-DataAnalytics",
+          },
+        ],
         "Threshold": 80,
       },
       "Type": "AWS::CloudWatch::Alarm",
@@ -540,6 +689,20 @@ exports[`Snapshot test 1`] = `
         "Namespace": "AWS/FSx",
         "Period": 300,
         "Statistic": "Average",
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "AWS-CDK",
+          },
+          {
+            "Key": "System",
+            "Value": "BLEA-FSxN-DataAnalytics",
+          },
+        ],
         "Threshold": 80,
       },
       "Type": "AWS::CloudWatch::Alarm",
@@ -600,22 +763,18 @@ exports[`Snapshot test 1`] = `
             "ToPort": 443,
           },
         ],
-        "VpcId": {
-          "Ref": "NetworkingVpc6B5E6F44",
-        },
-      },
-      "Type": "AWS::EC2::SecurityGroup",
-    },
-    "NetworkingGlueSecurityGroup714888AD": {
-      "Properties": {
-        "GroupDescription": "Security group for AWS Glue Crawler",
-        "SecurityGroupEgress": [
+        "Tags": [
           {
-            "CidrIp": "10.0.0.0/16",
-            "Description": "HTTPS to VPC Endpoints",
-            "FromPort": 443,
-            "IpProtocol": "tcp",
-            "ToPort": 443,
+            "Key": "Environment",
+            "Value": "Development",
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "AWS-CDK",
+          },
+          {
+            "Key": "System",
+            "Value": "BLEA-FSxN-DataAnalytics",
           },
         ],
         "VpcId": {
@@ -623,25 +782,6 @@ exports[`Snapshot test 1`] = `
         },
       },
       "Type": "AWS::EC2::SecurityGroup",
-    },
-    "NetworkingGlueSecurityGroupfromTestStackNetworkingGlueSecurityGroup6882A940ALLTRAFFICF86D9BEC": {
-      "Properties": {
-        "Description": "Self-referencing for Glue Spark",
-        "GroupId": {
-          "Fn::GetAtt": [
-            "NetworkingGlueSecurityGroup714888AD",
-            "GroupId",
-          ],
-        },
-        "IpProtocol": "-1",
-        "SourceSecurityGroupId": {
-          "Fn::GetAtt": [
-            "NetworkingGlueSecurityGroup714888AD",
-            "GroupId",
-          ],
-        },
-      },
-      "Type": "AWS::EC2::SecurityGroupIngress",
     },
     "NetworkingVpc6B5E6F44": {
       "Properties": {
@@ -651,8 +791,20 @@ exports[`Snapshot test 1`] = `
         "InstanceTenancy": "default",
         "Tags": [
           {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "AWS-CDK",
+          },
+          {
             "Key": "Name",
             "Value": "TestStack/Networking/Vpc",
+          },
+          {
+            "Key": "System",
+            "Value": "BLEA-FSxN-DataAnalytics",
           },
         ],
       },
@@ -680,8 +832,20 @@ exports[`Snapshot test 1`] = `
         ],
         "Tags": [
           {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "AWS-CDK",
+          },
+          {
             "Key": "Name",
             "Value": "TestStack/Networking/Vpc",
+          },
+          {
+            "Key": "System",
+            "Value": "BLEA-FSxN-DataAnalytics",
           },
         ],
         "VpcEndpointType": "Interface",
@@ -731,8 +895,20 @@ exports[`Snapshot test 1`] = `
         ],
         "Tags": [
           {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "AWS-CDK",
+          },
+          {
             "Key": "Name",
             "Value": "TestStack/Networking/Vpc",
+          },
+          {
+            "Key": "System",
+            "Value": "BLEA-FSxN-DataAnalytics",
           },
         ],
         "VpcId": {
@@ -740,6 +916,127 @@ exports[`Snapshot test 1`] = `
         },
       },
       "Type": "AWS::EC2::SecurityGroup",
+    },
+    "NetworkingVpcFlowLog5A6770EB": {
+      "Properties": {
+        "DeliverLogsPermissionArn": {
+          "Fn::GetAtt": [
+            "NetworkingVpcFlowLogRoleC713B9F5",
+            "Arn",
+          ],
+        },
+        "LogDestinationType": "cloud-watch-logs",
+        "LogGroupName": {
+          "Ref": "NetworkingVpcFlowLogGroupA5F3FBF2",
+        },
+        "ResourceId": {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+        "ResourceType": "VPC",
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "AWS-CDK",
+          },
+          {
+            "Key": "Name",
+            "Value": "TestStack/Networking/Vpc/FlowLog",
+          },
+          {
+            "Key": "System",
+            "Value": "BLEA-FSxN-DataAnalytics",
+          },
+        ],
+        "TrafficType": "ALL",
+      },
+      "Type": "AWS::EC2::FlowLog",
+    },
+    "NetworkingVpcFlowLogGroupA5F3FBF2": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "RetentionInDays": 365,
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "AWS-CDK",
+          },
+          {
+            "Key": "System",
+            "Value": "BLEA-FSxN-DataAnalytics",
+          },
+        ],
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "NetworkingVpcFlowLogRoleC713B9F5": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "vpc-flow-logs.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "AWS-CDK",
+          },
+          {
+            "Key": "System",
+            "Value": "BLEA-FSxN-DataAnalytics",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "NetworkingVpcFlowLogRoleDefaultPolicy9DF16AA4": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+                "logs:DescribeLogStreams",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "NetworkingVpcFlowLogGroupA5F3FBF2",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "NetworkingVpcFlowLogRoleDefaultPolicy9DF16AA4",
+        "Roles": [
+          {
+            "Ref": "NetworkingVpcFlowLogRoleC713B9F5",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
     },
     "NetworkingVpcGlueEndpointFC29E906": {
       "Properties": {
@@ -763,8 +1060,20 @@ exports[`Snapshot test 1`] = `
         ],
         "Tags": [
           {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "AWS-CDK",
+          },
+          {
             "Key": "Name",
             "Value": "TestStack/Networking/Vpc",
+          },
+          {
+            "Key": "System",
+            "Value": "BLEA-FSxN-DataAnalytics",
           },
         ],
         "VpcEndpointType": "Interface",
@@ -814,8 +1123,20 @@ exports[`Snapshot test 1`] = `
         ],
         "Tags": [
           {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "AWS-CDK",
+          },
+          {
             "Key": "Name",
             "Value": "TestStack/Networking/Vpc",
+          },
+          {
+            "Key": "System",
+            "Value": "BLEA-FSxN-DataAnalytics",
           },
         ],
         "VpcId": {
@@ -828,8 +1149,20 @@ exports[`Snapshot test 1`] = `
       "Properties": {
         "Tags": [
           {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "AWS-CDK",
+          },
+          {
             "Key": "Name",
             "Value": "TestStack/Networking/Vpc/PrivateSubnet1",
+          },
+          {
+            "Key": "System",
+            "Value": "BLEA-FSxN-DataAnalytics",
           },
         ],
         "VpcId": {
@@ -864,8 +1197,20 @@ exports[`Snapshot test 1`] = `
             "Value": "Isolated",
           },
           {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "AWS-CDK",
+          },
+          {
             "Key": "Name",
             "Value": "TestStack/Networking/Vpc/PrivateSubnet1",
+          },
+          {
+            "Key": "System",
+            "Value": "BLEA-FSxN-DataAnalytics",
           },
         ],
         "VpcId": {
@@ -878,8 +1223,20 @@ exports[`Snapshot test 1`] = `
       "Properties": {
         "Tags": [
           {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "AWS-CDK",
+          },
+          {
             "Key": "Name",
             "Value": "TestStack/Networking/Vpc/PrivateSubnet2",
+          },
+          {
+            "Key": "System",
+            "Value": "BLEA-FSxN-DataAnalytics",
           },
         ],
         "VpcId": {
@@ -914,8 +1271,20 @@ exports[`Snapshot test 1`] = `
             "Value": "Isolated",
           },
           {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "AWS-CDK",
+          },
+          {
             "Key": "Name",
             "Value": "TestStack/Networking/Vpc/PrivateSubnet2",
+          },
+          {
+            "Key": "System",
+            "Value": "BLEA-FSxN-DataAnalytics",
           },
         ],
         "VpcId": {
@@ -948,8 +1317,20 @@ exports[`Snapshot test 1`] = `
         },
         "Tags": [
           {
+            "Key": "Environment",
+            "Value": "Development",
+          },
+          {
+            "Key": "ManagedBy",
+            "Value": "AWS-CDK",
+          },
+          {
             "Key": "Name",
             "Value": "TestStack/Networking/Vpc",
+          },
+          {
+            "Key": "System",
+            "Value": "BLEA-FSxN-DataAnalytics",
           },
         ],
         "VpcEndpointType": "Gateway",

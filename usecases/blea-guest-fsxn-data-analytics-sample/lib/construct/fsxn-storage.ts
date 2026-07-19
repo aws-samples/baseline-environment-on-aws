@@ -39,7 +39,7 @@ export class FsxnStorage extends Construct {
         deploymentType: props.deploymentType,
         throughputCapacity: props.throughputCapacityMBps,
         preferredSubnetId: subnets[0].subnetId,
-        // Automatic daily backups (Government Cloud requirement: data protection)
+        // Automatic daily backups (security best practice: data protection)
         automaticBackupRetentionDays: props.automaticBackupRetentionDays,
         dailyAutomaticBackupStartTime: props.dailyAutomaticBackupStartTime,
         // RouteTableIds is only supported for Multi-AZ deployments

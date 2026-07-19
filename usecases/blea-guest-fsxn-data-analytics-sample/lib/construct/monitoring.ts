@@ -1,3 +1,4 @@
+import * as cdk from 'aws-cdk-lib';
 import {
   aws_chatbot as chatbot,
   aws_cloudwatch as cw,
@@ -113,6 +114,3 @@ export class Monitoring extends Construct {
     storageAlarm.addAlarmAction(new cw_actions.SnsAction(topic));
   }
 }
-
-// Required for Duration import
-import * as cdk from 'aws-cdk-lib';

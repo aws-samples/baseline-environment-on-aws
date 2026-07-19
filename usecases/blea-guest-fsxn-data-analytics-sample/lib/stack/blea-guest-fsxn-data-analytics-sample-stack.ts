@@ -88,7 +88,7 @@ export class BLEAFsxnDataAnalyticsStack extends Stack {
       fileSystemId: fsxnStorage.fileSystemId,
     });
 
-    // 6. Tagging Policy (Government Cloud requirement: resource identification)
+    // 6. Tagging Policy (security best practice: resource identification)
     Tags.of(this).add('System', 'BLEA-FSxN-DataAnalytics');
     Tags.of(this).add('Environment', props.envName);
     Tags.of(this).add('ManagedBy', 'AWS-CDK');
