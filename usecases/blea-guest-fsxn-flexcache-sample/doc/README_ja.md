@@ -53,6 +53,15 @@
 3. 同一リージョン内 FlexCache: VPC Peering で可能
 4. **クロスリージョン FlexCache: Transit Gateway 必須**（VPC Peering は非対応）
 
+## デプロイ
+
+```bash
+npm ci
+npx cdk deploy --all --profile <your-profile>
+```
+
+> ⏱️ 初回デプロイには 30〜50 分程度かかります。2つの FSx for ONTAP ファイルシステム（Origin + Cache）が順次プロビジョニングされた後、FlexCache リレーションシップが作成されます。
+
 ## コスト見積もり
 
 | 構成 | 月額 (USD) | 内訳 |

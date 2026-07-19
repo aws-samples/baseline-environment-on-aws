@@ -53,6 +53,15 @@ A FlexCache pattern using FSx for NetApp ONTAP to accelerate file access between
 3. Same-region FlexCache: VPC Peering supported
 4. **Cross-region FlexCache: Transit Gateway required** (VPC Peering not supported)
 
+## Deployment
+
+```bash
+npm ci
+npx cdk deploy --all --profile <your-profile>
+```
+
+> ⏱️ Initial deployment takes 30–50 minutes. Two FSx for ONTAP file systems (origin + cache) are provisioned sequentially, followed by FlexCache relationship creation.
+
 ## Cost Estimate
 
 | Component | Monthly Cost (USD) | Details |
