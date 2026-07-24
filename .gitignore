@@ -18,3 +18,9 @@ cdk.context.json
 
 # Kiro IDE
 .kiro/
+
+# Internal development files
+.private/
+**/doc/verification-results/
+**/doc/issue-draft.md
+**/doc/pr-draft.md
