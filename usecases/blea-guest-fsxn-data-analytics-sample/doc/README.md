@@ -1,0 +1,239 @@
+# BLEA Guest System: FSx for NetApp ONTAP Data Analytics Sample
+
+## Overview
+
+This use case provides enterprise file storage with Amazon FSx for NetApp ONTAP integrated with AWS Glue and Amazon Athena via S3 Access Points. It enables SQL-based analysis of file data without data duplication.
+
+## Architecture
+
+![Architecture Diagram](images/architecture.png)
+
+```
+┌────────────────────────────────────────────────────────────────────┐
+│ BLEAFsxnDataAnalyticsStack                                          │
+│                                                                     │
+│  ┌───────────────────────────────────────────────────────────────┐  │
+│  │ VPC (Private Subnets × 2 AZ, No Internet Access)              │  │
+│  │  VPC Endpoints: S3 (Gateway), Glue, Athena                    │  │
+│  └───────────────────────────────────────────────────────────────┘  │
+│                                                                     │
+│  ┌─────────────────────┐   ┌──────────────────────────────────┐   │
+│  │ FSx for ONTAP        │   │ S3 Access Point                  │   │
+│  │  ├── File System     │──►│  (Internet-origin)               │   │
+│  │  │   (Multi-AZ)      │   │  UNIX_USER identity              │   │
+│  │  ├── SVM             │   └──────────────┬───────────────────┘   │
+│  │  └── Volume (NFS)    │                  │                       │
+│  │      Dedup + Compress │                  ▼                       │
+│  │      FabricPool       │   ┌──────────────────────────────────┐   │
+│  └─────────────────────┘   │ Data Analytics                    │   │
+│                             │  Glue Crawler → Data Catalog       │   │
+│                             │  Athena Workgroup → SQL Queries    │   │
+│                             │  Results → S3 Bucket (KMS enc.)   │   │
+│                             └──────────────────────────────────┘   │
+│                                                                     │
+│  ┌───────────────────────────────────────────────────────────────┐  │
+│  │ Monitoring                                                     │  │
+│  │  CloudWatch Alarms → SNS → Email + Chatbot (Slack)            │  │
+│  │  Metrics: Throughput, CPU, Storage Capacity                    │  │
+│  └───────────────────────────────────────────────────────────────┘  │
+└────────────────────────────────────────────────────────────────────┘
+```
+
+### Data Flow
+
+1. Users write files to FSxN via NFS/SMB
+2. S3 Access Point exposes volume data as S3 objects
+3. Glue Crawler discovers data schema via S3 AP → registers in Data Catalog
+4. Athena queries Data Catalog → reads data via S3 AP → outputs results to S3 bucket
+
+## Prerequisites
+
+- AWS CLI v2 installed
+- Node.js >= 20.x, npm >= 8.1.0
+- AWS CDK CLI (`npm install -g aws-cdk`)
+- CDK Bootstrap completed in the target account
+- BLEA governance base deployed (standalone or Control Tower)
+- **Lake Formation Data Lake Administrator** registered for the CDK execution role (see below)
+
+### Lake Formation Setup (Required)
+
+This stack uses `AWS::LakeFormation::PrincipalPermissions` to grant Glue Crawler access to the Data Catalog. Deployment will fail with `AccessDenied` unless the CDK CloudFormation execution role is registered as a Lake Formation Data Lake Administrator.
+
+Run the following command **once** before the first deployment:
+
+```bash
+aws lakeformation put-data-lake-settings \
+  --data-lake-settings '{
+    "DataLakeAdmins": [
+      {"DataLakePrincipalIdentifier": "arn:aws:iam::<ACCOUNT>:role/cdk-hnb659fds-cfn-exec-role-<ACCOUNT>-<REGION>"}
+    ]
+  }' \
+  --region <REGION> --profile <your-profile>
+```
+
+Replace `<ACCOUNT>` and `<REGION>` with your target values.
+
+## Parameter Configuration
+
+Edit `parameter.ts` to set environment-specific values.
+
+| Parameter | Description | Dev Default | Prod Recommended |
+|-----------|-------------|-------------|-----------------|
+| `envName` | Environment name (used in tags) | Development | Production |
+| `vpcCidr` | VPC CIDR block | 10.0.0.0/16 | 10.0.0.0/16 |
+| `fsxnStorageCapacityGiB` | FSxN storage capacity (GiB) | 1024 | 2048+ |
+| `fsxnThroughputCapacityMBps` | FSxN throughput (MBps) | 128 | 512+ |
+| `fsxnDeploymentType` | Deployment type | SINGLE_AZ_1 | MULTI_AZ_1 |
+| `s3AccessPointName` | S3 AP name (3-50 chars, lowercase alphanumeric + hyphen) | fsxn-analytics-dev | fsxn-analytics-prod |
+| `s3ApFileSystemIdentityUser` | UNIX user for S3 AP access | nobody | analytics-svc |
+| `monitoringNotifyEmail` | Alarm notification email | - | Ops team email |
+| `monitoringSlackWorkspaceId` | Slack workspace ID | - | Chatbot configured ID |
+| `monitoringSlackChannelId` | Slack channel ID | - | Ops notification channel |
+
+### File System Identity
+
+The `s3ApFileSystemIdentityUser` determines which UNIX user's permissions are used when Athena/Glue access files through the S3 AP.
+
+- **Development**: `nobody` (uid=65534) — read access to all files
+- **Production**: Use a dedicated service account (e.g., `analytics-svc`) registered in the FSxN SVM's name service with appropriate file permissions
+
+## Deployment
+
+### 1. Install dependencies
+
+```bash
+npm ci
+```
+
+### 2. CDK Bootstrap (first time only)
+
+```bash
+npx cdk bootstrap --profile <your-profile>
+```
+
+### 3. Configure parameters
+
+Edit `parameter.ts` with your environment-specific values.
+
+### 4. Deploy
+
+```bash
+npx cdk deploy --all --profile <your-profile>
+```
+
+> ⏱️ Initial deployment takes 20–35 minutes. The majority of this time is FSx for ONTAP file system provisioning.
+
+### 5. Run Glue Crawler
+
+After deploying and placing data on the FSxN volume, run the Glue Crawler manually:
+
+```bash
+aws glue start-crawler --name fsxn-data-crawler --profile <your-profile>
+```
+
+### 6. Query with Athena
+
+Open Athena in the AWS Console, select the `fsxn-analytics` workgroup, and execute queries.
+
+## Cleanup
+
+```bash
+npx cdk destroy --all --profile <your-profile>
+```
+
+> ⚠️ FSxN file system, volumes, and KMS key have `RemovalPolicy.RETAIN` and will persist after stack deletion. Delete manually via AWS Console or CLI if needed.
+
+## Cost Estimate
+
+| Configuration | Monthly Cost (USD) | Breakdown |
+|---------------|-------------------|-----------|
+| Dev (SINGLE_AZ, 128MBps, 1TiB) | ~$500 | FSxN SSD $200 + throughput $180 + capacity pool $15 + VPC Endpoints $50 + Glue/Athena usage |
+| Prod (MULTI_AZ, 512MBps, 2TiB) | ~$1,500 | FSxN SSD $400 + throughput $720 + capacity pool $30 + VPC Endpoints $50 + Glue/Athena usage |
+
+> Estimates are for ap-northeast-1 (Tokyo). Actual costs vary by data volume, query frequency, and FabricPool tiering ratio. See [FSx for ONTAP Pricing](https://aws.amazon.com/fsx/netapp-ontap/pricing/).
+
+## Shared Throughput Considerations
+
+FSx for ONTAP throughput is shared across all protocols (NFS, SMB, S3 Access Point).
+
+- Glue Crawler execution generates S3 AP reads that impact NFS/SMB client throughput
+- Default Crawler schedule (`cron(0 2 * * ? *)`) runs at 2:00 AM to minimize impact
+- For production, size throughput to accommodate NFS peak usage + analytics workload
+
+## S3 Access Point Limitations
+
+| Feature | Support |
+|---------|---------|
+| GetObject, PutObject, ListObjectsV2, DeleteObject | ✅ Supported |
+| Multipart Upload | ✅ Supported |
+| Athena, Glue, Bedrock KB, SageMaker | ✅ Supported (Internet-origin AP) |
+| Lambda (in VPC) | ✅ Supported (VPC-origin AP) |
+| S3 Event Notifications | ❌ Not supported |
+| S3 Select | ❌ Not supported |
+| Conditional Writes | ❌ Not supported |
+| Apache Iceberg / Delta Lake / Hudi (table writes) | ❌ Not supported (no atomic rename) |
+
+## Security
+
+- VPC has no internet access (no IGW/NAT)
+- All data encrypted at rest with KMS CMK (auto-rotation enabled)
+- FSxN security group allows VPC-internal traffic only
+- IAM roles follow least-privilege, scoped to specific resources
+- S3 results bucket has Block Public Access + versioning enabled
+- VPC Flow Logs enabled (all traffic → CloudWatch Logs, 1 year retention)
+- Automatic daily backups with configurable retention (dev: 7 days, prod: 30 days)
+- Stack termination protection enabled for production
+- Resource tagging policy applied (System, Environment, ManagedBy)
+
+## Security Best Practices
+
+This template implements security controls aligned with the AWS Well-Architected Framework Security Pillar and enterprise compliance standards.
+
+### Prerequisites (Baseline Environment)
+
+This template assumes the following services are already enabled at the account or organization level, typically by the **BLEA governance base stack** or a **Landing Zone / Control Tower** setup:
+
+| Service | Scope | Responsibility |
+|---------|-------|---------------|
+| AWS CloudTrail | Organization or account trail | Baseline environment |
+| AWS Config | Account-level recorder + rules | Baseline environment |
+| Amazon GuardDuty | Account or organization | Baseline environment |
+| AWS Security Hub | Account or organization | Baseline environment |
+| IAM Access Analyzer | Account or organization | Baseline environment |
+| AWS Organizations SCPs | Organization-level guardrails | Management account |
+
+> ⚠️ If deploying without a BLEA governance base, enable these services manually before deploying this template to satisfy security audit requirements.
+
+### What This Template Provides
+
+| Requirement Category | Implementation | Details |
+|---------------------|---------------|---------|
+| Network Isolation | VPC with isolated private subnets | No IGW, no NAT, VPC Endpoints only |
+| Encryption at Rest | KMS CMK with auto-rotation | FSxN, S3, Athena results |
+| Encryption in Transit | enforceSSL, VPC Endpoints | See [NFS/SMB Encryption Guide](nfs-smb-encryption-guide.md) for protocol-level encryption |
+| Least Privilege IAM | Resource-scoped policies | No wildcard permissions, tested |
+| Monitoring & Alerting | CloudWatch Alarms + SNS + Chatbot | Throughput, CPU, Storage |
+| Network Audit | VPC Flow Logs | All traffic, 1 year retention |
+| Data Protection | Automatic daily backups | 7 days (dev) / 30 days (prod) retention |
+| Resource Protection | RemovalPolicy.RETAIN + Termination Protection | FSxN, Volumes, KMS, S3 |
+| Resource Tagging | Automated tag propagation | System, Environment, ManagedBy |
+| Cost Visibility | Tags + per-resource identification | CloudWatch + Cost Explorer |
+
+### Post-Deployment Configuration
+
+After CDK deployment, complete the following for full security posture:
+
+1. **NFS/SMB Encryption**: Enable protocol-level encryption following [doc/nfs-smb-encryption-guide.md](nfs-smb-encryption-guide.md)
+2. **ONTAP Audit Logging**: Enable ONTAP file access audit logs via CLI for file-level access tracking
+3. **Snapshot Policy**: Configure ONTAP Snapshot policies for granular point-in-time recovery (in addition to AWS-level backups)
+
+### Applicable Standards
+
+- AWS Well-Architected Framework - Security Pillar
+
+## Related Links
+
+- [FSx for ONTAP S3 Access Points (Dec 2025 GA)](https://aws.amazon.com/about-aws/whats-new/2025/12/amazon-fsx-netapp-ontap-s3-access/)
+- [AWS::FSx::S3AccessPointAttachment (CloudFormation)](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-fsx-s3accesspointattachment.html)
+- [Using Access Points with AWS Services](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/using-access-points-with-aws-services.html)
+- [Baseline Environment on AWS (BLEA)](https://github.com/aws-samples/baseline-environment-on-aws)
