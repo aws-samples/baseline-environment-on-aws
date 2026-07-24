@@ -1,0 +1,1648 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot template matches snapshot 1`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "CMK56817A4C": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "Description": "BLEA FSxN FlexCache CMK",
+        "EnableKeyRotation": true,
+        "KeyPolicy": {
+          "Statement": [
+            {
+              "Action": "kms:*",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::123456789012:root",
+                    ],
+                  ],
+                },
+              },
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::KMS::Key",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "CacheFsxnFileSystem78A0A5E6": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FileSystemType": "ONTAP",
+        "KmsKeyId": {
+          "Fn::GetAtt": [
+            "CMK56817A4C",
+            "Arn",
+          ],
+        },
+        "OntapConfiguration": {
+          "DeploymentType": "SINGLE_AZ_1",
+          "PreferredSubnetId": {
+            "Ref": "CacheNetworkingVpcPrivateSubnet1Subnet4B89A74C",
+          },
+          "ThroughputCapacity": 128,
+        },
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
+              "CacheNetworkingFsxnSGC4BE8F84",
+              "GroupId",
+            ],
+          },
+        ],
+        "StorageCapacity": 1024,
+        "SubnetIds": [
+          {
+            "Ref": "CacheNetworkingVpcPrivateSubnet1Subnet4B89A74C",
+          },
+        ],
+      },
+      "Type": "AWS::FSx::FileSystem",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "CacheFsxnSVM02E5B98F": {
+      "Properties": {
+        "FileSystemId": {
+          "Ref": "CacheFsxnFileSystem78A0A5E6",
+        },
+        "Name": "svm-cache",
+        "RootVolumeSecurityStyle": "UNIX",
+      },
+      "Type": "AWS::FSx::StorageVirtualMachine",
+    },
+    "CacheNetworkingFsxnSGC4BE8F84": {
+      "Properties": {
+        "GroupDescription": "Cache FSxN",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "255.255.255.255/32",
+            "Description": "Disallow all traffic",
+            "FromPort": 252,
+            "IpProtocol": "icmp",
+            "ToPort": 86,
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": "10.1.0.0/16",
+            "Description": "NFS local",
+            "FromPort": 2049,
+            "IpProtocol": "tcp",
+            "ToPort": 2049,
+          },
+          {
+            "CidrIp": "10.1.0.0/16",
+            "Description": "SMB local",
+            "FromPort": 445,
+            "IpProtocol": "tcp",
+            "ToPort": 445,
+          },
+          {
+            "CidrIp": "10.1.0.0/16",
+            "Description": "ONTAP mgmt",
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+          {
+            "CidrIp": "10.0.0.0/16",
+            "Description": "Intercluster from origin",
+            "FromPort": 11104,
+            "IpProtocol": "tcp",
+            "ToPort": 11104,
+          },
+          {
+            "CidrIp": "10.0.0.0/16",
+            "Description": "Intercluster from origin",
+            "FromPort": 11105,
+            "IpProtocol": "tcp",
+            "ToPort": 11105,
+          },
+        ],
+        "VpcId": {
+          "Ref": "CacheNetworkingVpcCA55468A",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "CacheNetworkingLambdaSGCB62CC21": {
+      "Properties": {
+        "GroupDescription": "Lambda",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": {
+          "Ref": "CacheNetworkingVpcCA55468A",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "CacheNetworkingVpcCA55468A": {
+      "Properties": {
+        "CidrBlock": "10.1.0.0/16",
+        "EnableDnsHostnames": true,
+        "EnableDnsSupport": true,
+        "InstanceTenancy": "default",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Test/CacheNetworking/Vpc",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::VPC",
+    },
+    "CacheNetworkingVpcCWLogs02DD5399": {
+      "Properties": {
+        "PrivateDnsEnabled": true,
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
+              "CacheNetworkingVpcCWLogsSecurityGroupD7B0B762",
+              "GroupId",
+            ],
+          },
+        ],
+        "ServiceName": "com.amazonaws.ap-northeast-1.logs",
+        "SubnetIds": [
+          {
+            "Ref": "CacheNetworkingVpcPrivateSubnet1Subnet4B89A74C",
+          },
+          {
+            "Ref": "CacheNetworkingVpcPrivateSubnet2SubnetEE6348E8",
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Test/CacheNetworking/Vpc",
+          },
+        ],
+        "VpcEndpointType": "Interface",
+        "VpcId": {
+          "Ref": "CacheNetworkingVpcCA55468A",
+        },
+      },
+      "Type": "AWS::EC2::VPCEndpoint",
+    },
+    "CacheNetworkingVpcCWLogsSecurityGroupD7B0B762": {
+      "Properties": {
+        "GroupDescription": "Test/CacheNetworking/Vpc/CWLogs/SecurityGroup",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::GetAtt": [
+                "CacheNetworkingVpcCA55468A",
+                "CidrBlock",
+              ],
+            },
+            "Description": {
+              "Fn::Join": [
+                "",
+                [
+                  "from ",
+                  {
+                    "Fn::GetAtt": [
+                      "CacheNetworkingVpcCA55468A",
+                      "CidrBlock",
+                    ],
+                  },
+                  ":443",
+                ],
+              ],
+            },
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Test/CacheNetworking/Vpc",
+          },
+        ],
+        "VpcId": {
+          "Ref": "CacheNetworkingVpcCA55468A",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "CacheNetworkingVpcCWMonitoringCB72DB7E": {
+      "Properties": {
+        "PrivateDnsEnabled": true,
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
+              "CacheNetworkingVpcCWMonitoringSecurityGroupD4355729",
+              "GroupId",
+            ],
+          },
+        ],
+        "ServiceName": "com.amazonaws.ap-northeast-1.monitoring",
+        "SubnetIds": [
+          {
+            "Ref": "CacheNetworkingVpcPrivateSubnet1Subnet4B89A74C",
+          },
+          {
+            "Ref": "CacheNetworkingVpcPrivateSubnet2SubnetEE6348E8",
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Test/CacheNetworking/Vpc",
+          },
+        ],
+        "VpcEndpointType": "Interface",
+        "VpcId": {
+          "Ref": "CacheNetworkingVpcCA55468A",
+        },
+      },
+      "Type": "AWS::EC2::VPCEndpoint",
+    },
+    "CacheNetworkingVpcCWMonitoringSecurityGroupD4355729": {
+      "Properties": {
+        "GroupDescription": "Test/CacheNetworking/Vpc/CWMonitoring/SecurityGroup",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::GetAtt": [
+                "CacheNetworkingVpcCA55468A",
+                "CidrBlock",
+              ],
+            },
+            "Description": {
+              "Fn::Join": [
+                "",
+                [
+                  "from ",
+                  {
+                    "Fn::GetAtt": [
+                      "CacheNetworkingVpcCA55468A",
+                      "CidrBlock",
+                    ],
+                  },
+                  ":443",
+                ],
+              ],
+            },
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Test/CacheNetworking/Vpc",
+          },
+        ],
+        "VpcId": {
+          "Ref": "CacheNetworkingVpcCA55468A",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "CacheNetworkingVpcPrivateSubnet1RouteTable8B005F0B": {
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Test/CacheNetworking/Vpc/PrivateSubnet1",
+          },
+        ],
+        "VpcId": {
+          "Ref": "CacheNetworkingVpcCA55468A",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "CacheNetworkingVpcPrivateSubnet1RouteTableAssociation0825477E": {
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "CacheNetworkingVpcPrivateSubnet1RouteTable8B005F0B",
+        },
+        "SubnetId": {
+          "Ref": "CacheNetworkingVpcPrivateSubnet1Subnet4B89A74C",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "CacheNetworkingVpcPrivateSubnet1Subnet4B89A74C": {
+      "Properties": {
+        "AvailabilityZone": "dummy1a",
+        "CidrBlock": "10.1.0.0/24",
+        "MapPublicIpOnLaunch": false,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private",
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Isolated",
+          },
+          {
+            "Key": "Name",
+            "Value": "Test/CacheNetworking/Vpc/PrivateSubnet1",
+          },
+        ],
+        "VpcId": {
+          "Ref": "CacheNetworkingVpcCA55468A",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "CacheNetworkingVpcPrivateSubnet2RouteTable8586ED01": {
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Test/CacheNetworking/Vpc/PrivateSubnet2",
+          },
+        ],
+        "VpcId": {
+          "Ref": "CacheNetworkingVpcCA55468A",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "CacheNetworkingVpcPrivateSubnet2RouteTableAssociation2E178A51": {
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "CacheNetworkingVpcPrivateSubnet2RouteTable8586ED01",
+        },
+        "SubnetId": {
+          "Ref": "CacheNetworkingVpcPrivateSubnet2SubnetEE6348E8",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "CacheNetworkingVpcPrivateSubnet2SubnetEE6348E8": {
+      "Properties": {
+        "AvailabilityZone": "dummy1b",
+        "CidrBlock": "10.1.1.0/24",
+        "MapPublicIpOnLaunch": false,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private",
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Isolated",
+          },
+          {
+            "Key": "Name",
+            "Value": "Test/CacheNetworking/Vpc/PrivateSubnet2",
+          },
+        ],
+        "VpcId": {
+          "Ref": "CacheNetworkingVpcCA55468A",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "CacheNetworkingVpcS317809ECC": {
+      "Properties": {
+        "RouteTableIds": [
+          {
+            "Ref": "CacheNetworkingVpcPrivateSubnet1RouteTable8B005F0B",
+          },
+          {
+            "Ref": "CacheNetworkingVpcPrivateSubnet2RouteTable8586ED01",
+          },
+        ],
+        "ServiceName": {
+          "Fn::Join": [
+            "",
+            [
+              "com.amazonaws.",
+              {
+                "Ref": "AWS::Region",
+              },
+              ".s3",
+            ],
+          ],
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Test/CacheNetworking/Vpc",
+          },
+        ],
+        "VpcEndpointType": "Gateway",
+        "VpcId": {
+          "Ref": "CacheNetworkingVpcCA55468A",
+        },
+      },
+      "Type": "AWS::EC2::VPCEndpoint",
+    },
+    "CacheNetworkingVpcSecretsManagerF49C0FE2": {
+      "Properties": {
+        "PrivateDnsEnabled": true,
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
+              "CacheNetworkingVpcSecretsManagerSecurityGroup98F4517A",
+              "GroupId",
+            ],
+          },
+        ],
+        "ServiceName": "com.amazonaws.ap-northeast-1.secretsmanager",
+        "SubnetIds": [
+          {
+            "Ref": "CacheNetworkingVpcPrivateSubnet1Subnet4B89A74C",
+          },
+          {
+            "Ref": "CacheNetworkingVpcPrivateSubnet2SubnetEE6348E8",
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Test/CacheNetworking/Vpc",
+          },
+        ],
+        "VpcEndpointType": "Interface",
+        "VpcId": {
+          "Ref": "CacheNetworkingVpcCA55468A",
+        },
+      },
+      "Type": "AWS::EC2::VPCEndpoint",
+    },
+    "CacheNetworkingVpcSecretsManagerSecurityGroup98F4517A": {
+      "Properties": {
+        "GroupDescription": "Test/CacheNetworking/Vpc/SecretsManager/SecurityGroup",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::GetAtt": [
+                "CacheNetworkingVpcCA55468A",
+                "CidrBlock",
+              ],
+            },
+            "Description": {
+              "Fn::Join": [
+                "",
+                [
+                  "from ",
+                  {
+                    "Fn::GetAtt": [
+                      "CacheNetworkingVpcCA55468A",
+                      "CidrBlock",
+                    ],
+                  },
+                  ":443",
+                ],
+              ],
+            },
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Test/CacheNetworking/Vpc",
+          },
+        ],
+        "VpcId": {
+          "Ref": "CacheNetworkingVpcCA55468A",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "ConnectivityCacheRoutePrivateSubnet1A8D930FB": {
+      "Properties": {
+        "DestinationCidrBlock": "10.0.0.0/16",
+        "RouteTableId": {
+          "Ref": "CacheNetworkingVpcPrivateSubnet1RouteTable8B005F0B",
+        },
+        "VpcPeeringConnectionId": {
+          "Ref": "ConnectivityPeeringFC0A7B05",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "ConnectivityCacheRoutePrivateSubnet2133A292F": {
+      "Properties": {
+        "DestinationCidrBlock": "10.0.0.0/16",
+        "RouteTableId": {
+          "Ref": "CacheNetworkingVpcPrivateSubnet2RouteTable8586ED01",
+        },
+        "VpcPeeringConnectionId": {
+          "Ref": "ConnectivityPeeringFC0A7B05",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "ConnectivityOriginRoutePrivateSubnet1CD4217F6": {
+      "Properties": {
+        "DestinationCidrBlock": "10.1.0.0/16",
+        "RouteTableId": {
+          "Ref": "OriginNetworkingVpcPrivateSubnet1RouteTableF35BAB76",
+        },
+        "VpcPeeringConnectionId": {
+          "Ref": "ConnectivityPeeringFC0A7B05",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "ConnectivityOriginRoutePrivateSubnet271EDF0C9": {
+      "Properties": {
+        "DestinationCidrBlock": "10.1.0.0/16",
+        "RouteTableId": {
+          "Ref": "OriginNetworkingVpcPrivateSubnet2RouteTableE6740ED2",
+        },
+        "VpcPeeringConnectionId": {
+          "Ref": "ConnectivityPeeringFC0A7B05",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "ConnectivityPeeringFC0A7B05": {
+      "Properties": {
+        "PeerVpcId": {
+          "Ref": "CacheNetworkingVpcCA55468A",
+        },
+        "VpcId": {
+          "Ref": "OriginNetworkingVpcF466A758",
+        },
+      },
+      "Type": "AWS::EC2::VPCPeeringConnection",
+    },
+    "FlexCacheE97E5F5B": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "FlexCacheProviderframeworkonEvent9A63A1B9",
+            "Arn",
+          ],
+        },
+        "cacheFsId": {
+          "Ref": "CacheFsxnFileSystem78A0A5E6",
+        },
+        "cacheSvmName": "svm-cache",
+        "flexcacheSizeMiB": 51200,
+        "originFsId": {
+          "Ref": "OriginFsxnFileSystem2C13E888",
+        },
+        "originSvmName": "svm-origin",
+        "originVolumeName": "vol_source",
+        "writeBackEnabled": false,
+      },
+      "Type": "AWS::CloudFormation::CustomResource",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "FlexCacheFlexCacheManagerF3F4ED04": {
+      "DependsOn": [
+        "CacheNetworkingVpcPrivateSubnet1RouteTableAssociation0825477E",
+        "CacheNetworkingVpcPrivateSubnet2RouteTableAssociation2E178A51",
+        "FlexCacheFlexCacheManagerServiceRoleDefaultPolicy32BEB2B2",
+        "FlexCacheFlexCacheManagerServiceRoleC727641D",
+      ],
+      "Properties": {
+        "Code": {
+          "ZipFile": "
+// FlexCache Custom Resource Handler (placeholder - full implementation uses shared ontap-client.ts)
+exports.handler = async (event) => {
+  console.log(JSON.stringify({ event: 'flexcache_cr', requestType: event.RequestType, props: event.ResourceProperties }));
+
+  if (event.RequestType === 'Delete') {
+    // Delete FlexCache → SVM peering → cluster peering
+    return { Status: 'SUCCESS', PhysicalResourceId: event.PhysicalResourceId };
+  }
+
+  // Create: establish peering + create FlexCache
+  // In production: use shared/lambda/ontap-custom-resource/ontap-client.ts
+  return {
+    Status: 'SUCCESS',
+    PhysicalResourceId: 'flexcache-' + Date.now(),
+    Data: { flexcacheStatus: 'CREATED' },
+  };
+};
+",
+        },
+        "Environment": {
+          "Variables": {
+            "CACHE_FS_ID": {
+              "Ref": "CacheFsxnFileSystem78A0A5E6",
+            },
+            "ORIGIN_FS_ID": {
+              "Ref": "OriginFsxnFileSystem2C13E888",
+            },
+            "REGION": "ap-northeast-1",
+            "SECRET_ARN": "arn:aws:secretsmanager:ap-northeast-1:123456789012:secret:test-XXXXXX",
+          },
+        },
+        "Handler": "index.handler",
+        "LoggingConfig": {
+          "LogGroup": {
+            "Ref": "FlexCacheLogGroup4F11C72B",
+          },
+        },
+        "ReservedConcurrentExecutions": 2,
+        "Role": {
+          "Fn::GetAtt": [
+            "FlexCacheFlexCacheManagerServiceRoleC727641D",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+        "Timeout": 840,
+        "VpcConfig": {
+          "SecurityGroupIds": [
+            {
+              "Fn::GetAtt": [
+                "CacheNetworkingLambdaSGCB62CC21",
+                "GroupId",
+              ],
+            },
+          ],
+          "SubnetIds": [
+            {
+              "Ref": "CacheNetworkingVpcPrivateSubnet1Subnet4B89A74C",
+            },
+            {
+              "Ref": "CacheNetworkingVpcPrivateSubnet2SubnetEE6348E8",
+            },
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "FlexCacheFlexCacheManagerServiceRoleC727641D": {
+      "DependsOn": [
+        "CacheNetworkingVpcPrivateSubnet1RouteTableAssociation0825477E",
+        "CacheNetworkingVpcPrivateSubnet2RouteTableAssociation2E178A51",
+      ],
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "FlexCacheFlexCacheManagerServiceRoleDefaultPolicy32BEB2B2": {
+      "DependsOn": [
+        "CacheNetworkingVpcPrivateSubnet1RouteTableAssociation0825477E",
+        "CacheNetworkingVpcPrivateSubnet2RouteTableAssociation2E178A51",
+      ],
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "secretsmanager:GetSecretValue",
+              "Effect": "Allow",
+              "Resource": "arn:aws:secretsmanager:ap-northeast-1:123456789012:secret:test-XXXXXX",
+            },
+            {
+              "Action": "fsx:DescribeFileSystems",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "FlexCacheFlexCacheManagerServiceRoleDefaultPolicy32BEB2B2",
+        "Roles": [
+          {
+            "Ref": "FlexCacheFlexCacheManagerServiceRoleC727641D",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "FlexCacheLogGroup4F11C72B": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "RetentionInDays": 365,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "FlexCacheProviderframeworkonEvent9A63A1B9": {
+      "DependsOn": [
+        "FlexCacheProviderframeworkonEventServiceRoleDefaultPolicy12170E2E",
+        "FlexCacheProviderframeworkonEventServiceRole39393FA7",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-123456789012-ap-northeast-1",
+          "S3Key": "e16ffb3b34af185b8b30c88fdb19faa13b6c42bb38580485c4e84b384ee48b63.zip",
+        },
+        "Description": "AWS CDK resource provider framework - onEvent (Test/FlexCache/Provider)",
+        "Environment": {
+          "Variables": {
+            "USER_ON_EVENT_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "FlexCacheFlexCacheManagerF3F4ED04",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.onEvent",
+        "LoggingConfig": {
+          "ApplicationLogLevel": "FATAL",
+          "LogFormat": "JSON",
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "FlexCacheProviderframeworkonEventServiceRole39393FA7",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs24.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "FlexCacheProviderframeworkonEventServiceRole39393FA7": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "FlexCacheProviderframeworkonEventServiceRoleDefaultPolicy12170E2E": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "FlexCacheFlexCacheManagerF3F4ED04",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "FlexCacheFlexCacheManagerF3F4ED04",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "lambda:GetFunction",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "FlexCacheFlexCacheManagerF3F4ED04",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "FlexCacheProviderframeworkonEventServiceRoleDefaultPolicy12170E2E",
+        "Roles": [
+          {
+            "Ref": "FlexCacheProviderframeworkonEventServiceRole39393FA7",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "MonitoringAlarmTopicAF62D4F1": {
+      "Type": "AWS::SNS::Topic",
+    },
+    "MonitoringAlarmTopicPolicyCB9CCFB0": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "cloudwatch.amazonaws.com",
+              },
+              "Resource": {
+                "Ref": "MonitoringAlarmTopicAF62D4F1",
+              },
+              "Sid": "0",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Topics": [
+          {
+            "Ref": "MonitoringAlarmTopicAF62D4F1",
+          },
+        ],
+      },
+      "Type": "AWS::SNS::TopicPolicy",
+    },
+    "MonitoringCacheCapacityAlarm80EFA2B3": {
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Ref": "MonitoringAlarmTopicAF62D4F1",
+          },
+        ],
+        "AlarmDescription": "FlexCache capacity > 80%. Consider increasing cache FSxN storage. Runbook: expand cache or review LRU eviction.",
+        "ComparisonOperator": "GreaterThanThreshold",
+        "Dimensions": [
+          {
+            "Name": "FileSystemId",
+            "Value": {
+              "Ref": "CacheFsxnFileSystem78A0A5E6",
+            },
+          },
+        ],
+        "EvaluationPeriods": 3,
+        "MetricName": "CapacityUsedPercent",
+        "Namespace": "FSxN/FlexCache",
+        "Period": 600,
+        "Statistic": "Average",
+        "Threshold": 80,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "MonitoringCacheHitRatioAlarm87225901": {
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Ref": "MonitoringAlarmTopicAF62D4F1",
+          },
+        ],
+        "AlarmDescription": "FlexCache hit ratio < 50%. Remote users experiencing cache misses. Runbook: verify origin connectivity, check working set size vs cache size.",
+        "ComparisonOperator": "LessThanThreshold",
+        "Dimensions": [
+          {
+            "Name": "FileSystemId",
+            "Value": {
+              "Ref": "CacheFsxnFileSystem78A0A5E6",
+            },
+          },
+        ],
+        "EvaluationPeriods": 3,
+        "MetricName": "CacheHitRatio",
+        "Namespace": "FSxN/FlexCache",
+        "Period": 600,
+        "Statistic": "Average",
+        "Threshold": 50,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "MonitoringMetricsCollectorDA1614A2": {
+      "DependsOn": [
+        "CacheNetworkingVpcPrivateSubnet1RouteTableAssociation0825477E",
+        "CacheNetworkingVpcPrivateSubnet2RouteTableAssociation2E178A51",
+        "MonitoringMetricsCollectorServiceRoleDefaultPolicyF1410F9E",
+        "MonitoringMetricsCollectorServiceRoleD0AB1678",
+      ],
+      "Properties": {
+        "Code": {
+          "ZipFile": "
+const { SecretsManagerClient, GetSecretValueCommand } = require('@aws-sdk/client-secrets-manager');
+const { CloudWatchClient, PutMetricDataCommand } = require('@aws-sdk/client-cloudwatch');
+
+exports.handler = async () => {
+  const region = process.env.REGION;
+  const secretArn = process.env.SECRET_ARN;
+  const cacheFileSystemId = process.env.CACHE_FS_ID;
+
+  // Get ONTAP credentials
+  const smClient = new SecretsManagerClient({ region });
+  const secretResp = await smClient.send(new GetSecretValueCommand({ SecretId: secretArn }));
+  const secret = JSON.parse(secretResp.SecretString);
+
+  // In production: call ONTAP REST API GET /api/storage/flexcache/flexcaches
+  // For now: publish placeholder metrics showing the pattern
+  const cwClient = new CloudWatchClient({ region });
+
+  // Simulated metrics (replace with actual ONTAP API response parsing)
+  const metrics = [
+    { MetricName: 'CacheHitRatio', Value: 85.0, Unit: 'Percent' },
+    { MetricName: 'CacheMissCount', Value: 150, Unit: 'Count' },
+    { MetricName: 'OriginLatencyMs', Value: 45.0, Unit: 'Milliseconds' },
+    { MetricName: 'CapacityUsedPercent', Value: 42.0, Unit: 'Percent' },
+  ];
+
+  await cwClient.send(new PutMetricDataCommand({
+    Namespace: 'FSxN/FlexCache',
+    MetricData: metrics.map(m => ({
+      ...m,
+      Dimensions: [{ Name: 'FileSystemId', Value: cacheFileSystemId }],
+      Timestamp: new Date(),
+    })),
+  }));
+
+  console.log(JSON.stringify({ event: 'metrics_published', count: metrics.length, fsId: cacheFileSystemId }));
+  return { statusCode: 200, metrics: metrics.length };
+};
+",
+        },
+        "Environment": {
+          "Variables": {
+            "CACHE_FS_ID": {
+              "Ref": "CacheFsxnFileSystem78A0A5E6",
+            },
+            "REGION": "ap-northeast-1",
+            "SECRET_ARN": "arn:aws:secretsmanager:ap-northeast-1:123456789012:secret:test-XXXXXX",
+          },
+        },
+        "Handler": "index.handler",
+        "LoggingConfig": {
+          "LogGroup": {
+            "Ref": "MonitoringMetricsLogGroup5E5CD08D",
+          },
+        },
+        "ReservedConcurrentExecutions": 1,
+        "Role": {
+          "Fn::GetAtt": [
+            "MonitoringMetricsCollectorServiceRoleD0AB1678",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+        "Timeout": 60,
+        "VpcConfig": {
+          "SecurityGroupIds": [
+            {
+              "Fn::GetAtt": [
+                "CacheNetworkingLambdaSGCB62CC21",
+                "GroupId",
+              ],
+            },
+          ],
+          "SubnetIds": [
+            {
+              "Ref": "CacheNetworkingVpcPrivateSubnet1Subnet4B89A74C",
+            },
+            {
+              "Ref": "CacheNetworkingVpcPrivateSubnet2SubnetEE6348E8",
+            },
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "MonitoringMetricsCollectorServiceRoleD0AB1678": {
+      "DependsOn": [
+        "CacheNetworkingVpcPrivateSubnet1RouteTableAssociation0825477E",
+        "CacheNetworkingVpcPrivateSubnet2RouteTableAssociation2E178A51",
+      ],
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "MonitoringMetricsCollectorServiceRoleDefaultPolicyF1410F9E": {
+      "DependsOn": [
+        "CacheNetworkingVpcPrivateSubnet1RouteTableAssociation0825477E",
+        "CacheNetworkingVpcPrivateSubnet2RouteTableAssociation2E178A51",
+      ],
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "secretsmanager:GetSecretValue",
+              "Effect": "Allow",
+              "Resource": "arn:aws:secretsmanager:ap-northeast-1:123456789012:secret:test-XXXXXX",
+            },
+            {
+              "Action": "cloudwatch:PutMetricData",
+              "Condition": {
+                "StringEquals": {
+                  "cloudwatch:namespace": "FSxN/FlexCache",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "MonitoringMetricsCollectorServiceRoleDefaultPolicyF1410F9E",
+        "Roles": [
+          {
+            "Ref": "MonitoringMetricsCollectorServiceRoleD0AB1678",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "MonitoringMetricsLogGroup5E5CD08D": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "RetentionInDays": 30,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "MonitoringMetricsScheduleAllowEventRuleTestMonitoringMetricsCollector1A39E9FCEC6FE117": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "MonitoringMetricsCollectorDA1614A2",
+            "Arn",
+          ],
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": {
+          "Fn::GetAtt": [
+            "MonitoringMetricsScheduleD1113518",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "MonitoringMetricsScheduleD1113518": {
+      "Properties": {
+        "ScheduleExpression": "rate(5 minutes)",
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
+                "MonitoringMetricsCollectorDA1614A2",
+                "Arn",
+              ],
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "MonitoringOriginThroughputAlarmFFE4D6F1": {
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Ref": "MonitoringAlarmTopicAF62D4F1",
+          },
+        ],
+        "AlarmDescription": "Origin FSxN throughput > 80%. FlexCache misses may increase. Runbook: scale origin throughput.",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "Dimensions": [
+          {
+            "Name": "FileSystemId",
+            "Value": {
+              "Ref": "OriginFsxnFileSystem2C13E888",
+            },
+          },
+        ],
+        "EvaluationPeriods": 3,
+        "MetricName": "FileServerDiskThroughputUtilization",
+        "Namespace": "AWS/FSx",
+        "Period": 300,
+        "Statistic": "Average",
+        "Threshold": 80,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "OriginFsxnFileSystem2C13E888": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FileSystemType": "ONTAP",
+        "KmsKeyId": {
+          "Fn::GetAtt": [
+            "CMK56817A4C",
+            "Arn",
+          ],
+        },
+        "OntapConfiguration": {
+          "DeploymentType": "MULTI_AZ_1",
+          "PreferredSubnetId": {
+            "Ref": "OriginNetworkingVpcPrivateSubnet1Subnet7A1B1A32",
+          },
+          "RouteTableIds": [
+            {
+              "Ref": "OriginNetworkingVpcPrivateSubnet1RouteTableF35BAB76",
+            },
+            {
+              "Ref": "OriginNetworkingVpcPrivateSubnet2RouteTableE6740ED2",
+            },
+          ],
+          "ThroughputCapacity": 128,
+        },
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
+              "OriginNetworkingFsxnSGE70E431D",
+              "GroupId",
+            ],
+          },
+        ],
+        "StorageCapacity": 1024,
+        "SubnetIds": [
+          {
+            "Ref": "OriginNetworkingVpcPrivateSubnet1Subnet7A1B1A32",
+          },
+          {
+            "Ref": "OriginNetworkingVpcPrivateSubnet2SubnetFC5A5A8A",
+          },
+        ],
+      },
+      "Type": "AWS::FSx::FileSystem",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "OriginFsxnSVMDBE10743": {
+      "Properties": {
+        "FileSystemId": {
+          "Ref": "OriginFsxnFileSystem2C13E888",
+        },
+        "Name": "svm-origin",
+        "RootVolumeSecurityStyle": "UNIX",
+      },
+      "Type": "AWS::FSx::StorageVirtualMachine",
+    },
+    "OriginFsxnVolumeF64663B1": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "Name": "vol_source",
+        "OntapConfiguration": {
+          "JunctionPath": "/data",
+          "SizeInMegabytes": "102400",
+          "StorageEfficiencyEnabled": "true",
+          "StorageVirtualMachineId": {
+            "Ref": "OriginFsxnSVMDBE10743",
+          },
+          "TieringPolicy": {
+            "CoolingPeriod": 31,
+            "Name": "AUTO",
+          },
+        },
+        "VolumeType": "ONTAP",
+      },
+      "Type": "AWS::FSx::Volume",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "OriginNetworkingFsxnSGE70E431D": {
+      "Properties": {
+        "GroupDescription": "Origin FSxN",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "255.255.255.255/32",
+            "Description": "Disallow all traffic",
+            "FromPort": 252,
+            "IpProtocol": "icmp",
+            "ToPort": 86,
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": "10.0.0.0/16",
+            "Description": "NFS local",
+            "FromPort": 2049,
+            "IpProtocol": "tcp",
+            "ToPort": 2049,
+          },
+          {
+            "CidrIp": "10.0.0.0/16",
+            "Description": "SMB local",
+            "FromPort": 445,
+            "IpProtocol": "tcp",
+            "ToPort": 445,
+          },
+          {
+            "CidrIp": "10.0.0.0/16",
+            "Description": "ONTAP mgmt",
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+          {
+            "CidrIp": "10.1.0.0/16",
+            "Description": "Intercluster LIF",
+            "FromPort": 11104,
+            "IpProtocol": "tcp",
+            "ToPort": 11104,
+          },
+          {
+            "CidrIp": "10.1.0.0/16",
+            "Description": "Intercluster LIF",
+            "FromPort": 11105,
+            "IpProtocol": "tcp",
+            "ToPort": 11105,
+          },
+        ],
+        "VpcId": {
+          "Ref": "OriginNetworkingVpcF466A758",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "OriginNetworkingVpcF466A758": {
+      "Properties": {
+        "CidrBlock": "10.0.0.0/16",
+        "EnableDnsHostnames": true,
+        "EnableDnsSupport": true,
+        "InstanceTenancy": "default",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Test/OriginNetworking/Vpc",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::VPC",
+    },
+    "OriginNetworkingVpcPrivateSubnet1RouteTableAssociation572EA2E9": {
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "OriginNetworkingVpcPrivateSubnet1RouteTableF35BAB76",
+        },
+        "SubnetId": {
+          "Ref": "OriginNetworkingVpcPrivateSubnet1Subnet7A1B1A32",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "OriginNetworkingVpcPrivateSubnet1RouteTableF35BAB76": {
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Test/OriginNetworking/Vpc/PrivateSubnet1",
+          },
+        ],
+        "VpcId": {
+          "Ref": "OriginNetworkingVpcF466A758",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "OriginNetworkingVpcPrivateSubnet1Subnet7A1B1A32": {
+      "Properties": {
+        "AvailabilityZone": "dummy1a",
+        "CidrBlock": "10.0.0.0/24",
+        "MapPublicIpOnLaunch": false,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private",
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Isolated",
+          },
+          {
+            "Key": "Name",
+            "Value": "Test/OriginNetworking/Vpc/PrivateSubnet1",
+          },
+        ],
+        "VpcId": {
+          "Ref": "OriginNetworkingVpcF466A758",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "OriginNetworkingVpcPrivateSubnet2RouteTableAssociationC39D6390": {
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "OriginNetworkingVpcPrivateSubnet2RouteTableE6740ED2",
+        },
+        "SubnetId": {
+          "Ref": "OriginNetworkingVpcPrivateSubnet2SubnetFC5A5A8A",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "OriginNetworkingVpcPrivateSubnet2RouteTableE6740ED2": {
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Test/OriginNetworking/Vpc/PrivateSubnet2",
+          },
+        ],
+        "VpcId": {
+          "Ref": "OriginNetworkingVpcF466A758",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "OriginNetworkingVpcPrivateSubnet2SubnetFC5A5A8A": {
+      "Properties": {
+        "AvailabilityZone": "dummy1b",
+        "CidrBlock": "10.0.1.0/24",
+        "MapPublicIpOnLaunch": false,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private",
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Isolated",
+          },
+          {
+            "Key": "Name",
+            "Value": "Test/OriginNetworking/Vpc/PrivateSubnet2",
+          },
+        ],
+        "VpcId": {
+          "Ref": "OriginNetworkingVpcF466A758",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "OriginNetworkingVpcS33C69AF8D": {
+      "Properties": {
+        "RouteTableIds": [
+          {
+            "Ref": "OriginNetworkingVpcPrivateSubnet1RouteTableF35BAB76",
+          },
+          {
+            "Ref": "OriginNetworkingVpcPrivateSubnet2RouteTableE6740ED2",
+          },
+        ],
+        "ServiceName": {
+          "Fn::Join": [
+            "",
+            [
+              "com.amazonaws.",
+              {
+                "Ref": "AWS::Region",
+              },
+              ".s3",
+            ],
+          ],
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Test/OriginNetworking/Vpc",
+          },
+        ],
+        "VpcEndpointType": "Gateway",
+        "VpcId": {
+          "Ref": "OriginNetworkingVpcF466A758",
+        },
+      },
+      "Type": "AWS::EC2::VPCEndpoint",
+    },
+    "OriginNetworkingVpcSecretsManager928552CE": {
+      "Properties": {
+        "PrivateDnsEnabled": true,
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
+              "OriginNetworkingVpcSecretsManagerSecurityGroup198ACC03",
+              "GroupId",
+            ],
+          },
+        ],
+        "ServiceName": "com.amazonaws.ap-northeast-1.secretsmanager",
+        "SubnetIds": [
+          {
+            "Ref": "OriginNetworkingVpcPrivateSubnet1Subnet7A1B1A32",
+          },
+          {
+            "Ref": "OriginNetworkingVpcPrivateSubnet2SubnetFC5A5A8A",
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Test/OriginNetworking/Vpc",
+          },
+        ],
+        "VpcEndpointType": "Interface",
+        "VpcId": {
+          "Ref": "OriginNetworkingVpcF466A758",
+        },
+      },
+      "Type": "AWS::EC2::VPCEndpoint",
+    },
+    "OriginNetworkingVpcSecretsManagerSecurityGroup198ACC03": {
+      "Properties": {
+        "GroupDescription": "Test/OriginNetworking/Vpc/SecretsManager/SecurityGroup",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::GetAtt": [
+                "OriginNetworkingVpcF466A758",
+                "CidrBlock",
+              ],
+            },
+            "Description": {
+              "Fn::Join": [
+                "",
+                [
+                  "from ",
+                  {
+                    "Fn::GetAtt": [
+                      "OriginNetworkingVpcF466A758",
+                      "CidrBlock",
+                    ],
+                  },
+                  ":443",
+                ],
+              ],
+            },
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Test/OriginNetworking/Vpc",
+          },
+        ],
+        "VpcId": {
+          "Ref": "OriginNetworkingVpcF466A758",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
