@@ -76,8 +76,7 @@ export class Monitoring extends Construct {
       threshold: 80,
       evaluationPeriods: 3,
       comparisonOperator: cw.ComparisonOperator.GREATER_THAN_THRESHOLD,
-      alarmDescription:
-        'FSxN throughput utilization exceeds 80%. NFS/SMB and S3 AP share this throughput.',
+      alarmDescription: 'FSxN throughput utilization exceeds 80%. NFS/SMB and S3 AP share this throughput.',
     });
     throughputAlarm.addAlarmAction(new cw_actions.SnsAction(topic));
 

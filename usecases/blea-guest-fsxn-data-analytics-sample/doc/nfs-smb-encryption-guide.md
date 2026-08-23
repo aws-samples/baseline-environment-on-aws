@@ -10,13 +10,13 @@
 
 CDK テンプレートは以下の暗号化を自動設定します。
 
-| レイヤー | 対応状況 | 方法 |
-|---------|---------|------|
-| 保存時暗号化 | ✅ CDK で自動設定 | KMS CMK (自動ローテーション有効) |
-| S3 通信暗号化 | ✅ CDK で自動設定 | enforceSSL: true |
-| VPC Endpoint 通信 | ✅ CDK で自動設定 | TLS (AWS 内部) |
-| NFS 通信暗号化 | ⚠️ 追加設定が必要 | NFS over TLS または Kerberos |
-| SMB 通信暗号化 | ⚠️ 追加設定が必要 | SMB 3.0 暗号化 |
+| レイヤー          | 対応状況          | 方法                             |
+| ----------------- | ----------------- | -------------------------------- |
+| 保存時暗号化      | ✅ CDK で自動設定 | KMS CMK (自動ローテーション有効) |
+| S3 通信暗号化     | ✅ CDK で自動設定 | enforceSSL: true                 |
+| VPC Endpoint 通信 | ✅ CDK で自動設定 | TLS (AWS 内部)                   |
+| NFS 通信暗号化    | ⚠️ 追加設定が必要 | NFS over TLS または Kerberos     |
+| SMB 通信暗号化    | ⚠️ 追加設定が必要 | SMB 3.0 暗号化                   |
 
 NFS/SMB の通信暗号化は ONTAP レベルの設定であり、CloudFormation / CDK では直接制御できません。  
 デプロイ後に ONTAP CLI または REST API で設定する必要があります。
@@ -124,12 +124,12 @@ vserver cifs session show -vserver svm-analytics -fields connection-id,is-sessio
 
 ## 推奨構成
 
-| ユースケース | 推奨プロトコル | 暗号化方式 |
-|-------------|--------------|-----------|
-| Linux クライアント (最新) | NFS v4.1 | NFS over TLS |
-| Linux クライアント (レガシー) | NFS v4.1 | Kerberos (krb5p) |
-| Windows クライアント | SMB 3.0 | SMB 暗号化必須 |
-| データ分析 (S3 AP 経由) | HTTPS | TLS 1.2+ (自動) |
+| ユースケース                  | 推奨プロトコル | 暗号化方式       |
+| ----------------------------- | -------------- | ---------------- |
+| Linux クライアント (最新)     | NFS v4.1       | NFS over TLS     |
+| Linux クライアント (レガシー) | NFS v4.1       | Kerberos (krb5p) |
+| Windows クライアント          | SMB 3.0        | SMB 暗号化必須   |
+| データ分析 (S3 AP 経由)       | HTTPS          | TLS 1.2+ (自動)  |
 
 ### セキュリティに関する注意事項
 

@@ -77,18 +77,18 @@ aws lakeformation put-data-lake-settings \
 
 `parameter.ts` を編集し、環境に合わせた値を設定してください。
 
-| パラメータ | 説明 | 開発用デフォルト | 本番推奨 |
-|-----------|------|----------------|---------|
-| `envName` | 環境名（タグに使用） | Development | Production |
-| `vpcCidr` | VPC CIDR ブロック | 10.0.0.0/16 | 10.0.0.0/16 |
-| `fsxnStorageCapacityGiB` | FSxN ストレージ容量 (GiB) | 1024 | 2048+ |
-| `fsxnThroughputCapacityMBps` | FSxN スループット (MBps) | 128 | 512+ |
-| `fsxnDeploymentType` | デプロイタイプ | SINGLE_AZ_1 | MULTI_AZ_1 |
-| `s3AccessPointName` | S3 AP 名 (3-50文字、小文字英数+ハイフン) | fsxn-analytics-dev | fsxn-analytics-prod |
-| `s3ApFileSystemIdentityUser` | S3 AP アクセス時の UNIX ユーザー | nobody | analytics-svc |
-| `monitoringNotifyEmail` | アラーム通知先メール | - | 運用チームのメール |
-| `monitoringSlackWorkspaceId` | Slack ワークスペース ID | - | Chatbot 設定済み ID |
-| `monitoringSlackChannelId` | Slack チャネル ID | - | 運用通知チャネル |
+| パラメータ                   | 説明                                     | 開発用デフォルト   | 本番推奨            |
+| ---------------------------- | ---------------------------------------- | ------------------ | ------------------- |
+| `envName`                    | 環境名（タグに使用）                     | Development        | Production          |
+| `vpcCidr`                    | VPC CIDR ブロック                        | 10.0.0.0/16        | 10.0.0.0/16         |
+| `fsxnStorageCapacityGiB`     | FSxN ストレージ容量 (GiB)                | 1024               | 2048+               |
+| `fsxnThroughputCapacityMBps` | FSxN スループット (MBps)                 | 128                | 512+                |
+| `fsxnDeploymentType`         | デプロイタイプ                           | SINGLE_AZ_1        | MULTI_AZ_1          |
+| `s3AccessPointName`          | S3 AP 名 (3-50文字、小文字英数+ハイフン) | fsxn-analytics-dev | fsxn-analytics-prod |
+| `s3ApFileSystemIdentityUser` | S3 AP アクセス時の UNIX ユーザー         | nobody             | analytics-svc       |
+| `monitoringNotifyEmail`      | アラーム通知先メール                     | -                  | 運用チームのメール  |
+| `monitoringSlackWorkspaceId` | Slack ワークスペース ID                  | -                  | Chatbot 設定済み ID |
+| `monitoringSlackChannelId`   | Slack チャネル ID                        | -                  | 運用通知チャネル    |
 
 ### ファイルシステムアイデンティティについて
 
@@ -145,10 +145,10 @@ npx cdk destroy --all --profile <your-profile>
 
 ## コスト見積もり
 
-| 構成 | 月額概算 (USD) | 内訳 |
-|------|---------------|------|
-| 開発 (SINGLE_AZ, 128MBps, 1TiB) | ~$500 | FSxN SSD $200 + スループット $180 + 容量プール $15 + VPC Endpoint $50 + Glue/Athena 従量 |
-| 本番 (MULTI_AZ, 512MBps, 2TiB) | ~$1,500 | FSxN SSD $400 + スループット $720 + 容量プール $30 + VPC Endpoint $50 + Glue/Athena 従量 |
+| 構成                            | 月額概算 (USD) | 内訳                                                                                     |
+| ------------------------------- | -------------- | ---------------------------------------------------------------------------------------- |
+| 開発 (SINGLE_AZ, 128MBps, 1TiB) | ~$500          | FSxN SSD $200 + スループット $180 + 容量プール $15 + VPC Endpoint $50 + Glue/Athena 従量 |
+| 本番 (MULTI_AZ, 512MBps, 2TiB)  | ~$1,500        | FSxN SSD $400 + スループット $720 + 容量プール $30 + VPC Endpoint $50 + Glue/Athena 従量 |
 
 > ※ 上記は東京リージョン (ap-northeast-1) の概算であり、実際のコストはデータ量、クエリ頻度、FabricPool 階層化率により変動します。最新の料金は [FSx for ONTAP 料金](https://aws.amazon.com/fsx/netapp-ontap/pricing/) を参照してください。
 
@@ -164,15 +164,15 @@ FSx for ONTAP のスループットは、全プロトコル（NFS, SMB, S3 Acces
 
 S3 Access Point for FSx for ONTAP には以下の制約があります：
 
-| 機能 | サポート状況 |
-|------|-------------|
-| GetObject, PutObject, ListObjectsV2, DeleteObject | ✅ サポート |
-| Multipart Upload | ✅ サポート |
-| Athena, Glue, Bedrock KB, SageMaker | ✅ サポート (Internet-origin AP) |
-| Lambda (VPC 内) | ✅ サポート (VPC-origin AP) |
-| S3 Event Notifications | ❌ 非サポート |
-| S3 Select | ❌ 非サポート |
-| 条件付き書き込み (Conditional Writes) | ❌ 非サポート |
+| 機能                                                  | サポート状況                       |
+| ----------------------------------------------------- | ---------------------------------- |
+| GetObject, PutObject, ListObjectsV2, DeleteObject     | ✅ サポート                        |
+| Multipart Upload                                      | ✅ サポート                        |
+| Athena, Glue, Bedrock KB, SageMaker                   | ✅ サポート (Internet-origin AP)   |
+| Lambda (VPC 内)                                       | ✅ サポート (VPC-origin AP)        |
+| S3 Event Notifications                                | ❌ 非サポート                      |
+| S3 Select                                             | ❌ 非サポート                      |
+| 条件付き書き込み (Conditional Writes)                 | ❌ 非サポート                      |
 | Apache Iceberg / Delta Lake / Hudi (テーブル書き込み) | ❌ 非サポート (atomic rename 不可) |
 
 ## セキュリティ
@@ -190,7 +190,6 @@ S3 Access Point for FSx for ONTAP には以下の制約があります：
 - [S3 AP と AWS サービスの連携](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/using-access-points-with-aws-services.html)
 - [Baseline Environment on AWS (BLEA)](https://github.com/aws-samples/baseline-environment-on-aws)
 
-
 ## クイックデモ（15分）
 
 パートナーや顧客にデモする場合の最短手順：
@@ -205,13 +204,13 @@ S3 Access Point for FSx for ONTAP には以下の制約があります：
 
 本番環境では以下のパターンでデータを FSxN に配置できます：
 
-| パターン | 方法 | ユースケース |
-|---------|------|------------|
-| **NFS マウント** | EC2/ECS から直接書き込み | アプリケーションからの直接出力 |
-| **AWS DataSync** | オンプレミス NAS → FSxN | 既存ファイルサーバーからのマイグレーション |
-| **AWS Transfer Family** | SFTP/FTPS でアップロード | パートナーからのファイル受信 |
-| **SnapMirror** | オンプレ ONTAP → FSxN | 既存 NetApp 環境からのレプリケーション |
-| **S3 AP PutObject** | Lambda/アプリから S3 API 書き込み | サーバーレスワークロード |
+| パターン                | 方法                              | ユースケース                               |
+| ----------------------- | --------------------------------- | ------------------------------------------ |
+| **NFS マウント**        | EC2/ECS から直接書き込み          | アプリケーションからの直接出力             |
+| **AWS DataSync**        | オンプレミス NAS → FSxN           | 既存ファイルサーバーからのマイグレーション |
+| **AWS Transfer Family** | SFTP/FTPS でアップロード          | パートナーからのファイル受信               |
+| **SnapMirror**          | オンプレ ONTAP → FSxN             | 既存 NetApp 環境からのレプリケーション     |
+| **S3 AP PutObject**     | Lambda/アプリから S3 API 書き込み | サーバーレスワークロード                   |
 
 ## 次のステップ（PoC → 本番化ジャーニー）
 
@@ -227,13 +226,13 @@ Spec A のデプロイ後、以下のパスで本番化を進められます：
 
 本テンプレートを利用する際のデータ分類の目安：
 
-| 分類レベル | 利用可否 | 備考 |
-|-----------|---------|------|
-| 公開情報 | ✅ | 制約なし |
-| 社内限定（機密性1） | ✅ | KMS 暗号化 + VPC 閉域で保護 |
-| 機密（機密性2） | ✅ | IAM + Lake Formation でアクセス制御。S3 AP の2層認可モデルで保護 |
-| 極秘（機密性3） | ⚠️ 要追加検討 | SnapLock + TPS (Spec B) の追加を推奨 |
-| 個人情報（マイナンバー等） | ⚠️ 要法的確認 | 技術的には保護可能だが、法的・規制面の確認が別途必要 |
+| 分類レベル                 | 利用可否      | 備考                                                             |
+| -------------------------- | ------------- | ---------------------------------------------------------------- |
+| 公開情報                   | ✅            | 制約なし                                                         |
+| 社内限定（機密性1）        | ✅            | KMS 暗号化 + VPC 閉域で保護                                      |
+| 機密（機密性2）            | ✅            | IAM + Lake Formation でアクセス制御。S3 AP の2層認可モデルで保護 |
+| 極秘（機密性3）            | ⚠️ 要追加検討 | SnapLock + TPS (Spec B) の追加を推奨                             |
+| 個人情報（マイナンバー等） | ⚠️ 要法的確認 | 技術的には保護可能だが、法的・規制面の確認が別途必要             |
 
 > ⚠️ 規制対象データの取り扱いについては、自組織の法務・コンプライアンス部門に確認してください。本テンプレートは技術的な保護措置を提供しますが、法的判断を代替するものではありません。
 
@@ -241,14 +240,14 @@ Spec A のデプロイ後、以下のパスで本番化を進められます：
 
 Glue Crawler は S3 AP 経由で以下のファイル形式を自動検出できます：
 
-| 形式 | 自動検出 | Athena クエリ | 備考 |
-|------|---------|-------------|------|
-| CSV | ✅ | ✅ | デフォルト対応 |
-| JSON / JSON Lines | ✅ | ✅ | ネスト構造は STRUCT 型 |
-| Parquet | ✅ | ✅ | カラムナ形式で高効率 |
-| ORC | ✅ | ✅ | Hive 互換 |
-| Avro | ✅ | ✅ | スキーマ埋め込み |
-| TSV | ✅ | ✅ | Classifier 設定推奨 |
-| XML | △ | △ | Custom Classifier 必要 |
+| 形式              | 自動検出 | Athena クエリ | 備考                   |
+| ----------------- | -------- | ------------- | ---------------------- |
+| CSV               | ✅       | ✅            | デフォルト対応         |
+| JSON / JSON Lines | ✅       | ✅            | ネスト構造は STRUCT 型 |
+| Parquet           | ✅       | ✅            | カラムナ形式で高効率   |
+| ORC               | ✅       | ✅            | Hive 互換              |
+| Avro              | ✅       | ✅            | スキーマ埋め込み       |
+| TSV               | ✅       | ✅            | Classifier 設定推奨    |
+| XML               | △        | △             | Custom Classifier 必要 |
 
 > **パフォーマンス推奨**: TB級データの場合は Parquet + パーティション構造（例: `/data/year=2025/month=01/`）を推奨。S3 AP は Parquet の Range GET に対応しており、カラム pruning が有効です。
