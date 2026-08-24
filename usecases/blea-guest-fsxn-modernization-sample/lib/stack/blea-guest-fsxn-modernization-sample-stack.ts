@@ -47,10 +47,11 @@ export class BLEAFsxnModernizationStack extends Stack {
     const cmk = new Key(this, 'CMK', { enableKeyRotation: true, description: 'BLEA FSxN Modernization CMK' });
 
     // Networking
+    // Only EC2 and ECS require extra interface endpoints. Lambda reaches the
+    // S3 Access Point through the always-deployed S3 gateway endpoint.
     const networking = new Networking(this, 'Networking', {
       vpcCidr: props.vpcCidr,
       enableEc2Pattern: props.enableEc2Pattern,
-      enableLambdaPattern: props.enableLambdaPattern,
       enableEcsPattern: props.enableEcsPattern,
     });
 

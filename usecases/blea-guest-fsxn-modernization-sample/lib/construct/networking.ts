@@ -3,8 +3,9 @@ import { Construct } from 'constructs';
 
 export interface NetworkingProps {
   vpcCidr: string;
+  /** Adds the SSM and SSM Messages interface endpoints that Session Manager needs. */
   enableEc2Pattern: boolean;
-  enableLambdaPattern: boolean;
+  /** Adds the ECR and ECR Docker interface endpoints that Fargate image pulls need. */
   enableEcsPattern: boolean;
 }
 
