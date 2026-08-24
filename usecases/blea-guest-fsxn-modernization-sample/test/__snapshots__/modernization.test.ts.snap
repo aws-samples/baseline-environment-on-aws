@@ -1,0 +1,1409 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot template matches snapshot (all patterns enabled) 1`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+    "SsmParameterValueawsserviceamiamazonlinuxlatestal2023amikernel61x8664C96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Default": "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-6.1-x86_64",
+      "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
+    },
+  },
+  "Resources": {
+    "CMK56817A4C": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "Description": "BLEA FSxN Modernization CMK",
+        "EnableKeyRotation": true,
+        "KeyPolicy": {
+          "Statement": [
+            {
+              "Action": "kms:*",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::123456789012:root",
+                    ],
+                  ],
+                },
+              },
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::KMS::Key",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "ComputeEc2ASGC2881E56": {
+      "Properties": {
+        "LaunchTemplate": {
+          "LaunchTemplateId": {
+            "Ref": "ComputeEc2LaunchTemplateF4ADA325",
+          },
+          "Version": {
+            "Fn::GetAtt": [
+              "ComputeEc2LaunchTemplateF4ADA325",
+              "LatestVersionNumber",
+            ],
+          },
+        },
+        "MaxSize": "1",
+        "MinSize": "1",
+        "VPCZoneIdentifier": [
+          {
+            "Ref": "NetworkingVpcPrivateSubnet1Subnet717BCE48",
+          },
+          {
+            "Ref": "NetworkingVpcPrivateSubnet2Subnet4313381B",
+          },
+        ],
+      },
+      "Type": "AWS::AutoScaling::AutoScalingGroup",
+      "UpdatePolicy": {
+        "AutoScalingScheduledAction": {
+          "IgnoreUnmodifiedGroupSizeProperties": true,
+        },
+      },
+    },
+    "ComputeEc2InstanceRole48D27A1A": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/AmazonSSMManagedInstanceCore",
+              ],
+            ],
+          },
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/CloudWatchAgentServerPolicy",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "ComputeEc2LaunchTemplateF4ADA325": {
+      "DependsOn": [
+        "ComputeEc2InstanceRole48D27A1A",
+      ],
+      "Properties": {
+        "LaunchTemplateData": {
+          "IamInstanceProfile": {
+            "Arn": {
+              "Fn::GetAtt": [
+                "ComputeEc2LaunchTemplateProfileD89133A5",
+                "Arn",
+              ],
+            },
+          },
+          "ImageId": {
+            "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestal2023amikernel61x8664C96584B6F00A464EAD1953AFF4B05118Parameter",
+          },
+          "InstanceType": "t3.micro",
+          "SecurityGroupIds": [
+            {
+              "Fn::GetAtt": [
+                "NetworkingEC2SG1E5101E2",
+                "GroupId",
+              ],
+            },
+          ],
+          "TagSpecifications": [
+            {
+              "ResourceType": "instance",
+              "Tags": [
+                {
+                  "Key": "Name",
+                  "Value": "Test/ComputeEc2/LaunchTemplate",
+                },
+              ],
+            },
+            {
+              "ResourceType": "volume",
+              "Tags": [
+                {
+                  "Key": "Name",
+                  "Value": "Test/ComputeEc2/LaunchTemplate",
+                },
+              ],
+            },
+          ],
+          "UserData": {
+            "Fn::Base64": {
+              "Fn::Join": [
+                "",
+                [
+                  "#!/bin/bash
+yum install -y nfs-utils
+mkdir -p /mnt/fsxn
+mount -t nfs -o noresvport,hard,nfsvers=4.1,rsize=262144,wsize=262144 svm-platform.",
+                  {
+                    "Ref": "FsxnStorageFileSystem528E848B",
+                  },
+                  ".fsx.ap-northeast-1.amazonaws.com:/shared /mnt/fsxn
+echo "svm-platform.",
+                  {
+                    "Ref": "FsxnStorageFileSystem528E848B",
+                  },
+                  ".fsx.ap-northeast-1.amazonaws.com:/shared /mnt/fsxn nfs noresvport,hard,nfsvers=4.1,rsize=262144,wsize=262144 0 0" >> /etc/fstab",
+                ],
+              ],
+            },
+          },
+        },
+        "TagSpecifications": [
+          {
+            "ResourceType": "launch-template",
+            "Tags": [
+              {
+                "Key": "Name",
+                "Value": "Test/ComputeEc2/LaunchTemplate",
+              },
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::EC2::LaunchTemplate",
+    },
+    "ComputeEc2LaunchTemplateProfileD89133A5": {
+      "Properties": {
+        "Roles": [
+          {
+            "Ref": "ComputeEc2InstanceRole48D27A1A",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::InstanceProfile",
+    },
+    "ComputeLambdaFileProcessorFC3A9E3E": {
+      "DependsOn": [
+        "ComputeLambdaFileProcessorServiceRoleDefaultPolicy7C4A5865",
+        "ComputeLambdaFileProcessorServiceRoleF12143BB",
+        "NetworkingVpcPrivateSubnet1RouteTableAssociation761725EA",
+        "NetworkingVpcPrivateSubnet2RouteTableAssociation9EFBB61D",
+      ],
+      "Properties": {
+        "Code": {
+          "ZipFile": "
+const { S3Client, ListObjectsV2Command, GetObjectCommand } = require('@aws-sdk/client-s3');
+
+exports.handler = async (event) => {
+  const s3 = new S3Client({});
+  const bucket = process.env.S3_AP_ALIAS;
+
+  // List files via S3 Access Point
+  const listResult = await s3.send(new ListObjectsV2Command({
+    Bucket: bucket,
+    MaxKeys: 10,
+  }));
+
+  console.log(JSON.stringify({
+    event: 'file_listing',
+    fileCount: listResult.KeyCount,
+    files: (listResult.Contents || []).map(c => ({ key: c.Key, size: c.Size })),
+  }));
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ fileCount: listResult.KeyCount }),
+  };
+};
+",
+        },
+        "Environment": {
+          "Variables": {
+            "S3_AP_ALIAS": {
+              "Fn::GetAtt": [
+                "FsxnStorageS3AccessPoint46C726EF",
+                "S3AccessPoint.Alias",
+              ],
+            },
+          },
+        },
+        "Handler": "index.handler",
+        "LoggingConfig": {
+          "LogGroup": {
+            "Ref": "ComputeLambdaLogGroup5EADB329",
+          },
+        },
+        "MemorySize": 256,
+        "Role": {
+          "Fn::GetAtt": [
+            "ComputeLambdaFileProcessorServiceRoleF12143BB",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+        "Timeout": 30,
+        "VpcConfig": {
+          "SecurityGroupIds": [
+            {
+              "Fn::GetAtt": [
+                "NetworkingLambdaSGAEEE04A3",
+                "GroupId",
+              ],
+            },
+          ],
+          "SubnetIds": [
+            {
+              "Ref": "NetworkingVpcPrivateSubnet1Subnet717BCE48",
+            },
+            {
+              "Ref": "NetworkingVpcPrivateSubnet2Subnet4313381B",
+            },
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "ComputeLambdaFileProcessorServiceRoleDefaultPolicy7C4A5865": {
+      "DependsOn": [
+        "NetworkingVpcPrivateSubnet1RouteTableAssociation761725EA",
+        "NetworkingVpcPrivateSubnet2RouteTableAssociation9EFBB61D",
+      ],
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:ListBucket",
+                "s3:DeleteObject",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "FsxnStorageS3AccessPoint46C726EF",
+                    "S3AccessPoint.ResourceARN",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "FsxnStorageS3AccessPoint46C726EF",
+                          "S3AccessPoint.ResourceARN",
+                        ],
+                      },
+                      "/object/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "ComputeLambdaFileProcessorServiceRoleDefaultPolicy7C4A5865",
+        "Roles": [
+          {
+            "Ref": "ComputeLambdaFileProcessorServiceRoleF12143BB",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "ComputeLambdaFileProcessorServiceRoleF12143BB": {
+      "DependsOn": [
+        "NetworkingVpcPrivateSubnet1RouteTableAssociation761725EA",
+        "NetworkingVpcPrivateSubnet2RouteTableAssociation9EFBB61D",
+      ],
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "ComputeLambdaLogGroup5EADB329": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "RetentionInDays": 30,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "DataProtectionPlan9A1644D2": {
+      "Properties": {
+        "BackupPlan": {
+          "BackupPlanName": "fsxn-modernization-daily",
+          "BackupPlanRule": [
+            {
+              "Lifecycle": {
+                "DeleteAfterDays": 7,
+              },
+              "RuleName": "DailyBackup",
+              "ScheduleExpression": "cron(0 3 * * ? *)",
+              "TargetBackupVault": {
+                "Fn::GetAtt": [
+                  "DataProtectionVaultA60457F4",
+                  "BackupVaultName",
+                ],
+              },
+            },
+          ],
+        },
+      },
+      "Type": "AWS::Backup::BackupPlan",
+    },
+    "DataProtectionPlanFsxnSelection118D741B": {
+      "Properties": {
+        "BackupPlanId": {
+          "Fn::GetAtt": [
+            "DataProtectionPlan9A1644D2",
+            "BackupPlanId",
+          ],
+        },
+        "BackupSelection": {
+          "IamRoleArn": {
+            "Fn::GetAtt": [
+              "DataProtectionPlanFsxnSelectionRole062D29A2",
+              "Arn",
+            ],
+          },
+          "Resources": [
+            {
+              "Fn::Join": [
+                "",
+                [
+                  "arn:aws:fsx:ap-northeast-1:123456789012:file-system/",
+                  {
+                    "Ref": "FsxnStorageFileSystem528E848B",
+                  },
+                ],
+              ],
+            },
+          ],
+          "SelectionName": "FsxnSelection",
+        },
+      },
+      "Type": "AWS::Backup::BackupSelection",
+    },
+    "DataProtectionPlanFsxnSelectionRole062D29A2": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "backup.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSBackupServiceRolePolicyForBackup",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "DataProtectionVaultA60457F4": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "BackupVaultName": "TestDataProtectionVaultC1F17CC5",
+      },
+      "Type": "AWS::Backup::BackupVault",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "FsxnStorageFileSystem528E848B": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FileSystemType": "ONTAP",
+        "KmsKeyId": {
+          "Fn::GetAtt": [
+            "CMK56817A4C",
+            "Arn",
+          ],
+        },
+        "OntapConfiguration": {
+          "DeploymentType": "SINGLE_AZ_1",
+          "PreferredSubnetId": {
+            "Ref": "NetworkingVpcPrivateSubnet1Subnet717BCE48",
+          },
+          "ThroughputCapacity": 128,
+        },
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
+              "NetworkingFsxnSG61EF55B7",
+              "GroupId",
+            ],
+          },
+        ],
+        "StorageCapacity": 1024,
+        "SubnetIds": [
+          {
+            "Ref": "NetworkingVpcPrivateSubnet1Subnet717BCE48",
+          },
+        ],
+      },
+      "Type": "AWS::FSx::FileSystem",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "FsxnStorageNfsVolumeC84ED28C": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "Name": "vol_shared",
+        "OntapConfiguration": {
+          "JunctionPath": "/shared",
+          "SizeInMegabytes": "102400",
+          "StorageEfficiencyEnabled": "true",
+          "StorageVirtualMachineId": {
+            "Ref": "FsxnStorageSVM2E9EFB07",
+          },
+          "TieringPolicy": {
+            "CoolingPeriod": 31,
+            "Name": "AUTO",
+          },
+        },
+        "VolumeType": "ONTAP",
+      },
+      "Type": "AWS::FSx::Volume",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "FsxnStorageS3AccessPoint46C726EF": {
+      "Properties": {
+        "Name": "test-ap",
+        "OntapConfiguration": {
+          "FileSystemIdentity": {
+            "Type": "UNIX",
+            "UnixUser": {
+              "Name": "nobody",
+            },
+          },
+          "VolumeId": {
+            "Ref": "FsxnStorageNfsVolumeC84ED28C",
+          },
+        },
+        "Type": "ONTAP",
+      },
+      "Type": "AWS::FSx::S3AccessPointAttachment",
+    },
+    "FsxnStorageSVM2E9EFB07": {
+      "Properties": {
+        "FileSystemId": {
+          "Ref": "FsxnStorageFileSystem528E848B",
+        },
+        "Name": "svm-platform",
+        "RootVolumeSecurityStyle": "UNIX",
+      },
+      "Type": "AWS::FSx::StorageVirtualMachine",
+    },
+    "MonitoringAlarmTopicAF62D4F1": {
+      "Type": "AWS::SNS::Topic",
+    },
+    "MonitoringAlarmTopicPolicyCB9CCFB0": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "cloudwatch.amazonaws.com",
+              },
+              "Resource": {
+                "Ref": "MonitoringAlarmTopicAF62D4F1",
+              },
+              "Sid": "0",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Topics": [
+          {
+            "Ref": "MonitoringAlarmTopicAF62D4F1",
+          },
+        ],
+      },
+      "Type": "AWS::SNS::TopicPolicy",
+    },
+    "MonitoringCpuAlarm1C3E6543": {
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Ref": "MonitoringAlarmTopicAF62D4F1",
+          },
+        ],
+        "AlarmDescription": "FSxN CPU > 80%.",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "Dimensions": [
+          {
+            "Name": "FileSystemId",
+            "Value": {
+              "Ref": "FsxnStorageFileSystem528E848B",
+            },
+          },
+        ],
+        "EvaluationPeriods": 3,
+        "MetricName": "CPUUtilization",
+        "Namespace": "AWS/FSx",
+        "Period": 300,
+        "Statistic": "Average",
+        "Threshold": 80,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "MonitoringEmail8ACD98A6": {
+      "Properties": {
+        "Endpoint": "test@example.com",
+        "Protocol": "email",
+        "TopicArn": {
+          "Ref": "MonitoringAlarmTopicAF62D4F1",
+        },
+      },
+      "Type": "AWS::SNS::Subscription",
+    },
+    "MonitoringStorageAlarmB63C1424": {
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Ref": "MonitoringAlarmTopicAF62D4F1",
+          },
+        ],
+        "AlarmDescription": "FSxN storage > 80%. Runbook: expand capacity or review FabricPool tiering.",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "Dimensions": [
+          {
+            "Name": "FileSystemId",
+            "Value": {
+              "Ref": "FsxnStorageFileSystem528E848B",
+            },
+          },
+        ],
+        "EvaluationPeriods": 3,
+        "MetricName": "StorageCapacityUtilization",
+        "Namespace": "AWS/FSx",
+        "Period": 300,
+        "Statistic": "Average",
+        "Threshold": 80,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "MonitoringThroughputAlarmFE097277": {
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Ref": "MonitoringAlarmTopicAF62D4F1",
+          },
+        ],
+        "AlarmDescription": "FSxN throughput > 80%. Shared across NFS/S3AP. Runbook: scale throughput or schedule Glue off-peak.",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "Dimensions": [
+          {
+            "Name": "FileSystemId",
+            "Value": {
+              "Ref": "FsxnStorageFileSystem528E848B",
+            },
+          },
+        ],
+        "EvaluationPeriods": 3,
+        "MetricName": "FileServerDiskThroughputUtilization",
+        "Namespace": "AWS/FSx",
+        "Period": 300,
+        "Statistic": "Average",
+        "Threshold": 80,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "NetworkingEC2SG1E5101E2": {
+      "Properties": {
+        "GroupDescription": "EC2",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "NetworkingFsxnSG61EF55B7": {
+      "Properties": {
+        "GroupDescription": "FSxN",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "255.255.255.255/32",
+            "Description": "Disallow all traffic",
+            "FromPort": 252,
+            "IpProtocol": "icmp",
+            "ToPort": 86,
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": "10.0.0.0/16",
+            "Description": "NFS",
+            "FromPort": 2049,
+            "IpProtocol": "tcp",
+            "ToPort": 2049,
+          },
+          {
+            "CidrIp": "10.0.0.0/16",
+            "Description": "SMB",
+            "FromPort": 445,
+            "IpProtocol": "tcp",
+            "ToPort": 445,
+          },
+          {
+            "CidrIp": "10.0.0.0/16",
+            "Description": "ONTAP mgmt",
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+        ],
+        "VpcId": {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "NetworkingLambdaSGAEEE04A3": {
+      "Properties": {
+        "GroupDescription": "Lambda",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "NetworkingVpc6B5E6F44": {
+      "Properties": {
+        "CidrBlock": "10.0.0.0/16",
+        "EnableDnsHostnames": true,
+        "EnableDnsSupport": true,
+        "InstanceTenancy": "default",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Test/Networking/Vpc",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::VPC",
+    },
+    "NetworkingVpcCWLogsEndpointBCB2BA35": {
+      "Properties": {
+        "PrivateDnsEnabled": true,
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
+              "NetworkingVpcCWLogsEndpointSecurityGroupA5675395",
+              "GroupId",
+            ],
+          },
+        ],
+        "ServiceName": "com.amazonaws.ap-northeast-1.logs",
+        "SubnetIds": [
+          {
+            "Ref": "NetworkingVpcPrivateSubnet1Subnet717BCE48",
+          },
+          {
+            "Ref": "NetworkingVpcPrivateSubnet2Subnet4313381B",
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Test/Networking/Vpc",
+          },
+        ],
+        "VpcEndpointType": "Interface",
+        "VpcId": {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::VPCEndpoint",
+    },
+    "NetworkingVpcCWLogsEndpointSecurityGroupA5675395": {
+      "Properties": {
+        "GroupDescription": "Test/Networking/Vpc/CWLogsEndpoint/SecurityGroup",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::GetAtt": [
+                "NetworkingVpc6B5E6F44",
+                "CidrBlock",
+              ],
+            },
+            "Description": {
+              "Fn::Join": [
+                "",
+                [
+                  "from ",
+                  {
+                    "Fn::GetAtt": [
+                      "NetworkingVpc6B5E6F44",
+                      "CidrBlock",
+                    ],
+                  },
+                  ":443",
+                ],
+              ],
+            },
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Test/Networking/Vpc",
+          },
+        ],
+        "VpcId": {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "NetworkingVpcPrivateSubnet1RouteTable69CC9A73": {
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Test/Networking/Vpc/PrivateSubnet1",
+          },
+        ],
+        "VpcId": {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "NetworkingVpcPrivateSubnet1RouteTableAssociation761725EA": {
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "NetworkingVpcPrivateSubnet1RouteTable69CC9A73",
+        },
+        "SubnetId": {
+          "Ref": "NetworkingVpcPrivateSubnet1Subnet717BCE48",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "NetworkingVpcPrivateSubnet1Subnet717BCE48": {
+      "Properties": {
+        "AvailabilityZone": "dummy1a",
+        "CidrBlock": "10.0.0.0/24",
+        "MapPublicIpOnLaunch": false,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private",
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Isolated",
+          },
+          {
+            "Key": "Name",
+            "Value": "Test/Networking/Vpc/PrivateSubnet1",
+          },
+        ],
+        "VpcId": {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "NetworkingVpcPrivateSubnet2RouteTableAE92CE40": {
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Test/Networking/Vpc/PrivateSubnet2",
+          },
+        ],
+        "VpcId": {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "NetworkingVpcPrivateSubnet2RouteTableAssociation9EFBB61D": {
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "NetworkingVpcPrivateSubnet2RouteTableAE92CE40",
+        },
+        "SubnetId": {
+          "Ref": "NetworkingVpcPrivateSubnet2Subnet4313381B",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "NetworkingVpcPrivateSubnet2Subnet4313381B": {
+      "Properties": {
+        "AvailabilityZone": "dummy1b",
+        "CidrBlock": "10.0.1.0/24",
+        "MapPublicIpOnLaunch": false,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private",
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Isolated",
+          },
+          {
+            "Key": "Name",
+            "Value": "Test/Networking/Vpc/PrivateSubnet2",
+          },
+        ],
+        "VpcId": {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "NetworkingVpcS3Endpoint35E0E4DF": {
+      "Properties": {
+        "RouteTableIds": [
+          {
+            "Ref": "NetworkingVpcPrivateSubnet1RouteTable69CC9A73",
+          },
+          {
+            "Ref": "NetworkingVpcPrivateSubnet2RouteTableAE92CE40",
+          },
+        ],
+        "ServiceName": {
+          "Fn::Join": [
+            "",
+            [
+              "com.amazonaws.",
+              {
+                "Ref": "AWS::Region",
+              },
+              ".s3",
+            ],
+          ],
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Test/Networking/Vpc",
+          },
+        ],
+        "VpcEndpointType": "Gateway",
+        "VpcId": {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::VPCEndpoint",
+    },
+    "NetworkingVpcSSMEndpointC5BAD778": {
+      "Properties": {
+        "PrivateDnsEnabled": true,
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
+              "NetworkingVpcSSMEndpointSecurityGroupD8A9AC33",
+              "GroupId",
+            ],
+          },
+        ],
+        "ServiceName": "com.amazonaws.ap-northeast-1.ssm",
+        "SubnetIds": [
+          {
+            "Ref": "NetworkingVpcPrivateSubnet1Subnet717BCE48",
+          },
+          {
+            "Ref": "NetworkingVpcPrivateSubnet2Subnet4313381B",
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Test/Networking/Vpc",
+          },
+        ],
+        "VpcEndpointType": "Interface",
+        "VpcId": {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::VPCEndpoint",
+    },
+    "NetworkingVpcSSMEndpointSecurityGroupD8A9AC33": {
+      "Properties": {
+        "GroupDescription": "Test/Networking/Vpc/SSMEndpoint/SecurityGroup",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::GetAtt": [
+                "NetworkingVpc6B5E6F44",
+                "CidrBlock",
+              ],
+            },
+            "Description": {
+              "Fn::Join": [
+                "",
+                [
+                  "from ",
+                  {
+                    "Fn::GetAtt": [
+                      "NetworkingVpc6B5E6F44",
+                      "CidrBlock",
+                    ],
+                  },
+                  ":443",
+                ],
+              ],
+            },
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Test/Networking/Vpc",
+          },
+        ],
+        "VpcId": {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "NetworkingVpcSSMMessagesEndpoint02681636": {
+      "Properties": {
+        "PrivateDnsEnabled": true,
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
+              "NetworkingVpcSSMMessagesEndpointSecurityGroup470DA061",
+              "GroupId",
+            ],
+          },
+        ],
+        "ServiceName": "com.amazonaws.ap-northeast-1.ssmmessages",
+        "SubnetIds": [
+          {
+            "Ref": "NetworkingVpcPrivateSubnet1Subnet717BCE48",
+          },
+          {
+            "Ref": "NetworkingVpcPrivateSubnet2Subnet4313381B",
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Test/Networking/Vpc",
+          },
+        ],
+        "VpcEndpointType": "Interface",
+        "VpcId": {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::VPCEndpoint",
+    },
+    "NetworkingVpcSSMMessagesEndpointSecurityGroup470DA061": {
+      "Properties": {
+        "GroupDescription": "Test/Networking/Vpc/SSMMessagesEndpoint/SecurityGroup",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::GetAtt": [
+                "NetworkingVpc6B5E6F44",
+                "CidrBlock",
+              ],
+            },
+            "Description": {
+              "Fn::Join": [
+                "",
+                [
+                  "from ",
+                  {
+                    "Fn::GetAtt": [
+                      "NetworkingVpc6B5E6F44",
+                      "CidrBlock",
+                    ],
+                  },
+                  ":443",
+                ],
+              ],
+            },
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Test/Networking/Vpc",
+          },
+        ],
+        "VpcId": {
+          "Ref": "NetworkingVpc6B5E6F44",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "ServerlessOpsCapacityManagerD3AD7E95": {
+      "DependsOn": [
+        "NetworkingVpcPrivateSubnet1RouteTableAssociation761725EA",
+        "NetworkingVpcPrivateSubnet2RouteTableAssociation9EFBB61D",
+        "ServerlessOpsCapacityManagerServiceRoleDefaultPolicyC98F8038",
+        "ServerlessOpsCapacityManagerServiceRole46618608",
+      ],
+      "Properties": {
+        "Code": {
+          "ZipFile": "
+const { FSxClient, DescribeFileSystemsCommand, UpdateFileSystemCommand } = require('@aws-sdk/client-fsx');
+const { SNSClient, PublishCommand } = require('@aws-sdk/client-sns');
+
+exports.handler = async (event) => {
+  const fsId = process.env.FILE_SYSTEM_ID;
+  const maxGiB = parseInt(process.env.MAX_CAPACITY_GIB);
+  const topicArn = process.env.ALARM_TOPIC_ARN;
+  const region = process.env.AWS_REGION;
+
+  const fsx = new FSxClient({ region });
+  const sns = new SNSClient({ region });
+
+  // Get current capacity
+  const descResp = await fsx.send(new DescribeFileSystemsCommand({ FileSystemIds: [fsId] }));
+  const currentGiB = descResp.FileSystems[0].StorageCapacity;
+  const newGiB = Math.min(currentGiB + 1024, maxGiB); // Add 1 TiB, cap at max
+
+  console.log(JSON.stringify({
+    event: 'capacity_check',
+    fileSystemId: fsId,
+    currentGiB,
+    proposedGiB: newGiB,
+    maxGiB,
+  }));
+
+  if (newGiB <= currentGiB) {
+    await sns.send(new PublishCommand({
+      TopicArn: topicArn,
+      Subject: '[WARN] FSxN at max capacity - cannot auto-expand',
+      Message: JSON.stringify({ fileSystemId: fsId, currentGiB, maxGiB, action: 'NONE - at max' }),
+    }));
+    return { status: 'AT_MAX', currentGiB };
+  }
+
+  // Expand storage
+  await fsx.send(new UpdateFileSystemCommand({
+    FileSystemId: fsId,
+    StorageCapacity: newGiB,
+  }));
+
+  await sns.send(new PublishCommand({
+    TopicArn: topicArn,
+    Subject: '[INFO] FSxN storage auto-expanded',
+    Message: JSON.stringify({ fileSystemId: fsId, previousGiB: currentGiB, newGiB, action: 'EXPANDED' }),
+  }));
+
+  console.log(JSON.stringify({ event: 'capacity_expanded', fileSystemId: fsId, previousGiB: currentGiB, newGiB }));
+  return { status: 'EXPANDED', previousGiB: currentGiB, newGiB };
+};
+",
+        },
+        "Environment": {
+          "Variables": {
+            "ALARM_TOPIC_ARN": {
+              "Ref": "MonitoringAlarmTopicAF62D4F1",
+            },
+            "FILE_SYSTEM_ID": {
+              "Ref": "FsxnStorageFileSystem528E848B",
+            },
+            "MAX_CAPACITY_GIB": "2048",
+          },
+        },
+        "Handler": "index.handler",
+        "LoggingConfig": {
+          "LogGroup": {
+            "Ref": "ServerlessOpsCapacityManagerLogsB7443864",
+          },
+        },
+        "ReservedConcurrentExecutions": 1,
+        "Role": {
+          "Fn::GetAtt": [
+            "ServerlessOpsCapacityManagerServiceRole46618608",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+        "Timeout": 60,
+        "VpcConfig": {
+          "SecurityGroupIds": [
+            {
+              "Fn::GetAtt": [
+                "NetworkingLambdaSGAEEE04A3",
+                "GroupId",
+              ],
+            },
+          ],
+          "SubnetIds": [
+            {
+              "Ref": "NetworkingVpcPrivateSubnet1Subnet717BCE48",
+            },
+            {
+              "Ref": "NetworkingVpcPrivateSubnet2Subnet4313381B",
+            },
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "ServerlessOpsCapacityManagerLogsB7443864": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "RetentionInDays": 30,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "ServerlessOpsCapacityManagerServiceRole46618608": {
+      "DependsOn": [
+        "NetworkingVpcPrivateSubnet1RouteTableAssociation761725EA",
+        "NetworkingVpcPrivateSubnet2RouteTableAssociation9EFBB61D",
+      ],
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "ServerlessOpsCapacityManagerServiceRoleDefaultPolicyC98F8038": {
+      "DependsOn": [
+        "NetworkingVpcPrivateSubnet1RouteTableAssociation761725EA",
+        "NetworkingVpcPrivateSubnet2RouteTableAssociation9EFBB61D",
+      ],
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "fsx:UpdateFileSystem",
+                "fsx:DescribeFileSystems",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:fsx:ap-northeast-1:123456789012:file-system/",
+                    {
+                      "Ref": "FsxnStorageFileSystem528E848B",
+                    },
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "MonitoringAlarmTopicAF62D4F1",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "ServerlessOpsCapacityManagerServiceRoleDefaultPolicyC98F8038",
+        "Roles": [
+          {
+            "Ref": "ServerlessOpsCapacityManagerServiceRole46618608",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
