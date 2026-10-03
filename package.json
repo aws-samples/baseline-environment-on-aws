@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "baseline-environment-on-aws",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "Baseline Environment on AWS",
   "repository": {
     "type": "git",
